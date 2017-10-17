@@ -1,0 +1,226 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+
+ });
+   function zhidan(obj,id){
+   		 var opt = obj.options[obj.selectedIndex];
+   		  $.ajax({
+				url:'${rc.contextPath}/order/change.do',
+				type:'POST',
+				data: {orderNo:id,name:opt.value,flag:1},
+				success:function(data){
+					if(data=200){
+					
+					}else{
+						alert("修改失败");
+					}
+				}
+				
+			})
+   }
+   
+   function fenjian(obj,id){
+   		 var opt = obj.options[obj.selectedIndex];
+   		  $.ajax({
+				url:'${rc.contextPath}/order/change.do',
+				type:'POST',
+				data: {orderNo:id,name:opt.value,flag:2},
+				success:function(data){
+					if(data=200){
+					
+					}else{
+						alert("修改失败");
+					}
+				}
+				
+			})
+   }
+   
+   function peisong(obj,id){
+   		 var opt = obj.options[obj.selectedIndex];
+   		  $.ajax({
+				url:'${rc.contextPath}/order/change.do',
+				type:'POST',
+				data: {orderNo:id,name:opt.value,flag:3},
+				success:function(data){
+					if(data=200){
+					
+					}else{
+						alert("修改失败");
+					}
+				}
+				
+			})
+   }
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" id="orderListForm" action="gongdan.htm" method="POST">
+		<table class="form form-horizontal">
+		<tr>
+			<td><label class="tit first-tit">开始时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="startTime" id="startTime" readonly="readonly" value="$!startTime">
+			</td>
+
+			<td><label class="tit">结束时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="endTime" id="endTime" readonly="readonly" value="$!endTime">
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">订单号：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="orderNum" id="orderNum" value="$!orderNum">
+			</td>
+			<td align="right"><label class="tit">客户简称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="userName" id="userName" value="$!userName">
+			</td>
+			<td align="right"><label class="tit">未来订单：</label></td>
+			<td >
+				<select name="param">
+				  <option value ="0" >隐藏</option>
+				  <option value ="1" #if($!param==1) selected="selected" #end>显示</option>
+				</select>
+			</td>
+			<td align="right"><label class="tit">客户类型：</label></td>
+			<td >
+				<select name="type">
+				  <option value ="-1" >全部</option>
+				  <option value ="3" #if($!type==3) selected="selected" #end>便利店</option>
+				   <option value ="2" #if($!type==2) selected="selected" #end>福利店</option>
+				    <option value ="1" #if($!type==1) selected="selected" #end>礼包</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">制单：</label></td>
+			<td >
+				<select name="zhidan">
+				  <option value ="" >全部</option>
+				  #foreach($kfuser in $kfusers)
+				  	<option value ="$kfuser.userName" #if($!zhidan==$kfuser.userName) selected="selected" #end>$kfuser.userName</option>
+				  #end
+				</select>
+			</td>
+			<td align="right"><label class="tit">分拣：</label></td>
+			<td >
+				<select name="fenjian">
+				  <option value ="" >全部</option>
+				  #foreach($cguser in $cgusers)
+				  	<option value ="$cguser.userName" #if($!fenjian==$cguser.userName) selected="selected" #end>$cguser.userName</option>
+				  #end
+				</select>
+			</td>
+			<td align="right"><label class="tit">配送：</label></td>
+			<td >
+				<select name="peisong">
+				  <option value ="" >全部</option>
+				  #foreach($psuser in $psusers)
+				  	<option value ="$psuser.userName" #if($!peisong==$psuser.userName) selected="selected" #end>$psuser.userName</option>
+				  #end
+				</select>
+			</td>
+			<td align="right"><label class="tit">网格：</label></td>
+						<td>
+						<select name="reseauId" validate="{required:true}" >
+						    <option value="">全部</option>
+						    #foreach($reseau in $reseaus)
+							   #if($!reseauId == $reseau.id)
+					            <option value="$reseau.id" selected="selected">$reseau.name</option>
+					           #else
+					            <option value="$reseau.id">$reseau.name</option>
+					           #end
+							#end
+						 </select>
+						 &nbsp;<span></span>
+						</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(orderListForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+	<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+        <tr class="info">
+			<td colspan="1">
+                <span>订单金额：$NumberTool.toYuanNumber($!totalcount.totalFee) 元</span>
+                <span>订单数量：$!totalcount.totalNum</span>
+            </td>
+		</tr>
+	</table>
+	<table class="table">
+		<tr>
+			<th width="10%">日期</th>
+			<th>客户</th>
+			<th>备注</th>
+			<th>总金额</th>
+			<th>制单</th>
+			<th>分拣</th>
+			<th>配送</th>
+			<th>创建时间</th>
+			<th width="15%">送达时间</th>
+		</tr>
+
+		#foreach($dto in $page.result)
+		<tr>
+			<td>$!date.format('yyyy-MM-dd',$!dto.executedTime)</td>
+			<td><a href="/order/orderlist.htm?userName=$!dto.userName">#if($!dto.region)[$!dto.region]&nbsp;#end$!dto.userName</a></td>
+			<td><a href="/order/orderlist.htm?orderNum=$!dto.orderNo">$!dto.memo</a></td>
+			<td>$NumberTool.toYuanNumber($!dto.totalFee)</td>
+			
+			<td>
+				<select name="zhidan" onchange="zhidan(this,'$!dto.orderNo')">
+				  <option value ="" ></option>
+				  #foreach($kfuser in $kfusers)
+				  	<option value ="$kfuser.userName" #if($!dto.zhidan==$kfuser.userName) selected="selected" #end>$kfuser.userName</option>
+				  #end
+				</select>
+			</td>
+			<td>
+				<select name="fenjian" onchange="fenjian(this,'$!dto.orderNo')">
+				  <option value ="" ></option>
+				  #foreach($cguser in $cgusers)
+				  	<option value ="$cguser.userName" #if($!dto.fenjian==$cguser.userName) selected="selected" #end>$cguser.userName</option>
+				  #end
+				</select>
+			</td>
+			<td>
+				<select name="peisong" onchange="peisong(this,'$!dto.orderNo')">
+				  <option value ="" ></option>
+				  #foreach($psuser in $psusers)
+				  	<option value ="$psuser.userName" #if($!dto.peisong==$psuser.userName) selected="selected" #end>$psuser.userName</option>
+				  #end
+				</select>
+			</td>
+			<td>
+				$!date.format('yyyy-MM-dd HH:mm:ss',$!dto.createdTime)
+			</td>
+			<td>
+				$!date.format('yyyy-MM-dd HH:mm:ss',$!dto.deliverDate)
+			</td>
+		</tr>
+		#end
+
+
+
+	</table>
+	
+	<div class="text-center">
+			#parse("/common/page.vm")
+	</div>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+
+
+
+

@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.PurchaseMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.Purchase" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="supplier_id" property="supplierId" jdbcType="INTEGER" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="print_flag" property="printFlag" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="executed_time" property="executedTime" jdbcType="TIMESTAMP" />
+    <result column="purchased_time" property="purchasedTime" jdbcType="DATE" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="total_price" property="totalPrice" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, supplier_id, supplier_name, print_flag, status, created_time, executed_time, 
+    purchased_time, city_id, remark, total_price
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.PurchaseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from purchase
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from purchase
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from purchase
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.PurchaseExample" >
+    delete from purchase
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.Purchase" >
+    insert into purchase (id, supplier_id, supplier_name, 
+      print_flag, status, created_time, 
+      executed_time, purchased_time, city_id, 
+      remark, total_price)
+    values (#{id,jdbcType=VARCHAR}, #{supplierId,jdbcType=INTEGER}, #{supplierName,jdbcType=VARCHAR}, 
+      #{printFlag,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{executedTime,jdbcType=TIMESTAMP}, #{purchasedTime,jdbcType=DATE}, #{cityId,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{totalPrice,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.Purchase" >
+    insert into purchase
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="supplierId != null" >
+        supplier_id,
+      </if>
+      <if test="supplierName != null" >
+        supplier_name,
+      </if>
+      <if test="printFlag != null" >
+        print_flag,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="executedTime != null" >
+        executed_time,
+      </if>
+      <if test="purchasedTime != null" >
+        purchased_time,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="totalPrice != null" >
+        total_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="supplierName != null" >
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="printFlag != null" >
+        #{printFlag,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="executedTime != null" >
+        #{executedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchasedTime != null" >
+        #{purchasedTime,jdbcType=DATE},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.PurchaseExample" resultType="java.lang.Integer" >
+    select count(*) from purchase
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update purchase
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierId != null" >
+        supplier_id = #{record.supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="record.supplierName != null" >
+        supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.printFlag != null" >
+        print_flag = #{record.printFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.executedTime != null" >
+        executed_time = #{record.executedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.purchasedTime != null" >
+        purchased_time = #{record.purchasedTime,jdbcType=DATE},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalPrice != null" >
+        total_price = #{record.totalPrice,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update purchase
+    set id = #{record.id,jdbcType=VARCHAR},
+      supplier_id = #{record.supplierId,jdbcType=INTEGER},
+      supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      print_flag = #{record.printFlag,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      executed_time = #{record.executedTime,jdbcType=TIMESTAMP},
+      purchased_time = #{record.purchasedTime,jdbcType=DATE},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      total_price = #{record.totalPrice,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.Purchase" >
+    update purchase
+    <set >
+      <if test="supplierId != null" >
+        supplier_id = #{supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="supplierName != null" >
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="printFlag != null" >
+        print_flag = #{printFlag,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="executedTime != null" >
+        executed_time = #{executedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchasedTime != null" >
+        purchased_time = #{purchasedTime,jdbcType=DATE},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null" >
+        total_price = #{totalPrice,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.Purchase" >
+    update purchase
+    set supplier_id = #{supplierId,jdbcType=INTEGER},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      print_flag = #{printFlag,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      executed_time = #{executedTime,jdbcType=TIMESTAMP},
+      purchased_time = #{purchasedTime,jdbcType=DATE},
+      city_id = #{cityId,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      total_price = #{totalPrice,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <resultMap type="com.b2b.common.domain.Purchase" id="purchaseItemMap" autoMapping="true">
+    <id column="id" property="id"/>
+    <collection property="purchaseItemList" javaType="List" column="id" ofType="PurchaseItem" select="selectPurchaseItems">
+    </collection>
+  </resultMap>
+  <select id="selectPurchaseItems" resultType="PurchaseItem">
+    SELECT
+      p.id, p.purchase_id, p.item_id, p.item_name, p.category_id, p.category_name, p.size, p.price, p.cost_price,
+      p.convert_num, p.item_weight, p.shelf_life, p.purchase_num, p.item_remark, p.purchased_num, p.total_price,
+      p.supplier_id, p.supplier_name, p.use_num, p.barcode, p.stock_flag, p.stocked_num,
+      p.status, p.stocked_time, p.created_time, p.isDown, p.city_id, i.size saleSize, s.num stock_num, i.sale_size saleSize
+    FROM `purchase_item` p
+      LEFT JOIN item i ON i.id = p.item_id
+      LEFT JOIN stock s ON s.item_id = i.id
+    WHERE p.`purchase_id`= #{id}
+    ORDER BY p.item_id
+  </select>
+
+  <select id="findPurchasesAndPurchasesItemByCondition" resultMap="purchaseItemMap">
+    SELECT
+      *
+    FROM purchase p
+    where 1=1
+      AND  p.status != 5
+      AND p.city_id =#{cityId}
+    <if test="supplierName !=null and supplierName !=''">
+      and p.supplier_name like '%${supplierName}%'
+    </if>
+    <if test="itemName != '' and itemName != null">
+      and p.id in (SELECT `purchase_id`   from `purchase_item`  WHERE `item_name` LIKE '%${itemName}%')
+    </if>
+    <if test="startTime !=null and startTime !=''">
+      and p.`executed_time` &gt;= #{startTime}
+    </if>
+    <if test="endTime !=null and endTime !=''">
+      and p.`executed_time` &lt;= #{endTime}
+    </if>
+    <if test="purchaseId !=null and purchaseId !=''">
+      and p.`id` = #{purchaseId}
+    </if>
+    order by p.id desc ,executed_time desc,
+    created_time desc
+  </select>
+
+  <update id="updatePurchasePrintStatus" >
+    update purchase
+      set print_flag = 1
+    WHERE
+    `id` = #{id}
+  </update>
+
+  <select id="findPurchasesBySupplierName" resultMap="BaseResultMap">
+  SELECT
+  *
+  FROM purchase p
+  where 1=1
+  AND  (p.status = 1 or p.status = 0 or p.status = 6)
+  AND p.city_id =#{cityId}
+    and p.supplier_name like '%${supplierName}%'
+    order BY executed_time desc,
+    created_time desc
+  </select>
+</mapper>

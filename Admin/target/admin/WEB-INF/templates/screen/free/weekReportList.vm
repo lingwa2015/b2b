@@ -1,0 +1,43 @@
+<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/free/weekReportlist.htm?menuHeight=$!menuHeight&menuName=$!menuName" method="post">
+</form>
+<div class="content">
+		<div class="bd-actionbar">
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+			<table class="table">
+			  <tr>
+				<th>日期段</th>
+				<th>开通店铺数</th>
+				<th>下单店铺数</th>
+				<th>订单金额</th>
+				<th>订单数量</th>
+				<th>退货金额</th>
+				<th>退货单数量</th>
+				<th>采购总额</th>
+				<th>同比</th>
+				<th>店均采购额</th>
+				<th>店日均采购额</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>$!date.format('yyyy-MM-dd',$!bean.sumDate)~$!date.format('yyyy-MM-dd',$!bean.endDate)</td>
+					<td>$!bean.openShopNum</td>
+					<td>$!bean.orderShopNum</td>
+					<td>$NumberTool.toYuanNumber($!bean.orderFee)</td>
+					<td>$!bean.orderNum</td>
+					<td>$NumberTool.toYuanNumber($!bean.refundFee)</td>
+					<td>$!bean.refundNum</td>
+					<td>$NumberTool.toYuanNumber($!bean.sourcingFee)</td>
+					<td>#if($!bean.beforeSourcingFee) #if($!bean.beforeSourcingFee>0)+$!bean.beforeSourcingFee% #else $!bean.beforeSourcingFee% #end #end</td>
+					<td>$NumberTool.toYuanNumber($!bean.avgFee)</td>
+					<td>$NumberTool.toYuanNumber($!bean.avgDayFee)</td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

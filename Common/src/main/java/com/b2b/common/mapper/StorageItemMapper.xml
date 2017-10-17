@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.StorageItemMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.StorageItem" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+    <result column="total_fee" property="totalFee" jdbcType="BIGINT" />
+    <result column="storage_id" property="storageId" jdbcType="INTEGER" />
+    <result column="buy_num" property="buyNum" jdbcType="INTEGER" />
+    <result column="buy_price" property="buyPrice" jdbcType="BIGINT" />
+    <result column="size" property="size" jdbcType="VARCHAR" />
+    <result column="size_value" property="sizeValue" jdbcType="VARCHAR" />
+    <result column="barcode" property="barcode" jdbcType="VARCHAR" />
+      <result column="buy_size" property="buySize" jdbcType="VARCHAR" />
+      <result column="purchase_flag" property="purchaseFlag" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, item_id, num, item_name, total_fee, storage_id, buy_num, buy_price, size, size_value
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.StorageItemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from storage_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from storage_item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from storage_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.StorageItemExample" >
+    delete from storage_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.StorageItem" >
+    insert into storage_item (id, item_id, num, 
+      item_name, total_fee, storage_id, 
+      buy_num, buy_price, size, 
+      size_value)
+    values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, 
+      #{itemName,jdbcType=VARCHAR}, #{totalFee,jdbcType=BIGINT}, #{storageId,jdbcType=INTEGER}, 
+      #{buyNum,jdbcType=INTEGER}, #{buyPrice,jdbcType=BIGINT}, #{size,jdbcType=VARCHAR}, 
+      #{sizeValue,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.StorageItem" >
+    insert into storage_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="itemName != null" >
+        item_name,
+      </if>
+      <if test="totalFee != null" >
+        total_fee,
+      </if>
+      <if test="storageId != null" >
+        storage_id,
+      </if>
+      <if test="buyNum != null" >
+        buy_num,
+      </if>
+      <if test="buyPrice != null" >
+        buy_price,
+      </if>
+      <if test="size != null" >
+        size,
+      </if>
+      <if test="sizeValue != null" >
+        size_value,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null" >
+        #{totalFee,jdbcType=BIGINT},
+      </if>
+      <if test="storageId != null" >
+        #{storageId,jdbcType=INTEGER},
+      </if>
+      <if test="buyNum != null" >
+        #{buyNum,jdbcType=INTEGER},
+      </if>
+      <if test="buyPrice != null" >
+        #{buyPrice,jdbcType=BIGINT},
+      </if>
+      <if test="size != null" >
+        #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeValue != null" >
+        #{sizeValue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.StorageItemExample" resultType="java.lang.Integer" >
+    select count(*) from storage_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update storage_item
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemId != null" >
+        item_id = #{record.itemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.num != null" >
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemName != null" >
+        item_name = #{record.itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalFee != null" >
+        total_fee = #{record.totalFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.storageId != null" >
+        storage_id = #{record.storageId,jdbcType=INTEGER},
+      </if>
+      <if test="record.buyNum != null" >
+        buy_num = #{record.buyNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.buyPrice != null" >
+        buy_price = #{record.buyPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.size != null" >
+        size = #{record.size,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sizeValue != null" >
+        size_value = #{record.sizeValue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update storage_item
+    set id = #{record.id,jdbcType=INTEGER},
+      item_id = #{record.itemId,jdbcType=INTEGER},
+      num = #{record.num,jdbcType=INTEGER},
+      item_name = #{record.itemName,jdbcType=VARCHAR},
+      total_fee = #{record.totalFee,jdbcType=BIGINT},
+      storage_id = #{record.storageId,jdbcType=INTEGER},
+      buy_num = #{record.buyNum,jdbcType=INTEGER},
+      buy_price = #{record.buyPrice,jdbcType=BIGINT},
+      size = #{record.size,jdbcType=VARCHAR},
+      size_value = #{record.sizeValue,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.StorageItem" >
+    update storage_item
+    <set >
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="itemName != null" >
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null" >
+        total_fee = #{totalFee,jdbcType=BIGINT},
+      </if>
+      <if test="storageId != null" >
+        storage_id = #{storageId,jdbcType=INTEGER},
+      </if>
+      <if test="buyNum != null" >
+        buy_num = #{buyNum,jdbcType=INTEGER},
+      </if>
+      <if test="buyPrice != null" >
+        buy_price = #{buyPrice,jdbcType=BIGINT},
+      </if>
+      <if test="size != null" >
+        size = #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeValue != null" >
+        size_value = #{sizeValue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.StorageItem" >
+    update storage_item
+    set item_id = #{itemId,jdbcType=INTEGER},
+      num = #{num,jdbcType=INTEGER},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      total_fee = #{totalFee,jdbcType=BIGINT},
+      storage_id = #{storageId,jdbcType=INTEGER},
+      buy_num = #{buyNum,jdbcType=INTEGER},
+      buy_price = #{buyPrice,jdbcType=BIGINT},
+      size = #{size,jdbcType=VARCHAR},
+      size_value = #{sizeValue,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+    	<select id="selectStorageItemTotal" resultMap="BaseResultMap"
+		parameterType="java.util.HashMap">
+		select sum(si.num) num,sum(si.total_fee) total_fee from storage_item si
+ 		left outer join storage sto on sto.id=si.storage_id
+		LEFT JOIN `item` i on si.`item_id` = i.`id` WHERE sto.state = 1  and sto.city_id = #{cityId}
+		<if test="catid!=null and catid!=''">
+			 and i.`category_id` = #{catid}
+		</if>
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+			 and sto.executed_time BETWEEN #{startTime} and #{endTime}
+		</if>
+		<if test="item_name!=null and item_name!=''">
+			 and si.item_name like '%${item_name}%'
+		</if>
+		<if test="supplier_id!=null and supplier_id!=''">
+			 and sto.supplier_id =#{supplier_id}
+		</if>
+	</select>
+  
+  	<select id="selectStorageItemByDateTime" resultMap="BaseResultMap"
+		parameterType="java.util.HashMap">
+		select si.item_id item_id,si.item_name item_name,sum(si.num) num,sum(si.total_fee) total_fee from storage_item si
+ 		left outer join storage sto on sto.id=si.storage_id
+		LEFT JOIN `item` i on si.`item_id` = i.`id` WHERE sto.state = 1  and sto.city_id = #{cityId}
+		<if test="catid!=null and catid!=''">
+			 and i.`category_id` = #{catid}
+		</if>
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+			 and sto.executed_time BETWEEN #{startTime} and #{endTime}
+		</if>
+		<if test="item_name!=null and item_name!=''">
+			 and si.item_name like '%${item_name}%'
+		</if>
+		<if test="supplier_id!=null and supplier_id!=''">
+			 and sto.supplier_id =#{supplier_id}
+		</if>
+		     group by si.item_id,si.item_name
+		<if test="sortList!=null">
+			order by  ${sortList} 
+		</if>
+		<if test="start!=null">
+			limit #{start},#{limit}
+		</if>
+
+	</select>
+
+	<select id="countByStorageItemSql" parameterType="java.util.HashMap"
+		resultType="java.lang.Integer">
+		select IFNULL(count(*),0) from (
+		select si.item_id item_id,si.item_name item_name,sum(si.num) num,sum(si.total_fee) total_fee from storage_item si
+ 		left outer join storage sto on sto.id=si.storage_id
+		LEFT JOIN `item` i on si.`item_id` = i.`id` WHERE sto.state = 1  and sto.city_id = #{cityId}
+		<if test="catid!=null and catid!=''">
+			 and i.`category_id` = #{catid}
+		</if>
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+			 and sto.executed_time BETWEEN #{startTime} and #{endTime}
+		</if>
+		<if test="item_name!=null and item_name!=''">
+			 and si.item_name like '%${item_name}%'
+		</if>
+		<if test="supplier_id!=null and supplier_id!=''">
+			 and sto.supplier_id =#{supplier_id}
+		</if>
+		     group by si.item_id,si.item_name
+		 ) as total 
+	</select>
+	
+	<select id="findByStorageId" resultType="StorageItem">
+		SELECT
+			si.id,
+			si.buy_num buyNum,
+			si.buy_price buyPrice,
+			si.item_id itemId,
+			IF(i.barcode is NULL,concat(si.item_name,"【",i.`size`,"】"),concat(si.item_name,"【",i.`size`,"】","【",i.barcode,"】" )) itemName,
+			si.num,
+			si.size,
+			si.size_value sizeValue,
+			si.storage_id storageId,
+			si.total_fee totalFee,
+			s.position,
+			i.barcode,
+			i.buy_size,
+			if (LEFT(st.number ,14) = "From purchase:", 1, 0) purchase_flag,
+			i.size saleSize,
+			if(LEFT(st.number ,14) = "From purchase:", replace(replace(st.number, 'From purchase:',''), RIGHT(st.number ,11),''), st.number) number
+		FROM
+			storage_item si
+		LEFT JOIN stock s ON si.item_id = s.item_id
+		LEFT JOIN `item` i on si.`item_id` =i.id
+		LEFT JOIN `storage` st ON st.id = si.storage_id
+		WHERE
+			si.storage_id = #{id}
+			ORDER BY
+			s.position;
+	</select>
+    <select id="findOutstockItem" resultMap="BaseResultMap">
+    SELECT
+        0 id,
+        IF(i.barcode is NULL,concat(oi.item_name,"【",i.`size`,"】"),concat(oi.item_name,"【",i.`size`,"】","【",i.barcode,"】" )) itemName,
+        oi.outstock_num buyNum,
+        oi.price buyPrice,
+        -oi.total_price totalFee,
+        o.outstocked_time executed_time,
+        RIGHT(oi.size ,1) sizeValue
+    FROM outstock_item oi
+        LEFT JOIN outstock o ON oi.outstock_id = o.id
+        LEFT JOIN item i ON i.id = oi.item_id
+    WHERE o.`status` = 1
+        AND o.supplier_id = #{supplierId}
+        AND DATE_FORMAT(o.outstocked_time,'%Y-%m') = DATE_FORMAT(#{sumdate},'%Y-%m')
+    ORDER BY o.outstocked_time DESC
+    </select>
+    <select id="selectBySupplierIdAndSumdate" resultMap="BaseResultMap">
+        SELECT
+			1 id,
+			si.buy_num buyNum,
+			si.buy_price buyPrice,
+			si.item_id itemId,
+			IF(i.barcode is NULL,concat(si.item_name,"【",i.`size`,"】"),concat(si.item_name,"【",i.`size`,"】","【",i.barcode,"】" )) itemName,
+			si.num,
+			si.size,
+			RIGHT(si.size_value ,1) sizeValue,
+			si.storage_id storageId,
+			si.total_fee totalFee,
+			s.position,
+			i.barcode,
+			i.buy_size,
+			if (LEFT(st.number ,14) = "From purchase:", 1, 0) purchase_flag,
+			i.size saleSize,
+			if(LEFT(st.number ,14) = "From purchase:", replace(replace(st.number, 'From purchase:',''), RIGHT(st.number ,11),''), st.number) number,
+			st.executed_time
+		FROM
+			storage_item si
+		LEFT JOIN stock s ON si.item_id = s.item_id
+		LEFT JOIN `item` i on si.`item_id` =i.id
+		LEFT JOIN `storage` st ON st.id = si.storage_id
+        where st.supplier_id = #{supplierId}
+			AND st.state = 1
+			AND LEFT(st.number ,14) = "From purchase:"
+            AND DATE_FORMAT(st.executed_time, '%Y-%m') = DATE_FORMAT(#{sumdate},'%Y-%m')
+        ORDER BY s.position
+    </select>
+</mapper>

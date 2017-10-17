@@ -1,0 +1,66 @@
+#set($layout="layout/shopLayout.vm")
+<style type="text/css">
+.no_press{position: absolute;font-size: .32rem;top: .35rem;right: .5rem;}
+</style>
+ <div class="purchase">
+        #if($!citys.size()>1)
+			<select class="no_press"  data-id= "$puser.id" id="city_id">
+	            #foreach($city in $citys)
+					<option value="$city.id" #if($city.id == $puser.cityId) selected="selected" #end>$city.cityName</option>
+				#end
+	        </select>
+	        #else
+	        <span class="no_press">$puser.cityName</span>
+	        #end
+        <p style="font-size:.32rem;color:#999;margin:.38rem auto;width:90%;">实时消费额：$NumberTool.toYuanNumber($!data.totalPrice)</p >
+        <ul style="margin-top: .4rem;">
+            <li>
+                <a href="${rc.contextPath}/convenient/manage/shop_allreport.htm" style="padding-left: .3rem">全站报表</a>
+            </li>
+            <li>
+                <a href="${rc.contextPath}/convenient/manage/shop_reseaulist.htm" style="padding-left: .3rem">网格列表</a>
+            </li>
+             <li style="position: relative;">
+                <a href="${rc.contextPath}/convenient/debitNote/shop_index.htm" style="padding-left: .3rem">回款管理</a>
+            </li>
+            <li>
+                <a href="${rc.contextPath}/convenient/manage/shop_lists.htm" style="padding-left: .3rem">店铺搜索</a>
+            </li>
+        </ul>
+        <ul style="border-top: 1px solid #ececec;">
+            <li>
+                <a href="${rc.contextPath}/convenient/manage/shop_achievements.htm?grade2=1" style="padding-left: .3rem">业绩报表</a>
+            </li>
+            <li style="position: relative;">
+                <a href="${rc.contextPath}/convenient/manage/shop_deliverylist.htm" style="padding-left: .3rem">交接单</a>
+##                <span class="te_tip" style="bottom:0;right: 9%;">本月签约 #if($!contractnum)$!contractnum #else 0 #end</span>
+            </li>
+            <li style="position: relative;">
+                <a href="${rc.contextPath}/convenient/manage/shop_contractList.htm" style="padding-left: .3rem">已签约客户</a>
+##                <span class="te_tip" style="bottom:0;right: 9%;">本月激活 #if($!newnum)$!newnum #else 0 #end</span>
+            </li>
+            
+        </ul>
+    </div>
+<script type="text/javascript">
+    document.title = "运营工作台+++";
+    $("body").css("background-color","#ececec")
+    
+     $('#city_id').change(function(){
+    	var cityId = $(this).val();
+    	var pid = $(this).attr("data-id");
+    	$.ajax({
+				url:'${rc.contextPath}/convenient/shop_changeDefaultCity.do',
+				type:'POST',
+				data: {userId:pid,cityId:cityId},
+				success:function(data){
+					if(data==200){
+						window.location.reload();
+					}else{
+						alert("切换城市失败")
+					}
+				}
+				
+			})
+    })
+</script>

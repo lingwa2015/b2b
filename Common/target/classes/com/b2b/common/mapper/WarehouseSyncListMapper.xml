@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.WarehouseSyncListMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.WarehouseSyncList" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sync_id" property="syncId" jdbcType="BIGINT" />
+    <result column="data_type" property="dataType" jdbcType="INTEGER" />
+    <result column="order" property="order" jdbcType="VARCHAR" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="operation_type" property="operationType" jdbcType="INTEGER" />
+    <result column="remake" property="remake" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sync_id, data_type, order, created_time, status, operation_type, remake
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.WarehouseSyncListExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from warehouse_sync_list
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from warehouse_sync_list
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from warehouse_sync_list
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.WarehouseSyncListExample" >
+    delete from warehouse_sync_list
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.WarehouseSyncList" >
+    insert into warehouse_sync_list (id, sync_id, data_type, 
+      order, created_time, status, 
+      operation_type, remake)
+    values (#{id,jdbcType=BIGINT}, #{syncId,jdbcType=BIGINT}, #{dataType,jdbcType=INTEGER}, 
+      #{order,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{operationType,jdbcType=INTEGER}, #{remake,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.WarehouseSyncList" >
+    insert into warehouse_sync_list
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="syncId != null" >
+        sync_id,
+      </if>
+      <if test="dataType != null" >
+        data_type,
+      </if>
+      <if test="order != null" >
+        order,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="operationType != null" >
+        operation_type,
+      </if>
+      <if test="remake != null" >
+        remake,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="syncId != null" >
+        #{syncId,jdbcType=BIGINT},
+      </if>
+      <if test="dataType != null" >
+        #{dataType,jdbcType=INTEGER},
+      </if>
+      <if test="order != null" >
+        #{order,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="operationType != null" >
+        #{operationType,jdbcType=INTEGER},
+      </if>
+      <if test="remake != null" >
+        #{remake,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.WarehouseSyncListExample" resultType="java.lang.Integer" >
+    select count(*) from warehouse_sync_list
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update warehouse_sync_list
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.syncId != null" >
+        sync_id = #{record.syncId,jdbcType=BIGINT},
+      </if>
+      <if test="record.dataType != null" >
+        data_type = #{record.dataType,jdbcType=INTEGER},
+      </if>
+      <if test="record.order != null" >
+        order = #{record.order,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.operationType != null" >
+        operation_type = #{record.operationType,jdbcType=INTEGER},
+      </if>
+      <if test="record.remake != null" >
+        remake = #{record.remake,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update warehouse_sync_list
+    set id = #{record.id,jdbcType=BIGINT},
+      sync_id = #{record.syncId,jdbcType=BIGINT},
+      data_type = #{record.dataType,jdbcType=INTEGER},
+      order = #{record.order,jdbcType=VARCHAR},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER},
+      operation_type = #{record.operationType,jdbcType=INTEGER},
+      remake = #{record.remake,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.WarehouseSyncList" >
+    update warehouse_sync_list
+    <set >
+      <if test="syncId != null" >
+        sync_id = #{syncId,jdbcType=BIGINT},
+      </if>
+      <if test="dataType != null" >
+        data_type = #{dataType,jdbcType=INTEGER},
+      </if>
+      <if test="order != null" >
+        order = #{order,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="operationType != null" >
+        operation_type = #{operationType,jdbcType=INTEGER},
+      </if>
+      <if test="remake != null" >
+        remake = #{remake,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.WarehouseSyncList" >
+    update warehouse_sync_list
+    set sync_id = #{syncId,jdbcType=BIGINT},
+      data_type = #{dataType,jdbcType=INTEGER},
+      order = #{order,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      operation_type = #{operationType,jdbcType=INTEGER},
+      remake = #{remake,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

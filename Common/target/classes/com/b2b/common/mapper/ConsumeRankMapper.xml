@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.ConsumeRankMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.ConsumeRank" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="shop_id" property="shopId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="img_path" property="imgPath" jdbcType="VARCHAR" />
+    <result column="sourcing_price" property="sourcingPrice" jdbcType="BIGINT" />
+    <result column="market_price" property="marketPrice" jdbcType="BIGINT" />
+    <result column="sale_price" property="salePrice" jdbcType="BIGINT" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="size" property="size" jdbcType="VARCHAR" />
+    <result column="consume_num" property="consumeNum" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, shop_id, name, img_path, sourcing_price, market_price, sale_price, num, size, 
+    consume_num, item_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.ConsumeRankExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from consume_rank
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from consume_rank
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from consume_rank
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.ConsumeRankExample" >
+    delete from consume_rank
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.ConsumeRank" >
+    insert into consume_rank (id, shop_id, name, 
+      img_path, sourcing_price, market_price, 
+      sale_price, num, size, 
+      consume_num, item_id)
+    values (#{id,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{imgPath,jdbcType=VARCHAR}, #{sourcingPrice,jdbcType=BIGINT}, #{marketPrice,jdbcType=BIGINT}, 
+      #{salePrice,jdbcType=BIGINT}, #{num,jdbcType=INTEGER}, #{size,jdbcType=VARCHAR}, 
+      #{consumeNum,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.ConsumeRank" >
+    insert into consume_rank
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="imgPath != null" >
+        img_path,
+      </if>
+      <if test="sourcingPrice != null" >
+        sourcing_price,
+      </if>
+      <if test="marketPrice != null" >
+        market_price,
+      </if>
+      <if test="salePrice != null" >
+        sale_price,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="size != null" >
+        size,
+      </if>
+      <if test="consumeNum != null" >
+        consume_num,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="imgPath != null" >
+        #{imgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcingPrice != null" >
+        #{sourcingPrice,jdbcType=BIGINT},
+      </if>
+      <if test="marketPrice != null" >
+        #{marketPrice,jdbcType=BIGINT},
+      </if>
+      <if test="salePrice != null" >
+        #{salePrice,jdbcType=BIGINT},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="size != null" >
+        #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="consumeNum != null" >
+        #{consumeNum,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.ConsumeRankExample" resultType="java.lang.Integer" >
+    select count(*) from consume_rank
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update consume_rank
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopId != null" >
+        shop_id = #{record.shopId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imgPath != null" >
+        img_path = #{record.imgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourcingPrice != null" >
+        sourcing_price = #{record.sourcingPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.marketPrice != null" >
+        market_price = #{record.marketPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.salePrice != null" >
+        sale_price = #{record.salePrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.num != null" >
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.size != null" >
+        size = #{record.size,jdbcType=VARCHAR},
+      </if>
+      <if test="record.consumeNum != null" >
+        consume_num = #{record.consumeNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemId != null" >
+        item_id = #{record.itemId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update consume_rank
+    set id = #{record.id,jdbcType=INTEGER},
+      shop_id = #{record.shopId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      img_path = #{record.imgPath,jdbcType=VARCHAR},
+      sourcing_price = #{record.sourcingPrice,jdbcType=BIGINT},
+      market_price = #{record.marketPrice,jdbcType=BIGINT},
+      sale_price = #{record.salePrice,jdbcType=BIGINT},
+      num = #{record.num,jdbcType=INTEGER},
+      size = #{record.size,jdbcType=VARCHAR},
+      consume_num = #{record.consumeNum,jdbcType=INTEGER},
+      item_id = #{record.itemId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.ConsumeRank" >
+    update consume_rank
+    <set >
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="imgPath != null" >
+        img_path = #{imgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcingPrice != null" >
+        sourcing_price = #{sourcingPrice,jdbcType=BIGINT},
+      </if>
+      <if test="marketPrice != null" >
+        market_price = #{marketPrice,jdbcType=BIGINT},
+      </if>
+      <if test="salePrice != null" >
+        sale_price = #{salePrice,jdbcType=BIGINT},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="size != null" >
+        size = #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="consumeNum != null" >
+        consume_num = #{consumeNum,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.ConsumeRank" >
+    update consume_rank
+    set shop_id = #{shopId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      img_path = #{imgPath,jdbcType=VARCHAR},
+      sourcing_price = #{sourcingPrice,jdbcType=BIGINT},
+      market_price = #{marketPrice,jdbcType=BIGINT},
+      sale_price = #{salePrice,jdbcType=BIGINT},
+      num = #{num,jdbcType=INTEGER},
+      size = #{size,jdbcType=VARCHAR},
+      consume_num = #{consumeNum,jdbcType=INTEGER},
+      item_id = #{itemId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="rank" resultMap="BaseResultMap">
+  	SELECT si.`name`,
+	       si.`img_path` imgPath,
+	       si.`sourcing_price` sourcingPrice,
+	       si.`market_price` marketPrice,
+	       si.`sale_price` salePrice,
+	       si.`num`,
+	       si.`size`,
+	       si.`id` itemId,
+	       t.consumeNum
+	  FROM(
+	SELECT sum(soi.`num`) consumeNum, soi.`item_id`
+	  FROM `shop_order` so
+	  LEFT JOIN `shop_order_item` soi on so.`id`= soi.`order_id`
+	 WHERE so.`created_time` &gt;= #{startDate}
+	   and so.`created_time` &lt;= #{endDate}
+	   and so.`status`= 1
+	   and so.`shop_id`= #{id}
+	 GROUP BY soi.`item_id`
+	 ORDER BY consumeNum desc) t
+	  LEFT JOIN `shop_item` si on t.item_id= si.`id`
+  </select>
+  <select id="findByShopId" resultMap="BaseResultMap">
+  		SELECT cr.`id`,
+	       cr.`shop_id`,
+	       cr.`name`,
+	       cr.`img_path`,
+	       cr.`sourcing_price`,
+	       cr.`market_price`,
+	       cr.`sale_price`,
+	       cr.`size`,
+	       cr.`consume_num`,
+	       cr.`item_id`,
+	       si.`num`,ifnull(ttt.one,0) one,ifnull(ttt.two,0) two,ifnull(ttt.three,0) three,ifnull(ttt.four,0) four ,ifnull(ttt.five,0) five,ifnull(ttt.six,0) six,ifnull(ttt.sever,0) seven
+	  FROM consume_rank cr
+	  LEFT JOIN `shop_item` si on cr.`shop_id`= si.`shop_id`
+	   and cr.`item_id`= si.`id`
+	 LEFT JOIN (
+     	SELECT t.item_id,SUM(t.one) one ,SUM(t.two) two,SUM(t.three) three,SUM(t.four) four,SUM(t.five) five,SUM(t.six) six,SUM(t.sever) sever FROM (
+SELECT soi.`item_id`,sum(soi.`num`) one,0 two,0 three,0 four,0 five,0 six,0 sever
+  FROM `shop_order` so
+  LEFT JOIN `shop_order_item` soi on so.`id`= soi.`order_id`
+ where so.`status`= 1
+   and so.`shop_id`= #{shopId}
+   and date_format(so.`created_time`, '%Y-%m-%d')= date_format(date_add(now(), interval -7 day), '%Y-%m-%d')
+GROUP BY soi.`item_id` 
+UNION ALL 
+SELECT soi.`item_id`,0 one,sum(soi.`num`) two,0 three,0 four,0 five,0 six,0 sever
+  FROM `shop_order` so
+  LEFT JOIN `shop_order_item` soi on so.`id`= soi.`order_id`
+ where so.`status`= 1
+   and so.`shop_id`= #{shopId}
+   and date_format(so.`created_time`, '%Y-%m-%d')= date_format(date_add(now(), interval -6 day), '%Y-%m-%d')
+GROUP BY soi.`item_id` 
+UNION ALL 
+SELECT soi.`item_id`,0 one,0 two,sum(soi.`num`) three,0 four,0 five,0 six,0 sever
+  FROM `shop_order` so
+  LEFT JOIN `shop_order_item` soi on so.`id`= soi.`order_id`
+ where so.`status`= 1
+   and so.`shop_id`= #{shopId}
+   and date_format(so.`created_time`, '%Y-%m-%d')= date_format(date_add(now(), interval -5 day), '%Y-%m-%d')
+GROUP BY soi.`item_id` 
+UNION ALL 
+SELECT soi.`item_id`,0 one,0 two,0 three,sum(soi.`num`) four,0 five,0 six,0 sever
+  FROM `shop_order` so
+  LEFT JOIN `shop_order_item` soi on so.`id`= soi.`order_id`
+ where so.`status`= 1
+   and so.`shop_id`= #{shopId}
+   and date_format(so.`created_time`, '%Y-%m-%d')= date_format(date_add(now(), interval -4 day), '%Y-%m-%d')
+GROUP BY soi.`item_id` 
+UNION ALL 
+SELECT soi.`item_id`,0 one,0 two,0 three,0 four,sum(soi.`num`) five,0 six,0 sever
+  FROM `shop_order` so
+  LEFT JOIN `shop_order_item` soi on so.`id`= soi.`order_id`
+ where so.`status`= 1
+   and so.`shop_id`= #{shopId}
+   and date_format(so.`created_time`, '%Y-%m-%d')= date_format(date_add(now(), interval -3 day), '%Y-%m-%d')
+GROUP BY soi.`item_id` 
+UNION ALL 
+SELECT soi.`item_id`,0 one,0 two,0 three,0 four,0 five,sum(soi.`num`) six,0 sever
+  FROM `shop_order` so
+  LEFT JOIN `shop_order_item` soi on so.`id`= soi.`order_id`
+ where so.`status`= 1
+   and so.`shop_id`= #{shopId}
+   and date_format(so.`created_time`, '%Y-%m-%d')= date_format(date_add(now(), interval -2 day), '%Y-%m-%d')
+GROUP BY soi.`item_id` 
+UNION ALL 
+SELECT soi.`item_id`,0 one,0 two,0 three,0 four,0 five,0 six,sum(soi.`num`) sever
+  FROM `shop_order` so
+  LEFT JOIN `shop_order_item` soi on so.`id`= soi.`order_id`
+ where so.`status`= 1
+   and so.`shop_id`= #{shopId}
+   and date_format(so.`created_time`, '%Y-%m-%d')= date_format(date_add(now(), interval -1 day), '%Y-%m-%d')
+GROUP BY soi.`item_id` ) t GROUP BY t.item_id
+     ) ttt on cr.`item_id` =ttt.item_id
+	 WHERE cr.shop_id= #{shopId}
+	 ORDER BY cr.consume_num desc;
+  </select>
+  <select id="findTotalByShopId" resultType="long">
+  		SELECT  IFNULL(SUM(`sale_price`*`consume_num` ),0)  FROM `consume_rank`  WHERE `shop_id` = #{shopId}
+  </select>
+  <select id="findShopIdByWeekFeeAndKinds" resultType="int">
+  	SELECT `shop_id`
+	  FROM `consume_rank`
+	 GROUP BY `shop_id`
+	HAVING COUNT(1)&gt;= 10
+	   and SUM(`sale_price`*`consume_num`)&gt;= 50000
+  </select>
+  <select id="findItemIdByShopId" resultMap="BaseResultMap">
+  	SELECT cr.id,
+	       cr.`shop_id`,
+	       cr.`name`,
+	       cr.`img_path`,
+	       cr.`sourcing_price`,
+	       cr.`market_price`,
+	       cr.`sale_price`,
+	       cr.`num`,
+	       cr.`size`,
+	       cr.`consume_num`,
+	       si.`item_id`
+	  FROM `consume_rank` cr
+	  LEFT JOIN `shop_item` si on cr.`item_id`= si.`id`
+	 where cr.`shop_id`= #{id}
+	 ORDER BY cr.`consume_num` desc
+  </select>
+</mapper>

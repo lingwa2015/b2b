@@ -1,0 +1,227 @@
+<script type="text/javascript">
+    $(function (){
+     var sheng=$!dto.provinceId>0?$!dto.provinceId:33;
+     var shi = $!dto.cityId>0?$!dto.cityId:0; 
+     var qu = $!dto.townId>0?$!dto.townId:0;
+     initComplexArea('seachprov', 'seachcity', 'seachdistrict', area_array, sub_array, sheng, shi, qu);
+     if(qu>0){
+      	changeCity(shi,'seachdistrict','seachdistrict',qu);
+      }
+    });
+
+    //得到地区码
+    function getAreaID(){
+    var area = 0;          
+    if($("#seachdistrict").val() != "0"){
+        area = $("#seachdistrict").val();                
+    }else if ($("#seachcity").val() != "0"){
+        area = $("#seachcity").val();
+    }else{
+        area = $("#seachprov").val();
+    }
+    return area;
+    }
+
+
+    //根据地区码查询地区名
+    function getAreaNamebyID(areaID){
+    var areaName = "";
+    if(areaID.length == 2){
+        areaName = area_array[areaID];
+    }else if(areaID.length == 4){
+        var index1 = areaID.substring(0, 2);
+        areaName = area_array[index1] + " " + sub_array[index1][areaID];
+    }else if(areaID.length == 6){
+        var index1 = areaID.substring(0, 2);
+        var index2 = areaID.substring(0, 4);
+        areaName = area_array[index1] + " " + sub_array[index1][index2] + " " + sub_arr[index2][areaID];
+    }
+    return areaName;
+    }
+</script>
+#set($layout="layout/wxLayout.vm")
+    <div class="lw_hd">
+        <a href="${rc.contextPath}/wxuserAddress/wxAddressList.htm?standId=$!standId&offerPrice=$!offerPrice&num=$!num">
+            <img src="${rc.contextPath}/static/images/wx/address_02.png" >
+             #if ($!dto.id>0)
+			编辑收货信息
+			#else
+			 添加收货信息
+			#end
+        </a>
+        #if ($!dto.id>0)
+        #if($!dto.defaultStatus!=1)<a class="lw_span" id="lw_button" href="javascript:delData('$!dto.id')">删除</a>#end
+        #end
+        <input class="" name="id"  id="id" type="hidden" value="$!dto.id">
+    </div>
+    <dl class="lw_adress">
+        <dt>联系人:</dd>
+        <dd><input class="name" name="name" type="text" placeholder="请输入姓名" value="$!dto.name"></dd>
+        <dt>手机号码:</dd>
+        <dd> <input class="mobile" name="phone" type="number" validate="{number:true}" placeholder="请输入手机号码" value="$!dto.phone" ></dd>
+        <dt>所在地区:</dt>
+        <dd>    
+            <select id="seachprov" name="seachprov" onChange="changeComplexProvince(this.value, sub_array, 'seachcity', 'seachdistrict');"></select>
+            <select  id="seachcity" name="homecity" onChange="changeCity(this.value,'seachdistrict','seachdistrict',0);"></select>
+            <span id="seachdistrict_div">
+                <select  id="seachdistrict" name="seachdistrict" ></select>
+            </span>
+        </dd>
+        <dt>详细地址:</dt>
+        <dd><input class="adress" name="address" type="text" placeholder="如荆长路40号2楼领蛙科技" value="$!dto.address"></dd>
+        <input class="" name="addressDetails"  id="addressDetails" type="hidden" >
+    </dl>
+
+    <div>
+    <a href="javascript:save('$!dto.id')" class="lw_button1" id="lw_button1" >
+           保存
+    </a>
+    </div>
+</form>
+</div>
+
+                
+<!--                 <select name="provinceId" id="provinceId"><option value="12">浙江</option></select> -->
+<!--                 <select name="cityId" id="cityId"><option value="122">杭州</option></select> -->
+<!--                 <select name="townId" id="townId"><option value="1303">余杭区</option></select> -->   
+  <script type="text/javascript" src="${rc.contextPath}/static/js/wx/Area.js"></script>
+    <script type="text/javascript" src="${rc.contextPath}/static/js/wx/AreaData_min.js"></script>      
+<script>
+document.title = "领蛙商城"; 
+function delData(id){
+if(confirm("确定要删除吗？"))
+{
+	$.ajax( {
+		url:'${rc.contextPath}/wxuserAddress/wxAddressDelete.do',// 跳转到 action
+	    data:{
+	    	'id':id
+	    },
+	    type:'post',
+	    cache:false,
+	    dataType:'text',
+	    success:function(data) {
+	    	if(data == '删除成功'){
+	    		#*var html = '<div class="light_float"><p>删除成功！</p><a href="${rc.contextPath}/wxuserAddress/wxAddressList.htm?standId=$!standId&num=$!num&offerPrice=$!offerPrice">确定</a></div>';
+       			 $('body').append(html);*#
+       			 window.location.href="${rc.contextPath}/wxuserAddress/wxAddressList.htm?standId=$!standId&num=$!num&offerPrice=$!offerPrice";
+	    	}else{
+	    		alert(data);
+	    	}
+
+	     },
+	     error : function() {
+	          alert("异常！");
+	     }
+	});
+}
+}
+
+function defualtData(id){
+	  var url="${rc.contextPath}/wxuserAddress/wxdefualtData.do";
+	  $.ajax({
+			url : url,
+			data:{
+  	    	'id':id
+  	    },
+			type : 'post',
+			cache : false,
+			dataType:'text',
+		    success:function(data) {
+		    	if(data == '设置成功'){
+			    	if($!standId>0){
+		    			window.location.href="${rc.contextPath}/weixin/wxconfirmOrderList.htm?standId=$!standId&offerPrice=$!offerPrice&num=$!num";
+		    		}else{
+						window.location.href="${rc.contextPath}/wxuserAddress/wxAddressList.htm";
+			    	}
+		    	}
+		    	else{
+		    		alert(data);
+		    	}
+		     },
+		     error : function() {
+		          alert("异常！");
+		     }
+		});
+}
+
+var checkSubmitFlag = false;
+function save(id){
+    if(checkSubmitFlag ==true){
+        alert("请勿重复提交");
+        return false;
+    }
+	var name = $("input[name='name']").val();
+    var phone = $("input[name='phone']").val();
+    var address = $("input[name='address']").val();
+	var provinceId=$("#seachprov").find("option:selected").val();
+	var cityId=$("#seachcity").find("option:selected").val();
+	var townId=$("#seachdistrict").find("option:selected").val();
+	var shuliang=1;
+//     alert(name+"1=="+phone+"2=="+address+"3=="+provinceId+"4=="+cityId+"5=="+townId);
+	if(cityId<shuliang){
+		alert("请选择区域");
+		return false;
+	}
+    if(!/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/.test(phone)){
+        alert("请填写正确的手机号码！");
+        return false;
+    }
+    
+    if(!name||!phone||!address||!provinceId||!cityId||!townId){
+        alert("信息不能为空");
+        return false;
+    }
+
+    var province =$("#seachprov").find("option:selected").text();
+    var city =$("#seachcity").find("option:selected").text();
+    var town =$("#seachdistrict").find("option:selected").text();
+    var addressDetails = "";
+    if(province!='请选择'){
+      addressDetails += province;
+    }
+    if(city!='请选择'){
+      addressDetails += city;
+    }
+    if(town!='请选择'){
+      addressDetails += town+address;
+    }else{
+    	addressDetails+=address;
+    }
+    
+      checkSubmitFlag = true;
+	  var url="${rc.contextPath}/wxuserAddress/wxSaveAddress.do";
+	  $.ajax({
+		url : url,
+		data:{
+  	    	'id':id,
+	    	'name':name,
+	    	'phone':phone,
+	    	'provinceId':provinceId,
+	    	'cityId':cityId,
+	    	'townId':townId,
+	    	'address':address,
+	    	'addressDetails':addressDetails
+  	    },
+	    type : 'post',
+		cache : false,
+		dataType:'text',
+	    success:function(data) {
+	    	if(data == '保存成功' || data == '修改成功'){
+	    		if($!standId>0){
+	    			window.location.href="${rc.contextPath}/weixin/wxconfirmOrderList.htm?standId=$!standId&offerPrice=$!offerPrice&num=$!num";
+	    		}else{
+					window.location.href="${rc.contextPath}/wxuserAddress/wxAddressList.htm";
+	    		}
+	    	}else{
+	    		alert(data);
+// 	    		enableBtn('saveBtn');
+	    	}
+	     },
+	     error : function() {
+	          alert("异常！");
+// 	          enableBtn('saveBtn');
+	     }	
+		});
+}
+
+</script>

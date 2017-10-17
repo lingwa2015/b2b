@@ -1,0 +1,134 @@
+#set($layout="layout/shopLayout.vm")
+	 <div class="order_details">
+        <div class="details_tip">
+            <p>编号：<span>$order.orderNo</span></p>
+            <p>金额：<span>￥$NumberTool.toYuanNumber($order.totalFee)</span></p>
+            #if(!$!order.memo || $!order.memo=="")
+            #else
+            <p>备注：<span>$order.memo</span></p>
+            #end
+        </div>
+        <ul>
+        	#foreach($item in $itemlist)
+                <li class="xiaofei_d1">
+                    <img src="$item.img_path" class="xiaofei_d2">
+                    <p class="li_tips xiaofei_d3">$item.item_name</p>
+                    <p class="li_price xiaofei_d4">
+                        <span style="font-size: .3rem;">￥$NumberTool.toYuanNumber($item.item_price)</span>
+                        <span style="font-size: .26rem;color: #9B9B9B;margin-left: .2rem;" class="">$item.item_size</span>
+                    </p>
+                    <p class="li_spec xiaofei_d5">数量：<span style="color: #FF3E23">$item.num</span>  </p>
+                    <div class="li_num xiaofei_d6" data-id="$item.item_id">
+                        <select style="width: 1.3rem;margin-top: .665rem;overflow: hidden;">
+                            <option value="">选择层</option>
+							#foreach($layer in $shopLayers)
+                                #if($layer.id==$item.layer_id)
+                                    <option value="$layer.id" selected="SELECTED">$layer.name</option>
+                                #else
+                                    <option value="$layer.id">$layer.name</option>
+                                #end
+							#end
+                        </select>
+                    </div>
+                </li>
+            #end
+        </ul>
+        #if($order.comfirm==2)
+        #if($user.iswxvip==3)
+        	#if($order.sign==4)
+        	<a href="javascript:void(0);" data-id="$order.orderNo" data-shop="$order.userId" class="order_over">完成</a>
+        	#else
+        	#if($order.type==1)
+        	 <a href="javascript:void(0);" data-id="$order.orderNo" data-shop="$order.userId" class="order_push">上架</a>
+        	 #end
+             <a href="javascript:void(0);" data-id="$order.orderNo" data-shop="$order.userId" class="order_over">完成（无需上架）</a>
+        	#end
+        #else
+            <a href="javascript:void(0);" data-id="$order.orderNo" data-shop="$order.userId" class="order_over">完成</a>
+        #end
+        #end
+    </div>
+    <script type="text/javascript">
+    document.title = "采购订单详情";
+    $("body").css("background-color","#fafafa");
+    $(".order_push").on("touchend",function(){
+    	if (confirm("确定要上架吗？")) {
+    	 	var the = this;
+    	    var id = $(the).attr("data-id");
+    	    var shop = $(the).attr("data-shop");
+
+            var map = {};
+            var flag = true;
+            $(".li_num").each(function(){
+                if ($(this).find("select").val() == "") {
+                    alert("请先选择商品属于哪一层")
+                    flag = false;
+                }else{
+                    var op = $(this).find("select").val();
+                    var data_i = $(this).attr("data-id");
+                    var has = data_i in map;
+                    if(!has){
+                        map[data_i] = op;
+					}
+                }
+
+            })
+            if(!flag){
+            	return fasle;
+            }
+            var data = JSON.stringify(map);
+            $.ajax({
+				url:'${rc.contextPath}/convenient/shop_batchOnShelf.do',
+				type:'POST',
+				data: {id:id,data:data},
+				success:function(data){
+					if(data==200){
+						window.location.href="${rc.contextPath}/convenient/shop_sourcingOrderList.htm?shop_id="+shop;
+					}else if(data==201){
+						alert("你不是管理员");
+					}else if(data==202){
+						alert("商品已上架")
+					}else if(data==204){
+						alert("订单业务日期非本月！")
+					}else{
+						alert("网络异常，请稍后再试！")
+					}
+				}
+
+			})
+    	 }
+    	
+    });
+    var count =0;
+    $(".order_over").on("touchend",function(){
+    	if (count<2) {
+            count++;
+            $(this).text("不上架(请再次点击确认)");
+        }
+    	if (count==2) {
+	    	if (confirm("确定无需上架吗？")) {
+	    	var the = this;
+	    	var id = $(the).attr("data-id");
+	    	var shop = $(the).attr("data-shop");
+	    	 $.ajax({
+					url:'${rc.contextPath}/convenient/shop_complete.do',
+					type:'POST',
+					data: {id:id},
+					success:function(data){
+						if(data==200){
+							window.location.href="${rc.contextPath}/convenient/shop_sourcingOrderList.htm?shop_id="+shop;
+						}else if(data==201){
+							alert("你不是管理员");
+						}else if(data==202){
+							alert("已完成");
+						}else{
+							alert("网络异常，请稍后再试！")
+						}
+					}
+					
+				})
+	    	}
+    	}
+    });
+</script>
+    

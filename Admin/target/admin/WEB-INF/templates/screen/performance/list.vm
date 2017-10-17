@@ -1,0 +1,125 @@
+<script type="text/javascript">
+var needYM = false;
+function check(){
+	if (needYM) {
+		if($("#querystartYear").val().length<=0){
+			alert("请选择统计开始年份！");
+			return false;
+		}
+		if($("#querystartMonth").val().length<=0){
+			alert("请选择统计开始月份！");
+			return false;
+		}
+		if($("#queryendYear").val().length<=0){
+			alert("请选择统计开始年份！");
+			return false;
+		}
+		if($("#queryendMonth").val().length<=0){
+			alert("请选择统计开始月份！");
+			return false;
+		}
+	}
+
+	return true;
+}
+
+function selectYM(selectObj) {
+	needYM = true;
+}
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+		<h4 class="tit">销售业绩</h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" name="tranSumForm" id="tranSumForm" action="${rc.contextPath}/performance/performanceList.htm"  method="POST">
+		<table class="form form-horizontal">
+		<tr>
+			<td ><label class="tit first-tit">月份：</label></td>
+			<td>
+			<select name="queryDate" id="queryDate" validate="{required:true}">
+				
+				<option value="2017-05" #if($queryDate=='2017-05')selected=selected#end>2017-05</option>
+				<option value="2017-06" #if($queryDate=='2017-06')selected=selected#end>2017-06</option>
+				<option value="2017-07" #if($queryDate=='2017-07')selected=selected#end>2017-07</option>
+				<option value="2017-08" #if($queryDate=='2017-08')selected=selected#end>2017-08</option>
+				<option value="2017-09" #if($queryDate=='2017-09')selected=selected#end>2017-09</option>
+				<option value="2017-10" #if($queryDate=='2017-10')selected=selected#end>2017-10</option>
+				<option value="2017-11" #if($queryDate=='2017-11')selected=selected#end>2017-11</option>
+				<option value="2017-12" #if($queryDate=='2017-12')selected=selected#end>2017-12</option>
+				<option value="2018-01" #if($queryDate=='2018-01')selected=selected#end>2018-01</option>
+				<option value="2018-02" #if($queryDate=='2018-02')selected=selected#end>2018-02</option>
+				<option value="2018-03" #if($queryDate=='2018-03')selected=selected#end>2018-03</option>
+				<option value="2018-04" #if($queryDate=='2018-04')selected=selected#end>2018-04</option>
+				<option value="2018-05" #if($queryDate=='2018-05')selected=selected#end>2018-05</option>
+				<option value="2018-06" #if($queryDate=='2018-06')selected=selected#end>2018-06</option>
+				<option value="2018-07" #if($queryDate=='2018-07')selected=selected#end>2018-07</option>
+				<option value="2018-08" #if($queryDate=='2018-08')selected=selected#end>2018-08</option>
+				<option value="2018-09" #if($queryDate=='2018-09')selected=selected#end>2018-09</option>
+				<option value="2018-10" #if($queryDate=='2018-10')selected=selected#end>2018-10</option>
+				<option value="2018-11" #if($queryDate=='2018-11')selected=selected#end>2018-11</option>
+				<option value="2018-12" #if($queryDate=='2018-12')selected=selected#end>2018-12</option>
+				
+			 </select>
+			 &nbsp;<span></span>
+			</td>
+			<td align="right">
+							<label class="tit">接口业务员：</label>
+						</td>
+						<td>
+						<select name="interfaceId" >
+						    <option value="">--全部--</option>
+						    #foreach($puser in $pusers)
+							   #if($!interfaceId == $puser.id)
+					            <option value="$puser.id" selected="selected">$puser.userName</option>
+					           #else
+					            <option value="$puser.id">$puser.userName</option>
+					           #end
+							#end
+						 </select>
+						 &nbsp;<span></span>
+						</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(tranSumForm).submit()">&nbsp;&nbsp;统 &nbsp;计 &nbsp;&nbsp;</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+
+	<table class="table">
+		<tr>
+			<th>月份</th>
+			<th>业务员</th>
+			<th>岗位</th>
+			<th>新签客户数</th>
+			<th>新签激活数</th>
+			<th>老客户激活数</th>
+			<th>明细</th>
+			
+		</tr>
+
+		#foreach($dto in $page.result)
+		<tr>
+			<td>$!date.format('yyyy-MM',$!dto.sumDate)</td>
+			<td>$!dto.userName</td>
+			<td>$!dto.post</td>
+			<td>$!dto.submitNum</td>
+            <td>$!dto.num</td>
+            <td>$!dto.sevenNum</td>
+			<td><a href="${rc.contextPath}/performance/details.htm?sumdate=$!date.format('yyyy-MM',$!dto.sumDate)&interfaceId=$!dto.interfaceId&cityId=$!dto.cityId">明细</a></td>
+		</tr>
+		#end
+
+
+
+	</table>
+
+	<div class="text-center">
+           #parse("/common/page.vm")
+    </div>
+
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->

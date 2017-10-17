@@ -1,0 +1,97 @@
+
+#set($layout="layout/appLayoutV3.vm")
+        <div class="lw_content"> 
+            <div class="search_wrap">
+            	#if($itemName=="")
+                <div class="search-before">
+                    <span class="search"><img id="searcTrigger" width="35%" src="${rc.contextPath}/static/images/search_icon.png"></span>
+                    <span class="dropdown"><span id="dropdownText" class="text">$categoryName</span><img id="dropdownImg" width="12%" src="${rc.contextPath}/static/images/caret.png"></span>
+                </div>
+                <div class="search-box" style="display:none;">
+                    <span class="search search-icon"><img id="searcTrigger" width="35%" src="${rc.contextPath}/static/images/search_icon.png"></span>
+                    <span class="search-input">
+                    <form action="${rc.contextPath}/appItem/appGoods.htm" method="get">
+                    	<input type="text" name="itemName" value="$!itemName">
+                    	<input type="submit" style="display:none">
+                    </form>
+                    </span>
+                    <span id="searchCancel" class="cancel">取消</span>
+                </div>
+                #else
+                <div class="search-box">
+                    <span class="search search-icon"><img id="searcTrigger" width="35%" src="${rc.contextPath}/static/images/search_icon.png"></span>
+                    <span class="search-input">
+                    <form action="${rc.contextPath}/appItem/appGoods.htm" method="get">
+                    	<input type="text" name="itemName" value="$!itemName">
+                    	<input type="submit" style="display:none">
+                    </form>
+                    </span>
+                    <a class="cancel" href="${rc.contextPath}/appItem/appGoods.htm">取消</a>
+                </div>
+                #end
+            </div>
+            
+            #if($size>0)
+            <ul id="categoryId" class="search-list" style="display:none;">
+                <li><a href="${rc.contextPath}/appItem/appGoods.htm">全部</a></li>
+                #foreach($cat in $catList)
+                <li><a href="${rc.contextPath}/appItem/appGoods.htm?catId=$cat.id&categoryName=$cat.categoryName">$cat.categoryName</a></li>
+                #end
+            </ul>
+            #if($catId==24)
+            <ul id="categorylevelId" class="sub-list">
+            	#if($catLevelId=="")
+                <li class="active"><a href="${rc.contextPath}/appItem/appGoods.htm?catId=$catId">全部</a></li>
+                #else
+                <li ><a href="${rc.contextPath}/appItem/appGoods.htm?catId=$catId">全部</a></li>
+                #end
+                #foreach($catLevel in $catLevelList)
+	                #if($catLevelId==$catLevel.id)
+	                <li class="active"><a href="${rc.contextPath}/appItem/appLevelGoods.htm?catId=$catId&catLevelId=$catLevel.id">$catLevel.categoryName</a></li>
+	                #else
+	                 <li><a href="${rc.contextPath}/appItem/appLevelGoods.htm?catId=$catId&catLevelId=$catLevel.id">$catLevel.categoryName</a></li>
+	                #end
+                #end
+            </ul>
+            #else
+            #end
+            
+            <div class="goods_sort">
+			#if($categoryName!="全部")
+                <div class="sort_box" id="cateIdSearch">
+                <ul>
+            #end
+            #foreach($pair in $categoryItems)
+                #set($itemList = $pair.right)
+                #set($category = $pair.left)
+                #if($categoryName=="全部")
+                <div class="sort_box" id="cateId$category.id">
+                <p class="title">$category.categoryName</p>
+                <ul>
+                #else
+            	#end
+                        #foreach($item in $itemList)
+                                <li>
+                                    <img src="../item/itemImage.htm?imageName=$item.imgPath">
+                                    <p>
+                                        <span>$item.itemName ($item.size)</span>
+                                        <b>￥<script>document.write($item.price/100);</script></b>
+                                    </p>
+                                </li>
+                        #end
+                #if($categoryName=="全部")  
+                </ul> 
+                </div>
+                #end
+            #end
+            #if($categoryName=="搜索")   
+            	</ul>
+                </div>
+            #end
+            </div>
+            #else
+           	<div>
+                <p class="search-noresult">没有找到相关产品</p>
+            </div>
+            #end
+        </div>

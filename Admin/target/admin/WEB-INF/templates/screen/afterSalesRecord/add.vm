@@ -1,0 +1,108 @@
+<script type="text/javascript">
+//var phoneflag=false;
+$(document).ready(function() {
+
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+			save();
+		}
+	});
+
+
+ });
+ 
+ function save(){
+	disableBtn('saveBtn');
+
+	var url="${rc.contextPath}/afterSalesRecord/add.do";
+  	submitFormData("form1",url,show);
+}
+
+function show(data){
+
+	if(data.indexOf("成功")!=-1){
+		window.location.href="${rc.contextPath}/afterSalesRecord/afterSalesRecordList.htm";
+	}else{
+		alert(data);
+		enableBtn('saveBtn');
+	}
+}
+
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+	</div><!--bd-actionbar-->
+
+	<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" name="userForm" id="form1" action="${rc.contextPath}/afterSalesRecord/add.do" method="post">
+				<input type="hidden" name="customerId" id="customerId" value="" />
+				<table class="form">
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>纪录类型：</label></td>
+						<td><select name="recordType" validate="{required:true}">
+							  <option value ="1" >投诉</option>
+							  <option value ="2" >反馈</option>
+							  <option value ="3" selected="selected">记录</option>
+							</select>
+						&nbsp;<span></span></td>
+					</tr>
+					
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>状态：</label></td>
+						<td><select name="doState" validate="{required:true}">
+							  <option value ="1" selected="selected">待处理</option>
+							  <option value ="2" >处理中</option>
+							  <option value ="3" >已处理</option>
+							</select>
+						&nbsp;<span></span></td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">内部：</label></td>
+						<td><input type="radio" name="flag" value="0" checked="checked" />否
+			                <input type="radio" name="flag" value="1" />是
+						&nbsp;<span></span></span></td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>公司简称：</label></td>
+						<td>
+							<input validate="{required:true}" type="text" name="userName" id="userName"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">内容：</label></td>
+						<td>
+							<textarea id="remark" validate="required:true" name="content" cols="100" rows="8" value=""></textarea>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<td align="right"><label class="tit">负责人：</label></td>
+					<td >
+						<select name="fuzeMan">
+						  <option value ="" ></option>
+						  #foreach($cguser in $fzusers)
+						  	<option value ="$cguser.userName" >$cguser.userName</option>
+						  #end
+						</select>
+					</td>
+					
+					<tr class="btn-bar">
+						<td></td>
+						<td><a class="btn btn-primary" id="saveBtn" href="javascript:void(0)" onclick="$('#form1').submit();">保存</a></td>
+					</tr>
+				</table>
+			</form>
+		</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

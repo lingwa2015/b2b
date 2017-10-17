@@ -1,0 +1,23 @@
+#set($layout="layout/shopLayout.vm")
+  <div class="add_content">
+	 #if($!sign==3)
+    <img src="${rc.contextPath}/static/images/shop/add_success.png">
+    <p>添加成功！</p>
+    <span>您已成为$!shop.userName自助便利店管理员</span>
+    <a href="${rc.contextPath}/convenient/manage/shop_index.htm?shop_id=$shopId">管理后台</a>
+    #elseif($!sign==2)
+    <!-- 添加失败 -->
+    <img src="${rc.contextPath}/static/images/shop/add_failed.png">
+    <p>添加失败！</p>
+    <span>二维码已失效，请询问管理员获取最新的二维码</span>
+    #elseif($!sign==1)
+    <span style="margin-top:1rem;">您已成为$!shop.userName自助便利店管理员</span>
+    <a href="${rc.contextPath}/convenient/manage/shop_index.htm?shop_id=$shopId">管理后台</a>
+    #else
+    #end
+    
+  </div>
+<script type="text/javascript">
+    document.title = "添加店铺管理员";
+    $("body").css("background-color","#fafafa");
+</script>

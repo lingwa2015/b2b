@@ -1,0 +1,141 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+
+ });
+
+    function pageBack(){
+    	location.reload();
+    }
+
+	function checkAll() {
+
+		for(var i in document.getElementsByName('orderCheckbox')){
+			var ele = document.getElementsByName('orderCheckbox')[i];
+			ele.checked = document.getElementById('checkAll').checked;
+		}
+		//$("[name='orderCheckbox']").removeAttr("checked");
+
+		//$("[name='orderCheckbox']").attr("checked",document.getElementById('checkAll').checked);//全选
+	}
+
+	function unCheckAll() {
+		$("[name='orderCheckbox']").removeAttr("checked");//取消全选
+	}
+	
+	function editOrder(standardorderId){
+		window.location.href="${rc.contextPath}/snackPackageOrder/showOrder.htm?standardorderId="+standardorderId;
+	}
+	
+	
+</script>
+
+<div class="content">
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+		<form class="jqtransform" id="orderListForm" action="snackPackageOrderlist.htm" method="POST">
+		<input type="hidden" name="token" value="$!{token}" />
+		<input type="hidden" name="queryUser" value="$!{queryUser}" />
+		<table class="form form-horizontal">
+		<tr>
+			<td><label class="tit first-tit">开始时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="startTime" id="startTime" readonly="readonly" value="$!startTime">
+			</td>
+
+			<td><label class="tit">结束时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="endTime" id="endTime" readonly="readonly" value="$!endTime">
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">订单号：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="orderNum" id="orderNum" value="$!orderNum">
+			</td>
+			<td align="right"><label class="tit">零食包类型：</label></td>
+			<td><select name='snackpackageType' >
+		        #foreach( $snack in $snackList)
+		        	<option value='$snack.id' #if($!snackpackageType==$snack.id)selected="selected"#end>$snack.spValue</option>
+		        #end
+		        </select>
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(orderListForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+			</td>
+<!-- 			<td> -->
+<!-- 				<a href="${rc.contextPath}/snackPackageType/snackPackageTypeList.htm">零食包类型</a> -->
+<!-- 			</td> -->
+		</tr>
+	</table>
+	</form>
+
+
+
+
+	#foreach($pair in $page.result)
+	#set($itemList = $pair.right)
+	#set($dto = $pair.left)
+
+
+	<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+        <tr class="info">
+			<td colspan="7">
+
+            	<span>零食包编号：$dto.standardorderId</span>
+                <span>合计：$NumberTool.toYuanNumber($!dto.totalFee) 元</span>
+                <span>生成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!dto.createdTime)</span>
+                <span>执行日期：$!date.format('yyyy-MM-dd',$!dto.executedTime)</span>
+                #if ($!dto.customerStatus!=1)
+<!--                 <span> -->
+<!--                 	<button class="btn btn-success refundMoney" onclick="if(confirm('确定取消?')){cancelOrder('$dto.customerorderId')}">取消预订单</button> -->
+<!--                 </span> -->
+				<span>
+            	    <button class="btn btn-success refundMoney" onclick="editOrder('$dto.standardorderId')">编辑零食包</button>
+            	    <form id="printForm" action="/snackPackageOrder/printOrders.do" method="POST" target='_blank' >
+						<input type='hidden' id='orderNo' name='orderNo' value="$dto.standardorderId"/>
+						<button class="btn btn-warning btn-sm" onclick="submit();">打印订单</button>
+					</form><br/>
+                </span>
+				#end
+            </td>
+
+		</tr>
+		 <tr class="info">
+
+            <td colspan="6">
+
+				<span>特殊要求：$!dto.memo</span>
+
+            </td>
+		</tr>
+		<tr>
+			<th width="40%">商品名称</th>
+			<th width="20%">规格</th>
+			<th width="10%">单价</th>
+			<th width="10%">数量</th>
+			<th width="20%">总价</th>
+		</tr>
+		#foreach($item in $itemList)
+		<tr>
+			<td>$!item.itemName</td>
+			<td>$!item.itemSize</td>
+			<td>$NumberTool.toYuanNumber($!item.itemPrice)</td>
+			<td>$!item.num</td>
+			<td>$NumberTool.toYuanNumber($!item.fee)</td>
+		</tr>
+		#end
+	</table>
+	#end
+	<div class="text-center">
+			#parse("/common/page.vm")
+	</div>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+
+
+
+

@@ -1,0 +1,86 @@
+<script type="text/javascript">
+ var checkSubmitFlag = false;
+	function save() {
+
+	  	if(checkSubmitFlag ==true){
+	       alert("请勿重复提交");
+	       return false;
+	    }
+
+	    checkSubmitFlag = true;
+
+		disableBtn('saveBtn');
+
+		submitJqueryFormData('roleForm', '$!{rc.contextPath}/advisory/edit.do', function(
+				data) {
+			checkSubmitFlag = false;
+			if (data == "编辑成功") {
+				window.location.href = "${rc.contextPath}/appAdvisory/list.htm";
+			} else {
+				alert("操作失败，原因:" + data);
+				enableBtn('saveBtn');
+
+			}
+		});
+	}
+
+	
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+		<h4 class="tit">编辑客户咨询信息</h4>
+
+
+	</div>
+	<!--bd-actionbar-->
+	<div class="bd-main">
+		<div class="bd-main-inner">
+
+			<form class="jqtransform" id="roleForm" method="POST"
+				action="$!{rc.contextPath}/advisory/edit.do">
+				<input type="hidden" name="id" id="id" value="$!advisory.id" />
+				<table class="form">
+					<tr>
+						<td align="right"><label class="tit">客户姓名：</label></td>
+						<td><input type="text" name="name" id="name" value="$!advisory.name"></td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">客户电话：</label></td>
+						<td><input type="text" name="mobilePhone" id="mobilePhone" value="$!advisory.mobilePhone"></td>
+					</tr>
+					<tr>
+					<td align="right"><label class="tit">公司名称:</label></td>
+					<td>
+					<input type="text" name="companyName" id="companyName" value="$!advisory.companyName">
+					</td>
+					</tr>
+					<tr>
+					<td align="right"><label class="tit">业务员:</label></td>
+					<td>
+					<input type="text" name="linkmen" id="linkmen" value="$!advisory.linkmen">
+					</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">备注：</label></td>
+						<td>
+							<textarea id="remark" name="remark" cols="50"
+								rows="4" validate="{maxlength:512}">$!advisory.remark</textarea>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr class="btn-bar">
+						<td></td>
+						<td>
+
+						<a class="btn btn-primary" id="saveBtn" href="#" onclick="save();">确认</a>
+
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<!--bd-main-inner-->
+	</div>
+	<!--bd-main-->
+</div>
+<!--content-->

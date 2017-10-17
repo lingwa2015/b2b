@@ -1,0 +1,692 @@
+#set($layout="layout/default_combo.vm")
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		$.metadata.setType("attr", "validate");
+		$( "#executedTime" ).datepicker();
+		$("#orderDetailForm").validate({
+			errorPlacement : function(error, element) {
+				var error_span = element.next('span');
+				error_span.addClass("errorClass");
+				error_span.html(error.html());
+			},
+			success : function(label) {
+				label.remove();
+			},
+			submitHandler : function() {
+			    var userId = document.getElementById("buyerId").value;
+			    if(userId==null||userId==0){
+			       alert("请输入正确的客户简称");
+			       return false;
+			    }
+
+				if (document.getElementsByName('rowTemplate').length <= 1) {
+					alert('商品至少有一条');
+					return false;
+				}
+				save();
+				return false;
+			}
+		});
+
+		 var url = "${rc.contextPath}/user/queryComboUser.json";
+		 var  userCombox =$('#userName').combobox({
+            valueField:'id',
+			textField:'userName',
+			url : url,
+            onSelect:function(record){
+                 var userId = record.id;
+                 var mobilePhone = record.mobilePhone;
+
+                 $("#buyerId").val(userId);
+                 $("#mobilePhone").val(mobilePhone);
+                 $("#companyMemo").html(record.companyMemo);
+		         $("#discount").val(record.discount);
+            }
+        });
+	});
+
+	var checkSubmitFlag = false;
+	function save() {
+
+	  	if(checkSubmitFlag ==true){
+	       alert("请勿重复提交");
+	       return false;
+	    }
+
+	    checkSubmitFlag = true;
+
+		disableBtn('saveBtn');
+
+		submitJqueryFormData('orderDetailForm', '$!{rc.contextPath}/order/addOrder.do', function(
+				data) {
+			 checkSubmitFlag = false;
+
+			if (data == '添加成功') {
+				window.location.href = "${rc.contextPath}/order/orderlist.htm";
+			} else {
+				alert("操作失败，原因:" + data);
+				enableBtn('saveBtn');
+
+			}
+		});
+	}
+
+	function deleteItem(obj){
+		deleteRow4ItemRecord(obj);
+		calculateTotalFee();
+    }
+
+	function insertRow4addItemSku4addOrderPage(tableObj) {
+		var rowObj = $('#rowTemplate').clone();
+		var tdList = rowObj.children('td');
+		var nameList = '';
+		var rowCount = Number($('#rowCount').val());
+		rowObj.css('display', '');
+		for (var i = 0; i < tdList.length; i++) {
+			var tdEle = tdList[i];
+			if (tdEle.children.length == 0)
+				continue;
+			var inputEle = tdEle.children[0];
+
+			if (inputEle.tagName == 'SPAN') {
+				continue;
+			}
+
+			inputEle.setAttribute('rowNum',rowCount);
+
+			inputEle.name = inputEle.name + rowCount;
+			inputEle.id = inputEle.name;
+
+		}
+
+		$('#rowCount').val(rowCount + 1);
+		tableObj.append(rowObj);
+
+		$('#itemId'+rowCount).trigger('change');
+
+
+    }
+
+
+
+	function getUser() {
+		var mobilePhone = $("#mobilePhone").val().trim();
+		if (mobilePhone == null || mobilePhone.length == 0||mobilePhone.length!=11) {
+			//补充提示信息，手机号码不能为空
+			alert("请填写手机号");
+			return;
+		}
+		var url = "${rc.contextPath}/customer/queryUser.json";
+		doJsonRequest(url, {
+			"mobilePhone" : mobilePhone
+		}, showUser);
+	}
+
+	function showUser(data) {
+
+		if (data == null || data.user == null) {
+			//补充提示信息，用户不存在
+			alert("用户不存在");
+			return;
+		}
+		$("#userName").val(data.user.userName);
+		$("#companyMemo").html(data.user.companyMemo);
+		$("#buyerId").val(data.user.id);
+		$("#discount").val(data.user.discount);
+	}
+
+
+	function setSKU(selectObj) {
+		var discount=$("#discount").val();
+		if(discount<=0){
+			discount=1;
+		}
+		var rowNum = selectObj.getAttribute("rowNum");
+		var price = ($(selectObj).find("option:selected").attr("vprice")*discount).toFixed(2);
+		var stocknum = $(selectObj).find("option:selected").attr("vstocknum");
+
+		var itemId = $(selectObj).find("option:selected").val();
+		var itemName = $(selectObj).find("option:selected").text();
+
+		//普通规格
+	    var vskusize = $(selectObj).find("option:selected").attr("vskusize");
+	    var vskucostprice = ($(selectObj).find("option:selected").attr("vskucostprice")*discount).toFixed(2);
+	    //批发规格
+	    var vskubuysize = $(selectObj).find("option:selected").attr("vskubuysize");
+	    var vskuconvertnum = $(selectObj).find("option:selected").attr("vskuconvertnum");
+	    var vskupurchaseprice = ($(selectObj).find("option:selected").attr("vskupurchaseprice")*discount).toFixed(2);
+	    var vskubuyprice = $(selectObj).find("option:selected").attr("vskubuyprice");
+	    //零售	规格
+	    var vskusalesize = $(selectObj).find("option:selected").attr("vskusalesize");
+	    var vskusalesizenum = $(selectObj).find("option:selected").attr("vskusalesizenum");
+	    var vskusaleprice = ($(selectObj).find("option:selected").attr("vskusaleprice")*discount).toFixed(2);
+	    var vskusalecostprice = $(selectObj).find("option:selected").attr("vskusalecostprice");
+
+		var specificationOption = "";
+		specificationOption += "<option  rowNum=\""+rowNum+"\" value=\"SIZE\" price=\""+price+"\" coefficient=\"1\">规格:"+vskusize+"</option>";
+		specificationOption += "<option rowNum=\""+rowNum+"\" value=\"BUY_SIZE\" price=\""+vskupurchaseprice+"\" coefficient=\""+vskuconvertnum+"\">批发规格:"+vskubuysize+"</option>";
+		specificationOption += "<option rowNum=\""+rowNum+"\" selected=\"selected\" value=\"SALE_SIZE\" price=\""+vskusaleprice+"\" coefficient=\""+vskusalesizenum+"\">零售规格:"+vskusalesize+"</option>";
+
+		$('#specification'+rowNum).empty();
+		$('#specification'+rowNum).append(specificationOption);
+
+		$('#price'+rowNum).val(vskusaleprice);
+		$('#stockNum'+rowNum).val(stocknum);
+		$('#itemName'+rowNum).val(itemName);
+		calculateTotalFee();
+	}
+
+	function checkNum(obj) {
+		var rowNum = obj.getAttribute("rowNum");
+		var stockNum = parseInt($('#stockNum'+rowNum).val());
+		var num = parseInt(obj.value);
+		var coefficient = $('#specification'+rowNum).find("option:selected").attr("coefficient");
+
+		if((num * coefficient) > stockNum ){
+			var error_span = $(obj).next();
+			error_span.addClass("errorClass");
+			error_span.text("实际消耗库存不能大于剩余库存");
+			//obj.value = "";
+			return;
+		}else{
+		    var error_span = $(obj).next();
+			error_span.removeClass("errorClass");
+			error_span.text("");
+		}
+		calculateTotalFee();
+	}
+
+	function toDecimal(bigInt){
+		var f = parseFloat(bigInt);
+        if (isNaN(f)) {
+        	return 0;
+        }
+        f = Math.round(bigInt)/100;
+        return f;
+	}
+
+	function calculateTotalFee(){
+		var rowCount = $('#rowCount').val();
+		var totalFee = 0.0;
+		for(var i = 0 ; i < rowCount ;i++){
+			var price = parseFloat($('#price'+i).val());
+			var coefficient = $('#specification'+i).find("option:selected").attr("coefficient");
+			if (!coefficient) {
+				coefficient = 1;
+			}
+			if(!isNaN(price)){
+				var num = parseInt($('#purchaseNum'+i).val());
+				if(num>0){
+					$('#actualConsumeNum' + i).val(num * coefficient);
+					$('#sumPrice' + i).val(Math.round(price * num * 100) / 100);
+					totalFee = totalFee + ((price ) * num);
+					totalFee = Math.round(totalFee*100)/100;
+					if(isNaN(totalFee)){
+						totalFee = 0.0;
+					}
+				}
+			}
+		}
+		$('#totalFee').text(totalFee);
+	}
+
+	function calcSpecificationPrice(obj) {
+		var price =  $(obj).find("option:selected").attr("price");
+		var rowNum = $(obj).find("option:selected").attr("rowNum");
+		$('#price'+rowNum).val(parseFloat(price));
+		var stockNum = parseInt($('#stockNum'+rowNum).val());
+		if ($('#purchaseNum' + rowNum).val()) {
+			var num = parseInt($('#purchaseNum' + rowNum).val());
+			var coefficient = $('#specification'+rowNum).find("option:selected").attr("coefficient");
+
+			if((num * coefficient) > stockNum ){
+
+				var error_span = $('#purchaseNum' + rowNum).next();
+				error_span.addClass("errorClass");
+				error_span.text("实际消耗库存不能大于剩余库存");
+			}else{
+			    var error_span = $('#purchaseNum' + rowNum).next();
+				error_span.removeClass("errorClass");
+				error_span.text("");
+			}
+		}
+		calculateTotalFee();
+	}
+
+	function setSkuList(selectObj){
+		var discount=$("#discount").val();
+		if(discount<=0){
+			discount=1;
+		}
+	    var rowNum = selectObj.getAttribute("rowNum");
+		var cateId = $(selectObj).find("option:selected").val();
+
+		var skuListId='#itemId'+rowNum;
+		$(skuListId).empty();
+
+		var option = "";
+		var itemObjs = document.getElementsByName("item_"+cateId);
+		if(itemObjs != null){
+		   var l = itemObjs.length;
+		   for(var i=0;i<l;i++){
+		      var itemObj = itemObjs[i];
+		      var itemId = itemObj.getAttribute("id");
+		      var itemName = itemObj.value;
+		      var vskuname = itemObj.getAttribute("vskuname");
+		      var vprice = (itemObj.getAttribute("vprice")*discount).toFixed(2);
+		      var vstocknum = itemObj.getAttribute("vstocknum");
+		      //普通规格
+		      var vskusize = itemObj.getAttribute("vskusize");
+		      var vskucostprice = itemObj.getAttribute("vskucostprice");
+		      //批发规格
+		      var vskubuysize = itemObj.getAttribute("vskubuysize");
+		      var vskuconvertnum = itemObj.getAttribute("vskuconvertnum");
+		      var vskupurchaseprice = (itemObj.getAttribute("vskupurchaseprice")*discount).toFixed(2);
+		      var vskubuyprice = itemObj.getAttribute("vskubuyprice");
+		      //零售	规格
+		      var vskusalesize = itemObj.getAttribute("vskusalesize");
+		      var vskusalesizenum = itemObj.getAttribute("vskusalesizenum");
+		      var vskusaleprice = (itemObj.getAttribute("vskusaleprice")*discount).toFixed(2);
+		      var vskusalecostprice = itemObj.getAttribute("vskusalecostprice");
+		      if (i==0) {
+		      	option += "<option selected=\"selected\" value=\""+itemId+"\" vskuname=\""+vskuname
+		      	+"\" vprice=\""+vprice+"\" vstocknum=\""+vstocknum
+		      	+"\" vskusize=\""+vskusize+"\" vskucostprice=\""+vskucostprice+"\" vskubuysize=\""+vskubuysize
+		      	+"\" vskuconvertnum=\""+vskuconvertnum+"\" vskupurchaseprice=\""+vskupurchaseprice
+		      	+"\" vskubuyprice=\""+vskubuyprice+"\" vskusalesize=\""+vskusalesize+"\" vskusalesizenum=\""+vskusalesizenum
+		      	+"\" vskusaleprice=\""+vskusaleprice+"\" vskusalecostprice=\""+vskusalecostprice+"\" >"+itemName+"</option>";
+		      } else {
+		      	option += "<option value=\""+itemId+"\" vskuname=\""+vskuname+"\" vprice=\""+vprice+"\" vstocknum=\""+vstocknum
+		      	+"\" vskusize=\""+vskusize+"\" vskucostprice=\""+vskucostprice+"\" vskubuysize=\""+vskubuysize
+		      	+"\" vskuconvertnum=\""+vskuconvertnum+"\" vskupurchaseprice=\""+vskupurchaseprice
+		      	+"\" vskubuyprice=\""+vskubuyprice+"\" vskusalesize=\""+vskusalesize+"\" vskusalesizenum=\""+vskusalesizenum
+		      	+"\" vskusaleprice=\""+vskusaleprice+"\" vskusalecostprice=\""+vskusalecostprice+"\">"+itemName+"</option>";
+		      }
+		   }
+		}
+
+		$(skuListId).append(option);
+
+		var itemObj = document.getElementById("itemId"+rowNum);
+		setSKU(itemObj);
+	}
+
+    function deleteCate(obj){
+		deleteRow4ItemRecord(obj);
+    }
+
+	function insertRow4addCate4addOrderPage(tableObj) {
+		var rowObj = $('#rowTemplate_query').clone();
+		var tdList = rowObj.children('td');
+		var nameList = '';
+		var rowCount = Number($('#rowCount_query').val());
+		rowObj.css('display', '');
+		for (var i = 0; i < tdList.length; i++) {
+			var tdEle = tdList[i];
+			if (tdEle.children.length == 0)
+				continue;
+			var inputEle = tdEle.children[0];
+
+			if (inputEle.tagName == 'SPAN') {
+				continue;
+			}
+
+			inputEle.setAttribute('rowCount_query',rowCount);
+
+			inputEle.name = inputEle.name + rowCount;
+			inputEle.id = inputEle.name;
+
+		}
+
+		$('#rowCount_query').val(rowCount + 1);
+		tableObj.append(rowObj);
+    }
+
+    function calOrder(){
+        if (document.getElementsByName('rowTemplate_query').length <= 1) {
+			alert('类目至少有一条');
+			return false;
+		}
+
+		 var totalFee = getAndCheckValue("queryTotalFee","总金额");
+		 if(totalFee==""){
+          	return;
+         }
+
+         var queryProfit = getAndCheckValue("queryProfit","利润率");
+         if(queryProfit==""){
+             return;
+         }
+
+		var rowCount = Number($('#rowCount_query').val());
+		var queryParam='totalFee='+totalFee+'&profitRate='+queryProfit;
+		var skuParam = '';
+
+		for(var i = 0;i<rowCount;i++){
+           var queryCateIdObj = document.getElementById("queryCateId"+i);
+           if(queryCateIdObj!=null){
+               var queryCateId = getAndCheckValue("queryCateId"+i,"类目");
+               if(queryCateId==""){
+                  return;
+               }
+
+               var queryNum = getAndCheckValue("queryNum"+i,"Sku数量");
+               if(queryNum==""){
+                  return;
+               }
+
+               var lineParam = queryCateId+"@"+queryNum;
+               skuParam = skuParam+ lineParam+",";
+           }
+		}
+
+		queryParam = queryParam+"&skuNum="+skuParam.substring(0,skuParam.length-1);
+
+		var url = "${rc.contextPath}/order/generateOrderAutomatic.json?"+queryParam;
+		doJsonRequest(url, {
+
+		}, showCalResult);
+    }
+
+    function showCalResult(data){
+       var itemList = data.dataList;
+       clearResult();
+       var totalFee = 0;
+       if(itemList!=null){
+           var length = itemList.length;
+           for(var i=0;i<length;i++){
+               var item = itemList[i];
+			   initAddItem(item,i);
+           }
+
+           totalFee = (data.totalFee/100);
+       }
+
+       $('#totalFee').text(totalFee);
+    }
+
+    function initAddItem(item,rowNum){
+		insertRow4addItemSku4addOrderPage($('#tList'));
+		var cateId = item.categoryId;
+		var itemId = item.id;
+		var size='SALE_SIZE';
+		var purchaseNum = item.purchaseNum;
+		var price = item.salePrice/100;
+		var stock = item.stock;
+		var consumeStock = item.actualUsedStock;
+		var totalFee = item.totalPurchasePrice/100 ;
+
+		$('#cateId'+rowNum).val(cateId);
+		var cateObj = document.getElementById('cateId'+rowNum);
+		setSkuList(cateObj);
+		$('#itemId'+rowNum).val(itemId);
+		var itemObj = document.getElementById('itemId'+rowNum);
+		setSKU(itemObj);
+		$('#specification'+rowNum).val(size);
+		$('#purchaseNum'+rowNum).val(purchaseNum);
+		$('#price'+rowNum).val(price);
+		$('#stockNum'+rowNum).val(stock);
+		$('#actualConsumeNum'+rowNum).val(consumeStock);
+		$('#sumPrice'+rowNum).val(totalFee);
+    }
+
+    function clearResult(){
+        var rowCount = Number($('#rowCount').val());
+        for(var i = 0;i<rowCount;i++){
+           var obj = document.getElementById("itemName"+i);
+           if(obj!=null){
+               $(obj).parent().parent().remove();
+           }
+		}
+
+		$('#rowCount').val(0);
+    }
+
+    function getAndCheckValue(objId,msgName){
+       var value = $("#"+objId).val();
+       if(value==null||value.length==0){
+          var error_span = $('#' + objId).next();
+		  error_span.addClass("errorClass");
+		  error_span.text(msgName+"不能为空");
+		  return "";
+       }else{
+           var error_span = $('#' + objId).next();
+		   error_span.removeClass("errorClass");
+		   error_span.text("");
+		   return value;
+       }
+    }
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="$!{rc.contextPath}/order/orderlist.htm" title="返回订单列表" class="btn btn-return"><</a>
+		<h4 class="tit">添加订单</h4>
+
+
+	</div>
+	<!--bd-actionbar-->
+	<div class="bd-main">
+		<div class="bd-main-inner">
+
+		#foreach( $item in $itemList)
+			<input type="hidden" name="item_$item.categoryId" id="$item.id" value="$item.itemName"
+			vskuname="$item.itemName" vstocknum="$!item.stock"
+			vskusize="$!item.size" vskucostprice="$NumberTool.toYuanNumber($item.costPrice)" vprice="$NumberTool.toYuanNumber($item.price)"
+			vskubuysize="$!item.buySize" vskuconvertnum="$!item.convertNum" vskupurchaseprice="$NumberTool.toYuanNumber($item.purchasePrice)" vskubuyprice="$NumberTool.toYuanNumber($item.buyPrice)"
+			vskusalesize="$!item.saleSize" vskusalesizenum="$!item.saleSizeNum" vskusaleprice="$NumberTool.toYuanNumber($item.salePrice)" vskusalecostprice="$NumberTool.toYuanNumber($item.saleCostPrice)"
+			/>
+		#end
+
+			<form class="jqtransform" id="orderDetailForm" method="POST"
+				action="$!{rc.contextPath}/order/addOrder.do">
+				<input type="hidden" name="buyerId" id="buyerId" value="" />
+
+				<table class="form">
+					<tr>
+						<td align="left"><label class="tit"><font color='red'>*</font>用户手机：</label></td>
+						<td><input class="form-input" type="text"
+							validate="{required:true,digits:true}" name="mobilePhone"
+							id="mobilePhone" value="">
+							&nbsp;<span></span>&nbsp;<a class="btn btn-default"
+							href="javascript:getUser();">读取用户信息</a></td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">用户姓名：</label></td>
+						<td>
+						<input type="text"  class="form-input" name="userName"  id="userName" />
+						<!--<label class="titval" name="userName" id="userName"></label>-->
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">折扣信息：</label></td>
+						<td><input type="text" class="form-input" name="discount" id="discount" readonly="readonly"></td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">公司备注：</label></td>
+						<td><label class="titval" name="companyMemo" id="companyMemo"></label></td>
+					</tr>
+					<tr>
+						<td><label class="tit first-tit">执行时间：</label></td>
+						<td>
+							<input class="form-input input-time-day" validate="{maxlength:32}" type="text" name="executedTime" id="executedTime" readonly="readonly" value="$!date.format('yyyy-MM-dd',$!executedTime)">
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">特殊要求：</label></td>
+						<td>
+							<textarea id="memo" name="memo" cols="50"
+								rows="4" validate="{maxlength:512}"></textarea>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>总金额：</label></td>
+						<td><input class="form-input" type="text" name="queryTotalFee" id="queryTotalFee" validate="{required:true,number:true}">&nbsp;<span></span></td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>利润率：</label></td>
+						<td>
+						<input class="form-input" type="text" name="queryProfit" id="queryProfit" validate="{required:true,number:true}">%&nbsp;<span></span>
+						</td>
+					</tr>
+
+					<tr id="resultTr">
+						<td></td>
+						<td>
+							<table class="table-inline" id="queryList">
+								<tr>
+									<th><a class="ico-add" href="#"
+										onclick="insertRow4addCate4addOrderPage($('#queryList'));">+</a>
+									</th>
+									<th>商品类目
+									</td>
+									<th>Sku数量
+									</th>
+
+								</tr>
+								<tr id="rowTemplate_query" name="rowTemplate_query" style="display: none">
+									<th><a class="ico-subtract" href="#"
+										onclick="deleteCate(this)">-</a></th>
+									<td>
+		    							<select name='queryCateId'   validate="{required:true}">
+		        								#foreach( $cat in $catList)
+		        										<option value='$cat.id'>$cat.categoryName</option>
+		        								#end
+		        							</select>&nbsp;<span></span>
+		        					</td>
+
+									<td><input style="width: 50;" name="queryNum" class="form-input" id="queryNum"
+										type="text" value=""  validate="{required:true,digits:true}" />&nbsp;<span></span>
+									</td>
+
+
+
+								</tr>
+							</table>
+
+							<input type="hidden"
+							name="rowCount_query" id="rowCount_query" value="0">
+
+						</td>
+					</tr>
+					<tr class="btn-bar">
+						<td></td>
+						<td>
+						<a class="btn btn-primary" id="calOrderBtn" href="#" onclick="calOrder();">计算订单</a>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<table class="table-inline" id="tList">
+								<tr>
+									<th><a class="ico-add" href="#"
+										onclick="insertRow4addItemSku4addOrderPage($('#tList'));">+</a>
+									</th>
+									<th>商品类目
+									</td>
+									<th>商品名称
+									</th>
+									<th>规格
+									</th>
+									<th>购买数量
+									</th>
+									<th>价格
+									</th>
+									<th>剩余库存
+									</th>
+									<th>实际消耗库存
+									</th>
+									<th>总价
+									</th>
+								</tr>
+								<tr id="rowTemplate" name="rowTemplate" style="display: none">
+									<th><a class="ico-subtract" href="#"
+										onclick="deleteItem(this)">-</a></th>
+									<td>
+		    							<select name='cateId' onchange="setSkuList(this)"   validate="{required:true}">
+		        								#foreach( $cat in $catList)
+		        										<option value='$cat.id'>$cat.categoryName</option>
+		        								#end
+		        							</select>&nbsp;<span></span>
+		        					</td>
+									<td>
+										<select style="width: 100;" class="form-input input-time-day" name='itemId' id='itemId' onchange="setSKU(this)" validate="{required:true}">
+										#foreach( $dto in $itemList)
+											#if($dto.categoryId==$cateId1)
+        									 	<option value='$dto.id' vskuname="$dto.itemName"
+												 vprice="$NumberTool.toYuanNumber($dto.price)"
+												 vstocknum="$!dto.stock"
+												 vskusize="$!dto.size" vskucostprice="$NumberTool.toYuanNumber($dto.costPrice)" vprice="$NumberTool.toYuanNumber($dto.price)"
+												 vskubuysize="$!dto.buySize" vskuconvertnum="$!dto.convertNum" vskupurchaseprice="$NumberTool.toYuanNumber($dto.purchasePrice)" vskubuyprice="$NumberTool.toYuanNumber($dto.buyPrice)"
+												 vskusalesize="$!dto.saleSize" vskusalesizenum="$!dto.saleSizeNum" vskusaleprice="$NumberTool.toYuanNumber($dto.salePrice)" vskusalecostprice="$NumberTool.toYuanNumber($dto.saleCostPrice)"
+												>$!dto.itemName</option>
+        								  	#end
+										#end
+										</select>&nbsp;<span></span>
+									</td>
+									<td style="display: none;">
+										#if($itemList.size() > 0)
+										<input type="hidden" name="itemName" id="itemName" value="$!item1.itemName">
+										#end
+									</td>
+									<td>
+										<select onchange="calcSpecificationPrice(this)" class="form-input input-time-day" name='specification' id='specification' validate="{required:true}">
+										</select>
+										&nbsp;<span></span>
+									</td>
+									<td><input style="width: 50;" name="purchaseNum" class="form-input" id="purchaseNum"
+										type="text" value="" onblur="checkNum(this)" validate="{required:true,digits:true}" />&nbsp;<span></span>
+									</td>
+									<td>
+										#if($itemList.size() > 0)
+										<input style="width: 50;" type="text" readonly="readonly" name="price"
+										id="price" value="$NumberTool.toYuanNumber($!item1.price)">
+										#end
+										</td>
+									<td>
+										#if($itemList.size() > 0)
+										<input style="width: 50;" type="text" readonly="readonly" name="stockNum"
+										id="stockNum" value="$i!item1.stock">
+										#end
+									</td>
+									<td>
+										<input style="width: 50;" type="text" readonly="readonly" name="actualConsumeNum"
+											id="actualConsumeNum" value="0">
+									</td>
+									<td><input style="width: 50;" type="text" readonly="readonly" name="sumPrice"
+											id="sumPrice" value="0">
+									</td>
+								</tr>
+							</table> <!-- 删除的时候rowCount不会减少，因为如果从中间删除一行，会导致新生成的行id与现有的行冲突,
+								所以请在后台拿去数据的时候，判断一下当前行是否有数据 -->
+						    <input type="hidden"
+							name="rowCount" id="rowCount" value="0">
+
+
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							总金额：<label id="totalFee" name="totalFee">0.0</label>
+						</td>
+					</tr>
+					<tr class="btn-bar">
+						<td></td>
+						<td>
+
+						<a class="btn btn-primary" id="saveBtn" href="#" onclick="$('#orderDetailForm').submit();">保存订单</a>
+
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<!--bd-main-inner-->
+	</div>
+	<!--bd-main-->
+</div>
+<!--content-->

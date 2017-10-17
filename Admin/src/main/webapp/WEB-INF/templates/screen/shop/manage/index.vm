@@ -1,0 +1,94 @@
+#set($layout="layout/shopLayout.vm")
+<div class="home_page">
+       <img src="${rc.contextPath}/static/images/shop/home.jpg">
+       <div class="tip">$shopName自助便利店</div>
+       <ul>
+           <li>
+               <a href="${rc.contextPath}/convenient/shop_sourcingOrderList.htm?shop_id=$shopId">
+                   <p class="home_tip">最近采购</p>
+                   #if($module1!=0)
+                   <p class="home_price">￥$NumberTool.toYuanNumber($!module1)</p>
+	                   <p class="home_state">待配送</p>
+                   #else
+                   <p class="no_price">无</p>
+                   #end
+               </a>
+           </li>
+           <li class="border_l">
+               <a href="${rc.contextPath}/convenient/shop_consumeList.htm?shop_id=$shopId">
+                   <p class="home_tip">今日消费</p>
+                   #if($module2_num>0)
+                   <p class="home_price">￥$NumberTool.toYuanNumber($!module2_money)</p>
+                   <p class="home_state">$!module2_num笔</p>
+                   #else
+                   <p class="no_price">无</p>
+                   #end
+               </a>
+           </li>
+           <li>
+               <a href="${rc.contextPath}/convenient/shop_saleItem.htm?shop_id=$shopId">
+                   <p class="home_tip">在售商品</p>
+                   #if($module3_money!=0)
+                   <p class="home_price">￥$NumberTool.toYuanNumber($!module3_money)</p>
+                   <p class="home_state">$!module3_kinds款</p>
+                   #else
+                   <p class="no_price">无</p>
+                   #end
+               </a>
+           </li>
+           <li>
+               <a href="${rc.contextPath}/convenient/shop_sourcingOrderList.htm?shop_id=$shopId">
+                   <p class="home_tip">本月采购</p>
+                   #if($module4)
+                   <p class="home_price">￥$NumberTool.toYuanNumber($!module4)</p>
+                   #else
+                   <p class="no_price">无</p>
+                   #end
+               </a>
+           </li>
+           <li class="border_l">
+               <a href="${rc.contextPath}/convenient/shop_consumeList.htm?shop_id=$shopId">
+                   <p class="home_tip">本月消费</p>
+                   #if($module5)
+                   <p class="home_price">￥$NumberTool.toYuanNumber($!module5)</p>
+                   #else
+                   <p class="no_price">无</p>
+                   #end
+                    <!--#if($!module5_red)
+                    <p class="home_state">红包¥$NumberTool.toYuanNumber($!module5_red)</p>
+                    #end
+                    -->
+                   
+               </a>
+           </li>
+           <li>
+               <a href="${rc.contextPath}/convenient/home/shop_monthRecord.htm?shop_id=$shopId">
+                   #if($payway==2)<p class="home_tip">本月结算</p>#else<p class="home_tip">本月亏损</p> #end
+               	   #if($module6!=0)
+                   <p class="home_price">￥$NumberTool.toYuanNumber($!module6)</p>
+                   #else
+                   <p class="no_price">无</p>
+                   #end
+                   #if($payway==4)
+                   <p class="home_state">不承担</p>
+                   #end
+               </a>
+           </li>
+       </ul>
+   </div>
+   #if($!red==1)
+   <p class="zhisun_doing">止损进行中，已取消折扣</p>
+   #elseif($!red==2)
+   <p class="zhekou_doing">限时打折进行中</p>
+   #end
+   <p class="sw">月度数据统计截至昨日24:00</p>
+   <div class="footer">
+       <a href="${rc.contextPath}/convenient/manage/shop_index.htm?shop_id=$shopId" class="home live">首页<i></i><b></b></a>
+       <a href="${rc.contextPath}/convenient/shop_sourcingIndex.htm?shop_id=$shopId" class="home ">采购<i></i><b></b></a>
+       <a href="${rc.contextPath}/convenient/shop_consumeList.htm?shop_id=$shopId" class="home ">消费记录<i></i><b></b></a>
+       <a href="${rc.contextPath}/convenient/home/shop_index.htm?shop_id=$shopId" class="home ">店铺管理<b></b></a>
+   </div>
+<script type="text/javascript">
+    document.title = '管理后台';
+    $("body").css("background-color","#ececec");
+</script>

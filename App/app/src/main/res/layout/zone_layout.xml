@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_gray">
+
+    <LinearLayout
+        android:id="@+id/first_chunk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/phoneMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="10px"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:text="定位到的位置" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/second_chunk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/first_chunk"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+
+        <RelativeLayout
+            android:id="@+id/contact_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/location_iocn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/editarea_03" />
+
+            <TextView
+                android:id="@+id/location_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/location_iocn"
+                android:layout_margin="30px"
+                android:textSize="16sp"
+                android:gravity="center" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

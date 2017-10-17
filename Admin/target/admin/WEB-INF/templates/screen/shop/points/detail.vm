@@ -1,0 +1,27 @@
+#set($layout="layout/shopLayout.vm")
+<body>
+   <div class="purchase_order">
+        #if($reports.size()>0)
+        <div class="order_tip">
+            <div class="order_time">日期</div>
+            <div class="order_time">变动</div>
+            <div class="order_time">类型</div>
+        </div>
+        <div class="record">
+        	#foreach($report in $reports)
+        		<div class="record_list">
+	                <span>$!date.format('yyyy-MM-dd',$report.createdTime)</span>
+	                <span class="record_money" >$report.point</span>
+	                <span class="wait">#if($!report.type==1)月度奖励 #elseif($!report.type==2) 其他奖励 #elseif($!report.type==3)消耗 #else #end</span>
+	            </div>
+        	#end
+        </div>
+        #else
+        <div class="no_order">次月8日发放月度奖励</div>
+        #end
+   </div> 
+</body>
+</html>
+<script type="text/javascript">
+    document.title = "积分明细";
+</script>

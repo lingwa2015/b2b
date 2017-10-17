@@ -1,0 +1,141 @@
+#set($layout="layout/wxLayout.vm")
+<div class="pindan_content">
+<img src="${rc.contextPath}/static/images/wx/lingshi.jpg" style="width:0px; height:0px; overflow:hidden;display: block;">
+    <div class="lw_pindan">
+         <img src="${rc.contextPath}/static/images/wx/pindan_beijing.jpg">
+        <div class="pindan_header">
+            <span class="portrait">
+                <img src="$!info.head_imgurl">
+            </span>
+            <h5 class="started"><span class="who">$!info.nick_name</span>发起的拼单</h5>
+        	<input type="hidden" name="surplustime" class="surplustime" value="${time}" /> 
+            <span class="leave_time_font">
+            </span>
+        </div>
+        <div class="pindan_core">
+            <span class="energy">$!info.spValue</span>
+            <p><span>￥$NumberTool.toYuanNumber($!info.snackpackage_fee) </span>x $!info.snackpackage_num</p>
+        </div>
+        <div class="pindan_shopping">
+            <span class="percentage">$!percent</span>
+            <span class="shop">
+                <img src="${rc.contextPath}/static/images/wx/fanying.jpg">
+            </span>
+        </div>
+        <div class="pindan_help">
+            <p>剩余 <span><b>￥</b>$NumberTool.toYuanNumber($surplus)</span></p>
+            <span class="help">求支援</span>
+        </div>
+        <input type="text" placeholder="输入支持金额" class="enter" id="money" name="number"></input>
+        <input type="hidden" id="surplus" value="$surplus" /> 
+        <input type="hidden" id="orderId" value="$!info.id" /> 
+    </div>
+    <div class="pay_pindan_footer">
+        <a href="javascript:void(0);" onclick="check();">微信支付</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+	document.title = "好友拼单-领蛙商城";
+  	$(document).ready(function(e) { 
+		var _countSeconds = 0; 
+		function _countDown(){ 
+			_countSeconds ++; 
+			$('input.surplustime').each(function(index, element) { 
+				var $this = $(this); 
+				var _totalTime = Number($this.val()) - _countSeconds;
+				var _hours = 0;
+				var _minutes = 0;
+				var _seconds = 0;
+				if(_totalTime>0){
+					  var res = /^[0-9]$/
+					 _hours = parseInt(_totalTime/3600%24);
+					if(res.test(_hours)){
+						_hours = "0"+_hours;
+					}
+					 _minutes = parseInt(_totalTime/60%60); 
+					if(res.test(_minutes)){
+						_minutes = "0"+_minutes;
+					}
+					 _seconds = parseInt(_totalTime%60);
+					if(res.test(_seconds)){
+						_seconds = "0"+_seconds;
+					} 
+				}
+				var _strLite = '<span class="surplus">剩余</span><span class="number">'+_hours+'</span><b>:</b><span class="number">'+_minutes+'</span><b>:</b><span class="number">'+_seconds+'</span>'; 
+				$this.next('span.leave_time_font').html(_strLite); 
+			}); 
+		} 
+		setInterval(_countDown, 1000);
+	});
+	
+	var id ;
+	function check(){ 
+        var money=document.getElementById("money").value;
+        var orderId=document.getElementById("orderId").value;
+        var reg = /^\d+(\.\d+)?$/;
+	    if(!reg.test(money)||money==0){
+            alert("请输入筹款金额");
+            document.getElementById("money").focus();
+            return false;
+        }
+        var surplus=document.getElementById("surplus").value;
+        money = money*100;
+        if(money>surplus){
+         	alert("筹款金额不能大于剩余金额");
+         	document.getElementById("money").focus();
+         	return false;
+        }
+        
+        $.ajax({
+				url:'${rc.contextPath}/weixin/wxpingPay.do',
+				type:'POST',
+				data: {orderId:orderId,money:money},
+				success:function(data){
+					if(data.status==200){
+						appId=data.data.appId;
+						timeStamp=data.data.timeStamp;
+						nonceStr=data.data.nonceStr;
+						packages=data.data.package;
+						signType=data.data.signType;
+						paySign=data.data.paySign;
+						id = orderId;
+						if (typeof WeixinJSBridge == "undefined"){
+							   if( document.addEventListener ){
+							         document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+							     }else if (document.attachEvent){
+							         document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+							        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+							    }
+							 }else{
+							   onBridgeReady();
+							 }
+						
+					}else{
+						alert("网络连接超时,请重试！");
+					}
+				}
+				
+			})
+    } 
+ function onBridgeReady(){
+	    WeixinJSBridge.invoke(
+	        'getBrandWCPayRequest', {
+	            "appId" : appId,     //公众号名称，由商户传入     
+	            "timeStamp":timeStamp, //时间戳，自1970年以来的秒数     
+	            "nonceStr" :nonceStr, //随机串     
+	            "package" :packages,     
+	            "signType" :signType,//微信签名方式:     
+	            "paySign" : paySign //微信签名 
+	       },
+	        function(res){
+	    	  if(res.err_msg == "get_brand_wcpay_request:ok" ) {// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返
+	    		   window.location.href="${rc.contextPath}/weixin/wxgroup.htm?id="+id;
+	    	  }
+	
+	       }
+	   ); 
+ }
+ 
+
+</script>

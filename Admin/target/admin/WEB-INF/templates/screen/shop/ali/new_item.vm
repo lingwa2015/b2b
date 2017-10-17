@@ -1,0 +1,1260 @@
+#set($layout="layout/shopLayerLayout2.vm")
+<style>
+ .page-wrap {
+    width: 100%;
+    height: 100%;margin-top: .82rem;
+    background-color: #fff;overflow: auto;
+    margin-bottom:1rem; 
+}
+.news-list{padding-bottom:0;}
+</style>
+<body>
+<div class="fc_head1">
+        <img src="${rc.contextPath}/static/images/shop/logo_wa.png" alt="" class="ll_01">
+        <img src="${rc.contextPath}/static/images/shop/tiaoxing.png" alt="" class="tiaoxing xuanfu_tiao" style="box-shadow: none;"">
+</div>
+#if($new_flag==1)
+<div class="search-wrapper active" style="">
+            <div class="input-holder"> <span>新用户享受一周优惠</span> </div>
+            <span style="position:absolute;width:.8rem;height:.6rem;right:0;top:0;" ontouchend="searchToggle();">
+                    <span class="close"></span>
+            </span>
+            
+</div>
+#elseif($new_flag==2)
+<div class="search-wrapper active" style="">
+            <div class="input-holder1"> <span>店铺限时优惠</span> </div>
+            <span style="position:absolute;width:.8rem;height:.6rem;right:0;top:0;" ontouchend="searchToggle();">
+                    <span class="close"></span>
+            </span>
+            
+</div>
+#end
+    <form method="post" id="myform" action="${rc.contextPath}/convenient/ali/shop_pay.do">
+         <input id="data" name="data" type="hidden" value="">
+		<input id="free_flag" name="free_flag" type="hidden" value="">
+	    <input id="shopid" name="shop_id" type="hidden" value="$!shopid">
+		<input id="isshow" type="hidden" value="$!isshow">
+		<input id="cateid" type="hidden" value="$!cid">
+		<input id="surplus" type="hidden" value="$NumberTool.toYuanNumber($!surplus)">
+		<input id="free" type="hidden" value="$!free">
+		<input id="red_flag" type="hidden" value="$!red_flag">
+		<input id="redd_flag" name="redd_flag"  type="hidden" value="">
+     </form>
+ <div class="page-wrap">
+     <input id="shopid" type="hidden" value="$!shopid">
+     <input id="isshow" type="hidden" value="$!isshow">
+     <input id="free" type="hidden" value="$!free">
+     <input id="red_flag" type="hidden" value="$!red_flag">
+    #if($!shopItems.size()>0)
+                <ul class="news-list">
+                <div class="caoyue_05">
+                   <span class="caoyue_06"></span>
+                   <span class="caoyue_07" style="margin-left:0.06rem;"></span>
+                   <img src="${rc.contextPath}/static/images/shop/cc_01.png" alt="" class="caoyue_08">
+                   <span class="caoyue_09" style="margin-left:.04rem;">常买的</span>
+                   <span class="caoyue_07" style="margin-right:0.06rem;"></span>
+                   <span class="caoyue_06"></span>
+                </div>
+                #foreach($item in $shopItems)
+                    <li class="best group_2 " data-pid="$item.id" data-onprice="$NumberTool.toYuanNumber($item.marketPrice)" data-price="$NumberTool.toYuanNumber($item.salePrice)" data-amount="0" >
+                        <img src="$item.imgPath">
+                        #if($item.isPreferentail==1)
+                        <img src="${rc.contextPath}/static/images/shop/preference.png" alt="" class="pre">
+                        #end
+                        <span data-img="$item.bigImgPath">
+                                <img src="${rc.contextPath}/static/images/shop/so_so.png" class="food_icon">
+                        </span>
+                        <p class="food_title">$item.name</p>    
+                        <span class="food_pri">￥<span class="fei">$NumberTool.toYuanNumber($item.salePrice)</span><span class="zhekou">￥$NumberTool.toYuanNumber($item.marketPrice)</span></span>
+                        <div class="su j">
+                            <img src="${rc.contextPath}/static/images/shop/close.png" class="ss">
+                            <p class="num">0</p>
+                            <div class="shop_tip">$item.name</div>
+                            <p class="shop_price">￥<span>$NumberTool.toYuanNumber($item.marketPrice)</span></p>
+                        </div>
+                    </li>
+                #end
+                </ul>
+    #end
+
+
+     #foreach($member in $map.entrySet())
+         #set($items=$member.value)
+         #if($items.size()>0)
+                 <ul class="news-list bingan">
+                 #foreach($cat in $cats)
+            		#if($member.key == $cat.id)
+                        <div class="caoyue_05 jiji" data_oid="$member.key">
+                            <span class="caoyue_06"></span>
+                            <span class="caoyue_07" style="margin-left:0.06rem;"></span>
+                            <span class="caoyue_09" style="margin-left:.14rem;">$cat.categoryName</span>
+                            <span class="caoyue_07" style="margin-right:0.06rem;"></span>
+                            <span class="caoyue_06"></span>
+                        </div>
+                	#end
+                #end
+                 #foreach($item in $items)
+                     <li class="food-item group_2 k" data_oid="$member.key"  data-pid="$item.id" data-onprice="$NumberTool.toYuanNumber($item.marketPrice)" data-price="$NumberTool.toYuanNumber($item.salePrice)" data-amount="0" code="$!item.barcode">
+                         <img src="$item.imgPath">
+                         #if($item.isPreferentail==1)
+                          <img src="${rc.contextPath}/static/images/shop/preference.png" alt="" class="pre">
+                         #end
+                         <span data-img="$item.bigImgPath">
+                        <img src="${rc.contextPath}/static/images/shop/so_so.png" class="food_icon">
+                    </span>
+                    	<p class="food_title">$item.name</p>
+                         <span class="food_pri">￥<span class="fei">$NumberTool.toYuanNumber($item.salePrice)</span><span class="zhekou">￥$NumberTool.toYuanNumber($item.marketPrice)</span></span>
+                         
+                         <div class="su j">
+                             <img src="${rc.contextPath}/static/images/shop/close.png" class="s">
+                             <p class="num">0</p>
+                             <div class="shop_tip">$item.name</div>
+                             <p class="shop_price">￥<span>$NumberTool.toYuanNumber($item.marketPrice)</span></p>
+                         </div>
+                     </li>
+                 #end
+                 </ul>
+         #end
+     #end
+
+</div>
+<!-- 购物车 -->
+<div class="group">
+    <div class="group_head">
+        <b></b>
+        <span class="head_left">购物车</span>
+        <img src="${rc.contextPath}/static/images/shop/gp_del.png">
+        <span class="head_right" onclick="close_item(this)">清空</span>
+    </div>
+    <ul>
+
+    </ul>
+</div>
+#if($bar_flag==1)
+<div class="zhezhao">
+    <img src="${rc.contextPath}/static/images/shop/zhezhao.png" class="zhezhao_01">
+    <img src="${rc.contextPath}/static/images/shop/zhezhao_02.png" class="zhezhao_02">
+    <img src="${rc.contextPath}/static/images/shop/zhezhao_03.png" class="zhezhao_03">
+    <p>【可以直接扫描商品条形码噢~】</p>
+</div>
+#end
+<div class="imgFull" style="display: none; width: 375px; height: 375px;">
+    <img src="" class="su" style="width: 375px; height: 375px;">
+    <div class="da_price"></div>
+    <div id="name_1"></div>
+</div>
+<div class="Layer1"></div>
+<div class="Layer2"></div>
+<!-- 扫码结果 -->
+<div class="sm_jie" style="display: none;">
+    <ul style="position:fixed;">
+
+        <!-- 操作按钮 -->
+        <span class="sm_cz sm_go">继续扫码</span>
+        <span class="sm_cz sm_sure">确定</span>
+
+    </ul>
+
+</div>
+    #if($!free==1 || $!red_flag==1)
+<div class="butie">
+    #if($!free==1)
+        <p class="bu" index="1">
+            <span class="sy_hong">使用补贴，补贴剩余¥<span>$NumberTool.toYuanNumber($!surplus)</span>（#if($dayOrMonth==1)每月#elseif($dayOrMonth==2)每日#end￥$NumberTool.toYuanNumber($!freeFee)）</span>
+            <span class="xuan_yuan active"></span>
+        </p>
+    #end
+    #if($!red_flag==1)
+        <p class="bu" index="2" style="border-top: 1px solid #efefef;">
+            <span class="sy_hong">使用红包，红包剩余¥<span>$NumberTool.toYuanNumber($!redAccount)</span></span>
+            <span class="xuan_yuan active"></span>
+        </p>
+    #end
+    <p class="so">
+        <span class="qu_xiao">取消</span>
+        <b></b>
+        <span class="sure">确定</span>
+    </p>
+</div>
+#end
+<div class="bianli_pay">
+    <div class="bi" id="sure">
+        <span class="number" style="display:none;">0</span>
+        <span class="xiang" gouwu="购物车"></span>
+        <span class="bianli_num" style="display:none;">￥<span style="display: inline-block;margin-left: -.08rem;">0.00</span></span>
+        <span class="cost_price" style="display:none;">￥<span>0.00</span></span>
+        <span class="shou_price" style="display:none;">优惠￥<span>0.00</span></span>
+    </div>
+    <div id="pay" class="pay">去支付</div>
+</div>
+<script src="https://as.alipayobjects.com/g/component/antbridge/1.1.1/antbridge.min.js"></script>
+<script type="text/javascript">
+document.title = "$shopName自助便利店";
+    jQuery.noConflict();
+    jQuery(function(){
+        var butie = jQuery('.butie').height()
+        jQuery(".butie").css("bottom",-butie);
+        jQuery(".tabs").on("touchmove",function(event){
+        event.preventDefault();
+        })
+    jQuery(".bianli_pay").on("touchmove",function(event){
+        event.preventDefault();
+    })
+    })
+    jQuery(".zhezhao_01").on("touchmove",function(e){
+        e.preventDefault();
+})
+	 function searchToggle(){
+            var container = jQuery('.search-wrapper');
+            jQuery('.close').hide();
+            jQuery('.close').parent().prev().find("span").hide();
+            if(container.hasClass('active')){
+                  container.removeClass('active');
+            }
+        }
+    
+
+    
+
+    jQuery(".zhezhao_03").on("touchend",function(){
+        if (touchmove) {
+            return;
+        }
+        jQuery(this).parent().hide();
+    })
+    // 增加商品或者查找商品
+    function ko_each(){
+        $(".news-list .k").each(function(){
+            if ($(this).find('.su').css("display") != "none") {
+                var d_pid = $(this).attr("data-pId");
+                var c_id = $(this).attr("data-cId");
+                var d_onprice = $(this).attr("data-onprice");
+                var d_price = $(this).attr("data-price");
+                var d_amount = $(this).attr("data-amount");
+                var img_src = $(this).find("img:first-child").attr("src");
+                var food_title = $(this).find(".food_title").text();
+                if($(this).find(".pre").length >0){
+                	var biao = '<span class="ye">特惠</span>';
+            	}else{
+                	var biao= '';
+            	}
+                $('.group  ul').append('<li data-pId ="'+d_pid+'" data-cId="'+c_id+'" data-onPrice="'+d_onprice+'" data-Price1="'+d_price+'" data-amount="'+d_amount+'"><img src="'+img_src+'"><p class="group_list"><span class="group_name">'+food_title+'</span><span class="group_jg">￥'+d_price+'<span class="group_jq2">￥'+d_onprice+'</span></span>'+biao+'</p><img src = "${rc.contextPath}/static/images/shop/group_sup.png" class="group_sup"><span class="group_jia">'+d_amount+'</span><img src = "${rc.contextPath}/static/images/shop/group_add.png" class="group_add"></li>');
+
+            }
+
+        })
+
+    }
+    jQuery(".bi").on("touchend",function(){
+        if (touchmove) {
+            return;
+        }
+        if(jQuery(this).attr('id') == 'sure'){
+            if(!jQuery('.Layer1 ').is(":animated")){
+                //判断元素是否处于动画状态
+                if (!jQuery('.group').is(":animated")) {
+                    ko_each();
+                    jQuery(this).attr('id','');
+                    jQuery(".group").animate({bottom:"1rem"},200);
+                    jQuery('.Layer1').fadeIn();
+                    return false;
+                }
+            }
+        }else{
+            jQuery(this).attr('id','sure');
+            jQuery(".group").animate({bottom:"-6.28rem"},200);
+            //$('.ca_head').css('display','block');
+            jQuery('.Layer1').fadeOut();
+            setTimeout('jQuery(".group  ul li").remove()',200);
+
+        }
+    })
+
+    // 图片放大功能
+    // 图片放大功能
+    var documentWidth = jQuery(document).width();
+    var documentHeight = window.screen.availHeight
+    jQuery('.Layer1').width(documentWidth);
+    jQuery('.Layer1').height(documentHeight);
+    jQuery('.imgFull').width(documentWidth);
+    jQuery('.imgFull').height(documentWidth);
+    jQuery('.imgFull img.su').width(documentWidth);
+    jQuery('.imgFull img.su').height(documentWidth);
+    jQuery('.food_icon').on("touchend",function(){
+        if (touchmove) {
+            return;
+        }
+        jQuery('.Layer').on("touchmove",function(){
+            return false;
+        });
+        jQuery('.imgFull').on("touchmove",function(){
+            return false;
+        });
+        // 判断屏幕目前的位置
+        if (window.orientation == 90 || window.orientation == -90) {
+            return false;
+        }
+        jQuery('.Layer1').show();
+
+        jQuery('.imgFull').fadeIn(300);
+        var goodName = jQuery(this).parent().siblings('.food_title').text();
+        var j_price = jQuery(this).parent().siblings('.food_pri').find('.fei').text();
+        var imgsrc = jQuery(this).parent().attr('data-img');
+        var icon = jQuery(this).parent().siblings('.icon').attr('src');
+        jQuery('.imgFull img').attr('src', imgsrc);
+        jQuery('#name_1').show();
+        jQuery('#name_1').text(goodName);
+        jQuery('.da_price').show();
+        jQuery('.da_price').text(j_price);
+        jQuery('.Layer1').css("z-index","10022");
+        if(jQuery(this).parent().parent().find(".pre").length>0){
+         jQuery(".imgFull").append('<img src = "${rc.contextPath}/static/images/shop/preference.png" class="pp">')
+     	}
+        return false;
+    });
+    jQuery('.imgFull').on('touchend',function(){
+        if (touchmove) {
+            return;
+        }
+        jQuery('.Layer1').fadeOut();
+        jQuery('.imgFull').hide();
+        jQuery('.da_price').hide();
+        jQuery('#name_1').hide();
+        jQuery('.Layer1').css("z-index","10020");
+		jQuery(".pp").remove();
+    });
+    jQuery('.Layer1').on('touchend',function(){
+        if (touchmove) {
+            return;
+        }
+        jQuery(".pp").remove();
+        jQuery('.Layer1').fadeOut();
+        jQuery('.imgFull').hide();
+        jQuery('.da_price').hide();
+        jQuery('#name_1').hide();
+        jQuery('.butie').animate({bottom:"-4.7rem"},200);
+        jQuery('.Layer1').css("z-index","10020");
+        jQuery(".group").animate({bottom:"-6.28rem"},200);
+        jQuery(".bi").attr('id','sure');
+        setTimeout('jQuery(".group  ul li").remove()',200);
+    });
+
+    var touchmove;
+    $(document).on('touchstart','.one',(function(){
+        if (! $(this).find(".su").is(":animated")){
+            $(this).find(".su").css({
+                width:'1.8rem',
+                height:'1.8rem',
+                left:'.32rem',
+                top:'.45rem',
+            },"fast");
+
+        }
+
+    }));
+    // 常买的
+    jQuery(document).on("touchend",".best",function(){
+        if (touchmove) {
+            return;
+        }
+        $(this).find(".ss").show();
+        $(this).find(".pre").hide();
+        $(this).find(".su").css("animation-play-state","paused");
+        $(this).find(".su").css("animation","big .3s");
+        $(this).find(".su").css("animation-fill-mode","forwards");
+        $(this).find(".su").on("animationend", myStartFunction);
+        $(this).find(".su").show();
+        var amount = parseInt($(this).attr('data-amount')) + 1;
+        $(this).find(".num").text(amount);
+        $(this).attr('data-amount',amount);
+        var s = $(this).parent().parent().parent();
+        $(s).find(".bianli_pay .number").css("display","block");
+        $(s).find(".bianli_pay .bianli_num").css("display","block");
+        $(s).find(".bianli_pay .cost_price").css("display","block");
+        $(s).find(".bianli_pay .shou_price").css("display","block");
+        // 购物车内点击
+        var p_id = $(this).attr('data-pId');
+        var amount = $(this).attr('data-amount');
+        $(".news-list .food-item").each(function(){
+            var pd = $(this).attr('data-pid');
+            if (p_id == pd) {
+                $(this).attr('data-amount',amount);
+                if (amount>0) {
+                    $(this).find(".su").show();
+                    $(this).find(".s").show();
+                    $(this).find(".pre").hide();
+                    $(this).find(".su").css("animation-play-state","paused");
+                    $(this).find(".su").css("animation","big .3s");
+                    $(this).find(".su").css("animation-fill-mode","forwards");
+                    $(this).find(".su").on("animationend", myStartFunction);
+                    $(this).find(".su .num").show();
+                    $(this).find(".su .num").text(amount);
+                    $(this).find(".food_icon").hide();
+                    var se = $(this).find('.food_title').text();
+                    if(se.length>8){
+                        var swew = se.substring(0,4);
+                        var r = se.substr(se.length-4);
+                        var go ='';
+                        go+=swew+'...'+r;
+                        $(this).find(".food_title").text(go);
+                    }
+                }
+            }
+
+        });
+
+        setTotal();
+        return false;
+    })
+    // 常买的减少
+    jQuery(document).on('touchend','.ss',(function(){
+        if (touchmove) {
+            return;
+        }
+        jQuery(this).hide();
+        jQuery(this).parent().parent().find(".pre").show();
+        jQuery(this).parent().css("animation","small .3s");
+        jQuery(this).parent().css("animation-play-state","running");
+        jQuery(this).parent().on("animationend", myEndFunction);
+        var userAgent = navigator.userAgent;
+        var index = userAgent.indexOf("Android")
+        if(index >= 0){
+            var androidVersion = parseFloat(userAgent.slice(index+8));
+            if(androidVersion<5.2){
+                jQuery(this).parent().fadeOut();
+            }
+        }
+        var yuanlai = jQuery(this).siblings(".shop_tip").text();
+        yuanlai_o = $.trim(yuanlai);
+        jQuery(this).parent().siblings(".food_title").text(yuanlai_o);
+        var parent = jQuery(this).parent().parent();
+        var amount = parseInt(jQuery(parent).data('amount')) *0;
+        var chushi = parseInt(jQuery(parent).data('amount'));
+        jQuery(this).siblings(".num").text(amount);
+        jQuery(parent).attr('data-amount',amount);
+        var i = parseInt(jQuery('.bianli_pay .number').text());
+        i = i-chushi;
+        var p_id = jQuery(parent).attr('data-pId');
+        $(".news-list .food-item").each(function(){
+            var pd = $(this).attr('data-pid');
+            if (p_id == pd) {
+                $(this).attr('data-amount',amount);
+                if (amount==0) {
+                	$(this).find(".pre").show();
+                    $(this).find(".su").css("animation","small .3s");
+                    $(this).find(".su").css("animation-play-state","running");
+                    $(this).find(".su").on("animationend", myEndFunction);
+                    $(this).find(".su .num").text(amount);
+                    var yuanlai = $(this).find(".shop_tip").text();
+                    yuanlai_o = $.trim(yuanlai);
+                    $(this).find(".food_title").text(yuanlai_o);
+                    $(this).find(".food_pri .zhekou").hide();
+                }
+            }
+
+        });
+        setTotal();
+        return false;
+    }));
+    // 购物车加
+    jQuery(document).on("touchend",".group_add",function(){
+        if (touchmove) {
+            return;
+        }
+        var wa = jQuery(this).siblings(".group_jia");
+        var jiage = parseInt(wa.text());
+        var jiage_1 = jiage+1;
+        wa.text(jiage_1);
+        var group_id = jQuery(this).parent().attr("data-pid");
+        jQuery(".news-list .food-item").each(function(){
+            var food_id = jQuery(this).attr("data-pid");
+            if (group_id == food_id) {
+                jQuery(this).find(".num").text(jiage_1);
+                jQuery(this).attr("data-amount",jiage_1);
+            }
+        });
+        jQuery(".best").each(function(){
+            var food_id = jQuery(this).attr("data-pid");
+            if (group_id == food_id) {
+                jQuery(this).find(".num").text(jiage_1);
+                jQuery(this).attr("data-amount",jiage_1);
+            }
+        });
+        setTotal();
+        return false;
+    })
+
+    // 购物车减
+    jQuery(document).on("touchend",".group_sup",function(){
+        if (touchmove) {
+            return;
+        }
+        var wa = jQuery(this).siblings(".group_jia");
+        var jiage = parseInt(wa.text());
+        var jiage_1 = jiage-1;
+        wa.text(jiage_1);
+        var group_id = jQuery(this).parent().attr("data-pid");
+        jQuery(".news-list .food-item").each(function(){
+            var food_id = jQuery(this).attr("data-pid");
+            if (group_id == food_id) {
+                jQuery(this).find(".num").text(jiage_1);
+                jQuery(this).attr("data-amount",jiage_1);
+                if (jiage_1 == 0) {
+                    jQuery(this).find(".su").hide();
+                    jQuery(this).find(".pre").show();
+                    jQuery(this).find(".food_icon").show();
+                }
+            }
+
+        })
+        jQuery(".best").each(function(){
+            var food_id = jQuery(this).attr("data-pid");
+            if (group_id == food_id) {
+                jQuery(this).find(".num").text(jiage_1);
+                jQuery(this).attr("data-amount",jiage_1);
+                if (jiage_1 == 0) {
+                    jQuery(this).find(".su").hide();
+                    jQuery(this).find(".pre").show();
+                }
+            }
+
+        })
+        if (jiage_1<=0) {
+            jQuery(this).parent().remove();
+        }
+        if (jQuery(".group ul li ").length ==0) {
+            jQuery(".group").animate({bottom:"-6.28rem"},200);
+            jQuery('.Layer1').fadeOut();
+            jQuery('.bi').attr('id','sure');
+        }
+
+        setTotal();
+        return false;
+    })
+
+    function close_item(obj){
+    if (confirm("确定清空？")) {
+        jQuery(".group").animate({bottom:"-6.28rem"},200);
+        jQuery('.Layer1').fadeOut();
+        jQuery('.bi').attr('id','sure');
+        jQuery(".group ul").find("li").remove();
+        jQuery(".k").attr('data-amount','0');
+        jQuery(".k").find('.su .num').text(0);
+        jQuery(".k").find('.su').hide();
+        jQuery(".food_icon").show();
+        jQuery(".best").attr('data-amount','0');
+        jQuery(".best").find('.su .num').text(0);
+        jQuery(".best").find('.su').hide();
+        jQuery(".pre").show();
+        jQuery('.bianli_pay .number').text(0);
+        jQuery('.bianli_pay .bianli_num').hide();
+        jQuery('.bianli_pay .cost_price').hide();
+        jQuery('.bianli_pay .shou_price').hide();  
+    }
+}
+
+
+    jQuery(document).on('touchend','.food-item',(function(e){
+        //var f = $(this).data('price');
+        if (touchmove) {
+            return;
+        }
+
+        // var hengzhe = $(this).find("div.su").find(".shop_price").text();
+        // var html="";
+        // html+='<span style="text-decoration: line-through;margin-right:0.1rem;">'+hengzhe+'</span>';
+        // $(this).find(".xiao").prepend(html);
+        var se =jQuery(this).find(".shop_tip").text();
+        jQuery(this).find(".food_title").css("width","100%");
+        if (se.length>9) {
+            var swew = se.substring(0,4);
+            var r = se.substr(se.length-4);
+            var go ='';
+            go+=swew+'...'+r;
+            jQuery(this).find(".food_title").text(go);
+        }
+		jQuery(this).find(".pre").hide();
+        jQuery(this).find(".su").show();
+        jQuery(this).find(".s").show();
+        jQuery(this).find(".num").show();
+        jQuery(this).find("div.su").css("animation-play-state","paused");
+        jQuery(this).find("div.su").css("animation","big .3s");
+        jQuery(this).find("div.su").css("animation-fill-mode","forwards");
+        jQuery(this).find("div.su").on("animationend", myStartFunction);
+        jQuery(this).find(".food_icon").hide();
+        jQuery(".shop_tip").hide();
+        jQuery(".shop_price").hide();
+        jQuery(".price_9").hide();
+        var a = this;
+        // $(this).find(".su").css({
+        //     width:'1.8rem',
+        //     height:'1.8rem',
+        //     left:'.32rem',
+        //     top:'.45rem',
+        // },"fast").animate({
+        //     width:'1.62rem',
+        //     height:'1.62rem',
+        //     left:'.45rem',
+        //     top:'.5rem',
+        // },100);
+
+        // jQuery(this).find(".su").stop(true,false).css({
+        //     width:'1.8rem',
+        //      height:'1.8rem',
+        //      left:'.32rem',
+        //      top:'.45rem',
+        // }).animate({
+        //     width:'1.62rem',
+        //      height:'1.62rem',
+        //      left:'.45rem',
+        //      top:'.5rem',
+        // },'fast')
+
+        var amount = parseInt(jQuery(a).attr('data-amount')) + 1;
+
+        jQuery(a).find('.wode').hide();
+        jQuery(a).find(".num").text(amount);
+        jQuery(a).data('amount', amount);
+        jQuery(a).attr('data-amount',amount);
+        var s = jQuery(this).parent().parent().parent();
+        var i =parseInt(jQuery(s).find(".bianli_pay .number").text());
+        i = i+1;
+        jQuery(s).find(".suspension").text(i);
+        jQuery(s).find(".bianli_pay .onon").css("display","none");
+        jQuery(s).find(".bianli_pay .number").css("display","block");
+        jQuery(s).find(".bianli_pay .bianli_num").css("display","block");
+        jQuery(s).find(".bianli_pay .cost_price").css("display","block");
+        jQuery(s).find(".bianli_pay .shou_price").css("display","block");
+        // if (jQuery('.group ul li').length != 0) {
+        var p_id = $(this).attr('data-pId');
+        if ($(".best").length != 0) {
+            $('.best').each(function(){
+                var pd2 = $(this).attr('data-pid');
+                if (pd2 == p_id) {
+                    $(this).attr('data-amount',amount);
+                    if (amount>0) {
+                        $(this).find(".su").show();
+                        $(this).find(".ss").show();
+						$(this).find(".pre").hide();
+                        $(this).find(".su").css("animation-play-state","paused");
+                        $(this).find(".su").css("animation","big .3s");
+                        $(this).find(".su").css("animation-fill-mode","forwards");
+                        $(this).find(".su").on("animationend", myStartFunction);
+                        $(this).find(".su .num").text(amount);
+                    }
+                }
+            })
+        }
+
+
+        // }
+
+        setTotal();
+        //$(this).find("div.su").removeAttr("style");
+        e.preventDefault();
+        return false;
+    }));
+
+    jQuery(document).on( "touchstart", function() {
+        touchmove = false;
+    });
+    jQuery(document).on( "touchmove", function() {
+        touchmove = true;
+    });
+    jQuery(document).on('touchend','.s',(function () {
+        if (touchmove) {
+            return;
+        }
+
+        var a =this;
+        jQuery(this).parent().parent().find(".pre").show();
+        jQuery(this).hide();
+        jQuery(this).parent().css("animation","small .3s");
+        var yuanlai = jQuery(this).siblings(".shop_tip").text();
+        yuanlai_o = jQuery.trim(yuanlai);
+        jQuery(this).parent().parent().find(".food_title").css("width","67%");
+        jQuery(this).parent().parent().find(".food_title").text(yuanlai_o);
+        var parent = jQuery(this).parent().parent();
+        jQuery(this).parent().css("animation-play-state","running");
+        jQuery(this).parent().on("animationend", myEndFunction);
+        jQuery(this).siblings(".num").fadeOut();
+        var userAgent = navigator.userAgent;
+        var index = userAgent.indexOf("Android")
+        if(index >= 0){
+            var androidVersion = parseFloat(userAgent.slice(index+8));
+            if(androidVersion<5.2){
+                jQuery(a).parent().fadeOut();
+            }
+        }
+
+        jQuery(this).parent().parent().find('.food_icon').show();
+
+        var amount = parseInt(jQuery(this).parent().parent().data('amount')) *0;
+
+        var chushi = parseInt(jQuery(this).parent().parent().data('amount'));
+        jQuery(this).siblings(".num").text(amount);
+        var p_id = jQuery(parent).attr('data-pid');
+        // $(parent).find(".num").hide();
+        jQuery(this).parent().parent().attr('data-amount',amount);
+        if (jQuery(".best").length != 0) {
+            jQuery('.best').each(function(){
+                var pd3 = jQuery(this).attr('data-pid');
+                if (pd3 == p_id) {
+                    $(this).attr('data-amount',amount);
+                    if (amount == 0) {
+                    	jQuery(this).find(".pre").show();
+                        jQuery(this).find(".su").css("animation","small .3s");
+                        jQuery(this).find(".su").css("animation-play-state","running");
+                        jQuery(this).find(".su").on("animationend", myEndFunction);
+                        jQuery(this).find(".su .num").text(amount);
+                    }
+                }
+            })
+        }
+        setTotal();
+        return false;
+
+    }));
+    // 点击条形码
+    // jQuery(".code").on("touchend",function(){
+    //     if(touchmove){
+    //         return;
+    //     }
+
+    // })
+    function formatMoney(num) {
+        var money = num/100;
+        var float = num%100;
+        if(float == 0){
+            money = money + ".00";
+        }
+        return money;
+    }
+    var xiao=[
+        {"code":"123456"}
+    ]
+
+    jQuery(document).on("touchend",".sm_j",function(){
+        if (touchmove) {return}
+        var lolo = parseInt(jQuery(this).find(".num").text())+1;
+        jQuery(this).find(".num").text(lolo);
+        jQuery(this).attr('data-amount',lolo);
+        return false;
+    });
+
+    //点击条形码
+//    jQuery('.xuanfu_tiao').on('touchend',function(){
+//        if (touchmove) {return}
+//        var html ='';
+//        var code = xiao[0].code;
+//        var ko =true;
+//        jQuery(".news-list .group_2").each(function(){
+//            var bar_code = jQuery(this).attr("code");
+//            if (code == bar_code) {
+//                ko = false;
+//                jQuery('.sm_jie ul').fadeIn();
+//                jQuery(".Layer2").fadeIn();
+//                jQuery(".sm_jie").show();
+//                var p_id = jQuery(this).attr("data-pid");
+//                var d_price = jQuery(this).attr("data-price");
+//                var img = jQuery(this).find("span").attr("data-img");
+//                var itemName = jQuery(this).find(".food_title").text();
+//                html+='<li class="sm_j" data-pid="'+p_id+'"data-price="'+d_price+'" data-amount ="1"><img src="'+img+'"><span class="food_pri">￥<span class="fei">'+d_price+'</span></span><p class="food_title">'+itemName+'</p><div class="su"><img src="static/images/sm_close.png" class="sp"><p class="num">1</p></div></li>'
+//                jQuery(html).insertBefore('.sm_go');
+//                return false;
+//            }
+//
+//        });
+//
+//        if (ko == true) {
+//            alert("不好意思，暂时没有这个商品哦");
+//            return false;
+//        }
+//    })
+    //扫码确定
+    jQuery('.sm_sure').on('touchend',function(){
+        if (touchmove) {
+            return;
+        }
+        var kko =jQuery('.sm_j').attr("data-amount");
+        var xiao_id = jQuery('.sm_j').attr("data-pid");
+        var imgP = jQuery('.sm_j').attr("data-img");
+	    var data_price = jQuery('.sm_j').attr("data-price");
+	    var data_onprice = jQuery('.sm_j').attr("data-onprice");
+	    var imgSrc = jQuery(".sm_j").find('img:first-child').attr("src");
+	    var item_name = jQuery(".sm_j").find('.food_title').text();
+	    var num = jQuery(".sm_j").find(".num").text();
+	    var ju= true;
+	    var hh ='';
+        jQuery(".group_2").each(function(){
+            var ppd = parseInt(jQuery(this).attr('data-pid'));
+            if (ppd == xiao_id) {
+                ju = false;
+                var amoo =parseInt(jQuery(this).attr('data-amount'))+parseInt(kko);
+                jQuery(this).attr('data-amount',amoo);
+                jQuery(this).find('.su').show();
+                jQuery(this).find('.pre').hide();
+                jQuery(this).find(".su").css("animation-play-state","paused");
+            	jQuery(this).find(".su").css("animation","big .3s");
+            	jQuery(this).find(".su").css("animation-fill-mode","forwards");
+                jQuery(this).find('.su .num').text(amoo);
+
+            }
+
+        });
+        jQuery(".Layer2").fadeOut();
+        jQuery(".sm_jie").fadeOut();
+        jQuery(".bianli_pay .number").show();
+        jQuery(".bianli_num").show();
+        jQuery(".cost_price").show();
+        jQuery(".shou_price").show();
+		if(ju == true){
+            hh+='<li class="food-item group_2 k" data-pId ="'+xiao_id+'" data-onPrice="'+data_onprice+'" data-Price="'+data_price+'" data-amount="'+num+'"><img src="'+imgSrc+'"><span data-img="'+imgP+'"><img src="${rc.contextPath}/static/images/shop/so_so.png" class="food_icon"></span><span class="food_pri">￥<span class="fei">'+data_price+'</span><span class="zhekou">￥'+data_onprice+'</span></span></span><p class="food_title">'+item_name+'</p><div class="su" style="display:block"><img src="${rc.contextPath}/static/images/shop/close.png" class="s"><p class="num">'+num+'</p><div class="shop_tip">'+item_name+'</div><p class="shop_price">￥<span>'+data_onprice+'</span></p></div></li>';
+            jQuery(".jiji").eq(j).parent().append(hh);
+            var ge = parseInt($(".page__inner").eq(j).find(".news-list .group_2").length / 3);
+            if($(".page__inner").eq(j).find(".news-list .group_2").length % 3 == 0){
+                var ge1 = ge;
+            }else{
+                var ge1 = ge+1;
+            }
+
+            var margin = $(".group_2").css("margin-bottom");
+            var foodH = $(".food-item").height();
+            var zo = ge1 * parseInt(foodH);
+            var mar = ge1 *parseInt(margin);
+            var padd = parseInt($(".page__inner").eq(j).find(".news-list").css("padding-bottom"));
+            var wi = $(window).height();
+            if (zo>=wi) {
+                $(".page").eq(j).css("overflow-y","auto");
+                $(".page").eq(j).attr("data-height",zo+mar+padd)
+            }else{
+                $(".page__inner").eq(j).css("height","auto");
+            }
+        }
+        setTotal();
+        return false
+    });
+
+
+    function stop(){
+        jQuery(this).css("animation-play-state","paused")
+    }
+    function myEndFunction() {
+        this.style.display= "none";
+    }
+    function myStartFunction(){
+        jQuery(this).show();
+        jQuery(this).removeAttr("style");
+    }
+
+    function setTotal() {
+        var sum = 0.00;
+        var cost = 0.00;
+        var su = 0.00;
+        var num = 0;
+        $(".k").each(function(){
+            num+=parseInt(jQuery(this).find(".num").text());
+            sum+=parseInt(jQuery(this).find(".num").text()) * parseFloat(jQuery(this).find('.food_pri .fei').text());
+            cost+=parseInt(jQuery(this).find(".num").text()) * parseFloat(jQuery(this).find('.shop_price span').text());
+            su = cost - sum;
+
+        });
+        // console.log(num);
+        jQuery(".bianli_pay .number").text(num);
+        jQuery(".bianli_num span").html(sum.toFixed(2));
+        jQuery(".cost_price span").html(cost.toFixed(2));
+        jQuery(".shou_price span").html(su.toFixed(2));
+    }
+    setTotal();
+
+    function butie(){
+    	if(jQuery(".bi").attr("id") == ''){
+	      jQuery(".group").animate({bottom:"-6.28rem"},200);
+	      jQuery(".bi").attr("id","sure")
+    	}
+        jQuery('.Layer1').css('display','block');
+        jQuery('.butie').css('display','block');
+        jQuery('.butie').animate({bottom:"0px"},200);
+    }
+
+    jQuery(".qu_xiao").on('touchend',function(){
+        if(touchmove){return}
+        var butie = jQuery('.butie').height()
+        jQuery('.butie').animate({bottom:-butie},200);
+        jQuery('.Layer1').fadeOut();
+    });
+
+    jQuery(".bu").on("touchend",function(){
+        if (touchmove) {
+            return;
+        }
+
+        if (jQuery(this).find(".xuan_yuan").hasClass("active")) {
+            jQuery(this).find(".xuan_yuan").removeClass("active");
+        }else{
+            jQuery(this).find(".xuan_yuan").addClass("active");
+        }
+    })
+
+    jQuery(".sure").on('touchend',function(event){
+        if(touchmove){return}
+        var red_sy_fee = 0;
+        var free_sy_fee = 0;
+        var red_flag = 0;
+        var free_flag = 0;
+        jQuery(".bu").each(function(){
+            if (jQuery(this).find(".xuan_yuan").hasClass("active")) {
+                // index 1是补贴，2是红包
+                var index =jQuery(this).attr("index");
+                if (index == 2) {
+                    red_sy_fee = jQuery(this).find(".sy_hong span").text();
+                    red_flag = 1;
+                }
+                if (index == 1) {
+                    free_sy_fee = jQuery(this).find(".sy_hong span").text();
+                    free_flag = 1;
+                }
+            }
+        })
+        var totalfee = parseFloat(jQuery('.bianli_num').find("span").text());
+        var free_total = parseFloat(red_sy_fee) + parseFloat(free_sy_fee);
+        if(totalfee<=free_total){
+            if(free_flag > 0 && red_flag > 0){
+                if (confirm("确定使用补贴吗？")) {
+                    alipay(free_flag,red_flag);
+                }
+            }else if(free_flag > 0 ){
+                if (confirm("确定使用补贴吗？")) {
+                    alipay(free_flag,red_flag);
+                }
+            }else if(red_flag > 0 ){
+                if (confirm("确定使用红包吗？")) {
+                    alipay(free_flag,red_flag);
+                }
+            }
+        }else{
+            alipay(free_flag,red_flag);
+        }
+
+
+    });
+
+    function pay(){
+        if (touchmove) {
+            return;
+        }
+        var free = jQuery("#free").val();
+        var red_flag =  jQuery("#red_flag").val();
+        if(free==1 || red_flag==1){
+            butie();
+        }else{
+            alipay(0,0);
+        }
+    }
+
+
+    function alipay(free_flag,red_flag){
+        if (payPrevent == true) return;
+        payPrevent = true;
+        var li = jQuery(".k");
+        
+        var now = [];
+        for (var i=0; i<li.length; i++) {
+            var s = li[i];
+            var id =jQuery(li[i]).attr("data-pId");
+            var amount = jQuery(li[i]).attr("data-amount");
+            var arr = {};
+            arr["id"] = id;
+            arr["num"] = amount;
+            if (amount>0) {
+                now.push(arr);
+            }
+        }
+        if(now.length == 0){
+            setTimeout("alert('请选择商品')", 10);
+            payPrevent = false;
+            return false;
+        }else{
+            var data = JSON.stringify(now);
+            jQuery('#data').val(data);
+            jQuery('#free_flag').val(free_flag);
+            jQuery('#redd_flag').val(red_flag);
+           
+            jQuery('#myform').submit();
+        }
+    }
+    var payPrevent = false;
+    jQuery('#pay').on('click', pay);
+
+function dingwei(index){
+    jQuery(".bingan .caoyue_05").each(function(i){
+        
+        var indd = jQuery(this).attr("data_oid");
+        
+        if (index == indd) {
+            j=i;
+        }
+    })
+    }
+
+    jQuery('.xuanfu_tiao').on('touchend',function(){
+        if (touchmove) {return}
+
+        if(navigator.userAgent.indexOf("AlipayClient")===-1){
+            alert('请在支付宝钱包内运行');
+        }else{
+            if((Ali.alipayVersion).slice(0,3)>=8.1){
+                Ali.scan({
+                    type: 'bar' //qr(二维码) / bar(条形码) / card(银行卡号)
+                }, function(result) {
+                    if(result.errorCode){
+                        //没有扫码的情况
+                        //errorCode=10，用户取消
+                        //errorCode=11，操作失败
+                    }else{
+                        //成功扫码的情况
+                        //result.barCode	string	扫描所得条码数据
+                        //result.qrCode	string	扫描所得二维码数据
+                        //result.cardNumber	string	扫描所得银行卡号
+                        var html ='';
+                        var code = result.barCode;
+                        var ko =true;
+                        jQuery('.sm_j').remove();
+                        jQuery(".news-list .group_2").each(function(){
+                            var bar_code = jQuery(this).attr("code");
+                            if (bar_code && bar_code.indexOf(code)!=-1) {
+                                ko = false;
+                                jQuery('.sm_jie ul').fadeIn();
+                                jQuery(".Layer2").fadeIn();
+                                jQuery(".sm_jie").show();
+                                var p_id = jQuery(this).attr("data-pid");
+                                var d_price = jQuery(this).attr("data-price");
+                                var img = jQuery(this).find("span").attr("data-img");
+                                var itemName = jQuery(this).find(".food_title").text();
+                                if(jQuery(this).find(".pre").length>0){
+                					var bao = '<img src="${rc.contextPath}/static/images/shop/preference.png" class="pree">';
+            					}else{
+                					var bao =''
+            					}
+                       			html+='<li class="sm_j" data-pid="'+p_id+'"data-price="'+d_price+'" data-amount ="1"><img src="'+img+'">'+bao+'<span class="food_pri">￥<span class="fei">'+d_price+'</span></span><p class="food_title">'+itemName+'</p><div class="su"><img src="${rc.contextPath}/static/images/shop/sm_close.png" class="sp"><p class="num">1</p></div></li>'
+                                
+                                jQuery(html).insertBefore('.sm_go');
+                                var ind = jQuery(this).attr("data_oid");
+                        		dingwei(ind);
+                                jQuery('.sm_cz').show();
+                                return false;
+                            }
+
+                        });
+
+                        if (ko == true) {
+		                	var shopid = jQuery('#shopid').val();
+		                	jQuery.ajax({
+						        url:"${rc.contextPath}/convenient/shop_baritem.json",//后台给你提供的接口
+						        type:"POST",
+						        data:{shop_id:shopid,barcode:code},
+						        success:function (data){
+						        	if(data.status==200){
+						        		jQuery('.sm_jie ul').fadeIn();
+					                    jQuery(".Layer2").fadeIn();
+					                    jQuery(".sm_jie").show();
+					                    var item_name = data.data.name;
+					                    var item_id = data.data.id;
+					                    var marketPrice = formatMoney(data.data.marketPrice);
+					                    var salePrice = formatMoney(data.data.salePrice);
+					                    var bigimg = data.data.imgPath;
+					                    var imgPath = data.data.imgPath;
+					                    var laye_id = data.data.categoryId;
+					                    var code = data.data.barcode;
+					                    var isth = data.data.isPreferentail;
+					                    if(isth == 1){
+					               			html+='<li class="sm_j" data-pid="'+item_id+'" data-price="'+salePrice+'" data-img="'+imgPath+'" data-onprice="'+marketPrice+'" code="'+code+'" data-amount ="1" data-price="'+salePrice+'" ><img src="'+bigimg+'"><img src="${rc.contextPath}/static/images/shop/preference.png" class="pree"><span class="food_pri">￥<span class="fei">'+salePrice+'</span></span><p class="food_title">'+item_name+'</p><div class="su"><img src="${rc.contextPath}/static/images/shop/sm_close.png" class="sp"><p class="num">1</p></div></li>'
+					            		}else{
+					              			html+='<li class="sm_j" data-pid="'+item_id+'" data-price="'+salePrice+'" data-img="'+imgPath+'" data-onprice="'+marketPrice+'" code="'+code+'" data-amount ="1" data-price="'+salePrice+'" ><img src="'+bigimg+'"><span class="food_pri">￥<span class="fei">'+salePrice+'</span></span><p class="food_title">'+item_name+'</p><div class="su"><img src="${rc.contextPath}/static/images/shop/sm_close.png" class="sp"><p class="num">1</p></div></li>'
+					            		}
+					                    jQuery(html).insertBefore('.sm_go');
+					                    dingwei(laye_id);
+					                    return false;
+							           
+						        	}else{
+						        	    alert("条形码不匹配，请联系店铺管理员");
+		                   			    return false;
+						        	}
+						        },
+						        error:function (error){
+						            alert(error)
+						        }
+						    });
+		                }
+                    }
+                });
+            }else{
+                Ali.alert({
+                    title: '亲',
+                    message: '请升级您的钱包到最新版',
+                    button: '确定'
+                });
+            }
+        }
+    })
+    //继续购物
+    jQuery('.sm_go').on('touchend',function(){
+        if (touchmove) {
+            return;
+        }
+        var kko =jQuery('.sm_j').attr("data-amount");
+        var xiao_id = jQuery('.sm_j').attr("data-pid");
+       	var imgP = jQuery('.sm_j').attr("data-img");
+	    var data_price = jQuery('.sm_j').attr("data-price");
+	    var data_onprice = jQuery('.sm_j').attr("data-onprice");
+	    var imgSrc = jQuery(".sm_j").find('img:first-child').attr("src");
+	    var item_name = jQuery(".sm_j").find('.food_title').text();
+	    var num = jQuery(".sm_j").find(".num").text();
+	    var ju= true;
+	    var hh ='';
+        jQuery(".group_2").each(function(){
+            var ppd = parseInt(jQuery(this).attr('data-pid'));
+            if (ppd == xiao_id) {
+                ju = false;
+                var amoo =parseInt(jQuery(this).attr('data-amount'))+parseInt(kko);
+                jQuery(this).attr('data-amount',amoo);
+                jQuery(this).find('.su').show();
+                jQuery(this).find('.su,.s').show();
+            	jQuery(this).find('.su .num').show();
+                jQuery(this).find('.pre').hide();
+                jQuery(this).find(".su").css("animation-play-state","paused");
+            	jQuery(this).find(".su").css("animation","big .3s");
+            	jQuery(this).find(".su").css("animation-fill-mode","forwards");
+                jQuery(this).find('.su .num').text(amoo);
+
+            }
+
+        });
+        jQuery(".Layer2").fadeOut();
+        jQuery(".sm_jie").fadeOut();
+        jQuery(".bianli_pay .number").show();
+        jQuery(".bianli_num").show();
+        jQuery(".cost_price").show();
+        jQuery(".shou_price").show();
+		if(ju == true){
+            hh+='<li class="food-item group_2 k" data-pId ="'+xiao_id+'" data-onPrice="'+data_onprice+'" data-Price="'+data_price+'" data-amount="'+num+'"><img src="'+imgSrc+'"><span data-img="'+imgP+'"><img src="${rc.contextPath}/static/images/shop/so_so.png" class="food_icon"></span><span class="food_pri">￥<span class="fei">'+data_price+'</span><span class="zhekou">￥'+data_onprice+'</span></span></span><p class="food_title">'+item_name+'</p><div class="su" style="display:block"><img src="${rc.contextPath}/static/images/shop/close.png" class="s"><p class="num">'+num+'</p><div class="shop_tip">'+item_name+'</div><p class="shop_price">￥<span>'+data_onprice+'</span></p></div></li>';
+            jQuery(".jiji").eq(j).parent().append(hh);
+            var ge = parseInt($(".page__inner").eq(j).find(".news-list .group_2").length / 3);
+            if($(".page__inner").eq(j).find(".news-list .group_2").length % 3 == 0){
+                var ge1 = ge;
+            }else{
+                var ge1 = ge+1;
+            }
+
+            var margin = $(".group_2").css("margin-bottom");
+            var foodH = $(".food-item").height();
+            var zo = ge1 * parseInt(foodH);
+            var mar = ge1 *parseInt(margin);
+            var padd = parseInt($(".page__inner").eq(j).find(".news-list").css("padding-bottom"));
+            var wi = $(window).height();
+            if (zo>=wi) {
+                $(".page").eq(j).css("overflow-y","auto");
+                $(".page").eq(j).attr("data-height",zo+mar+padd)
+            }else{
+                $(".page__inner").eq(j).css("height","auto");
+            }
+
+        }
+        setTotal();
+          if((Ali.alipayVersion).slice(0,3)>=8.1){
+                Ali.scan({
+                    type: 'bar' //qr(二维码) / bar(条形码) / card(银行卡号)
+                }, function(result) {
+                    if(result.errorCode){
+                        //没有扫码的情况
+                        //errorCode=10，用户取消
+                        //errorCode=11，操作失败
+                    }else{
+                        //成功扫码的情况
+                        //result.barCode	string	扫描所得条码数据
+                        //result.qrCode	string	扫描所得二维码数据
+                        //result.cardNumber	string	扫描所得银行卡号
+                        var html ='';
+                        var code = result.barCode;
+                        var ko =true;
+                        jQuery('.sm_j').remove();
+                        jQuery(".news-list .group_2").each(function(){
+                            var bar_code = jQuery(this).attr("code");
+                            if (bar_code && bar_code.indexOf(code)!=-1) {
+                                ko = false;
+                                jQuery('.sm_jie ul').fadeIn();
+                                jQuery(".Layer2").fadeIn();
+                                jQuery(".sm_jie").show();
+                                var p_id = jQuery(this).attr("data-pid");
+                                var d_price = jQuery(this).attr("data-price");
+                                var img = jQuery(this).find("span").attr("data-img");
+                                var itemName = jQuery(this).find(".food_title").text();
+                                html+='<li class="sm_j" data-pid="'+p_id+'"data-price="'+d_price+'" data-amount ="1"><img src="'+img+'"><span class="food_pri">￥<span class="fei">'+d_price+'</span></span><p class="food_title">'+itemName+'</p><div class="su"><img src="${rc.contextPath}/static/images/shop/sm_close.png" class="sp"><p class="num">1</p></div></li>'
+                                
+                                jQuery(html).insertBefore('.sm_go');
+                                var ind = jQuery(this).attr("data_oid");
+                        		dingwei(ind);
+                                jQuery('.sm_cz').show();
+                                return false;
+                            }
+
+                        });
+
+                        if (ko == true) {
+	                	var shopid = jQuery('#shopid').val();
+	                	jQuery.ajax({
+					        url:"${rc.contextPath}/convenient/shop_baritem.json",//后台给你提供的接口
+					        type:"POST",
+					        data:{shop_id:shopid,barcode:code},
+					        success:function (data){
+					        	if(data.status==200){
+					        		jQuery('.sm_jie ul').fadeIn();
+				                    jQuery(".Layer2").fadeIn();
+				                    jQuery(".sm_jie").show();
+				                    var item_name = data.data.name;
+				                    var item_id = data.data.id;
+				                    var marketPrice = formatMoney(data.data.marketPrice);
+				                    var salePrice = formatMoney(data.data.salePrice);
+				                    var bigimg = data.data.imgPath;
+				                    var imgPath = data.data.imgPath;
+				                    var laye_id = data.data.categoryId;
+				                    var isth = data.data.isPreferentail;
+				                    
+				                    if(isth == 1){
+					               html+='<li class="sm_j" data-pid="'+item_id+'" data-price="'+salePrice+'" data-img="'+imgPath+'" data-onprice="'+marketPrice+'" code="'+code+'" data-amount ="1" data-price="'+salePrice+'" ><img src="'+bigimg+'"><img src="${rc.contextPath}/static/images/shop/preference.png" class="pree"><span class="food_pri">￥<span class="fei">'+salePrice+'</span></span><p class="food_title">'+item_name+'</p><div class="su"><img src="${rc.contextPath}/static/images/shop/sm_close.png" class="sp"><p class="num">1</p></div></li>'
+					            }else{
+					              html+='<li class="sm_j" data-pid="'+item_id+'" data-price="'+salePrice+'" data-img="'+imgPath+'" data-onprice="'+marketPrice+'" code="'+code+'" data-amount ="1" data-price="'+salePrice+'" ><img src="'+bigimg+'"><span class="food_pri">￥<span class="fei">'+salePrice+'</span></span><p class="food_title">'+item_name+'</p><div class="su"><img src="${rc.contextPath}/static/images/shop/sm_close.png" class="sp"><p class="num">1</p></div></li>'
+					            }
+				                    jQuery(html).insertBefore('.sm_go');
+				                    dingwei(laye_id);
+				                    return false;
+						           
+					        	}else{
+					        	    alert("条形码不匹配，请联系店铺管理员");
+	                   			    return false;
+					        	}
+					        },
+					        error:function (error){
+					            alert(error)
+					        }
+					    });
+	                }
+                    }
+                });
+            }else{
+                Ali.alert({
+                    title: '亲',
+                    message: '请升级您的钱包到最新版',
+                    button: '确定'
+                });
+            }
+    });
+    //扫码取消
+    jQuery(document).on('touchend','.sp',(function(){
+        jQuery('.sm_j').remove();
+        jQuery(".Layer2").fadeOut();
+        jQuery(".sm_jie").fadeOut();
+        return false;
+    }))
+</script>

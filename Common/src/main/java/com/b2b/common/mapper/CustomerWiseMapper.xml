@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.CustomerWiseMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.CustomerWise" >
+    <id column="wise_id" property="wiseId" jdbcType="INTEGER" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+    <result column="budget" property="budget" jdbcType="BIGINT" />
+    <result column="startprice" property="startprice" jdbcType="INTEGER" />
+    <result column="endprice" property="endprice" jdbcType="INTEGER" />
+    <result column="issuper_budget" property="issuperBudget" jdbcType="INTEGER" />
+    <result column="monday" property="monday" jdbcType="INTEGER" />
+    <result column="tuesday" property="tuesday" jdbcType="INTEGER" />
+    <result column="wednesday" property="wednesday" jdbcType="INTEGER" />
+    <result column="thursday" property="thursday" jdbcType="INTEGER" />
+    <result column="friday" property="friday" jdbcType="INTEGER" />
+    <result column="saturday" property="saturday" jdbcType="INTEGER" />
+    <result column="sunday" property="sunday" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="created_userid" property="createdUserid" jdbcType="INTEGER" />
+    <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
+    <result column="updated_userid" property="updatedUserid" jdbcType="INTEGER" />
+    <result column="weeks" property="weeks" jdbcType="INTEGER" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    wise_id, customer_id, customer_name, budget, startprice, endprice, issuper_budget, 
+    monday, tuesday, wednesday, thursday, friday, saturday, sunday, status, remark, created_time, 
+    created_userid, updated_time, updated_userid
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.CustomerWiseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from customer_wise
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer_wise
+    where wise_id = #{wiseId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from customer_wise
+    where wise_id = #{wiseId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.CustomerWiseExample" >
+    delete from customer_wise
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.CustomerWise" useGeneratedKeys="true" keyProperty="wiseId">
+    insert into customer_wise (wise_id, customer_id, customer_name, 
+      budget, startprice, endprice, 
+      issuper_budget, monday, tuesday, 
+      wednesday, thursday, friday, 
+      saturday, sunday, status, 
+      remark, created_time, created_userid, 
+      updated_time, updated_userid)
+    values (#{wiseId,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{customerName,jdbcType=VARCHAR}, 
+      #{budget,jdbcType=BIGINT}, #{startprice,jdbcType=INTEGER}, #{endprice,jdbcType=INTEGER}, 
+      #{issuperBudget,jdbcType=INTEGER}, #{monday,jdbcType=INTEGER}, #{tuesday,jdbcType=INTEGER}, 
+      #{wednesday,jdbcType=INTEGER}, #{thursday,jdbcType=INTEGER}, #{friday,jdbcType=INTEGER}, 
+      #{saturday,jdbcType=INTEGER}, #{sunday,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{createdUserid,jdbcType=INTEGER}, 
+      #{updatedTime,jdbcType=TIMESTAMP}, #{updatedUserid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.CustomerWise" >
+    insert into customer_wise
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wiseId != null" >
+        wise_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="customerName != null" >
+        customer_name,
+      </if>
+      <if test="budget != null" >
+        budget,
+      </if>
+      <if test="startprice != null" >
+        startprice,
+      </if>
+      <if test="endprice != null" >
+        endprice,
+      </if>
+      <if test="issuperBudget != null" >
+        issuper_budget,
+      </if>
+      <if test="monday != null" >
+        monday,
+      </if>
+      <if test="tuesday != null" >
+        tuesday,
+      </if>
+      <if test="wednesday != null" >
+        wednesday,
+      </if>
+      <if test="thursday != null" >
+        thursday,
+      </if>
+      <if test="friday != null" >
+        friday,
+      </if>
+      <if test="saturday != null" >
+        saturday,
+      </if>
+      <if test="sunday != null" >
+        sunday,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="createdUserid != null" >
+        created_userid,
+      </if>
+      <if test="updatedTime != null" >
+        updated_time,
+      </if>
+      <if test="updatedUserid != null" >
+        updated_userid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wiseId != null" >
+        #{wiseId,jdbcType=INTEGER},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="customerName != null" >
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="budget != null" >
+        #{budget,jdbcType=BIGINT},
+      </if>
+      <if test="startprice != null" >
+        #{startprice,jdbcType=INTEGER},
+      </if>
+      <if test="endprice != null" >
+        #{endprice,jdbcType=INTEGER},
+      </if>
+      <if test="issuperBudget != null" >
+        #{issuperBudget,jdbcType=INTEGER},
+      </if>
+      <if test="monday != null" >
+        #{monday,jdbcType=INTEGER},
+      </if>
+      <if test="tuesday != null" >
+        #{tuesday,jdbcType=INTEGER},
+      </if>
+      <if test="wednesday != null" >
+        #{wednesday,jdbcType=INTEGER},
+      </if>
+      <if test="thursday != null" >
+        #{thursday,jdbcType=INTEGER},
+      </if>
+      <if test="friday != null" >
+        #{friday,jdbcType=INTEGER},
+      </if>
+      <if test="saturday != null" >
+        #{saturday,jdbcType=INTEGER},
+      </if>
+      <if test="sunday != null" >
+        #{sunday,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserid != null" >
+        #{createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="updatedTime != null" >
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUserid != null" >
+        #{updatedUserid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.CustomerWiseExample" resultType="java.lang.Integer" >
+    select count(*) from customer_wise
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update customer_wise
+    <set >
+      <if test="record.wiseId != null" >
+        wise_id = #{record.wiseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerId != null" >
+        customer_id = #{record.customerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerName != null" >
+        customer_name = #{record.customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.budget != null" >
+        budget = #{record.budget,jdbcType=BIGINT},
+      </if>
+      <if test="record.startprice != null" >
+        startprice = #{record.startprice,jdbcType=INTEGER},
+      </if>
+      <if test="record.endprice != null" >
+        endprice = #{record.endprice,jdbcType=INTEGER},
+      </if>
+      <if test="record.issuperBudget != null" >
+        issuper_budget = #{record.issuperBudget,jdbcType=INTEGER},
+      </if>
+      <if test="record.monday != null" >
+        monday = #{record.monday,jdbcType=INTEGER},
+      </if>
+      <if test="record.tuesday != null" >
+        tuesday = #{record.tuesday,jdbcType=INTEGER},
+      </if>
+      <if test="record.wednesday != null" >
+        wednesday = #{record.wednesday,jdbcType=INTEGER},
+      </if>
+      <if test="record.thursday != null" >
+        thursday = #{record.thursday,jdbcType=INTEGER},
+      </if>
+      <if test="record.friday != null" >
+        friday = #{record.friday,jdbcType=INTEGER},
+      </if>
+      <if test="record.saturday != null" >
+        saturday = #{record.saturday,jdbcType=INTEGER},
+      </if>
+      <if test="record.sunday != null" >
+        sunday = #{record.sunday,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUserid != null" >
+        created_userid = #{record.createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatedTime != null" >
+        updated_time = #{record.updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedUserid != null" >
+        updated_userid = #{record.updatedUserid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update customer_wise
+    set wise_id = #{record.wiseId,jdbcType=INTEGER},
+      customer_id = #{record.customerId,jdbcType=INTEGER},
+      customer_name = #{record.customerName,jdbcType=VARCHAR},
+      budget = #{record.budget,jdbcType=BIGINT},
+      startprice = #{record.startprice,jdbcType=INTEGER},
+      endprice = #{record.endprice,jdbcType=INTEGER},
+      issuper_budget = #{record.issuperBudget,jdbcType=INTEGER},
+      monday = #{record.monday,jdbcType=INTEGER},
+      tuesday = #{record.tuesday,jdbcType=INTEGER},
+      wednesday = #{record.wednesday,jdbcType=INTEGER},
+      thursday = #{record.thursday,jdbcType=INTEGER},
+      friday = #{record.friday,jdbcType=INTEGER},
+      saturday = #{record.saturday,jdbcType=INTEGER},
+      sunday = #{record.sunday,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      created_userid = #{record.createdUserid,jdbcType=INTEGER},
+      updated_time = #{record.updatedTime,jdbcType=TIMESTAMP},
+      updated_userid = #{record.updatedUserid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.CustomerWise" >
+    update customer_wise
+    <set >
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="customerName != null" >
+        customer_name = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="budget != null" >
+        budget = #{budget,jdbcType=BIGINT},
+      </if>
+      <if test="startprice != null" >
+        startprice = #{startprice,jdbcType=INTEGER},
+      </if>
+      <if test="endprice != null" >
+        endprice = #{endprice,jdbcType=INTEGER},
+      </if>
+      <if test="issuperBudget != null" >
+        issuper_budget = #{issuperBudget,jdbcType=INTEGER},
+      </if>
+      <if test="monday != null" >
+        monday = #{monday,jdbcType=INTEGER},
+      </if>
+      <if test="tuesday != null" >
+        tuesday = #{tuesday,jdbcType=INTEGER},
+      </if>
+      <if test="wednesday != null" >
+        wednesday = #{wednesday,jdbcType=INTEGER},
+      </if>
+      <if test="thursday != null" >
+        thursday = #{thursday,jdbcType=INTEGER},
+      </if>
+      <if test="friday != null" >
+        friday = #{friday,jdbcType=INTEGER},
+      </if>
+      <if test="saturday != null" >
+        saturday = #{saturday,jdbcType=INTEGER},
+      </if>
+      <if test="sunday != null" >
+        sunday = #{sunday,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserid != null" >
+        created_userid = #{createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="updatedTime != null" >
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUserid != null" >
+        updated_userid = #{updatedUserid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where wise_id = #{wiseId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.CustomerWise" >
+    update customer_wise
+    set customer_id = #{customerId,jdbcType=INTEGER},
+      customer_name = #{customerName,jdbcType=VARCHAR},
+      budget = #{budget,jdbcType=BIGINT},
+      startprice = #{startprice,jdbcType=INTEGER},
+      endprice = #{endprice,jdbcType=INTEGER},
+      issuper_budget = #{issuperBudget,jdbcType=INTEGER},
+      monday = #{monday,jdbcType=INTEGER},
+      tuesday = #{tuesday,jdbcType=INTEGER},
+      wednesday = #{wednesday,jdbcType=INTEGER},
+      thursday = #{thursday,jdbcType=INTEGER},
+      friday = #{friday,jdbcType=INTEGER},
+      saturday = #{saturday,jdbcType=INTEGER},
+      sunday = #{sunday,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      created_userid = #{createdUserid,jdbcType=INTEGER},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      updated_userid = #{updatedUserid,jdbcType=INTEGER}
+    where wise_id = #{wiseId,jdbcType=INTEGER}
+  </update>
+   <select id="getCustomerWiseInfo" resultMap="BaseResultMap"  >
+   select customer_id,budget,startprice,endprice,issuper_budget,weeks,num from (
+	SELECT customer_id,budget,startprice,endprice,issuper_budget,1 weeks,1 num from customer_wise
+	where status=1 and monday=1
+	union all
+	SELECT cu.customer_id,budget,startprice,endprice,issuper_budget,2 weeks,ifnull(cuinfo.num,0)+1 num from customer_wise cu
+	left outer join (select ifnull(monday,0) num,customer_id from customer_wise where status=1 and monday=1 group by customer_id)cuinfo
+	on cu.customer_id=cuinfo.customer_id
+	where cu.status=1 and cu.tuesday=1
+	union all
+	SELECT cu.customer_id,budget,startprice,endprice,issuper_budget,3 weeks,ifnull(cuinfo.num,0)+1 num from customer_wise cu
+	left outer join (select ifnull(monday,0)+ifnull(tuesday,0) num,customer_id from customer_wise 
+	where status=1 and (monday=1 or tuesday=1) group by customer_id
+	)cuinfo
+	on cu.customer_id=cuinfo.customer_id
+	where cu.status=1 and cu.wednesday=1
+	union all
+	SELECT cu.customer_id,budget,startprice,endprice,issuper_budget,4 weeks,ifnull(cuinfo.num,0)+1 from customer_wise cu
+	left outer join (select ifnull(monday,0)+ifnull(tuesday,0)+ifnull(wednesday,0) num,customer_id from customer_wise 
+	where status=1 and (monday=1 or tuesday=1 or wednesday=1) group by customer_id
+	)cuinfo
+	on cu.customer_id=cuinfo.customer_id
+	where cu.status=1 and cu.thursday=1
+	union all
+	SELECT cu.customer_id,budget,startprice,endprice,issuper_budget,5 weeks,ifnull(cuinfo.num,0)+1 num from customer_wise cu
+	left outer join (select ifnull(monday,0)+ifnull(tuesday,0)+ifnull(wednesday,0)+ifnull(thursday,0) num,customer_id from customer_wise 
+	where status=1 and (monday=1 or tuesday=1 or wednesday=1 or friday=1) group by customer_id
+	)cuinfo
+	on cu.customer_id=cuinfo.customer_id
+	where cu.status=1 and cu.friday=1
+	)customerwise
+    where weeks=#{week}
+	order by customer_id,weeks
+   </select>
+  
+</mapper>

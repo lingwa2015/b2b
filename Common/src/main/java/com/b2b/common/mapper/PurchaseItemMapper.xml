@@ -1,0 +1,874 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.PurchaseItemMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.PurchaseItem" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="purchase_id" property="purchaseId" jdbcType="VARCHAR" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="size" property="size" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="BIGINT" />
+    <result column="cost_price" property="costPrice" jdbcType="BIGINT" />
+    <result column="convert_num" property="convertNum" jdbcType="INTEGER" />
+    <result column="item_weight" property="itemWeight" jdbcType="DECIMAL" />
+    <result column="shelf_life" property="shelfLife" jdbcType="INTEGER" />
+    <result column="purchase_num" property="purchaseNum" jdbcType="INTEGER" />
+    <result column="item_remark" property="itemRemark" jdbcType="VARCHAR" />
+    <result column="purchased_num" property="purchasedNum" jdbcType="INTEGER" />
+    <result column="total_price" property="totalPrice" jdbcType="BIGINT" />
+    <result column="stock_num" property="stockNum" jdbcType="INTEGER" />
+    <result column="supplier_id" property="supplierId" jdbcType="INTEGER" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="use_num" property="useNum" jdbcType="INTEGER" />
+    <result column="barcode" property="barcode" jdbcType="VARCHAR" />
+    <result column="stock_flag" property="stockFlag" jdbcType="INTEGER" />
+    <result column="stocked_num" property="stockedNum" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="stocked_time" property="stockedTime" jdbcType="TIMESTAMP" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="isDown" property="isdown" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, purchase_id, item_id, item_name, category_id, category_name, size, price, cost_price,
+    convert_num, item_weight, shelf_life, purchase_num, item_remark, purchased_num, total_price,
+    stock_num, supplier_id, supplier_name, use_num, barcode, stock_flag, stocked_num,
+    status, stocked_time, created_time, isDown, city_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.PurchaseItemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from purchase_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from purchase_item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from purchase_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.PurchaseItemExample" >
+    delete from purchase_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.PurchaseItem" >
+    insert into purchase_item (id, purchase_id, item_id,
+      item_name, category_id, category_name,
+      size, price, cost_price,
+      convert_num, item_weight, shelf_life,
+      purchase_num, item_remark, purchased_num,
+      total_price, stock_num, supplier_id,
+      supplier_name, use_num, barcode,
+      stock_flag, stocked_num, status,
+      stocked_time, created_time, isDown,
+      city_id)
+    values (#{id,jdbcType=INTEGER}, #{purchaseId,jdbcType=VARCHAR}, #{itemId,jdbcType=INTEGER},
+      #{itemName,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR},
+      #{size,jdbcType=VARCHAR}, #{price,jdbcType=BIGINT}, #{costPrice,jdbcType=BIGINT},
+      #{convertNum,jdbcType=INTEGER}, #{itemWeight,jdbcType=DECIMAL}, #{shelfLife,jdbcType=INTEGER},
+      #{purchaseNum,jdbcType=INTEGER}, #{itemRemark,jdbcType=VARCHAR}, #{purchasedNum,jdbcType=INTEGER},
+      #{totalPrice,jdbcType=BIGINT}, #{stockNum,jdbcType=INTEGER}, #{supplierId,jdbcType=INTEGER},
+      #{supplierName,jdbcType=VARCHAR}, #{useNum,jdbcType=INTEGER}, #{barcode,jdbcType=VARCHAR},
+      #{stockFlag,jdbcType=INTEGER}, #{stockedNum,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+      #{stockedTime,jdbcType=TIMESTAMP}, #{createdTime,jdbcType=TIMESTAMP}, #{isdown,jdbcType=INTEGER},
+      #{cityId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.PurchaseItem" >
+    insert into purchase_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="purchaseId != null" >
+        purchase_id,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="itemName != null" >
+        item_name,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="categoryName != null" >
+        category_name,
+      </if>
+      <if test="size != null" >
+        size,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="costPrice != null" >
+        cost_price,
+      </if>
+      <if test="convertNum != null" >
+        convert_num,
+      </if>
+      <if test="itemWeight != null" >
+        item_weight,
+      </if>
+      <if test="shelfLife != null" >
+        shelf_life,
+      </if>
+      <if test="purchaseNum != null" >
+        purchase_num,
+      </if>
+      <if test="itemRemark != null" >
+        item_remark,
+      </if>
+      <if test="purchasedNum != null" >
+        purchased_num,
+      </if>
+      <if test="totalPrice != null" >
+        total_price,
+      </if>
+      <if test="stockNum != null" >
+        stock_num,
+      </if>
+      <if test="supplierId != null" >
+        supplier_id,
+      </if>
+      <if test="supplierName != null" >
+        supplier_name,
+      </if>
+      <if test="useNum != null" >
+        use_num,
+      </if>
+      <if test="barcode != null" >
+        barcode,
+      </if>
+      <if test="stockFlag != null" >
+        stock_flag,
+      </if>
+      <if test="stockedNum != null" >
+        stocked_num,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="stockedTime != null" >
+        stocked_time,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="isdown != null" >
+        isDown,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseId != null" >
+        #{purchaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryName != null" >
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null" >
+        #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=BIGINT},
+      </if>
+      <if test="costPrice != null" >
+        #{costPrice,jdbcType=BIGINT},
+      </if>
+      <if test="convertNum != null" >
+        #{convertNum,jdbcType=INTEGER},
+      </if>
+      <if test="itemWeight != null" >
+        #{itemWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="shelfLife != null" >
+        #{shelfLife,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseNum != null" >
+        #{purchaseNum,jdbcType=INTEGER},
+      </if>
+      <if test="itemRemark != null" >
+        #{itemRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasedNum != null" >
+        #{purchasedNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=BIGINT},
+      </if>
+      <if test="stockNum != null" >
+        #{stockNum,jdbcType=INTEGER},
+      </if>
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="supplierName != null" >
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="useNum != null" >
+        #{useNum,jdbcType=INTEGER},
+      </if>
+      <if test="barcode != null" >
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="stockFlag != null" >
+        #{stockFlag,jdbcType=INTEGER},
+      </if>
+      <if test="stockedNum != null" >
+        #{stockedNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="stockedTime != null" >
+        #{stockedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isdown != null" >
+        #{isdown,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.PurchaseItemExample" resultType="java.lang.Integer" >
+    select count(*) from purchase_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update purchase_item
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.purchaseId != null" >
+        purchase_id = #{record.purchaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemId != null" >
+        item_id = #{record.itemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemName != null" >
+        item_name = #{record.itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.categoryId != null" >
+        category_id = #{record.categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.categoryName != null" >
+        category_name = #{record.categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.size != null" >
+        size = #{record.size,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=BIGINT},
+      </if>
+      <if test="record.costPrice != null" >
+        cost_price = #{record.costPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.convertNum != null" >
+        convert_num = #{record.convertNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemWeight != null" >
+        item_weight = #{record.itemWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.shelfLife != null" >
+        shelf_life = #{record.shelfLife,jdbcType=INTEGER},
+      </if>
+      <if test="record.purchaseNum != null" >
+        purchase_num = #{record.purchaseNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemRemark != null" >
+        item_remark = #{record.itemRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.purchasedNum != null" >
+        purchased_num = #{record.purchasedNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalPrice != null" >
+        total_price = #{record.totalPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.stockNum != null" >
+        stock_num = #{record.stockNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.supplierId != null" >
+        supplier_id = #{record.supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="record.supplierName != null" >
+        supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.useNum != null" >
+        use_num = #{record.useNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.barcode != null" >
+        barcode = #{record.barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stockFlag != null" >
+        stock_flag = #{record.stockFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.stockedNum != null" >
+        stocked_num = #{record.stockedNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.stockedTime != null" >
+        stocked_time = #{record.stockedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isdown != null" >
+        isDown = #{record.isdown,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update purchase_item
+    set id = #{record.id,jdbcType=INTEGER},
+      purchase_id = #{record.purchaseId,jdbcType=VARCHAR},
+      item_id = #{record.itemId,jdbcType=INTEGER},
+      item_name = #{record.itemName,jdbcType=VARCHAR},
+      category_id = #{record.categoryId,jdbcType=INTEGER},
+      category_name = #{record.categoryName,jdbcType=VARCHAR},
+      size = #{record.size,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=BIGINT},
+      cost_price = #{record.costPrice,jdbcType=BIGINT},
+      convert_num = #{record.convertNum,jdbcType=INTEGER},
+      item_weight = #{record.itemWeight,jdbcType=DECIMAL},
+      shelf_life = #{record.shelfLife,jdbcType=INTEGER},
+      purchase_num = #{record.purchaseNum,jdbcType=INTEGER},
+      item_remark = #{record.itemRemark,jdbcType=VARCHAR},
+      purchased_num = #{record.purchasedNum,jdbcType=INTEGER},
+      total_price = #{record.totalPrice,jdbcType=BIGINT},
+      stock_num = #{record.stockNum,jdbcType=INTEGER},
+      supplier_id = #{record.supplierId,jdbcType=INTEGER},
+      supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      use_num = #{record.useNum,jdbcType=INTEGER},
+      barcode = #{record.barcode,jdbcType=VARCHAR},
+      stock_flag = #{record.stockFlag,jdbcType=INTEGER},
+      stocked_num = #{record.stockedNum,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      stocked_time = #{record.stockedTime,jdbcType=TIMESTAMP},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      isDown = #{record.isdown,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.PurchaseItem" >
+    update purchase_item
+    <set >
+      <if test="purchaseId != null" >
+        purchase_id = #{purchaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="itemName != null" >
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryName != null" >
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null" >
+        size = #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=BIGINT},
+      </if>
+      <if test="costPrice != null" >
+        cost_price = #{costPrice,jdbcType=BIGINT},
+      </if>
+      <if test="convertNum != null" >
+        convert_num = #{convertNum,jdbcType=INTEGER},
+      </if>
+      <if test="itemWeight != null" >
+        item_weight = #{itemWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="shelfLife != null" >
+        shelf_life = #{shelfLife,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseNum != null" >
+        purchase_num = #{purchaseNum,jdbcType=INTEGER},
+      </if>
+      <if test="itemRemark != null" >
+        item_remark = #{itemRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasedNum != null" >
+        purchased_num = #{purchasedNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null" >
+        total_price = #{totalPrice,jdbcType=BIGINT},
+      </if>
+      <if test="stockNum != null" >
+        stock_num = #{stockNum,jdbcType=INTEGER},
+      </if>
+      <if test="supplierId != null" >
+        supplier_id = #{supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="supplierName != null" >
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="useNum != null" >
+        use_num = #{useNum,jdbcType=INTEGER},
+      </if>
+      <if test="barcode != null" >
+        barcode = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="stockFlag != null" >
+        stock_flag = #{stockFlag,jdbcType=INTEGER},
+      </if>
+      <if test="stockedNum != null" >
+        stocked_num = #{stockedNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="stockedTime != null" >
+        stocked_time = #{stockedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isdown != null" >
+        isDown = #{isdown,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.PurchaseItem" >
+    update purchase_item
+    set purchase_id = #{purchaseId,jdbcType=VARCHAR},
+      item_id = #{itemId,jdbcType=INTEGER},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      category_name = #{categoryName,jdbcType=VARCHAR},
+      size = #{size,jdbcType=VARCHAR},
+      price = #{price,jdbcType=BIGINT},
+      cost_price = #{costPrice,jdbcType=BIGINT},
+      convert_num = #{convertNum,jdbcType=INTEGER},
+      item_weight = #{itemWeight,jdbcType=DECIMAL},
+      shelf_life = #{shelfLife,jdbcType=INTEGER},
+      purchase_num = #{purchaseNum,jdbcType=INTEGER},
+      item_remark = #{itemRemark,jdbcType=VARCHAR},
+      purchased_num = #{purchasedNum,jdbcType=INTEGER},
+      total_price = #{totalPrice,jdbcType=BIGINT},
+      stock_num = #{stockNum,jdbcType=INTEGER},
+      supplier_id = #{supplierId,jdbcType=INTEGER},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      use_num = #{useNum,jdbcType=INTEGER},
+      barcode = #{barcode,jdbcType=VARCHAR},
+      stock_flag = #{stockFlag,jdbcType=INTEGER},
+      stocked_num = #{stockedNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      stocked_time = #{stockedTime,jdbcType=TIMESTAMP},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      isDown = #{isdown,jdbcType=INTEGER},
+      city_id = #{cityId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <resultMap type="com.b2b.common.domain.PurchaseItem" id="suppliersMap" autoMapping="true">
+    <id column="item_id" property="itemId"/>
+    <collection property="suppliers" javaType="List" column="item_id" ofType="Supplier" select="selectSuppliers">
+    </collection>
+  </resultMap>
+  <select id="selectSuppliers" resultType="Supplier">
+    SELECT
+	p.id,p.supplier_name
+	FROM
+	item_supplier t1
+	LEFT JOIN supplier p ON t1.suppiler_id=p.id
+	WHERE t1.item_id =#{item_id}
+  </select>
+
+  <select id="findItemPlan" resultMap="suppliersMap">
+    SELECT DISTINCT
+      i.id  item_id,
+      i.item_name,
+      i.buy_size size,
+      i.price,
+      i.buy_price cost_price,
+      ic.id category_id,
+      ic.category_name,
+      i.convert_num,
+      i.item_weight,
+      i.shelf_life,
+      pi.purchase_num,
+      pi.item_remark,
+      pi.supplier_id,
+      pi.supplier_name,
+      s.num stock_num,
+      i.city_id,
+      i.barcode,
+      pi2.use_num,
+      i.free_special_supply isfree,
+      itv.weekVolume,
+      ROUND(itv.weekVolume + IFNULL(i.ka_num, 0)*#{newUserNum}/i.convert_num + (itv.weekVolume/7*DATEDIFF(date_sub(curdate(),INTERVAL WEEKDAY(curdate()) - 6 DAY), curdate()))
+        - ifnull((s.num/i.convert_num), 0) - ifnull(pi2.use_num, 0), 2) weekVolumePlan,
+      i.grade
+    FROM item i
+      left join item_category ic ON ic.id = i.category_id
+      LEFT JOIN purchase_item pi ON pi.item_id = i.id and pi.`status` = 4
+      LEFT JOIN stock s ON s.item_id = i.id
+      LEFT JOIN item_supplier is1 ON is1.item_id = i.id
+      LEFT JOIN item_week_volume itv ON i.id = itv.item_id
+      LEFT JOIN (SELECT
+        pi.item_id , SUM(pi.purchase_num) - SUM(pi.purchased_num) use_num
+        FROM purchase_item pi
+          LEFT JOIN purchase p ON p.id = pi.purchase_id
+        WHERE pi.`status` = 0 AND p.`status` != 4 GROUP BY pi.item_id)  pi2 ON pi2.item_id = i.id
+    WHERE i.`status` = 1
+      AND ic.category_name != '办公用品'
+    <if test="isDown !=null and isDown != ''">
+      AND i.isDown = #{isDown}
+    </if>
+    <if test="cate !=null and cate != ''">
+      AND i.category_id = #{cate}
+    </if>
+    <if test="itemName !=null and itemName !=''">
+      AND i.item_name like '%${itemName}%'
+    </if>
+    <if test="cityId!=null and cityId!=''">
+      AND i.city_id = #{cityId}
+    </if>
+    <if test="grade!=null and grade!=''">
+      AND i.grade = #{grade}
+    </if>
+    ORDER BY is1.suppiler_id desc, i.category_id, i.id
+  </select>
+
+  <select id="findbyItemId" resultMap="BaseResultMap">
+    select *
+    from purchase_item pi
+    WHERE pi.`status` = 4
+    <if test="itemId !=null and itemId !=''">
+      and pi.item_id = #{itemId}
+    </if>
+  </select>
+
+  <select id="findbySupplierId" resultType="String">
+    select MAX(pi.purchase_id)
+    from purchase_item pi
+    WHERE pi.`status` = 4
+    <if test="supplierId !=null and supplierId !=''">
+      and pi.supplier_id = #{supplierId}
+    </if>
+  </select>
+
+  <delete id="deleteByItemId">
+    delete from purchase_item
+    WHERE item_id = #{itemId}
+    AND `status` = 4
+  </delete>
+
+  <select id="findMaxPurchaseId" resultType="String">
+    select MAX(pi.purchase_id)
+    from purchase_item pi
+  </select>
+
+  <select id="findPlans" resultMap="BaseResultMap">
+    SELECT
+	  pi.purchase_id,
+      pi.supplier_id,
+      pi.supplier_name,
+      pi.city_id,
+      sum(total_price) total_price
+    FROM purchase_item pi
+    WHERE
+        pi.`status` = 4
+        AND pi.city_id = #{cityId}
+    GROUP BY pi.supplier_id, pi.purchase_id
+    ORDER BY pi.purchase_id
+  </select>
+
+  <select id="findItemPlans" resultMap="BaseResultMap">
+    SELECT
+      *
+    FROM purchase_item pi
+    WHERE
+      pi.`status` = 4
+      AND pi.city_id = #{cityId}
+    ORDER BY pi.purchase_id
+  </select>
+
+
+  <select id="findUseNumByItemId" resultType="java.lang.Integer">
+    SELECT
+      SUM(pi.purchase_num)
+    FROM purchase_item pi
+    WHERE pi.`status` = 0
+	  AND pi.item_id = #{itemId}
+  </select>
+
+  <select id="findItemsByPurchaseId" resultMap="BaseResultMap">
+    SELECT
+      p.id, p.purchase_id, p.item_id, p.item_name, p.category_id, p.category_name, p.size, p.price, p.cost_price,
+      p.convert_num, p.item_weight, p.shelf_life, p.purchase_num, p.item_remark, p.purchased_num, p.total_price,
+      p.stock_num, p.supplier_id, p.supplier_name, p.use_num, p.barcode, p.stock_flag, p.stocked_num,
+      p.status, p.stocked_time, p.created_time, p.isDown, p.city_id, i.size saleSize
+    FROM purchase_item p
+      LEFT JOIN item i ON i.id = p.item_id
+    WHERE p.purchase_id = #{purchaseId}
+    ORDER BY p.item_id
+  </select>
+
+
+  <select id="findbyPurchaseIdAndItemid" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM purchase_item pi
+    WHERE pi.purchase_id = #{purchaseId}
+      AND pi.item_id = #{itemId}
+    ORDER BY pi.item_id
+  </select>
+
+  <select id="findItemsByItemIdAndCity" resultMap="BaseResultMap">
+    SELECT
+    i.id  item_id,
+    i.item_name,
+    i.category_id,
+    ic.category_name,
+    i.buy_size size,
+    i.price,
+    i.buy_price cost_price,
+    ic.id category_id,
+    ic.category_name,
+    i.convert_num,
+    i.item_weight,
+    i.shelf_life,
+    pi.purchase_num,
+    pi.item_remark,
+    pi.supplier_id,
+    pi.supplier_name,
+    s.num stock_num,
+    i.city_id,
+    i.barcode,
+    pi2.use_num
+    FROM item i
+    left join item_category ic ON ic.id = i.category_id
+    LEFT JOIN purchase_item pi ON pi.item_id = i.id and pi.`status` = 4
+    LEFT JOIN stock s ON s.item_id = i.id
+    LEFT JOIN (SELECT
+        t.item_id, (sum(t.use_num) - sum(t.purchased_num)) use_num
+      FROM (
+        SELECT pi.item_id, IFNULL(SUM(pi.use_num), 0) use_num, 0 purchased_num FROM purchase_item pi
+        WHERE pi.`status` = 0
+          <if test="itemId !=null and itemId !=''">
+            AND pi.item_id = #{itemId}
+          </if>
+        GROUP BY pi.item_id
+        UNION ALL
+        SELECT pi.item_id, 0 , IFNULL(SUM(pi.purchased_num), 0) purchased_num FROM purchase_item pi
+        WHERE pi.`status` = 0  and pi.stock_flag = 1
+          <if test="itemId !=null and itemId !=''">
+            AND pi.item_id = #{itemId}
+          </if>
+      GROUP BY pi.item_id
+      ) t
+      GROUP BY t.item_id
+    ) pi2 ON pi2.item_id = i.id
+    WHERE i.`status` = 1
+    <if test="itemId !=null and itemId !=''">
+      AND i.id = #{itemId}
+    </if>
+    <if test="cityId!=null and cityId!=''">
+      AND i.city_id = #{cityId}
+    </if>
+    ORDER BY i.id
+  </select>
+  
+  <select id="findOrderItemByPurchaseId" resultType="hashmap">
+    SELECT
+        pi.id,
+        pi.item_id,
+        pi.item_name itemName,
+        pi.barcode,
+        pi.purchase_id purchaseId,
+        pi.category_id categoryId,
+        pi.size,
+        pi.convert_num convertNum,
+        pi.cost_price costPrice,
+        pi.item_remark remark,
+        s.num,
+        pi.purchase_num purchaseNum,
+        pi.purchased_num purchasedNum,
+        pi.total_price totalPrice
+    FROM
+        purchase_item pi
+        LEFT JOIN stock s ON s.item_id = pi.item_id
+    WHERE pi.purchase_id = #{purchaseId}
+    ORDER BY pi.id
+  </select>
+
+  <select id="findInfoByStock" resultMap="BaseResultMap">
+    SELECT
+      id, purchase_id, item_id,
+      item_name, category_id, category_name,
+      size, price, cost_price,
+      convert_num, item_weight, shelf_life,
+      purchase_num, item_remark, purchased_num,
+      total_price, stock_num, supplier_id,
+      supplier_name, use_num, barcode,
+      stock_flag, stocked_num, status,
+      stocked_time, created_time, isDown,
+      city_id
+    FROM `purchase_item`
+    WHERE `id` in (#{ids})
+    ORDER BY item_id
+  </select>
+  <select id="findEndCountByPurchaseId" resultType="java.lang.Integer">
+    SELECT
+     SUM(a)- SUM(b)
+    FROM(
+    SELECT
+     COUNT(1) a, 0 b
+    FROM purchase_item pi
+        WHERE pi.purchase_id = #{purchaseId}
+    UNION ALL
+    SELECT 0 a, COUNT(1) b
+    FROM purchase_item pi
+        WHERE pi.purchase_id = #{purchaseId}
+        AND pi.STATUS = 1
+    ) t
+  </select>
+  <select id="autoGetPaymenPrice" resultType="hashmap">
+    SELECT
+      (sum(total_price) - sum(refund_price) - SUM(payment_price)) total_price
+    FROM
+    (
+        SELECT s.supplier_id, IFNULL(SUM(s.total_fee), 0) total_price, 0 refund_price, 0 payment_price
+			FROM `storage` s
+		WHERE  s.state = 1
+		AND s.supplier_id = #{supplierId}
+		AND LEFT(s.number ,14) = "From purchase:"
+		AND DATE_FORMAT(#{dateTime}, '%Y-%m')  = DATE_FORMAT(s.executed_time,  '%Y-%m')
+
+        UNION ALL
+        SELECT
+            o.supplier_id, 0, SUM(o.total_price), 0
+        FROM outstock o
+        WHERE o.`status` = 1
+            AND o.supplier_id = #{supplierId}
+            AND DATE_FORMAT(#{dateTime}, '%Y-%m')  = DATE_FORMAT(o.outstock_time,  '%Y-%m')
+        UNION ALL
+        SELECT
+            pa.supplier_id, 0, 0, sum(pa.payment_price)
+        FROM payment_apply pa
+        WHERE pa.supplier_id = #{supplierId}
+            AND pa.`status` != 4
+            AND pa.`year` = DATE_FORMAT(#{dateTime}, '%Y')
+            AND pa.`month` = DATE_FORMAT(#{dateTime}, '%m')
+          GROUP BY pa.supplier_id
+        ) t
+  </select>
+  <update id="updatePurchaseItemStatus" >
+    UPDATE purchase_item SET status = #{status} where purchase_id = #{purchaseId}
+  </update>
+</mapper>

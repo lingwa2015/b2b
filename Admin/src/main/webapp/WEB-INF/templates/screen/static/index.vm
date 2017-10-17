@@ -1,0 +1,89 @@
+#set($layout="layout/appLayoutV3.vm")
+
+
+        <div class="lw_content">
+            <div class="col_one">
+                <div class="c_logo">
+                    <img width="39%" src="${rc.contextPath}/static/images/logo_tele.png">
+                </div>
+                <div class="c_text">
+                    <span>专业的办公室零食提供商</span>
+                    <p>我们专注于为公司解决零食的采购和配送需求。我们希望通过创新的一站式管家服务，降低公司采购和管理成本，省钱省心。我们主要提供办公室日常需求的休闲食品，涵盖零食、冷饮、水果、饮料等；我们也提供公司特定活动或传统佳节需求的休闲食品，比如生日会蛋糕、中秋节月饼等。</p>
+                </div>
+                <div class="c_pic">
+                    <img src="${rc.contextPath}/static/images/pic_1.jpg">
+                </div>
+            </div>
+            <div class="col_two">
+                <div class="c_text">
+                    <span>性价比高</span>
+                    <p>厂商合作品质保证<br/>价格低于各大电商平台</p>
+                </div>
+                <div class="c_pic">
+                    <img src="${rc.contextPath}/static/images/bl1.jpg">
+                    <img src="${rc.contextPath}/static/images/bl2.jpg">
+                    <img src="${rc.contextPath}/static/images/bl3.jpg">
+                    <img src="${rc.contextPath}/static/images/bl4.jpg">
+                    <img src="${rc.contextPath}/static/images/bl5.jpg">
+                    <img src="${rc.contextPath}/static/images/bl6.jpg">
+                    <img src="${rc.contextPath}/static/images/bl7.jpg">
+                    <img src="${rc.contextPath}/static/images/bl8.jpg">
+                </div>
+            </div>
+            <div class="col_three">
+                <div class="c_text">
+                    <span>陈列美观</span>
+                    <p>免费提供精美零食架<br/>定期更新趣味漫画</p>
+                </div>
+                <div class="c_pic">
+                    <img src="${rc.contextPath}/static/images/pic_2.jpg">
+                </div>
+            </div>
+            <div class="col_four">
+                <div class="c_text">
+                    <span>选品独到</span>
+                    <p>精选最受喜爱的零食品类<br/>营养师精心搭配，均衡品类组合</p>
+                </div>
+                <div class="c_pic">
+                    <img src="${rc.contextPath}/static/images/pic_table.png">
+                </div>
+            </div>
+            <div class="col_five">
+                <div class="c_logo">
+                    <img width="30%" src="${rc.contextPath}/static/images/icon_1.png">
+                </div>
+                <div class="c_text">
+                    <span>配送及时</span>
+                    <p>无需客户操心，由领蛙工作人员巡查零食实际的消耗情况，及时补货，并定期调整品类和口味，每时每刻都能满足客户员工的需求。</p>
+                </div>
+            </div>
+            <div class="col_six">
+                <div class="c_logo">
+                    <img width="30%" src="${rc.contextPath}/static/images/icon_2.png">
+                </div>
+                <div class="c_text">
+                    <span>预算可控</span>
+                    <p>采用月度结算方案，按照企业的月度预算，提供月度配货方案，按实际当月实际消费情况，次月初结算，提供发票。</p>
+                </div>
+            </div>
+            <div class="col_seven">
+                <div class="c_logo">
+                    <img width="30%" src="${rc.contextPath}/static/images/icon_3.png">
+                </div>
+                <div class="c_text">
+                    <span>退换无忧</span>
+                    <p>支持无理由退换货，任何需要退换的品类，可直接退回给领蛙配送人员。</p>
+                </div>
+            </div>
+            <div class="col_eight">
+                <div class="c_logo">
+                    <img width="50%" src="${rc.contextPath}/static/images/code.jpg">
+                </div>
+                <div class="c_text">
+                    <p>加微信公众号“领蛙”了解最新活动</p>
+                </div>
+            </div>
+        </div>
+
+
+

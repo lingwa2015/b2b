@@ -1,0 +1,58 @@
+<script type="text/javascript">
+function editData(id){
+  window.location.href="${rc.contextPath}/snackPackageType/snackPackageTypeUpdate.htm?id="+id;
+}
+
+function deleteData(id){
+   var url="${rc.contextPath}/snackPackageType/delete.do?id="+id;
+  doDeleteRequest(url,id,show);
+}
+function show(data){
+	alert(data);
+	if(data.indexOf("成功")!=-1){
+		  window.location.href="${rc.contextPath}/snackPackageType/snackPackageTypeList.htm";
+	}
+}
+
+</script>
+<div class="content">
+		<div class="bd-actionbar">
+			<a href="${rc.contextPath}/snackPackageType/snackPackageTypeAdd.htm" class="btn btn-success"><i class="ico"></i>添加零食包类型</a>
+		</div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/snackPackageType/snackPackageTypeList.htm"" method="post">
+		</form>
+		<table class="table">
+		  <tr>
+			<th>零食包编号</td>
+			<th>零食包名称</td>
+			<th>操作</td>
+		  </tr>
+		  
+		  #set ($rowCount = 0)
+		  #foreach($bean in $page.result)
+			  #set ($isOddRow = $rowCount % 2 != 0)
+			  #if ($isOddRow)
+	           <tr>
+	          #else
+	           <tr class="sep-bar">
+	          #end
+				<td>$!bean.id</td>
+				<td>$!bean.spValue</td>
+				<td class="opt">
+					<a href="javascript:editData('$bean.id')">编辑</a>
+					<a href="javascript:deleteData('$bean.id')">删除</a>
+				</td>
+			  </tr>
+			  
+			  #set ($rowCount = $rowCount + 1)
+		  #end
+		 
+		</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

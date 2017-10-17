@@ -1,0 +1,13 @@
+<div class="content">
+	<div class="bd-actionbar">
+	</div><!--bd-actionbar-->
+		
+	<div class="bd-main">
+		<div class="bd-main-inner">
+        <div class="code_ju">
+            <img src="${rc.contextPath}/user/manageQRCode.htm?userid=$!userid&token=$!stringMD5">
+        </div>
+        <p>微信扫码绑定</p>
+</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

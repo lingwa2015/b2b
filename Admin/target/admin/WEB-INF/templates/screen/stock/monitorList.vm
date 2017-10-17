@@ -1,0 +1,77 @@
+
+<div class="content">
+    <div class="bd-actionbar">
+        <a href="${rc.contextPath}/stock/stockList.htm" title="返回商品列表" class="btn btn-return"><</a>
+        <h4 class="tit">
+            库存每日变更表
+        </h4>
+    </div>
+	<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" id="form1" name="form1" action="$rc.contextPath/monitor/mointorList.htm" method="post">
+				<table class="form form-horizontal">
+					<tr>
+						<td><label class="tit first-tit">开始时间：</label></td>
+						<td>
+							<input class="form-input input-time-day" type="text" name="startTime" id="startTime" readonly="readonly" value="$!startTime">
+						</td>
+			
+						<td><label class="tit">结束时间：</label></td>
+						<td>
+							<input class="form-input input-time-day" type="text" name="endTime" id="endTime" readonly="readonly" value="$!endTime">
+						</td>
+						<td ><a class="btn btn-warning btn-sm" href="javascript:$(form1).submit()">查找</a></td>
+					</tr>
+				</table>
+			</form>
+			
+			<table class="table">
+		 		<tr>
+					<th>库存金额</th>
+					<th>变更金额</th>
+					
+					<th>入库金额</th>
+				
+					<th>出库金额</th>
+					<th>日期</th>
+				
+					
+		  		</tr>
+		  		
+		  		#set ($rowCount = 0)
+		  		#foreach($dto in $page.result)
+			  		#set ($isOddRow = $rowCount % 2 != 0)
+			  		#if ($isOddRow)
+	           		<tr>
+	          		#else
+	           		<tr class="sep-bar">
+	          		#end
+						<td>$NumberTool.toYuanNumber($!dto.stockMoney)</td>
+						<td>$NumberTool.toYuanNumber($!dto.changeMoney)</td>
+						<td>$NumberTool.toYuanNumber($!dto.inStockMoney)</td>
+						<td>$NumberTool.toYuanNumber($!dto.outStockMoney)</td>
+						<td>$!date.format('yyyy-MM-dd 00:00:00',$!dto.createTime)</td>
+			  		</tr>
+			  
+			  		#set ($rowCount = $rowCount + 1)
+		 		#end
+
+			</table>
+			
+			<div class="text-center">
+        			#parse("/common/page.vm")
+       		</div>
+		</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+
+ });
+
+
+</script>

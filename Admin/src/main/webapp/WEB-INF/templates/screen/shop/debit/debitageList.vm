@@ -1,0 +1,321 @@
+#set($layout="layout/shopLayout.vm")
+<input type="hidden" id="isHasNextPage" value="$!{isHasNextPage}" />
+<input type="hidden" id="pageNum" value="$!{pagenum}" />
+<div class="purchase_top">
+        <span class="purchase_top01 left"><span>全部账龄<span class="sanjiao"></span></span></span>
+        <span style="border-right:0;" class="purchase_top01 right"><span>账龄由大到小<span class="sanjiao"></span></span></span>
+   </div>
+   <div class="show_code" style="background-color: rgba(3, 3, 3, 0.3);"></div>
+   <div class="all_list">
+        <p date_id="1">全部账龄</p>
+        <p date_id="2">超过1年</p>
+        <p date_id="3">9-12个月</p>
+        <p date_id="4">6-9个月</p>
+        <p date_id="5">3-6个月</p>
+        <p date_id="6">0-3个月</p>
+   </div>
+   <div class="pai_list">
+        <p date_id="1">账龄由大到小</p>
+        <p date_id="2">金额由高到低</p>
+   </div>
+   <div class="purchase_details" style="margin-top:.92rem;margin-bottom:0;background-color:#f5f5f5;">
+       <ul id="concent_ul">
+           
+           #foreach($dto in $lists)
+           	 <li>
+           	 <a href="${rc.contextPath}/convenient/home/shop_monthRecord.htm?shop_id=$dto.companyId" class="wl">	
+               <div class="purchase_01" style="padding-top:0;">
+                   <div class="huikuan_01" style="margin-top:0.1rem;">
+                       <span style="font-family: PingFangSC-Regular;font-size:.32rem;">$dto.userName</span>
+                   </div>
+                   <div class="huikuan_02" style="float:left;padding-top:.02rem;">
+                       <span class="huikuan_03 jiejue" style="width:48%;">$dto.companyName</span>
+                       <span class="huikuan_04"><span style="font-family: PingFangSC-Medium;float:left;">¥</span><span class="llk">$NumberTool.toYuanNumber($dto.amountSum1)</span></span>
+                       <span class="kl">总共未还</span>
+                   </div>
+               </div>
+               <div class="huikuan_05">
+                   <span style="float:right;">最早$!date.format('yyyy-MM',$dto.createDate)，未回款¥$NumberTool.toYuanNumber($dto.amountSum2)</span>
+               </div>
+               </a>
+           </li>
+           #end
+            
+       </ul>
+   </div>
+ <script type="text/javascript">
+    document.title = "帐龄";
+    $("body").css("background-color","#f5f5f5");
+    $(function(){
+        var chushi = $!flag;
+        $(".all_list p").each(function(){
+            var all_oid = $(this).attr("date_id");
+            if(all_oid == chushi){
+                $('.left').find('span').text($(this).text());
+                $(".left").find("span").append('<span class="sanjiao"></span>');
+                $(this).addClass("active")
+            }
+        })
+    })
+    
+    function formatDate(str) { 
+    	 var res = /^[0-9]$/
+    	var now=new Date(str);
+		var year=now.getFullYear(); 
+		var month=now.getMonth()+1; 
+		if(res.test(month)){
+			month = "0"+month;
+		}
+		var date=now.getDate(); 
+		if(res.test(date)){
+			date = "0"+date;
+		}
+		var hour=now.getHours(); 
+		if(res.test(hour)){
+			hour = "0"+hour;
+		}
+		var minute=now.getMinutes(); 
+		if(res.test(minute)){
+			minute = "0"+minute;
+		}
+		var second=now.getSeconds(); 
+		if(res.test(second)){
+			second = "0"+second;
+		}
+		return year+"-"+month; 
+	} 
+    
+    function formatMoney(num) {
+        var money = num/100;
+        var float = num%100;
+        var float2 = num%10;
+        if(float == 0){
+            money = money + ".00";
+        }else{
+            if(float2 == 0) {
+                money = money + "0";
+            }
+        }
+        return money;
+    }
+    
+    var touchmove;
+    $(document).on("touchstart", function () {
+        touchmove = false;
+    });
+    $(document).on("touchmove", function () {
+        touchmove = true;
+    });
+    $(".left").on("touchend",function(){
+        if(touchmove){
+            return;
+        }
+        if (! $(".show_code").is(":animated")){
+            if($(".all_list").css("display")=="none"){
+                $(this).find(".sanjiao").addClass("fanzhuang");
+                $(".all_list").show();
+                $(".left").css("color"," #FF5517");
+                $(".right").css("color"," #333");
+                $(".pai_list").hide();
+                var all_text = $(".left").text();
+                $(".all_list p").each(function(){
+                    if($(this).text() == all_text){
+                        $(this).addClass("active")
+                    }
+                })
+                $(".right").find(".sanjiao").removeClass("fanzhuang");
+                $(".show_code").fadeIn();
+            }else{
+                $(this).find(".sanjiao").removeClass("fanzhuang");
+                $(".all_list").hide();
+                $(".left").css("color"," #333");
+                $(".show_code").fadeOut();
+            }
+        }
+    })
+    $(".right").on("touchend",function(){
+        if(touchmove){
+            return;
+        }
+        if (! $(".show_code").is(":animated")){
+            if($(".pai_list").css("display")=="none"){
+                $(this).find(".sanjiao").addClass("fanzhuang");
+                $(".right").css("color"," #FF5517");
+                $(".left").css("color"," #333");
+                $(".pai_list").show();
+                $(".all_list").hide();
+                var pai_text = $(".right").text();
+                $(".pai_list p").each(function(){
+                    if($(this).text() == pai_text){
+                        $(this).addClass("active")
+                    }
+                })
+                $(".left").find(".sanjiao").removeClass("fanzhuang");
+                $(".show_code").fadeIn();
+            }else{
+                $(this).find(".sanjiao").removeClass("fanzhuang");
+                $(".pai_list").hide();
+                $(".right").css("color"," #333");
+                $(".show_code").fadeOut();
+            }
+        }
+    })
+    
+     var isrequest = true;
+     var hasNextPage = $('#isHasNextPage').val();
+     var page = parseInt($('#pageNum').val());
+    
+    $(".all_list p").on("touchend",function(){
+        var text =$(this).text();
+        $(this).addClass("active").siblings().removeClass("active");
+        $(".left").find("span").text(text);
+        $(".left").find("span").append('<span class="sanjiao fanzhuang"></span>');
+        $(".all_list").hide();
+        $(".show_code").fadeOut();
+        $(".left").css("color"," #333");
+        $(".left").find(".sanjiao").removeClass("fanzhuang");
+        var all_id = $(this).attr("date_id");
+        var param = "";
+        var pai_text = $(".right").text();
+        $(".pai_list p").each(function(){
+             if($(this).text() == pai_text){
+                param = $(this).attr("date_id");
+             }
+        })
+         $.ajax({
+				url:'${rc.contextPath}/convenient/debitNote/shop_debitageList.json',
+				type:'POST',
+				data: {page:1,rows:50,flag:all_id,param:param},
+				success:function(data){
+				    if(data.status==200){
+				        hasNextPage = data.data.hasNextPage;
+				        page = data.data.pageNum;
+						var list = data.data.list;
+				        var html="";
+						for (var i = 0; i < list.length; i++) {
+						var shopId = list[i].companyId;
+				            var userName = list[i].userName;
+				            var companyName = list[i].companyName;
+				            var createDate = formatDate(list[i].createDate);
+				            var amountSum1 = formatMoney(list[i].amountSum1);
+				            var amountSum2 = formatMoney(list[i].amountSum2);
+				            html += '<li><a href="${rc.contextPath}/convenient/home/shop_monthRecord.htm?shop_id='+shopId+'" class="wl"><div class="purchase_01" style="padding-top:0;"><div class="huikuan_01" style="margin-top:0.1rem;"><span style="font-family: PingFangSC-Regular;font-size:.32rem;">'+userName+'</span></div><div class="huikuan_02" style="float:left;padding-top:.02rem;"><span class="huikuan_03 jiejue" style="width:48%;">'+companyName+'</span><span class="huikuan_04"><span style="font-family: PingFangSC-Medium;float:left;">¥</span><span class="llk">'+amountSum1+'</span></span><span class="kl">总共未还</span></div></div><div class="huikuan_05"><span style="float:right;">最早'+createDate+'，未回款¥'+amountSum2+'</span></div></a></li>'
+				        }
+				        $('body,html').animate({scrollTop:0},200);
+				        $("#concent_ul").html("");
+				        $("#concent_ul").append(html);
+			        }else if(data.status==201){
+			         	alert("权限不足");
+			        }else{
+			        	alert("加载失败");
+			        }
+				}
+			})
+        
+    });
+    $(".pai_list p").on("touchend",function(){
+        var text =$(this).text();
+        $(this).addClass("active").siblings().removeClass("active");
+        $(".right").find("span").text(text);
+        $(".right").find("span").append('<span class="sanjiao fanzhuang"></span>');
+        $(".pai_list").hide();
+        $(".show_code").fadeOut();
+        $(".right").css("color"," #333");
+        $(".right").find(".sanjiao").removeClass("fanzhuang");
+        var pai_id = $(this).attr("date_id");
+        var flag = "";
+        var all_text = $(".left").text();
+        $(".all_list p").each(function(){
+             if($(this).text() == all_text){
+                flag = $(this).attr("date_id");
+             }
+        })
+        
+         $.ajax({
+				url:'${rc.contextPath}/convenient/debitNote/shop_debitageList.json',
+				type:'POST',
+				data: {page:1,rows:50,flag:flag,param:pai_id},
+				success:function(data){
+				    if(data.status==200){
+				        hasNextPage = data.data.hasNextPage;
+				        page = data.data.pageNum;
+						var list = data.data.list;
+				        var html="";
+						for (var i = 0; i < list.length; i++) {
+						var shopId = list[i].companyId;
+				            var userName = list[i].userName;
+				            var companyName = list[i].companyName;
+				            var createDate = formatDate(list[i].createDate);
+				            var amountSum1 = formatMoney(list[i].amountSum1);
+				            var amountSum2 = formatMoney(list[i].amountSum2);
+				            html += '<li><a href="${rc.contextPath}/convenient/home/shop_monthRecord.htm?shop_id='+shopId+'" class="wl"><div class="purchase_01" style="padding-top:0;"><div class="huikuan_01" style="margin-top:0.1rem;"><span style="font-family: PingFangSC-Regular;font-size:.32rem;">'+userName+'</span></div><div class="huikuan_02" style="float:left;padding-top:.02rem;"><span class="huikuan_03 jiejue" style="width:48%;">'+companyName+'</span><span class="huikuan_04"><span style="font-family: PingFangSC-Medium;float:left;">¥</span><span class="llk">'+amountSum1+'</span></span><span class="kl">总共未还</span></div></div><div class="huikuan_05"><span style="float:right;">最早'+createDate+'，未回款¥'+amountSum2+'</span></div></a></li>'
+				        }
+				        $('body,html').animate({scrollTop:0},200);
+				        $("#concent_ul").html("");
+				        $("#concent_ul").append(html);
+			        }else if(data.status==201){
+			         	alert("权限不足");
+			        }else{
+			        	alert("加载失败");
+			        }
+				}
+			})
+    });
+    
+    window.onscroll = function(){  
+    if (Math.abs($(document).scrollTop() >= $(document).height()-$(window).height()) && isrequest) {
+        isrequest = false;
+       if(!hasNextPage){
+	        	return;
+	   }
+        page = page+1;
+        var param1='';
+        var param2 = '';
+        var pai_text = $(".right").text();
+        $(".pai_list p").each(function(){
+             if($(this).text() == pai_text){
+                param1 = $(this).attr("date_id");
+             }
+        })
+        var all_text = $(".left").text();
+        $(".all_list p").each(function(){
+             if($(this).text() == all_text){
+                param2 = $(this).attr("date_id");
+             }
+        })
+        $.ajax({
+				url:'${rc.contextPath}/convenient/debitNote/shop_debitageList.json',
+				type:'POST',
+				data: {page:page,rows:50,flag:param2,param:param1},
+				success:function(data){
+				    if(data.status==200){
+						if(!data.data.hasNextPage){
+							hasNextPage = false;
+						}
+						var list = data.data.list;
+				        var html="";
+						for (var i = 0; i < list.length; i++) {
+						var shopId = list[i].companyId;
+				            var userName = list[i].userName;
+				            var companyName = list[i].companyName;
+				            var createDate = formatDate(list[i].createDate);
+				            var amountSum1 = formatMoney(list[i].amountSum1);
+				            var amountSum2 = formatMoney(list[i].amountSum2);
+				            html += '<li><a href="${rc.contextPath}/convenient/home/shop_monthRecord.htm?shop_id='+shopId+'" class="wl"><div class="purchase_01" style="padding-top:0;"><div class="huikuan_01" style="margin-top:0.1rem;"><span style="font-family: PingFangSC-Regular;font-size:.32rem;">'+userName+'</span></div><div class="huikuan_02" style="float:left;padding-top:.02rem;"><span class="huikuan_03 jiejue" style="width:48%;">'+companyName+'</span><span class="huikuan_04"><span style="font-family: PingFangSC-Medium;float:left;">¥</span><span class="llk">'+amountSum1+'</span></span><span class="kl">总共未还</span></div></div><div class="huikuan_05"><span style="float:right;">最早'+createDate+'，未回款¥'+amountSum2+'</span></div></a></li>'
+				        }
+				        $("#concent_ul").append(html);
+				        isrequest = true;
+			        }else if(data.status==201){
+			         	alert("权限不足");
+			         	isrequest = true;
+			        }else{
+			        	alert("加载失败");
+			         	isrequest = true;
+			        }
+				}
+			})
+       
+    }
+
+ }
+</script>

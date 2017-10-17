@@ -1,0 +1,158 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+
+ });
+
+    function pageBack(){
+    	location.reload();
+    }
+
+
+	function deleteStockCheck(id){
+		$.ajax( {
+				url:'/stockCheck/deleteStockCheck.do',// 跳转到 action
+			    data:{
+			         'id':id
+			    },
+			    type:'post',
+			    cache:false,
+			    dataType:'text',
+			    success:function(data) {
+
+			    	if(data == '删除成功'){
+			    		$(stockCheckListForm).submit();
+			    	}else{
+			    		alert(data);
+			    	}
+
+			     },
+			     error : function() {
+			          alert("删除异常！");
+			     }
+			});
+	}
+	
+	function printData(id){
+		 $('#checkId').val(id);
+	     $('#printForm').submit();
+	}
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+		 <a href="stockCheckAdd.htm" class="btn btn-success"><i class="ico"></i>添加盘库单</a>
+        <a class="ko" href="${rc.contextPath}/stockCheck/stockAllList.htm">全库存盘点</a >
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" id="stockCheckListForm" action="stockCheckList.htm" method="POST">
+
+		<table class="form form-horizontal">
+		<tr>
+			<td><label class="tit first-tit">开始时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="startTime" id="startTime" readonly="readonly" value="$!startTime">
+			</td>
+
+			<td><label class="tit">结束时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="endTime" id="endTime" readonly="readonly" value="$!endTime">
+			</td>
+		</tr>
+		<tr>
+			<td align="left"><label class="tit">客户简称：</label></td>
+						<td><input class="form-input" type="text" name="userName" id="userName" value="$!userName">
+							&nbsp;<span></span>
+						</td>
+		    <td align="right"><label class="tit">商品名称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="itemName" id="itemName" value="$!itemName">
+			</td>
+			<td align="right"><label class="tit">类型：</label></td>
+			<td>
+			<select name="type" id="type" validate="{required:true}" >
+					<option value="">全部</option>
+		            <option value="1" #if($!type==1)selected="selected" #end>盘点</option>
+		            <option value="2" #if($!type==2)selected="selected" #end>损耗</option>
+		            <option value="3" #if($!type==3)selected="selected" #end>营销</option>
+		            <option value="4" #if($!type==4)selected="selected" #end>客情</option>
+		            <option value="5" #if($!type==5)selected="selected" #end>中奖</option>
+			 </select>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(stockCheckListForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+			</td>
+		</tr>
+
+	</table>
+	</form>
+	<div>
+				<form id="printForm" action="/stockCheck/print.htm" method="GET" target='_blank' >
+					<input type='hidden' id='checkId' name='id'/>
+				</form><br/>
+			</div>
+	<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+        <tr class="info">
+			<td colspan="1">
+                <span>盘库总额：$NumberTool.toYuanNumber($!money) 元</span>
+                <span>盘库单数：$!page.records</span>
+            </td>
+		</tr>
+	</table>
+	#foreach($pair in $page.result)
+	#set($itemList = $pair.right)
+	#set($dto = $pair.left)
+
+
+	<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+        <tr class="info">
+			<td colspan="7">
+                <span>创建时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!dto.createdTime)</span>
+                <span>日期：$!date.format('yyyy-MM-dd',$!dto.executedTime)</span>
+                <span>#if($!dto.userName)客户：$!dto.userName #end</span>
+                <span>金额：$NumberTool.toYuanNumber($!dto.totalFee)</span>
+                <span>类型：#if($!dto.type==1)盘点 #elseif($!dto.type==2)损耗 #elseif($!dto.type==3)营销 #elseif($!dto.type==4)客情 #elseif($!dto.type==5)中奖 #end</span>
+                <span>备注：$!dto.remark</span>
+                <span>
+                	<button class="btn btn-success refundMoney" onclick="if(confirm('确定删除?')){deleteStockCheck('$dto.id')}">删除</button>
+                </span>
+                <span>
+                	<button class="btn btn-success refundMoney xs" onclick="printData('$dto.id');">打印订单</button>
+                </span>
+            </td>
+
+		</tr>
+
+		<tr>
+			<th width="25%">商品名称</th>
+			<th width="15%">盘库前库存</th>
+			<th width="15%">盘库后库存</th>
+			<th width="15%">修改数量</th>
+			<th width="15%">单价</th>
+			<th width="15%">金额</th>
+		</tr>
+		#foreach($item in $itemList)
+		<tr>
+			<td>$!item.itemName</td>
+			<td>$!item.oldNum</td>
+			#set($newNum=$item.oldNum+$!item.num)
+			<td>$!newNum</td>
+			<td>$!item.num</td>
+			<td>$NumberTool.toYuanNumber($!item.price)</td>
+			<td>$NumberTool.toYuanNumber($!item.fee)</td>
+		</tr>
+		#end
+	</table>
+	#end
+	<div class="text-center">
+			#parse("/common/page.vm")
+	</div>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+
+
+
+

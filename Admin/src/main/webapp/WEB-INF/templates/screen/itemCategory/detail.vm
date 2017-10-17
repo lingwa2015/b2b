@@ -1,0 +1,132 @@
+<script type="text/javascript">
+$(document).ready(function() {
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+				save();
+				return false;
+        }
+	});
+ });
+
+
+function save(){
+	disableBtn('saveBtn');
+	
+	  var url="${rc.contextPath}/itemCategory/save.do";
+	  submitFormData("form1",url,show);
+}
+
+function show(data){
+    alert(data);
+	if(data.indexOf("成功")!=-1){
+		 cancel();
+	}else{
+	    enableBtn('saveBtn');
+	}
+}
+
+function cancel(){
+    var menuHeight =$('#menuHeight').val();
+    var menuName = $('#menuName').val();
+  window.location.href="${rc.contextPath}/itemCategory/itemCategoryList.htm?menuHeight="+menuHeight+"&menuName="+menuName;
+}
+
+function checkNum(obj) {
+    //检查是否是非数字值
+    if (isNaN(obj.value)) {
+        obj.value = "";
+    }
+    if (obj != null) {
+        //检查小数点后是否对于两位http://blog.csdn.net/shanzhizi
+        if (obj.value.toString().split(".").length > 1 && obj.value.toString().split(".")[1].length > 2) {
+            alert("小数点后多于两位！");
+            obj.value = "";
+        }
+    }
+}
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/itemCategory/itemCategoryList.htm?menuHeight=$!menuHeight&menuName=$!menuName" title="返回类目列表" class="btn btn-return"><</a>
+		<h4 class="tit">
+		   #if ($!dto.id>=0) 
+				编辑类目
+			#else
+				 添加类目
+			#end
+		</h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+	<form class="jqtransform" name="itemCategoryForm" id="form1" action="${rc.contextPath}/itemCategory/save.do" method="post">
+	<input type="hidden" name="id" id="id" value="$!dto.id"/>
+    <input type="hidden" name="parentId" id="parentId" value="$!dto.parentId"/>
+   
+	<table class="form">
+		#if($!dto.parentname)
+            <input type="hidden" name="menuHeight" id="menuHeight" value="$!menuHeight" />
+            <input type="hidden" name="menuName" id="menuName" value="$!menuName" />
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>一级类目名称：</label></td>
+			<td>
+			<input class="form-input" type="text" name="onecategoryName" id="onecategoryName" value="$!dto.parentname" readonly="readonly"  validate="{required:true}">
+			&nbsp;<span></span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>二级类目名称：</label></td>
+			<td>
+			<input class="form-input" type="text" name="CategoryName" id="CategoryName" value="$!dto.categoryName"  validate="{required:true}">
+			&nbsp;<span></span>
+			</td>
+		</tr>
+		<!--<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>类目权重：</label></td>
+			<td>
+			<input class="form-input" type="text" name="categoryWeight" id="categoryWeight" value="$!dto.categoryWeight" onkeyup="checkNum(this)" validate="{required:true}">
+			&nbsp;<span></span>
+			</td>
+		</tr>-->
+		#else
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>一级类目名称：</label></td>
+			<td>
+			<input class="form-input" type="text" name="categoryName" id="categoryName" value="$!dto.categoryName"  validate="{required:true}">
+			&nbsp;<span></span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">只在后台显示：</label></td>
+			<td>
+                <input type="radio" name="isShow" value="2" #if($!dto.isShow==2)checked="checked" #end/>是
+                <input type="radio" name="isShow" value="1" #if(!$!dto.isShow)checked="checked" #else #if($!dto.isShow==1)checked="checked" #end #end/>否
+			&nbsp;<span></span></td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>排序：</label></td>
+			<td>
+			<input class="form-input" type="number" name="score" id="score" value="$!dto.score"  validate="{required:true}">
+			&nbsp;<span></span>
+			</td>
+		</tr>
+		
+		#end
+		<tr class="btn-bar">
+			<td></td>
+			<td><a class="btn btn-primary" id="saveBtn" href="#" onclick="$('#form1').submit();">保存</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

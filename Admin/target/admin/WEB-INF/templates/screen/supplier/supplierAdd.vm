@@ -1,0 +1,141 @@
+<script type="text/javascript">
+var phoneflag=false;
+$(document).ready(function() {
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+			if(phoneflag==true){
+        			save();
+        	}
+            return false;
+        }
+	});
+ });
+
+
+ 
+function save(){
+	disableBtn('saveBtn');
+	
+	var url="${rc.contextPath}/supplier/supplierSave.do";
+  	submitFormData("form1",url,show);
+}
+
+function show(data){
+  	
+	if(data.indexOf("成功")!=-1){
+		//alert(data);
+		cancel();
+	}
+	else{
+		alert(data);
+		enableBtn('saveBtn');
+	}
+}
+
+function cancel(){
+  	window.location.href="${rc.contextPath}/supplier/supplierList.htm";
+}
+</script>
+
+
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/supplier/supplierList.htm" title="返回供应商列表" class="btn btn-return"><</a>
+		<h4 class="tit">添加供应商</h4>
+	</div><!--bd-actionbar-->
+	
+	<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" name="businessForm" id="form1" action="${rc.contextPath}/supplier/supplierSave.do" method="post">
+			<input type="hidden" name="id" id="id" value="$!dto.id"/>
+				<table class="form">
+					<tr>
+						<td align="right"><label class="tit">供应商简称：</label></td>
+						<td>
+							<input validate="{required:true,maxlength:100}" class="form-input" type="text" name="supplierName" id="supplierName" value="$!dto.supplierName"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">供应商全称：</label></td>
+						<td>
+							<input validate="{required:true,maxlength:100}" class="form-input" type="text" name="supplierFullName" id="supplierFullName" value="$!dto.supplierFullName"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">联系人名称：</label></td>
+						<td>
+							<input validate="{required:true,maxlength:255}" class="form-input" type="text" name="linkmanName" id="linkmanName" value="$!dto.linkmanName"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">联系电话：</label></td>
+						<td>
+							<input validate="{required:true,maxlength:11}" class="form-input" type="text" name="mobilePhone" id="mobilePhone" value="$!dto.mobilePhone"/>
+							&nbsp;<span id="mobilePhoneResult"></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">账期：</label></td>
+						<td>
+							<input validate="{required:true,maxlength:255}" class="form-input" type="text" name="accountTime" id="accountTime" value="$!dto.accountTime"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+                    <tr>
+                        <td align="right"><label class="tit">收款单位全称：</label></td>
+                        <td>
+                            <input validate="{required:true,maxlength:255}" class="form-input" type="text" name="accountName" id="accountName" value="$!dto.accountName"/>
+                            &nbsp;<span></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="tit">账号：</label></td>
+                        <td>
+                            <input validate="{required:true,maxlength:255}" class="form-input" type="text" name="account" id="account" value="$!dto.account"/>
+                            &nbsp;<span></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="tit">开户银行：</label></td>
+                        <td>
+                            <input validate="{required:true,maxlength:255}" class="form-input" type="text" name="bankName" id="bankName" value="$!dto.bankName"/>
+                            &nbsp;<span></span>
+                        </td>
+                    </tr>
+					<tr>
+						<td align="right"><label class="tit">供应商地址：</label></td>
+						<td>
+							<textarea id="supplierAddress" name="supplierAddress" cols="50"
+								rows="4" validate="{required:true,maxlength:200}">$!dto.supplierAddress</textarea>
+							&nbsp;<span></span>	
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">备注：</label></td>
+						<td>
+							<textarea id="remark" name="remark" cols="50"
+								rows="4" validate="{required:true,maxlength:200}">$!dto.remark</textarea>
+							&nbsp;
+						</td>
+					</tr>
+					<tr class="btn-bar">
+						<td></td>
+						<td><a class="btn btn-primary" id="saveBtn" href="#" onclick="save();">保存</a></td>
+					</tr>
+				</table>
+			</form>
+		</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

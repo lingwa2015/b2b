@@ -1,0 +1,365 @@
+#set($layout="layout/applayout.vm")
+        <div class="router_shop_view" avalonctrl="consumer_shop_view">
+            <header class="mui-bar mui-bar-nav mi-bg-gray">
+                <!--ms-if-->
+                <a href="#" class="mui-btn mui-btn-link mui-btn-nav mui-pull-left">
+                    <i class="mui-icon mui-icon-arrowthinleft"></i>
+                </a>
+                <h1 class="mui-title">
+                    		冷恋
+                </h1>
+				<div style="background:#edebea">
+                	<div class="user-infor">
+                		<p>欢迎<span><a style="color:#fdaa53">$!session.getAttribute("user").userName</a></span></p>
+                		
+                		<a  href="$!{rc.contextPath}/appLogin/appLogout.htm">登出</a>
+                		
+                		
+                	</div>
+                </div>
+            </header>
+            <div class="shop-detail-notify" style="display: block;">
+                <div class="shop-detail-notify-inner">
+                    <i class="iconfont icon-laba">
+                    </i>
+                    <marquee direction="left" behaviour="scroll" scrollamount="1" scrolldelay="1"
+                    height="20" style="height: 20px;">
+                        <span>
+                            特价时间上午7:00～9:00，下午8:00～10:00
+                        </span>
+                    </marquee>
+                    <a href="javascript:void(0)" class="close-shop-detail-notify iconfont icon-guanbi">
+                    </a>
+                </div>
+            </div>
+            <!--ms-if-->
+            <div>
+                <div id="cate-content" class="cate-box shop-detail-notify-top" data-scroll="cateIscroll, cateIscrollOpt"
+                data-init-scroll="ready" style="overflow: hidden;">
+                    <ul style="transition-property: transform; -webkit-transition-property: transform; transition-duration: 0ms; -webkit-transition-duration: 0ms; transform-origin: 0px 0px 0px; transform: translate(0px, 0px) translateZ(0px);">
+                        <li class="search-alias">
+                            <span class="iconfont icon-sousuo">
+                            </span>
+                        </li>
+                        <!--ms-repeat-->
+                        
+                        
+                  		#foreach($cat in $catList) 
+                  		 <li onclick="fillCategoryItem($cat.id);" id="cateId$cat.id">
+                            <div class="search-cate">
+                                $cat.categoryName
+                                <!--ms-if-->
+                            </div>
+                            <div class="second-cate-list" style="display: none;">
+                                <!--ms-repeat-->
+                                <!--ms-repeat-end-->
+                            </div>
+                        </li>
+                  		#end
+                        		
+                       
+                      
+                        <!--ms-repeat-end-->
+                    </ul>
+                </div>
+                <div id="item-content" data-scroll="itemIscroll, itemIscrollOpt" class="shop-detail-notify-top"
+                data-init-scroll="ready" style="overflow-y:scroll;">
+                    <div id="scroller" style="display: block; transition-property: transform; -webkit-transition-property: transform; transition-duration: 0ms; -webkit-transition-duration: 0ms; transform-origin: 0px 0px 0px; transition-timing-function: cubic-bezier(0.33, 0.66, 0.66, 1); -webkit-transition-timing-function: cubic-bezier(0.33, 0.66, 0.66, 1); transform: translate(0px, 0px) translateZ(0px);">
+                        <div id="pullDown" style="display:none">
+                            <span class="pullDownIcon">
+                            </span>
+                            <span class="pullDownLabel">
+                                                                                  下拉刷新...
+                            </span>
+                        </div>
+                        <ul class="item-list" id="item-list">
+                            <!--ms-repeat-->
+                           
+                            <!--ms-repeat-end-->
+                        </ul>
+                        <div id="pullUp" style="padding-left:70px;display:none" class="nomore">
+                            <span class="pullUpIcon">
+                            </span>
+                            <span class="pullUpLabel">
+                                                                                         没有更多了...
+                            </span>
+                        </div>
+                    </div>
+                    <!--ms-if-->
+                    <!--ms-if-->
+                </div>
+                <!--ms-if-->
+                <div class="item-search-box" style="display: none;">
+                    <div class="item-search-bar">
+                        <i class="iconfont icon-sousuo">
+                        </i>
+                        <form>
+                            <input type="text" class="keywords" name="keywords" placeholder="请输入商品名称">
+                            <button type="submit" class="mui-btn mui-btn-primary">
+                                搜索
+                            </button>
+                        </form>
+                        <a href="javascript:void(0)">
+                            取消
+                        </a>
+                    </div>
+                    <div class="search-item-list" style="display: none;">
+                        <div id="search-item-inner" data-scroll="itemSearchIscroll, itemSearchIscrollOpt"
+                        data-init-scroll="ready">
+                            <ul class="item-list">
+                                <!--ms-repeat-->
+                                <!--ms-repeat-end-->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-search-overlay" style="display: none;">
+                </div>
+                <div class="dailog-item" style="display: none;">
+                    <h3>
+                    </h3>
+                    <!--ms-if-->
+                    <div class="clearfix">
+                        <span class="spec pull-left">
+                            规格：
+                        </span>
+                        <span class="price pull-right">
+                            ￥
+                        </span>
+                    </div>
+                    <a href="javascript:void(0)" class="close-btn">
+                        ✕
+                    </a>
+                </div>
+                <div class="dailog-item-overlay" style="display: none;">
+                </div>
+            </div>
+            <div class="mui-bar mui-bar-footer mi-bg-orange">
+                <div class="cart-info">
+                    <span class="cart-num" id="cart-num">
+                        0
+                    </span>
+                    件, 共
+                    <span class="cart-total" id="cart-total">
+                        0.00
+                    </span>
+                    元
+                    <!--ms-if-->
+                </div>
+                <!--ms-if-->
+                <!--ms-if-->
+                
+                 
+        <form id="goToOrderForm" action="/appOrder/appCreateOrder.htm" method="POST">
+			<input type='hidden' id='orderNos' name='orderNos'/>
+			<div class="buy-help" style="right:5px;margin:7px">
+                   	 <a href="#" class="btn btn-success" onclick="gotoOrder();">去下单</a>
+               </div>
+		</form>
+                
+                
+               
+            </div>
+        </div>
+        
+        <div class='tab'>
+		
+        
+        <textarea style='display:none' id='rowTemplate'>
+        	<li>
+                                <img class="item-img lazyimg" src="@imgUrl">
+                                <div class="promotion-title" style="display: none;">
+                                </div>
+                                <div class="item-info">
+                                    <div class="item-name">
+                                        	@itemName
+                                    </div>
+                                    <div class="spec">
+                                        @size
+                                    </div>
+                                    <div class="price">
+                                        ￥
+                                        <b>
+                                           @price
+                                        </b>
+                                        <!--ms-if-->
+                                    </div>
+                                </div>
+                                <span id="count_@itemId" style="line-height: 70px; color:red;"></span>
+                                <small class="cart-panel clearfix only-plus">
+                                    
+                                    <input type="text" class="num" readonly="readonly">
+                                    <i class="icon iconfont icon-jia plus" onclick="addShoppingCart(@itemId);">
+                                    </i>
+                                    <i class="icon iconfont icon-jian plus" onclick="removeShoppingCart(@itemId);">
+                                    </i>
+                                </small>
+                              
+                            
+                            </li>
+        
+        </textarea >
+     
+<script type="text/javascript">
+       	$(document).ready(function(){
+		 	//alert(itemList);
+		 	for(var key in catId2itemList){
+		 		fillCategoryItem(key);
+		 		break;
+		 	}
+		});
+		
+		
+		String.prototype.replaceAll = function(reallyDo, replaceWith, ignoreCase) {  
+		    if (!RegExp.prototype.isPrototypeOf(reallyDo)) {  
+		        return this.replace(new RegExp(reallyDo, (ignoreCase ? "gi": "g")), replaceWith);  
+		    } else {  
+		        return this.replace(reallyDo, replaceWith);  
+		    }  
+		}    
+		
+		var catId2itemList = $itemList
+		
+		
+		var shoppingCart = {};
+		
+		
+		function getMapSize(MapObj){
+			var count= 0;
+			for(var key in MapObj){
+				count++;
+			}
+			return count;
+		}
+		
+		function gotoOrder(){
+				if(getMapSize(shoppingCart) == 0){
+					alert('至少选择一样商品才可以去下单的');
+					return;
+				}
+				
+				var orderData = '';
+				for(var itemId in shoppingCart){
+					var row = itemId + "#" + shoppingCart[itemId];
+					if(orderData != ''){
+						orderData += '@'
+						orderData +=  row;
+					}else{
+						orderData  +=  row;
+					}
+				}
+				$('#orderNos').val(orderData);
+				$('#goToOrderForm').submit();
+				//window.open ('/appOrder/order.htm','','width='+(window.screen.availWidth-10)+',height='+(window.screen.availHeight-30)+ ',top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+		}
+		
+		function getItem(itemId){
+			for(catId in catId2itemList){
+				for(var index in catId2itemList[catId]){
+					if(catId2itemList[catId][index]['id'] == itemId) return catId2itemList[catId][index];
+				}
+			}
+		
+			return null;
+		}
+		
+		//计算总量 和总价
+		function calTotalInfo(){
+			var totalNum = 0;
+			var totalFee = 0;
+			for(var itemId in shoppingCart){
+				totalNum += shoppingCart[itemId];
+				var item = getItem(itemId);
+				if(item != null){
+					totalFee += shoppingCart[itemId] * item.price;
+				}
+			}
+			
+			
+			
+			$('#cart-num').empty();
+			$('#cart-num').append(totalNum);
+			
+			var totalFeeStr= totalFee/100;
+			
+			$('#cart-total').empty();
+			$('#cart-total').append(totalFeeStr);
+			
+			
+		}
+		
+		function addShoppingCart(itemId){
+		
+			if(shoppingCart[itemId] != undefined){
+				shoppingCart[itemId] = shoppingCart[itemId] + 1;
+				
+			}else{
+				shoppingCart[itemId] = 1;
+			}
+		   var itemCount=	$('#count_'+itemId).text();
+		   if(itemCount.length==0)
+		   {
+		     $('#count_'+itemId).text(1);
+		   }else{
+		     $('#count_'+itemId).text(parseInt(itemCount)+1);
+		   }
+			
+			calTotalInfo();
+		}
+		
+		function removeShoppingCart(itemId){
+		    
+			if(shoppingCart[itemId] != undefined){
+			    var num = shoppingCart[itemId];
+			    if(num>0){
+					shoppingCart[itemId] = num - 1;
+					
+					calTotalInfo();
+				}
+			}
+	       var itemCount=	$('#count_'+itemId).text();
+			if(itemCount.length==0||itemCount==1)
+		   {
+		     $('#count_'+itemId).text('');
+		   }else{
+		     $('#count_'+itemId).text(parseInt(itemCount)-1);
+		   }
+			
+			
+		}
+		
+		function fillCategoryItem(cateId){
+			var itemList = catId2itemList[cateId];
+			//alert(itemList.length);
+			var rowTemplate = $('#rowTemplate').val();
+			
+			
+			for(var index in $("#cateId"+cateId).siblings()){
+				$("#cateId"+cateId).siblings()[index].className='';
+				
+			}
+			
+			$("#cateId"+cateId).addClass("active");
+			
+			$('#item-list').empty();
+		
+			//class="active"
+			for(var i in itemList){
+				var itemName = itemList[i].itemName;
+				var size = itemList[i].size;
+				var price = itemList[i].price;
+				var priceStr= price/100;
+				var itemId = itemList[i].id;
+				var imgPath = itemList[i].imgPath;
+				
+				var rowStr = rowTemplate.replace('@itemName',itemName).replace('@size',size).replace('@price',priceStr).replaceAll('@itemId',itemId).replace('@imgUrl'," /item/itemImage.htm?imageName="+imgPath);
+				
+				$('#item-list').append(rowStr);
+				//alert(rowStr);
+				
+			}
+			
+				$('#item-list').append("<li></li>");
+			
+		} 
+       </script>

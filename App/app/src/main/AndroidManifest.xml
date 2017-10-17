@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.sxc.natasha.ui"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name="com.sxc.natasha.application.CrashApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/sxc_style" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ItemDetailActivity"
+            android:label="@string/title_activity_item_detail" >
+        </activity>
+        <activity
+            android:name=".HelpCommonActivity"
+            android:label="@string/title_activity_help_common" >
+        </activity>
+        <activity
+            android:name=".OrderDetailActivity"
+            android:label="订单详情" >
+        </activity>
+        <activity
+            android:name=".DoOrderActivity"
+            android:label="@string/title_activity_do_order" >
+        </activity>
+        <activity
+            android:name=".PickupInfoActivity"
+            android:label="提货信息" >
+        </activity>
+        <activity
+            android:name=".PayOrderActivity"
+            android:label="立即支付" >
+        </activity>
+        <activity
+            android:name=".MyInfoActivity"
+            android:label="@string/myInfo" >
+        </activity>
+        <activity
+            android:name=".UpdateNameActivity"
+            android:label="@string/myinfo_name" >
+        </activity>
+        <activity
+            android:name=".ResetPwdActivity"
+            android:label="@string/reset_pwd" >
+        </activity>
+        <activity
+            android:name=".login.Login"
+            android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name=".ZoneActivity"
+            android:label="@string/myinfo_zone" >
+        </activity>
+        <activity
+            android:name=".PaySuccessActivity"
+            android:label="支付成功" >
+        </activity>
+        <activity
+            android:name=".MyBillActivity"
+            android:label="我的账单" >
+        </activity>
+        <activity
+            android:name=".NotificationUpdateActivity"
+            android:label="正在下载..." >
+        </activity>
+
+        <service android:name=".DownloadService" >
+        </service>
+
+        <activity
+            android:name=".CreatePickupInfoActivity"
+            android:label="创建提货信息" >
+        </activity>
+        <activity
+            android:name=".ValidatePhoneActivity"
+            android:label="验证原手机号" >
+        </activity>
+        <activity
+            android:name=".UpdatePhoneActivity"
+            android:label="验证并修改新手机号" >
+        </activity>
+        <activity
+            android:name=".EditPickupInfoActivity"
+            android:label="@string/title_activity_edit_pickup_info" >
+        </activity>
+    </application>
+
+</manifest>

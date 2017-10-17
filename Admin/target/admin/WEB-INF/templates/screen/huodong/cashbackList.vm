@@ -1,0 +1,154 @@
+<style type="text/css">
+    textarea{
+        width: 124px;font-size: 12px;border: none;resize: none;background-color: #f5f5f5;height: 70px;z-index: 10;
+        border-radius:5px;top: 39px;left: 5px;position: absolute;padding: 4px 5px 0 5px;outline:none;display: none;color: #8f8f8f;
+    }
+    .sanjiao{
+        width:0;height:0;overflow:hidden; border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:11px solid #f5f5f5;
+        position: absolute;top: 30px;left: 5px;display: none;
+    }
+    .dian{color: blue;padding:5px 5px 5px 0;cursor: pointer;}
+</style>
+<div class="content">
+    <div class="bd-actionbar">
+        <h4 class="tit" style="margin-left: 0;">
+            推荐返佣信息
+        </h4>
+    </div><!--bd-actionbar-->
+    <div class="bd-main">
+        <div class="bd-main-inner">
+            <form class="jqtransform" id="form1" name="form1" action="/recommendcashback/recommendcashbackList.htm" method="POST">
+                <table class="form form-horizontal" style="position:relative;">
+                    <tbody>
+                    <tr>
+                        <td><label class="tit first-tit">开始时间：</label></td>
+                        <td>
+                            <input class="form-input input-time-day " type="text" name="startTime" id="startTime" readonly="readonly" value="$!startTime">
+                        </td>
+
+                        <td><label class="tit">结束时间：</label></td>
+                        <td>
+                            <input class="form-input input-time-day " type="text" name="endTime" id="endTime" readonly="readonly" value="$!endTime">
+                        </td>
+                        <td><label class="tit">公司名称：</label></td>
+                        <td>
+                            <input name="companyName" id="companyName" class="form-input" type="text" value="$!companyName">
+                        </td>
+                        <td>
+                            <a class="btn btn-warning btn-sm" onclick="javascript:$(form1).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+                        </td>
+                    </tr>
+                    </tbody></table>
+            </form>
+            <table class="table">
+                <tbody><tr>
+                    <th>姓名</th>
+                    <th>电话</th>
+                    <th>支付宝账号</th>
+                    <th>推荐公司全称</th>
+                    <th>推荐公司联系人</th>
+                    <th>联系人职务</th>
+                    <th>联系人电话</th>
+                    <th>创建时间</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+#foreach($dto in $page.result)
+                <tr>
+                    <td>$!dto.name</td>
+                    <td>$!dto.mobile</td>
+                    <td>$!dto.alipayNum</td>
+                    <td>$!dto.recommendCompany</td>
+                    <td>$!dto.linkMan</td>
+                    <td>$!dto.position</td>
+                    <td>$!dto.contactTel</td>
+                    <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!dto.createdTime)</td>
+                    <td style="position: relative;">
+                        <a href="#" class="dian" onclick="dian(this)">#if($!dto.remark)有 #else 无  #end</a>
+                        <div class="sanjiao"></div>
+                        <textarea data-id="$!dto.id" onblur="xiao(this);">$!dto.remark</textarea>
+                    </td>
+                    <td>
+                        #if($!dto.type==1)
+                            <span style="color: red;"  class="dian">佣金已发放</span>
+                        #else
+                            <span data-id="$!dto.id" onclick="yong(this);" class="dian">佣金未发放</span>
+
+                        #end
+                    </td>
+                </tr>
+#end
+
+                </tbody></table>
+            <div class="text-center">
+                #parse("/common/page.vm")
+            </div>
+        </div><!--bd-main-inner-->
+    </div><!--bd-main-->
+</div><!--content-->
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $( "#startTime" ).datepicker();
+        $( "#endTime" ).datepicker();
+
+    });
+
+    function dian(obj){
+        $(obj).siblings("textarea").show();
+        $(obj).siblings("textarea").focus();
+        $(obj).siblings(".sanjiao").show();
+    }
+    function xiao(bj){
+       var remark =  $(bj).val();
+        var id = $(bj).attr("data-id");
+        if(!remark){
+            alert("请填写备注");
+            return;
+        }
+        $.ajax({
+            type: "post",
+            url: "/recommendcashback/addRemark.do",
+            data: {id:id,remark:remark},
+            dataType: "json",
+            success: function(data){
+                if(data==200){
+                    $(bj).hide();
+                    $(bj).siblings(".sanjiao").hide();
+                    if ($(bj).val() != '') {
+                        $(bj).siblings(".dian").text("有");
+                    }else{
+                        $(bj).siblings(".dian").text('无');
+                    }
+                }else{
+                    alert("添加备注失败");
+                }
+            }
+        });
+
+    }
+    var flag = false;
+    function yong(ooj){
+	    if(flag){
+	    		return false;
+    	}
+    	flag = true;
+        var id = $(ooj).attr("data-id")
+        $.ajax({
+            type: "post",
+            url: "/recommendcashback/dev.do",
+            data: {id:id},
+            dataType: "json",
+            success: function(data){
+           		flag = false;
+                if(data==200){
+                    $(ooj).css("color","red");
+                    $(ooj).text("佣金已发放");
+                }else{
+                    alert("发放失败");
+                }
+            }
+        });
+
+    }
+</script>

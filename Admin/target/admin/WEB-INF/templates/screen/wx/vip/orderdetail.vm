@@ -1,0 +1,38 @@
+ #set($layout="layout/wxLayout.vm")
+  <div class="lw_hd">
+        <a href="${rc.contextPath}/wxuserOrder/wxlist.htm">
+            <img src="${rc.contextPath}/static/images/wx/address_02.png">
+            <span class="mid">&nbsp;&nbsp;订单详情</span>
+        </a>
+    </div>
+    <div class="orderDetail_content">
+        <ul class="order_list">
+            <li>
+                <a href="">
+                    <img class="goods_pic" src="${rc.contextPath}/static/images/wx/xiao2.jpg">
+                    <div class="goods_detail">
+                        <h5>
+                            <span class="t fl">智选反应堆</span>
+                            <span class="fr">￥$NumberTool.toYuanNumber($!order.totalFee) <b></b></span>
+                        </h5>
+                        <span class="time">下单时间:  $!date.format( 'yyyy-MM-dd hh:mm:ss',$!order.executedTime)</span>
+                        <p class="status">
+                            状态： 
+                            <span class="e">已发货</span><!-- 审核状态span加class="e" -->
+                        </p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <dl class="detail_wrap">
+            <dt>订单编号</dt>
+            <dd>$!order.orderNo</dd>
+            <dt>付款金额</dt>
+            <dd>$NumberTool.toYuanNumber($!order.totalFee)元</dd>
+            <dt>支付方式</dt>
+            <dd>余额支付</dd>
+        </dl>
+    </div>
+   <script type="text/javascript">
+document.title = "领蛙商城";
+</script>

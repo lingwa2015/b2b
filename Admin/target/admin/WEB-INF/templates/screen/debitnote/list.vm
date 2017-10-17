@@ -1,0 +1,184 @@
+<script type="text/javascript">
+var needYM = false;
+$(document).ready(function() {
+	$( "#order_date" ).datepicker();
+	$( "#crestdate" ).datepicker();
+	$( "#creenddate" ).datepicker();
+ });
+ 
+function delData(id){
+		if(confirm("确认删除吗")){
+	  var url="${rc.contextPath}/debitnote/delete.do?id="+id+"&currentPage="+$!page.pageNum;
+	  doDeleteRequest(url,id,show);
+	  }else{
+	  	return false;
+	  }
+	}
+
+function show(data){
+		if(data.indexOf("成功")!=-1){
+			 window.location.href="${rc.contextPath}/debitnote/debitNoteList.htm?userName="+$("#userName").val()+"&order_date="+$("#order_date").val();
+		}
+}
+
+
+// function exportExcel(){
+// 	window.location.href="${rc.contextPath}/debitnote/exportExcel.do?userName="+$("#userName").val()+"&order_date="+$("#order_date").val();
+// }
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+			<a href="${rc.contextPath}/debitnote/addDebitNote.htm" class="btn btn-success"><i class="ico"></i>添加收款单</a>
+	</div>
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" name="DebitNoteForm" id="DebitNoteForm" action="${rc.contextPath}/debitnote/debitNoteList.htm" method="POST">
+		<table class="form form-horizontal">
+		<tr>
+			<td ><label class="tit first-tit">起始月份：</label></td>
+			<td>
+			<select name="startdate" id="startdate" validate="{required:true}">
+				<option value="" ></option>
+				<option value="2015-06" #if($startdate=='2015-06')selected=selected#end>2015-06</option>
+				<option value="2015-07" #if($startdate=='2015-07')selected=selected#end>2015-07</option>
+				<option value="2015-08" #if($startdate=='2015-08')selected=selected#end>2015-08</option>
+				<option value="2015-09" #if($startdate=='2015-09')selected=selected#end>2015-09</option>
+				<option value="2015-10" #if($startdate=='2015-10')selected=selected#end>2015-10</option>
+				<option value="2015-11" #if($startdate=='2015-11')selected=selected#end>2015-11</option>
+				<option value="2015-12" #if($startdate=='2015-12')selected=selected#end>2015-12</option>
+				<option value="2016-01" #if($startdate=='2016-01')selected=selected#end>2016-01</option>
+				<option value="2016-02" #if($startdate=='2016-02')selected=selected#end>2016-02</option>
+				<option value="2016-03" #if($startdate=='2016-03')selected=selected#end>2016-03</option>
+				<option value="2016-04" #if($startdate=='2016-04')selected=selected#end>2016-04</option>
+				<option value="2016-05" #if($startdate=='2016-05')selected=selected#end>2016-05</option>
+				<option value="2016-06" #if($startdate=='2016-06')selected=selected#end>2016-06</option>
+				<option value="2016-07" #if($startdate=='2016-07')selected=selected#end>2016-07</option>
+				<option value="2016-08" #if($startdate=='2016-08')selected=selected#end>2016-08</option>
+				<option value="2016-09" #if($startdate=='2016-09')selected=selected#end>2016-09</option>
+				<option value="2016-10" #if($startdate=='2016-10')selected=selected#end>2016-10</option>
+				<option value="2016-11" #if($startdate=='2016-11')selected=selected#end>2016-11</option>
+				<option value="2016-12" #if($startdate=='2016-12')selected=selected#end>2016-12</option>
+				<option value="2017-01" #if($startdate=='2017-01')selected=selected#end>2017-01</option>
+				
+				<option value="2017-02" #if($startdate=='2017-02')selected=selected#end>2017-02</option>
+				<option value="2017-03" #if($startdate=='2017-03')selected=selected#end>2017-03</option>
+				<option value="2017-04" #if($startdate=='2017-04')selected=selected#end>2017-04</option>
+				<option value="2017-05" #if($startdate=='2017-05')selected=selected#end>2017-05</option>
+				<option value="2017-06" #if($startdate=='2017-06')selected=selected#end>2017-06</option>
+				<option value="2017-07" #if($startdate=='2017-07')selected=selected#end>2017-07</option>
+				<option value="2017-08" #if($startdate=='2017-08')selected=selected#end>2017-08</option>
+				<option value="2017-09" #if($startdate=='2017-09')selected=selected#end>2017-09</option>
+				<option value="2017-10" #if($startdate=='2017-10')selected=selected#end>2017-10</option>
+				<option value="2017-11" #if($startdate=='2017-11')selected=selected#end>2017-11</option>
+				<option value="2017-12" #if($startdate=='2017-12')selected=selected#end>2017-12</option>
+			 </select>
+			 &nbsp;<span></span>
+			</td>
+			<td ><label class="tit first-tit">截止月份：</label></td>
+			<td>
+			<select name="querydate" id="querydate" validate="{required:true}">
+				<option value="" ></option>
+				<option value="2015-06" #if($querydate=='2015-06')selected=selected#end>2015-06</option>
+				<option value="2015-07" #if($querydate=='2015-07')selected=selected#end>2015-07</option>
+				<option value="2015-08" #if($querydate=='2015-08')selected=selected#end>2015-08</option>
+				<option value="2015-09" #if($querydate=='2015-09')selected=selected#end>2015-09</option>
+				<option value="2015-10" #if($querydate=='2015-10')selected=selected#end>2015-10</option>
+				<option value="2015-11" #if($querydate=='2015-11')selected=selected#end>2015-11</option>
+				<option value="2015-12" #if($querydate=='2015-12')selected=selected#end>2015-12</option>
+				<option value="2016-01" #if($querydate=='2016-01')selected=selected#end>2016-01</option>
+				<option value="2016-02" #if($querydate=='2016-02')selected=selected#end>2016-02</option>
+				<option value="2016-03" #if($querydate=='2016-03')selected=selected#end>2016-03</option>
+				<option value="2016-04" #if($querydate=='2016-04')selected=selected#end>2016-04</option>
+				<option value="2016-05" #if($querydate=='2016-05')selected=selected#end>2016-05</option>
+				<option value="2016-06" #if($querydate=='2016-06')selected=selected#end>2016-06</option>
+				<option value="2016-07" #if($querydate=='2016-07')selected=selected#end>2016-07</option>
+				<option value="2016-08" #if($querydate=='2016-08')selected=selected#end>2016-08</option>
+				<option value="2016-09" #if($querydate=='2016-09')selected=selected#end>2016-09</option>
+				<option value="2016-10" #if($querydate=='2016-10')selected=selected#end>2016-10</option>
+				<option value="2016-11" #if($querydate=='2016-11')selected=selected#end>2016-11</option>
+				<option value="2016-12" #if($querydate=='2016-12')selected=selected#end>2016-12</option>
+				<option value="2017-01" #if($querydate=='2017-01')selected=selected#end>2017-01</option>
+				
+				<option value="2017-02" #if($querydate=='2017-02')selected=selected#end>2017-02</option>
+				<option value="2017-03" #if($querydate=='2017-03')selected=selected#end>2017-03</option>
+				<option value="2017-04" #if($querydate=='2017-04')selected=selected#end>2017-04</option>
+				<option value="2017-05" #if($querydate=='2017-05')selected=selected#end>2017-05</option>
+				<option value="2017-06" #if($querydate=='2017-06')selected=selected#end>2017-06</option>
+				<option value="2017-07" #if($querydate=='2017-07')selected=selected#end>2017-07</option>
+				<option value="2017-08" #if($querydate=='2017-08')selected=selected#end>2017-08</option>
+				<option value="2017-09" #if($querydate=='2017-09')selected=selected#end>2017-09</option>
+				<option value="2017-10" #if($querydate=='2017-10')selected=selected#end>2017-10</option>
+				<option value="2017-11" #if($querydate=='2017-11')selected=selected#end>2017-11</option>
+				<option value="2017-12" #if($querydate=='2017-12')selected=selected#end>2017-12</option>
+			 </select>
+			 &nbsp;<span></span>
+			</td>
+		</tr>
+		<tr>
+			<td><label class="tit first-tit">起始创建日期：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="crestdate" id="crestdate" readonly="readonly" value="$!crestdate">
+			</td>
+
+			<td><label class="tit">截至创建日期：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="creenddate" id="creenddate" readonly="readonly" value="$!creenddate">
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">公司名：</label></td>
+			<td>
+				<input class="form-input" type="text" name="userName" id="userName" value="$!userName"/>
+				&nbsp;<span></span>
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(DebitNoteForm).submit()">&nbsp;&nbsp;查 &nbsp;询 &nbsp;&nbsp;</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+	<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+        <tr class="info">
+			<td colspan="1">
+                <span>收款总额：$NumberTool.toYuanNumber($!totalFee) 元</span>
+                <span>收款单数量：$!page.records</span>
+            </td>
+		</tr>
+	</table>
+	<table class="table">
+		<tr>
+			<th>公司简称</th>
+			<th>公司名称</th>
+			<th>年份</th>
+			<th>月份</th>
+			<th>收款金额</th>
+			<th>创建时间</th>
+			<th>备注</th>
+			<th>操作</th>
+		</tr>
+
+		#foreach($dto in $page.result)
+		<tr>
+			<td>$!dto.userName</td>
+			<td>$!dto.companyName</td>
+			<td>$!dto.years</td>
+			<td>$!dto.months</td>
+			<td>$NumberTool.toYuanNumber($!dto.debitnoteAmount) 元</td>
+			<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!dto.createDate)</td>
+			<td>$!dto.remark</td>
+            <td>
+				<a href="javascript:delData('$!dto.id')">删除</a>
+			</td>
+		</tr>
+		#end
+	</table>
+
+	<div class="text-center">
+           #parse("/common/page.vm")
+    </div>
+
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+	</div>

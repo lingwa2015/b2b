@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.SupplierMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.Supplier" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="supplier_address" property="supplierAddress" jdbcType="VARCHAR" />
+    <result column="linkman_name" property="linkmanName" jdbcType="VARCHAR" />
+    <result column="mobile_phone" property="mobilePhone" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="create_userid" property="createUserid" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="supplier_full_name" property="supplierFullName" jdbcType="VARCHAR" />
+    <result column="account_time" property="accountTime" jdbcType="VARCHAR" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="account_name" property="accountName" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, supplier_name, supplier_address, linkman_name, mobile_phone, remark, created_time,
+    create_userid, status, supplier_full_name, account_time, city_id, account_name, account,
+    bank_name
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.SupplierExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from supplier
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from supplier
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from supplier
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.SupplierExample" >
+    delete from supplier
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.Supplier" >
+    insert into supplier (id, supplier_name, supplier_address,
+      linkman_name, mobile_phone, remark,
+      created_time, create_userid, status,
+      supplier_full_name, account_time, city_id, account_name, account,
+    bank_name
+      )
+    values (#{id,jdbcType=INTEGER}, #{supplierName,jdbcType=VARCHAR}, #{supplierAddress,jdbcType=VARCHAR},
+      #{linkmanName,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+      #{createdTime,jdbcType=TIMESTAMP}, #{createUserid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+      #{supplierFullName,jdbcType=VARCHAR}, #{accountTime,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER},
+      #{accountName,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.Supplier" >
+    insert into supplier
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="supplierName != null" >
+        supplier_name,
+      </if>
+      <if test="supplierAddress != null" >
+        supplier_address,
+      </if>
+      <if test="linkmanName != null" >
+        linkman_name,
+      </if>
+      <if test="mobilePhone != null" >
+        mobile_phone,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="createUserid != null" >
+        create_userid,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="supplierFullName != null" >
+        supplier_full_name,
+      </if>
+      <if test="accountTime != null" >
+        account_time,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="accountName != null" >
+        account_name,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="bankName != null" >
+        bank_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="supplierName != null" >
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAddress != null" >
+        #{supplierAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanName != null" >
+        #{linkmanName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null" >
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserid != null" >
+        #{createUserid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="supplierFullName != null" >
+        #{supplierFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountTime != null" >
+        #{accountTime,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="accountName != null" >
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.SupplierExample" resultType="java.lang.Integer" >
+    select count(*) from supplier
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update supplier
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.supplierName != null" >
+        supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierAddress != null" >
+        supplier_address = #{record.supplierAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkmanName != null" >
+        linkman_name = #{record.linkmanName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobilePhone != null" >
+        mobile_phone = #{record.mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserid != null" >
+        create_userid = #{record.createUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.supplierFullName != null" >
+        supplier_full_name = #{record.supplierFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountTime != null" >
+        account_time = #{record.accountTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.accountName != null" >
+        account_name = #{record.accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.account != null" >
+        account = #{record.account,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankName != null" >
+        bank_name = #{record.bankName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update supplier
+    set id = #{record.id,jdbcType=INTEGER},
+    supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+    supplier_address = #{record.supplierAddress,jdbcType=VARCHAR},
+    linkman_name = #{record.linkmanName,jdbcType=VARCHAR},
+    mobile_phone = #{record.mobilePhone,jdbcType=VARCHAR},
+    remark = #{record.remark,jdbcType=VARCHAR},
+    created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+    create_userid = #{record.createUserid,jdbcType=INTEGER},
+    status = #{record.status,jdbcType=INTEGER},
+    supplier_full_name = #{record.supplierFullName,jdbcType=VARCHAR},
+    account_time = #{record.accountTime,jdbcType=VARCHAR},
+    city_id = #{record.cityId,jdbcType=INTEGER},
+    account_name = #{record.accountName,jdbcType=VARCHAR},
+    account = #{record.account,jdbcType=VARCHAR},
+    bank_name = #{record.bankName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.Supplier" >
+    update supplier
+    <set >
+      <if test="supplierName != null" >
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAddress != null" >
+        supplier_address = #{supplierAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanName != null" >
+        linkman_name = #{linkmanName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null" >
+        mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserid != null" >
+        create_userid = #{createUserid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="supplierFullName != null" >
+        supplier_full_name = #{supplierFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountTime != null" >
+        account_time = #{accountTime,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="accountName != null" >
+        account_name = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.Supplier" >
+    update supplier
+    set supplier_name = #{supplierName,jdbcType=VARCHAR},
+      supplier_address = #{supplierAddress,jdbcType=VARCHAR},
+      linkman_name = #{linkmanName,jdbcType=VARCHAR},
+      mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      create_userid = #{createUserid,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      supplier_full_name = #{supplierFullName,jdbcType=VARCHAR},
+      account_time = #{accountTime,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=INTEGER},
+      account_name = #{accountName,jdbcType=VARCHAR},
+      account = #{account,jdbcType=VARCHAR},
+      bank_name = #{bankName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findByItemId" resultType="com.b2b.common.domain.Supplier">
+  	SELECT
+	p.id,p.supplier_name supperlierName
+	FROM
+	item_supplier t1
+	LEFT JOIN supplier p ON t1.suppiler_id=p.id
+	WHERE t1.item_id =#{id}
+  </select>
+  <select id="findBySupplierId" resultType="hashmap">
+  	SELECT
+		ItS.id,
+		ItS.item_id itemId,
+		ItS.suppiler_id suppilerId,
+		i.category_id categoryId
+	FROM
+		item_supplier ItS
+	LEFT JOIN item i ON ItS.item_id = i.id
+	WHERE
+		ItS.suppiler_id = #{id}
+  </select>
+  <select id="findItemBySupplierId" resultType="hashmap">
+  	SELECT
+		ItS.item_id itemId,
+		ItS.suppiler_id suppilerId,
+		i.item_name,
+		i.size,
+		i.cost_price,
+		i.buy_size,
+		i.convert_num,
+		i.buy_price,
+		i.shelf_life,
+		s.num,
+		i.isdown,
+		ic.category_name
+	FROM
+		item_supplier ItS
+	LEFT JOIN item i ON ItS.item_id = i.id
+	LEFT JOIN stock s ON ItS.item_id = s.item_id
+	LEFT JOIN item_category ic ON i.category_id = ic.id
+	WHERE
+		ItS.suppiler_id = #{supplier_id}
+  </select>
+  <select id="findByLikeUserNameAndCityId" resultType="hashmap">
+    SELECT
+        id, supplier_name, supplier_full_name, remark, account_name, account, bank_name
+    FROM
+        supplier
+    WHERE
+        `status` = 1
+        AND city_id = #{cityId}
+        AND supplier_name like '%${userName}%'
+  </select>
+  
+</mapper>

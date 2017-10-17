@@ -1,0 +1,118 @@
+<div class="content">
+		<div class="bd-actionbar">
+			<a href="/itemSalesPromotion/add.htm?menuHeight=$!menuHeight&menuName=$!menuName" class="btn btn-success"><i class="ico"></i>添加活动</a>
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/itemSalesPromotion/itemSalesPromotionList.htm" method="post">
+			<table class="form form-horizontal">
+					 <input type="hidden" name="menuHeight" id="menuHeight" value="$!menuHeight" />
+                     <input type="hidden" name="menuName" id="menuName" value="$!menuName" />
+					<tr>
+					    <td><label class="first-tit">商品名称：</label></td>
+						<td id="search">
+							<input name="itemname" id="itemname" class="form-input" type="text" value="$!itemname">
+						</td>
+						<td style="display:inline-block;margin-left:160px;margin-top:5px;><label class="tit">活动状态：</label></td>
+						<td>
+							<select name="param" validate="{required:true}" >
+						    <option value="">全部 </option>
+					        <option value="1" #if($param=="1") selected="selected" #end>未开始</option>
+					         <option value="2"  #if($param=="2") selected="selected" #end>已开始</option>
+					          <option value="3" #if($param=="3") selected="selected" #end>已结束</option>
+						    </select>
+						</td>
+						<td>
+							<a class="btn btn-warning btn-sm" onclick="javascript:$(form1).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+						</td>
+					</tr>
+			</table>
+			</form>
+			<table class="table">
+			  <tr>
+				<th>活动商品</th>
+				<th>优惠形式</th>
+				<th>活动时间</th>
+				<th>活动店铺</th>
+				<th>活动原因</th>
+				<th>活动状态</th>
+				<th>详情</th>
+				<th>操作</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>$!bean.itemName</td>
+					<td>#if($!bean.type==1)固定金额：$NumberTool.toYuanNumber($!bean.money)元 #else 折扣系数：$bean.discount #end</td>
+					<td>$!date.format('yyyy-MM-dd',$!bean.startTime)~$!date.format('yyyy-MM-dd',$!bean.endTime)</td>
+					<td data-id="$!bean.id">
+						#if($!bean.shopType==0)
+							<select name="type" onchange="fafang(this)">
+								<option value="0">--未发放--</option>
+								<option value="1">全部发放</option>
+								<option value="2">指定店铺发放</option>
+							</select>
+						#elseif($!bean.shopType==1)
+							全部发放
+						#elseif($!bean.shopType==2)
+							<a href="${rc.contextPath}/itemSalesPromotion/addCustomer.htm?id=$!bean.id&menuHeight=$!menuHeight&menuName=$!menuName">指定店铺发放</a>
+						#end
+					</td>
+					<td>$!bean.remark</td>
+					<td>#if($!bean.status==1)#if($!bean.sign==0)未开始 #elseif($!bean.sign==1)已开始 #elseif($!bean.sign==2)已结束 #end #else 已强制结束 #end</td>
+					<td><a href="${rc.contextPath}/itemSalesPromotion/detailList.htm?id=$!bean.id&menuHeight=$!menuHeight&menuName=$!menuName">明细</a></td>
+					<td>#if($!bean.status==1)#if($!bean.sign==0 || $!bean.sign==1)<a href="#" data_id="$!bean.id" onclick="over(this);">结束</a> #end #end</td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->
+<script type="text/javascript">
+	function fafang(target){
+		var type = $(target).val();
+		var id = $(target).parent().attr("data-id");
+		if(type==1){
+			//全部发放
+			$.ajax({
+					url:'${rc.contextPath}/itemSalesPromotion/change.do',
+					type:'POST',
+					data: {id:id},
+					success:function(data){
+						if(data=="200"){
+							$(target).parent().html("全部发放");
+						}else{
+							alert("发放失败");
+						}
+					}
+					
+				})
+		}else if(type==2){
+            var menuHeight =$('#menuHeight').val();
+            var menuName = $('#menuName').val();
+			window.location.href="${rc.contextPath}/itemSalesPromotion/addCustomer.htm?id="+id+"&menuHeight="+menuHeight+"&menuName="+menuName;
+		}
+	}
+	
+	function over(target){
+		var id = $(target).attr("data_id");
+		if(confirm("确定结束吗？")){
+			$.ajax({
+					url:'${rc.contextPath}/itemSalesPromotion/stop.do',
+					type:'POST',
+					data: {id:id},
+					success:function(data){
+						if(data=="200"){
+							$(target).parent().parent().find("td").eq(5).html("强制结束");
+							$(target).parent().html("");
+						}else{
+							alert("强制结束失败");
+						}
+					}
+					
+				})
+			}
+	}
+</script>

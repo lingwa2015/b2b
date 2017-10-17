@@ -1,0 +1,77 @@
+<script type="text/javascript">
+function editData(id){
+    var menuHeight =$('#menuHeight').val();
+    var menuName = $('#menuName').val();
+  window.location.href="${rc.contextPath}/itemCategory/itemCategoryUpdate.htm?id="+id+"&menuHeight="+menuHeight+"&menuName="+menuName;
+}
+
+function addSubcategory(id){
+    var menuHeight =$('#menuHeight').val();
+    var menuName = $('#menuName').val();
+  window.location.href="${rc.contextPath}/itemCategory/itemTwoCategoryAdd.htm?id="+id+"&menuHeight="+menuHeight+"&menuName="+menuName;
+}
+
+function delData(id){
+  var url="${rc.contextPath}/itemCategory/delete.do?id="+id;
+  doDeleteRequest(url,id,show);
+}
+
+function show(data){
+    alert(data);
+	if(data.indexOf("成功")!=-1){
+		 window.location.href="${rc.contextPath}/itemCategory/itemCategoryList.htm";
+	}
+}
+</script>
+<div class="content">
+		<div class="bd-actionbar">
+			<a href="${rc.contextPath}/itemCategory/itemCategoryAdd.htm?menuHeight=$!menuHeight&menuName=$!menuName" class="btn btn-success"><i class="ico"></i>添加类目</a>
+		</div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/itemCategory/itemCategoryList.htm?menuHeight=$!menuHeight&menuName=$!menuName"" method="post">
+		</form>
+		<table class="table">
+            <input type="hidden" name="menuHeight" id="menuHeight" value="$!menuHeight" />
+            <input type="hidden" name="menuName" id="menuName" value="$!menuName" />
+		  <tr>
+			<th>一级类目名称</td>
+			<th>只在后台显示</td>
+			<th>二级类目名称</td>
+			<th>操作</td>
+			<th>添加二级类目</td>
+		  </tr>
+		  
+		  #set ($rowCount = 0)
+		  #foreach($bean in $page.result)
+			  #set ($isOddRow = $rowCount % 2 != 0)
+			  #if ($isOddRow)
+	           <tr>
+	          #else
+	           <tr class="sep-bar">
+	          #end
+				<td>$!bean.parentname #if($!bean.score)（$!bean.score） #end</td>
+				#if($!bean.levelname!="")
+				<td></td>
+				#else
+				<td>#if($!bean.isShow==2)是 #else否  #end</td>
+				#end
+				<td>$!bean.levelname</td>
+				<td class="opt"><a href="javascript:editData('$bean.id')">编辑</a></td>
+				#if($!bean.levelname!="")
+				<td class="opt"></td>
+				#else
+				<td class="opt"><a href="javascript:addSubcategory('$bean.id')">添加子类目</a></td>
+				#end
+			  </tr>
+			  
+			  #set ($rowCount = $rowCount + 1)
+		  #end
+		 
+		</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

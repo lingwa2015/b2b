@@ -1,0 +1,413 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+    $( "#createStartTime" ).datepicker();
+    $( "#createEndTime" ).datepicker();
+    $( "#paymentTime" ).datepicker();
+
+ });
+
+    function pageBack(){
+    	location.reload();
+    }
+
+	function checkAll() {
+
+		for(var i in document.getElementsByName('orderCheckbox')){
+			var ele = document.getElementsByName('orderCheckbox')[i];
+			ele.checked = document.getElementById('checkAll').checked;
+		}
+		//$("[name='orderCheckbox']").removeAttr("checked");
+
+		//$("[name='orderCheckbox']").attr("checked",document.getElementById('checkAll').checked);//全选
+	}
+
+	function unCheckAll() {
+		$("[name='orderCheckbox']").removeAttr("checked");//取消全选
+	}
+
+	function printData(id){
+
+
+        $('#id').val(id);
+
+        $('#printForm').submit();
+
+
+        return true;
+
+    }
+
+$(function(){
+    var searchInput = $('#supplierName');
+    searchInput.attr('autocomplete', 'off');
+    var autocomplete = $('<ul class="autocomplete"></ul>').hide().insertAfter('#supplierName');
+    var clear = function() {
+        autocomplete.empty().hide();
+    };
+    searchInput.blur(function() {
+        setTimeout(clear, 500);
+    });
+    var selectedItem = null;
+    var timeoutid = null;
+    var setSelectedItem = function(item) {
+        selectedItem = item;
+
+        if (selectedItem < 0) {
+            selectedItem = autocomplete.find('li').length - 1;
+        } else if (selectedItem > autocomplete.find('li').length - 1) {
+            selectedItem = 0;
+        }
+
+        autocomplete.find('li').removeClass('highlight').eq(selectedItem).addClass('highlight');
+    };
+    var ajax_request = function() {
+
+        $.ajax({
+            url: '${rc.contextPath}/supplier/autoUserNameQuery.do',
+            data: ({'userName': searchInput.val()}),
+            dataType: 'json',
+            type: 'POST',
+            success: function(data) {
+                if (data.length) {
+
+                    $.each(data, function(index, term) {
+
+                        $('<li></li>').text(term.supplier_name).appendTo(autocomplete).addClass('clickable').hover(function() {
+
+                                    $(this).siblings().removeClass('highlight');
+                                    $(this).addClass('highlight');
+                                    selectedItem = index;
+                                },
+                                function() {
+
+                                    $(this).removeClass('highlight');
+
+                                    selectedItem = -1;
+                                }).click(function() {
+
+                            searchInput.val(term.supplier_name);
+                            $('#supplierId').val(term.id);
+                            autocomplete.empty().hide();
+                        });
+                    });
+                    // var ypos = searchInput.position().top;
+                    var xpos = searchInput.position().left;
+                    autocomplete.css('width', searchInput.css('width'));
+                    autocomplete.css({
+                        'position': 'absolute',
+                        'left': xpos + "px",
+                        'font-size' : "14px",
+                        'color': "#666"
+                    });
+                    setSelectedItem(0);
+                    autocomplete.show();
+                }
+            }
+        });
+    };
+
+    searchInput.keyup(function(event) {
+
+        if (event.keyCode > 40 || event.keyCode == 8 || event.keyCode == 32) {
+            autocomplete.empty().hide();
+            clearTimeout(timeoutid);
+            timeoutid = setTimeout(ajax_request, 100);
+        } else if (event.keyCode == 38) {
+            if (selectedItem == -1) {
+                setSelectedItem(autocomplete.find('li').length - 1);
+            } else {
+
+                setSelectedItem(selectedItem - 1);
+            }
+            event.preventDefault();
+        } else if (event.keyCode == 40) {
+
+            if (selectedItem == -1) {
+                setSelectedItem(0);
+            } else {
+
+                setSelectedItem(selectedItem + 1);
+            }
+            event.preventDefault();
+        }
+    }).keypress(function(event) {
+
+        if (event.keyCode == 13) {
+            if (autocomplete.find('li').length == 0 || selectedItem == -1) {
+                return;
+            }
+            searchInput.val(autocomplete.find('li').eq(selectedItem).text());
+            autocomplete.empty().hide();
+            event.preventDefault();
+        }
+    }).keydown(function(event) {
+
+        if (event.keyCode == 27) {
+            autocomplete.empty().hide();
+            event.preventDefault();
+        }
+    });
+
+    $(window).resize(function() {
+        var ypos = searchInput.position().top;
+        var xpos = searchInput.position().left;
+        autocomplete.css('width', searchInput.css('width'));
+        autocomplete.css({
+            'position': 'relative',
+            'left': xpos + "px",
+            'top': ypos + "px"
+        });
+    });
+});
+
+function changeStatus(id, status) {
+    if (confirm("是否完成付款？")) {
+        $.ajax({
+            url: '${rc.contextPath}/paymentApply/changeStatus.do',
+            data: {
+                'id': id, 'status': status
+            },
+            type: 'post',
+            cache: false,
+            dataType: 'text',
+            success: function (data) {
+                if (data == '200') {
+                    alert("状态更新成功");
+                    $(orderListForm).submit();
+                } else {
+                    alert(data);
+                }
+
+            },
+            error: function () {
+                alert("异常！");
+            }
+        });
+    }
+}
+
+function exportExcel(){
+    var startTime = $('#startTime').val();
+    var endTime = $('#endTime').val();
+    var param = $('#param').val();
+    var status = $('#status').val();
+    var supplierName = $('#supplierName').val();
+    window.location.href = "${rc.contextPath}/payment/exportExcel.do?startTime="+startTime+"&#endTime="
+            +endTime+"&param="+param+"&status="+status+"&supplierName="+supplierName;
+}
+
+function changeLockDate() {
+
+}
+
+function paymentLock() {
+    if (confirm("是否确认锁帐？")) {
+        var id = $("#supplierId").val();
+        var lockDate = $("#lockDate").find("option:selected").attr("value");
+        if (id != '' && lockDate != 0) {
+            $.ajax({
+                url: '${rc.contextPath}/payment/paymentLock.do',
+                data: ({'lockDate': lockDate}),
+                dataType: 'json',
+                type: 'POST',
+                success: function (data) {
+                    if (data == '200') {
+                        alert("本月锁帐成功");
+                        var menuHeight =$('#menuHeight').val();
+                        var menuName = $('#menuName').val();
+                        var url = "$!{rc.contextPath}/payment/paymentList.htm?menuHeight="+menuHeight+"&menuName="+menuName;
+                        window.location.href = url;
+                    } else {
+                        alert("异常：" + data);
+                    }
+                }
+            });
+        }
+    }
+}
+</script>
+<div class="content" >
+    <div class="bd-actionbar">
+        <h4 class="tit">付款列表</h4>
+    </div>
+	<div class="bd-main">
+	<div class="bd-main-inner">
+	<form class="jqtransform" id="orderListForm" action="paymentList.htm?menuHeight=$!menuHeight&menuName=$!menuName" method="POST">
+		<table class="form form-horizontal">
+            <td><label class="tit first-tit">开始时间：</label></td>
+            <td>
+                <select name="startTime" id="startTime" validate="{required:true}">
+                    <option value="0">请选择</option>
+                    <option value="2016-06" #if($startTime=='2016-06')selected=selected#end>2016-06</option>
+                    <option value="2016-07" #if($startTime=='2016-07')selected=selected#end>2016-07</option>
+                    <option value="2016-08" #if($startTime=='2016-08')selected=selected#end>2016-08</option>
+                    <option value="2016-09" #if($startTime=='2016-09')selected=selected#end>2016-09</option>
+                    <option value="2016-10" #if($startTime=='2016-10')selected=selected#end>2016-10</option>
+                    <option value="2016-11" #if($startTime=='2016-11')selected=selected#end>2016-11</option>
+                    <option value="2016-12" #if($startTime=='2016-12')selected=selected#end>2016-12</option>
+                    <option value="2017-01" #if($startTime=='2017-01')selected=selected#end>2017-01</option>
+                    <option value="2017-02" #if($startTime=='2017-02')selected=selected#end>2017-02</option>
+                    <option value="2017-03" #if($startTime=='2017-03')selected=selected#end>2017-03</option>
+                    <option value="2017-04" #if($startTime=='2017-04')selected=selected#end>2017-04</option>
+                    <option value="2017-05" #if($startTime=='2017-05')selected=selected#end>2017-05</option>
+                    <option value="2017-06" #if($startTime=='2017-06')selected=selected#end>2017-06</option>
+                    <option value="2017-07" #if($startTime=='2017-07')selected=selected#end>2017-07</option>
+                    <option value="2017-08" #if($startTime=='2017-08')selected=selected#end>2017-08</option>
+                    <option value="2017-09" #if($startTime=='2017-09')selected=selected#end>2017-09</option>
+                    <option value="2017-10" #if($startTime=='2017-10')selected=selected#end>2017-10</option>
+                    <option value="2017-11" #if($startTime=='2017-11')selected=selected#end>2017-11</option>
+                    <option value="2017-12" #if($startTime=='2017-12')selected=selected#end>2017-12</option>
+                </select>
+                &nbsp;<span></span>
+            </td>
+
+            <td><label class="tit">结束时间：</label></td>
+            <td>
+            ##				<input class="form-input input-time-day" type="text" name="endTime" id="endTime" readonly="readonly" value="$!endTime">
+                <select name="endTime" id="endTime" validate="{required:true}">
+                    <option value="0">请选择</option>
+                    <option value="2016-06" #if($endTime=='2016-06')selected=selected#end>2016-06</option>
+                    <option value="2016-07" #if($endTime=='2016-07')selected=selected#end>2016-07</option>
+                    <option value="2016-08" #if($endTime=='2016-08')selected=selected#end>2016-08</option>
+                    <option value="2016-09" #if($endTime=='2016-09')selected=selected#end>2016-09</option>
+                    <option value="2016-10" #if($endTime=='2016-10')selected=selected#end>2016-10</option>
+                    <option value="2016-11" #if($endTime=='2016-11')selected=selected#end>2016-11</option>
+                    <option value="2016-12" #if($endTime=='2016-12')selected=selected#end>2016-12</option>
+                    <option value="2017-01" #if($endTime=='2017-01')selected=selected#end>2017-01</option>
+                    <option value="2017-02" #if($endTime=='2017-02')selected=selected#end>2017-02</option>
+                    <option value="2017-03" #if($endTime=='2017-03')selected=selected#end>2017-03</option>
+                    <option value="2017-04" #if($endTime=='2017-04')selected=selected#end>2017-04</option>
+                    <option value="2017-05" #if($endTime=='2017-05')selected=selected#end>2017-05</option>
+                    <option value="2017-06" #if($endTime=='2017-06')selected=selected#end>2017-06</option>
+                    <option value="2017-07" #if($endTime=='2017-07')selected=selected#end>2017-07</option>
+                    <option value="2017-08" #if($endTime=='2017-08')selected=selected#end>2017-08</option>
+                    <option value="2017-09" #if($endTime=='2017-09')selected=selected#end>2017-09</option>
+                    <option value="2017-10" #if($endTime=='2017-10')selected=selected#end>2017-10</option>
+                    <option value="2017-11" #if($endTime=='2017-11')selected=selected#end>2017-11</option>
+                    <option value="2017-12" #if($endTime=='2017-12')selected=selected#end>2017-12</option>
+                </select>
+            </td>
+            </tr>
+		<tr>
+			<td align="right"><label class="tit">供应商简称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="supplierName" id="supplierName" value="$!supplierName">
+                <input type="hidden" name="menuHeight" id="menuHeight" value="$!menuHeight" />
+                <input type="hidden" name="menuName" id="menuName" value="$!menuName" />
+			</td>
+            <td><label class="tit">排序：</label></td>
+            <td>
+                <select name="param" id="param" validate="{required:true}">
+                    <option value="">请选择</option>
+                    <option value="0" #if($param=='0')selected=selected#end>应付金额</option>
+                </select>
+                &nbsp;<span></span>
+            </td>
+		</tr>
+        <tr>
+            <td align="right" style="vertical-align:middle;"><label class="tit first-tit">付款状态：</label></td>
+            <td>
+                <select name="status" id="status" validate="{required:true}">
+                    <option value="">请选择</option>
+                    <option value="0" #if($status=='0')selected=selected#end>待通过</option>
+                    <option value="1" #if($status=='1')selected=selected#end>通过</option>
+                </select>
+                &nbsp;<span></span>
+##            </td>
+##            <td>
+                <a class="btn btn-warning btn-sm" onclick="javascript:$(orderListForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+            </td>
+            <td>
+                <a class="btn btn-warning btn-sm" href="javascript:exportExcel();">导出Excel</a>
+            </td>
+        </tr>
+        <tr>
+            <td align="right" style="vertical-align:middle;"><label class="tit first-tit">锁帐年月：</label></td>
+            <td>
+                <select name="lockDate" id="lockDate" onchange="changeLockDate()" validate="{required:true}">
+                    <option value="2016-06" #if($lockDate=='2016-06')selected=selected#end>2016-06</option>
+                    <option value="2016-07" #if($lockDate=='2016-07')selected=selected#end>2016-07</option>
+                    <option value="2016-08" #if($lockDate=='2016-08')selected=selected#end>2016-08</option>
+                    <option value="2016-09" #if($lockDate=='2016-09')selected=selected#end>2016-09</option>
+                    <option value="2016-10" #if($lockDate=='2016-10')selected=selected#end>2016-10</option>
+                    <option value="2016-11" #if($lockDate=='2016-11')selected=selected#end>2016-11</option>
+                    <option value="2016-12" #if($lockDate=='2016-12')selected=selected#end>2016-12</option>
+                    <option value="2017-01" #if($lockDate=='2017-01')selected=selected#end>2017-01</option>
+                    <option value="2017-02" #if($lockDate=='2017-02')selected=selected#end>2017-02</option>
+                    <option value="2017-03" #if($lockDate=='2017-03')selected=selected#end>2017-03</option>
+                    <option value="2017-04" #if($lockDate=='2017-04')selected=selected#end>2017-04</option>
+                    <option value="2017-05" #if($lockDate=='2017-05')selected=selected#end>2017-05</option>
+                    <option value="2017-06" #if($lockDate=='2017-06')selected=selected#end>2017-06</option>
+                    <option value="2017-07" #if($lockDate=='2017-07')selected=selected#end>2017-07</option>
+                    <option value="2017-08" #if($lockDate=='2017-08')selected=selected#end>2017-08</option>
+                    <option value="2017-09" #if($lockDate=='2017-09')selected=selected#end>2017-09</option>
+                    <option value="2017-10" #if($lockDate=='2017-10')selected=selected#end>2017-10</option>
+                    <option value="2017-11" #if($lockDate=='2017-11')selected=selected#end>2017-11</option>
+                    <option value="2017-12" #if($lockDate=='2017-12')selected=selected#end>2017-12</option>
+                </select>
+                &nbsp;<span></span>
+                #if ($accountLock!=1)
+                    <a class="btn btn-warning btn-sm" onclick="paymentLock()">&nbsp;&nbsp;锁&nbsp;帐 &nbsp;&nbsp;</a>
+                #else
+                    <label>&nbsp;&nbsp;已锁帐</label>
+                #end
+            </td>
+        </tr>
+	</table>
+	</form>
+
+	<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+		<tr class="info">
+			<td colspan="1">
+				<span>采购入库总额：$NumberTool.toYuanNumber($!sumPrice.stockPrice) 元</span>
+				<span>退货总额：$NumberTool.toYuanNumber($!sumPrice.outstockPrice) 元</span>
+				<span>付款总额：$NumberTool.toYuanNumber($!sumPrice.totalPrice) 元</span>
+				<span>付款单数量：$!page.records</span>
+				<span>优惠总额：$NumberTool.toYuanNumber($!sumPrice.preferentialBenefitPrice) 元</span>
+				<span>未付款总额：$NumberTool.toYuanNumber($!sumPrice.notpaymentPrice) 元</span>
+			</td>
+		</tr>
+	</table>
+        <br/>
+
+	<table class="table">
+		<tr>
+			<th>供应商</th>
+			<th>采购入库金额</th>
+			<th>退货金额</th>
+			<th>应付款金额</th>
+			<th>未付款金额</th>
+			<th>优惠金额</th>
+			<th>开票金额</th>
+			<th>付款状态</th>
+			<th>操作</th>
+		</tr>
+		#foreach($bean in $page.result)
+			<tr>
+				<td>$!bean.supplier</td>
+				<td>$NumberTool.toYuanNumber($!bean.stockPrice)</td>
+				<td>$NumberTool.toYuanNumber($!bean.outstockPrice)</td>
+				<td>$NumberTool.toYuanNumber($!bean.paymentPrice)</td>
+				<td>$NumberTool.toYuanNumber($!bean.notpaymentPrice)</td>
+				<td>$NumberTool.toYuanNumber($!bean.preferentialBenefitPrice)</td>
+				<td>$NumberTool.toYuanNumber($!bean.receiptPrice)</td>
+##				<td>#if($!bean.status == 0)<a href="javascript:changeStatus('$bean.id', '1')">待确认</a></td>
+##					#elseif($!bean.status == 1)已确认
+##                #end</td>
+                <td>#if($!bean.status == 0)待付款
+                #elseif($!bean.status == 1)已付款
+                #end</td>
+				<td><a href="${rc.contextPath}/payment/paymentDetails.htm?supplierId=$bean.supplierId&menuHeight=$!menuHeight&menuName=$!menuName">查看详情</a>
+                </td>
+			</tr>
+		#end
+	</table>
+	<div class="text-center">
+			#parse("/common/page.vm")
+	</div>
+	</div>
+	</div>
+</div>

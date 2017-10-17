@@ -1,0 +1,33 @@
+#set($layout="layout/shopLayout.vm")
+<div class="purchase_order">
+       <!-- 无订单 -->
+        <!-- <div class="no_order">无订单</div> -->
+        <div class="order_tip">
+            <div class="order_list" style="width:22%;text-align:left;">
+                <span style="padding-left: .22rem">网格</span>
+            </div>
+            <!--<div class="order_list" style="width:18%">实时</div>-->
+            <div class="order_list" style="width:22%">本月</div>
+            <div class="order_list" style="width:22%;">便利店</div>
+            <div class="order_list" style="width:22%;">福利店</div>
+        </div>
+        <div class="record">
+        	#foreach($dto in $lists)
+            <div class="gong_list">
+                <a href="${rc.contextPath}/convenient/reseau/shop_index.htm?reseau_id=$!dto.id" style="color: #000;">
+                <span class="gong_dan01 dian_01">
+                    <span class="dan_1">$!dto.name</span>
+                </span>
+                <!--<span class="gong_dan01 dian_02">$NumberTool.toYuanNumber($!dto.actual)</span>-->
+                <span class="gong_dan01 dian_02" style="width: 24% !important">#if($!dto.total)$NumberTool.toYuanNumber($!dto.total)#else ... #end</span>
+                <span class="gong_dan01 dian_02" style="width: 24% !important">#if($!dto.shop)$!dto.shop #else ... #end</span>
+                <span class="gong_dan01 dian_02" style="margin-left: 1%;width: 20% !important">#if($!dto.free)$!dto.free #else ... #end</span>
+                </a>
+            </div>
+            #end
+        </div>
+
+   </div> 
+<script type="text/javascript">
+    document.title = "网格列表";
+</script>

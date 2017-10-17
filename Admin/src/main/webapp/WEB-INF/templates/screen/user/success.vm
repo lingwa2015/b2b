@@ -1,0 +1,21 @@
+#set($layout="layout/shopLayout.vm")
+  <div class="add_content">
+	 #if($!sign==3)
+    <img src="${rc.contextPath}/static/images/shop/add_success.png">
+    <p>绑定成功！</p>
+    <span>您已绑定微信</span>
+    #elseif($!sign==2)
+    <!-- 添加失败 -->
+    <img src="${rc.contextPath}/static/images/shop/add_failed.png">
+    <p>绑定失败！</p>
+    <span>二维码已失效，请询问管理员获取最新的二维码</span>
+    #elseif($!sign==1)
+    <span style="margin-top:1rem;">该微信账号已绑定过用户</span>
+    #else
+    #end
+    
+  </div>
+<script type="text/javascript">
+    document.title = "添加超级管理员";
+    $("body").css("background-color","#fafafa");
+</script>

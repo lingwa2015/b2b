@@ -1,0 +1,136 @@
+<script type="text/javascript">
+$(document).ready(function() {
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+				save();
+				return false;
+        }
+	});
+ });
+
+
+function save(){
+	disableBtn('saveBtn');
+	
+	  var url="${rc.contextPath}/weightCoefficient/save.do";
+	  submitFormData("form1",url,show);
+}
+
+function show(data){
+    alert(data);
+	if(data.indexOf("成功")!=-1){
+		 cancel();
+	}else{
+	    enableBtn('saveBtn');
+	}
+}
+
+function cancel(){
+  window.location.href="${rc.contextPath}/weightCoefficient/weightCoefficientList.htm";
+}
+
+function checkNum(obj) {
+    //检查是否是非数字值
+    if (isNaN(obj.value)) {
+        obj.value = "";
+    }
+    if (obj != null) {
+        //检查小数点后是否对于两位http://blog.csdn.net/shanzhizi
+        if (obj.value.toString().split(".").length > 1 && obj.value.toString().split(".")[1].length > 2) {
+            alert("小数点后多于两位！");
+            obj.value = "";
+        }
+    }
+}
+
+function check(obj) {
+    //检查是否是非数字值
+    var reg = /^(0|[1-9]\d*)$/;
+    if(!reg.test(obj.value)){
+    	obj.value = "";
+    }
+    
+}
+
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+		<h4 class="tit">
+				编辑权重系数
+		</h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+	<form class="jqtransform" name="itemVarietyForm" id="form1" action="${rc.contextPath}/weightCoefficient/save.do" method="post">
+	<input type="hidden" name="weightId" id="weightId" value="$!dto.weightId"/>
+   
+	<table class="form">
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>新品天数：</label></td>
+			<td>
+			<input class="form-input" type="text" name="newitemDay" id="newitemDay" value="$!dto.newitemDay" onkeyup="check(this)" validate="{required:true}">
+			&nbsp;<span></span>
+			</td>
+		</tr>
+		#*<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>新品权重：</label></td>
+			<td>
+			<input class="form-input" type="text" name="newitemWeight" id="newitemWeight" value="$!dto.newitemWeight" onkeyup="check(this)" validate="{required:true}">
+			&nbsp;<span></span>
+			</td>
+		</tr>*#
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>新品权重系数：</label></td>
+			<td>
+			<input class="form-input" type="text" name="newitemweightCoeff" id="newitemweightCoeff" value="$!dto.newitemweightCoeff" onkeyup="checkNum(this)" validate="{required:true}">
+			&nbsp;<span></span>
+			</td>
+		</tr>
+		#*<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>利润权重：</label></td>
+			<td>
+			<input class="form-input" type="text" name="profitWeight" id="profitWeight" value="$!dto.profitWeight" onkeyup="check(this)" validate="{required:true}">
+			&nbsp;<span></span>
+			</td>
+		</tr>*#
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>利润权重系数：</label></td>
+			<td>
+			<input class="form-input" type="text" name="profitweightCoeff" id="profitweightCoeff" value="$!dto.profitweightCoeff" onkeyup="checkNum(this)" validate="{required:true}">
+			&nbsp;<span></span>
+			</td>
+		</tr>
+		#*<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>商品人工干预权重：</label></td>
+			<td>
+			<input class="form-input" type="text" name="itemWeights" id="itemWeights" value="$!dto.itemWeights" onkeyup="check(this)" validate="{required:true}">
+			&nbsp;<span></span>
+			</td>
+		</tr>*#
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>人工干预权重系数：</label></td>
+			<td>
+			<input class="form-input" type="text" name="itemweightCoeff" id="itemweightCoeff" value="$!dto.itemweightCoeff" onkeyup="checkNum(this)" validate="{required:true}">
+			&nbsp;<span></span>
+			</td>
+		</tr>
+		
+		<tr class="btn-bar">
+			<td></td>
+			<td><a class="btn btn-primary" id="saveBtn" href="#" onclick="$('#form1').submit();">保存</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

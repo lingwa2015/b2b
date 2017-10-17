@@ -1,0 +1,108 @@
+#set($layout="layout/shopLayout.vm")
+<div class="home_page" style="margin-bottom: 1.8rem;">
+    <p style="text-align:center;font-size:.32rem;color:black;margin:.38rem auto;width:90%;">#if($grade2==1)总监报表 #elseif($grade2==2)经理报表 #elseif($grade2==3)主管报表 #elseif($grade2==4)个人报表 #end </p >
+    <!-- 第一列 -->
+    <ul style="margin-bottom:.2rem; border-top: 1px solid #e8e8e8">
+        <li class="wang">
+            <a href="javascript:void(0);">
+                <p class="home_tip01 ge">实时交接单</p>
+                <p class="home_price">$!now.num</p>
+            </a>
+        </li>
+        <li class="border_l wang">
+            <a href="javascript:void(0);">
+                <p class="home_tip01 ge">合格/不合格</p>
+                <p class="home_price">$!now.passNum / $!now.unpassNum</p>
+            </a>
+        </li>
+        <li class="wang">
+            <a href="javascript:void(0);">
+                <p class="home_tip01 ge">待审核</p>
+                <p class="home_price">$!now.checkingNum</p>
+            </a>
+        </li>
+        <li class="wang">
+            <a href="javascript:void(0);">
+                <p class="home_tip01 ge">昨日交接单</p>
+                <p class="home_price">$!yesterday.num</p>
+            </a>
+        </li>
+        <li class="border_l wang">
+            <a href="javascript:void(0);">
+                <p class="home_tip01 ge">合格/不合格</p>
+                <p class="home_price">$!yesterday.passNum / $!yesterday.unpassNum</p>
+            </a>
+        </li>
+        <li class="wang">
+            <a href="javascript:void(0);">
+                <p class="home_tip01 ge">待审核</p>
+                <p class="home_price">$!yesterday.checkingNum</p>
+            </a>
+        </li>
+        <li class="wang">
+            <a href="javascript:void(0);">
+                <p class="home_tip01 ge">本月交接单</p>
+                <p class="home_price">$!month.num</p>
+            </a>
+        </li>
+        <li class="border_l wang">
+            <a href="javascript:void(0);">
+                <p class="home_tip01 ge">合格/不合格</p>
+                <p class="home_price">$!month.passNum / $!month.unpassNum</p>
+            </a>
+        </li>
+        <li class="wang">
+            <a href="javascript:void(0);">
+                <p class="home_tip01 ge">待审核</p>
+                <p class="home_price">$!month.checkingNum</p>
+            </a>
+        </li>
+    </ul>
+    <!-- 第二列 -->
+    <ul style="margin-bottom:.2rem; border-top: 1px solid #e8e8e8">
+        <li class="wang">
+            <a href="javascript:void(0);">
+                <p class="home_tip01 ge">本月新签客户</p>
+                <p class="home_price">$!monthNew.submitNum</p>
+            </a>
+        </li>
+        <li class="border_l wang">
+            <a href="javascript:void(0);">
+                <p class="home_tip01 ge">激活</p>
+                <p class="home_price">$!monthNew.num</p>
+            </a>
+        </li>
+        <li class="wang">
+            <a href="javascript:void(0);">
+                <p class="home_tip01 ge">待激活</p>
+                <p class="home_price">$!monthNew.checkingNum</p>
+            </a>
+        </li>
+    </ul>
+    <!-- 第四列 -->
+    <ul style="margin-bottom:.2rem;border-top: 1px solid #e8e8e8">
+        <li class="wang">
+            <a href="javascript:void(0);">
+                <p class="home_tip01 ge">老客户7号前激活</p>
+                <p class="home_price">$!seven.sevenNum</p>
+            </a>
+        </li>
+        <li class="border_l wang">
+            <a href="javascript:void(0);">
+                <p class="home_tip01 ge">7号后激活</p>
+                <p class="home_price">$!seven.num</p>
+            </a>
+        </li>
+        <li class="wang">
+            <a href="javascript:void(0);">
+                <p class="home_tip01 ge">待激活</p>
+                <p class="home_price">$!seven.checkingNum</p>
+            </a>
+        </li>
+    </ul>
+##    <input type="hidden" name="reseauId" id="reseauId" value="$!reseauId" />
+   </div>
+<script type="text/javascript">
+    document.title = "业绩报表";
+    $("body").css("background-color","#ececec");
+</script>

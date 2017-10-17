@@ -1,0 +1,68 @@
+#set($layout="layout/wxLayout.vm")
+	<div class="lw_hd">
+        <a href="${rc.contextPath}/weixin/wxconfirmOrderList.htm?standId=$!standId&num=$!num&offerPrice=$!offerPrice">
+            <img src="${rc.contextPath}/static/images/wx/address_02.png">
+                                    收货信息
+        </a>
+    </div>
+    <div class="confirm_wrap">
+        #foreach($address in $list)
+        <div #if($!address.defaultStatus==1) class="choice_addr h" #else  class="choice_addr "  #end>
+            <div class="addr_show">
+                <a href="javascript:defualtData('$!address.id')">
+                    <span class="check_box">
+                        <i></i>
+                    </span>
+                    <p class="mui">
+                        <span class = "user_name">$!address.name</span>
+                        <span class = "mobile">$!address.phone</span>
+                    </p>
+                    <p class = "adress">$!address.addressDetails</p>
+                </a>
+            </div>
+            <a href="${rc.contextPath}/wxuserAddress/wxShowAddressList.htm?id=$!address.id&standId=$!standId&num=$!num&offerPrice=$!offerPrice"  class="icon_right">
+                <img src="${rc.contextPath}/static/images/wx/address_03.png" width = "70%">
+            </a>
+        </div>
+        #end
+    </div>
+    <a href="${rc.contextPath}/wxuserAddress/wxShowAddressList.htm?standId=$!standId&num=$!num&offerPrice=$!offerPrice"  class="add_address">
+        添加收货地址
+    </a>
+<script type="text/javascript">
+document.title = "领蛙商城"; 
+$('.lw_content .adress_list li .addr_show a').click(function(){
+    var self = $(this);
+    $('.lw_content .adress_list li').removeClass('h');
+    self.parents('li').addClass('h');
+});
+
+function defualtData(id){
+	  var url="${rc.contextPath}/wxuserAddress/wxdefualtData.do";
+	  $.ajax({
+			url : url,
+			data:{
+	    	'id':id
+	    },
+			type : 'post',
+			cache : false,
+			dataType:'text',
+		    success:function(data) {
+		    	if(data == '设置成功'){
+			    	if($!standId>0){
+		    			window.location.href="${rc.contextPath}/weixin/wxconfirmOrderList.htm?standId=$!standId&offerPrice=$!offerPrice&num=$!num";
+		    		}else{
+						window.location.href="${rc.contextPath}/wxuserAddress/wxAddressList.htm";
+			    	}
+		    	}
+		    	else{
+		    		alert(data);
+		    	}
+		     },
+		     error : function() {
+		          alert("异常！");
+		     }
+		});
+}
+
+</script>

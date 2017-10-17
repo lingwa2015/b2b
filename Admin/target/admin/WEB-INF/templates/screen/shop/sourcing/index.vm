@@ -1,0 +1,34 @@
+#set($layout="layout/shopLayout.vm")
+<div class="purchase">
+        <ul>
+            <li>
+                <a href="${rc.contextPath}/convenient/shop_sourcingItem.htm?shop_id=$shopId">
+                    <img src="${rc.contextPath}/static/images/shop/pur_01.png" >
+                   零食采购 
+                   <span class="te_tip">16:30前下单次日配送（工作日）</span>
+                </a>
+            </li>
+            <li>
+                <a href="${rc.contextPath}/convenient/shop_sourcingOrderList.htm?shop_id=$shopId">
+                    <img src="${rc.contextPath}/static/images/shop/pur_02.png" >
+                    采购订单
+                </a>
+            </li>
+            <li>
+                <a href="${rc.contextPath}/convenient/shop_refund.htm?shop_id=$shopId">
+                    <img src="${rc.contextPath}/static/images/shop/pur_03.png" >
+                    退货单
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="footer">
+       <a href="${rc.contextPath}/convenient/manage/shop_index.htm?shop_id=$shopId" class="home ">首页<i></i><b></b></a>
+       <a href="${rc.contextPath}/convenient/shop_sourcingIndex.htm?shop_id=$shopId" class="home live">采购<i></i><b></b></a>
+       <a href="${rc.contextPath}/convenient/shop_consumeList.htm?shop_id=$shopId" class="home ">消费记录<i></i><b></b></a>
+       <a href="${rc.contextPath}/convenient/home/shop_index.htm?shop_id=$shopId" class="home ">店铺管理<b></b></a>
+   </div> 
+<script type="text/javascript">
+	$("body").css("background-color","#ececec");
+    document.title = "采购";
+</script>

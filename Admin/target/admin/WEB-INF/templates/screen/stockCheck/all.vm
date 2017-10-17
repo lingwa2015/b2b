@@ -1,0 +1,179 @@
+<script type="text/javascript">
+
+function search(){
+   document.forms[0].submit();
+}
+
+function editNum(id){
+  window.location.href="${rc.contextPath}/stock/stockUpdate.htm?id="+id+"&currentPage="+$!page.pageNum;
+}
+
+function change(obj){
+    var id = $(obj).val();
+    var content ="";
+    $.ajax({
+        type: "GET",
+        url: "${rc.contextPath}/item/leavecat.json",
+        data: {catid:id},
+        dataType: "json",
+        success: function(data){
+            if(data.length>0){
+                content+='<td><label class="tit">二级类目：</label></td><td><select name="categorylevelId" id="categorylevelId"><option value="0">全部</option>';
+                $.each(data,function(i){
+                    content+='<option value="'+data[i].id+'">'+data[i].categoryName+'</option>'
+                });
+                content+='</select></td>'
+            }
+            $("#twocat").html(content);
+        }
+    });
+}
+
+function changeNum(v){
+	var count = "num"+v;
+	var name = "itemName"+v;
+	var id = "itemId"+v;
+	var itemId = $('.'+id).val();
+	var itemName = $("."+name).val();
+	var newnum = $("."+count).val();
+	var oldCount = parseInt($("."+count).parent().prev().html());
+	var res =  /^(0|[1-9]\d*)$/;
+	 
+	 if(""!=newnum){
+	 	if(res.test(newnum)){
+	 		$.ajax({
+             type: "POST",
+             url: "${rc.contextPath}/stockCheckTemp/add.do",
+             data: {itemId:itemId, itemName:itemName,newnum:newnum,oldCount:oldCount},
+             dataType: "json",
+             success: function(data){
+							if(200==data){
+								//$("."+count).parent().prev().html(parseInt(newnum));
+								//$("."+count).val("")
+							}else{
+								alert("添加失败");
+							}
+                      }
+         });
+	 	}else{
+	 		$("."+count).val("");
+	 		alert("必须输入非负整数");
+	 	}
+	 }else{
+//	 	return false;
+         $.ajax({
+             type: "POST",
+             url: "${rc.contextPath}/stockCheckTemp/add.do",
+             data: {itemId:itemId, itemName:itemName, newnum:-1, oldCount:oldCount},
+             dataType: "json",
+             success: function(data){
+                 if(200==data){
+                     //$("."+count).parent().prev().html(parseInt(newnum));
+                     //$("."+count).val("")
+                 }else{
+                     alert("添加失败");
+                 }
+             }
+         });
+	 }
+	 
+}
+
+function getTempStock(){
+	window.location.href="${rc.contextPath}/stockCheckTemp/allTemp.htm?menuHeight=323&menuName=stockCheckList-li";
+}
+
+
+</script>
+<div class="content">
+		<div class="bd-actionbar">
+            <a href="${rc.contextPath}/stockCheck/stockCheckList.htm" title="返回盘点单列表" class="btn btn-return"><</a>
+			<h4 class="tit">全库存盘点</h4>
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/stockCheck/stockAllList.htm" method="post">
+		  <table class="form form-horizontal" width="100%" table-layout: fixed>
+			  <tr>
+                  <td><label class="tit first-tit">类目：</label></td>
+                  <td>
+                      <select name="onecate" id="onecate" onchange="change(this)">
+                          <option value="0">全部</option>
+						  #foreach($cat in $catList)$item.itemName
+							  #if ($!onecate == $cat.id)
+                                  <option value="$cat.id" selected="selected">$cat.categoryName</option>
+							  #else
+                                  <option value="$cat.id">$cat.categoryName</option>
+							  #end
+						  #end
+                      </select>
+                  </td>
+              <tr id="twocat" style="position:absolute;left:214px;top:20px;">
+				  #if($!leaveCats)
+                      <td><label class="tit">二级类目：</label></td>
+                      <td>
+                          <select name="twocate" id="twocate">
+                              <option value="0">全部</option>
+							  #foreach($cat in $leaveCats)$item.categorylevelId
+								  #if ($!twocate == $cat.id)
+                                      <option value="$cat.id" selected="selected">$cat.categoryName</option>
+								  #else
+                                      <option value="$cat.id">$cat.categoryName</option>
+								  #end
+							  #end
+                          </select>
+                      </td>
+				  #end
+		  </tr>
+
+				<tr>
+				  <td><label class="tit">架上架下筛选：</label></td>
+				  <td>
+					  <select name="isdown" id="isdown">
+						  <option value="">全部</option>
+						  <option value="0" #if($isdown==0)selected="selected"#end>架上</option>
+						  <option value="1" #if($isdown==1)selected="selected"#end>架下</option>
+					  </select>
+				  </td>
+					<td width="10%"><label class="tit">商品名称：</label></td>
+					<td width="10%"><input name="itemName" id="itemName" class="form-input" type="text" value="$!itemName"></td>
+
+					<td width="40%"><a class="btn btn-warning btn-sm" href="javascript:search();">查找</a></td>
+					<td width="40%"><a class="btn btn-warning btn-sm" href="javascript:getTempStock();">完成盘库</a></td>
+				</tr>
+		  </table>
+		</form>
+		<table class="table" width="100%">
+		  <tr>
+			<th width="30%">商品名称</th>
+			<th width="10%">规格</th>
+			<th width="10%">仓位</th>
+			<th width="15%">盘库前库存</th>
+			<th width="15%">盘库后库存</th>
+			<th width="20%">最近修改时间</th>
+		  </tr>
+
+			#set ($Count = 0)
+		  #foreach($bean in $page.result)
+	        <tr>
+				<td >$!bean.itemName</td>
+				<td >$!bean.saleSize</td>
+				<td >$!bean.position</td>
+				<td>$!bean.num</td>
+				<td>
+					<input class="itemId$Count" value="$!bean.itemId" style="display:none;"/>
+					<input class="itemName$Count" value="$!bean.itemName" style="display:none;"/>
+					<input id="num$Count" class="num$Count"  value="$!bean.modifyNum" validate="{required:true,number:true}" onblur="changeNum($Count);"/>
+				</td>
+				<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!bean.modifyTime)</td>
+			</tr>
+			 #set ($Count = $Count + 1)
+		  #end
+
+		</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

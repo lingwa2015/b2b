@@ -1,0 +1,367 @@
+<script type="text/javascript">
+function editData(id){
+  window.location.href="${rc.contextPath}/item/itemUpdate.htm?id="+id+"&currentPage="+$!page.pageNum+"&catId="+$("#itemCatId").val()+"&itemNames="+$("#itemName").val();
+}
+
+function delData(id){
+	 if(confirm("确定要删除吗？")){
+		  var url="${rc.contextPath}/item/delete.do?id="+id+"&currentPage="+$!page.pageNum;
+		  doDeleteRequest(url,id,show);
+	 }
+}
+
+function downshelf(id){
+	if(confirm("确定要下架吗？")){
+	  window.location.href = "${rc.contextPath}/item/down.do?id="+id+"&isdown=1&currentPage=$!page.pageNum";
+	}
+}
+
+function upshelf(id){
+	if(confirm("确定要上架吗？")){
+	  window.location.href = "${rc.contextPath}/item/down.do?id="+id+"&isdown=0&currentPage=$!page.pageNum";
+	}
+}
+
+
+function show(data){
+	if(data.indexOf("成功")!=-1){
+		 window.location.href="${rc.contextPath}/item/itemList.htm?itemSort="+$("#itemSort").val()+"&isdown="+$isdown+"&currentPage="+$currentPage;
+	}
+}
+
+function exportExcel(){
+// 	var url="${rc.contextPath}/item/exportExcel.do";
+// 	jQuery.ajax({
+// 		
+//		url : url,
+// 		type : 'post',
+// 		success : function(data) {
+// 			window.location.href(data.outfile);
+// 		}
+// 	});
+
+	var withPIC = 0;
+	var r=document.getElementsByName("withPIC");  
+	for(var i=0;i<r.length;i++){
+         if(r[i].checked){
+         withPIC = r[i].value;
+       }
+    }   
+	window.location.href = "${rc.contextPath}/item/exportExcel.do?grade=$!grade&categoryId=$!item.categoryId&categorylevelId=$!item.categorylevelId&isnew=$!isnew&itemName=$!itemName&&isrecommend=$!isrecommend&freeSpecialSupply=$!free&isdown="+$!isdown+"&withPIC="+withPIC;
+}
+
+function change(obj){
+	var id = $(obj).val();
+	var content ="";
+	$.ajax({
+	             type: "GET",
+	             url: "${rc.contextPath}/item/leavecat.json",
+	             data: {catid:id},
+	             dataType: "json",
+	             success: function(data){
+								if(data.length>0){
+									content+='<td><label class="tit">二级类目：</label></td><td><select name="categorylevelId" id="categorylevelId"><option value="0">全部</option>'
+									$.each(data,function(i){
+										content+='<option value="'+data[i].id+'">'+data[i].categoryName+'</option>'
+									})
+									content+='</select></td>'
+								}
+								$("#twocat").html(content);
+	               }
+	         });
+}
+
+function search(){
+   document.forms[0].submit();
+}
+
+var catId = $!catId;
+$(document).ready(function(){
+	$("#itemCatId").val(catId);
+});
+
+function sort(){
+	window.location.href="${rc.contextPath}/item/itemList.htm?itemSort="+$("#itemSort").val()+"&isdown="+$isdown+"&status="+$isdelete+"&categoryId="+catId;
+}
+
+
+function recoverData(id){
+	var url="${rc.contextPath}/item/recover.do?id="+id;
+  doDeleteRequest(url,id,show1);
+}
+
+function show1(data){
+	alert(data);
+	if(data.indexOf("成功")!=-1){
+		 window.location.href="${rc.contextPath}/item/itemList.htm?itemSort="+$("#itemSort").val()+"&isdown="+$isdown+"&status="+$isdelete+"&currentPage="+$!page.pageNum;
+	}
+}
+
+function upOrDown(id,count){
+    var  recommend = $("#"+"recommend"+count).html();
+    if(""!=recommend&&null!=recommend&&typeof(recommend)!="undefined"){
+    	recommend=parseInt(recommend);
+    	var flag;
+		if(recommend==0){
+			flag=1;
+		}else if(recommend==1){
+			flag=-1;
+		}else{
+			return false;
+		}
+		$.ajax({
+	             type: "GET",
+	             url: "${rc.contextPath}/item/recommend.do",
+	             data: {id:id, flag:flag},
+	             dataType: "json",
+	             success: function(data){
+								if(200==data){
+									$("#"+"recommend"+count).html(1);
+								}else if(201==data){
+									$("#"+"recommend"+count).html(0);
+								}else{
+									alert("操作失败！")
+								}
+	                      }
+	         });
+    }
+    return false;
+}
+</script>
+<div class="content">
+<div class="bd-actionbar">
+		#if ($isdown!= 1)
+
+			<a href="${rc.contextPath}/item/itemAdd.htm" class="btn btn-success"><i class="ico"></i>添加商品</a>
+			<a href="${rc.contextPath}/itemCopy/itemCopy.htm" class="btn btn-success"><i class="ico"></i>商品复制</a>
+
+		#else
+<!-- 		<div class="btn btn-success">已下架商品信息</div> -->
+		#end
+    	<a class="ko" href="${rc.contextPath}/item/itemPriceHistory.htm">查看商品价格变动</a >
+</div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/item/itemList.htm?isdown=${isdown}&status=${isdelete}&menuHeight=$!menuHeight&menuName=$!menuName"  method="post">
+		   <table class="form form-horizontal" style="position:relative;">
+				<tr>
+					<td><label class="tit first-tit">类目：</label></td>
+					<td>
+					<select name="categoryId" id="itemCatId" onchange="change(this)">
+					    <option value="0">全部</option>
+					    #foreach($cat in $catList)$item.itemName
+						   #if ($!item.categoryId == $cat.id)
+				            <option value="$cat.id" selected="selected">$cat.categoryName</option>
+				           #else
+				            <option value="$cat.id">$cat.categoryName</option>
+				           #end
+						#end
+					 </select>
+					</td>
+					<tr id="twocat" style="position:absolute;left:161px;top:0px;">
+					#if($!leaveCats)
+					<td><label class="tit">二级类目：</label></td>
+					<td>
+					<select name="categorylevelId" id="categorylevelId">
+					    <option value="0">全部</option>
+					    #foreach($cat in $leaveCats)$item.categorylevelId
+						   #if ($!item.categorylevelId == $cat.id)
+				            <option value="$cat.id" selected="selected">$cat.categoryName</option>
+				           #else
+				            <option value="$cat.id">$cat.categoryName</option>
+				           #end
+						#end
+					 </select>
+					</td>
+					#end
+					</tr>
+			</tr>
+			<tr>
+					<td><label class="tit first-tit">排序：</label></td>
+					<td>
+					<select name="itemSort" id="itemSort">
+					#if ($itemSort=="profit")
+					<option value="item_name" >默认</option>
+					<option value="profit" selected="selected">利润率</option>
+					<option value="item_weight">分数</option>
+					<option value="first_char">字母</option>
+					#elseif($itemSort=="item_weight")
+					<option value="item_name" >默认</option>
+					<option value="profit" >利润率</option>
+					<option value="item_weight" selected="selected">分数</option>
+					<option value="first_char">字母</option>
+					#elseif($itemSort=="first_char")
+					<option value="item_name" >默认</option>
+					<option value="profit" >利润率</option>
+					<option value="item_weight" >分数</option>
+					<option value="first_char" selected="selected">字母</option>
+					#else
+					<option value="item_name" selected="selected">默认</option>
+					<option value="profit" >利润率</option>
+					<option value="item_weight">分数</option>
+					<option value="first_char">字母</option>
+					#end
+					</select>
+					</td>
+					<td><label class="tit ">分级：</label></td>
+						<td >
+							<select name="grade">
+							   <option value ="" >全部</option>
+							  <option value ="KA" #if($!grade=='KA')selected="selected"#end>KA</option>
+							  <option value ="A" #if($!grade=='A')selected="selected"#end>A</option>
+							  <option value ="B" #if($!grade=='B')selected="selected"#end>B</option>
+							  <option value ="C" #if($!grade=='C')selected="selected"#end>C</option>
+							</select>
+						</td>
+					<td><label class="tit">新品：</label></td>
+						<td >
+							<select name="isnew">
+							   <option value ="" >全部</option>
+							  <option value ="1" #if($!isnew==1)selected="selected"#end>新品</option>
+							</select>
+						</td>
+				</tr>
+				<tr>
+					<td><label class="tit">福利店专供：</label></td>
+						<td >
+							<select name="freeSpecialSupply">
+							   <option value ="" >全部</option>
+							  <option value ="1" #if($!free==1)selected="selected"#end>是</option>
+							   <option value ="0" #if($!free==0)selected="selected"#end>否</option>
+							</select>
+						</td>
+					<td><label class="tit">推荐：</label></td>
+						<td >
+							<select name="isrecommend">
+							   <option value ="" >全部</option>
+							  <option value ="1" #if($!isrecommend==1)selected="selected"#end>推荐</option>
+							</select>
+						</td>
+				</tr>
+				<tr>
+					<td><label class="tit">名称：</label></td>
+					<td><input name="itemName" id="itemName" class="form-input" type="text" value="$!itemName"></td>
+
+					<td><a class="btn btn-warning btn-sm" href="javascript:search();">查找</a></td>
+					<td><label class="tit">带图：</label></td>
+					<td><input type="checkbox" name="withPIC" id="withPIC" value="1"/></td>
+					<td><a class="btn btn-warning btn-sm" href="javascript:exportExcel();">导出Excel</a></td>
+					<td    align="right">
+					#if ($isdown!=1)
+					<a href="${rc.contextPath}/item/itemList.htm?isdown=1">已下架商品信息</a>
+					#else
+					<a href="${rc.contextPath}/item/itemList.htm?isdown=0">已上架商品信息</a>
+					#end
+					
+					#if($isdelete!=0)
+					<a href="${rc.contextPath}/item/itemList.htm?status=0">已删除商品信息</a>
+					#else
+					<a href="${rc.contextPath}/item/itemList.htm?status=1">未删除商品信息</a>
+					#end
+					</td>
+##                    <td><a class="btn btn-warning btn-sm" href="${rc.contextPath}/item/itemPriceHistory.htm">查看商品价格变动</a></td>
+				</tr>
+		  </table>
+		</form>
+		<table class="table">
+		  <tr>
+			<th>图片</th>
+			<th>一级类目</th>
+			<th>二级类目</th>
+			<th>名称</th>
+			<th>分级</th>
+			<!--<th>品牌</th> -->
+			<th>规格</th>
+			<th>单价</th>
+			<th>成本价</th>
+			<th>利润率</th>
+			<th>库存</th>
+			<!--<th>批发规格</th> -->
+			<!--<th>批发成本价</th> -->
+			<!-- <th>转转换系数</th> -->
+			<!-- <th>零售规格系数</th> -->
+			<th>新品</th>
+			<th>分数</th>
+			<th>黑名单</th>
+			<th>推荐</th>
+			#if ($isdown==1 && $isdelete!=0)
+	        <th>最后操作时间</th>
+			#end
+			<th>操作</th>
+		  </tr>
+
+		  #set ($rowCount = 0)
+		  #foreach($bean in $page.result)
+			  #set ($isOddRow = $rowCount % 2 != 0)
+			  #if ($isOddRow)
+	           <tr>
+	          #else
+	           <tr class="sep-bar">
+	          #end
+	            <td>
+	            <img  alt="$bean.itemName" src="$!bean.imgPath" width="100" />
+			   </td>
+			    <td>
+			    #if($bean.categoryName)
+			    $bean.categoryName
+			    #else
+			    
+			    #end
+			    </td>
+			    <td>$bean.categoryLeaveName</td>
+				<td>$bean.itemName</td>
+				<td>$!bean.grade</td>
+				<!-- <td>$!bean.brand</td> -->
+				<td>$!bean.size</td>
+				<td>$NumberTool.toYuanNumber($!bean.price)</td>
+				<td>$NumberTool.toYuanNumber($!bean.costPrice)</td>
+				<td>$!bean.profit%</td>
+				<td>$!bean.stock</td>
+				<!-- <td>$!bean.buySize</td> -->
+				<!-- <td>$NumberTool.toYuanNumber($!bean.buyPrice)</td> -->
+				<!--<td>$!bean.convertNum</td>-->
+				<!--<td>$!bean.saleSizeNum</td>-->
+				<td>#if($!bean.isnew==1)是 #else 否 #end</td>
+			  <td class="opt">
+			  #if($isdelete==0)
+			  #else
+			  	<a href="${rc.contextPath}/itemScore/scoreList.htm?item_id=$bean.id&menuHeight=$!menuHeight&menuName=$!menuName"><span id="itemWeight$!rowCount" style="color:blue; ">$!bean.itemWeight</span></a>&nbsp;
+			  #end
+			  </td>
+			  <td>$bean.blacktotalnum</td>
+			  <td class="opt">
+			  #if($isdelete==0)
+			  #else
+			  	<a href="javascript:upOrDown('$bean.id',$rowCount)"><span id="recommend$!rowCount" style="color:blue; ">$!bean.recommend</span></a>&nbsp;
+			  #end
+			  </td>
+			  #if($isdelete!=0 &&$isdown==1)
+				<td>$date.format('yyyy-MM-dd',$!bean.updatedTime)</td>
+			  #end
+			  <td class="opt">
+				#if($isdelete == 0)
+					<a href="javascript:recoverData('$bean.id')">恢复</a>
+				#else
+				 #if ($isdown==1)
+				    <a href="${rc.contextPath}/item/itemUpdate.htm?id=$bean.id&currentPage=$!page.pageNum&catId=$!item.categoryId&itemNames=$!itemName&menuHeight=$!menuHeight&menuName=$!menuName">编辑</a><span>|</span>
+				 	<a href="javascript:if(confirm('是否上架？')) window.location.href='${rc.contextPath}/item/down.do?id=$!bean.id&isdown=0&currentPage=$!page.pageNum&menuHeight=$!menuHeight&menuName=$!menuName'">上架</a><span>|</span>
+				 #else
+				 	<a href="${rc.contextPath}/item/itemUpdate.htm?id=$bean.id&currentPage=$!page.pageNum&catId=$!item.categoryId&itemNames=$!itemName&menuHeight=$!menuHeight&menuName=$!menuName">编辑</a><span>|</span>
+					<a href="javascript:downshelf('$bean.id')">下架</a><span>|</span>
+				 #end
+				<a href="javascript:delData('$bean.id')">删除</a>
+				#end
+			  </td>
+			  </tr>
+
+
+			  #set ($rowCount = $rowCount + 1)
+		  #end
+
+		</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

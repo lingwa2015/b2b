@@ -1,0 +1,37 @@
+#set($layout="layout/shopLayout.vm")
+<div class="purchase_order">
+       <!-- 无订单 -->
+        <!-- <div class="no_order">无订单</div> -->
+        <div class="order_tip">
+            <div class="order_list" style="width:22%;text-align:left;">
+                <span style="padding-left: .22rem">客户</span>
+            </div>
+            <div class="order_list" style="width:18%">实时</div>
+            <div class="order_list" style="width:18%">昨日</div>
+            <div class="order_list" style="width:18%;">本月</div>
+            <div class="order_list" style="width:18%;">在售</div>
+        </div>
+        <div class="record">
+        	#foreach($shop in $shops)
+        		<div class="gong_list" ontouchend="detail('2017-04');">
+##                //店铺详情页面
+##                <a href="${rc.contextPath}/convenient/reseau/shop_bianDetail.htm?shopId=$!shop.shopId" style="color: #000;">
+##              //店铺管理页面
+                <a href="${rc.contextPath}/convenient/manage/shop_index.htm?shop_id=$!shop.shopId" style="color: #000;">
+                <span class="gong_dan01 dian_01">
+                    <span class="dan_1">$!shop.shopName</span>
+                </span>
+                <span class="gong_dan01 dian_02">$NumberTool.toYuanNumber($!shop.actualPrice)</span>
+                <span class="gong_dan01 dian_02">#if($!shop.last)$NumberTool.toYuanNumber($!shop.last)#else ... #end</span>
+                <span class="gong_dan01 dian_02">#if($!shop.totalPrice)$NumberTool.toYuanNumber($!shop.totalPrice)#else ... #end</span>
+                <span class="gong_dan01 dian_02" style="margin-left: 1%;">$NumberTool.toYuanNumber($!shop.shelf)</span>
+                </a>
+                </div>
+        	#end
+            
+        </div>
+
+   </div>
+<script type="text/javascript">
+    document.title = "便利店";
+</script>

@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.TranConsumeMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.TranConsume" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="sourcing_no" property="sourcingNo" jdbcType="BIGINT" />
+    <result column="sourcing" property="sourcing" jdbcType="BIGINT" />
+    <result column="consume" property="consume" jdbcType="BIGINT" />
+    <result column="red_fee" property="redFee" jdbcType="BIGINT" />
+    <result column="actual_consume" property="actualConsume" jdbcType="BIGINT" />
+    <result column="month_stock_money" property="monthStockMoney" jdbcType="BIGINT" />
+    <result column="goods_money" property="goodsMoney" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="sum_date" property="sumDate" jdbcType="DATE" />
+    <result column="lw_fee_one" property="lwFeeOne" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, sourcing_no, sourcing, consume, red_fee, actual_consume, month_stock_money, 
+    goods_money, create_date, sum_date, lw_fee_one
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.TranConsumeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tran_consume
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tran_consume
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tran_consume
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.TranConsumeExample" >
+    delete from tran_consume
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.TranConsume" >
+    insert into tran_consume (id, user_id, sourcing_no, 
+      sourcing, consume, red_fee, 
+      actual_consume, month_stock_money, goods_money, 
+      create_date, sum_date, lw_fee_one
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{sourcingNo,jdbcType=BIGINT}, 
+      #{sourcing,jdbcType=BIGINT}, #{consume,jdbcType=BIGINT}, #{redFee,jdbcType=BIGINT}, 
+      #{actualConsume,jdbcType=BIGINT}, #{monthStockMoney,jdbcType=BIGINT}, #{goodsMoney,jdbcType=BIGINT}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{sumDate,jdbcType=DATE}, #{lwFeeOne,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.TranConsume" >
+    insert into tran_consume
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="sourcingNo != null" >
+        sourcing_no,
+      </if>
+      <if test="sourcing != null" >
+        sourcing,
+      </if>
+      <if test="consume != null" >
+        consume,
+      </if>
+      <if test="redFee != null" >
+        red_fee,
+      </if>
+      <if test="actualConsume != null" >
+        actual_consume,
+      </if>
+      <if test="monthStockMoney != null" >
+        month_stock_money,
+      </if>
+      <if test="goodsMoney != null" >
+        goods_money,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="sumDate != null" >
+        sum_date,
+      </if>
+      <if test="lwFeeOne != null" >
+        lw_fee_one,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="sourcingNo != null" >
+        #{sourcingNo,jdbcType=BIGINT},
+      </if>
+      <if test="sourcing != null" >
+        #{sourcing,jdbcType=BIGINT},
+      </if>
+      <if test="consume != null" >
+        #{consume,jdbcType=BIGINT},
+      </if>
+      <if test="redFee != null" >
+        #{redFee,jdbcType=BIGINT},
+      </if>
+      <if test="actualConsume != null" >
+        #{actualConsume,jdbcType=BIGINT},
+      </if>
+      <if test="monthStockMoney != null" >
+        #{monthStockMoney,jdbcType=BIGINT},
+      </if>
+      <if test="goodsMoney != null" >
+        #{goodsMoney,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sumDate != null" >
+        #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="lwFeeOne != null" >
+        #{lwFeeOne,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.TranConsumeExample" resultType="java.lang.Integer" >
+    select count(*) from tran_consume
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tran_consume
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sourcingNo != null" >
+        sourcing_no = #{record.sourcingNo,jdbcType=BIGINT},
+      </if>
+      <if test="record.sourcing != null" >
+        sourcing = #{record.sourcing,jdbcType=BIGINT},
+      </if>
+      <if test="record.consume != null" >
+        consume = #{record.consume,jdbcType=BIGINT},
+      </if>
+      <if test="record.redFee != null" >
+        red_fee = #{record.redFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.actualConsume != null" >
+        actual_consume = #{record.actualConsume,jdbcType=BIGINT},
+      </if>
+      <if test="record.monthStockMoney != null" >
+        month_stock_money = #{record.monthStockMoney,jdbcType=BIGINT},
+      </if>
+      <if test="record.goodsMoney != null" >
+        goods_money = #{record.goodsMoney,jdbcType=BIGINT},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sumDate != null" >
+        sum_date = #{record.sumDate,jdbcType=DATE},
+      </if>
+      <if test="record.lwFeeOne != null" >
+        lw_fee_one = #{record.lwFeeOne,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tran_consume
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      sourcing_no = #{record.sourcingNo,jdbcType=BIGINT},
+      sourcing = #{record.sourcing,jdbcType=BIGINT},
+      consume = #{record.consume,jdbcType=BIGINT},
+      red_fee = #{record.redFee,jdbcType=BIGINT},
+      actual_consume = #{record.actualConsume,jdbcType=BIGINT},
+      month_stock_money = #{record.monthStockMoney,jdbcType=BIGINT},
+      goods_money = #{record.goodsMoney,jdbcType=BIGINT},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      sum_date = #{record.sumDate,jdbcType=DATE},
+      lw_fee_one = #{record.lwFeeOne,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.TranConsume" >
+    update tran_consume
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="sourcingNo != null" >
+        sourcing_no = #{sourcingNo,jdbcType=BIGINT},
+      </if>
+      <if test="sourcing != null" >
+        sourcing = #{sourcing,jdbcType=BIGINT},
+      </if>
+      <if test="consume != null" >
+        consume = #{consume,jdbcType=BIGINT},
+      </if>
+      <if test="redFee != null" >
+        red_fee = #{redFee,jdbcType=BIGINT},
+      </if>
+      <if test="actualConsume != null" >
+        actual_consume = #{actualConsume,jdbcType=BIGINT},
+      </if>
+      <if test="monthStockMoney != null" >
+        month_stock_money = #{monthStockMoney,jdbcType=BIGINT},
+      </if>
+      <if test="goodsMoney != null" >
+        goods_money = #{goodsMoney,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sumDate != null" >
+        sum_date = #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="lwFeeOne != null" >
+        lw_fee_one = #{lwFeeOne,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.TranConsume" >
+    update tran_consume
+    set user_id = #{userId,jdbcType=INTEGER},
+      sourcing_no = #{sourcingNo,jdbcType=BIGINT},
+      sourcing = #{sourcing,jdbcType=BIGINT},
+      consume = #{consume,jdbcType=BIGINT},
+      red_fee = #{redFee,jdbcType=BIGINT},
+      actual_consume = #{actualConsume,jdbcType=BIGINT},
+      month_stock_money = #{monthStockMoney,jdbcType=BIGINT},
+      goods_money = #{goodsMoney,jdbcType=BIGINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      sum_date = #{sumDate,jdbcType=DATE},
+      lw_fee_one = #{lwFeeOne,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findCurrentMonthConsumeMoney" resultType="long">
+  	SELECT IFNULL(consume,0)  FROM `tran_consume`  WHERE DATE_FORMAT(`sum_date`, '%Y%m') = DATE_FORMAT(NOW(),'%Y%m') and `user_id` = #{customerUserId}
+  </select>
+  <select id="findDate" resultType="DATE">
+  	SELECT date_sub(`create_date`, interval 1 day)  FROM `tran_consume`  ORDER BY `create_date` desc LIMIT 1
+  </select>
+  <select id="findLossMoney" resultType="long">
+  	SELECT
+			
+			IFNULL(month_stock_money,0) +IFNULL(sourcing,0)- IFNULL(consume,0)- IFNULL(goods_money,0) fee
+		FROM
+			`tran_consume`
+		WHERE
+			user_id = #{shop_id}
+		AND DATE_FORMAT(`sum_date`, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+  </select>
+  <select id="findMoreLossMoney" resultMap="BaseResultMap">
+  	SELECT
+		IFNULL(month_stock_money,0) +IFNULL(sourcing,0)- IFNULL(consume,0)- IFNULL(goods_money,0) sourcing,
+		sum_date,
+	    IFNULL(actual_consume,0) - IFNULL(consume,0) consume
+	FROM
+		`tran_consume`
+	WHERE
+		user_id = #{shop_id}
+	AND DATE_FORMAT(`sum_date`, '%Y-%m') = DATE_FORMAT(
+		date_sub(NOW(), INTERVAL 1 DAY),
+		'%Y-%m'
+	)	
+  </select>
+  <select id="findMonthStockByUserIdAndDate" resultMap="BaseResultMap">
+  	SELECT  `goods_money` goodsMoney,`month_stock_money` monthStockMoney     FROM `tran_consume` WHERE `user_id` = #{id} and DATE_FORMAT(`sum_date`, '%Y-%m') = DATE_FORMAT(#{date}, '%Y-%m')
+  </select>
+  <select id="findTotalMonthStockByDate" resultMap="BaseResultMap">
+  	SELECT SUM(`month_stock_money`) monthStockMoney ,SUM(`goods_money`) goodsMoney FROM `tran_consume` WHERE  DATE_FORMAT(`sum_date`, '%Y-%m') = DATE_FORMAT(#{date}, '%Y-%m')
+  </select>
+  <delete id="deleteByDateAndCityId">
+  	DELETE ts
+	FROM
+		tran_consume ts
+	LEFT JOIN customer_user cu ON ts.user_id = cu.id
+	WHERE
+		cu.city_id = #{cityId}
+	AND ts.sum_date &gt;= #{startDate}
+	AND ts.sum_date &lt;= #{endDate}
+  </delete>
+  <select id="findCurrentMonthRedPriceByShopId" resultType="long">
+     SELECT IFNULL(`red_fee`, 0)  FROM `tran_consume`  WHERE DATE_FORMAT(`sum_date`, '%Y%m') = DATE_FORMAT(NOW(),'%Y%m') and `user_id` = #{shopId}
+  </select>
+</mapper>

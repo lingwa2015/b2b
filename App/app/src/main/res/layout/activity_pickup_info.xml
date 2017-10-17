@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sxc.natasha.ui.PickupInfoActivity">
+
+    <ImageButton
+        android:id="@+id/pickup_info_add_button"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/add_pick_info_selector"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="60dp"
+        android:layout_above="@id/pickup_info_add_button"
+        android:orientation="horizontal">
+
+        <ListView
+            android:id="@+id/pickup_info_listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fastScrollEnabled="true"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,2117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.CustomerUserMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.CustomerUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="pass_word" property="passWord" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="mobile_phone" property="mobilePhone" jdbcType="VARCHAR" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="created_userid" property="createdUserid" jdbcType="INTEGER" />
+    <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
+    <result column="updated_userid" property="updatedUserid" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="isadmin" property="isadmin" jdbcType="INTEGER" />
+    <result column="business_id" property="businessId" jdbcType="INTEGER" />
+    <result column="managerShopId" property="managershopid" jdbcType="INTEGER" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="company_memo" property="companyMemo" jdbcType="VARCHAR" />
+    <result column="company_personnum" property="companyPersonnum" jdbcType="INTEGER" />
+    <result column="interface_person" property="interfacePerson" jdbcType="VARCHAR" />
+    <result column="discount" property="discount" jdbcType="DECIMAL" />
+    <result column="iswxvip" property="iswxvip" jdbcType="INTEGER" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="likeman" property="likeman" jdbcType="VARCHAR" />
+    <result column="pay_bill_way" property="payBillWay" jdbcType="INTEGER" />
+    <result column="goods_shelf_num" property="goodsShelfNum" jdbcType="INTEGER" />
+    <result column="popsicle_icebox_num" property="popsicleIceboxNum" jdbcType="INTEGER" />
+    <result column="drink_icebox_num" property="drinkIceboxNum" jdbcType="INTEGER" />
+    <result column="buy_way" property="buyWay" jdbcType="INTEGER" />
+    <result column="list_time" property="listTime" jdbcType="TIMESTAMP" />
+    <result column="shop_discount" property="shopDiscount" jdbcType="DECIMAL" />
+    <result column="region" property="region" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="region_id" property="regionId" jdbcType="INTEGER" />
+    <result column="contract_date" property="contractDate" jdbcType="TIMESTAMP" />
+    <result column="check_time" property="checkTime" jdbcType="TIMESTAMP" />
+    <result column="special" property="special" jdbcType="VARCHAR" />
+    <result column="reseau_id" property="reseauId" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="contract_number" property="contractNumber" jdbcType="VARCHAR" />
+    <result column="interface_person_id" property="interfacePersonId" jdbcType="INTEGER" />
+    <result column="royalty_coefficient" property="royaltyCoefficient" jdbcType="DECIMAL" />
+    <result column="duty_paragraph" property="dutyParagraph" jdbcType="VARCHAR" />
+    <result column="check_str" property="checkStr" jdbcType="VARCHAR" />
+    <result column="delivery_Id" property="deliveryId" jdbcType="INTEGER" />
+    <result column="submit_time" property="submitTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_name, pass_word, address, mobile_phone, created_time, created_userid, updated_time, 
+    updated_userid, status, isadmin, business_id, managerShopId, company_name, company_memo, 
+    company_personnum, interface_person, discount, iswxvip, position, likeman, pay_bill_way, 
+    goods_shelf_num, popsicle_icebox_num, drink_icebox_num, buy_way, list_time, shop_discount, 
+    region, grade, region_id, contract_date, check_time, special, reseau_id, city_id, 
+    contract_number, interface_person_id, royalty_coefficient, duty_paragraph, check_str,
+    delivery_Id, submit_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.CustomerUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from customer_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitFlag">
+		limit ${start},${limit}
+	</if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from customer_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.CustomerUserExample" >
+    delete from customer_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.CustomerUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into customer_user (id, user_name, pass_word, 
+      address, mobile_phone, created_time, 
+      created_userid, updated_time, updated_userid, 
+      status, isadmin, business_id, 
+      managerShopId, company_name, company_memo, 
+      company_personnum, interface_person, discount, 
+      iswxvip, position, likeman, 
+      pay_bill_way, goods_shelf_num, popsicle_icebox_num, 
+      drink_icebox_num, buy_way, list_time, 
+      shop_discount, region, grade, 
+      region_id, contract_date, check_time, 
+      special, reseau_id, city_id, 
+      contract_number, interface_person_id, royalty_coefficient, 
+      duty_paragraph, check_str, delivery_Id, submit_time)
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{passWord,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{createdUserid,jdbcType=INTEGER}, #{updatedTime,jdbcType=TIMESTAMP}, #{updatedUserid,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{isadmin,jdbcType=INTEGER}, #{businessId,jdbcType=INTEGER}, 
+      #{managershopid,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, #{companyMemo,jdbcType=VARCHAR}, 
+      #{companyPersonnum,jdbcType=INTEGER}, #{interfacePerson,jdbcType=VARCHAR}, #{discount,jdbcType=DECIMAL}, 
+      #{iswxvip,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, #{likeman,jdbcType=VARCHAR}, 
+      #{payBillWay,jdbcType=INTEGER}, #{goodsShelfNum,jdbcType=INTEGER}, #{popsicleIceboxNum,jdbcType=INTEGER}, 
+      #{drinkIceboxNum,jdbcType=INTEGER}, #{buyWay,jdbcType=INTEGER}, #{listTime,jdbcType=TIMESTAMP}, 
+      #{shopDiscount,jdbcType=DECIMAL}, #{region,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, 
+      #{regionId,jdbcType=INTEGER}, #{contractDate,jdbcType=TIMESTAMP}, #{checkTime,jdbcType=TIMESTAMP}, 
+      #{special,jdbcType=VARCHAR}, #{reseauId,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, 
+      #{contractNumber,jdbcType=VARCHAR}, #{interfacePersonId,jdbcType=INTEGER}, #{royaltyCoefficient,jdbcType=DECIMAL}, 
+      #{dutyParagraph,jdbcType=VARCHAR}, #{checkStr,jdbcType=VARCHAR}, #{deliveryId,jdbcType=INTEGER},
+      #{submitTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.CustomerUser" >
+    insert into customer_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="passWord != null" >
+        pass_word,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="mobilePhone != null" >
+        mobile_phone,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="createdUserid != null" >
+        created_userid,
+      </if>
+      <if test="updatedTime != null" >
+        updated_time,
+      </if>
+      <if test="updatedUserid != null" >
+        updated_userid,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="isadmin != null" >
+        isadmin,
+      </if>
+      <if test="businessId != null" >
+        business_id,
+      </if>
+      <if test="managershopid != null" >
+        managerShopId,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="companyMemo != null" >
+        company_memo,
+      </if>
+      <if test="companyPersonnum != null" >
+        company_personnum,
+      </if>
+      <if test="interfacePerson != null" >
+        interface_person,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="iswxvip != null" >
+        iswxvip,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="likeman != null" >
+        likeman,
+      </if>
+      <if test="payBillWay != null" >
+        pay_bill_way,
+      </if>
+      <if test="goodsShelfNum != null" >
+        goods_shelf_num,
+      </if>
+      <if test="popsicleIceboxNum != null" >
+        popsicle_icebox_num,
+      </if>
+      <if test="drinkIceboxNum != null" >
+        drink_icebox_num,
+      </if>
+      <if test="buyWay != null" >
+        buy_way,
+      </if>
+      <if test="listTime != null" >
+        list_time,
+      </if>
+      <if test="shopDiscount != null" >
+        shop_discount,
+      </if>
+      <if test="region != null" >
+        region,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="regionId != null" >
+        region_id,
+      </if>
+      <if test="contractDate != null" >
+        contract_date,
+      </if>
+      <if test="checkTime != null" >
+        check_time,
+      </if>
+      <if test="special != null" >
+        special,
+      </if>
+      <if test="reseauId != null" >
+        reseau_id,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="contractNumber != null" >
+        contract_number,
+      </if>
+      <if test="interfacePersonId != null" >
+        interface_person_id,
+      </if>
+      <if test="royaltyCoefficient != null" >
+        royalty_coefficient,
+      </if>
+      <if test="dutyParagraph != null" >
+        duty_paragraph,
+      </if>
+      <if test="checkStr != null" >
+        check_str,
+      </if>
+      <if test="deliveryId != null" >
+        delivery_Id,
+      </if>
+      <if test="submitTime != null" >
+        submit_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="passWord != null" >
+        #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null" >
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserid != null" >
+        #{createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="updatedTime != null" >
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUserid != null" >
+        #{updatedUserid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isadmin != null" >
+        #{isadmin,jdbcType=INTEGER},
+      </if>
+      <if test="businessId != null" >
+        #{businessId,jdbcType=INTEGER},
+      </if>
+      <if test="managershopid != null" >
+        #{managershopid,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyMemo != null" >
+        #{companyMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPersonnum != null" >
+        #{companyPersonnum,jdbcType=INTEGER},
+      </if>
+      <if test="interfacePerson != null" >
+        #{interfacePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="iswxvip != null" >
+        #{iswxvip,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="likeman != null" >
+        #{likeman,jdbcType=VARCHAR},
+      </if>
+      <if test="payBillWay != null" >
+        #{payBillWay,jdbcType=INTEGER},
+      </if>
+      <if test="goodsShelfNum != null" >
+        #{goodsShelfNum,jdbcType=INTEGER},
+      </if>
+      <if test="popsicleIceboxNum != null" >
+        #{popsicleIceboxNum,jdbcType=INTEGER},
+      </if>
+      <if test="drinkIceboxNum != null" >
+        #{drinkIceboxNum,jdbcType=INTEGER},
+      </if>
+      <if test="buyWay != null" >
+        #{buyWay,jdbcType=INTEGER},
+      </if>
+      <if test="listTime != null" >
+        #{listTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shopDiscount != null" >
+        #{shopDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="region != null" >
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="regionId != null" >
+        #{regionId,jdbcType=INTEGER},
+      </if>
+      <if test="contractDate != null" >
+        #{contractDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkTime != null" >
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="special != null" >
+        #{special,jdbcType=VARCHAR},
+      </if>
+      <if test="reseauId != null" >
+        #{reseauId,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="contractNumber != null" >
+        #{contractNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="interfacePersonId != null" >
+        #{interfacePersonId,jdbcType=INTEGER},
+      </if>
+      <if test="royaltyCoefficient != null" >
+        #{royaltyCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="dutyParagraph != null" >
+        #{dutyParagraph,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStr != null" >
+        #{checkStr,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryId != null" >
+        #{deliveryId,jdbcType=INTEGER},
+      </if>
+      <if test="submitTime != null" >
+        #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.CustomerUserExample" resultType="java.lang.Integer" >
+    select count(*) from customer_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update customer_user
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passWord != null" >
+        pass_word = #{record.passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobilePhone != null" >
+        mobile_phone = #{record.mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUserid != null" >
+        created_userid = #{record.createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatedTime != null" >
+        updated_time = #{record.updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedUserid != null" >
+        updated_userid = #{record.updatedUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.isadmin != null" >
+        isadmin = #{record.isadmin,jdbcType=INTEGER},
+      </if>
+      <if test="record.businessId != null" >
+        business_id = #{record.businessId,jdbcType=INTEGER},
+      </if>
+      <if test="record.managershopid != null" >
+        managerShopId = #{record.managershopid,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyName != null" >
+        company_name = #{record.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyMemo != null" >
+        company_memo = #{record.companyMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyPersonnum != null" >
+        company_personnum = #{record.companyPersonnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.interfacePerson != null" >
+        interface_person = #{record.interfacePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.discount != null" >
+        discount = #{record.discount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.iswxvip != null" >
+        iswxvip = #{record.iswxvip,jdbcType=INTEGER},
+      </if>
+      <if test="record.position != null" >
+        position = #{record.position,jdbcType=VARCHAR},
+      </if>
+      <if test="record.likeman != null" >
+        likeman = #{record.likeman,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payBillWay != null" >
+        pay_bill_way = #{record.payBillWay,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsShelfNum != null" >
+        goods_shelf_num = #{record.goodsShelfNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.popsicleIceboxNum != null" >
+        popsicle_icebox_num = #{record.popsicleIceboxNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.drinkIceboxNum != null" >
+        drink_icebox_num = #{record.drinkIceboxNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.buyWay != null" >
+        buy_way = #{record.buyWay,jdbcType=INTEGER},
+      </if>
+      <if test="record.listTime != null" >
+        list_time = #{record.listTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.shopDiscount != null" >
+        shop_discount = #{record.shopDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.region != null" >
+        region = #{record.region,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grade != null" >
+        grade = #{record.grade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.regionId != null" >
+        region_id = #{record.regionId,jdbcType=INTEGER},
+      </if>
+      <if test="record.contractDate != null" >
+        contract_date = #{record.contractDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.checkTime != null" >
+        check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.special != null" >
+        special = #{record.special,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reseauId != null" >
+        reseau_id = #{record.reseauId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.contractNumber != null" >
+        contract_number = #{record.contractNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.interfacePersonId != null" >
+        interface_person_id = #{record.interfacePersonId,jdbcType=INTEGER},
+      </if>
+      <if test="record.royaltyCoefficient != null" >
+        royalty_coefficient = #{record.royaltyCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dutyParagraph != null" >
+        duty_paragraph = #{record.dutyParagraph,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkStr != null" >
+        check_str = #{record.checkStr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deliveryId != null" >
+        delivery_Id = #{record.deliveryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.submitTime != null" >
+        submit_time = #{record.submitTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update customer_user
+    set id = #{record.id,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      pass_word = #{record.passWord,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      mobile_phone = #{record.mobilePhone,jdbcType=VARCHAR},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      created_userid = #{record.createdUserid,jdbcType=INTEGER},
+      updated_time = #{record.updatedTime,jdbcType=TIMESTAMP},
+      updated_userid = #{record.updatedUserid,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      isadmin = #{record.isadmin,jdbcType=INTEGER},
+      business_id = #{record.businessId,jdbcType=INTEGER},
+      managerShopId = #{record.managershopid,jdbcType=INTEGER},
+      company_name = #{record.companyName,jdbcType=VARCHAR},
+      company_memo = #{record.companyMemo,jdbcType=VARCHAR},
+      company_personnum = #{record.companyPersonnum,jdbcType=INTEGER},
+      interface_person = #{record.interfacePerson,jdbcType=VARCHAR},
+      discount = #{record.discount,jdbcType=DECIMAL},
+      iswxvip = #{record.iswxvip,jdbcType=INTEGER},
+      position = #{record.position,jdbcType=VARCHAR},
+      likeman = #{record.likeman,jdbcType=VARCHAR},
+      pay_bill_way = #{record.payBillWay,jdbcType=INTEGER},
+      goods_shelf_num = #{record.goodsShelfNum,jdbcType=INTEGER},
+      popsicle_icebox_num = #{record.popsicleIceboxNum,jdbcType=INTEGER},
+      drink_icebox_num = #{record.drinkIceboxNum,jdbcType=INTEGER},
+      buy_way = #{record.buyWay,jdbcType=INTEGER},
+      list_time = #{record.listTime,jdbcType=TIMESTAMP},
+      shop_discount = #{record.shopDiscount,jdbcType=DECIMAL},
+      region = #{record.region,jdbcType=VARCHAR},
+      grade = #{record.grade,jdbcType=VARCHAR},
+      region_id = #{record.regionId,jdbcType=INTEGER},
+      contract_date = #{record.contractDate,jdbcType=TIMESTAMP},
+      check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      special = #{record.special,jdbcType=VARCHAR},
+      reseau_id = #{record.reseauId,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      contract_number = #{record.contractNumber,jdbcType=VARCHAR},
+      interface_person_id = #{record.interfacePersonId,jdbcType=INTEGER},
+      royalty_coefficient = #{record.royaltyCoefficient,jdbcType=DECIMAL},
+      duty_paragraph = #{record.dutyParagraph,jdbcType=VARCHAR},
+      check_str = #{record.checkStr,jdbcType=VARCHAR,
+      delivery_Id = #{record.deliveryId,jdbcType=INTEGER},
+      submit_time = #{record.submitTime,jdbcType=TIMESTAMP}}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.CustomerUser" >
+    update customer_user
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="passWord != null" >
+        pass_word = #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null" >
+        mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserid != null" >
+        created_userid = #{createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="updatedTime != null" >
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUserid != null" >
+        updated_userid = #{updatedUserid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isadmin != null" >
+        isadmin = #{isadmin,jdbcType=INTEGER},
+      </if>
+      <if test="businessId != null" >
+        business_id = #{businessId,jdbcType=INTEGER},
+      </if>
+      <if test="managershopid != null" >
+        managerShopId = #{managershopid,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyMemo != null" >
+        company_memo = #{companyMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPersonnum != null" >
+        company_personnum = #{companyPersonnum,jdbcType=INTEGER},
+      </if>
+      <if test="interfacePerson != null" >
+        interface_person = #{interfacePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="iswxvip != null" >
+        iswxvip = #{iswxvip,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="likeman != null" >
+        likeman = #{likeman,jdbcType=VARCHAR},
+      </if>
+      <if test="payBillWay != null" >
+        pay_bill_way = #{payBillWay,jdbcType=INTEGER},
+      </if>
+      <if test="goodsShelfNum != null" >
+        goods_shelf_num = #{goodsShelfNum,jdbcType=INTEGER},
+      </if>
+      <if test="popsicleIceboxNum != null" >
+        popsicle_icebox_num = #{popsicleIceboxNum,jdbcType=INTEGER},
+      </if>
+      <if test="drinkIceboxNum != null" >
+        drink_icebox_num = #{drinkIceboxNum,jdbcType=INTEGER},
+      </if>
+      <if test="buyWay != null" >
+        buy_way = #{buyWay,jdbcType=INTEGER},
+      </if>
+      <if test="listTime != null" >
+        list_time = #{listTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shopDiscount != null" >
+        shop_discount = #{shopDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="region != null" >
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="regionId != null" >
+        region_id = #{regionId,jdbcType=INTEGER},
+      </if>
+      <if test="contractDate != null" >
+        contract_date = #{contractDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkTime != null" >
+        check_time = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="special != null" >
+        special = #{special,jdbcType=VARCHAR},
+      </if>
+      <if test="reseauId != null" >
+        reseau_id = #{reseauId,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="contractNumber != null" >
+        contract_number = #{contractNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="interfacePersonId != null" >
+        interface_person_id = #{interfacePersonId,jdbcType=INTEGER},
+      </if>
+      <if test="royaltyCoefficient != null" >
+        royalty_coefficient = #{royaltyCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="dutyParagraph != null" >
+        duty_paragraph = #{dutyParagraph,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStr != null" >
+        check_str = #{checkStr,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryId != null" >
+        delivery_Id = #{deliveryId,jdbcType=INTEGER},
+      </if>
+      <if test="submitTime != null" >
+        submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.CustomerUser" >
+    update customer_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      pass_word = #{passWord,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      created_userid = #{createdUserid,jdbcType=INTEGER},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      updated_userid = #{updatedUserid,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      isadmin = #{isadmin,jdbcType=INTEGER},
+      business_id = #{businessId,jdbcType=INTEGER},
+      managerShopId = #{managershopid,jdbcType=INTEGER},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      company_memo = #{companyMemo,jdbcType=VARCHAR},
+      company_personnum = #{companyPersonnum,jdbcType=INTEGER},
+      interface_person = #{interfacePerson,jdbcType=VARCHAR},
+      discount = #{discount,jdbcType=DECIMAL},
+      iswxvip = #{iswxvip,jdbcType=INTEGER},
+      position = #{position,jdbcType=VARCHAR},
+      likeman = #{likeman,jdbcType=VARCHAR},
+      pay_bill_way = #{payBillWay,jdbcType=INTEGER},
+      goods_shelf_num = #{goodsShelfNum,jdbcType=INTEGER},
+      popsicle_icebox_num = #{popsicleIceboxNum,jdbcType=INTEGER},
+      drink_icebox_num = #{drinkIceboxNum,jdbcType=INTEGER},
+      buy_way = #{buyWay,jdbcType=INTEGER},
+      list_time = #{listTime,jdbcType=TIMESTAMP},
+      shop_discount = #{shopDiscount,jdbcType=DECIMAL},
+      region = #{region,jdbcType=VARCHAR},
+      grade = #{grade,jdbcType=VARCHAR},
+      region_id = #{regionId,jdbcType=INTEGER},
+      contract_date = #{contractDate,jdbcType=TIMESTAMP},
+      check_time = #{checkTime,jdbcType=TIMESTAMP},
+      special = #{special,jdbcType=VARCHAR},
+      reseau_id = #{reseauId,jdbcType=INTEGER},
+      city_id = #{cityId,jdbcType=INTEGER},
+      contract_number = #{contractNumber,jdbcType=VARCHAR},
+      interface_person_id = #{interfacePersonId,jdbcType=INTEGER},
+      royalty_coefficient = #{royaltyCoefficient,jdbcType=DECIMAL},
+      duty_paragraph = #{dutyParagraph,jdbcType=VARCHAR},
+      check_str = #{checkStr,jdbcType=VARCHAR},
+      delivery_Id = #{deliveryId,jdbcType=INTEGER},
+      submit_time = #{submitTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findByLikeNameAndCityId" resultType="String">
+  	SELECT company_name companyName from customer_user WHERE city_id = #{cityId} and user_name LIKE '%${name}%'
+  </select>
+  <select id="findByNameOrCompanyNameAndCityId" resultType="String">
+  SELECT company_name companyName from customer_user WHERE city_id = #{cityId} and user_name =#{name} or company_name = #{companyName}
+  </select>
+    <select id="findByLikeUserNameAndCityId" resultType="hashmap">
+  	SELECT id,user_name userName from customer_user WHERE status = 1 and city_id = #{cityId} and user_name LIKE '%${name}%';
+  </select>
+  <select id="countByCondition" resultType="int">
+  	select count(1) 
+  from customer_user cu left join person_user pu on cu.interface_person_id = pu.id
+  where cu.city_id =#{cityId}
+    <if test="isdelete==0">
+      and cu.status = 0
+    </if>
+    <if test="isdelete==1">
+      and cu.status = 1
+    </if>
+  <if test="userName !=null and userName != ''">
+  	and cu.user_name like '%${userName}%'
+  </if>
+   <if test="linkName !=null and linkName != ''">
+  	and pu.user_name like '%${linkName}%'
+  </if>
+  <if test="mobilePhone !=null and mobilePhone != ''">
+  	and cu.mobile_phone like '%${mobilePhone}%'
+  </if>
+  <if test="businessId >0">
+  	and cu.business_id = #{businessId}
+  </if>
+  <if test="param==0">
+  	and cu.iswxvip = 0
+  </if>
+  <if test="param==1">
+  	and cu.iswxvip = 1
+  </if>
+  <if test="param==2">
+  	and cu.iswxvip = 3
+  </if>
+  <if test="grade != null and grade !=''">
+   	and cu.grade = #{grade}
+   </if>
+   <if test="regionId != null and regionId !=''">
+   	and cu.region_id = #{regionId}
+   </if>
+   <if test="buyWay !=null and buyWay != ''">
+   	and cu.buy_way = #{buyWay}
+   </if>
+   <if test="payBillWay !=null and payBillWay != ''">
+   	and cu.pay_bill_way = #{payBillWay}
+   </if>
+    <if test="flag==1">
+    and DATEDIFF(NOW(),cu.list_time) &lt;= 7 
+   </if>
+   <if test="flag==2">
+   	and DATEDIFF(NOW(),cu.list_time) &gt; 7 and DATEDIFF(NOW(),cu.list_time) &lt;= 14
+   </if>
+   <if test="flag==3">
+    and DATEDIFF(NOW(),cu.list_time) &gt; 14 and DATEDIFF(NOW(),cu.list_time) &lt;= 60
+   </if>
+   <if test="flag==4">
+    and DATEDIFF(NOW(),cu.list_time) &gt; 60
+   </if>
+   <if test="reseauId != null and reseauId != ''">
+   and cu.reseau_id = #{reseauId}
+   </if>
+    <if test="activationId==1">
+      AND cu.contract_date is not null
+    </if>
+    <if test="activationId==2">
+      AND cu.contract_date is null
+    </if>
+  or cu.city_id =#{cityId}
+    <if test="isdelete==0">
+      and cu.status = 0
+    </if>
+    <if test="isdelete==1">
+      and cu.status = 1
+    </if>
+   <if test="userName !=null and userName != ''">
+  	and cu.company_name like '%${userName}%'
+  </if>
+   <if test="linkName !=null and linkName != ''">
+  	and pu.user_name like '%${linkName}%'
+  </if>
+  <if test="mobilePhone !=null and mobilePhone != ''">
+  	and cu.mobile_phone like '%${mobilePhone}%'
+  </if>
+  <if test="businessId >0">
+  	and cu.business_id = #{businessId}
+  </if>
+  <if test="param==0">
+  	and cu.iswxvip = 0
+  </if>
+  <if test="param==1">
+  	and cu.iswxvip = 1
+  </if>
+  <if test="param==2">
+  	and cu.iswxvip = 3
+  </if>
+  <if test="grade != null and grade !=''">
+   	and cu.grade = #{grade}
+   </if>
+  <if test="regionId != null and regionId !=''">
+   	and cu.region_id = #{regionId}
+   </if>
+   <if test="buyWay !=null and buyWay != ''">
+   	and cu.buy_way = #{buyWay}
+   </if>
+   <if test="payBillWay !=null and payBillWay != ''">
+   	and cu.pay_bill_way = #{payBillWay}
+   </if>
+    <if test="flag==1">
+    and DATEDIFF(NOW(),cu.list_time) &lt;= 7 
+   </if>
+   <if test="flag==2">
+   	and DATEDIFF(NOW(),cu.list_time) &gt; 7 and DATEDIFF(NOW(),cu.list_time) &lt;= 14
+   </if>
+   <if test="flag==3">
+    and DATEDIFF(NOW(),cu.list_time) &gt; 14 and DATEDIFF(NOW(),cu.list_time) &lt;= 60
+   </if>
+   <if test="flag==4">
+    and DATEDIFF(NOW(),cu.list_time) &gt; 60
+   </if>
+   <if test="reseauId != null and reseauId != ''">
+   and cu.reseau_id = #{reseauId}
+   </if>
+    <if test="activationId==1">
+     AND cu.contract_date is not null
+    </if>
+    <if test="activationId==2">
+      AND cu.contract_date is null
+    </if>
+  </select>
+  <select id="selectByConditionWithMoney" resultType="com.b2b.common.domain.CustomerUser">
+  	select cu.id,
+       cu.user_name userName,
+       cu.pass_word passWord,
+       cu.address,
+       cu.mobile_phone mobilePhone,
+       cu.created_time createdTime,
+       cu.created_userid createdUserid,
+       cu.updated_time updatedTime,
+       cu.updated_userid updatedUserid,
+       cu.status,
+       cu.isadmin,
+       cu.business_id businessId,
+       cu.managerShopId,
+       cu.company_name companyName,
+       cu.company_memo companyMemo,
+       cu.company_personnum companyPersonnum,
+       pu.user_name interfacePerson,cu.contract_date,
+       cu.discount,
+       cu.iswxvip,
+       cu.position,
+       cu.likeman,
+       cu.pay_bill_way payBillWay,
+       cu.goods_shelf_num goodsShelfNum,
+       cu.list_time listTime,
+       cu.grade,
+       cr.name region,cu.buy_way buyWay,
+       wa.`money`,DATEDIFF(NOW(),list_time) contractDay,re.name reseauName, cu.submit_time, cu.delivery_Id
+  from customer_user cu
+  LEFT JOIN `wxaccount` wa on cu.`id`= wa.`id`
+  left join reseau re on cu.reseau_id = re.id
+  left join city_region cr on cu.region_id = cr.id
+  left join person_user pu on cu.interface_person_id = pu.id
+  WHERE cu.city_id = #{cityId}
+    <if test="isdelete==0">
+      and cu.status = 0
+    </if>
+    <if test="isdelete==1">
+      and cu.status = 1
+    </if>
+   <if test="userName !=null and userName != ''">
+  	and cu.user_name like '%${userName}%'
+  </if>
+   <if test="linkName !=null and linkName != ''">
+  	and pu.user_name like '%${linkName}%'
+  </if>
+  <if test="mobilePhone !=null and mobilePhone != ''">
+  	and cu.mobile_phone like '%${mobilePhone}%'
+  </if>
+  <if test="businessId >0">
+  	and cu.business_id = #{businessId}
+  </if>
+  <if test="param==0">
+  	and cu.iswxvip = 0
+  </if>
+  <if test="param==1">
+  	and cu.iswxvip = 1
+  </if>
+  <if test="param==2">
+  	and cu.iswxvip = 3
+  </if>
+  <if test="grade != null and grade !=''">
+   	and cu.grade = #{grade}
+   </if>
+   <if test="regionId != null and regionId !=''">
+   	and cu.region_id = #{regionId}
+   </if>
+   <if test="buyWay !=null and buyWay != ''">
+   	and cu.buy_way = #{buyWay}
+   </if>
+   <if test="payBillWay !=null and payBillWay != ''">
+   	and cu.pay_bill_way = #{payBillWay}
+   </if>
+     <if test="flag==1">
+    and DATEDIFF(NOW(),cu.list_time) &lt;= 7 
+   </if>
+   <if test="flag==2">
+   	and DATEDIFF(NOW(),cu.list_time) &gt; 7 and DATEDIFF(NOW(),cu.list_time) &lt;= 14
+   </if>
+   <if test="flag==3">
+    and DATEDIFF(NOW(),cu.list_time) &gt; 14 and DATEDIFF(NOW(),cu.list_time) &lt;= 60
+   </if>
+   <if test="flag==4">
+    and DATEDIFF(NOW(),cu.list_time) &gt; 60
+   </if>
+   <if test="reseauId != null and reseauId != ''">
+   and cu.reseau_id = #{reseauId}
+   </if>
+    <if test="activationId==1">
+      AND cu.contract_date is not null
+    </if>
+    <if test="activationId==2">
+      AND cu.contract_date is null
+    </if>
+  or cu.city_id = #{cityId}
+    <if test="isdelete==0">
+      and cu.status = 0
+    </if>
+    <if test="isdelete==1">
+      and cu.status = 1
+    </if>
+    <if test="userName !=null and userName != ''">
+  	and cu.company_name like '%${userName}%'
+  </if>
+   <if test="linkName !=null and linkName != ''">
+  	and pu.user_name like '%${linkName}%'
+  </if>
+  <if test="mobilePhone !=null and mobilePhone != ''">
+  	and cu.mobile_phone like '%${mobilePhone}%'
+  </if>
+  <if test="businessId >0">
+  	and cu.business_id = #{businessId}
+  </if>
+  <if test="param==0">
+  	and cu.iswxvip = 0
+  </if>
+  <if test="param==1">
+  	and cu.iswxvip = 1
+  </if>
+  <if test="param==2">
+  	and cu.iswxvip = 3
+  </if>
+  <if test="grade != null and grade !=''">
+   	and cu.grade = #{grade}
+   </if>
+ <if test="regionId != null and regionId !=''">
+   	and cu.region_id = #{regionId}
+   </if>
+   <if test="buyWay !=null and buyWay != ''">
+   	and cu.buy_way = #{buyWay}
+   </if>
+   <if test="payBillWay !=null and payBillWay != ''">
+   	and cu.pay_bill_way = #{payBillWay}
+   </if>
+    <if test="flag==1">
+    and DATEDIFF(NOW(),cu.list_time) &lt;= 7 
+   </if>
+   <if test="flag==2">
+   	and DATEDIFF(NOW(),cu.list_time) &gt; 7 and DATEDIFF(NOW(),cu.list_time) &lt;= 14
+   </if>
+   <if test="flag==3">
+    and DATEDIFF(NOW(),cu.list_time) &gt; 14 and DATEDIFF(NOW(),cu.list_time) &lt;= 60
+   </if>
+   <if test="flag==4">
+    and DATEDIFF(NOW(),cu.list_time) &gt; 60
+   </if>
+  <if test="activationId==1">
+    AND cu.contract_date is not null
+  </if>
+  <if test="activationId==2">
+    AND cu.contract_date is null
+  </if>
+   <if test="reseauId != null and reseauId != ''">
+   and cu.reseau_id = #{reseauId}
+   </if>
+   <choose>
+                <when test="sort == 1">
+                        order by cu.list_time desc
+                </when>
+                <when test="sort == 2">
+                        order by cu.contract_date desc
+                </when>
+                 <when test="sort == 3">
+                   order by cu.submit_time desc
+                 </when>
+                <otherwise>
+                       order by cu.created_time desc
+                 </otherwise>
+    </choose>
+  limit ${start},${pageSize}
+  </select>
+  <select id="findByName" resultType="hashmap">
+  	SELECT
+		id,
+		user_name userName
+	FROM
+		customer_user
+	WHERE
+		user_name LIKE '%${userName}%'
+	<if test="flag==1">
+		AND `iswxvip` &lt; 2
+	</if>
+	<if test="flag==2">
+		AND `iswxvip` = 3
+	</if>
+	and STATUS = 1
+	
+  </select>
+  <select id="findAllShop" resultType="hashmap">
+  	SELECT  id,`user_name` ,`company_name`,shop_discount,region
+  FROM `customer_user`
+ WHERE `status`= 1
+   and `iswxvip`= 3
+  </select>
+  <select id="findByIdAndState" resultMap="BaseResultMap">
+  	 SELECT * FROM `customer_user` WHERE `id` = #{customerUserId} and `status` =1
+  </select>
+  <select id="findShops" resultMap="BaseResultMap">
+  	SELECT  *
+  FROM `customer_user`
+ WHERE `status`= 1
+   and `iswxvip`= 3
+  </select>
+  <select id="findAllShopByCondition" resultType="hashmap">
+  	SELECT  id,`user_name` ,`company_name`,`iswxvip`
+  FROM `customer_user`
+ WHERE `status`= 1
+ 		and city_id =#{cityId}
+ 	<if test="name!=null and name!=''">
+      and (user_name like '%${name}%' or company_name like '%${name}%')
+ 	</if>
+    ORDER BY created_time desc
+    LIMIT 50
+  </select>
+  <select id="isCompanyExist" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.CustomerUser">
+  	SELECT * FROM customer_user WHERE (user_name = #{userName} or company_name = #{companyName}) AND status != 2
+  </select>
+  <select id="findAllShopNum" resultType="int">
+  	SELECT  count(1)
+	  FROM `customer_user`
+	 WHERE `status`= 1
+	   and `iswxvip`= 3 
+  </select>
+  <select id="findFreeShops" resultMap="BaseResultMap">
+  	SELECT  *
+  FROM `customer_user`
+ WHERE `status`= 1
+   and `iswxvip` =0
+  </select>
+  <select id="isUserNameExist" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.CustomerUser">
+  	SELECT * FROM customer_user WHERE user_name = #{userName} AND status != 2
+  </select>
+  <select id="isCompanyNameExist" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.CustomerUser">
+  	SELECT * FROM customer_user WHERE company_name = #{companyName}
+  </select>
+  <select id="isExist" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.CustomerUser">
+  	SELECT * FROM customer_user WHERE user_name = #{userName} and company_name = #{companyName}
+  </select>
+  <select id="findCheckedDay" resultType="com.b2b.common.domain.CustomerUser">
+  	SELECT DATEDIFF(NOW(),check_time) contractDay,check_time checkTime FROM customer_user WHERE id = #{shopId}
+  </select>
+  <update id="deleteReseauId">
+  	update customer_user set reseau_id = null where reseau_id = #{id}
+  </update>
+  <select id="findFreeShopNumByReseauId" resultType="int">
+  	SELECT COUNT(1) FROM `customer_user` WHERE `status` =1 and `iswxvip` =0 and `reseau_id` =#{id}
+  </select>
+  <select id="findPrintOrdersInfo" resultType="com.b2b.common.domain.CustomerUser">
+  	select cu.id,
+       cu.user_name userName,
+       cu.pass_word passWord,
+       cu.address,
+       cu.mobile_phone mobilePhone,
+       cu.created_time createdTime,
+       cu.created_userid createdUserid,
+       cu.updated_time updatedTime,
+       cu.updated_userid updatedUserid,
+       cu.status,
+       cu.isadmin,
+       cu.business_id businessId,
+       cu.managerShopId,
+       cu.company_name companyName,
+       cu.company_memo companyMemo,
+       cu.company_personnum companyPersonnum,
+       cu.interface_person interfacePerson,
+       cu.discount,
+       cu.iswxvip,
+       cu.position,
+       cu.likeman,
+       cu.pay_bill_way payBillWay,
+       cu.goods_shelf_num goodsShelfNum,
+       cu.list_time listTime,
+       cu.grade,
+       cu.buy_way buyWay,r.name region
+      from customer_user cu left join reseau r on cu.reseau_id =r.id where cu.id=#{userId}
+  </select>
+  <select id="findActivenessById" resultMap="BaseResultMap">
+  	select *,
+	       DATEDIFF(NOW(), list_time) contractDay
+	  from `customer_user`
+	 where status= 1
+	   and id= #{shopId}
+  </select>
+  <select id="findIdsByUserName" resultType="int">
+  	SELECT id FROM customer_user WHERE `status` =1 and user_name LIKE '%${userName}%' 
+  </select>
+  <select id="findtichengUserByCityId" resultMap="BaseResultMap">
+  	SELECT id,
+       `contract_date`,`user_name` ,
+       `contract_number`,
+       `royalty_coefficient`,
+       `interface_person_id`,
+       `pay_bill_way`,
+       `iswxvip`,
+       period_diff(date_format(date_add(now(), interval -1 day),'%Y%m'), date_format(`contract_date`, '%Y%m')) as status
+  FROM `customer_user`
+ WHERE `status`= 1      
+   and `contract_date` &gt;= '2017-05-01'
+   and period_diff(date_format(date_add(now(), interval -1 day),'%Y%m'),date_format(`contract_date`,'%Y%m') ) &gt; 0
+   and period_diff(date_format(date_add(now(), interval -1 day),'%Y%m'),date_format(`contract_date`,'%Y%m') ) &lt; 5
+   and `city_id`= #{cityId}
+   and `iswxvip`&lt;&gt;1
+  </select>
+  <select id="findOpenShopBeforeLastMonth" resultMap="BaseResultMap">
+ 	SELECT *
+	  FROM `customer_user`
+	 WHERE `status`= 1
+	   and date_format(`created_time`, '%Y-%m')&lt;= date_format(#{date}, '%Y-%m')
+	   and `iswxvip`= 3
+	   and `city_id`= #{cityId}
+	 ORDER BY `created_time` DESC
+  </select>
+  <select id="findOpenFreeShopBeforeLastMonth" resultMap="BaseResultMap">
+  	SELECT *
+	  FROM `customer_user`
+	 WHERE `status`= 1
+	   and date_format(`created_time`, '%Y-%m')&lt;= date_format(#{date}, '%Y-%m')
+	   and `iswxvip`= 0
+	   and `city_id`= #{cityId}
+	 ORDER BY `created_time` DESC
+  </select>
+  <select id="findCurrentMonthShopNumByInterfaceAndCityId" resultType="int">
+  	SELECT COUNT(1)
+  FROM `customer_user`
+ where `status`= 1
+   and `city_id`= #{cityId}
+   and `interface_person_id`= #{id}
+   and date_format(`contract_date`, '%Y-%m')= date_format(now(), '%Y-%m')
+  </select>
+  <select id="findCurrentMonthOpenByInterfaceIdAndCityId" resultType="com.b2b.common.domain.CustomerUser">
+  	SELECT id,
+       `user_name`userName,
+       `company_name` companyName,`contract_date` contractDate ,if(date_format(`contract_date`,'%Y-%m')=date_format(now(),'%Y-%m'),1,0) status, submit_time submitTime
+  FROM customer_user
+ WHERE `status`= 1
+   and `interface_person_id`= #{interfaceId}
+   and `city_id`= #{cityId}
+   order by `submit_time` desc
+  </select>
+  <select id="findCurrentMonthNewNumByXSAndCityId" resultType="int">
+  	SELECT COUNT(1)
+  FROM `customer_user` cu
+  LEFT JOIN `person_user` pu on cu.`interface_person_id`= pu.`id`
+ where cu.`status`= 1 and cu.city_id = #{cityId}
+   and date_format(cu.`contract_date`, '%Y-%m')= date_format(now(), '%Y-%m')
+   and pu.`post`= '销售'
+  </select>
+  <select id="findCurrentMonthNewNumByCityId" resultType="int">
+  	SELECT COUNT(1)
+  FROM `customer_user` cu
+ where cu.`status`= 1 and cu.city_id = #{cityId}
+   and date_format(cu.`contract_date`, '%Y-%m')= date_format(now(), '%Y-%m')
+  </select>
+  <select id="findLastFortyDaysOpenByCityId" resultType="com.b2b.common.domain.CustomerUser">
+  	SELECT id,
+       `user_name`userName,
+       `company_name` companyName,`contract_date` contractDate ,if(date_format(`contract_date`,'%Y-%m')=date_format(now(),'%Y-%m'),1,0) status
+  FROM customer_user
+ WHERE `status`= 1
+   and `city_id`= #{cityId}
+  and datediff(now(),`contract_date` ) &lt;= 40
+ORDER BY `contract_date` DESC 
+  </select>
+  <select id="findShopByNameCityId" resultMap="BaseResultMap">
+  	select cu.id,
+       cu.user_name userName,
+       cu.address,
+       cu.mobile_phone mobilePhone,
+       cu.created_time createdTime,
+       cu.created_userid createdUserid,
+       cu.updated_time updatedTime,
+       cu.updated_userid updatedUserid,
+       cu.status,
+       cu.business_id businessId,
+       cu.managerShopId,
+       cu.company_name companyName,
+       cu.company_memo companyMemo,
+       cu.company_personnum companyPersonnum,
+       cu.discount,
+       cu.iswxvip,
+       cu.position,
+       cu.likeman,
+       cu.pay_bill_way payBillWay,
+       cu.goods_shelf_num goodsShelfNum,
+       cu.list_time listTime,
+       cu.grade,
+       cu.buy_way buyWay,
+       DATEDIFF(NOW(),list_time) contractDay ,rpc.`id` isadmin
+       from customer_user cu 
+        LEFT JOIN `red_packet_customer` rpc on cu.id=rpc.`customer_id` and rpc.red_id = #{redId}
+       where `status`= 1 and iswxvip=3
+   and `city_id`= #{cityId} 
+  <if test="userName !=null and userName != ''">
+  	and cu.user_name like '%${userName}%'
+  </if>
+    <if test="selectev==1">
+      and rpc.`id` > 0
+    </if>
+    <if test="selectev==0">
+      and rpc.`id` is NULL
+    </if>
+   ORDER BY `created_time` DESC 
+  </select>
+  <select id="findCurrentMonthNewNumByCityIdAndInterfaceIds" resultType="int">
+  SELECT COUNT(1)
+  FROM `customer_user` cu
+ where cu.`status`= 1 and cu.city_id = #{cityId}
+  and date_format(cu.`contract_date`, '%Y-%m')= date_format(now(), '%Y-%m')
+ and `interface_person_id` in 
+ <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+     #{item}
+     </foreach>
+  </select>
+  
+  <select id="findLastFortyDaysOpenByCityIdAndInterfaceIds" resultMap="BaseResultMap">
+  	SELECT id,
+       `user_name`userName,
+       `company_name` companyName,`contract_date` contractDate ,if(date_format(`contract_date`,'%Y-%m')=date_format(now(),'%Y-%m'),1,0) status
+  FROM customer_user
+ WHERE `status`= 1
+   and `city_id`= #{cityId}
+  and datediff(now(),`contract_date` ) &lt;= 40
+  and `interface_person_id` in 
+  <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+     #{item}
+     </foreach>
+ORDER BY `contract_date` DESC 
+  </select>
+  <select id="findJlSalesByCityId" resultType="map">
+  	SELECT pu.`user_name` userName ,pu.`id` ,ifnull(t.num,0) gread FROM `person_user` pu LEFT JOIN (
+    SELECT interface_person_id,COUNT(1) num FROM `customer_user` WHERE `status` =1 and `city_id` =#{cityId} and date_format(`contract_date`, '%Y-%m')= date_format(now(), '%Y-%m')
+     GROUP BY interface_person_id 
+    ) t on pu.`id` = t.interface_person_id where pu.`status` =1 and pu.`city_id` =#{cityId} and pu.`post` ='销售' and pu.`gread` = 2
+ 
+  </select>
+  <select id="findSalesByCityIdAndGreadAndManageId" resultType="map">
+  	SELECT pu.`user_name` userName ,pu.`id` ,ifnull(t.num,0) num FROM `person_user` pu LEFT JOIN (
+    SELECT interface_person_id,COUNT(1) num FROM `customer_user` WHERE `status` =1 and `city_id` =#{cityId} and date_format(`contract_date`, '%Y-%m')= date_format(now(), '%Y-%m')
+     GROUP BY interface_person_id 
+    ) t on pu.`id` = t.interface_person_id where pu.`status` =1 and pu.`city_id` =#{cityId} and pu.`post` ='销售' and pu.`gread` = #{gread} and pu.`manager_id` = #{id}
+  </select>
+  <select id="findSalesByCityIdAndPostAndGread"  resultType="map">
+  SELECT userName ,pu.`id` ,sum(num) num, sum(submit) submit
+    FROM(
+    (SELECT pu.`user_name` userName ,pu.`id` ,ifnull(t.num,0) num, 0 submit FROM `person_user` pu LEFT JOIN (
+        SELECT interface_person_id,COUNT(1) num FROM `customer_user` WHERE `status` =1 and `city_id` =#{cityId} and date_format(`contract_date`, '%Y-%m')= date_format(now(), '%Y-%m')
+         GROUP BY interface_person_id
+        ) t on pu.`id` = t.interface_person_id where pu.`status` =1 and pu.`city_id` =#{cityId} and pu.`post` =#{post} and pu.`gread` =#{gread}
+    )
+    UNION ALL
+    (
+    SELECT pu.`user_name` userName ,pu.`id` ,0 num, ifnull(t.num,0) submit FROM `person_user` pu LEFT JOIN (
+        SELECT dr.interface_id,COUNT(1) num FROM delivery_receitp dr WHERE `status` =1 AND dr.iscommit >=2  and `city_id` =#{cityId} and date_format(dr.submit_time, '%Y-%m')= date_format(now(), '%Y-%m')
+         GROUP BY interface_id
+        ) t on pu.`id` = t.interface_id where pu.`status` =1 and pu.`city_id` =#{cityId} and pu.`post` =#{post} and pu.`gread` =#{gread}
+    )
+    ) pu
+
+    GROUP BY pu.`id`
+
+  </select>
+  <select id="findSaleByCityIdAndId" resultType="map">
+  SELECT userName ,pu.`id` ,sum(num) num, sum(submit) submit
+    FROM(
+    (SELECT pu.`user_name` userName ,pu.`id` ,ifnull(t.num,0) num, 0 submit FROM `person_user` pu LEFT JOIN (
+        SELECT interface_person_id,COUNT(1) num FROM `customer_user` WHERE `status` =1 and `city_id` =#{cityId} and date_format(`contract_date`, '%Y-%m')= date_format(now(), '%Y-%m')
+         GROUP BY interface_person_id
+        ) t on pu.`id` = t.interface_person_id where pu.`status` =1 and pu.`city_id` =#{cityId} and pu.`id` = #{id}
+    )
+    UNION ALL
+    (
+    SELECT pu.`user_name` userName ,pu.`id` ,0 num, ifnull(t.num,0) submit FROM `person_user` pu LEFT JOIN (
+        SELECT dr.interface_id,COUNT(1) num FROM delivery_receitp dr WHERE `status` =1 AND dr.iscommit >=2 and `city_id` =#{cityId} and date_format(dr.submit_time, '%Y-%m')= date_format(now(), '%Y-%m')
+         GROUP BY interface_id
+        ) t on pu.`id` = t.interface_id where pu.`status` =1 and pu.`city_id` =#{cityId} and pu.`id` = #{id}
+    )
+    ) pu
+
+    GROUP BY pu.`id`
+
+
+  </select>
+  <select id="findSalesByCityIdAndIds" resultType="map">
+SELECT pu.`user_name` userName ,pu.`id` ,ifnull(t.num,0) num FROM `person_user` pu LEFT JOIN (
+    SELECT interface_person_id ,COUNT(1) num FROM `customer_user` WHERE `status` =1 and `city_id` =#{cityId} and date_format(`contract_date`, '%Y-%m')= date_format(now(), '%Y-%m')
+    GROUP BY interface_person_id 
+    ) t on pu.`id` = t.interface_person_id where pu.`status` =1 and pu.`city_id` =#{cityId} and pu.`post` ='销售'
+    and pu.id in
+    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+     #{item}
+     </foreach>
+  </select>
+  <select id="findCurrentMonthOpenByCityId" resultType="com.b2b.common.domain.CustomerUser">
+  SELECT id,
+       `user_name`userName,
+       `company_name` companyName,`contract_date` contractDate ,if(date_format(`contract_date`,'%Y-%m')=date_format(now(),'%Y-%m'),1,0) status, submit_time submitTime
+  FROM customer_user
+ WHERE `status`= 1
+   and `city_id`=#{cityId}
+ and  (date_format(`contract_date`,'%Y-%m') =  date_format(now(),'%Y-%m') or date_format(`created_time`, '%Y-%m') =  date_format(now(),'%Y-%m'))
+ORDER BY `submit_time`  DESC
+  </select>
+  <select id="findCurrentMonthOpenByCityIdAndInterfaceIds" resultType="com.b2b.common.domain.CustomerUser">
+  SELECT id,
+       `user_name`userName,
+       `company_name` companyName,`contract_date` contractDate ,if(date_format(`contract_date`,'%Y-%m')=date_format(now(),'%Y-%m'),1,0) status, submit_time submitTime
+  FROM customer_user
+ WHERE `status`= 1
+   and `city_id`=#{cityId}
+ and  (date_format(`contract_date`,'%Y-%m') =  date_format(now(),'%Y-%m') or date_format(`created_time`, '%Y-%m') =  date_format(now(),'%Y-%m'))
+ and `interface_person_id` in 
+  <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+     #{item}
+     </foreach>
+ORDER BY `submit_time`  DESC
+  </select>
+  <update id="updateContractDate">
+  	update customer_user set contract_date = #{date} where id = #{id}
+  </update>
+  <select id="findAllShopByConditionAndIds" resultType="map">
+  SELECT  id,`user_name` ,`company_name`,`iswxvip`
+  FROM `customer_user`
+ WHERE `status`= 1
+ 		and city_id =#{cityId}
+ 	<if test="name!=null and name!=''">
+      and (user_name like '%${name}%' or company_name like '%${name}%')
+ 	</if>
+ 	and `interface_person_id` in 
+  <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+     #{item}
+     </foreach>
+    ORDER BY created_time desc
+    LIMIT 50
+  </select>
+  <select id="findAllShopByConditionAndReseauIds" resultType="map">
+  SELECT  id,`user_name` ,`company_name`,`iswxvip`
+  FROM `customer_user`
+ WHERE `status`= 1
+ 		and city_id =#{cityId}
+ 	<if test="name!=null and name!=''">
+      and (user_name like '%${name}%' or company_name like '%${name}%')
+ 	</if>
+ 	and `reseau_id` in 
+  <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+     #{item}
+     </foreach>
+    ORDER BY created_time desc
+    LIMIT 50
+  </select>
+  <select id="findAllShopByConditionAndReseauId" resultType="map">
+   SELECT  id,`user_name` ,`company_name`,`iswxvip`
+  FROM `customer_user`
+ WHERE `status`= 1
+ 		and city_id =#{cityId}
+ 	<if test="name!=null and name!=''">
+ 		and user_name like '%${name}%'
+ 	</if>
+ 	and `reseau_id` = #{reseauId}
+    ORDER BY created_time desc
+    LIMIT 50
+  </select>
+  <select id="findAutoChangeGrade" resultMap="BaseResultMap">
+    SELECT cu.id,
+      CASE WHEN smr.consume_fee >= 1000000 THEN 'KA'
+      WHEN smr.consume_fee &lt; 1000000 AND smr.consume_fee &gt;= 300000 THEN 'A'
+      WHEN smr.consume_fee &lt;= 300000 AND smr.consume_fee &gt;= 100000 THEN 'B'
+      ELSE 'C' END grade
+    FROM customer_user cu
+      LEFT JOIN shop_month_report smr ON smr.user_id = cu.id
+    WHERE cu.contract_date &lt; #{dateStart}
+      AND smr.sum_date >= #{dateStart} AND smr.sum_date &lt;= #{dateEnd}
+      AND cu.iswxvip = 3
+
+    UNION ALL
+
+    SELECT cu.id,
+      CASE WHEN fsmr.soucing_fee >= 1000000 THEN 'KA'
+      WHEN fsmr.soucing_fee &lt; 1000000 AND fsmr.soucing_fee &gt;= 300000 THEN 'A'
+      WHEN fsmr.soucing_fee &lt; 300000 AND fsmr.soucing_fee &gt;= 100000 THEN 'B'
+      ELSE 'C' END grade
+    FROM customer_user cu
+      LEFT JOIN free_shop_month_report fsmr ON fsmr.shop_id = cu.id
+    WHERE cu.iswxvip = 0
+      AND cu.contract_date &lt; #{dateStart}
+      AND fsmr.sum_date >= #{dateStart} AND fsmr.sum_date &lt;= #{dateEnd}
+  </select>
+  <select id="findContractnumNumByCityId" resultType="int">
+  SELECT
+  COUNT(1)
+  FROM delivery_receitp dr
+  WHERE city_id = #{cityId}
+  AND dr.`status`= 1
+  AND dr.iscommit >= 2
+  AND DATE_FORMAT(dr.submit_time, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+</select>
+  <select id="findCurrentMonthSubmitByCityIdAndInterfaceIds" resultType="int">
+    SELECT COUNT(1)
+    FROM delivery_receitp dr
+    where dr.`status`= 1 and dr.city_id = #{cityId}
+    AND dr.iscommit >= 2
+    and date_format(dr.`submit_time`, '%Y-%m')= date_format(now(), '%Y-%m')
+    and `interface_id` in
+    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+  <select id="findContractnumNumByIdAndCityId" resultType="int">
+    SELECT
+    COUNT(1)
+    FROM delivery_receitp dr
+    WHERE city_id = #{cityId}
+    AND dr.`status`= 1
+    AND dr.iscommit >= 2
+    AND dr.interface_id = #{id}
+    AND DATE_FORMAT(dr.submit_time, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+  </select>
+  <select id="findByDeliveryId" resultMap="BaseResultMap">
+    SELECT  * FROM customer_user WHERE  delivery_Id = #{deliveryId}
+  </select>
+
+  <select id="findDeliveryInfoByCityIdAndInterfaceIdsAndType" resultMap="BaseResultMap">
+    SELECT SUM(num) num, SUM(passNum) passNum, SUM(unpassNum) unpassNum, SUM(checkingNum) checkingNum
+    FROM
+    (
+    SELECT SUM(shop_num) num, 0 passNum, 0 unpassNum, 0 checkingNum
+    FROM delivery_receitp dr
+    WHERE dr.`status`= 1 and dr.`city_id` = #{cityId}
+    AND  dr.isvxvip != 1 AND dr.isvxvip is not null
+    AND dr.`interface_id` in
+    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    <if test="type==0">
+      AND DATE_FORMAT(dr.submit_time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d')
+    </if>
+    <if test="type==1">
+      AND DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'), DATE_FORMAT(dr.submit_time,'%Y-%m-%d')) = 1
+    </if>
+    <if test="type==2">
+      AND DATE_FORMAT(dr.submit_time,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m')
+    </if>
+
+    UNION ALL
+
+    SELECT 0, SUM(shop_num) passNum, 0, 0
+    FROM delivery_receitp dr
+    WHERE dr.`status`= 1 and dr.`city_id` = #{cityId}
+    AND  dr.isvxvip != 1 AND dr.isvxvip is not null and dr.unqualifiedNum = 0
+    AND dr.`interface_id` in
+    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    <if test="type==0">
+      AND DATE_FORMAT(dr.submit_time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d')
+    </if>
+    <if test="type==1">
+      AND DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'), DATE_FORMAT(dr.submit_time,'%Y-%m-%d')) = 1
+    </if>
+    <if test="type==2">
+      AND DATE_FORMAT(dr.submit_time,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m')
+    </if>
+
+    UNION ALL
+
+    SELECT 0, SUM(shop_num) - sum(unqualifiedNum), SUM(unqualifiedNum), 0
+    FROM delivery_receitp dr
+    WHERE dr.`status`= 1 and dr.`city_id` = #{cityId}
+    AND  dr.isvxvip is not null
+    AND  dr.isvxvip != 1 and dr.unqualifiedNum > 0
+    AND dr.`interface_id` in
+    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    <if test="type==0">
+      AND DATE_FORMAT(dr.submit_time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d')
+    </if>
+    <if test="type==1">
+      AND DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'), DATE_FORMAT(dr.submit_time,'%Y-%m-%d')) = 1
+    </if>
+    <if test="type==2">
+      AND DATE_FORMAT(dr.submit_time,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m')
+    </if>
+
+
+    UNION ALL
+
+    SELECT 0, 0, 0, SUM(shop_num)
+    FROM delivery_receitp dr
+    WHERE dr.`status`= 1 and dr.`city_id` = #{cityId}
+    AND dr.iscommit = 2
+    AND  dr.isvxvip != 1 AND dr.isvxvip is not null
+    AND dr.`interface_id` in
+    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    <if test="type==0">
+      AND DATE_FORMAT(dr.submit_time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d')
+    </if>
+    <if test="type==1">
+      AND DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'), DATE_FORMAT(dr.submit_time,'%Y-%m-%d')) = 1
+    </if>
+    <if test="type==2">
+      AND DATE_FORMAT(dr.submit_time,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m')
+    </if>
+    ) t
+
+  </select>
+
+  <select id="findDeliveryInfoByCityIdAndType" resultMap="BaseResultMap">
+    SELECT SUM(num) num, SUM(passNum) passNum, SUM(unpassNum) unpassNum, SUM(checkingNum) checkingNum
+    FROM
+    (
+    SELECT SUM(shop_num) num, 0 passNum, 0 unpassNum, 0 checkingNum
+    FROM delivery_receitp dr
+    WHERE dr.`status`= 1 and dr.`city_id` = #{cityId}
+    AND  dr.isvxvip != 1 AND dr.isvxvip is not null
+    <if test="type==0">
+      AND DATE_FORMAT(dr.submit_time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d')
+    </if>
+    <if test="type==1">
+      AND DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'), DATE_FORMAT(dr.submit_time,'%Y-%m-%d')) = 1
+    </if>
+    <if test="type==2">
+      AND DATE_FORMAT(dr.submit_time,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m')
+    </if>
+
+    UNION ALL
+
+    SELECT 0, SUM(shop_num) passNum, 0, 0
+    FROM delivery_receitp dr
+    WHERE dr.`status`= 1 and dr.`city_id` = #{cityId}
+    AND  dr.isvxvip != 1 AND dr.isvxvip is not null and dr.unqualifiedNum = 0
+    <if test="type==0">
+      AND DATE_FORMAT(dr.submit_time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d')
+    </if>
+    <if test="type==1">
+      AND DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'), DATE_FORMAT(dr.submit_time,'%Y-%m-%d')) = 1
+    </if>
+    <if test="type==2">
+      AND DATE_FORMAT(dr.submit_time,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m')
+    </if>
+
+    UNION ALL
+
+    SELECT 0, SUM(shop_num) - sum(unqualifiedNum), SUM(unqualifiedNum), 0
+    FROM delivery_receitp dr
+    WHERE dr.`status`= 1 and dr.`city_id` = #{cityId}
+    AND  dr.isvxvip != 1 AND dr.isvxvip is not null
+    AND dr.unqualifiedNum > 0
+    <if test="type==0">
+      AND DATE_FORMAT(dr.submit_time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d')
+    </if>
+    <if test="type==1">
+      AND DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'), DATE_FORMAT(dr.submit_time,'%Y-%m-%d')) = 1
+    </if>
+    <if test="type==2">
+      AND DATE_FORMAT(dr.submit_time,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m')
+    </if>
+
+
+    UNION ALL
+
+    SELECT 0, 0, 0, SUM(shop_num)
+    FROM delivery_receitp dr
+    WHERE dr.`status`= 1 and dr.`city_id` = #{cityId}
+    AND  dr.isvxvip != 1 AND dr.isvxvip is not null
+    AND dr.iscommit = 2
+    <if test="type==0">
+      AND DATE_FORMAT(dr.submit_time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d')
+    </if>
+    <if test="type==1">
+      AND DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'), DATE_FORMAT(dr.submit_time,'%Y-%m-%d')) = 1
+    </if>
+    <if test="type==2">
+      AND DATE_FORMAT(dr.submit_time,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m')
+    </if>
+    ) t
+
+  </select>
+
+  <select id="findCustomerUserInfoByCityIdAndInterfaceIds" resultMap="BaseResultMap">
+
+    SELECT
+        SUM(submitNum) submitNum, SUM(num) num, SUM(checkingNum) checkingNum
+    FROM (
+        SELECT COUNT(1) submitNum, 0 num, 0 checkingNum
+        FROM customer_user cu
+        WHERE cu.`status` = 1
+            and cu.`city_id`= #{cityId}
+            and (cu.iswxvip = 0 || cu.iswxvip = 3)
+            and cu.`interface_person_id` > 0
+            and cu.`interface_person_id` IN
+            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+              #{item}
+            </foreach>
+            AND DATE_FORMAT(cu.submit_time, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+
+        UNION ALL
+
+        SELECT 0 submitNum, COUNT(1) num, 0 checkingNum
+        FROM customer_user cu
+        WHERE cu.`status` = 1
+            and cu.`city_id`= #{cityId}
+    and (cu.iswxvip = 0 || cu.iswxvip = 3)
+            and cu.`interface_person_id` > 0
+            and cu.`interface_person_id` IN
+            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+              #{item}
+            </foreach>
+            AND cu.contract_date is not null
+            AND DATE_FORMAT(cu.contract_date, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+            AND DATE_FORMAT(cu.submit_time, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+
+
+        UNION ALL
+
+        SELECT 0 submitNum, 0 num, COUNT(1)  checkingNum
+        FROM customer_user cu
+        WHERE cu.`status` = 1
+            and cu.`city_id`= #{cityId}
+    and (cu.iswxvip = 0 || cu.iswxvip = 3)
+            and cu.`interface_person_id` > 0
+            and cu.`interface_person_id` IN
+            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+              #{item}
+            </foreach>
+            AND cu.contract_date is null
+            AND DATE_FORMAT(cu.submit_time, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+    ) t
+  </select>
+
+  <select id="findCustomerUserInfoByCityId" resultMap="BaseResultMap">
+    SELECT
+    SUM(submitNum) submitNum, SUM(num) num, SUM(checkingNum) checkingNum
+    FROM (
+    SELECT COUNT(1) submitNum, 0 num, 0 checkingNum
+    FROM customer_user cu
+    WHERE cu.`status` = 1
+    and (cu.iswxvip = 0 || cu.iswxvip = 3)
+    and cu.`city_id`= #{cityId}
+    and cu.`interface_person_id` > 0
+    AND DATE_FORMAT(cu.submit_time, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+
+    UNION ALL
+
+    SELECT 0 submitNum, COUNT(1) num, 0 checkingNum
+    FROM customer_user cu
+    WHERE cu.`status` = 1
+    and (cu.iswxvip = 0 || cu.iswxvip = 3)
+    and cu.`city_id`= #{cityId}
+    and cu.`interface_person_id` > 0
+    AND cu.contract_date is not null
+    AND DATE_FORMAT(cu.contract_date, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+    AND DATE_FORMAT(cu.submit_time, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+
+
+    UNION ALL
+
+    SELECT 0 submitNum, 0 num, COUNT(1)  checkingNum
+    FROM customer_user cu
+    WHERE cu.`status` = 1
+    and (cu.iswxvip = 0 || cu.iswxvip = 3)
+    and cu.`city_id`= #{cityId}
+    and cu.`interface_person_id` > 0
+    AND cu.contract_date is null
+    AND DATE_FORMAT(cu.submit_time, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+    ) t
+  </select>
+
+  <select id="findSevenInfoByCityIdAndInterfaceIds" resultMap="BaseResultMap">
+    SELECT SUM(sevenNum) sevenNum, SUM(num) num, SUM(checkingNum) checkingNum
+    FROM
+    (
+        SELECT COUNT(1) sevenNum, 0 num, 0 checkingNum
+        FROM customer_user cu
+        WHERE cu.`status` = 1
+    and (cu.iswxvip = 0 || cu.iswxvip = 3)
+            and cu.`city_id`= #{cityId}
+            and cu.`interface_person_id` > 0
+            and cu.`interface_person_id` IN
+            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+              #{item}
+            </foreach>
+            AND DATE_FORMAT(NOW(), '%Y-%m') > DATE_FORMAT(cu.submit_time, '%Y-%m')
+            AND DATE_FORMAT(cu.contract_date, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+            AND DATE_FORMAT(NOW(), '%Y-%m-07') >= DATE_FORMAT(cu.contract_date, '%Y-%m-%d')
+
+        UNION ALL
+
+        SELECT 0 sevenNum, COUNT(1) num, 0 checkingNum
+        FROM customer_user cu
+        WHERE cu.`status` = 1
+    and (cu.iswxvip = 0 || cu.iswxvip = 3)
+            and cu.`city_id`= #{cityId}
+            and cu.`interface_person_id` > 0
+            and cu.`interface_person_id` IN
+            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+              #{item}
+            </foreach>
+            AND DATE_FORMAT(NOW(), '%Y-%m') > DATE_FORMAT(cu.submit_time, '%Y-%m')
+            AND DATE_FORMAT(cu.contract_date, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+            AND DATE_FORMAT(cu.contract_date, '%Y-%m-%d') > DATE_FORMAT(NOW(), '%Y-%m-07')
+
+        UNION ALL
+
+        SELECT 0 sevenNum, 0 num, COUNT(1) checkingNum
+        FROM customer_user cu
+        WHERE cu.`status` = 1
+    and (cu.iswxvip = 0 || cu.iswxvip = 3)
+            and cu.`city_id`= #{cityId}
+            and cu.`interface_person_id` > 0
+            and cu.`interface_person_id` IN
+            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+              #{item}
+            </foreach>
+            AND DATE_FORMAT(NOW(), '%Y-%m') > DATE_FORMAT(cu.submit_time, '%Y-%m')
+            AND cu.contract_date is null
+    ) t
+  </select>
+
+  <select id="findSevenInfoByCityId" resultMap="BaseResultMap">
+    SELECT SUM(sevenNum) sevenNum, SUM(num) num, SUM(checkingNum) checkingNum
+    FROM
+    (
+    SELECT COUNT(1) sevenNum, 0 num, 0 checkingNum
+    FROM customer_user cu
+    WHERE cu.`status` = 1
+    and (cu.iswxvip = 0 || cu.iswxvip = 3)
+    and cu.`city_id`= #{cityId}
+    and cu.`interface_person_id` > 0
+    AND DATE_FORMAT(NOW(), '%Y-%m') > DATE_FORMAT(cu.submit_time, '%Y-%m')
+    AND DATE_FORMAT(cu.contract_date, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+    AND DATE_FORMAT(NOW(), '%Y-%m-07') >= DATE_FORMAT(cu.contract_date, '%Y-%m-%d')
+
+    UNION ALL
+
+    SELECT 0 sevenNum, COUNT(1) num, 0 checkingNum
+    FROM customer_user cu
+    WHERE cu.`status` = 1
+    and (cu.iswxvip = 0 || cu.iswxvip = 3)
+    and cu.`city_id`= #{cityId}
+    and cu.`interface_person_id` > 0
+    AND DATE_FORMAT(NOW(), '%Y-%m') > DATE_FORMAT(cu.submit_time, '%Y-%m')
+    AND DATE_FORMAT(cu.contract_date, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+    AND DATE_FORMAT(cu.contract_date, '%Y-%m-%d') > DATE_FORMAT(NOW(), '%Y-%m-07')
+
+    UNION ALL
+
+    SELECT 0 sevenNum, 0 num, COUNT(1) checkingNum
+    FROM customer_user cu
+    WHERE cu.`status` = 1
+    and (cu.iswxvip = 0 || cu.iswxvip = 3)
+    and cu.`city_id`= #{cityId}
+    and cu.`interface_person_id` > 0
+    AND DATE_FORMAT(NOW(), '%Y-%m') > DATE_FORMAT(cu.submit_time, '%Y-%m')
+    AND cu.contract_date is null
+    ) t
+  </select>
+
+  <select id="findNumByCityIdAndInterfaceIds" resultMap="BaseResultMap">
+    SELECT SUM(nownum) num, SUM(yesterdayNum) sevenNum, SUM(passNum) passNum, SUM(unpassNum) unpassNum
+    FROM (
+    SELECT SUM(`shop_num`) nownum, 0 yesterdayNum, 0 passNum, 0 unpassNum
+    FROM delivery_receitp dr
+    WHERE dr.`status` = 1
+    and dr.`city_id` = #{cityId}
+    AND  dr.isvxvip != 1
+    AND DATE_FORMAT(dr.submit_time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d')
+    AND dr.interface_id > 0
+    and dr.interface_id IN
+    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+
+    UNION ALL
+
+    SELECT 0 nownum, SUM(`shop_num`) yesterdayNum, 0 passNum, 0 unpassNum
+    FROM delivery_receitp dr
+    WHERE dr.`status` = 1
+    AND  dr.isvxvip != 1
+    and dr.`city_id` = #{cityId}
+    AND DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'), DATE_FORMAT(dr.submit_time,'%Y-%m-%d')) = 1
+    AND dr.interface_id > 0
+    and dr.interface_id IN
+    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+
+    UNION ALL
+
+    SELECT 0, 0, SUM(`shop_num`) passNum, 0
+    FROM delivery_receitp dr
+    WHERE dr.`status` = 1
+    AND  dr.isvxvip != 1
+    and dr.`city_id` = #{cityId}
+    AND DATE_FORMAT(dr.submit_time,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m')
+    and dr.interface_id > 0
+    and dr.interface_id IN
+    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+
+
+    UNION ALL
+
+    SELECT 0, 0, 0, SUM(unqualifiedNum)
+    FROM delivery_receitp dr
+    WHERE dr.`status` = 1
+    and dr.`city_id` = #{cityId}
+    AND  dr.isvxvip != 1
+    AND dr.checkStatus = 2 and dr.unqualifiedNum > 0
+    AND DATE_FORMAT(dr.submit_time,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m')
+    and dr.interface_id > 0
+    and dr.interface_id IN
+    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+
+    ) t
+  </select>
+
+  <select id="findSaleNumByCityIdAndPostAndGread"  resultType="map">
+    SELECT SUM(nownum) num, SUM(yesterdayNum) sevenNum, SUM(passNum) passNum, SUM(unpassNum) unpassNum, id, userName
+    FROM (
+    SELECT SUM(`shop_num`) nownum, 0 yesterdayNum, 0 passNum, 0 unpassNum, dr.interface_id id, pu.user_name userName
+    FROM delivery_receitp dr
+        LEFT JOIN person_user pu ON pu.id = dr.interface_id
+    WHERE dr.`status` = 1
+        AND pu.`status` = 1
+        AND  dr.isvxvip != 1
+        and dr.`city_id` = #{cityId}
+        AND DATE_FORMAT(dr.submit_time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d')
+        AND dr.interface_id > 0
+        and pu.`post` =#{post} and pu.`gread` =#{gread}
+        GROUP BY interface_id
+
+    UNION ALL
+
+    SELECT 0 nownum, SUM(`shop_num`) yesterdayNum, 0 passNum, 0 unpassNum, dr.interface_id id, pu.user_name userName
+    FROM delivery_receitp dr LEFT JOIN person_user pu ON pu.id = dr.interface_id
+    WHERE dr.`status` = 1
+        AND pu.`status` = 1
+        AND  dr.isvxvip != 1
+        and dr.`city_id` = #{cityId}
+        AND DATEDIFF(DATE_FORMAT(NOW(),'%Y-%m-%d'), DATE_FORMAT(dr.submit_time,'%Y-%m-%d')) = 1
+        AND dr.interface_id > 0
+        and pu.`post` =#{post} and pu.`gread` =#{gread}
+    GROUP BY interface_id
+
+    UNION ALL
+
+    SELECT 0, 0, SUM(`shop_num`) passNum, 0, dr.interface_id id, pu.user_name userName
+    FROM delivery_receitp dr
+        LEFT JOIN person_user pu ON pu.id = dr.interface_id
+    WHERE dr.`status` = 1
+        AND pu.`status` = 1
+        and dr.`city_id` = #{cityId}
+            AND  dr.isvxvip != 1
+            AND dr.`interface_id` > 0
+            AND DATE_FORMAT(dr.submit_time,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m')
+            and pu.`post` =#{post} and pu.`gread` =#{gread}
+
+    GROUP BY interface_id
+
+
+
+        UNION ALL
+
+    SELECT 0, 0, 0, SUM(unqualifiedNum), dr.interface_id id, pu.user_name userName
+    FROM delivery_receitp dr
+        LEFT JOIN person_user pu ON pu.id = dr.interface_id
+    WHERE dr.`status` = 1
+        AND pu.`status` = 1
+        AND  dr.isvxvip != 1
+        and dr.`city_id` = #{cityId}
+        AND dr.checkStatus = 2
+        AND dr.`interface_id` > 0 and dr.unqualifiedNum > 0
+        AND DATE_FORMAT(dr.submit_time,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m')
+        and pu.`post` =#{post} and pu.`gread` =#{gread}
+
+    GROUP BY interface_id
+    ) t
+    GROUP BY  id
+  </select>
+  <select id="findShopByNameCityIdAndItemSaleId" resultMap="BaseResultMap">
+  	select cu.id,
+       cu.user_name userName,
+       cu.address,
+       cu.mobile_phone mobilePhone,
+       cu.created_time createdTime,
+       cu.created_userid createdUserid,
+       cu.updated_time updatedTime,
+       cu.updated_userid updatedUserid,
+       cu.status,
+       cu.business_id businessId,
+       cu.managerShopId,
+       cu.company_name companyName,
+       cu.company_memo companyMemo,
+       cu.company_personnum companyPersonnum,
+       cu.discount,
+       cu.iswxvip,
+       cu.position,
+       cu.likeman,
+       cu.pay_bill_way payBillWay,
+       cu.goods_shelf_num goodsShelfNum,
+       cu.list_time listTime,
+       cu.grade,
+       cu.buy_way buyWay,
+       DATEDIFF(NOW(),list_time) contractDay ,isc.`id` isadmin
+       from customer_user cu
+        LEFT JOIN `item_sale_customer`  isc on cu.id=isc.`customer_id`  and isc.`itemsale_id`  = #{id}
+       where `status`= 1 and iswxvip=3
+  	 and `city_id`= #{cityId}
+	<if test="userName !=null and userName != ''">
+  		and cu.user_name like '%${userName}%'
+  	</if>
+    <if test="selectev==1">
+    and isc.`id` > 0
+  </if>
+    <if test="selectev==0">
+      and isc.`id` is NULL
+    </if>
+   ORDER BY `created_time` DESC
+  </select>
+  <select id="findShopByNameCityIdAndShopDiscountId" resultMap="BaseResultMap">
+  select cu.id,
+       cu.user_name userName,
+       cu.address,
+       cu.mobile_phone mobilePhone,
+       cu.created_time createdTime,
+       cu.created_userid createdUserid,
+       cu.updated_time updatedTime,
+       cu.updated_userid updatedUserid,
+       cu.status,
+       cu.business_id businessId,
+       cu.managerShopId,
+       cu.company_name companyName,
+       cu.company_memo companyMemo,
+       cu.company_personnum companyPersonnum,
+       cu.discount,
+       cu.iswxvip,
+       cu.position,
+       cu.likeman,
+       cu.pay_bill_way payBillWay,
+       cu.goods_shelf_num goodsShelfNum,
+       cu.list_time listTime,
+       cu.grade,
+       cu.buy_way buyWay,
+       DATEDIFF(NOW(),list_time) contractDay ,sdc.`id` isadmin
+       from customer_user cu
+        LEFT JOIN `shop_discount_customer`   sdc on cu.id=sdc.`customer_id`  and sdc.`shop_discount_id` =#{id}
+       where `status`= 1 and iswxvip=3
+  	 and `city_id`=#{cityId}
+  	 <if test="userName !=null and userName != ''">
+  		and cu.user_name like '%${userName}%'
+  	</if>
+    <if test="selectev==1">
+      and sdc.`id` > 0
+    </if>
+    <if test="selectev==0">
+      and sdc.`id` is NULL
+    </if>
+   ORDER BY `created_time` DESC
+  </select>
+</mapper>

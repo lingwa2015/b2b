@@ -1,0 +1,33 @@
+
+#set($layout="layout/shopLayout.vm")
+
+ <div class="purchase_order">
+        #if($orderlist.size()>0)
+        <div class="order_tip">
+            <div class="order_time">日期</div>
+            <div class="order_time">金额(￥)</div>
+            <div class="order_time">状态</div>
+        </div>
+        <div class="record">
+	        #foreach($order in $orderlist)
+	            <div class="record_list" data-id="$order.orderNo">
+	                <span>$!date.format('yyyy-MM-dd',$order.executedTime)</span>
+	                <span class="record_money">$NumberTool.toYuanNumber($order.totalFee)</span>
+	                <span class="wait">#if($order.comfirm==0)待确认#elseif($order.comfirm==2)待配送#elseif($order.comfirm==3) #if($order.flag==0)已完成（未上架） #else 已完成 #end #else#end</span>
+	            </div>
+	        #end
+        </div>
+        #else
+        <div class="no_order">无订单</div>
+        #end
+   </div> 
+   
+<script type="text/javascript">
+    document.title = '采购订单';
+    $(".record_list").click(function(){
+    	var the = this;
+    	var id =$(the).attr("data-id");
+    	var url = "${rc.contextPath}/convenient/shop_sourcingOrderDetail.htm?id="+id
+    	window.location.href=url;
+    });
+</script>

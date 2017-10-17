@@ -1,0 +1,98 @@
+<script type="text/javascript">
+$(document).ready(function() {
+	$( "#starttime" ).datepicker();
+ });
+function exportExcel(){
+ 	var starttime = $('#starttime').val();
+ 	var userName = $('#userName').val();
+ 	var param = $('#param').val();
+ 	var flag = $('#flag').val();
+ 	var reseauId = $('#reseauId option:selected').val();
+ 	window.location.href = "${rc.contextPath}/free/week/exportExcel.do?starttime="+starttime+"&userName="+userName+"&param="+param+"&flag="+flag+"&reseauId="+reseauId;
+ }
+</script>
+<div class="content">
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/free/shopWeekReportlist.htm?menuHeight=$!menuHeight&menuName=$!menuName" method="post">
+			<table class="form form-horizontal">
+			<td><label class="tit">日期：</label></td>
+						<td>
+							<input class="form-input input-time-day" type="text" name="starttime" id="starttime" readonly="readonly" value="$!starttime">
+						</td>
+						<td><label class="tit">客户简称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="userName" id="userName" value="$!userName" autocomplete="off">
+			</td>
+			<td align="right"><label class="tit">排序：</label></td>
+			<td>
+				<select name="param" id="param" style="width:80px">
+							  <option value="0" #if($param==0)selected=selected#end>默认</option>
+							  <option value="2" #if($param==2)selected=selected#end>订单金额</option>
+							  <option value="3" #if($param==3)selected=selected#end>订单数量</option>
+							  <option value="4" #if($param==4)selected=selected#end>退货金额</option>
+							  <option value="5" #if($param==5)selected=selected#end>退货单数量</option>
+							  <option value="6" #if($param==6)selected=selected#end>采购总额</option>
+				</select>
+			</td>
+			<td align="right"><label class="tit">网格：</label></td>
+			<td>
+						<select name="reseauId" id="reseauId" validate="{required:true}" >
+						    <option value="">全部</option>
+						    #foreach($reseau in $reseaus)
+							   #if($!reseauId == $reseau.id)
+					            <option value="$reseau.id" selected="selected">$reseau.name</option>
+					           #else
+					            <option value="$reseau.id">$reseau.name</option>
+					           #end
+							#end
+						 </select>
+						 &nbsp;<span></span>
+						</td>
+			<td align="right"><label class="tit">筛选：</label></td>
+			<td>
+				<select name="flag" id="flag" style="width:80px">
+							  <option value="0" #if($flag==0)selected=selected#end>默认</option>
+							  <option value="1" #if($flag==1)selected=selected#end>活跃客户</option>
+				</select>
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(form1).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+			</td>
+			<td><a class="btn btn-warning btn-sm" href="javascript:exportExcel();">导出Excel</a></td>
+			</table>
+		</form>
+			
+			<table class="table">
+			  <tr>
+			    <th>客户</th>
+				<th>日期段</th>
+				
+				<th>订单金额</th>
+				<th>订单数量</th>
+				<th>退货金额</th>
+				<th>退货单数量</th>
+				<th>采购总额</th>
+				<th>同比</th>
+				<th>连接</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>[$!bean.region]$!bean.userName</td>
+					<td>$!date.format('yyyy-MM-dd',$!bean.sumDate)~$!date.format('yyyy-MM-dd',$!bean.endDate)</td>
+					<td>$NumberTool.toYuanNumber($!bean.orderFee)</td>
+					<td>$!bean.orderNum</td>
+					<td>$NumberTool.toYuanNumber($!bean.refundFee)</td>
+					<td>$!bean.refundNum</td>
+					<td>$NumberTool.toYuanNumber($!bean.sourcingFee)</td>
+					<td>#if($!bean.beforeSourcingFee) #if($!bean.beforeSourcingFee>0)+$!bean.beforeSourcingFee% #else $!bean.beforeSourcingFee% #end #end</td>
+					<td><a href="${rc.contextPath}/free/shopWeekReportlist.htm?userName=$!bean.userName">本店</a></td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

@@ -1,0 +1,94 @@
+#set($layout="layout/shopLayout.vm")
+<div class="manage_content">
+        <ul>
+            <li>
+                <span>公司全称：</span>
+                <input type="" name="" placeholder="发票抬头" id="full_name" value="$!user.companyName">
+            </li>
+            <li>
+                <span>公司简称：</span>
+                <input type="" name="" placeholder="公司简称或品牌名" id="short_name" value="$!user.userName">
+            </li>
+            <li>
+                <span>公司人数：</span>
+                <input type="" name="" id="company_personnum" value="$!user.companyPersonnum">
+            </li>
+            <li>
+            	<span>货架数量：</span>
+                <input type="" name="" id="goodsShelfNum" value="$!user.goodsShelfNum">
+            </li>
+            <li>
+                <span>饮料柜数：</span>
+                <input type="" name="" id="popsicleIceboxNum" value="$!user.popsicleIceboxNum">
+            </li>
+            <li>
+                <span>雪糕柜数：</span>
+                <input type="" name="" id="drinkIceboxNum" value="$!user.drinkIceboxNum">
+            </li>
+            <!--<li>
+                <span>联系人：</span>
+                <input type="" name="" id="name" value="$!user.likeman">
+            </li>
+            <li>
+                <span>职位：</span>
+                <input type="" name="" id="position" value="$!user.position">
+            </li>
+            <li>
+                <span>联系电话：</span>
+                <input type="" name="" id="phone" value="$!user.mobilePhone">
+            </li>-->
+            <li>
+                <span>配送地址：</span>
+                <input type="" name="" id="address" value="$!user.address">
+            </li>
+        </ul>
+        <div class="discount">
+            <span>折扣：</span>
+            <input type="number" name=""  id="discount" value="$!user.shopDiscount">
+        </div>
+        <a href="javascript:void(0)" ontouchend="save($!user.id)" class="save">保存</a>
+    </div>
+<script type="text/javascript">
+    document.title = "基础设置";
+    $("body").css("background-color","#ececec");
+    var checkSubmitFlag = false;
+    function save(id) {
+        var full_name = $("#full_name").val();
+        var short_name = $("#short_name").val();
+        var address =$("#address").val();
+        var discount =$("#discount").val();
+        var company_personnum =$("#company_personnum").val();
+        var goodsShelfNum =$("#goodsShelfNum").val();
+        var popsicleIceboxNum =$("#popsicleIceboxNum").val();
+        var drinkIceboxNum =$("#drinkIceboxNum").val();
+        var res = /^(?:[1-9][0-9]*|0)(\.[0-9]+)?$/;
+        var res_tel = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+        if(!full_name||!short_name||!address||!discount||!company_personnum){
+            alert("信息不能为空");
+        }else{
+        	
+        	if(!res.test(discount)){
+        		alert("请填写正确的折扣！");
+				return false;
+        	}
+        	if(0>discount || discount>2){
+        		alert("折扣超出范围");
+				return false;
+        	}
+        	
+        	$.ajax({
+				url:'${rc.contextPath}/convenient/home/shop_common.do',
+				type:'POST',
+				data: {id:id,userName:short_name,companyName:full_name,address:address,shopDiscount:discount,companyPersonnum:company_personnum,goodsShelfNum:goodsShelfNum,popsicleIceboxNum:popsicleIceboxNum,drinkIceboxNum:drinkIceboxNum},
+				success:function(data){
+					if(data==200){
+						window.location.href="${rc.contextPath}/convenient/home/shop_index.htm?shop_id="+id
+					}else{
+						alert("修改店铺基础信息出错");
+					}
+				}
+				
+			})
+        }
+    }
+</script>

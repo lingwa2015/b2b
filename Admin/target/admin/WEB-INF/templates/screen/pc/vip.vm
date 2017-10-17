@@ -1,0 +1,94 @@
+ #set($layout="layout/pcLayout.vm")
+<div class="head">
+      <div class="header">
+        <div class="wrap">
+          <a href="${rc.contextPath}/official/pcIndex.htm" class="bl"><span class="logo-img i-b"><img src="${rc.contextPath}/static/images/pc/lw_logo.png"></span></a>
+            <i></i>
+            <span class="so">快乐生活
+                <b></b>
+                快乐工作
+            </span>
+          <div class="nav br">
+            <div class="nav_1">
+                <ul class="nav_main">
+                    <li>
+                        <a href="${rc.contextPath}/official/pcIndex.htm" class="xiao">首页</a>
+                    </li>
+                    <!--<li>
+                        <a href="${rc.contextPath}/official/pcVip.htm" class="xiao c">企业会员</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcSnackbag.htm" class="xiao">零食反应堆</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcItem.htm" class="xiao">零食分类</a>
+                    </li>-->
+                    <li>
+                        <a href="${rc.contextPath}/official/pcHoliday.htm" class="xiao">节日方案</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcPlan.htm" class="xiao">其他服务</a>
+                    </li>
+                </ul>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    <!-- banner图 -->
+    <div class="vip"></div>
+    <!-- 中间层 -->
+    <div class="container">
+    	<section class="the_one">
+    		<h1 class="one">量身定制,省心托管</h1>
+    		<p class="two">成为领蛙企业会员后，领蛙提供一对一全程托管服务。领蛙与公司对应负责人对接并充分沟通，了解公司的零食需求，针对性地制定合理的资金预算方案、选品方案、配送计划。确定方案和计划后，具体执行全程省心托管在领蛙。</p>
+    	</section>
+    	<section class="the_two">
+    		<h1 class="one">充值消费，更享优惠</h1>
+    		<p class="two">企业会员通过转账或微信支付充值完成后，领蛙根据配送计划进行配送，并自动扣除相应余额。当余额不足下一次配送金额时，则暂停服务。充值可享赠送金额，赠送金额可无差别用于消费扣款。</p>
+    		<img src="${rc.contextPath}/static/images/pc/tu_6.jpg">
+    	</section>
+    	<section class="the_three">
+    		<h1 class="one">智能选品，定时配送</h1>
+    		<p class="two">企业会员除了可以选用标准的零食反应堆产品外，也可以提出特定的选品要求，领蛙提供符合特定要求的产品组合。领蛙按约定的配送计划将产品定时准时送达。</p>
+    	</section>
+    	<section class="the_four">
+    		<h1 class="one">上门服务，无忧售后</h1>
+    		<p class="two">如出现个别零食质量瑕疵或不喜好等问题，领蛙可提供上门服务，清点产品和数量，并作无条件退换货和退款处理，退款至领蛙会员账户余额中。（该业务服务范围目前仅限杭州主城区）</p>
+    	</section>
+    	<section class="the_five">
+    		<h1 class="one">免费申领精美零食柜</h1>
+    		<p class="two">企业会员可以免费申请领用精美零食柜。将零食分格摆放在零食柜上，方便员工挑选和取用。零食柜收取押金1000.00元，服务终止后可退还。（该业务服务范围目前仅限杭州主城区）</p>
+    	</section>
+    </div>
+    <!-- 扫描二维码 -->
+    <div class="huiyuan_logo">
+        <div class="huiyuan_logo_01">
+            <p>进入领蛙公众号开通企业会员</p>
+            <img src="${rc.contextPath}/static/images/pc/huiyuan_logo.png">
+        </div>
+    </div>
+   
+    <!-- 页尾 -->
+    <div class="footer">
+        <div class="foo">
+        <ul>
+            <li class="tc">
+                <img src="${rc.contextPath}/static/images/pc/small_logo.png">
+                <span>微信公众号</span>
+            </li>
+            <li>
+                <a href="/official/pcAbout.htm" class="about">关于我们</a>
+                <b>|</b>
+                <a href="/official/pcContact.htm">联系我们</a>
+                <p>杭州领带蛙网络科技有限公司<b>Lingwa.com.cn</b>浙ICP备15009557号-2</p>
+            </li>
+            <li class="br">
+                <div class="rexian"><img src="${rc.contextPath}/static/images/pc/tel.png"><span>客服热线</span></div>
+                <strong class="str">4001&nbsp;&nbsp;520&nbsp;&nbsp;027</strong>
+            </li>
+        </ul>
+            
+        </div>
+
+    </div>

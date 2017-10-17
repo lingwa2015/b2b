@@ -1,0 +1,33 @@
+#set($layout="layout/appLayoutV3.vm")
+
+        <div class="lw_content">
+            <div class="datail_wrap">
+                <h4>
+                    <a href="appPriceList.htm"><img width="45%" src="${rc.contextPath}/static/images/lt_icon.png"></a>
+                    <span>$NumberTool.toYuanNumber($refund.totalFee)</span>
+                </h4>
+                <ul>
+                    <li class="hd">
+                        <span class="t">商品</span>
+                        <span>数量</span>
+                        <span class="p">总价</span>
+                    </li>
+                #foreach($refundItem in $refundItemList)
+                    <li>
+                        <span class="t">$refundItem.itemName</span>
+                        <span>$refundItem.num</span>
+                        <span class="p">$NumberTool.toYuanNumber($refundItem.totalFee)</span>
+                    </li>
+                 #end
+                    <li>
+                        <span class="t">合计</span>
+                        <span></span>
+                        <span class="p">$NumberTool.toYuanNumber($refund.totalFee)</span>
+                    </li>
+                </ul>
+                <p class="sign_out">
+                    <span>$user.userName</span>
+                    <a href="/appLogin/appLogout.htm">退出</a>
+                </p>
+            </div>
+        </div>

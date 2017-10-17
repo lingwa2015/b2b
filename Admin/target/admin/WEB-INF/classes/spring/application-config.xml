@@ -1,0 +1,1160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd ">
+
+	<import resource="classpath:/spring/spring-persistence.xml" />
+	<!-- <import resource="classpath:/jmx/admin-jmx.xml" /> -->
+
+	<context:component-scan base-package="com.b2b.*" />
+
+	<bean id="urlMapping" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
+
+	<mvc:annotation-driven />
+	
+	<!--配置拦截器, 多个拦截器,顺序执行 -->  
+	<mvc:interceptors>  
+		<mvc:interceptor>    
+	        <!-- 匹配的是url路径， 如果不配置或/**,将拦截所有的Controller --> 
+	         <mvc:mapping path="/convenient/shop_sourcingIndex.htm" />
+	         <mvc:mapping path="/convenient/shop_sourcingOrderList.htm" />
+	         <mvc:mapping path="/convenient/shop_sourcingOrderDetail.htm" />
+	         <mvc:mapping path="/convenient/shop_batchOnShelf.do" />
+	         <mvc:mapping path="/convenient/shop_saleItem.htm" />
+	         <mvc:mapping path="/convenient/shop_shelf.do" />
+	         <mvc:mapping path="/convenient/shop_itemUpdate.do" />
+	         <mvc:mapping path="/convenient/manage/shop_index.htm" />
+	         <mvc:mapping path="/convenient/shop_consumeList.htm" />
+	         <mvc:mapping path="/convenient/home/shop_index.htm" />
+	         <mvc:mapping path="/convenient/home/shop_common.htm" />
+	         <mvc:mapping path="/convenient/home/shop_common.do" />
+	         <mvc:mapping path="/convenient/home/shop_manager.htm" />
+	         <mvc:mapping path="/convenient/home/shop_manager.do" />
+	         <mvc:mapping path="/convenient/home/shop_monthRecord.htm" />
+	         <mvc:mapping path="/convenient/shop_refund.htm" />
+	         <mvc:mapping path="/convenient/shop_refundDetail.htm" />
+	         <mvc:mapping path="/convenient/home/shop_QRCode.htm" />
+	         <mvc:mapping path="/convenient/home/shop_addManage.htm" />
+	         <mvc:mapping path="/convenient/manage/shop_add.htm" />
+	         <mvc:mapping path="/convenient/shop_refund.do" />
+	         <mvc:mapping path="/convenient/home/shop_senior.htm" />
+	         <mvc:mapping path="/convenient/home/shop_senior.do" />
+	         <mvc:mapping path="/convenient/home/shop_monthRecordDetail.htm" />
+	        <bean class="com.b2b.web.interceptor.ShopManageInterceptor">
+	        </bean>
+	    </mvc:interceptor>  
+	    <mvc:interceptor>    
+	        <!-- 匹配的是url路径， 如果不配置或/**,将拦截所有的Controller --> 
+	        <mvc:mapping path="/itemVariety/*.htm" /> 
+	        <mvc:mapping path="/item/*.htm" />
+	        <mvc:mapping path="/itemCategory/*.htm"/>
+	        <mvc:mapping path="/item/exportExcel.do"/>
+	        <mvc:exclude-mapping path="/item/itemImage.htm"/>   
+	        <bean class="com.b2b.web.interceptor.ItemManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>    
+	        <!-- 匹配的是url路径， 如果不配置或/**,将拦截所有的Controller -->  
+	        <mvc:mapping path="/itemCategory/*.do"/>
+	        <mvc:mapping path="/itemVariety/*.do" />  
+	        <mvc:mapping path="/item/*.do"/>
+	        <mvc:exclude-mapping path="/item/exportExcel.do"/>
+	        <bean class="com.b2b.web.interceptor.ItemManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>    
+	        <mvc:mapping path="/weightCoefficient/*.htm"/>
+	        <mvc:mapping path="/customerWise/*.htm" />
+	       <!--  <mvc:mapping path="/standardOrder/categorynum.htm"/>
+	        <mvc:mapping path="/standardOrder/standardOrderlist.htm"/>
+	        <mvc:mapping path="/standardOrder/showOrder.htm"/> -->
+	        <mvc:mapping path="/standardOrder/*.htm"/>
+	        <mvc:mapping path="/customerOrder/*.htm" />
+	        <bean class="com.b2b.web.interceptor.SelectionManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	     <mvc:interceptor>    
+	        <mvc:mapping path="/weightCoefficient/*.do"/>
+	         <mvc:mapping path="/customerWise/*.do" />
+	        <!-- <mvc:mapping path="/standardOrder/savecategory.do"/>
+	        <mvc:mapping path="/standardOrder/autoStandardOrder.do"/>
+	        <mvc:mapping path="/standardOrder/editOrder.do"/>
+	        <mvc:mapping path="/standardOrder/createOrder.do"/>
+	        <mvc:mapping path="/standardOrder/exportPlanExcel.do"/> -->
+	          <mvc:mapping path="/standardOrder/*.do"/>
+	         <mvc:mapping path="/customerOrder/*.do" />
+	        <bean class="com.b2b.web.interceptor.SelectionManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>    
+	        <mvc:mapping path="/statistics/*.htm" />
+	        <mvc:mapping path="/storage/*.htm"/>
+	        <mvc:mapping path="/statistics/storageSumExportExcel.do"/>
+	        <mvc:exclude-mapping path="/statistics/statisticslist.htm"/> 
+	        <bean class="com.b2b.web.interceptor.StockBillManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	     <mvc:interceptor>    
+	        <mvc:mapping path="/statistics/*.do" />
+	        <mvc:mapping path="/storage/*.do"/>
+	        <mvc:exclude-mapping path="/statistics/exportExcel.do"/> 
+	        <bean class="com.b2b.web.interceptor.StockBillManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>    
+	        <mvc:mapping path="/stockCheck/*.htm" />
+	        <mvc:mapping path="/stockCheckTemp/*.htm" />
+	        <bean class="com.b2b.web.interceptor.StockCheckManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	     <mvc:interceptor>    
+	        <mvc:mapping path="/stockCheck/*.do" />
+	        <mvc:mapping path="/stockCheckTemp/*.do"/>
+	        <mvc:exclude-mapping path="/stockCheckTemp/exportExcel.do"/>   
+	        <bean class="com.b2b.web.interceptor.StockCheckManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>    
+	        <mvc:mapping path="/stock/*.htm" />
+	        <mvc:mapping path="/stock/exportExcel.do"/>
+	        <bean class="com.b2b.web.interceptor.StockManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	     <mvc:interceptor>    
+	        <mvc:mapping path="/stock/*.do" />
+	        <mvc:exclude-mapping path="/stock/exportExcel.do"/>
+	        <bean class="com.b2b.web.interceptor.StockManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	     <mvc:interceptor>    
+	        <mvc:mapping path="/statistics/statisticslist.htm" />
+	        <mvc:mapping path="/statistics/exportExcel.do" />
+	        <mvc:mapping path="/order/*.htm" />
+			 <mvc:mapping path="/gift/*.htm" />
+	        <mvc:exclude-mapping path="/order/gongdan.htm"/> 
+	        <bean class="com.b2b.web.interceptor.OrderManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	     <mvc:interceptor>
+			 <mvc:mapping path="/order/*.do" />
+			 <mvc:mapping path="/gift/*.do" />
+	        <mvc:exclude-mapping path="/order/change.do"/> 
+	        <bean class="com.b2b.web.interceptor.OrderManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>    
+	        <mvc:mapping path="/order/gongdan.htm" />
+	        <bean class="com.b2b.web.interceptor.GongdanManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	     <mvc:interceptor>    
+	        <mvc:mapping path="/order/change.do" />
+	        <bean class="com.b2b.web.interceptor.GongdanManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	     <mvc:interceptor>    
+	        <mvc:mapping path="/refund/*.htm" />
+	        <bean class="com.b2b.web.interceptor.RefundManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	     <mvc:interceptor>    
+	        <mvc:mapping path="/refund/*.do" />
+	        <bean class="com.b2b.web.interceptor.RefundManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>    
+	        <mvc:mapping path="/customer/*.htm" />
+	        <mvc:mapping path="/afterSalesRecord/*.htm" />
+	        <bean class="com.b2b.web.interceptor.CustomerManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	     <mvc:interceptor>    
+	        <mvc:mapping path="/customer/*.do" />
+	        <mvc:mapping path="/afterSalesRecord/*.do" />
+	        <mvc:exclude-mapping path="/customer/autoUserNameQuery.do"/> 
+	        <bean class="com.b2b.web.interceptor.CustomerManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>    
+	        <mvc:mapping path="/user/userList.htm" />
+	        <!--<mvc:mapping path="/user/userAdd.htm" />-->
+	        <!--<mvc:mapping path="/user/userUpdate.htm" />-->
+	        <!--<mvc:mapping path="/user/userUpdatePassword.htm" />-->
+	        <bean class="com.b2b.web.interceptor.UserManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	     <mvc:interceptor>
+	        <mvc:mapping path="/user/setAdmin.do" />
+	        <mvc:mapping path="/user/unSetAdmin.do" />
+	        <bean class="com.b2b.web.interceptor.UserManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>  
+	    	<mvc:mapping path="/role/*.htm" />  
+	        <mvc:mapping path="/user/userlist.htm" />
+	        <mvc:mapping path="/user/edit.htm" />
+	        <mvc:mapping path="/user/setManager.htm" />
+			<mvc:mapping path="/user/userAdd.htm" />
+			<mvc:mapping path="/user/userUpdate.htm" />
+			<mvc:mapping path="/user/userUpdatePassword.htm" />
+	        <bean class="com.b2b.web.interceptor.PrivilegeManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	     <mvc:interceptor>
+	     	<mvc:mapping path="/role/*.do" />     
+	        <mvc:mapping path="/user/addRole.do" />
+	        <mvc:mapping path="/user/cancalManager.do" />
+			 <mvc:mapping path="/user/userSave.do" />
+			 <mvc:mapping path="/user/userPasswordSave.do" />
+			 <mvc:mapping path="/user/userDelete.do" />
+	        <bean class="com.b2b.web.interceptor.PrivilegeManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	     <mvc:interceptor>  
+	    	<mvc:mapping path="/supplier/*.htm" />
+	        <bean class="com.b2b.web.interceptor.SupplierManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	     <mvc:interceptor>
+	     	<mvc:mapping path="/supplier/*.do" />
+	        <bean class="com.b2b.web.interceptor.SupplierManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <!--活动管理  -->
+	    <mvc:interceptor>  
+	    	<mvc:mapping path="/redPacket/*.htm" />
+	    	<mvc:mapping path="/newCustomerActivity/*.do" />
+	    	<mvc:mapping path="/itemSalesPromotion/*.do" />
+	    	<mvc:mapping path="/shopDiscountSetting/*.do" />
+	        <bean class="com.b2b.web.interceptor.RedPacketManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	     <mvc:interceptor>
+	     	<mvc:mapping path="/redPacket/*.do" />
+	     	<mvc:mapping path="/newCustomerActivity/*.do" />
+	     	<mvc:mapping path="/itemSalesPromotion/*.do" />
+	     	<mvc:mapping path="/shopDiscountSetting/*.do" />
+	        <bean class="com.b2b.web.interceptor.RedPacketManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>  
+	    	<mvc:mapping path="/debitnote/*.htm" />
+	    	<mvc:mapping path="/tranSum/*.htm" />
+	    	<mvc:mapping path="/record/*.htm" />
+	    	<mvc:mapping path="/debitnote/export.do" />
+	    	<mvc:mapping path="/debitnote/exportSumExcel.do" />
+	    	<mvc:mapping path="/debitnote/addRemark.do" />
+	    	<mvc:mapping path="/performance/*.htm" />
+	    	<mvc:mapping path="/tranSum/exportExcel.do"/>
+	        <bean class="com.b2b.web.interceptor.AccountManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	     <mvc:interceptor>
+	     	<mvc:mapping path="/debitnote/*.do" />
+	     	<mvc:mapping path="/tranSum/*.do" />
+	     	 <mvc:mapping path="/performance/*.do" />
+	     	 <mvc:exclude-mapping path="/debitnote/exportSumExcel.do"/> 
+	     	 <mvc:exclude-mapping path="/debitnote/addRemark.do"/>
+	     	 <mvc:exclude-mapping path="/debitnote/export.do"/>
+	     	 <mvc:exclude-mapping path="/tranSum/exportExcel.do"/>
+	        <bean class="com.b2b.web.interceptor.AccountManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>  
+	    	<mvc:mapping path="/dailyReport/*.htm" />
+	    	<mvc:mapping path="/shopDailyReport/*.htm" />
+	    	<mvc:mapping path="/monthreport/*.htm" />
+	    	<mvc:mapping path="/shopMonthReport/*.htm" />
+	    	<mvc:mapping path="/shopWeekReport/*.htm" />
+	    	<mvc:mapping path="/weekReport/*.htm" />
+	    	<mvc:mapping path="/shopDailyReport/exportExcel.do"/>
+	    	<mvc:mapping path="/shopDailyReport/exportNetExcel.do"/>
+	    	<mvc:mapping path="/shopMonthReport/exportExcel.do"/>
+	    	<mvc:mapping path="/shopMonthReport/exportnetExcel.do"/>
+	        <bean class="com.b2b.web.interceptor.ConvenientStoreManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>  
+	    	<mvc:mapping path="/dailyReport/*.do" />
+	    	<mvc:mapping path="/shopDailyReport/*.do" />
+	    	<mvc:mapping path="/monthreport/*.do" />
+	    	<mvc:mapping path="/shopMonthReport/*.do" />
+	    	<mvc:mapping path="/shopWeekReport/*.do" />
+	    	<mvc:mapping path="/weekReport/*.do" />
+	    	<mvc:exclude-mapping path="/shopDailyReport/exportExcel.do"/>
+	    	<mvc:exclude-mapping path="/shopDailyReport/exportNetExcel.do"/>
+	    	<mvc:exclude-mapping path="/shopMonthReport/exportExcel.do"/>
+	    	<mvc:exclude-mapping path="/shopMonthReport/exportnetExcel.do"/>
+	        <bean class="com.b2b.web.interceptor.ConvenientStoreManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>  
+	    	<mvc:mapping path="/actual/*.htm" />
+	    	<mvc:mapping path="/actual/actualShopExportExcel.do"/>
+	        <bean class="com.b2b.web.interceptor.ConvenientStoreActualManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>  
+	    	<mvc:mapping path="/actual/*.do" />
+	    	<mvc:exclude-mapping path="/actual/actualShopExportExcel.do"/>
+	        <bean class="com.b2b.web.interceptor.ConvenientStoreActualManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>  
+	    	<mvc:mapping path="/free/*.htm"/>
+	    	<mvc:mapping path="/free/day/exportExcel.do"/>
+	    	<mvc:mapping path="/free/month/exportExcel.do"/>
+	    	<mvc:mapping path="/free/monthnet/exportExcel.do"/>
+	        <bean class="com.b2b.web.interceptor.FreeShopManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>  
+	    	<mvc:mapping path="/free/*.do"/>
+	    	<mvc:exclude-mapping path="/free/day/exportExcel.do"/>
+	    	<mvc:exclude-mapping path="/free/month/exportExcel.do"/>
+	    	<mvc:exclude-mapping path="/free/monthnet/exportExcel.do"/>
+	        <bean class="com.b2b.web.interceptor.FreeShopManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>  
+	    	<mvc:mapping path="/appAdvisory/list.htm" />
+			<mvc:mapping path="/recommendredback/*.htm" />
+			<mvc:mapping path="/recommendcashback/*.htm" />
+	        <bean class="com.b2b.web.interceptor.AdvisoryManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>
+	     	<mvc:mapping path="/recommendredback/*.do" />
+			<mvc:mapping path="/recommendcashback/*.do" />
+	        <bean class="com.b2b.web.interceptor.AdvisoryManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>  
+	    	<mvc:mapping path="/log/*.htm" />
+	        <bean class="com.b2b.web.interceptor.LogManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>  
+	    	<mvc:mapping path="/log/*.do" />
+	        <bean class="com.b2b.web.interceptor.LogManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <!--<mvc:interceptor>  -->
+	    	<!--<mvc:mapping path="/gift/*.htm" />-->
+	        <!--<bean class="com.b2b.web.interceptor.GiftManageReadInterceptor">-->
+	        <!--</bean>-->
+	    <!--</mvc:interceptor>-->
+	    <!--<mvc:interceptor>-->
+	    	<!--<mvc:mapping path="/gift/*.do" />-->
+	        <!--<bean class="com.b2b.web.interceptor.GiftManageWriteInterceptor">-->
+	        <!--</bean>-->
+	    <!--</mvc:interceptor>-->
+	    <mvc:interceptor>  
+	    	<mvc:mapping path="/machine/*.htm" />
+	    	<mvc:mapping path="/equipment/*.htm" />
+	    	<mvc:mapping path="/customerCamera/*.htm" />
+	        <bean class="com.b2b.web.interceptor.MachineManageReadInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>  
+	    	<mvc:mapping path="/machine/*.do" />
+	    	<mvc:mapping path="/equipment/*.do" />
+	    	<mvc:mapping path="/customerCamera/*.do" />
+	        <bean class="com.b2b.web.interceptor.MachineManageWriteInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <mvc:interceptor>  
+	    	<mvc:mapping path="/GM/*.*" />
+	    	<mvc:mapping path="/privilege/*.*" />
+	        <bean class="com.b2b.web.interceptor.GMManageInterceptor">
+	        </bean>
+	    </mvc:interceptor>
+	    <!-- 当设置多个拦截器时，先按顺序调用preHandle方法，然后逆序调用每个拦截器的postHandle和afterCompletion方法 -->  
+	</mvc:interceptors>
+
+	<!-- 配置velocity引擎 -->
+	<bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<!--模板存放的路径 -->
+		<property name="resourceLoaderPath" value="/WEB-INF/templates/" />
+		<property name="configLocation" value="classpath:velocity.properties" />
+		<property name="velocityProperties">
+          <props>
+            <prop key="input.encoding">UTF-8</prop>
+            <prop key="output.encoding">UTF-8</prop>
+            <prop key="velocimacro.library.autoreload">true</prop>
+            <!--  <prop key="velocimacro.library">macro/macros.vm</prop>-->
+          </props>
+          </property>
+	</bean>
+
+	<!-- 配置视图的显示 -->
+	<bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+		<property name="prefix" value="/screen/" /><!-- 视图文件的前缀，即存放的路径 -->
+		<property name="suffix" value=".vm" /><!-- 视图文件的后缀名 -->
+		<property name="toolboxConfigLocation" value="/WEB-INF/velocityTool/toolbox.xml"/>
+		<property name="dateToolAttribute" value="date" /><!--日期函数名称 -->
+		<property name="numberToolAttribute" value="number" /><!--数字函数名称 -->
+		<property name="contentType" value="text/html;charset=UTF-8" />
+		<property name="exposeSpringMacroHelpers" value="true" /><!--是否使用spring对宏定义的支持 -->
+		<property name="exposeRequestAttributes" value="true" /><!--是否开放request属性 -->
+		<property name="exposeSessionAttributes" value="false" />
+		<property name="requestContextAttribute" value="rc" /><!--request属性引用名称 -->
+		<property name="layoutUrl" value="layout/default.vm" /><!--指定layout文件 -->
+		<property name="cache" value="false" /><!--是否缓存模板，上线后开启缓存-->
+	</bean>
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:*.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"/>
+        <!-- 指定所上传文件的总大小不能超过1024KB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->
+        <property name="maxUploadSize" value="1024000"/>
+    </bean>
+
+	<!--生成核算列表  -->
+    <bean id="jobtaskGenTranSum"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>work</value>
+		</property>
+	</bean>
+
+	<bean id="doGenTranSum" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskGenTranSum" />
+		</property>
+		<property name="cronExpression">
+			<!--  <value>0 18 22 L * ?</value>-->
+			<!--<value>0 20 10 * * ?</value> -->
+			<value>0 1 0 * * ?</value>
+		</property>
+	</bean>
+	
+	<!--生成核算消费列表  -->
+    <bean id="jobtaskGenTranconsume"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workconsume</value>
+		</property>
+	</bean>
+
+	<bean id="doGenTranconsume" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskGenTranconsume" />
+		</property>
+		<property name="cronExpression">
+			<!--  <value>0 18 22 L * ?</value>-->
+			<!--<value>0 20 10 * * ?</value> -->
+			<value>0 1 0 * * ?</value>
+		</property>
+	</bean>
+	
+	<!--生成便利店商品快照  -->
+    <bean id="jobtaskWorkItem"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="monthShopStockMoney" />
+		</property>
+		<property name="targetMethod">
+			<value>workItem</value>
+		</property>
+	</bean>
+
+	<bean id="doWorkItem" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskWorkItem" />
+		</property>
+		<property name="cronExpression">
+			<!--  <value>0 18 22 L * ?</value>-->
+			<!--<value>0 20 10 * * ?</value> -->
+			<value>1 0 0 * * ?</value>
+		</property>
+	</bean>
+	
+	<!--生成消量榜单  -->
+    <bean id="jobtaskGenTranConsumeRank"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workConsumeRank</value>
+		</property>
+	</bean>
+
+	<bean id="doGenTranConsumeRank" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskGenTranConsumeRank" />
+		</property>
+		<property name="cronExpression">
+			<value>0 1 0 * * ?</value>
+		</property>
+	</bean>
+	
+	<!--生成便利店日报  -->
+<!--     <bean id="jobtaskDailyReport"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workDailyReport</value>
+		</property>
+	</bean>
+
+	<bean id="doDailyReport" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskDailyReport" />
+		</property>
+		<property name="cronExpression">
+			<value>0 15 1 * * ?</value>
+		</property>
+	</bean> -->
+	
+	<!--生成便利店单店日报  -->
+    <bean id="jobtaskShopDailyReport"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workShopDailyReport</value>
+		</property>
+	</bean>
+
+	<bean id="doShopDailyReport" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskShopDailyReport" />
+		</property>
+		<property name="cronExpression">
+			<value>0 15 1 * * ?</value>
+		</property>
+	</bean>
+	
+	<!--销售提成  -->
+    <!-- <bean id="jobtaskworkSalemanMoney"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workSalemanMoney</value>
+		</property>
+	</bean>
+
+	<bean id="doworkSalemanMoney" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskworkSalemanMoney" />
+		</property>
+		<property name="cronExpression">
+			<value>0 45 1 * * ?</value>
+		</property>
+	</bean> -->
+	<!--单店月报  -->
+	 <bean id="jobtaskworkShopMonthReport"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workShopMonthReport</value>
+		</property>
+	</bean>
+
+	<bean id="doworkShopMonthReport" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskworkShopMonthReport" />
+		</property>
+		<property name="cronExpression">
+			<value>0 15 1 * * ?</value>
+		</property>
+	</bean>
+	<!--周报  -->
+	<!--  <bean id="jobtaskworkWeekReport"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workWeekReport</value>
+		</property>
+	</bean>
+
+	<bean id="doworkWeekReport" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskworkWeekReport" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 1 ? * MON</value>
+		</property>
+	</bean> -->
+	
+	<!--单店周报  -->
+	<!--  <bean id="jobtaskworkShopWeekReport"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workShopWeekReport</value>
+		</property>
+	</bean>
+
+	<bean id="doworkShopWeekReport" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskworkShopWeekReport" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 1 ? * MON</value>
+		</property>
+	</bean> -->
+	
+	<!--福利店月报  -->
+<!-- 	 <bean id="jobtaskworkFreeMonthReport"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workFreeMonthReport</value>
+		</property>
+	</bean>
+
+	<bean id="doworkFreeMonthReport" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskworkFreeMonthReport" />
+		</property>
+		<property name="cronExpression">
+			<value>0 15 1 * * ?</value>
+		</property>
+	</bean> -->
+	
+	<!--福利店单店月报  -->
+	 <bean id="jobtaskworkFreeShopMonthReport"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workFreeShopMonthReport</value>
+		</property>
+	</bean>
+
+	<bean id="doworkFreeShopMonthReport" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskworkFreeShopMonthReport" />
+		</property>
+		<property name="cronExpression">
+			<value>0 15 1 * * ?</value>
+		</property>
+	</bean>
+	
+	
+	<!--福利店周报  -->
+<!-- 	 <bean id="jobtaskworkFreeWeekReport"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workFreeWeekReport</value>
+		</property>
+	</bean>
+
+	<bean id="doworkFreeWeekReport" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskworkFreeWeekReport" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 1 ? * MON</value>
+		</property>
+	</bean> -->
+	
+	<!--福利店单店周报  -->
+<!-- 	 <bean id="jobtaskworkFreeShopWeekReport"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workFreeShopWeekReport</value>
+		</property>
+	</bean>
+
+	<bean id="doworkFreeShopWeekReport" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskworkFreeShopWeekReport" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 1 ? * MON</value>
+		</property>
+	</bean> -->
+	
+	<!--福利店日报  -->
+	 <bean id="jobtaskworkFreeShopDayReport"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workFreeShopDayReport</value>
+		</property>
+	</bean>
+
+	<bean id="doworkFreeShopDayReport" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskworkFreeShopDayReport" />
+		</property>
+		<property name="cronExpression">
+			<value>0 15 1 * * ?</value>
+		</property>
+	</bean>
+	
+	<!--评分系统  -->
+    <bean id="jobtaskItemScore"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workItemScore</value>
+		</property>
+	</bean>
+
+	<bean id="doItemScore" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskItemScore" />
+		</property>
+		<property name="cronExpression">
+			<value>0 15 0 ? * WED </value>
+		</property>
+	</bean>
+	
+	<!--生成标准套餐  -->
+    <bean id="jobautoStandradOrder"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="autoStandradOrder" />
+		</property>
+		<property name="targetMethod">
+			<value>getAfterNextWeekOrder</value>
+		</property>
+	</bean>
+
+	<bean id="doautoStandradOrder" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobautoStandradOrder" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 3 ? * MON</value>
+		</property>
+	</bean>
+	
+	<!--快照执行,每月第一天凌晨  -->
+	<bean id="jobtaskUpMonthStock"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="upMonthStockJob" />
+		</property>
+		<property name="targetMethod">
+			<value>saveMonthStock</value>
+		</property>
+	</bean>
+
+	<bean id="doUpMonthStock" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskUpMonthStock" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 3 1 * ?</value>
+		</property>
+	</bean>
+	
+	<!--每天执行客户最新下单时间  -->
+	<bean id="jobtaskCustomerLastOrderTime"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="customerLastOrderTime" />
+		</property>
+		<property name="targetMethod">
+			<value>updateLastOrderTime</value>
+		</property>
+	</bean>
+
+	<bean id="doCustomerLastOrderTime" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskCustomerLastOrderTime" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 1 * * ?</value>
+		</property>
+	</bean>
+	
+	<bean id="jobtaskStockLastTime"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="customerLastOrderTime" />
+		</property>
+		<property name="targetMethod">
+			<value>updateStockLastTime</value>
+		</property>
+	</bean>
+
+	<bean id="doStockLastTime" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskStockLastTime" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 1 * * ?</value>
+		</property>
+	</bean>
+	
+	<!--每天4点保存库存金额  -->
+	<bean id="jobtaskStockMoneyMonitor"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="stockMoneyMonitor" />
+		</property>
+		<property name="targetMethod">
+			<value>updateStockMoney</value>
+		</property>
+	</bean>
+
+	<bean id="doStockMoneyMonitor" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskStockMoneyMonitor" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 4 * * ?</value>
+		</property>
+	</bean>
+	
+	<!--每天5点更新业务员业绩  -->
+	<bean id="jobtaskSalesmanPerformance"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="autoSalesmanPerformance" />
+		</property>
+		<property name="targetMethod">
+			<value>autowork</value>
+		</property>
+	</bean>
+
+	<bean id="doSalesmanPerformance" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskSalesmanPerformance" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 4 * * ?</value>
+		</property>
+	</bean>
+	
+	<!--扫描过时的筹款订单  -->
+	<bean id="jobtaskExpireAutoRefund"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="expireAutoRefund" />
+		</property>
+		<property name="targetMethod">
+			<value>scenExpireOrder</value>
+		</property>
+	</bean>
+
+	<bean id="doExpireAutoRefund" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskExpireAutoRefund" />
+		</property>
+		<property name="cronExpression">
+			<value>0 */5 * * * ?</value>
+		</property>
+	</bean>
+	
+	 <bean id="jobtaskUpdateOrderTotalFee"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workForUpdateOrderTotalFee</value>
+		</property>
+	</bean>
+
+	<bean id="doUpdateOrderTotalFee" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskUpdateOrderTotalFee" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 22 L * ?</value>
+			<!--  <value>0 16 14 * * ?</value>-->
+		</property>
+	</bean>
+	<!-- 积分  -->
+	<bean id="jobtaskWorkjifen"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workjifen</value>
+		</property>
+	</bean>
+
+	<bean id="doWorkjifen" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskWorkjifen" />
+		</property>
+		<property name="cronExpression">
+			<value>0 45 0 8 * ?</value>
+		</property>
+	</bean>
+
+	<!--生成商品报表日报  -->
+	<bean id="jobtaskItemDailyReport"
+		  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workItemDailyReport</value>
+		</property>
+	</bean>
+
+	<bean id="doItemDailyReport" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskItemDailyReport" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 2 * * ?</value>
+		</property>
+	</bean>
+
+	<!--生成商品报表周报  -->
+	<bean id="jobtaskItemWeekReport"
+		  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workItemWeekReport</value>
+		</property>
+	</bean>
+
+	<bean id="doItemWeekReport" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskItemWeekReport" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 2 * * ?</value>
+		</property>
+	</bean>
+
+	<!--生成商品报表月报  -->
+	<bean id="jobtaskItemMonthReport"
+		  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workItemMonthReport</value>
+		</property>
+	</bean>
+
+	<bean id="doItemMonthReport" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskItemMonthReport" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 2 * * ?</value>
+		</property>
+	</bean>
+
+	<!--生成往月商品报表月报  -->
+	<bean id="jobtaskOldItemMonthReport"
+		  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workOldItemMonthReport</value>
+		</property>
+	</bean>
+
+	<bean id="doOldItemMonthReport" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskOldItemMonthReport" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 3 14 * ?</value>
+		</property>
+	</bean>
+
+	<!--商品店铺月报  -->
+	<bean id="jobtaskShopItemMonthReport"
+		  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workShopItemMonthReport</value>
+		</property>
+	</bean>
+
+	<bean id="doShopItemMonthReport" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskShopItemMonthReport" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 2 * * ?</value>
+		</property>
+	</bean>
+
+	<!--付款列表  -->
+	<bean id="jobtaskPaymentDoWork"
+		  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>workPayment</value>
+		</property>
+	</bean>
+
+	<bean id="doPaymentWork" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskPaymentDoWork" />
+		</property>
+		<property name="cronExpression">
+			<value>0 30 1 * * ?</value>
+		</property>
+	</bean>
+
+	<!-- 客户自动分级  -->
+	<bean id="jobtaskAtuoChangeGradeDoWork"
+		  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>atuoChangeGrade</value>
+		</property>
+	</bean>
+
+	<bean id="doAtuoChangeGradeWork" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskAtuoChangeGradeDoWork" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 0 8 * ?</value>
+		</property>
+	</bean>
+
+	<!-- 计算商品周消耗量  -->
+	<bean id="jobtaskgetItemWeekVolumeDoWork"
+		  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="genTranSumJob" />
+		</property>
+		<property name="targetMethod">
+			<value>getItemWeekVolume</value>
+		</property>
+	</bean>
+
+	<bean id="doGenTranSumJobWork" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="jobtaskgetItemWeekVolumeDoWork" />
+		</property>
+		<property name="cronExpression">
+			<value>0 5 2 * * ?</value>
+		</property>
+	</bean>
+
+	<bean id="startQuertz" lazy-init="false" autowire="no"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="doGenTranSum" />
+				<ref bean="doUpMonthStock" />
+				<ref bean="doCustomerLastOrderTime"/>
+				<ref bean="doStockMoneyMonitor"/>
+				<!-- <ref bean="doSalesmanPerformance"/> -->
+				<!--  <ref bean="doExpireAutoRefund"/>-->
+				<ref bean="doGenTranconsume"/>
+				<ref bean="doGenTranConsumeRank"/>
+				<!-- <ref bean="doDailyReport"/> -->
+				<ref bean="doShopDailyReport"/>
+				<ref bean="doItemScore"/>
+				<!-- <ref bean="doworkmonthReport"/> -->
+				<ref bean="doworkShopMonthReport" />
+				<ref bean="doworkFreeShopMonthReport" />
+				<!-- <ref bean="doworkFreeMonthReport" /> -->
+				<ref bean="doworkFreeShopDayReport" />
+				<ref bean="doWorkjifen" />
+				<ref bean="doWorkItem" />
+				<ref bean="doStockLastTime" />
+				<ref bean="doItemDailyReport" />
+				<ref bean="doItemWeekReport" />
+				<ref bean="doItemMonthReport" />
+				<!--<ref bean="doOldItemMonthReport" />-->
+				<ref bean="doShopItemMonthReport" />
+				<ref bean="doPaymentWork" />
+				<ref bean="doAtuoChangeGradeWork" />
+				<ref bean="doGenTranSumJobWork" />
+			</list>
+		</property>
+	</bean>
+	
+	
+	<!-- 定义连接管理器 -->
+	<bean id="connectionManager" class="org.apache.http.impl.conn.PoolingHttpClientConnectionManager" destroy-method="shutdown">
+		<!-- 设置最大连接数 -->
+		<property name="maxTotal" value="${http.maxTotal}"/>
+		<!-- 设置每个主机的最大并发数 -->
+		<property name="defaultMaxPerRoute" value="${http.defaultMaxPerRoute}"/>
+	</bean>
+	
+	<!-- 定义HttpClientBuilder -->
+	<bean id="httpClientBuilder" class="org.apache.http.impl.client.HttpClientBuilder">
+		<!-- 设置连接管理器 -->
+		<property name="connectionManager" ref="connectionManager"/>
+	</bean>
+	
+	<!-- 定义Httpclient对象 -->
+	<!-- 必须是多例对象 -->
+	<bean id="closeableHttpClient" class="org.apache.http.impl.client.CloseableHttpClient" 
+		factory-bean="httpClientBuilder" factory-method="build" scope="prototype">
+	</bean>
+	
+	<bean id="requestConfigBuilder" class="org.apache.http.client.config.RequestConfig.Builder">
+		<!-- 创建连接的最长时间 -->
+		<property name="connectTimeout" value="${http.connectTimeout}"/>
+		<!-- 从连接池中获取到连接的最长时间 -->
+		<property name="connectionRequestTimeout" value="${http.connectionRequestTimeout}"/>
+		<!-- 数据传输的最长时间 -->
+		<property name="socketTimeout" value="${http.socketTimeout}"/>
+		<!-- 提交请求前测试连接是否可用 -->
+		<property name="staleConnectionCheckEnabled" value="${http.staleConnectionCheckEnabled}"/>
+	</bean>
+	
+	<!-- 定义请求参数 -->
+	<bean id="requestConfig" class="org.apache.http.client.config.RequestConfig" factory-bean="requestConfigBuilder" factory-method="build">
+	</bean>
+</beans>

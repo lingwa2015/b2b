@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<!-- classPathEntry:数据库的JDBC驱动 -->
+	<classPathEntry
+		location="/Users/a./Downloads/mybatis-generator-core-1.3.2/lib/mysql-connector-java-5.0.8-bin.jar" />
+	<context id="context1" targetRuntime="MyBatis3">
+		<!-- 去除自动生成的注释 -->
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://121.40.129.172:3306/b2b?characterEncoding=utf8"
+			userId="root" password="19840618" />
+
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- targetProject:自动生成代码的位置 222 -->
+		<javaModelGenerator targetPackage="com.b2b.common.domain"
+			targetProject="/Users/a./Downloads/b2b/Common/src/main/java/">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<sqlMapGenerator targetPackage="com.b2b.common.mapper"
+			targetProject="/Users/a./Downloads/b2b/Common/src/main/java/">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<javaClientGenerator targetPackage="com.b2b.common.dao"
+			targetProject="/Users/a./Downloads/b2b/Common/src/main/java/" type="XMLMAPPER">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+		<table schema="b2b" tableName="warehouse_sync" domainObjectName="WarehouseSync" />
+		<table schema="b2b" tableName="warehouse_sync_list" domainObjectName="WarehouseSyncList" />
+		<!--<table schema="b2b" tableName="outstock_item" domainObjectName="OutstockItem" />-->
+
+
+		<!--<table schema="b2b" tableName="item" domainObjectName="Item" />-->
+		<!--<table schema="b2b" tableName="item_category" domainObjectName="ItemCategory" />-->
+		<!--<table schema="b2b" tableName="order" domainObjectName="Order" />-->
+		<!--<table schema="b2b" tableName="order_item" domainObjectName="OrderItem" />-->
+		<!--<table schema="b2b" tableName="user" domainObjectName="User" />-->
+
+	</context>
+</generatorConfiguration>

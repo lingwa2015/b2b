@@ -1,0 +1,33 @@
+#set($layout="layout/shopLayout.vm")
+<div class="push_content">
+    <p style="font-size:.3rem;color:#999;margin:.4rem auto;width:90%;">周消费合计¥$NumberTool.toYuanNumber($!money)（折扣$!discount）</p>
+        <ul style="background-color:#fff;border-top:1px solid #e8e8e8;">
+        	#foreach($dto in $lists)
+        	
+	            <li style="border-bottom:1px solid #e8e8e8;">
+	                <div style="float:left;width:80%;" class="dianji">
+	                    <img src="$!dto.imgPath">
+	                    <div class="new_show">
+	                        <p class="shop_name">$!dto.name</p>
+	                        <p style="padding-left: 0.18rem;">
+	                            <span class="price_02">￥<span>$NumberTool.toYuanNumber($!dto.salePrice)</span></span>
+	                            &nbsp;&nbsp;&nbsp;<span class="price_02">$!dto.size</span>
+	                        </p>
+	                        <p class="spec">日销：$!dto.one&nbsp;·&nbsp;$!dto.two&nbsp;·&nbsp;$!dto.three&nbsp;·&nbsp;$!dto.four&nbsp;·&nbsp;$!dto.five&nbsp;·&nbsp;$!dto.six&nbsp;·&nbsp;$!dto.seven</p>
+	                    </div>
+	                </div>
+	                <div class="push_right">
+	                    <p class="num" style="padding:.4rem 0 .5rem;">$!dto.consumeNum</p>
+	                    <p style="font-size:.26rem;color:#999;">在售：$!dto.num</p>
+	                </div>
+	            </li>
+        	#end
+            
+            
+        </ul>  
+    </div>
+    <p style="font-size:.24rem;color:#666;margin:.4rem 0;width:100%;text-align:center;">统计截至$!date.format('yyyy-MM-dd',$!sumdate)</p>
+<script type="text/javascript">
+    document.title = "消费排行榜";
+    $("body").css("background-color","#fafafa");
+</script>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.BeBlackWhiteListVarietyMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.BeBlackWhiteListVariety" >
+    <id column="bbwlv_id" property="bbwlvId" jdbcType="INTEGER" />
+    <result column="variety_id" property="varietyId" jdbcType="INTEGER" />
+    <result column="be_blackwhite_id" property="beBlackwhiteId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    bbwlv_id, variety_id, be_blackwhite_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.BeBlackWhiteListVarietyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from be_blackwhitelist_variety
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from be_blackwhitelist_variety
+    where bbwlv_id = #{bbwlvId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from be_blackwhitelist_variety
+    where bbwlv_id = #{bbwlvId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.BeBlackWhiteListVarietyExample" >
+    delete from be_blackwhitelist_variety
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.BeBlackWhiteListVariety" >
+    insert into be_blackwhitelist_variety (bbwlv_id, variety_id, be_blackwhite_id
+      )
+    values (#{bbwlvId,jdbcType=INTEGER}, #{varietyId,jdbcType=INTEGER}, #{beBlackwhiteId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.BeBlackWhiteListVariety" >
+    insert into be_blackwhitelist_variety
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bbwlvId != null" >
+        bbwlv_id,
+      </if>
+      <if test="varietyId != null" >
+        variety_id,
+      </if>
+      <if test="beBlackwhiteId != null" >
+        be_blackwhite_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bbwlvId != null" >
+        #{bbwlvId,jdbcType=INTEGER},
+      </if>
+      <if test="varietyId != null" >
+        #{varietyId,jdbcType=INTEGER},
+      </if>
+      <if test="beBlackwhiteId != null" >
+        #{beBlackwhiteId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.BeBlackWhiteListVarietyExample" resultType="java.lang.Integer" >
+    select count(*) from be_blackwhitelist_variety
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update be_blackwhitelist_variety
+    <set >
+      <if test="record.bbwlvId != null" >
+        bbwlv_id = #{record.bbwlvId,jdbcType=INTEGER},
+      </if>
+      <if test="record.varietyId != null" >
+        variety_id = #{record.varietyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.beBlackwhiteId != null" >
+        be_blackwhite_id = #{record.beBlackwhiteId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update be_blackwhitelist_variety
+    set bbwlv_id = #{record.bbwlvId,jdbcType=INTEGER},
+      variety_id = #{record.varietyId,jdbcType=INTEGER},
+      be_blackwhite_id = #{record.beBlackwhiteId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.BeBlackWhiteListVariety" >
+    update be_blackwhitelist_variety
+    <set >
+      <if test="varietyId != null" >
+        variety_id = #{varietyId,jdbcType=INTEGER},
+      </if>
+      <if test="beBlackwhiteId != null" >
+        be_blackwhite_id = #{beBlackwhiteId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where bbwlv_id = #{bbwlvId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.BeBlackWhiteListVariety" >
+    update be_blackwhitelist_variety
+    set variety_id = #{varietyId,jdbcType=INTEGER},
+      be_blackwhite_id = #{beBlackwhiteId,jdbcType=INTEGER}
+    where bbwlv_id = #{bbwlvId,jdbcType=INTEGER}
+  </update>
+  <select id="findByVarietyId" resultType="BeBlackWhiteListVariety">
+  	SELECT
+		bbv.be_blackwhite_id beBlackwhiteId,
+		bbv.variety_id varietyId,
+		bbv.bbwlv_id bbwlvId
+	FROM
+		be_customer_blackwhitelist bcb
+	LEFT JOIN be_blackwhitelist_variety bbv ON bcb.be_blackwhite_id = bbv.be_blackwhite_id
+	WHERE
+		bcb.customer_id = #{customerId} 
+	AND bcb.be_blackwhite_type = #{flag}
+	AND bbv.variety_id = #{varietyId}
+  </select>
+  <select id="findAll" resultType="hashmap">
+  	SELECT
+	bv.variety_id varietyId,bv.bbwlv_id bbwlvId,iv.itemvariety_name itemvarietyName
+	FROM
+		be_customer_blackwhitelist cbl
+	LEFT JOIN be_blackwhitelist_variety bv ON cbl.be_blackwhite_id = bv.be_blackwhite_id
+	LEFT JOIN item_variety iv ON bv.variety_id = iv.itemvariety_id and iv.`status` =1
+	WHERE
+		cbl.`status` = 1
+	AND cbl.be_blackwhite_type = #{flag}
+	AND cbl.customer_id = #{id};
+  </select>
+</mapper>

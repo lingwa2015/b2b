@@ -1,0 +1,22 @@
+#set($layout="layout/shopLayout.vm")
+<div class="zhifu_content">
+     <div class="personal_top hu">
+       <img src="$!user.headImgurl">
+       <span>$!user.nickName</span>
+     </div>
+     <a href="${rc.contextPath}/convenient/shop_personalConsumeList.htm?userid=$!user.id&type=$!type" style="display: block;">
+       <p class="zhifu_top" style="margin-bottom: 0;height:.6rem">
+        <span style="left:4%;top:.24rem">消费记录</span>
+       </p>
+     </a>
+     <a href="#" style="display: block;">
+       <p class="zhifu_top" style="margin-bottom: 0;height:.6rem;background-image: none;">
+        <span style="left:4%;top:.24rem;">红包</span>
+        <small style="position: absolute;color: #333;right: .6rem;top: .3rem;">¥$NumberTool.toYuanNumber($!redAccount.account)</small>
+       </p >
+     </a >
+   </div>
+<script type="text/javascript">
+    document.title = "个人中心";
+    $("body").css("background-color","#ececec");
+</script>

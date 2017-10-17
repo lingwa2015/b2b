@@ -1,0 +1,181 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+
+ });
+
+    function pageBack(){
+    	location.reload();
+    }
+    function check(){
+			if($("#startTime").val().length<=0){
+				alert("请选择开始时间！!");
+				return false;
+			}
+
+			if($("#endTime").val().length<=0){
+				alert("请选择结束时间！");
+				return false;
+			}
+
+			return true;
+		}
+
+
+    function sort(){
+    	window.location.href="${rc.contextPath}/statistics/statisticslist.htm?sortColumn="+$("#sortColumn")
+    			.val()+"&startTime="+$("#startTime").val()+"&endTime="+$("#endTime").val()+
+    			"&item_name="+$("#item_name").val()+"&catid="+$("#catid").val()+"&userName="+$("#userName").val();
+    }
+
+    function exportExcel(){
+    	window.location.href="${rc.contextPath}/statistics/exportExcel.do?sortColumn="+$("#sortColumn")
+		.val()+"&startTime="+$("#startTime").val()+"&endTime="+$("#endTime").val()+
+		"&item_name="+$("#item_name").val()+"&userName="+$("#userName").val()+"&catid="+$("#catid").val();
+    }
+
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" name="statisticsForm" id="statisticsForm" action="${rc.contextPath}/statistics/statisticslist.htm?sortColumn=$!sortColumn" onSubmit="return check()" method="POST">
+		<table class="form form-horizontal">
+		<tr>
+			<td><label class="tit first-tit">统计开始时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="startTime" id="startTime" readonly="readonly" value="$!startTime">
+			</td>
+
+			<td><label class="tit">统计结束时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="endTime" id="endTime" readonly="readonly" value="$!endTime">
+			</td>
+		</tr>
+		<tr>
+
+			<td align="right"><label class="tit">商品：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="item_name" id="item_name" value="$!item_name">
+			</td>
+
+			<td align="right"><label class="tit">客户简称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="userName" id="userName" value="$!userName">
+			</td>
+			<td align="right"><label class="tit">类目：</label></td>
+			<td>
+				<select name="catid" id="catid" validate="{required:true}" >
+					<option value="">全部</option>
+				    #foreach($cat in $cats)
+					   #if ($!catid == $cat.id)
+			            <option value="$cat.id" selected="selected">$cat.categoryName</option>
+			           #else
+			            <option value="$cat.id">$cat.categoryName</option>
+			           #end
+					#end
+			 	</select>	
+			</td>
+       </tr>
+		<tr>
+			<td align="right"><label class="tit">客户类型：</label></td>
+			<td>
+				<select name="type" id="type" validate="{required:true}" >
+					<option value="" >全部</option>
+					<option value="3" #if ($!type == 3) selected="selected" #end>便利店</option>
+					<option value="2" #if ($!type == 2) selected="selected" #end>福利店</option>
+					<option value="1" #if ($!type == 1) selected="selected" #end>礼包</option>
+			 	</select>	
+			</td>
+			<td width="20%" align="right" >
+				排序：
+				<select name="sortColumn" id="sortColumn" onchange="sort()">
+					<option value="" #if ($!sortColumn == '') selected="selected" #end >默认</option>
+					<option value="num" #if ($!sortColumn == 'num') selected="selected" #end>发货总量</option>
+					<option value="refundNum" #if ($!sortColumn == 'refundNum') selected="selected" #end>退货总量</option>
+					<option value="refundFee" #if ($!sortColumn == 'refundFee') selected="selected" #end>退款金额</option>
+					<option value="fee" #if ($!sortColumn == 'fee') selected="selected" #end>销售额</option>
+					<option value="item_cost_price" #if ($!sortColumn == 'item_cost_price') selected="selected" #end>成本</option>
+					<option value="profitFee" #if ($!sortColumn == 'profitFee') selected="selected" #end>利润</option>
+				</select>
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(statisticsForm).submit()">&nbsp;&nbsp;统 &nbsp;计 &nbsp;&nbsp;</a>
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="exportExcel()">&nbsp;&nbsp;导 &nbsp;出 &nbsp;&nbsp;</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+
+	<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+        <tr class="info">
+			<td colspan="1">
+                <span>销售总额：$NumberTool.toYuanNumber($!total.fee) 元</span>
+                <span>成本总额：$NumberTool.toYuanNumber($!total.itemCostPrice) 元</span>
+                #set($totalprofit =$!total.fee - $!total.itemCostPrice )
+                <span>利润总额：$NumberTool.toYuanNumber($totalprofit) 元</span>
+            </td>
+		</tr>
+	</table>
+	<table class="table">
+		<tr>
+			<th>一级类目</th>
+			<th>二级类目</th>
+			<th>商品名称</th>
+			<th>规格</th>
+			<th>发货总量</th>
+			<th>退货总量</th>
+			<th>退货金额</th>
+			<th>销售额</th>
+			<th>成本</th>
+		
+			<th>利润</th>
+		</tr>
+
+		#foreach($orderItem in $page.result)
+		<tr>
+			<td>$!orderItem.oneCate</td>
+			<td>$!orderItem.twoCate</td>
+			<td>$!orderItem.itemName</td>
+			<td>$!orderItem.itemSize</td>
+			<td>$!orderItem.num</td>
+			<td>
+			#if($!orderItem.refundNum=="0")
+			#else
+			<span style="color:red">$!orderItem.refundNum</span>
+			#end
+			</td>
+			<td>
+			#if($NumberTool.toYuanNumber($!orderItem.refundFee)=="0.00")
+			#else
+			<span style="color:red">$NumberTool.toYuanNumber($!orderItem.refundFee) 元</span>
+			#end
+			</td>
+			<td>$NumberTool.toYuanNumber($!orderItem.fee) 元</td>
+			<td>$NumberTool.toYuanNumber($!orderItem.itemCostPrice) 元</td>
+			#set($profit =$!orderItem.fee - $!orderItem.itemCostPrice )
+			<td>$NumberTool.toYuanNumber($!orderItem.profitFee) 元</td>
+		</tr>
+
+		#end
+
+
+
+	</table>
+	#set ($rowCount = 0)
+	#if(!$page)
+	<br/>
+	#else
+	<div class="text-center">
+			#parse("/common/page.vm")
+	</div>
+	#end
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->

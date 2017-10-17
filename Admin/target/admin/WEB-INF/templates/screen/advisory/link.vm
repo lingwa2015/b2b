@@ -1,0 +1,73 @@
+#set($layout="layout/shopLayout.vm")
+<div class="dh_content">
+    <div class="head">
+        <img src="${rc.contextPath}/static/images/shop/head_logo.png" style="width: 1.54rem;">
+    </div>
+    <img src="${rc.contextPath}/static/images/shop/logo_2.png" class="logo_1" style="width: 1.44rem;height: 1.32rem;">
+    <div class="dh_form">
+            <span class="xuanze">
+                城市选择：
+                <span style="margin-left: .2rem;" class="cs">
+                    <span class="yuan" style="position: relative;top: 0;left: 0;" city-id="1"></span>
+                    <label>杭州</label>
+                </span>
+                <span style="margin-left: .2rem;" class="cs">
+                    <span class="yuan" style="position: relative;top: 0;left: 0;" city-id="2"></span>
+                    <label>上海</label>
+                </span>
+            </span>
+        <span class="user_name">
+                <span class="form_name">姓名：</span>
+                <input type="text" name="user_conpany" id="name1" style="width: 5rem;margin-left: 1.4rem;">
+            </span>
+        <span class="user_name">
+                <span class="form_name">电话：</span>
+                <input type="text" name="user_name" id="phone1" style="width: 5rem;margin-left: 1.4rem;">
+            </span>
+        <span class="user_name">
+                <span class="form_name">职务：</span>
+                <input type="text" name="zhiwu" id="zhiwu1" style="width: 5rem;margin-left: 1.4rem;">
+            </span>
+        <span class="user_name">
+                <span class="form_name">公司名称：</span>
+                <input type="text" name="name" id="conpany1">
+            </span>
+    </div>
+    <a href="javascript:;" class="save">提交</a>
+    <p style="width: 100%;text-align: center;">信息提交后将由工作人员进行审核发放兑换券</p>
+</div>
+<script type="text/javascript">
+    document.title = "新增客户信息登记";
+    var checkSubmitFlag = false;
+    $(".yuan").on("touchend",function(){
+        $(this).addClass("active").parent().siblings().find(".yuan").removeClass("active");
+    })
+    $(".save").on("touchend",function() {
+        if (checkSubmitFlag == true) return;
+        checkSubmitFlag = true;
+        var zhiwu1 = $("#zhiwu1").val();
+        var name1 = $("#name1").val();
+        var phone1 = $("#phone1").val();
+        var conpany1 = $("#conpany1").val();
+        var cityId = $(".yuan.active").attr("city-id");
+        if(!conpany1||!zhiwu1||!name1||!phone1|| !cityId){
+            alert("所有的都要填")
+        }else{
+            $.ajax({
+                url: '${rc.contextPath}/advisory/wxLink.do',
+                type: 'POST',
+                data: {name:name1,mobile:phone1,company:conpany1,position:zhiwu1,cityId:cityId},
+                success: function (data) {
+                    if (data == 200) {
+                        checkSubmitFlag = false;
+                        window.location.href="${rc.contextPath}/advisory/wxLinkSuccess.htm";
+                    } else {
+                        alert("网络异常，请稍后重试！");
+                        checkSubmitFlag = false;
+                    }
+                }
+
+            })
+        }
+    });
+</script>

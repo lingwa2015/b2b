@@ -1,0 +1,53 @@
+#set($layout="layout/appLayoutV2.vm")
+    <div class="lw_index_wrap">
+        <div class="index_head_wrap">
+            <div class="hd_logo_text">
+                <div class="hd_logo"></div>
+                <div class="hd_text">
+                    <span>专业的办公室零食提供商</span>
+                    <p>我们专注于为公司解决零食的采购和配送需求。我们希望通过创新的一站式管家服务，降低公司采购和管理成本，省钱省心。我们主要提供办公室日常需求的休闲食品，涵盖零食、冷饮、水果、饮料等；我们也提供公司特定活动或传统佳节需求的休闲食品，比如生日会蛋糕、中秋节月饼等。</p>
+                </div>
+            </div>
+        </div>
+        <div class="index_bd_wrap">
+            <ul>
+                <li>
+                    <img src="${rc.contextPath}/static/images/sale.png">
+                    <span>性价比高</span>
+                    <p>厂商合作品质保证 价格低于各大电商平台</p>
+                </li>
+                <li>
+                    <img src="${rc.contextPath}/static/images/show.png">
+                    <span>陈列美观</span>
+                    <p>免费提供精美零食架 定期更新趣味漫画</p>
+                </li>
+                <li>
+                    <img src="${rc.contextPath}/static/images/choice.png">
+                    <span>选品独到</span>
+                    <p>精选最受喜爱的零食品类 营养师精心搭配，均衡品类组合</p>
+                </li>
+                <li>
+                    <img src="${rc.contextPath}/static/images/shipping.png">
+                    <span>配送及时</span>
+                    <p>无需客户操心，由领蛙工作人员自行全天（如需）巡查零食实际的消耗情况，及时补货，并定期调整品类和口味，每时每刻都能满足客户员工的需求。</p>
+                </li>
+                <li>
+                    <img src="${rc.contextPath}/static/images/budget.png">
+                    <span>预算可控</span>
+                    <p>采用月度结算方案，按照企业的月度预算，提供月度配货方案，按实际当月实际消费情况，次月初结算，提供发票。</p>
+                </li>
+                <li>
+                    <img src="${rc.contextPath}/static/images/exchange.png">
+                    <span>退换无忧</span>
+                    <p>支持无理由退换货，任何需要退换的品类，可直接退回给领蛙配送人员。</p>
+                </li>
+            </ul>
+        </div>
+        <div class="index_ft_wrap">
+            <img src="${rc.contextPath}/static/images/pc_code.jpg">
+            <span>扫码添加领蛙微信公众号订购<br>服务热线：400-8801-703</span>
+            <p>Lingwa.com.cn 杭州领带蛙网络科技有限公司<br/>浙ICP备15009557号-2</p>
+        </div>
+    </div>
+
+

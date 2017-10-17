@@ -1,0 +1,142 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+
+ });
+
+    function pageBack(){
+    	location.reload();
+    }
+    function check(){
+			if($("#startTime").val().length<=0){
+				alert("请选择开始时间！!");
+				return false;
+			}
+
+			if($("#endTime").val().length<=0){
+				alert("请选择结束时间！");
+				return false;
+			}
+
+			return true;
+		}
+
+
+    function sort(){
+    	window.location.href="${rc.contextPath}/statistics/storageSumList.htm?startTime="+$("#startTime").val()+"&endTime="+$("#endTime").val()+
+    			"&item_name="+$("#item_name").val()+"&supplier_id="+$("#supplier_id").val();
+    }
+
+    function exportExcel(){
+    	window.location.href="${rc.contextPath}/statistics/storageSumExportExcel.do?startTime="+$("#startTime").val()+"&endTime="+$("#endTime").val()+
+		"&item_name="+$("#item_name").val()+"&supplier_id="+$("#supplier_id").val();
+    }
+
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+        <a href="${rc.contextPath}/item/itemList.htm" title="返回入库单管理" class="btn btn-return"><</a>
+        <h4 class="tit">
+            入库单查询统计
+        </h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" name="statisticsForm" id="statisticsForm" action="${rc.contextPath}/statistics/storageSumList.htm" onSubmit="return check()" method="POST">
+		<table class="form form-horizontal">
+		<tr>
+			<td><label class="tit first-tit">统计开始时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="startTime" id="startTime" readonly="readonly" value="$!startTime">
+			</td>
+
+			<td><label class="tit">统计结束时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="endTime" id="endTime" readonly="readonly" value="$!endTime">
+			</td>
+
+		</tr>
+		<tr>
+
+			<td align="right"><label class="tit">商品：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="item_name" id="item_name" value="$!item_name">
+			</td>
+
+			<td align="right"><label class="tit">供应商：</label></td>
+			<td>
+				<select name="supplier_id" id="supplier_id" validate="{required:true}" >
+					<option value="">全部</option>
+				    #foreach($supplier in $supplierList)
+					   #if ($!supplierid == $supplier.id)
+			            <option value="$supplier.id" selected="selected">$supplier.supplierName</option>
+			           #else
+			            <option value="$supplier.id">$supplier.supplierName</option>
+			           #end
+					#end
+			 	</select>	
+			</td>
+			<td align="right"><label class="tit">类目：</label></td>
+			<td>
+				<select name="catid" id="catid" validate="{required:true}" >
+					<option value="">全部</option>
+				    #foreach($cat in $cats)
+					   #if ($!catid == $cat.id)
+			            <option value="$cat.id" selected="selected">$cat.categoryName</option>
+			           #else
+			            <option value="$cat.id">$cat.categoryName</option>
+			           #end
+					#end
+			 	</select>	
+			</td>
+			
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(statisticsForm).submit()">&nbsp;&nbsp;统 &nbsp;计 &nbsp;&nbsp;</a>
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="exportExcel()">&nbsp;&nbsp;导 &nbsp;出 &nbsp;&nbsp;</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+
+	<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+        <tr class="info">
+			<td colspan="1">
+                <span>总进货数量：$!total.num</span>
+                <span>总进货金额：$NumberTool.toYuanNumber($!total.totalFee) 元</span>
+            </td>
+		</tr>
+	</table>
+	<table class="table">
+		<tr>
+			<th>商品名称</th>
+			<th>进货数量</th>
+			<th>进货金额</th>
+		</tr>
+
+		#foreach($orderItem in $page.result)
+		<tr>
+			<td>$!orderItem.itemName</td>
+			<td>$!orderItem.num</td>
+			<td>$NumberTool.toYuanNumber($!orderItem.totalFee) 元</td>
+		</tr>
+		#end
+
+
+
+	</table>
+	#set ($rowCount = 0)
+	#if(!$page)
+	<br/>
+	#else
+	<div class="text-center">
+			#parse("/common/page.vm")
+	</div>
+	#end
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->

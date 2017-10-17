@@ -1,0 +1,206 @@
+<script type="text/javascript">
+$(document).ready(function() {
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+				if($('#blackItemRowCount').val() < 1){
+					alert('至少需要有一条名单');
+					return false;
+				}
+				save();
+				return false;
+        }
+	});
+
+
+ });
+var checkSubmitFlag = false;
+function save() {
+
+  	if(checkSubmitFlag ==true){
+       alert("请勿重复提交");
+       return false;
+    }
+	var id = $('#shop_id').val();
+    checkSubmitFlag = true;
+	disableBtn('saveBtn');
+	submitJqueryFormData('form1','${rc.contextPath}/shopBlack/add.do',function(data){
+	    checkSubmitFlag = false;
+
+		if(data == '保存成功'){
+			alert("保存成功");
+			window.location.href="${rc.contextPath}/customer/customerList.htm";
+		}else{
+			alert(data);
+			enableBtn('saveBtn');
+		}
+	});
+}
+
+#* 
+	黑名单单品
+*#
+function insertRowaddBlackItem(tableObj) {
+	var rowObj = $('#rowTemplate').clone();
+	var blackItemList = rowObj.children('td');
+	var nameList = '';
+	var rowCount = Number($('#blackItemRowCount').val());
+	rowObj.css('display', '');
+	for (var i = 0; i < blackItemList.length; i++) {
+		var tdEle = blackItemList[i];
+		if (tdEle.children.length == 0)
+			continue;
+		var inputEle = tdEle.children[0];
+		
+		if (inputEle.tagName == 'SPAN') {
+			//inputEle.insertAdjacentText('afterEnd',skuSize);
+			continue;
+		}
+		
+		inputEle.setAttribute('rowNum',rowCount);
+
+		inputEle.name = inputEle.name + rowCount;
+		inputEle.id = inputEle.name; 
+		//nameList = nameList +"," + tdEle.getAttribute('name');
+	}
+	$('#blackItemRowCount').val(rowCount + 1);
+	tableObj.append(rowObj);
+}
+
+function deleteRowaddBlackItem(rowObj){
+	$(rowObj).parent().parent().remove();
+}
+
+function setSkuName(selectObj){
+	var rowNum = selectObj.getAttribute("rowNum");
+	var skuName = $(selectObj).find("option:selected").text();
+}
+
+function setSkuList(selectObj){
+    var rowNum = selectObj.getAttribute("rowNum");
+	var cateId = $(selectObj).find("option:selected").val();
+
+	var skuListId='#blackItemId'+rowNum;
+	$(skuListId).empty();
+	var option = "";
+	var itemObjs = document.getElementsByName("item_"+cateId);
+	if(itemObjs!=null){
+	   var l = itemObjs.length;
+	   for(var i=0;i<l;i++){
+	      var itemObj = itemObjs[i];
+	      var itemId = itemObj.getAttribute("id");
+	      var itemName = itemObj.value;
+	      option += "<option value=\"" + itemId + "\">" + itemName + "</option>";
+	   }
+	}
+
+	$(skuListId).append(option);
+	
+}
+
+function setBlackItem(selectObj){
+    var rowNum = selectObj.getAttribute("rowNum");
+	var cateId = $(selectObj).find("option:selected").val();
+
+	var skuListId='#blackItemId'+rowNum;
+	$(skuListId).empty();
+	var option = "";
+	var itemObjs = document.getElementsByName("item_"+cateId);
+	if(itemObjs!=null){
+	   var l = itemObjs.length;
+	   for(var i=0;i<l;i++){
+	      var itemObj = itemObjs[i];
+	      var itemId = itemObj.getAttribute("id");
+	      var itemName = itemObj.value;
+	      option += "<option value=\"" + itemId + "\">" + itemName + "</option>";
+	   }
+	}
+
+	$(skuListId).append(option);
+	
+}
+</script>
+<div class="content">
+			#foreach( $item in $itemList)
+			<input type="hidden" name="item_$item.categoryId" id="$item.id" value="$item.itemName" stockNum="$item.stock"/>
+		#end
+	 <form id="form1" action="${rc.contextPath}/shopBlack/add.do" method="post" style="overflow:auto;height:94%;">
+			<table class="form" >
+			    <tr>
+					<input type="hidden" name="shop_id" id="shop_id" value="$!user.id" />
+					<td align="right"></td>
+					<td>
+						$!user.userName黑名单
+	                    <table class="table-inline"  id="blackItem">
+	                      <tr>
+	                        <th><a class="ico-add" href="#"
+									onclick="insertRowaddBlackItem($('#blackItem'))">+</a></th>
+							<th>商品类目</th>
+	                        <th>商品名称</th>
+	                      </tr>
+	                      #set($wiCount = 0)
+	                        #foreach( $witem in $blackItems)
+	                        	<tr id="rowTemplateshow" name="rowTemplateshow">
+								<th><a class="ico-subtract" href="#"
+									onclick="deleteRowaddBlackItem(this)">-</a></th>
+								<td>
+	    							<select name='blackItemCateId$wiCount' id='blackItemCateId$wiCount' rownum='$wiCount' onchange="setBlackItem(this)"   validate="{required:true}">
+	        								#foreach( $cat in $catList)
+	        										<option value='$cat.id' #if($witem.category_id==$cat.id) selected #end>$cat.categoryName</option>
+	        								#end
+	        							</select>&nbsp;<span></span>
+	        					</td>
+	    						<td>
+	    							<select name='blackItemId$wiCount' id='blackItemId$wiCount' rownum='$wiCount' validate="{required:true}">
+	        								#foreach( $item in $itemList)
+	        								  #if($item.categoryId==$witem.category_id)
+	        									 <option value='$item.id' #if($witem.itemId==$item.id) selected #end>$item.itemName</option>
+	        								  #end
+	        								#end
+	        							</select>&nbsp;<span></span>
+	        					</td>
+							</tr>
+						  #set($wiCount = $wiCount+1)
+	                         #end
+	                      <tr id="rowTemplate" name="rowTemplate" style="display: none">
+								<th><a class="ico-subtract" href="#"
+									onclick="deleteRowaddBlackItem(this)">-</a></th>
+								<td>
+	    							<select name='blackItemCateId' onchange="setBlackItem(this)"   validate="{required:true}">
+	        								#foreach( $cat in $catList)
+	        										<option value='$cat.id'>$cat.categoryName</option>
+	        								#end
+	        							</select>&nbsp;<span></span>
+	        					</td>
+	    						<td>
+	    							<select name='blackItemId' validate="{required:true}">
+	        								#foreach( $item in $itemList)
+	        								  #if($item.categoryId==$cateId1)
+	        									 <option value='$item.id'>$item.itemName</option>
+	        								  #end
+	        								#end
+	        							</select>&nbsp;<span></span>
+	        					</td>
+							</tr>
+	                    </table>
+						<!-- 删除的时候rowCount不会减少，因为如果从中间删除一行，会导致新生成的行id与现有的行冲突,
+									所以请在后台拿去数据的时候，判断一下当前行是否有数据 -->
+						<input type="hidden" name="blackItemRowCount" id="blackItemRowCount" value="$!size">
+	                </td>
+			</tr>
+			<tr class="btn-bar">
+				<td></td>
+				<td><a class="btn btn-primary" id="saveBtn" href="#" onclick="$('#form1').submit();">保存</a>
+				</td>
+			</tr>
+		</table>
+		</form>
+</div>

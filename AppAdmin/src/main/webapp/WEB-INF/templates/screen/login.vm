@@ -1,0 +1,47 @@
+#set($layout="layout/blank.vm")
+<html>
+	<head>
+    	<title>B2B后台管理系统</title>
+    	<link rel="stylesheet" href="${rc.contextPath}/static/css/cc-main.css" type="text/css" />
+    	<link rel="shortcut icon" href="${rc.contextPath}/static/images/favicon.png" type="image/png" />
+		<script type="text/javascript" src="${rc.contextPath}/static/js/jquery.js"></script>
+		<script type="text/javascript" src="${rc.contextPath}/static/js/commonUtil.js"></script>
+		<script type="text/javascript" src="${rc.contextPath}/static/js/jquery.jqtransform.js"></script>
+		<script type="text/javascript" src="${rc.contextPath}/static/js/function.js"></script>
+    </head>
+	<script type="text/javascript">
+		
+	function login(){
+		submitJqueryFormData('loginForm','${rc.contextPath}/login.do',function(data){
+			if (data == 'failure') {
+				alert("用户名或密码错误，请重试！");
+			} else {
+				window.location.href=data;
+			}
+		});
+	}
+	
+	function keyEnter(){ 
+        if (event.keyCode == 13) { 
+			login();
+        }
+    }
+    document.onkeydown = keyEnter; 
+	</script>
+	<body class="login-page">
+	<div class="login-box">
+		<div class="l-b-hd">
+	    	<div class="tit">登录</div>
+	    </div>
+	    <div class="l-b-bd">
+	    	<form class="login-form" id="loginForm" name="loginForm" action="${rc.contextPath}/login.do">
+	        	<div class="t">用户名</div>
+	            <input class="form-input" type="text" id="userName" name="userName" value="" >
+	            <div class="t">密码</div>
+	            <input class="form-input" type="password" id="password" name="password" value="">
+	            <a class="btn btn-primary" onClick="keyEnter();login();">登录</a>
+	        </form>
+	    </div>
+	</div>
+	</body>
+</html>

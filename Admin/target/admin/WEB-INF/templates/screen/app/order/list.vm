@@ -1,0 +1,225 @@
+#set($layout="layout/applayout.vm")
+  <header class="mui-bar mui-bar-nav mi-bg-gray"> 
+            <a class="mui-btn mui-btn-link mui-btn-nav mui-pull-left" href="/appItem/appItemList.htm"> 
+                	返回首页 
+            </a> 
+            <h1 class="mui-title">全部订单</h1>
+            
+        </header>
+        <style type="text/css">
+        .all-order { position: absolute; top: 44px; left: 0; bottom: 44px; width: 100%; padding: 5px 10px; overflow-y: auto; background: #fff; }
+        .order-list { width: 100%; border-bottom: 1px solid #eee; margin-bottom: 10px; }
+        .order-list .o-title { color: #8f8f94; }
+        .order-list ul { background: #eee; margin: 20px 0 10px; }
+        .order-list ul li { overflow: hidden; height: 30px; line-height: 30px; padding: 0 5px; }
+        .order-list ul p { width: 80%; float: left; }
+        .order-list ul span { width: 20%; float: left; text-align: right; color: #8f8f94; }
+        .order-list .o-price { overflow: hidden; line-height: 30px; }
+        .order-list .o-price span { float: left; }
+        .order-list .o-price a { float: right; color: #8f8f94; background: #eee; border-radius: 3px; line-height: 20px; padding: 5px 10px; }
+        </style>
+        <form class="jqtransform" id="orderListForm" action="${rc.contextPath}/appOrder/appOrderAjaxList.json" method="POST">
+        <input type="hidden" name="currentPage" id="currentPage" value="1"/>
+        </form>
+        
+        <div class="all-order" id="orderList">
+        
+        #foreach($pair in $page.result)
+		#set($itemList = $pair.right)
+		#set($dto = $pair.left)
+		
+            <div class="order-list" id="order_$dto.orderNo">
+                <a class="o-title" href="">
+                    <span>订单号:$dto.orderNo</span>
+                    <span>创建时间:$!date.format('yyyy-MM-dd HH:mm:ss',$!dto.createdTime)</span>
+                    <span>特殊要求:$!dto.memo</span>
+                </a>
+                <ul>
+                  #foreach($item in $itemList)
+                    <li>
+                        <p>$!item.itemName</p>
+                        <span>$!item.itemSize</span>
+                    </li>
+                   
+                  #end   
+                </ul>
+                <p class="o-price">
+                    <span>合计:￥$NumberTool.toYuanNumber($!dto.totalFee)</span>
+                    <a href="javascript:cancelOrder('$dto.orderNo');"><span id="orderStatus_$dto.orderNo">订单关闭</span></a>
+                </p>
+            </div>
+            
+         #end 
+         
+          <div id="showMoreDiv" style="float:right;">
+        <a href="javascript:showMore();" id="showMoreBtn" class="btn btn-primary">点击加载更多>>></a>
+        </div> 
+        </div>
+       
+       
+
+          
+        <textarea style='display:none' id='orderTemplate'>
+                <div class="order-list" id="order_@orderNo">
+	                <a class="o-title" href="">
+	                    <span>订单号:@orderNo</span>
+	                    <span>创建时间:@createdTime</span>
+	                    <span>特殊要求:@memo</span>
+	                </a>
+	                <ul>
+	                 @orderItemList
+	                </ul>
+	                <p class="o-price">
+	                    <span>合计:￥@totalFee</span>
+	                    <a href="javascript:cancelOrder('@orderNo');"><span id="orderStatus_@orderNo">订单关闭</span></a>
+	                </p>
+	            </div>
+        </textarea >
+        
+        <textarea style='display:none' id='orderItemTemplate'>
+	                    <li>
+	                        <p>@itemName</p>
+	                        <span>@itemSize</span>
+	                    </li>
+        </textarea >                
+                       
+        <script type="text/javascript">
+        Date.prototype.format = function(format) {  
+		    /* 
+		     * eg:format="yyyy-MM-dd hh:mm:ss"; 
+		     */  
+		    var o = {  
+		        "M+" : this.getMonth() + 1, // month  
+		        "d+" : this.getDate(), // day  
+		        "h+" : this.getHours(), // hour  
+		        "m+" : this.getMinutes(), // minute  
+		        "s+" : this.getSeconds(), // second  
+		        "q+" : Math.floor((this.getMonth() + 3) / 3), // quarter  
+		        "S" : this.getMilliseconds()  
+		        // millisecond  
+		    }  
+		  
+		    if (/(y+)/.test(format)) {  
+		        format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4  
+		                        - RegExp.$1.length));  
+		    }  
+		  
+		    for (var k in o) {  
+		        if (new RegExp("(" + k + ")").test(format)) {  
+		            format = format.replace(RegExp.$1, RegExp.$1.length == 1  
+		                            ? o[k]  
+		                            : ("00" + o[k]).substr(("" + o[k]).length));  
+		        }  
+		    }  
+		    return format;  
+		}
+		
+		String.prototype.replaceAll = function(reallyDo, replaceWith, ignoreCase) {  
+		    if (!RegExp.prototype.isPrototypeOf(reallyDo)) {  
+		        return this.replace(new RegExp(reallyDo, (ignoreCase ? "gi": "g")), replaceWith);  
+		    } else {  
+		        return this.replace(reallyDo, replaceWith);  
+		    }  
+		}    
+
+        function showMore(){
+            var currentPage = $('#currentPage').val();
+            currentPage = (currentPage*1)+1;
+            disableBtn('showMoreBtn');
+            $.ajax( {    
+					url:'${rc.contextPath}/appOrder/appOrderAjaxList.do',// 跳转到 action    
+				    data:{    
+				         'currentPage':currentPage
+				    },    
+				    type:'post',    
+				    cache:false,  
+				    dataType:'json',  
+				    success:function(data) {
+				        if(data==null||data.length==0){
+				            $('#showMoreBtn').html("没有更多数据");
+				        }else{
+				        	showOrderList(data);
+				             enableBtn('showMoreBtn');
+				    	}
+				    	$('#currentPage').val(currentPage);
+				     },    
+				     error : function() {    
+				          alert("加载数据失败！");
+				          enableBtn('showMoreBtn');    
+				     }
+			});  
+        }
+        
+        function showOrderList(orderList){
+       		 var orderStr = '';
+             var size = orderList.length;
+            for(var i=0;i<size;i++){
+		      var order = orderList[i];
+		      var rowStr = showOrder(order);
+		      orderStr  = orderStr + rowStr;
+		    }
+		    
+		    $("#showMoreDiv").before(orderStr); 
+		   // $('#orderList').append(orderStr);
+        }
+        
+        function showOrder(order){
+           var orderNo = order.orderNo;
+		   var createdTime = order.createdTime;
+		   var totalFee = order.totalFee;
+		   var totalFeeStr= totalFee/100;
+		   var orderItemList = order.orderItemList;
+		   var itemSize = orderItemList.length;
+		   var itemStr = '';
+		   var memo = order.memo;
+		   
+		   for(var i=0;i<itemSize;i++){
+		      var item = orderItemList[i];
+		      var rowStr = showOrderItem(item);
+		      itemStr = itemStr + rowStr;
+		   }
+		   
+		   var createdTimeStr = new Date(createdTime)  
+                                        .format("yyyy-MM-dd hh:mm:ss");
+		   
+		   var rowTemplate = $('#orderTemplate').val();
+		   var rowStr = rowTemplate.replaceAll('@orderNo',orderNo).replace('@createdTime',createdTimeStr).replace('@createdTime',createdTimeStr).replace('@totalFee',totalFeeStr).replace('@orderItemList',itemStr).replace('@memo',memo);
+		   
+		   return rowStr;
+        }
+        
+        function showOrderItem(orderItem){
+           var itemName = orderItem.itemName;
+		   var itemSize = orderItem.itemSize;
+		   
+		   var rowTemplate = $('#orderItemTemplate').val();
+		   var rowStr = rowTemplate.replace('@itemName',itemName).replace('@itemSize',itemSize);
+		   
+		   return rowStr;			
+        }
+        
+        function cancelOrder(orderNo){
+				$.ajax( {    
+					url:'${rc.contextPath}/appOrder/cancelOrder.do',// 跳转到 action    
+				    data:{    
+				         'orderNo':orderNo
+				    },    
+				    type:'post',    
+				    cache:false,  
+				    dataType:'text',  
+				    success:function(data) {
+				    
+				    	if(data == 'success'){
+				    		alert("取消订单成功");
+				    		document.getElementById("orderStatus_"+orderNo).innerHTML='<font color="red">订单已关闭</font>';
+				    	}else{
+				    		alert(data);
+				    	}
+				    	  
+				     },    
+				     error : function() {    
+				          alert("异常！");    
+				     }
+				});  
+		   }
+        </script>

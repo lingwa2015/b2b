@@ -1,0 +1,108 @@
+#set($layout="layout/blank.vm")
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+    	<title>打印订单</title>
+    	
+    	<script type="text/javascript">
+		function f_print() {
+			var oldstr = document.body.innerHTML;
+			document.body.innerHTML = document.getElementById('div_print').innerHTML;
+		    window.print(); 
+		    document.body.innerHTML = oldstr;
+		}
+		</script>
+		
+		<style type="text/css">
+			body {font-size:14px;}
+			table {
+			 border-collapse: collapse;
+			 border: none;
+			 width: 100%;
+			}
+			
+			td {
+			 border: solid #000 1px;
+			 font-size:14px;
+			}
+			
+			.span_bold{
+				font-weight:bold;
+			}
+			
+			.btn{
+				display:inline-block;
+				*display:inline;
+				*zoom:1;
+				margin-right:7px;
+				height:33px;
+				line-height:33px;
+				*line-height:30px;
+				border:1px solid transparent;
+				border-radius:2px;
+				cursor:pointer;
+				padding:0 15px;
+				font-size:14px;
+				text-decoration:none;
+				transition:All 0.4s ease-in-out;
+				-webkit-transition:All 0.4s ease-in-out;
+				-moz-transition:All 0.4s ease-in-out;
+				-o-transition:All 0.4s ease-in-out;
+				}
+			 .btn .ico{
+				display:inline-block;
+				*display:inline;
+				*zoom:1;
+				width:14px;
+				height:14px;
+				margin-right:6px;
+				margin-left:-5px;
+				vertical-align:-2px;
+				*vertical-align:2px;
+				}
+				
+				.btn-success{
+				color:#fff;
+				background-color:#55c555;
+				border-color:#4cb84c;
+				}
+				.btn-success:hover{
+				background-color:#50b650;
+				border-color:#49aa49;
+				}
+				.btn-success .ico{
+				background-position:0 0;
+				}
+		</style>
+    </head>
+    <body>
+    <br/>
+    <a href="javascript:f_print();" class="btn btn-success">打印本页</a>
+    <br/>
+    <br/>
+    <div id = "div_print" style="width:88%">
+     <div style="margin-top:92px;margin-bottom:42px;">
+    <span style="font-size:25px;font-weight:bold;position: relative;top:-10px;font-family: '微软雅黑','Microsoft Yahei';margin-left: 38%;letter-spacing: 2px;">$!name清单</span>
+    </div>    
+     	<table style="text-align:center;width:88%;margin-left: 6%;">
+			<tr style="height:45px;">
+    		  <td class="span_bold" width="21%">序号</td>
+    		  <td class="span_bold" width="25%">品名</td>
+    		  <td class="span_bold" width="21%">规格</td>
+    		  <td class="span_bold" width="21%">订货数量</td>
+    		 </tr>
+    		  #set ($rowCount = 0)
+    		 #foreach($item in $itemlist)
+    		 #set($rowCount=$!rowCount + 1)
+    		 <tr style="height:45px;">
+						<td>$!rowCount</td>
+        	          	<td>$!item.itemName</td>
+        	          	<td>$!item.itemSize</td>
+            			<td>$!item.num</td>
+			  </tr>
+			  #end
+			</table>
+		    <br/>
+		</div>
+	</body>
+</html>

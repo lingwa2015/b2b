@@ -1,0 +1,196 @@
+<script type="text/javascript">
+    function change(obj){
+        var id = $(obj).val();
+        var content ="";
+        $.ajax({
+            type: "GET",
+            url: "${rc.contextPath}/item/leavecat.json",
+            data: {catid:id},
+            dataType: "json",
+            success: function(data){
+                if(data.length>0){
+                    content+='<td><label class="tit">二级类目：</label></td><td><select name="categorylevelId" id="categorylevelId"><option value="0">全部</option>';
+                    $.each(data,function(i){
+                        content+='<option value="'+data[i].id+'">'+data[i].categoryName+'</option>'
+                    });
+                    content+='</select></td>'
+                }
+                $("#twocat").html(content);
+            }
+        });
+    }
+
+
+    function exportExcel(){
+        var queryDate = $('#queryDate').val();
+        var itemName = encodeURI($('#itemName').val());
+        var param = $('#param option:selected').val();
+        var isnew = $('#isnew option:selected').val();
+        var isrecommend = $('#isrecommend option:selected').val();
+        var onecate = $('#onecate option:selected').val();
+        var cate = $('#twocate').val();
+        var twocate = "";
+        if(cate){
+            twocate = cate;
+        }
+        window.location.href = "${rc.contextPath}/itemMonthReport/exportExcel.do?queryDate="+queryDate+"&itemName="
+                +itemName+"&param="+param+"&isnew="+isnew+"&isrecommend="
+                +isrecommend+"&onecate="+onecate+"&twocate="+twocate;
+    }
+    $(".wo").on("click",function(){
+        $(this).addClass("active").siblings().removeClass("active")
+    })
+</script>
+
+<div class="content">
+    <div class="bd-actionbar">
+        <h4 class="tit">商品月报</h4>
+        <div class="an">
+            <a href="${rc.contextPath}/itemDailyReport/itemDailyReports.htm?menuHeight=$!menuHeight&menuName=$!menuName" class="wo">日报</a >
+            <a href="${rc.contextPath}/itemWeekReport/itemWeekReports.htm?menuHeight=$!menuHeight&menuName=$!menuName" class="wo k">周报</a >
+            <a href="${rc.contextPath}/itemMonthReport/itemMonthReports.htm?menuHeight=$!menuHeight&menuName=$!menuName" class="wo active">月报</a >
+        </div>
+    </div><!--bd-actionbar-->
+    <div class="bd-main">
+        <div class="bd-main-inner">
+
+            <form class="jqtransform" name="tranSumForm" id="tranSumForm" action="${rc.contextPath}/itemMonthReport/itemMonthReports.htm?menuHeight=$!menuHeight&menuName=$!menuName" method="POST">
+                <table class="form form-horizontal">
+                    <tr>
+                        <td><label class="tit first-tit">类目：</label></td>
+                        <td>
+                            <select name="onecate" id="onecate" onchange="change(this)">
+                                <option value="0">全部</option>
+                                #foreach($cat in $catList)$item.itemName
+                                    #if ($!onecate == $cat.id)
+                                        <option value="$cat.id" selected="selected">$cat.categoryName</option>
+                                    #else
+                                        <option value="$cat.id">$cat.categoryName</option>
+                                    #end
+                                #end
+                            </select>
+                        </td>
+                    <td id="twocat" style="position:absolute;left:214px;top:20px;">
+                        #if($!leaveCats)
+                            <td><label class="tit">二级类目：</label></td>
+                            <td>
+                                <select name="twocate" id="twocate">
+                                    <option value="0">全部</option>
+                                    #foreach($cat in $leaveCats)$item.categorylevelId
+                                        #if ($!twocate == $cat.id)
+                                            <option value="$cat.id" selected="selected">$cat.categoryName</option>
+                                        #else
+                                            <option value="$cat.id">$cat.categoryName</option>
+                                        #end
+                                    #end
+                                </select>
+                            </td>
+                        #end
+
+##                        </td>
+                    <tr>
+                        <td align="right" style="vertical-align:middle;"><label class="tit first-tit">月份：</label></td>
+                        <td>
+                            <select name="queryDate" id="queryDate" validate="{required:true}">
+                                <option value="0">全部</option>
+                                <option value="2016-06" #if($querydate=='2016-06')selected=selected#end>2016-06</option>
+                                <option value="2016-07" #if($querydate=='2016-07')selected=selected#end>2016-07</option>
+                                <option value="2016-08" #if($querydate=='2016-08')selected=selected#end>2016-08</option>
+                                <option value="2016-09" #if($querydate=='2016-09')selected=selected#end>2016-09</option>
+                                <option value="2016-10" #if($querydate=='2016-10')selected=selected#end>2016-10</option>
+                                <option value="2016-11" #if($querydate=='2016-11')selected=selected#end>2016-11</option>
+                                <option value="2016-12" #if($querydate=='2016-12')selected=selected#end>2016-12</option>
+                                <option value="2017-01" #if($querydate=='2017-01')selected=selected#end>2017-01</option>
+                                <option value="2017-02" #if($querydate=='2017-02')selected=selected#end>2017-02</option>
+                                <option value="2017-03" #if($querydate=='2017-03')selected=selected#end>2017-03</option>
+                                <option value="2017-04" #if($querydate=='2017-04')selected=selected#end>2017-04</option>
+                                <option value="2017-05" #if($querydate=='2017-05')selected=selected#end>2017-05</option>
+                                <option value="2017-06" #if($querydate=='2017-06')selected=selected#end>2017-06</option>
+                                <option value="2017-07" #if($querydate=='2017-07')selected=selected#end>2017-07</option>
+                                <option value="2017-08" #if($querydate=='2017-08')selected=selected#end>2017-08</option>
+                                <option value="2017-09" #if($querydate=='2017-09')selected=selected#end>2017-09</option>
+                                <option value="2017-10" #if($querydate=='2017-10')selected=selected#end>2017-10</option>
+                                <option value="2017-11" #if($querydate=='2017-11')selected=selected#end>2017-11</option>
+                                <option value="2017-12" #if($querydate=='2017-12')selected=selected#end>2017-12</option>
+                            </select>
+                            &nbsp;<span></span>
+                        </td>
+                        <td><label class="tit">商品名称：</label></td>
+                        <td>
+                            <input class="form-input input-time-day" type="text" name="itemName" id="itemName" value="$!itemName">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td ><label class="tit">排序：</label></td>
+                        <td >
+                            <select name="param" id="param">
+                                <option value ="0" #if($!param==0)selected="selected"#end>默认</option>
+                                <option value ="2" #if($!param==2)selected="selected"#end>周转率</option>
+                                <option value ="3" #if($!param==3)selected="selected"#end>利润率</option>
+                                <option value ="4" #if($!param==4)selected="selected"#end>订单店铺数</option>
+                                <option value ="5" #if($!param==5)selected="selected"#end>订单数量</option>
+                            </select>
+                        </td>
+                        <td><label class="tit">新品：</label></td>
+                        <td >
+                            <select name="isnew" id="isnew">
+                                <option value ="" >全部</option>
+                                <option value ="1" #if($!isnew==1)selected="selected"#end>新品</option>
+                            </select>
+                        </td>
+                        <td><label class="tit">推荐：</label></td>
+                        <td >
+                            <select name="isrecommend" id="isrecommend">
+                                <option value ="" >全部</option>
+                                <option value ="1" #if($!isrecommend==1)selected="selected"#end>推荐</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <td>
+                        <a class="btn btn-warning btn-sm" onclick="$(tranSumForm).submit()">&nbsp;&nbsp;查 &nbsp;询 &nbsp;&nbsp;</a>
+                    </td>
+                    <td><a class="btn btn-warning btn-sm" href="javascript:exportExcel();">导出Excel</a></td>
+                    </tr>
+                </table>
+            </form>
+
+            <table class="table">
+                <tr>
+                    <th>日期</th>
+                    <th>一级类目</th>
+                    <th>二级类目</th>
+                    <th>商品名称</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>消费数量</th>
+                    <th>在售店铺数</th>
+                    <th>退货店铺数</th>
+                    <th>退货数量</th>
+                    <th>利润率</th>
+                    <th>周转率</th>
+                </tr>
+
+                #foreach($dto in $page.result)
+                    <tr>
+                        <td>$!date.format('yyyy-MM',$!dto.sumDate)</td>
+                        <td>$!dto.categoryName</td>
+                        <td>$!dto.categorylevelName</td>
+                        <td>$!dto.itemName</td>
+                        <td>$NumberTool.toYuanNumber($!dto.price)</td>
+                        <td>$!dto.orderItemNum</td>
+                        <td>$!dto.shopOrderItemNum</td>
+                        <td>$!dto.shopNum</td>
+                        <td>$!dto.orderRefundShopNum</td>
+                        <td>$!dto.orderRefundNum</td>
+                        <td>#if($!dto.profitRate)$!dto.profitRate%#end</td>
+                        <td>#if($!dto.shelfSalesRate)$!dto.shelfSalesRate#end</td>
+                    </tr>
+                #end
+            </table>
+
+            <div class="text-center">
+                #parse("/common/page.vm")
+            </div>
+
+        </div><!--bd-main-inner-->
+    </div><!--bd-main-->

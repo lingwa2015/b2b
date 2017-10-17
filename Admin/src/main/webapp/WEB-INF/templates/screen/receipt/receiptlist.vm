@@ -1,0 +1,307 @@
+<script type="text/javascript">
+var needYM = false;
+$(document).ready(function() {
+	$( "#order_date" ).datepicker();
+	$( "#crestdate" ).datepicker();
+	$( "#creenddate" ).datepicker();
+ });
+ 
+function delData(id){
+	 if(confirm("确认删除吗")){
+	  var url="${rc.contextPath}/receipt/deleteReceipt.do?id="+id+"&currentPage="+$!page.pageNum;
+	  doDeleteRequest(url,id,show);
+	  }else{
+	  	return false;
+	  }
+	}
+
+function show(data){
+		if(data.indexOf("成功")!=-1){
+            var menuHeight =$('#menuHeight').val();
+            var menuName = $('#menuName').val();
+			 window.location.href="${rc.contextPath}/receipt/receiptList.htm?menuHeight="+menuHeight+"&menuName="+menuName;
+		}
+}
+
+$(function(){
+    var searchInput = $('#supplierName');
+    searchInput.attr('autocomplete', 'off');
+    var autocomplete = $('<ul class="autocomplete"></ul>').hide().insertAfter('#supplierName');
+    var clear = function() {
+        autocomplete.empty().hide();
+    };
+    searchInput.blur(function() {
+        setTimeout(clear, 500);
+    });
+    var selectedItem = null;
+    var timeoutid = null;
+    var setSelectedItem = function(item) {
+        selectedItem = item;
+
+        if (selectedItem < 0) {
+            selectedItem = autocomplete.find('li').length - 1;
+        } else if (selectedItem > autocomplete.find('li').length - 1) {
+            selectedItem = 0;
+        }
+
+        autocomplete.find('li').removeClass('highlight').eq(selectedItem).addClass('highlight');
+    };
+    var ajax_request = function() {
+
+        $.ajax({
+            url: '${rc.contextPath}/supplier/autoUserNameQuery.do',
+            data: ({'userName': searchInput.val()}),
+            dataType: 'json',
+            type: 'POST',
+            success: function(data) {
+                if (data.length) {
+
+                    $.each(data, function(index, term) {
+
+                        $('<li></li>').text(term.supplier_name).appendTo(autocomplete).addClass('clickable').hover(function() {
+
+                                    $(this).siblings().removeClass('highlight');
+                                    $(this).addClass('highlight');
+                                    selectedItem = index;
+                                },
+                                function() {
+
+                                    $(this).removeClass('highlight');
+
+                                    selectedItem = -1;
+                                }).click(function() {
+
+                            searchInput.val(term.supplier_name);
+                            $('#supplierId').val(term.id);
+                            autocomplete.empty().hide();
+                        });
+                    });
+                    // var ypos = searchInput.position().top;
+                    var xpos = searchInput.position().left;
+                    autocomplete.css('width', searchInput.css('width'));
+                    autocomplete.css({
+                        'position': 'absolute',
+                        'left': xpos + "px",
+                        'font-size' : "14px",
+                        'color': "#666"
+                    });
+                    setSelectedItem(0);
+                    autocomplete.show();
+                }
+            }
+        });
+    };
+
+    searchInput.keyup(function(event) {
+
+        if (event.keyCode > 40 || event.keyCode == 8 || event.keyCode == 32) {
+            autocomplete.empty().hide();
+            clearTimeout(timeoutid);
+            timeoutid = setTimeout(ajax_request, 100);
+        } else if (event.keyCode == 38) {
+            if (selectedItem == -1) {
+                setSelectedItem(autocomplete.find('li').length - 1);
+            } else {
+
+                setSelectedItem(selectedItem - 1);
+            }
+            event.preventDefault();
+        } else if (event.keyCode == 40) {
+
+            if (selectedItem == -1) {
+                setSelectedItem(0);
+            } else {
+
+                setSelectedItem(selectedItem + 1);
+            }
+            event.preventDefault();
+        }
+    }).keypress(function(event) {
+
+        if (event.keyCode == 13) {
+            if (autocomplete.find('li').length == 0 || selectedItem == -1) {
+                return;
+            }
+            searchInput.val(autocomplete.find('li').eq(selectedItem).text());
+            autocomplete.empty().hide();
+            event.preventDefault();
+        }
+    }).keydown(function(event) {
+
+        if (event.keyCode == 27) {
+            autocomplete.empty().hide();
+            event.preventDefault();
+        }
+    });
+
+    $(window).resize(function() {
+        var ypos = searchInput.position().top;
+        var xpos = searchInput.position().left;
+        autocomplete.css('width', searchInput.css('width'));
+        autocomplete.css({
+            'position': 'relative',
+            'left': xpos + "px",
+            'top': ypos + "px"
+        });
+    });
+});
+
+/* function exportExcel(){
+	window.location.href="${rc.contextPath}/receipt/exportExcel.do?userName="+$("#userName").val();
+} */
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+			<a href="${rc.contextPath}/receipt/addReceipt.htm?menuHeight=$!menuHeight&menuName=$!menuName" class="btn btn-success"><i class="ico"></i>添加开票记录</a>
+	</div>
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" name="ReceiptForm" id="ReceiptForm" action="${rc.contextPath}/receipt/receiptList.htm?menuHeight=$!menuHeight&menuName=$!menuName" method="POST">
+		<table class="form form-horizontal">
+            <input type="hidden" name="menuHeight" id="menuHeight" value="$!menuHeight" />
+            <input type="hidden" name="menuName" id="menuName" value="$!menuName" />
+		<tr>
+			<td ><label class="tit first-tit">起始月份：</label></td>
+			<td>
+			<select name="startdate" id="startdate" validate="{required:true}">
+				<option value="" ></option>
+				<option value="2015-06" #if($startdate=='2015-06')selected=selected#end>2015-06</option>
+				<option value="2015-07" #if($startdate=='2015-07')selected=selected#end>2015-07</option>
+				<option value="2015-08" #if($startdate=='2015-08')selected=selected#end>2015-08</option>
+				<option value="2015-09" #if($startdate=='2015-09')selected=selected#end>2015-09</option>
+				<option value="2015-10" #if($startdate=='2015-10')selected=selected#end>2015-10</option>
+				<option value="2015-11" #if($startdate=='2015-11')selected=selected#end>2015-11</option>
+				<option value="2015-12" #if($startdate=='2015-12')selected=selected#end>2015-12</option>
+				<option value="2016-01" #if($startdate=='2016-01')selected=selected#end>2016-01</option>
+				<option value="2016-02" #if($startdate=='2016-02')selected=selected#end>2016-02</option>
+				<option value="2016-03" #if($startdate=='2016-03')selected=selected#end>2016-03</option>
+				<option value="2016-04" #if($startdate=='2016-04')selected=selected#end>2016-04</option>
+				<option value="2016-05" #if($startdate=='2016-05')selected=selected#end>2016-05</option>
+				<option value="2016-06" #if($startdate=='2016-06')selected=selected#end>2016-06</option>
+				<option value="2016-07" #if($startdate=='2016-07')selected=selected#end>2016-07</option>
+				<option value="2016-08" #if($startdate=='2016-08')selected=selected#end>2016-08</option>
+				<option value="2016-09" #if($startdate=='2016-09')selected=selected#end>2016-09</option>
+				<option value="2016-10" #if($startdate=='2016-10')selected=selected#end>2016-10</option>
+				<option value="2016-11" #if($startdate=='2016-11')selected=selected#end>2016-11</option>
+				<option value="2016-12" #if($startdate=='2016-12')selected=selected#end>2016-12</option>
+				<option value="2017-01" #if($startdate=='2017-01')selected=selected#end>2017-01</option>
+				
+				<option value="2017-02" #if($startdate=='2017-02')selected=selected#end>2017-02</option>
+				<option value="2017-03" #if($startdate=='2017-03')selected=selected#end>2017-03</option>
+				<option value="2017-04" #if($startdate=='2017-04')selected=selected#end>2017-04</option>
+				<option value="2017-05" #if($startdate=='2017-05')selected=selected#end>2017-05</option>
+				<option value="2017-06" #if($startdate=='2017-06')selected=selected#end>2017-06</option>
+				<option value="2017-07" #if($startdate=='2017-07')selected=selected#end>2017-07</option>
+				<option value="2017-08" #if($startdate=='2017-08')selected=selected#end>2017-08</option>
+				<option value="2017-09" #if($startdate=='2017-09')selected=selected#end>2017-09</option>
+				<option value="2017-10" #if($startdate=='2017-10')selected=selected#end>2017-10</option>
+				<option value="2017-11" #if($startdate=='2017-11')selected=selected#end>2017-11</option>
+				<option value="2017-12" #if($startdate=='2017-12')selected=selected#end>2017-12</option>
+			 </select>
+			 &nbsp;<span></span>
+			</td>
+			<td ><label class="tit first-tit">截止月份：</label></td>
+			<td>
+			<select name="querydate" id="querydate" validate="{required:true}">
+				<option value="" ></option>
+				<option value="2015-06" #if($querydate=='2015-06')selected=selected#end>2015-06</option>
+				<option value="2015-07" #if($querydate=='2015-07')selected=selected#end>2015-07</option>
+				<option value="2015-08" #if($querydate=='2015-08')selected=selected#end>2015-08</option>
+				<option value="2015-09" #if($querydate=='2015-09')selected=selected#end>2015-09</option>
+				<option value="2015-10" #if($querydate=='2015-10')selected=selected#end>2015-10</option>
+				<option value="2015-11" #if($querydate=='2015-11')selected=selected#end>2015-11</option>
+				<option value="2015-12" #if($querydate=='2015-12')selected=selected#end>2015-12</option>
+				<option value="2016-01" #if($querydate=='2016-01')selected=selected#end>2016-01</option>
+				<option value="2016-02" #if($querydate=='2016-02')selected=selected#end>2016-02</option>
+				<option value="2016-03" #if($querydate=='2016-03')selected=selected#end>2016-03</option>
+				<option value="2016-04" #if($querydate=='2016-04')selected=selected#end>2016-04</option>
+				<option value="2016-05" #if($querydate=='2016-05')selected=selected#end>2016-05</option>
+				<option value="2016-06" #if($querydate=='2016-06')selected=selected#end>2016-06</option>
+				<option value="2016-07" #if($querydate=='2016-07')selected=selected#end>2016-07</option>
+				<option value="2016-08" #if($querydate=='2016-08')selected=selected#end>2016-08</option>
+				<option value="2016-09" #if($querydate=='2016-09')selected=selected#end>2016-09</option>
+				<option value="2016-10" #if($querydate=='2016-10')selected=selected#end>2016-10</option>
+				<option value="2016-11" #if($querydate=='2016-11')selected=selected#end>2016-11</option>
+				<option value="2016-12" #if($querydate=='2016-12')selected=selected#end>2016-12</option>
+				<option value="2017-01" #if($querydate=='2017-01')selected=selected#end>2017-01</option>
+				
+				<option value="2017-02" #if($querydate=='2017-02')selected=selected#end>2017-02</option>
+				<option value="2017-03" #if($querydate=='2017-03')selected=selected#end>2017-03</option>
+				<option value="2017-04" #if($querydate=='2017-04')selected=selected#end>2017-04</option>
+				<option value="2017-05" #if($querydate=='2017-05')selected=selected#end>2017-05</option>
+				<option value="2017-06" #if($querydate=='2017-06')selected=selected#end>2017-06</option>
+				<option value="2017-07" #if($querydate=='2017-07')selected=selected#end>2017-07</option>
+				<option value="2017-08" #if($querydate=='2017-08')selected=selected#end>2017-08</option>
+				<option value="2017-09" #if($querydate=='2017-09')selected=selected#end>2017-09</option>
+				<option value="2017-10" #if($querydate=='2017-10')selected=selected#end>2017-10</option>
+				<option value="2017-11" #if($querydate=='2017-11')selected=selected#end>2017-11</option>
+				<option value="2017-12" #if($querydate=='2017-12')selected=selected#end>2017-12</option>
+			 </select>
+			 &nbsp;<span></span>
+			</td>
+		</tr>
+		<tr>
+			<td><label class="tit first-tit">起始创建日期：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="crestdate" id="crestdate" readonly="readonly" value="$!crestdate">
+			</td>
+
+			<td><label class="tit">截至创建日期：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="creenddate" id="creenddate" readonly="readonly" value="$!creenddate">
+			</td>
+		</tr>
+		<tr>
+            <td align="right"><label class="tit">供应商简称：</label></td>
+            <td>
+                <input class="form-input input-time-day" type="text"  name="supplierName" id="supplierName" value="$!supplierName">
+            </td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(ReceiptForm).submit()">&nbsp;&nbsp;查 &nbsp;询 &nbsp;&nbsp;</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+	<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+        <tr class="info">
+			<td colspan="1">
+                <span>开票总额：$NumberTool.toYuanNumber($!totalPrice) 元</span>
+                <span>开票单数量：$!page.records</span>
+            </td>
+		</tr>
+	</table>
+	<table class="table">
+		<tr>
+			<th>供应商名称</th>
+            <th>年月</th>
+			<th>发票金额</th>
+            <th>创建时间</th>
+            <th>发票单号</th>
+            <th>备注</th>
+			<th>操作</th>
+		</tr>
+
+		#foreach($dto in $page.result)
+		<tr>
+			<td>$!dto.supplier</td>
+            <td>$!date.format('yyyy-MM',$!dto.sumdate)</td>
+            <td>$NumberTool.toYuanNumber($!dto.receiptPrice) 元</td>
+            <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!dto.createdTime)</td>
+            <td>$!dto.receiptNo</td>
+            <td>$!dto.remake</td>
+            <td>
+				<a href="javascript:delData('$!dto.id')">删除</a>
+			</td>
+		</tr>
+		#end
+	</table>
+
+	<div class="text-center">
+           #parse("/common/page.vm")
+    </div>
+
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+	</div>

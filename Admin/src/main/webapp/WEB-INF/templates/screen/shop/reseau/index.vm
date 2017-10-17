@@ -1,0 +1,321 @@
+#set($layout="layout/shopLayout.vm")
+<div class="home_page" style="margin-bottom: 1.8rem;">
+       <p style="text-align:center;font-size:.36rem;margin:.25rem 0;position: relative;">$!reseau.name</p>
+    <select class="no_press"  data-id= "$type" id="type" style="position: absolute;top: .2rem;right: .1rem;font-size:.32rem;">
+            <option value="3" #if($type == 3) selected="selected" #end>便利店</option>
+            <option value="0" #if($type == 0) selected="selected" #end>福利店</option>
+    </select>
+       <!-- 第一列 -->
+    #if($type == 3)
+        <ul style="margin-bottom:.2rem; border-top: 1px solid #e8e8e8">
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">实时消费额</p>
+                    <p class="home_price">￥$NumberTool.toYuanNumber($!model1.totalPrice)</p>
+                </a>
+            </li>
+            <li class="border_l wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">消费笔数</p>
+                    <p class="home_price">$!model1.id</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">在售金额</p>
+                    <p class="home_price">￥$NumberTool.toYuanNumber($model2)</p>
+                </a>
+            </li>
+        </ul>
+        <!-- 第二列 -->
+        <ul style="margin-bottom:.2rem; border-top: 1px solid #e8e8e8">
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">昨日消费额</p>
+                    <p class="home_price">#if($model3)￥$NumberTool.toYuanNumber($model3.totalConsume)#else... #end</p>
+                </a>
+            </li>
+            <li class="border_l wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">消费笔数</p>
+                    <p class="home_price">#if($model3)$!model3.consumePen #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">消费人数</p>
+                    <p class="home_price">#if($model3)$!model3.consumePersonNum #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">加权消费额</p>
+                    <p class="home_price">#if($model3)￥$NumberTool.toYuanNumber($!model3.totalExpend) #else... #end</p>
+                </a>
+            </li>
+            <li class="border_l wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">开通店铺数</p>
+                    <p class="home_price">#if($model3)$!model3.openShopNum #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">消费店铺数</p>
+                    <p class="home_price">#if($model3)$!model3.consumeShopNum #else... #end</p>
+                </a>
+            </li>
+        </ul>
+        <!-- 第四列 -->
+        <ul style="margin-bottom:.2rem;border-top: 1px solid #e8e8e8">
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">本月消费额</p>
+                    <p class="home_price">#if($model5)￥$NumberTool.toYuanNumber($!model5.consumeFee) #else... #end</p>
+                </a>
+            </li>
+            <li class="border_l wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">新店铺消费额</p>
+                    <p class="home_price">#if($model5)￥$NumberTool.toYuanNumber($!model5.newconsumeFee) #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">老店铺消费额</p>
+                    <p class="home_price">#if($model5)￥$NumberTool.toYuanNumber($!model5.oldconsumeFee) #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">消耗额</p>
+                    <p class="home_price">#if($model5)￥$NumberTool.toYuanNumber($!model5.expandFee) #else... #end</p>
+                </a>
+            </li>
+            <li class="border_l wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">新店铺消耗额</p>
+                    <p class="home_price">#if($model5)￥$NumberTool.toYuanNumber($!model5.newexpandFee) #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">老店铺消耗额</p>
+                    <p class="home_price">#if($model5)￥$NumberTool.toYuanNumber($!model5.oldexpandFee) #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">消费笔数</p>
+                    <p class="home_price">#if($model5)$!model5.consumePen #else... #end</p>
+                </a>
+            </li>
+            <li class="border_l wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">消费人数</p>
+                    <p class="home_price">#if($model5)$!model5.consumeNum #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">开通店铺数</p>
+                    <p class="home_price">#if($model5)$!model5.openShopNum #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">月初库存</p>
+                    <p class="home_price">#if($model5)￥$NumberTool.toYuanNumber($!model5.monthFirstStock) #else... #end</p>
+                </a>
+            </li>
+            <li class="border_l wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">月末库存</p>
+                    <p class="home_price">#if($model5)￥$NumberTool.toYuanNumber($!model5.stock) #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">利润</p>
+                    <p class="home_price">#if($model5)￥$NumberTool.toYuanNumber($!model5.profit) #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">利润率</p>
+                    <p class="home_price">#if($model5)#if($!model5.profitRate) $!model5.profitRate% #end #else... #end</p>
+                </a>
+            </li>
+            <li class="border_l wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">采购额</p>
+                    <p class="home_price">#if($model5)￥$NumberTool.toYuanNumber($!model5.sourcingFee) #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">订单数</p>
+                    <p class="home_price">#if($model5)$!model5.orderNum #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">退货单数</p>
+                    <p class="home_price">#if($model5)$!model5.refundNum #else... #end</p>
+                </a>
+            </li>
+            <li class="border_l wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">损耗额</p>
+                    <p class="home_price">#if($model5)￥$NumberTool.toYuanNumber($!model5.wastage) #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">损耗率</p>
+                    <p class="home_price">#if($model5)#if($!model5.lossPercent) #if($!model5.lossPercent>0)$!model5.lossPercent% #else 0% #end #else 0% #end #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">消费店铺数</p>
+                    <p class="home_price">#if($model5)$!model5.consumeShopNum #else... #end</p>
+                </a>
+            </li>
+            <li class="border_l wang">
+                <a href="javascript:void(0);">
+##                    <p class="home_tip01 ge">损耗额</p>
+##                    <p class="home_price">#if($model5)￥$NumberTool.toYuanNumber($!model5.wastage) #else... #end</p>
+                </a>
+            </li>
+        </ul>
+    #else
+        <!-- 第三列 -->
+        <ul style="margin-bottom:.2rem; border-top: 1px solid #e8e8e8">
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">昨日采购额</p>
+                    <p class="home_price">#if($model4)￥$NumberTool.toYuanNumber($!model4.sourcingFee) #else... #end</p>
+                </a>
+            </li>
+            <li class="border_l wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">订单金额</p>
+                    <p class="home_price">#if($model4)￥$NumberTool.toYuanNumber($!model4.orderFee) #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">订单数</p>
+                    <p class="home_price">#if($model4)$!model4.orderNum #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">退货金额</p>
+                    <p class="home_price">#if($model4)￥$NumberTool.toYuanNumber($!model4.refundFee) #else... #end</p>
+                </a>
+            </li>
+            <li class="border_l wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">开通店铺数</p>
+                    <p class="home_price">#if($model4)$!model4.openShopNum #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">下单店铺数</p>
+                    <p class="home_price">#if($model4)$!model4.orderShopNum #else... #end</p>
+                </a>
+            </li>
+        </ul>
+        <!-- 第五列 -->
+        <ul style="border-top: 1px solid #e8e8e8">
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">本月采购额</p>
+                    <p class="home_price">#if($model6)￥$NumberTool.toYuanNumber($!model6.soucingFee) #else... #end</p>
+                </a>
+            </li>
+            <li class="border_l wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">新客户采购额</p>
+                    <p class="home_price">#if($model6)￥$NumberTool.toYuanNumber($!model6.newsoucingFee) #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">老客户采购额</p>
+                    <p class="home_price">#if($model6)￥$NumberTool.toYuanNumber($!model6.oldsoucingFee)  #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">下单店铺数</p>
+                    <p class="home_price">#if($model6)$!model6.ordershopnum #else... #end</p>
+                </a>
+            </li>
+            <li class="border_l wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">订单金额</p>
+                    <p class="home_price">#if($model6)￥$NumberTool.toYuanNumber($!model6.orderFee) #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">订单数</p>
+                    <p class="home_price">#if($model6)$!model6.orderNum #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">退货金额</p>
+                    <p class="home_price">#if($model6)￥$NumberTool.toYuanNumber($!model6.refundFee) #else... #end</p>
+                </a>
+            </li>
+            <li class="border_l wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">退货单数</p>
+                    <p class="home_price">#if($model6)$!model6.refundNum #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">利润</p>
+                    <p class="home_price">#if($model6)￥$NumberTool.toYuanNumber($!model6.profit) #else... #end</p>
+                </a>
+            </li>
+            <li class="wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">利润率</p>
+                    <p class="home_price">#if($model6)#if($!model6.profitRate) $!model6.profitRate% #end #else... #end</p>
+                </a>
+            </li>
+            <li class="border_l wang">
+                <a href="javascript:void(0);">
+                    <p class="home_tip01 ge">开通店铺数</p>
+                    <p class="home_price">#if($model6)$!model6.openshopnum #else... #end</p>
+                </a>
+            </li>
+        </ul>
+    #end
+    <input type="hidden" name="reseauId" id="reseauId" value="$!reseauId" />
+   </div>
+   <!-- 底部 -->
+   <div class="footer">
+         <a href="${rc.contextPath}/convenient/reseau/shop_index.htm?reseau_id=$!reseauId" class="home live" style="width: 24.68%">首页<i></i><b></b></a>
+         <a href="${rc.contextPath}/convenient/reseau/shop_customerIndex.htm?reseau_id=$!reseauId" class="home" style="width: 24.68%">客户<i></i><b></b></a>
+         <a href="${rc.contextPath}/convenient/reseau/shop_workSheet.htm?reseau_id=$!reseauId" class="home" style="width: 24.68%">工单<i></i><b></b></a>
+         <a href="${rc.contextPath}/convenient/reseau/shop_warning.htm?reseau_id=$!reseauId" class="home" style="width: 24.68%">预警<b></b></a>
+   </div>
+<script type="text/javascript">
+    document.title = "网格工作台";
+    $("body").css("background-color","#ececec");
+
+    $('#type').change(function(){
+//        var type = $(this).val();
+        var type =  $('#type option:selected') .val()
+        var url='${rc.contextPath}/convenient/reseau/shop_index.htm?reseau_id='+ $('#reseauId').val()+'&type='+type;
+        window.location.href=url;
+    })
+</script>

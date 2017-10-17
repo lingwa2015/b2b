@@ -1,0 +1,46 @@
+<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/newCustomerActivity/newCustomerActivityList.htm" method="post">
+</form>
+<div class="content">
+		<div class="bd-actionbar">
+			<a href="/newCustomerActivity/add.htm" class="btn btn-success"><i class="ico"></i>添加活动</a>
+            <a class="ko" href="${rc.contextPath}/newCustomerActivity/preferentialList.htm">客户优惠列表</a >
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+			<table class="table">
+			  <tr>
+				<th>活动名称</th>
+				<th>折扣</th>
+				<th>活动时间范围</th>
+				<th>操作</th>
+			  </tr>
+			  #foreach($bean in $lists)
+		        <tr>
+					<td>$!bean.name</td>
+					<td>$!bean.discount</td>
+					<td>$!date.format('yyyy-MM-dd',$!bean.startTime)~$!date.format('yyyy-MM-dd',$!bean.endTime)</td>
+					<td><a href="javascript:deletebar('$bean.id')">删除</a></td>
+				</tr>
+			  #end
+			</table>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->
+	<script type="text/javascript">
+	function deletebar(id){
+		 $.ajax({
+                url: '${rc.contextPath}/newCustomerActivity/delete.do',
+                type: 'POST',
+                data: {id,id},
+                success: function (data) {
+                    if (data == 200) {
+                        alert("删除成功");
+                        window.location.reload();
+                    } else {
+                        alert("删除失败！");
+                    }
+                }
+
+            })
+	}
+</script>

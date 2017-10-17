@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.ShopWeekReportMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.ShopWeekReport" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="region" property="region" jdbcType="VARCHAR" />
+    <result column="sumdate" property="sumdate" jdbcType="DATE" />
+    <result column="enddate" property="enddate" jdbcType="DATE" />
+    <result column="discount" property="discount" jdbcType="DECIMAL" />
+    <result column="consume_fee" property="consumeFee" jdbcType="BIGINT" />
+    <result column="before_consume_fee" property="beforeConsumeFee" jdbcType="DECIMAL" />
+    <result column="expend_fee" property="expendFee" jdbcType="BIGINT" />
+    <result column="avg_fee" property="avgFee" jdbcType="BIGINT" />
+    <result column="consume_pen" property="consumePen" jdbcType="INTEGER" />
+    <result column="consume_num" property="consumeNum" jdbcType="INTEGER" />
+    <result column="avg_man_fee" property="avgManFee" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, user_name, region, sumdate, enddate, discount, consume_fee, before_consume_fee, 
+    expend_fee, avg_fee, consume_pen, consume_num, avg_man_fee
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.ShopWeekReportExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from shop_week_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from shop_week_report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from shop_week_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.ShopWeekReportExample" >
+    delete from shop_week_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.ShopWeekReport" >
+    insert into shop_week_report (id, user_id, user_name, 
+      region, sumdate, enddate, 
+      discount, consume_fee, before_consume_fee, 
+      expend_fee, avg_fee, consume_pen, 
+      consume_num, avg_man_fee)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{region,jdbcType=VARCHAR}, #{sumdate,jdbcType=DATE}, #{enddate,jdbcType=DATE}, 
+      #{discount,jdbcType=DECIMAL}, #{consumeFee,jdbcType=BIGINT}, #{beforeConsumeFee,jdbcType=DECIMAL}, 
+      #{expendFee,jdbcType=BIGINT}, #{avgFee,jdbcType=BIGINT}, #{consumePen,jdbcType=INTEGER}, 
+      #{consumeNum,jdbcType=INTEGER}, #{avgManFee,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.ShopWeekReport" >
+    insert into shop_week_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="region != null" >
+        region,
+      </if>
+      <if test="sumdate != null" >
+        sumdate,
+      </if>
+      <if test="enddate != null" >
+        enddate,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="consumeFee != null" >
+        consume_fee,
+      </if>
+      <if test="beforeConsumeFee != null" >
+        before_consume_fee,
+      </if>
+      <if test="expendFee != null" >
+        expend_fee,
+      </if>
+      <if test="avgFee != null" >
+        avg_fee,
+      </if>
+      <if test="consumePen != null" >
+        consume_pen,
+      </if>
+      <if test="consumeNum != null" >
+        consume_num,
+      </if>
+      <if test="avgManFee != null" >
+        avg_man_fee,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null" >
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="sumdate != null" >
+        #{sumdate,jdbcType=DATE},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=DATE},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="consumeFee != null" >
+        #{consumeFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeConsumeFee != null" >
+        #{beforeConsumeFee,jdbcType=DECIMAL},
+      </if>
+      <if test="expendFee != null" >
+        #{expendFee,jdbcType=BIGINT},
+      </if>
+      <if test="avgFee != null" >
+        #{avgFee,jdbcType=BIGINT},
+      </if>
+      <if test="consumePen != null" >
+        #{consumePen,jdbcType=INTEGER},
+      </if>
+      <if test="consumeNum != null" >
+        #{consumeNum,jdbcType=INTEGER},
+      </if>
+      <if test="avgManFee != null" >
+        #{avgManFee,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.ShopWeekReportExample" resultType="java.lang.Integer" >
+    select count(*) from shop_week_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update shop_week_report
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.region != null" >
+        region = #{record.region,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sumdate != null" >
+        sumdate = #{record.sumdate,jdbcType=DATE},
+      </if>
+      <if test="record.enddate != null" >
+        enddate = #{record.enddate,jdbcType=DATE},
+      </if>
+      <if test="record.discount != null" >
+        discount = #{record.discount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.consumeFee != null" >
+        consume_fee = #{record.consumeFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.beforeConsumeFee != null" >
+        before_consume_fee = #{record.beforeConsumeFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.expendFee != null" >
+        expend_fee = #{record.expendFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.avgFee != null" >
+        avg_fee = #{record.avgFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.consumePen != null" >
+        consume_pen = #{record.consumePen,jdbcType=INTEGER},
+      </if>
+      <if test="record.consumeNum != null" >
+        consume_num = #{record.consumeNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.avgManFee != null" >
+        avg_man_fee = #{record.avgManFee,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update shop_week_report
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      region = #{record.region,jdbcType=VARCHAR},
+      sumdate = #{record.sumdate,jdbcType=DATE},
+      enddate = #{record.enddate,jdbcType=DATE},
+      discount = #{record.discount,jdbcType=DECIMAL},
+      consume_fee = #{record.consumeFee,jdbcType=BIGINT},
+      before_consume_fee = #{record.beforeConsumeFee,jdbcType=DECIMAL},
+      expend_fee = #{record.expendFee,jdbcType=BIGINT},
+      avg_fee = #{record.avgFee,jdbcType=BIGINT},
+      consume_pen = #{record.consumePen,jdbcType=INTEGER},
+      consume_num = #{record.consumeNum,jdbcType=INTEGER},
+      avg_man_fee = #{record.avgManFee,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.ShopWeekReport" >
+    update shop_week_report
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null" >
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="sumdate != null" >
+        sumdate = #{sumdate,jdbcType=DATE},
+      </if>
+      <if test="enddate != null" >
+        enddate = #{enddate,jdbcType=DATE},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="consumeFee != null" >
+        consume_fee = #{consumeFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeConsumeFee != null" >
+        before_consume_fee = #{beforeConsumeFee,jdbcType=DECIMAL},
+      </if>
+      <if test="expendFee != null" >
+        expend_fee = #{expendFee,jdbcType=BIGINT},
+      </if>
+      <if test="avgFee != null" >
+        avg_fee = #{avgFee,jdbcType=BIGINT},
+      </if>
+      <if test="consumePen != null" >
+        consume_pen = #{consumePen,jdbcType=INTEGER},
+      </if>
+      <if test="consumeNum != null" >
+        consume_num = #{consumeNum,jdbcType=INTEGER},
+      </if>
+      <if test="avgManFee != null" >
+        avg_man_fee = #{avgManFee,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.ShopWeekReport" >
+    update shop_week_report
+    set user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      region = #{region,jdbcType=VARCHAR},
+      sumdate = #{sumdate,jdbcType=DATE},
+      enddate = #{enddate,jdbcType=DATE},
+      discount = #{discount,jdbcType=DECIMAL},
+      consume_fee = #{consumeFee,jdbcType=BIGINT},
+      before_consume_fee = #{beforeConsumeFee,jdbcType=DECIMAL},
+      expend_fee = #{expendFee,jdbcType=BIGINT},
+      avg_fee = #{avgFee,jdbcType=BIGINT},
+      consume_pen = #{consumePen,jdbcType=INTEGER},
+      consume_num = #{consumeNum,jdbcType=INTEGER},
+      avg_man_fee = #{avgManFee,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="queryLastWeek" resultMap="BaseResultMap">
+  	SELECT * FROM shop_week_report WHERE sumdate = #{querydate} AND user_id = #{id}
+  </select>
+  <select id="findByCondition" resultMap="BaseResultMap">
+  	SELECT smr.id,smr.`user_id`,smr.`user_name` ,smr.`sumdate` ,smr.`enddate` ,smr.`discount` ,smr.`consume_fee` ,smr.`before_consume_fee` ,smr.`expend_fee` ,smr.`avg_fee` ,smr.`consume_pen` ,smr.`consume_num` ,smr.`avg_man_fee` ,re.`name` region  FROM shop_week_report smr LEFT JOIN customer_user cu on smr.user_id = cu.id LEFT JOIN `reseau`  re on cu.`reseau_id` = re.`id` 
+  	<where>
+	  	<if test="userName != null and userName !='' ">
+	  	 and smr.user_name like '%${userName}%'
+	  	</if>
+	  	<if test="starttime != null and starttime !='' ">
+	  	 and smr.sumdate = #{starttime}
+	  	</if>
+	  	<if test="reseauId >0 ">
+	  	 and cu.reseau_id = #{reseauId}
+	  	</if>
+  	</where>
+  	order by smr.sumdate desc
+  	<if test="param == 0">
+  	  ,cu.created_time desc 
+  	</if>
+  	<if test="param == 2">
+  	  ,smr.consume_fee desc 
+  	</if>
+  	<if test="param == 3">
+  	  ,smr.expend_fee desc 
+  	</if>
+  	<if test="param == 4">
+  	  ,smr.avg_fee desc 
+  	</if>
+  	<if test="param == 5">
+  	  ,smr.consume_pen desc 
+  	</if>
+  	<if test="param == 6">
+  	  ,smr.consume_num desc 
+  	</if>
+  	<if test="param == 7">
+  	  ,smr.avg_man_fee desc 
+  	</if>
+  </select>
+</mapper>

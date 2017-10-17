@@ -1,0 +1,189 @@
+<script type="text/javascript">
+    $(document).ready(function() {
+        $.metadata.setType("attr", "validate");
+        $("#orderDetailForm").validate({
+            errorPlacement : function(error, element) {
+                var error_span = element.next('span');
+                error_span.addClass("errorClass");
+                error_span.html(error.html());
+            },
+            success : function(label) {
+                label.remove();
+            },
+            submitHandler : function() {
+                var userId = document.getElementById("buyerId").value;
+                if(userId==null||userId==0){
+                    alert("请输入正确的客户简称");
+                    return false;
+                }
+
+                if (document.getElementsByName('rowTemplate').length <= 1) {
+                    alert('商品至少有一条');
+                    return false;
+                }
+                save();
+                return false;
+            }
+        });
+
+    });
+
+    function checkAll() {
+        for(var i in document.getElementsByName('orderCheckbox')){
+            var ele = document.getElementsByName('orderCheckbox')[i];
+            ele.checked = document.getElementById('checkAll').checked;
+        }
+    }
+
+    function purchaseStockAdd() {
+//        var checkBoxes = document.getElementsByName("orderCheckbox");
+        var hasChecked = false;
+        var itemId = '';
+        var purchasedNums = '';
+        var ids = '';
+        if ($('#numbers').val() == '') {
+            alert('请输入单号!');
+            return false;
+        }
+        var numbers = $('#numbers').val();
+
+        for (var i = 0; i < $('#oiCount').val(); i++) {
+            if($('#purchasedNum' + i).val() != '') {
+                purchasedNums += $('#purchasedNum' + i).val() + ',';
+                itemId += $('#item_id' + i).val() + ',';
+                ids += $('#id' + i).val() + ',';
+                hasChecked = true;
+            }
+        }
+        if (!hasChecked) {
+            alert('至少选择一条记录进行入库!');
+            return;
+        } else {
+            $('#itemIds').val(itemId);
+            $('#purchasedNums').val(purchasedNums);
+            $('#ids').val(ids);
+            var purchaseId = $('#purchaseId').val()
+##            submitJqueryFormData('orderDetailForm', '${rc.contextPath}/purchaseList/purchaseStockAdd.do', function(data) {
+##                if (data.indexOf("200")!=-1) {
+##                    var no = data.substring(5);
+##                    window.location.href = "${rc.contextPath}/purchaseList/purchaseList.htm";
+##                } else {
+##                    alert("保存失败，原因:" + data);
+##                    disableBtn('saveBtn');
+##                }
+##            });
+            $.ajax({
+                url: '${rc.contextPath}/purchaseList/purchaseStockAdd.do',
+                data: ({purchaseId: purchaseId, itemIds: itemId, purchasedNums:purchasedNums, ids:ids, numbers:numbers}),
+                dataType: 'json',
+                type: 'POST',
+                success: function (data) {
+                    if (data == '200'){
+                        window.location.href = "${rc.contextPath}/purchaseList/purchaseList.htm";
+                        return true;
+                    } else {
+                        alert("保存失败，原因:" + data);
+                        disableBtn('saveBtn');
+                    }
+                }
+            });
+            return true;
+        }
+    }
+
+        function checkNum(v){
+            var res =  /^(0|[1-9]\d*)$/;
+            var purchasedNum = $('#'+"purchasedNum"+v).val();
+
+            if(""!=purchasedNum) {
+                if (res.test(purchasedNum) && purchasedNum != '0') {
+
+                }else {
+                    $("#purchasedNum"+v).val("");
+                    alert("必须输入非负整数");
+				}
+            }
+        }
+</script>
+<div class="content">
+	#set($dto = $pair.left)
+	#set($purchaseItemList = $pair.right)
+	<div class="bd-actionbar">
+		<a href="$!{rc.contextPath}/purchaseList/purchaseList.htm" title="返回订单列表" class="btn btn-return"><</a>
+		<h4 class="tit">采购订单$!dto.id</h4>
+
+
+	</div>
+	<!--bd-actionbar-->
+	<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform"
+                  id="orderDetailForm"
+                  name="orderDetailForm"
+                  method="POST" action="$!{rc.contextPath}/purchaseList/purchaseList.htm"
+			>
+				<input type="hidden" name="supplierId" id="supplierId" value="$!dto.supplierId" />
+				<input type="hidden" name="purchaseId" id="purchaseId" value="$!dto.id" />
+				<input type="hidden" name="itemIds" id="itemIds" />
+				<input type="hidden" name="purchasedNums" id="purchasedNums" />
+				<input type="hidden" name="ids" id="ids" />
+
+				<table class="table" style="border:#000 solid 2px;margin-bottom:20px" >
+                <tr class="info">
+                    <td colspan="9">
+                        <span>单号：$dto.id</span>
+                        <span>创建时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!dto.createdTime)</span>
+                        <span>供应商：$!dto.supplierName</span>
+                        <span>日期：$!date.format('yyyy-MM-dd',$!dto.purchasedTime)</span>
+                        <span>含税总金额：$NumberTool.toYuanNumber($!dto.totalPrice) 元</span>
+                        <br/>
+                        <span>
+								<button class="btn btn-success" onclick="return purchaseStockAdd()">生成入库单</button>
+                                单号：<input  class="form-input" type="text" name="numbers" id="numbers" />
+							</span>
+                    </td>
+
+                </tr>
+            ##                    <div>
+            ##                        全选<input type="checkbox" style="width: 19px; height: 15px;" id="checkAll" name="checkAll" onClick="checkAll();" />
+            ##                    </div>
+                <tr>
+                    <th>商品名称</th>
+                    <th>条形码</th>
+                    <th>商品规格</th>
+                    <th>批发规格系数</th>
+                    <th>批发成本价</th>
+                    <th>采购数量</th>
+                    <th>已入库数量</th>
+                    <th>数量</th>
+                    <th>金额</th>
+                </tr>
+                #set($oiCount = 0)
+                #foreach($item in $purchaseItemList)
+                    <tr>
+                        <input type="hidden" name="id$oiCount" id="id$oiCount" value="$!item.id"/>
+                        <input type="hidden" name="item_id$oiCount" id="item_id$oiCount" value="$!item.item_id"/>
+##                        <td><input type="checkbox" style="width: 19px; height: 14px;" id="$!item.item_id" name="orderCheckbox" value="$!item.item_id">$!item.itemName</td>
+                        <td>$!item.itemName</td>
+                        <td>$!item.barcode</td>
+                        <td>$!item.size</td>
+                        <td>$!item.convertNum</td>
+                        <td>$NumberTool.toYuanNumber($!item.costPrice)</td>
+                        <td>$!item.purchaseNum</td>
+                        <td>$!item.purchasedNum</td>
+                        <td><input type="number" style="width: 50;" id="purchasedNum$oiCount" name="purchasedNum$oiCount" class="form-input" id="purchasedNum"
+                                   value="" onblur="checkNum($oiCount)" />
+                        </td>
+                        <td>$NumberTool.toYuanNumber($!item.totalPrice)</td>
+                    </tr>
+                    #set($oiCount = $oiCount+1)
+                #end
+                    <input type="hidden" name="oiCount" id="oiCount" value="$oiCount"/>
+            </table>
+			</form>
+		</div>
+		<!--bd-main-inner-->
+	</div>
+	<!--bd-main-->
+</div>
+<!--content-->

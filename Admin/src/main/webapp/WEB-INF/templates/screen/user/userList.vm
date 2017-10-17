@@ -1,0 +1,102 @@
+<script type="text/javascript">
+function editData(id){
+  window.location.href="${rc.contextPath}/user/userUpdate.htm?id="+id;
+}
+
+function editPassword(id){
+  window.location.href="${rc.contextPath}/user/userUpdatePassword.htm?id="+id;
+}
+
+function delData(id){
+  if(confirm("确认删除吗")){
+	  var url="${rc.contextPath}/user/userDelete.do?id="+id;
+	  doDeleteRequest(url,id,show);
+  }else{
+	  return;
+  }
+}
+
+function setAdmin(id){
+  var url="${rc.contextPath}/user/setAdmin.do?id="+id;
+  doDeleteRequest(url,id,show);
+}
+
+function unSetAdmin(id){
+  var url="${rc.contextPath}/user/unSetAdmin.do?id="+id;
+  doDeleteRequest(url,id,show);
+}
+
+function show(data){
+    alert(data);
+	if(data.indexOf("成功")!=-1){
+		 window.location.href="${rc.contextPath}/user/userList.htm";
+	}
+}
+
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/user/userAdd.htm" class="btn btn-success"><i class="ico"></i>添加用户</a>
+	</div><!--bd-actionbar-->
+		
+	<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" id="form1" name="form1" action="$rc.contextPath/user/userList.htm" method="post">
+				<table class="form form-horizontal">
+					<tr>
+						<td><label class="tit first-tit">公司简称：</label></td>
+						<td><input name="userName" id="userName" class="form-input" type="text" value="$!userName"></td>
+						<td><label class="tit">手机号码：</label></td>
+						<td><input name="mobilePhone" id="mobilePhone" class="form-input" type="text" value="$!mobilePhone"></td>
+						<td><a class="btn btn-warning btn-sm" href="javascript:goPage(1)">查找</a></td>
+					</tr>
+				</table>
+			</form>
+			
+			<table class="table">
+		 		<tr>
+					<th>用户简称</th>
+					<th>手机号码</th>
+					#*<th>店铺地址</th>
+					<th>用户全称</th>*#
+					<th>备注</th>
+<!-- 					<th>接口业务员</th> -->
+					<th>创建时间</>
+					
+					#*<th>管理员</th>*#
+					<th>操作</th>
+		  		</tr>
+		  		
+		  		#set ($rowCount = 0)
+		  		#foreach($user in $page.result)
+			  		#set ($isOddRow = $rowCount % 2 != 0)
+			  		#if ($isOddRow)
+	           		<tr>
+	          		#else
+	           		<tr class="sep-bar">
+	          		#end
+						<td>$!user.userName</td>
+						<td>$!user.mobilePhone</td>
+						#*<td>$!user.address</td>
+						<td>$!user.companyName</td>*#
+						<td>$!user.companyMemo</td>
+<!-- 						<td>$!user.interfacePerson</td> -->
+						<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!user.createdTime)</td>
+						#*<td>$!user.isadmin</td>*#
+						<td class="opt">
+							<a href="javascript:editData('$user.id')">编辑</a><span>|</span>
+							<a href="javascript:delData('$user.id')">删除</a><span></span>
+						</td>
+			  		</tr>
+			  
+			  		#set ($rowCount = $rowCount + 1)
+		 		#end
+
+			</table>
+			
+			<div class="text-center">
+        			#parse("/common/page.vm")
+       		</div>
+		</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

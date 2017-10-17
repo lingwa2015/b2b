@@ -1,0 +1,94 @@
+<script type="text/javascript">
+$(document).ready(function() {
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+				if(null==$("input[name='itemId0']").val()){
+					alert("请确认盘库单中有商品信息");
+					return false;
+				}
+				save();
+				return false;
+    }
+	});
+ });
+ 
+ 
+ var checkSubmitFlag = false;
+	function save() {
+
+	  	if(checkSubmitFlag ==true){
+	       alert("请勿重复提交");
+	       return false;
+	    }
+
+	    checkSubmitFlag = true;
+
+		disableBtn('saveBtn');
+
+		submitJqueryFormData('form1', '$!{rc.contextPath}/stockCheck/allStockSave.do', function(
+				data) {
+			 checkSubmitFlag = false;
+
+			if (data == '200') {
+				window.location.href = "${rc.contextPath}/stockCheck/stockCheckList.htm";
+			} else {
+				alert("操作失败");
+				enableBtn('saveBtn');
+			}
+		});
+	}
+
+function getTempStock(){
+	window.location.href="${rc.contextPath}/stockCheckTemp/allTemp.htm";
+}
+</script>
+<div class="content">
+		<div class="bd-actionbar">
+            <a href="${rc.contextPath}/stockCheck/stockAllList.htm" title="返回全库存盘点" class="btn btn-return"><</a>
+			<h4 class="tit">盘库确认单</h4>
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="tempStockform" id="form1" name="form1" action="${rc.contextPath}/stockCheck/allStockSave.do" method="post">
+			<table class="table">
+			  <tr>
+				<th>商品名称</th>
+				<th>盘库前库存</th>
+				<th>盘库后库存</th>
+				<th>操作人</th>
+				<th>最近修改时间</th>
+			  </tr>
+				#set ($rowCount = 0)
+			  #foreach($bean in $stockCheckTemps)
+		        <tr>
+						<input name="itemId$rowCount" value="$!bean.itemId" type="hidden"/>
+						<input name="itemName$rowCount" value="$!bean.itemName" type="hidden"/>
+						<input name="oldNum$rowCount" value="$!bean.oldNum" type="hidden"/>
+						<input name="modifyNum$rowCount" value="$!bean.modifyNum" type="hidden"/>
+					<td>$!bean.itemName</td>
+					<td>$!bean.oldNum</td>
+					<td>$!bean.modifyNum</td>
+					<td>$!bean.userName</td>
+					<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!bean.created)</td>
+				</tr>
+				 #set ($rowCount = $rowCount + 1)
+			  #end
+			  <input type="hidden" name="rowCount" id="rowCount" value="$rowCount">
+			</table>
+				<div align="right"><button class="btn btn-primary" id="saveBtn" href="#" onclick="if(confirm('确定要盘库?')){$('#form1').submit();}">确认</button></div>
+		</form>
+		<!--<div class="text-center">
+           #parse("/common/page.vm")
+        </div>-->
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

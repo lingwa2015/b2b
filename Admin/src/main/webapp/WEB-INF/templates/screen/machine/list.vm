@@ -1,0 +1,123 @@
+<script type="text/javascript">
+
+function deleteData(id){
+if(confirm("确定要删除吗？")){
+   var url="${rc.contextPath}/machine/delete.do?id="+id;
+  doDeleteRequest(url,id,show);
+  }
+}
+function show(data){
+	alert(data);
+	if(data.indexOf("成功")!=-1){
+		  window.location.href="${rc.contextPath}/machine/machineList.htm";
+	}
+}
+
+function change(obj){
+	var id = $(obj).val();
+	var content ="";
+	$.ajax({
+	             type: "GET",
+	             url: "${rc.contextPath}/equipment/twoType.json",
+	             data: {oneTypeId:id},
+	             dataType: "json",
+	             success: function(data){
+								if(data.length>0){
+									content+='<td><label class="tit">型号：</label></td><td><select name="twoTypeId" id="twoTypeId"><option value="0">全部</option>'
+									$.each(data,function(i){
+										content+='<option value="'+data[i].id+'">'+data[i].name+'</option>'
+									})
+									content+='</select></td>'
+								}
+								$("#twocat").html(content);
+	               }
+	         });
+}
+</script>
+<div class="content">
+		<div class="bd-actionbar">
+				<a href="${rc.contextPath}/machine/add.htm" class="btn btn-success"><i class="ico"></i>添加设备</a>
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+            <form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/machine/machineList.htm" method="POST">
+            	<table class="form form-horizontal" style="position:relative;">
+            		<tr>
+					<td><label class="tit first-tit">类别：</label></td>
+					<td>
+					<select name="oneTypeId" id="oneTypeId" onchange="change(this)">
+					    <option value="0">全部</option>
+					    #foreach($one in $onetype)$item.itemName
+						   #if ($!oneTypeId == $one.id)
+				            <option value="$one.id" selected="selected">$one.name</option>
+				           #else
+				            <option value="$one.id">$one.name</option>
+				           #end
+						#end
+					 </select>
+					</td>
+					<tr id="twocat" style="position:absolute;left:161px;top:0px;">
+					#if($!oneTypeId>0)
+					<td><label class="tit">型号：</label></td>
+					<td>
+					<select name="twoTypeId" id="twoTypeId">
+					    <option value="0">全部</option>
+					    #foreach($two in $twotype)$item.categorylevelId
+						   #if ($!twoTypeId == $two.id)
+				            <option value="$two.id" selected="selected">$two.name</option>
+				           #else
+				            <option value="$two.id">$two.name</option>
+				           #end
+						#end
+					 </select>
+					</td>
+					#end
+					</tr>
+			</tr>
+			<tr>
+			<td align="right"><label class="tit">客户简称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="userName" id="userName" value="$!userName">
+			</td>
+			<td align="right"><label class="tit">编号：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="machineId" id="machineId" value="$!machineId">
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(form1).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+			</td>
+			</tr>
+            	</table>
+            </form>
+			<table class="table">
+			  <tr>
+				<th>类别</th>
+				<th>型号</th>
+				<th>编号</th>
+				<th>客户</th>
+				<th>押金</th>
+				<th>备注</th>
+				<th>登记时间</th>
+				<th>操作</th>
+				<th>流转记录</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>$!bean.oneType</td>
+					<td>$!bean.twoType</td>
+					<td>$!bean.machineId</td>
+					<td>#if($!bean.userId) $!bean.userName #else 在库 #end</td>
+					<td>$NumberTool.toYuanNumber($!bean.foregift)</td>
+					<td>$!bean.remark</td>
+					<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!bean.createdTime)</td>
+					<td><a href="${rc.contextPath}/machine/update.htm?id=$!bean.id">编辑</a>&nbsp;|&nbsp;<a href="javascript:deleteData('$bean.id')">删除</a>&nbsp;|&nbsp;<a href="${rc.contextPath}/transfer/add.htm?id=$!bean.id">流转</a>&nbsp;|&nbsp;<a href="${rc.contextPath}/transfer/callback.htm?id=$!bean.id">收回</a></td>
+					<td><a href="${rc.contextPath}/transfer/transferList.htm?machineId=$!bean.machineId">流转记录</a></td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

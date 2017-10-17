@@ -1,0 +1,502 @@
+#set($layout="layout/shopLayout.vm")
+<div class="push_content">
+        <div class="search">
+        <form  name="itemForm" id="form" action="${rc.contextPath}/convenient/shop_sourcingOfficeSearch.htm" method="GET">
+            <input type="text" name="searchName" placeholder="请输入商品名" id="sec" value="$!name" style="width: 69%;">
+            <input type="hidden" name="shop_id" value="$!shopId">
+            <input type="submit" style="display:none">
+            <span class="cl" id="cl">x</span>
+        </form>
+            <span class="cancel" style="display:block;color:#000;" id="cancel" >取消</span>
+        </div>
+        <div class="good_list">
+                <!-- 商品 -->
+                #if($items)
+                	#foreach($item in $items)
+		                <div class="goods" data-pid="$item.id">
+		                    <img src="$item.imgPath" class="goods_img">
+		                    <span class="big" data-img="$item.bigImgPath"></span>
+		                    <p class="ziti">$item.itemName</p>
+		                       
+		                    <div class="goods_price">
+		                        <span class="so">￥$NumberTool.toYuanNumber($item.marketPrice)</span>
+		                        <span style="text-decoration: none;">￥<span style="text-decoration: none;">$NumberTool.toYuanNumber($item.price)</span></span>
+		                    </div>
+		                    <div class="goods_spec">
+		                        <span>$item.size</span>
+		                        <!-- 数量 -->
+		                        <span>X<span>$item.saleSizeNum</span></span>
+		                    </div>
+		                    	
+			                    #if($item.isnew==1)
+			                   <img src="${rc.contextPath}/static/images/shop/new_pin.png" class="new_pin">
+			                   #end
+			                    #if($item.isblack==1)
+			                   <img src="${rc.contextPath}/static/images/shop/black.png" class="jingzhang">
+			                   #end
+			                   #if($item.recommend==1)
+			                   <img src="${rc.contextPath}/static/images/shop/guagua.png" class="new_pin">
+			                   #end
+			                    #if($item.itemWeight>=7)
+			                   <img src="${rc.contextPath}/static/images/shop/bao.png" class="new_pin">
+			                   #end
+			                     #if($item.frequency>0)
+                                 <span class="ssss">$item.score分/$item.frequency周</span>
+                                #end
+                   				<div class="button_a">
+		                        	<img src="${rc.contextPath}/static/images/shop/caigou_sup.png" class="sup" style="display:none;">
+		                        	<input type="" name=""  class="shu_input"  value="0" style="display:none;" readonly="readonly">
+		                        	<img src="${rc.contextPath}/static/images/shop/caigou_add.png" class="add">
+		                    	</div>
+		                       
+		                </div>
+	                #end
+                #else
+                	<span>未找到您查找的商品</span>
+                #end
+        </div>
+     	<div class="cart_bg" style="display:none;"></div>
+     	<div class="ca_head" style="bottom:-9.27rem;"> 
+                <span style="margin-left:.18rem;">购物车</span>
+                <span class="cart_close" onclick="close_item(this);">清空</span>
+        </div>
+        <div class="cart" style="bottom:-8.97rem;">
+            <ul class="cart_list">
+                
+            </ul>
+        </div>
+        <div class="imgFull" style="display:none;">
+            <img src="" class="su">
+            <span class="why">轻触退出</span>
+        </div>
+        <div class="Layer" style="display:none">    
+        </div>
+    </div>
+    <div class="caigou_footer" style="z-index:999;">
+        <div class="bi" id="sure">
+            <span class="number" style="display:none;">0</span>
+            <span class="bianli_num" style="display:none;">￥<span>0.00</span></span>
+        </div>
+        
+        <div class="pay">下单</div>
+    </div>
+<script type="text/javascript" src="${rc.contextPath}/static/js/shop/cart.js?t=201611020145"></script>
+<script type="text/javascript">
+document.title = '采购';
+$(function(){
+       $('input[name="searchName"]').css("width","69%");
+       $("#cancel").show(); 
+    })
+	$(function() { 
+		var item = utils.getParam("officeShoppingCart");
+    	if(null!=item){
+			var lists = officecart.getproductlist();
+			if(lists.length>0){
+				for(var i = 0; i <lists.length;i++){
+					var id = lists[i].id;
+					var num = lists[i].num;
+					var s = $("div[data-pid="+id+"]");
+					$(s).find('.button_a .shu_input').val(num).show();
+					$(s).find('.button_a .sup').show();
+				}
+				setnum();
+				setTotal();
+				$('.caigou_footer').find('.bi .number').css('display','block');
+				$('.caigou_footer').find('.bi .bianli_num').css('display','block');
+			}
+		}
+	
+	});
+	var touchmove;
+	$(document).on( "touchstart", function() {
+	  touchmove = false;
+	});
+	$(document).on( "touchmove", function() {
+	  touchmove = true;
+	});
+	function formatMoney(num) {
+	        var money = num/100;
+	        var float = num%100;
+	        var float1 = num%10;
+	        if(float == 0){
+	            money = money + ".00";
+	        }else{
+	        	if(float1==0){
+	        		 money = money + "0";
+	        	}
+	        }
+	        return money;
+	}
+
+	
+	
+	$('input[name="searchName"]').keyup(function(){
+        var a = $(this).val();
+        if (a.length>0) {
+                $("#cl").css("visibility","visible");
+            }else{
+                $("#cl").css("visibility","hidden")
+            }
+        
+	});
+	var a = $('input[name="searchName"]').val();
+	    if(a){
+	        $("#cl").css("visibility","visible");
+	}
+	$("#cl").on("touchend",function(){
+	            $('input[name="searchName"]').val("");
+	            $("#cl").css("visibility","hidden");
+	});
+	
+    // 点击 取消按钮出现
+    $('input[name="searchName"]').click(function() {
+        $('input[name="searchName"]').css("width","69%");
+        $("#cancel").show();
+        $('input[name="searchName"]').focus();
+    });
+    $("#cancel").click(function() {
+        $('input[name="searchName"]').css("width","87%");
+        $('input[name="searchName"]').val("");
+        $("#cl").css("visibility","hidden");
+        $("#cancel").hide();
+        window.location.href="${rc.contextPath}/convenient/shop_sourcingOfficeItem.htm?shop_id=$shopId";
+    });
+
+	//购物车外 添加
+    $('.add').on('touchend',function(){
+    	var doing = $(this);
+        //商品一次性卖出数量
+        var sp = $(doing).parent().siblings('.goods_spec').find('span').eq(1).find('span').text();
+        //找到底部购物车的圆圈
+        var number =$('.caigou_footer').find('.bi .number');
+        $(number).css('display','block');
+        $('.caigou_footer').find('.bi .bianli_num').css('display','block');
+        $(doing).siblings('.sup').show();
+        $(doing).siblings('.shu_input').show();
+        //当前点击的商品data-id
+        var n_id = $(doing).parent().parent().attr('data-pId');
+        var name = $(doing).parent().siblings('.ziti').text();
+        var price = $(doing).parent().siblings('.goods_price').find('span').eq(1).find('span').text();
+        //获取商品数量
+        var caigou_add = $(doing).siblings('.shu_input').val();
+        if (sp.length>0) {
+            //如果这个商品要成倍的卖出
+            var have = parseInt($(doing).siblings('.shu_input').val())+ parseInt(sp);
+            $(doing).siblings('.shu_input').val(have);
+            $(doing).siblings('.shu_input').attr('value',have);
+            var nu = parseInt(number.text())+parseInt(sp);
+            $(number).text(nu);
+        }else{
+            //否则加1
+            var par = parseInt(caigou_add)+1;
+            $(doing).siblings('.shu_input').val(par);
+            $(doing).siblings('.shu_input').attr('value',par);
+            var nu = parseInt(number.text())+1;
+            $(number).text(nu);
+        }
+        var product = {
+        	'id': n_id,        //属性名用引号括起来，属性间由逗号隔开  
+		    'name': name,  
+		    'num':sp,  
+		    'price':price ,
+		    'conv':sp
+        }
+		officecart.addproduct(product);
+		setnum();
+		setTotal();
+    });
+    //购物车外 减掉
+    $('.sup').on('touchend',function(){
+    	var doing = $(this);
+        var s=$(doing).parent().parent().attr('data-pId');
+        var sp = $(doing).parent().siblings('.goods_spec').find('span').eq(1).find('span').text();
+        var caigou_add = $(doing).siblings('.shu_input').val();
+        var number = $('.caigou_footer').find('.bi .number');
+        if (sp.length>0) {
+            var have = parseInt($(doing).siblings('.shu_input').val()) - parseInt(sp);
+            $(doing).siblings('.shu_input').val(have);
+            $(doing).siblings('.shu_input').attr('value',have);
+            var nu = parseInt(number.text()) - parseInt(sp);
+            $(number).text(nu);
+             if (have <= 0) {
+                $(doing).siblings('.shu_input').val(0);
+                }
+        }else{
+           var par = parseInt(caigou_add)-1;
+           $(doing).siblings('.shu_input').val(par);
+           $(doing).siblings('.shu_input').attr('value',par); 
+           var nu = parseInt(number.text())-1;
+           $(number).text(nu);
+        }
+        if (par <= 0) {
+            $(doing).siblings('.shu_input').val(0);     
+         }
+        if (nu <=0) {
+             $(number).text(0);
+         }
+        var numb = caigou_add/sp;
+        var num_duc = parseInt(caigou_add - parseInt(sp));
+		if(numb>1){
+			officecart.updateproductnum(s,num_duc);
+		}else{
+			officecart.deleteproduct(s);
+		}
+        //当商品数量减到0时  就隐藏
+        if ($(doing).siblings('.shu_input').val()== 0) {
+            $(doing).hide();
+            $(doing).siblings('.shu_input').hide();
+        }
+        setnum();
+		setTotal();
+    });
+    
+    
+    $('.push_content').on('touchend',function(e){
+    if (touchmove) {
+        return;
+    }
+    var op = e.target;
+    if (op.className == "plus") {
+        //购物车内单品数量
+        var p_id = $(op).parent().attr('data-pId');
+        var pl_val = $(op).siblings('span').eq(1).find('span').text();
+        //判断如果购物车内 有单品数量 就累加 如果没有就默认＋1
+        if (pl_val.length>0){
+            var pl_inp = parseInt($(op).siblings('.shu_input').val())+parseInt(pl_val);
+            $(op).siblings('.shu_input').val(pl_inp);
+        }else{
+            var pl_only = parseInt($(op).siblings('.shu_input').val())+1;
+            $(op).siblings('.shu_input').val(pl_only);
+        }
+        var goods_wai = $(op).parent().parent().parent().siblings('.caigou_right').find('.good_list .goods');
+        $('.good_list .goods').each(function(){
+                var now_amout = $(op).siblings('.shu_input').val();
+            if (p_id == $(this).attr('data-pId')) {
+                //购物车内的当前点击商品的数量
+                $(this).find('.button_a .shu_input').val(now_amout);
+               
+            }
+                officecart.updateproductnum(p_id,now_amout);
+        });
+                setnum();
+                setTotal();
+        return;
+    }
+    	// 图片放大功能
+var documentWidth = $(document).width();
+var documentHeight = $(document).height();
+$('.Layer').width(documentWidth);
+$('.Layer').height(documentHeight);
+$('.imgFull').width(documentWidth);
+$('.imgFull').height(documentWidth);
+$('.imgFull img.su').width(documentWidth);
+$('.imgFull img.su').height(documentWidth);
+    if (op.className == "goods_img") {
+        $('.Layer').on("touchmove",function(){
+        return false;
+        });
+         $('.imgFull').on("touchmove",function(){
+        return false;
+        });
+        if (window.orientation == 90 || window.orientation == -90) {
+            return false;
+        }
+        $('.Layer').css('display','block');
+        $('.Layer').fadeIn();
+        $('.why').fadeIn();
+        $('.imgFull').fadeIn(300);
+        var imgsrc = $(op).siblings('.big').attr('data-img');
+        $('.imgFull img').attr('src', imgsrc);
+    }
+    if (op.className == "su") {
+        if (touchmove) {
+        return;
+        }
+        $('.Layer').fadeOut();
+        $('.imgFull').hide();
+        $('.why').hide();
+    }
+    if (op.className == "Layer") {
+        if (touchmove) {
+        return;
+        }
+        $('.Layer').fadeOut();
+        $('.imgFull').hide();
+        $('.why').hide();
+    }
+    if (op.className == "why") {
+        if (touchmove) {
+        return;
+        }
+        $('.Layer').fadeOut();
+        $('.imgFull').hide();
+        $('.why').hide();
+    }
+    
+    
+     if (op.className == "reduce") {
+        var p_id = $(op).parent().attr('data-pId');
+        //购物车内单品数量
+        var pl_val = $(op).siblings('span').eq(1).find('span').text();
+        //判断如果购物车内 有单品数量 就累减 如果没有就默认-1
+        if (pl_val.length>0){
+           var pl_inp = parseInt($(op).siblings('.shu_input').val())-parseInt(pl_val);
+           $(op).siblings('.shu_input').val(pl_inp);
+           if (pl_inp <= 0){
+               $(op).siblings('.shu_input').val(0); 
+           } 
+        }else{
+           var pl_only = parseInt($(op).siblings('.shu_input').val())-1;
+           $(op).siblings('.shu_input').val(pl_only);
+           if (pl_only <= 0) {
+            $(op).siblings('.shu_input').val(0);
+           }
+        }
+        var goods_wai = $(op).parent().parent().parent().siblings('.caigou_right').find('.good_list .goods');
+        $('.good_list .goods').each(function(){
+                var now_amout = $(op).siblings('.shu_input').val();
+            if (p_id == $(this).attr('data-pId')) {
+                //购物车内的当前点击商品的数量
+                $(this).find('.button_a .shu_input').val(now_amout);
+                if ($(this).find('.button_a .shu_input').val()==0) {
+                    $(this).find('.button_a .shu_input').hide();
+                    $(this).find('.button_a .sup').hide()
+                }
+            }
+                if(now_amout>0){
+	                officecart.updateproductnum(p_id,now_amout);
+                }else{
+					officecart.deleteproduct(p_id);                
+                }
+        });
+                setnum();
+                setTotal();
+        if ($(op).siblings('.shu_input').val() == 0) {
+            $(op).parent().remove();
+        }
+        if($('.cart_list').find('li').length==0){
+        	 $(this).attr('id','sure');
+	      	 $(".cart").animate({bottom:"-8.97rem"},200);
+	         $("body,html").css({"overflow":"auto"});
+	         $('.cart_bg').fadeOut(); 
+        }
+        return;
+    }
+   
+})
+    
+    function close_item(object){
+   if ($(object).parent().siblings('.cart').find('.cart_list li').length>0){
+        if (confirm("确定清空商品吗？")){
+           $(object).parent().siblings('.cart').find('.cart_list li').remove();
+           $('.good_list .goods').each(function(){
+                $(this).find('.button_a .shu_input').val(0).hide();
+                $(this).find('.button_a .sup').hide();
+            });
+            $('.number').text(0);
+               $('.number').css('display','none');
+               $('.bianli_num').find('span').text(0);
+               $('.bianli_num').css('display','none'); 
+               $('.bi').attr('id','sure');
+               $(".cart").animate({bottom:"-8.97rem"},200);
+               $(".ca_head").animate({bottom:"-9.27rem"},200);
+               $('.cart_bg').fadeOut();
+               localStorage.removeItem("officeShoppingCart");
+           }
+        
+}
+           else{
+       	  $('.bi').attr('id','sure');
+          $(".cart").animate({bottom:"-8.97rem"},200);
+          $(".ca_head").animate({bottom:"-9.27rem"},200);
+          $('.cart_bg').fadeOut();
+         
+       }
+       return;
+     } 
+    
+    function setnum(){
+	    var v = officecart.getnum();
+	    $('.number').text(v);
+	}
+	// // 计算金额
+	function setTotal(){
+		var s = officecart.getamount();
+	    $(".bianli_num span").html(s.toFixed(2));
+	}
+$('.bi').on("touchend",function(){
+    if (touchmove) {
+        return;
+    }
+  if($(this).attr('id') == 'sure'){
+
+    if(! $('.cart_bg ').is(":animated")){
+    	var item = utils.getParam("officeShoppingCart");
+    	if(null!=item){
+	    	var lists = officecart.getproductlist();
+	    	var content='';
+			if(lists.length>0){
+				for(var i = 0; i <lists.length;i++){
+					var id = lists[i].id;
+					var num = lists[i].num;
+					var name = lists[i].name;
+					var price = lists[i].price;
+					var conv = lists[i].conv;
+					content += '<li data-pId="'+id+'"><span class="cart_name">'+name+'</span><span style="display:none;">X<span>'+conv+'</span></span><span class="cart_price">￥<span>'+price+'</span></span><img src="${rc.contextPath}/static/images/shop/caigou_sup.png" class="reduce"><input type="" name="" class="shu_input" value="'+num+'" readonly="readonly"><img src="${rc.contextPath}/static/images/shop/caigou_add.png" class="plus"></li>'
+				}
+				$('.cart_list').html(content);
+			}
+    	}
+        //判断元素是否处于动画状态
+        if (! $('.cart').is(":animated")) {
+            $(this).attr('id','');
+            $(".cart").animate({bottom:"1.1rem"},200);
+             $('.ca_head').animate({bottom:"9.27rem"},200);
+            $('.cart_bg').fadeIn();
+            return false;
+        }
+ 
+  	}
+  }else{
+       $(this).attr('id','sure');
+       $(".cart").animate({bottom:"-8.97rem"},200);
+       $('.ca_head').animate({bottom:"-9.27rem"},200);
+       $('.cart_bg').fadeOut(); 
+  }       
+});
+$(function(){
+    pushHistory(); 
+    window.addEventListener("popstate", function(e) { 
+         payPrevent = false;
+        
+    }, false); 
+    function pushHistory() { 
+        var state = { 
+            title: "title", 
+            url: "#"
+        }; 
+        window.history.pushState(state, "title", "#"); 
+    } 
+});
+var payPrevent = false;
+$('.pay').on("touchend",function(){
+	if (touchmove) {
+        return;
+    }
+    if (payPrevent == true) return;
+	payPrevent = true;
+	var item = utils.getParam("officeShoppingCart");
+    if(null!=item){
+	    var lists = officecart.getproductlist();
+	    if(lists.length>0){
+	    	window.location.href="${rc.contextPath}/convenient/shop_sourcingsure.htm?shop_id=$!shopId&flag=2"
+	    }else{
+	    	payPrevent = false;
+	    	alert("购物车都干瘪了！");
+	    }
+    }else{
+    	payPrevent = false;
+    	 alert("购物车都干瘪了！");
+    }
+});
+</script>

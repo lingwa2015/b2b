@@ -1,0 +1,109 @@
+ #set($layout="layout/pcLayout.vm")
+<div class="head">
+      <div class="header">
+        <div class="wrap">
+          <a href="javascript:void(0)" class="bl"><span class="logo-img i-b"><img src="${rc.contextPath}/static/images/pc/lw_logo.png"></span></a>
+            <i></i>
+            <span class="so">快乐生活
+                <b></b>
+                快乐工作
+            </span>
+          <div class="nav br">
+            <div class="nav_1">
+                <ul class="nav_main">
+                     <li>
+                        <a href="${rc.contextPath}/official/pcIndex.htm" class="xiao">首页</a>
+                    </li>
+                    <!--<li>
+                        <a href="${rc.contextPath}/official/pcVip.htm" class="xiao ">企业会员</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcSnackbag.htm" class="xiao ">零食反应堆</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcItem.htm" class="xiao">零食分类</a>
+                    </li>-->
+                    <li>
+                        <a href="${rc.contextPath}/official/pcHoliday.htm" class="xiao">节日方案</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcPlan.htm" class="xiao">其他服务</a>
+                    </li>
+                </ul>
+            </div>
+          </div>
+          </div>
+        </div>
+    </div>
+    <!-- banner层 -->
+    	<div class="about_banner"></div>
+
+
+    <!-- 关于我们 -->
+    	<div class="lw_about">
+    		<div class="about_liebiao">
+    			<div class="about_left">
+    				<div class="big">关于领蛙</div>
+    				<a class="about_sort" name="com" >公司介绍</a>
+    				<a class="about_we c" name="our">联系我们</a>
+    			</div>
+    			<div class="about_jieshao" style="display: none">
+    				<p class="about_one">领蛙是一家致力于解决企业文化需求的B2B电商。</p>
+    				<p>我们主要提供办公室日常需求的休闲食品，特定活动或传统节日所需的福利礼包。</p>
+    				<p>我们希望通过领蛙的智能选配系统，创新的一站式管家服务，为公司解决零食的采购需求，降低公司采购和管理成本。</p>
+    				<p>我们专注于为公司解决零食的采购和配送需求。我们希望通过创新的一站式管家服务，降低公司采购和管理成本，省钱省心。</p>
+    				<p>我们主要提供办公室日常需求的休闲食品，涵盖零食、冷饮、水果、饮料等；我们也提供公司特定活动或传统佳节需求的休</p>
+    				<p>闲食品，比如生日会蛋糕、中秋节月饼等。</p>
+    			</div>
+    			<div class="about_lianxi" >
+    				<p class="about_name">杭州领带蛙网络科技有限公司</p>
+    				<p>地<i></i>址：杭州市余杭区荆长路40号2楼</p>
+    				<p>客服热线：400-8801-703</p>
+    				<p>网<i></i>址：www.lingwa.com.cn</p>
+    				<p>邮<i></i>编：310023</p>
+    				<p class="lw_gongzhonghao">领蛙微信公众号</p>
+    				<img src="${rc.contextPath}/static/images/pc/logo.png">
+    			</div>
+    		</div>
+    	</div>
+
+
+    <!-- 页尾 -->
+    <div class="footer">
+        <div class="foo">
+        <ul>
+            <li class="tc">
+                <img src="${rc.contextPath}/static/images/pc/small_logo.png">
+                <span>微信公众号</span>
+            </li>
+            <li>
+                <a href="/official/pcAbout.htm" class="about">关于我们</a>
+                <b>|</b>
+                <a href="/official/pcContact.htm">联系我们</a>
+                <p>杭州领带蛙网络科技有限公司<b>Lingwa.com.cn</b>浙ICP备15009557号-2</p>
+            </li>
+            <li class="br">
+                <div class="rexian"><img src="${rc.contextPath}/static/images/pc/tel.png"><span>客服热线</span></div>
+                <strong class="str">400&nbsp;&nbsp;8801&nbsp;&nbsp;703</strong>
+            </li>
+        </ul>
+            
+        </div>
+
+	</div>
+	<script type="text/javascript">
+	$(function(){
+    $(".about_sort").click(function(){
+        $(this).addClass("c");
+        $(".about_we").removeClass("c");
+        $(".about_jieshao").show();
+        $(".about_lianxi").hide();
+    });
+    $(".about_we").click(function(){
+        $(this).addClass("c");
+        $(".about_sort").removeClass("c")
+        $(".about_lianxi").show();
+        $(".about_jieshao").hide();
+    });
+});
+</script>

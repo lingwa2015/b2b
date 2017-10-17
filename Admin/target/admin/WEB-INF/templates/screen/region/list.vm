@@ -1,0 +1,56 @@
+<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/cityRegion/cityRegionList.htm" method="post">
+</form>
+<div class="content">
+		<div class="bd-actionbar">
+			<a href="${rc.contextPath}/cityRegion/add.htm" class="btn btn-success"><i class="ico"></i>添加区域</a>
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+			<table class="table">
+			  <tr>
+				<th>区域名称</th>
+				<th>备注</th>
+				<th>操作</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>$!bean.name</td>
+					<td>$!bean.remark</td>
+					<td>
+						<a href="javascript:deleteVar('$bean.id')">删除</a>
+					</td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->
+<script type="text/javascript">
+	function deleteVar(id){
+		$.ajax( {
+				url:'/cityRegion/delete.do',// 跳转到 action
+			    data:{
+			         'id':id
+			    },
+			    type:'post',
+			    cache:false,
+			    dataType:'text',
+			    success:function(data) {
+
+			    	if(data == '200'){
+			    		alert("删除成功");
+			    		window.location.reload();
+			    	}else{
+			    		alert("删除失败");
+			    	}
+
+			     },
+			     error : function() {
+			          alert("异常！");
+			     }
+			});
+	}
+</script>

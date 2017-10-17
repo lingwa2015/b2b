@@ -1,0 +1,256 @@
+<style type="text/css">
+    .dian{
+        border: 1px solid #e8e8e8;
+        width: 300px;
+        height: 70px;
+        position: absolute;
+        left: -44px;
+        color: #333;
+        background-color: #fff;
+        display: none;
+        overflow:auto;
+        padding: 5px;
+        z-index: 1000;outline: none;
+
+    }
+    .tan{
+        position: fixed;
+        width: 400px;
+        border: 1px solid #e8e8e8;
+        height: 200px;
+        top: 30%;display: none;
+        left: 35%;border-radius: 10px;
+        background-color: #fff;color: #666;z-index: 100;
+    }
+    .jo{
+        width: 56px;
+        height: 22px;
+        display: inline-block;
+        text-align: center;
+        border-radius: 4px;
+        background-color: #dfdfdf;
+        cursor: pointer;
+        color: #333;
+        font-size: 12px;margin-top: 14px;
+        line-height: 22px;
+        border-radius: 4px;
+
+    }
+    .quxiao{
+        margin-left: 237px;
+    }
+    .sure{
+        margin-left: 12px;
+    }
+    .layer{
+        width: 100%;height: 100%;background-color: #333;opacity: .3;position: fixed;top: 0;
+    }
+</style>
+<div class="content">
+    <div class="bd-actionbar">
+        <h4 class="tit">交接单</h4>
+    </div><!--bd-actionbar-->
+    <div class="bd-main">
+        <div class="bd-main-inner">
+            <form class="jqtransform" id="orderListForm" action="${rc.contextPath}/customer/deliveryList.htm" method="POST">
+                <table class="form form-horizontal">
+                    <tr>
+                        <td><label class="tit first-tit">开始时间：</label></td>
+                        <td>
+                            <input class="form-input input-time-day" type="text" name="createStartTime" id="createStartTime" readonly="readonly" value="$!createStartTime">
+                        </td>
+
+                        <td><label class="tit">结束时间：</label></td>
+                        <td>
+                            <input class="form-input input-time-day" type="text" name="createEndTime" id="createEndTime" readonly="readonly" value="$!createEndTime">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label class="tit">业务员：</label></td>
+                        <td>
+                            <input name="linkName" id="linkName" class="form-input" type="text" value="$!linkName">
+                        </td>
+                        <td><label class="tit">公司名称：</label></td>
+                        <td id="search">
+                            <input name="userName" id="username" class="form-input" type="text" value="$!userName">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" style="vertical-align:middle;"><label class="tit first-tit">状态：</label></td>
+                        <td>
+                            <select name="status" id="status" validate="{required:true}">
+                                <option value="">全部</option>
+                                <option value="1" #if($status=='1')selected=selected#end>待提交</option>
+                                <option value="2" #if($status=='2')selected=selected#end>已提交</option>
+                                <option value="3" #if($status=='3')selected=selected#end>已完成</option>
+                            </select>
+                            &nbsp;<span></span>
+                        </td>
+                        <td align="right" style="vertical-align:middle;"><label class="tit first-tit">标记：</label></td>
+                        <td>
+                            <select name="tagStatus" id="tagStatus" validate="{required:true}">
+                                <option value="">全部</option>
+                                <option value="1" #if($tagStatus=='1')selected=selected#end>合格</option>
+                                <option value="0" #if($tagStatus=='0')selected=selected#end>不合格</option>
+                            </select>
+                            &nbsp;<span></span>
+                        </td>
+                        <td>
+                            <a class="btn btn-warning btn-sm" onclick="javascript:$(orderListForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+            <table class="table">
+                <tr>
+                    <th>区域</th>
+                    <th>公司简称</th>
+                    <th>公司全称</th>
+                    <th>业务员</th>
+                    <th>业务类型</th>
+                    <th>店铺数量</th>
+                    <th>不合格店铺数</th>
+                    <th>创建时间</th>
+                    <th>提交时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+				#foreach($bean in $page.result)
+                    <tr>
+                        <td>$!bean.regionName</td>
+                        <td>$!bean.userName</td>
+                        <td>$!bean.companyName</td>
+                        <td>$!bean.interfaceName</td>
+                        <td>#if($bean.isvxvip==3)便利店 #elseif($bean.isvxvip==0)福利店 #elseif($bean.isvxvip==1)礼包 #end</td>
+                        <td>$!bean.shopNum</td>
+                        <td>#if($!bean.unqualifiednum == 0)
+                            #elseif($!bean.unqualifiednum >0)
+                                $!bean.unqualifiednum
+                        #end</td>
+                        <td style="position: relative;">#if($!bean.unqualifiednum == 0)
+                        #elseif($!bean.unqualifiednum >0)
+                            <textarea class="dian" readonly="true;">$!bean.checkremark</textarea>
+                            <input type="hidden" name="checkremark" id="checkremark" value="$!bean.unqualifiednum, $!bean.checkremark"/>
+                            <input type="hidden" name="unqualifiednum" id="unqualifiednum" value="$!bean.unqualifiednum"/>
+                        #end $!date.format('yyyy-MM-dd HH:mm:ss',$!bean.createdTime)</td>
+                        <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!bean.submitTime)</td>
+                        <td #if($bean.iscommit==2 ||$bean.iscommit==1)style="color:red" #end>#if($bean.iscommit==3)已完成 #elseif($bean.iscommit==2)已提交 #elseif($bean.iscommit==1)待提交 #end</td>
+                        <td><a href="/customer/deliverydetail.htm?id=$bean.id">详情</a>#if($bean.iscommit==1) #else &nbsp;|&nbsp;<a href="${rc.contextPath}/customer/jiaojie.htm?id=$bean.id">交接</a> #if($bean.iscommit!=3)&nbsp;|&nbsp;<a href="#" onclick="complete($bean.id);">完成</a>#end #end #if($!bean.iscommit!=1)|&nbsp;<a href="#" onclick="ko($bean.id, $!bean.shopNum,'$!bean.unqualifiednum', '$!bean.checkremark' ,this)">标记</a>#end</td>
+                        <td>
+                            <div class="tan">
+                                <div>
+                                    <label style="display: inline-block;margin-top: 16px;margin-left: 30px;">不合格店铺数：</label>
+                                    <input type="" name="" class="caoyue_00" style="width: 100px;height: 25px;border:1px solid #666;padding-left: 5px;">
+                                </div>
+                                <span data-id="" class="lplp"></span>
+                                <span data-id="" class="shopNum"></span>
+                                <div>
+                                    <label style="display: inline-block;margin-top: 16px;margin-left: 43px;">不合格原因：</label>
+                                    <textarea class="caoyue_22" style="display: inline-table;vertical-align: top;height: 100px;margin-top: 10px;width: 234px;padding-left: 5px;"></textarea>
+                                </div>
+                                <span class="jo quxiao">取消</span>
+                                <span class="jo sure">确定</span>
+                            </div>
+                        </td>
+                    </tr>
+				#end
+            </table>
+            <div class="text-center">
+				#parse("/common/page.vm")
+            </div>
+        </div><!--bd-main-inner-->
+    </div><!--bd-main-->
+</div><!--content-->
+<script type="text/javascript">
+$(document).ready(function() {
+    $( "#createStartTime" ).datepicker();
+    $( "#createEndTime" ).datepicker();
+
+});
+    function complete(id){
+        if(confirm("确定要完成吗？")){
+            $.ajax({
+                url:'${rc.contextPath}/customer/complete.do',
+                type:'POST',
+                data: {id:id},
+                success:function(data){
+                    if(data=="200"){
+                        window.location.reload();
+                    }
+                }
+            })
+        }
+    }
+
+function dian(obj){
+
+    if ($(obj).parent().siblings().find(".dian").css("display") == "none") {
+
+        $(obj).css("color","red");
+        $(obj).parent().siblings().find(".dian").show();
+    }else{
+
+        $(obj).css("color","blue");
+        $(obj).parent().siblings().find(".dian").hide();
+    }
+    if ($(obj).parent().parent().siblings().find(".dian").css("display") != "none") {
+        $(obj).parent().parent().siblings().find("a:first-child").css("color","blue");
+        $(obj).parent().parent().siblings().find(".dian").hide();
+    }
+    return false;
+}
+$(".quxiao").click(function(){
+    $(this).parent().hide();
+    $(".layer").remove();
+})
+$(".sure").click(function(){
+    var inp = $(this).parent().find("input").val();
+    var texa =$(this).parent().find("textarea").val();
+    var shopNum = $(this).parent().find(".shopNum").attr("data-id");
+    if (inp > shopNum) {
+        alert("不合格数量不能大于店铺数量");
+        return false;
+    }
+    if (inp == '' || (texa == '' && inp != 0)) {
+        alert("请填写信息");
+        return false;
+    }else{
+        var id = $(this).parent().find(".lplp").attr("data-id");
+        $.ajax({
+            url:'${rc.contextPath}/customer/verification.do',
+            type:'POST',
+            data: {id:id, unqualifiednum:inp, checkremark:texa},
+            success:function(data){
+                if(data=="200"){
+                    window.location.reload();
+                }
+            }
+        })
+    }
+})
+function ko(id,shopNum,unqualifiednum,checkremark, obj){
+    var idd = id;
+    if (unqualifiednum > 0) {
+        $(obj).parent().parent().find(".tan .caoyue_00").val(unqualifiednum);
+    }
+    $(obj).parent().parent().find(".tan .caoyue_22").val(checkremark);
+    $(obj).parent().parent().find(".tan").show();
+    $(obj).parent().parent().find(".tan .lplp").attr("data-id",idd);
+    $(obj).parent().parent().find(".tan .shopNum").attr("data-id",shopNum);
+    $(obj).parent().parent().find(".tan .input").attr("data-id",unqualifiednum);
+    $(obj).parent().parent().find(".tan .textarea").attr("data-id",checkremark);
+    $("body").append('<div class="layer"></div>')
+##    $.ajax({
+##        url:'${rc.contextPath}/customer/verification.do',
+##        type:'POST',
+##        data: {id:id, unqualifiednum:inp, checkremark:texa},
+##        success:function(data){
+##            if(data=="200"){
+##                window.location.reload();
+##            }
+##        }
+##    })
+}
+
+</script>

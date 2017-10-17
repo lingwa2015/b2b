@@ -1,0 +1,718 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.ShopDailyReportMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.ShopDailyReport" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="shop_id" property="shopId" jdbcType="INTEGER" />
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+    <result column="sumdate" property="sumdate" jdbcType="DATE" />
+    <result column="discount" property="discount" jdbcType="DECIMAL" />
+    <result column="total_consume" property="totalConsume" jdbcType="BIGINT" />
+    <result column="total_expend" property="totalExpend" jdbcType="BIGINT" />
+    <result column="before_last_week_expand" property="beforeLastWeekExpand" jdbcType="DECIMAL" />
+    <result column="consume_pen" property="consumePen" jdbcType="INTEGER" />
+    <result column="consume_person_num" property="consumePersonNum" jdbcType="INTEGER" />
+    <result column="before_last_week_num" property="beforeLastWeekNum" jdbcType="INTEGER" />
+    <result column="avg_expend" property="avgExpend" jdbcType="BIGINT" />
+    <result column="before_last_week_avg" property="beforeLastWeekAvg" jdbcType="DECIMAL" />
+    <result column="region" property="region" jdbcType="VARCHAR" />
+    <result column="onshelf_fee" property="onshelfFee" jdbcType="BIGINT" />
+    <result column="onshelf_kind" property="onshelfKind" jdbcType="INTEGER" />
+    <result column="move_kind" property="moveKind" jdbcType="INTEGER" />
+    <result column="move_percent" property="movePercent" jdbcType="DECIMAL" />
+    <result column="order_fee" property="orderFee" jdbcType="BIGINT" />
+    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, shop_id, shop_name, sumdate, discount, total_consume, total_expend, before_last_week_expand, 
+    consume_pen, consume_person_num, before_last_week_num, avg_expend, before_last_week_avg, 
+    region, onshelf_fee, onshelf_kind, move_kind, move_percent, order_fee, order_num
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.ShopDailyReportExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from shop_daily_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from shop_daily_report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from shop_daily_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.ShopDailyReportExample" >
+    delete from shop_daily_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.ShopDailyReport" >
+    insert into shop_daily_report (id, shop_id, shop_name, 
+      sumdate, discount, total_consume, 
+      total_expend, before_last_week_expand, consume_pen, 
+      consume_person_num, before_last_week_num, avg_expend, 
+      before_last_week_avg, region, onshelf_fee, 
+      onshelf_kind, move_kind, move_percent, 
+      order_fee, order_num)
+    values (#{id,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, #{shopName,jdbcType=VARCHAR}, 
+      #{sumdate,jdbcType=DATE}, #{discount,jdbcType=DECIMAL}, #{totalConsume,jdbcType=BIGINT}, 
+      #{totalExpend,jdbcType=BIGINT}, #{beforeLastWeekExpand,jdbcType=DECIMAL}, #{consumePen,jdbcType=INTEGER}, 
+      #{consumePersonNum,jdbcType=INTEGER}, #{beforeLastWeekNum,jdbcType=INTEGER}, #{avgExpend,jdbcType=BIGINT}, 
+      #{beforeLastWeekAvg,jdbcType=DECIMAL}, #{region,jdbcType=VARCHAR}, #{onshelfFee,jdbcType=BIGINT}, 
+      #{onshelfKind,jdbcType=INTEGER}, #{moveKind,jdbcType=INTEGER}, #{movePercent,jdbcType=DECIMAL}, 
+      #{orderFee,jdbcType=BIGINT}, #{orderNum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.ShopDailyReport" >
+    insert into shop_daily_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="shopName != null" >
+        shop_name,
+      </if>
+      <if test="sumdate != null" >
+        sumdate,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="totalConsume != null" >
+        total_consume,
+      </if>
+      <if test="totalExpend != null" >
+        total_expend,
+      </if>
+      <if test="beforeLastWeekExpand != null" >
+        before_last_week_expand,
+      </if>
+      <if test="consumePen != null" >
+        consume_pen,
+      </if>
+      <if test="consumePersonNum != null" >
+        consume_person_num,
+      </if>
+      <if test="beforeLastWeekNum != null" >
+        before_last_week_num,
+      </if>
+      <if test="avgExpend != null" >
+        avg_expend,
+      </if>
+      <if test="beforeLastWeekAvg != null" >
+        before_last_week_avg,
+      </if>
+      <if test="region != null" >
+        region,
+      </if>
+      <if test="onshelfFee != null" >
+        onshelf_fee,
+      </if>
+      <if test="onshelfKind != null" >
+        onshelf_kind,
+      </if>
+      <if test="moveKind != null" >
+        move_kind,
+      </if>
+      <if test="movePercent != null" >
+        move_percent,
+      </if>
+      <if test="orderFee != null" >
+        order_fee,
+      </if>
+      <if test="orderNum != null" >
+        order_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="shopName != null" >
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="sumdate != null" >
+        #{sumdate,jdbcType=DATE},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="totalConsume != null" >
+        #{totalConsume,jdbcType=BIGINT},
+      </if>
+      <if test="totalExpend != null" >
+        #{totalExpend,jdbcType=BIGINT},
+      </if>
+      <if test="beforeLastWeekExpand != null" >
+        #{beforeLastWeekExpand,jdbcType=DECIMAL},
+      </if>
+      <if test="consumePen != null" >
+        #{consumePen,jdbcType=INTEGER},
+      </if>
+      <if test="consumePersonNum != null" >
+        #{consumePersonNum,jdbcType=INTEGER},
+      </if>
+      <if test="beforeLastWeekNum != null" >
+        #{beforeLastWeekNum,jdbcType=INTEGER},
+      </if>
+      <if test="avgExpend != null" >
+        #{avgExpend,jdbcType=BIGINT},
+      </if>
+      <if test="beforeLastWeekAvg != null" >
+        #{beforeLastWeekAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="region != null" >
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="onshelfFee != null" >
+        #{onshelfFee,jdbcType=BIGINT},
+      </if>
+      <if test="onshelfKind != null" >
+        #{onshelfKind,jdbcType=INTEGER},
+      </if>
+      <if test="moveKind != null" >
+        #{moveKind,jdbcType=INTEGER},
+      </if>
+      <if test="movePercent != null" >
+        #{movePercent,jdbcType=DECIMAL},
+      </if>
+      <if test="orderFee != null" >
+        #{orderFee,jdbcType=BIGINT},
+      </if>
+      <if test="orderNum != null" >
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.ShopDailyReportExample" resultType="java.lang.Integer" >
+    select count(*) from shop_daily_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update shop_daily_report
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopId != null" >
+        shop_id = #{record.shopId,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopName != null" >
+        shop_name = #{record.shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sumdate != null" >
+        sumdate = #{record.sumdate,jdbcType=DATE},
+      </if>
+      <if test="record.discount != null" >
+        discount = #{record.discount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalConsume != null" >
+        total_consume = #{record.totalConsume,jdbcType=BIGINT},
+      </if>
+      <if test="record.totalExpend != null" >
+        total_expend = #{record.totalExpend,jdbcType=BIGINT},
+      </if>
+      <if test="record.beforeLastWeekExpand != null" >
+        before_last_week_expand = #{record.beforeLastWeekExpand,jdbcType=DECIMAL},
+      </if>
+      <if test="record.consumePen != null" >
+        consume_pen = #{record.consumePen,jdbcType=INTEGER},
+      </if>
+      <if test="record.consumePersonNum != null" >
+        consume_person_num = #{record.consumePersonNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.beforeLastWeekNum != null" >
+        before_last_week_num = #{record.beforeLastWeekNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.avgExpend != null" >
+        avg_expend = #{record.avgExpend,jdbcType=BIGINT},
+      </if>
+      <if test="record.beforeLastWeekAvg != null" >
+        before_last_week_avg = #{record.beforeLastWeekAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="record.region != null" >
+        region = #{record.region,jdbcType=VARCHAR},
+      </if>
+      <if test="record.onshelfFee != null" >
+        onshelf_fee = #{record.onshelfFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.onshelfKind != null" >
+        onshelf_kind = #{record.onshelfKind,jdbcType=INTEGER},
+      </if>
+      <if test="record.moveKind != null" >
+        move_kind = #{record.moveKind,jdbcType=INTEGER},
+      </if>
+      <if test="record.movePercent != null" >
+        move_percent = #{record.movePercent,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderFee != null" >
+        order_fee = #{record.orderFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderNum != null" >
+        order_num = #{record.orderNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update shop_daily_report
+    set id = #{record.id,jdbcType=INTEGER},
+      shop_id = #{record.shopId,jdbcType=INTEGER},
+      shop_name = #{record.shopName,jdbcType=VARCHAR},
+      sumdate = #{record.sumdate,jdbcType=DATE},
+      discount = #{record.discount,jdbcType=DECIMAL},
+      total_consume = #{record.totalConsume,jdbcType=BIGINT},
+      total_expend = #{record.totalExpend,jdbcType=BIGINT},
+      before_last_week_expand = #{record.beforeLastWeekExpand,jdbcType=DECIMAL},
+      consume_pen = #{record.consumePen,jdbcType=INTEGER},
+      consume_person_num = #{record.consumePersonNum,jdbcType=INTEGER},
+      before_last_week_num = #{record.beforeLastWeekNum,jdbcType=INTEGER},
+      avg_expend = #{record.avgExpend,jdbcType=BIGINT},
+      before_last_week_avg = #{record.beforeLastWeekAvg,jdbcType=DECIMAL},
+      region = #{record.region,jdbcType=VARCHAR},
+      onshelf_fee = #{record.onshelfFee,jdbcType=BIGINT},
+      onshelf_kind = #{record.onshelfKind,jdbcType=INTEGER},
+      move_kind = #{record.moveKind,jdbcType=INTEGER},
+      move_percent = #{record.movePercent,jdbcType=DECIMAL},
+      order_fee = #{record.orderFee,jdbcType=BIGINT},
+      order_num = #{record.orderNum,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.ShopDailyReport" >
+    update shop_daily_report
+    <set >
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="shopName != null" >
+        shop_name = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="sumdate != null" >
+        sumdate = #{sumdate,jdbcType=DATE},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="totalConsume != null" >
+        total_consume = #{totalConsume,jdbcType=BIGINT},
+      </if>
+      <if test="totalExpend != null" >
+        total_expend = #{totalExpend,jdbcType=BIGINT},
+      </if>
+      <if test="beforeLastWeekExpand != null" >
+        before_last_week_expand = #{beforeLastWeekExpand,jdbcType=DECIMAL},
+      </if>
+      <if test="consumePen != null" >
+        consume_pen = #{consumePen,jdbcType=INTEGER},
+      </if>
+      <if test="consumePersonNum != null" >
+        consume_person_num = #{consumePersonNum,jdbcType=INTEGER},
+      </if>
+      <if test="beforeLastWeekNum != null" >
+        before_last_week_num = #{beforeLastWeekNum,jdbcType=INTEGER},
+      </if>
+      <if test="avgExpend != null" >
+        avg_expend = #{avgExpend,jdbcType=BIGINT},
+      </if>
+      <if test="beforeLastWeekAvg != null" >
+        before_last_week_avg = #{beforeLastWeekAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="region != null" >
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="onshelfFee != null" >
+        onshelf_fee = #{onshelfFee,jdbcType=BIGINT},
+      </if>
+      <if test="onshelfKind != null" >
+        onshelf_kind = #{onshelfKind,jdbcType=INTEGER},
+      </if>
+      <if test="moveKind != null" >
+        move_kind = #{moveKind,jdbcType=INTEGER},
+      </if>
+      <if test="movePercent != null" >
+        move_percent = #{movePercent,jdbcType=DECIMAL},
+      </if>
+      <if test="orderFee != null" >
+        order_fee = #{orderFee,jdbcType=BIGINT},
+      </if>
+      <if test="orderNum != null" >
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.ShopDailyReport" >
+    update shop_daily_report
+    set shop_id = #{shopId,jdbcType=INTEGER},
+      shop_name = #{shopName,jdbcType=VARCHAR},
+      sumdate = #{sumdate,jdbcType=DATE},
+      discount = #{discount,jdbcType=DECIMAL},
+      total_consume = #{totalConsume,jdbcType=BIGINT},
+      total_expend = #{totalExpend,jdbcType=BIGINT},
+      before_last_week_expand = #{beforeLastWeekExpand,jdbcType=DECIMAL},
+      consume_pen = #{consumePen,jdbcType=INTEGER},
+      consume_person_num = #{consumePersonNum,jdbcType=INTEGER},
+      before_last_week_num = #{beforeLastWeekNum,jdbcType=INTEGER},
+      avg_expend = #{avgExpend,jdbcType=BIGINT},
+      before_last_week_avg = #{beforeLastWeekAvg,jdbcType=DECIMAL},
+      region = #{region,jdbcType=VARCHAR},
+      onshelf_fee = #{onshelfFee,jdbcType=BIGINT},
+      onshelf_kind = #{onshelfKind,jdbcType=INTEGER},
+      move_kind = #{moveKind,jdbcType=INTEGER},
+      move_percent = #{movePercent,jdbcType=DECIMAL},
+      order_fee = #{orderFee,jdbcType=BIGINT},
+      order_num = #{orderNum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findByShopIdAndSumdate" resultMap="BaseResultMap">
+  	SELECT
+		*
+	FROM
+		shop_daily_report
+	WHERE
+		shop_id = #{id}
+	AND sumdate = #{queryDate}
+  </select>
+  <select id="findByCondition" resultMap="BaseResultMap">
+  	SELECT
+		sdr.move_kind,
+		sdr.move_percent*100 move_percent,
+		sdr.onshelf_fee,
+		sdr.onshelf_kind,
+		sdr.`shop_name`,
+		sdr.`sumdate`,
+		sdr.`discount`,
+		sdr.`total_consume`,
+		sdr.`total_expend`,
+		sdr.`before_last_week_expand`,
+		sdr.`consume_pen`,
+		sdr.`consume_person_num`,
+		sdr.`before_last_week_num`,
+		sdr.`avg_expend`,
+		sdr.`before_last_week_avg`,sdr.shop_id,
+		re.NAME region,	round(sdr.`total_consume`/sdr.`consume_pen`) avgPenFee,
+		sdr.order_fee,
+		sdr.order_num
+	FROM
+		shop_daily_report sdr
+	LEFT JOIN customer_user cu ON sdr.shop_id = cu.id
+	LEFT JOIN `reseau` re ON cu.`reseau_id` = re.`id`
+	<where>
+			and cu.city_id =#{cityId}
+			<if test="userName !=null and userName !=''">
+				and sdr.shop_name like '%${userName}%'
+			</if>
+			<if test="starttime !=null and starttime != ''">
+				and sdr.sumdate &gt;= #{starttime}
+			</if>
+			<if test="endtime !=null and endtime != ''">
+				and sdr.sumdate &lt;= #{endtime}
+			</if>
+			<if test="reseauId >0 ">
+		  	 and cu.reseau_id = #{reseauId}
+		  	</if>
+	</where>
+	ORDER BY sdr.sumdate DESC
+    	<choose>
+    		<when test="param == 1">
+    			,sdr.total_consume desc
+    		</when>
+    		<when test="param == 2">
+    			,sdr.before_last_week_expand desc
+    		</when>
+    		<when test="param == 3">
+    			,sdr.consume_pen desc
+    		</when>
+    		<when test="param == 4">
+    			,sdr.consume_person_num desc
+    		</when>
+    		<when test="param == 5">
+    			,sdr.avg_expend desc
+    		</when>
+    		<when test="param == 6">
+    			,sdr.total_expend desc
+    		</when>
+    		<when test="param == 7">
+    			,avgPenFee desc
+    		</when>
+    		<when test="param == 8">
+    			,sdr.onshelf_fee desc
+    		</when>
+    		<when test="param == 9">
+    			,sdr.move_percent desc
+    		</when>
+    		<otherwise>
+    			,cu.created_time desc 
+    		</otherwise>
+    	</choose>
+		
+  </select>
+  <select id="findNetDailyReport" resultMap="BaseResultMap">
+  	SELECT
+		r.`name` region,
+		COUNT(1) openShopNum,
+		SUM(consume_shop) consumeShopNum,
+		sdr.sumdate,
+		SUM(sdr.total_consume) total_consume,
+		ifnull(round(SUM(sdr.total_consume) / SUM(consume_shop)),0) avgShopFee,
+		SUM(sdr.consume_pen) consume_pen,
+        ifnull(round(SUM(sdr.consume_pen) / SUM(sdr.consume_shop)),0) avgShopPen,
+		ifnull(round(SUM(sdr.total_consume) / SUM(sdr.consume_pen)),0) avgPenFee,
+		SUM(sdr.consume_person_num) consume_person_num ,
+		ifnull(round(SUM(sdr.total_consume) / SUM(sdr.consume_person_num)),0) avg_expend,
+		SUM(sdr.total_expend) total_expend,
+		SUM(sdr.onshelf_fee) onshelf_fee,
+		SUM(sdr.onshelf_kind) onshelf_kind,
+		SUM(sdr.move_kind) move_kind,
+		IFNULL(round(SUM(sdr.move_kind) / SUM(sdr.onshelf_kind)*100),0) move_percent,SUM(sdr.order_fee) order_fee,SUM(sdr.order_num) order_num
+	FROM
+		(
+			SELECT
+				*,
+			IF (total_consume > 0, 1, 0) consume_shop
+			FROM
+				`shop_daily_report`
+		) sdr
+	LEFT JOIN `customer_user` cu ON sdr.`shop_id` = cu.`id`
+	LEFT JOIN `reseau` r ON cu.`reseau_id` = r.`id`
+<where>
+			and cu.city_id =#{cityId}
+			<if test="starttime !=null and starttime != ''">
+				and sdr.sumdate &gt;= #{starttime}
+			</if>
+			<if test="endtime !=null and endtime != ''">
+				and sdr.sumdate &lt;= #{endtime}
+			</if>
+			<if test="reseauId >0 ">
+		  	 and cu.reseau_id = #{reseauId}
+		  	</if>
+	</where>
+	GROUP BY
+		sdr.`sumdate`,
+		cu.`reseau_id`
+           
+	ORDER BY
+		sdr.`sumdate` DESC
+  </select>
+  <select id="findAllDailyReport" resultMap="BaseResultMap">
+SELECT
+		COUNT(1) openShopNum,
+		COUNT(IF(sdr.`total_consume`> 0, 1, null)) consumeShopNum,
+		sdr.sumdate,
+		SUM(sdr.total_consume) total_consume,
+		ifnull(
+			round(
+				SUM(sdr.total_consume) / COUNT(IF(sdr.`total_consume`> 0, 1, null))
+			),
+			0
+		) avgShopFee,
+		SUM(sdr.consume_pen) consume_pen,
+		ifnull(
+			round(
+				SUM(sdr.consume_pen) / COUNT(IF(sdr.`total_consume`> 0, 1, null))
+			),
+			0
+		) avgShopPen,
+		ifnull(
+			round(
+				SUM(sdr.total_consume) / SUM(sdr.consume_pen)
+			),
+			0
+		) avgPenFee,
+		SUM(sdr.consume_person_num) consume_person_num,
+		ifnull(
+			round(
+				SUM(sdr.total_consume) / SUM(sdr.consume_person_num)
+			),
+			0
+		) avg_expend,
+		SUM(sdr.total_expend) total_expend,
+		SUM(sdr.onshelf_fee) onshelf_fee,
+		SUM(sdr.onshelf_kind) onshelf_kind,
+		SUM(sdr.move_kind) move_kind,
+		IFNULL(
+			round(
+				SUM(sdr.move_kind) / SUM(sdr.onshelf_kind) * 100
+			),
+			0
+		) move_percent,SUM(sdr.order_fee) order_fee,SUM(sdr.order_num) order_num
+       
+	FROM
+		
+				`shop_daily_report`
+		 sdr
+	LEFT JOIN `customer_user` cu ON sdr.`shop_id` = cu.`id`
+	where cu.`city_id` =#{cityId}
+	GROUP BY
+		sdr.`sumdate`
+
+   ORDER BY
+		sdr.`sumdate` DESC
+  </select>
+  <select id="findByReseauIdAndDate" resultMap="BaseResultMap">
+  	SELECT
+		r.`name` region,
+		COUNT(1) openShopNum,
+		ifnull(SUM(consume_shop),0) consumeShopNum,
+		sdr.sumdate,
+		SUM(sdr.total_consume) total_consume,
+		ifnull(round(SUM(sdr.total_consume) / SUM(consume_shop)),0) avgShopFee,
+		SUM(sdr.consume_pen) consume_pen,
+		ifnull(round(SUM(sdr.total_consume) / SUM(sdr.consume_pen)),0) avgPenFee,
+		SUM(sdr.consume_person_num) consume_person_num ,
+		ifnull(round(SUM(sdr.total_consume) / SUM(sdr.consume_person_num)),0) avg_expend,
+		SUM(sdr.total_expend) total_expend,
+		SUM(sdr.onshelf_fee) onshelf_fee,
+		SUM(sdr.onshelf_kind) onshelf_kind,
+		SUM(sdr.move_kind) move_kind,
+		IFNULL(round(SUM(sdr.move_kind) / SUM(sdr.onshelf_kind)*100),0) move_percent
+	FROM
+		(
+			SELECT
+				*,
+			IF (total_consume > 0, 1, 0) consume_shop
+			FROM
+				`shop_daily_report`
+		) sdr
+	LEFT JOIN `customer_user` cu ON sdr.`shop_id` = cu.`id`
+	LEFT JOIN `reseau` r ON cu.`reseau_id` = r.`id`
+where cu.`reseau_id` =#{reseauId} and sdr.sumdate= date_format(#{date},'%Y-%m-%d')
+	GROUP BY
+		sdr.`sumdate`,
+		cu.`reseau_id`
+  </select>
+  <select id="findByShopIdAndDate" resultMap="BaseResultMap">
+  	SELECT sdr.move_kind,
+       sdr.move_percent*100 move_percent,
+       sdr.onshelf_fee,
+       sdr.onshelf_kind,
+       sdr.`shop_name`,
+       sdr.`sumdate`,
+       sdr.`discount`,
+       sdr.`total_consume`,
+       sdr.`total_expend`,
+       sdr.`before_last_week_expand`,
+       sdr.`consume_pen`,
+       sdr.`consume_person_num`,
+       sdr.`before_last_week_num`,
+       sdr.`avg_expend`,
+       sdr.`before_last_week_avg`,
+       round(sdr.`total_consume`/sdr.`consume_pen`) avgPenFee
+  FROM shop_daily_report sdr
+ where `shop_id`= #{shopId}
+   and `sumdate`= date_format(#{date}, '%Y-%m-%d')
+  </select>
+  <select id="findByCityIdAndDate" resultMap="BaseResultMap">
+  SELECT
+		COUNT(1) openShopNum,
+		ifnull(SUM(consume_shop),0) consumeShopNum,
+		sdr.sumdate,
+		SUM(sdr.total_consume) total_consume,
+		ifnull(round(SUM(sdr.total_consume) / SUM(consume_shop)),0) avgShopFee,
+		SUM(sdr.consume_pen) consume_pen,
+		ifnull(round(SUM(sdr.total_consume) / SUM(sdr.consume_pen)),0) avgPenFee,
+		SUM(sdr.consume_person_num) consume_person_num ,
+		ifnull(round(SUM(sdr.total_consume) / SUM(sdr.consume_person_num)),0) avg_expend,
+		SUM(sdr.total_expend) total_expend,
+		SUM(sdr.onshelf_fee) onshelf_fee,
+		SUM(sdr.onshelf_kind) onshelf_kind,
+		SUM(sdr.move_kind) move_kind,
+		IFNULL(round(SUM(sdr.move_kind) / SUM(sdr.onshelf_kind)*100),0) move_percent
+	FROM
+		(
+			SELECT
+				*,
+			IF (total_consume > 0, 1, 0) consume_shop
+			FROM
+				`shop_daily_report`
+		) sdr
+	LEFT JOIN `customer_user` cu ON sdr.`shop_id` = cu.`id`
+	
+where cu.`city_id` =#{cityId} and  sdr.sumdate= date_format(#{date},'%Y-%m-%d')
+	GROUP BY
+		sdr.`sumdate`
+	
+  </select>
+</mapper>

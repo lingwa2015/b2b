@@ -1,0 +1,147 @@
+ #set($layout="layout/pcLayout.vm")
+<div class="head">
+      <div class="header">
+        <div class="wrap">
+          <a href="${rc.contextPath}/official/pcIndex.htm" class="bl"><span class="logo-img i-b"><img src="${rc.contextPath}/static/images/pc/lw_logo.png"></span></a>
+            <i></i>
+            <span class="so">快乐生活
+                <b></b>
+                快乐工作
+            </span>
+          <div class="nav br">
+            <div class="nav_1">
+                <ul class="nav_main">
+                    <li>
+                        <a href="${rc.contextPath}/official/pcIndex.htm" class="xiao c">首页</a>
+                    </li>
+                    <!--<li>
+                        <a href="${rc.contextPath}/official/pcVip.htm" class="xiao">企业会员</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcSnackbag.htm" class="xiao">零食反应堆</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcItem.htm" class="xiao">零食分类</a>
+                    </li>-->
+                    <li>
+                        <a href="${rc.contextPath}/official/pcHoliday.htm" class="xiao">节日方案</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcPlan.htm" class="xiao">其他服务</a>
+                    </li>
+                </ul>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    <!-- banner图 -->
+    <div class="banner"></div>
+    <!-- 关于领蛙 -->
+    <div class="shouye_about">
+      <div class="shouye_about_01">
+        <img src="${rc.contextPath}/static/images/pc/shouye_about_01.jpg">
+        <div class="shouye_about_02">
+          <p class="shouye_about_03">关于领蛙<i></i><span>解决企业文化需求</span></p>
+          <p>我们主要提供办公室日常需求的休闲食品，</p>
+          <p>特定活动或传统节日所学的福利礼包，</p>
+          <p>我们希望通过领蛙的智能选举配系统，创新的一站式管家服务，</p>
+          <p>为公司解决零食的采购需求，</p>
+          <p>降低公司的采购和管理成本。</p>
+          <a href="${rc.contextPath}/official/pcAbout.htm">了解更多</a>
+        </div>
+      </div>
+    </div>
+    <!-- 我们的优势 -->
+    <div class="lw_our">
+      <div class="lw_our_01">
+        <p>我们的优势</p>
+        <div class="lw_our_02">
+          <img src="${rc.contextPath}/static/images/pc/our_01.png">
+          <span>性价比高</span>
+        </div>
+        <div class="lw_our_02" style="margin: 0 10px;">
+          <img src="${rc.contextPath}/static/images/pc/our_02.png">
+          <span>智能选配</span>
+        </div>
+        <div class="lw_our_02">
+          <img src="${rc.contextPath}/static/images/pc/our_03.png">
+          <span>陈列美观</span>
+        </div>
+        <div class="lw_our_02">
+          <img src="${rc.contextPath}/static/images/pc/our_06.png">
+          <span>配送及时</span>
+        </div>
+        <div class="lw_our_02" style="margin: 0 10px;">
+          <img src="${rc.contextPath}/static/images/pc/our_05.png">
+          <span>预算可控</span>
+        </div>
+        <div class="lw_our_02">
+          <img src="${rc.contextPath}/static/images/pc/our_04.png">
+          <span>退换无忧</span>
+        </div>
+      </div>
+    </div>
+    <!-- 我们的服务 -->
+    <div class="our_servive">
+      <span>我们的服务</span>
+    </div>
+    <!-- 我们的价值 -->
+    <div class="our_jiazhi">
+      <div class="shouye_about_01">
+        <img src="${rc.contextPath}/static/images/pc/our_jiazhi.jpg">
+        <div class="shouye_about_02">
+          <p class="shouye_about_03">我们的价值<i></i><span>让企业文化更贴心</span></p>
+          <p>9:00-15:00，一个人一天最宝贵的8小时，我们希望怎么度过？</p>
+          <p>做自己想做的工作，交自己想交的朋友，吃自己想吃的美食，收货自己努力的快乐。</p>
+          <p>领蛙，让工作成为开心的事，为8小时开启一段温馨愉悦的Snack time。</p>
+          <p>我们小小的改变，就会收获员工大大的归属感。</p>
+        </div>
+      </div>
+    </div>
+    <!-- 成功案例 -->
+    <div class="success">
+      <div class="success_01">
+        <div class="success_02">
+          <img src="${rc.contextPath}/static/images/pc/success_01.jpg">
+          <p>蘑菇街</p>
+        </div>
+        <div class="success_02" style="margin-left: 40px;margin-right: 40px;">
+          <img src="${rc.contextPath}/static/images/pc/success_02.jpg">
+          <p>汽车超人</p>
+        </div>
+        <div class="success_02">
+          <img src="${rc.contextPath}/static/images/pc/success_03.jpg">
+          <p>节日礼包</p>
+        </div>
+      </div>
+    </div>
+    <!-- 合作客户 -->
+    <div class="hezuo">
+    <span class="he">我们合作的客户</span>
+        <img src="${rc.contextPath}/static/images/pc/logo1.jpg">
+    </div>
+     
+    <!-- 页尾 -->
+    <div class="footer">
+        <div class="foo">
+        <ul>
+            <li class="tc">
+                <img src="${rc.contextPath}/static/images/pc/small_logo.jpg" style="width:80px;">
+                <span>微信公众号</span>
+            </li>
+            <li>
+                <a href="/official/pcAbout.htm" class="about">关于我们</a>
+                <b>|</b>
+                <a href="/official/pcContact.htm">联系我们</a>
+                <p>杭州领带蛙网络科技有限公司<b>Lingwa.com.cn</b>浙ICP备15009557号-2</p>
+            </li>
+            <li class="br">
+                <div class="rexian"><img src="${rc.contextPath}/static/images/pc/tel.png"><span>客服热线</span></div>
+                <strong class="str">4001&nbsp;&nbsp;520&nbsp;&nbsp;027</strong>
+            </li>
+        </ul>
+            
+        </div>
+
+  </div>

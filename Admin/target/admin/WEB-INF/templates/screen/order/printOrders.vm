@@ -1,0 +1,206 @@
+#set($layout="layout/blank.vm")
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+    	<title>打印订单</title>
+    	<script type="text/javascript" src="${rc.contextPath}/static/js/pc/jquery-1.7.2.min.js"></script>
+    	<script type="text/javascript">
+		function f_print() {
+			var oldstr = document.body.innerHTML;
+			document.body.innerHTML = document.getElementById('div_print').innerHTML;
+		    window.print();
+		    $("span[name='myspan']").each(function(){
+		    	var aaa = $(this).attr("data");
+		    	
+		    $.ajax({
+				url:'${rc.contextPath}/order/changeprintOrders.do',
+				type:'POST',
+				data: {orderNo:aaa},
+				success:function(data){
+					
+				}
+				
+			})
+		    });
+		    document.body.innerHTML = oldstr;
+		}
+		</script>
+		
+		<style type="text/css">
+			body {font-size:14px;}
+			table {
+			 border-collapse: collapse;
+			 border: none;
+			 width: 100%;
+			}
+			
+			td {
+			 border: solid #000 1px;
+			 font-size:14px;
+			}
+			
+			.span_bold{
+				font-weight:bold;
+			}
+			
+			.btn{
+				display:inline-block;
+				*display:inline;
+				*zoom:1;
+				margin-right:7px;
+				height:33px;
+				line-height:33px;
+				*line-height:30px;
+				border:1px solid transparent;
+				border-radius:2px;
+				cursor:pointer;
+				padding:0 15px;
+				font-size:14px;
+				text-decoration:none;
+				transition:All 0.4s ease-in-out;
+				-webkit-transition:All 0.4s ease-in-out;
+				-moz-transition:All 0.4s ease-in-out;
+				-o-transition:All 0.4s ease-in-out;
+				}
+			 .btn .ico{
+				display:inline-block;
+				*display:inline;
+				*zoom:1;
+				width:14px;
+				height:14px;
+				margin-right:6px;
+				margin-left:-5px;
+				vertical-align:-2px;
+				*vertical-align:2px;
+				}
+				
+				.btn-success{
+				color:#fff;
+				background-color:#55c555;
+				border-color:#4cb84c;
+				}
+				.btn-success:hover{
+				background-color:#50b650;
+				border-color:#49aa49;
+				}
+				.btn-success .ico{
+				background-position:0 0;
+				}
+		</style>
+    </head>
+    <body>
+    <br/>
+    <a href="javascript:f_print();" class="btn btn-success">打印本页</a>
+    <br/>
+    <br/>
+    <div id = "div_print" style='margin-left:30px;margin-right:30px'>
+	
+	#foreach($userId in ${osMaps.keySet()})
+		#set($user = ${userMap.get($userId)})
+		 #foreach($pair in ${osMaps.get($userId)})
+		#set($itemList = $pair.right)
+		#set($dto = $pair.left)
+		#set($count = $NumberTool.toYuanNumber($!itemList))
+     <div>
+    <span style="font-size:20px;font-weight:bold;position: relative;top:-10px;">#if($!user.iswxvip==3)领蛙自助便利店配送单#else领蛙零食配送单#end</span>
+    </div>    
+        <div style="width:100%;">
+    		<span name="myspan" data="$!dto.orderNo" style="display:-moz-inline-box; display:inline-block; width:40%;">编号：$!dto.orderNo</span>
+			<span style="display:-moz-inline-box; display:inline-block; width:55%;">客户：$!{user.userName}</span>
+        </div>
+        <div style="width:100%;margin-bottom:5px;">
+    		
+			<span style="display:-moz-inline-box; display:inline-block;">收货地址：（$!{user.region}）&nbsp $!{user.address}</span>
+        </div>
+        #end
+     	<table>
+			<tr>
+    		  <td class="span_bold" >序号</td>
+    		  <td class="span_bold" >编码</td>
+    		  <td class="span_bold" >储位</td>
+    		  <td class="span_bold" >品名</td>
+    		  <td class="span_bold" >订货数量</td>
+    		  <td class="span_bold" >规格</td>
+				#if($user.payBillWay!=4)
+                    <td class="span_bold" >单价</td>
+					<td class="span_bold" >金额</td>
+				#end
+    		 </tr>
+			 #set ($rowCount = 0)
+			 
+			 #foreach($pairs in ${osMaps.get($userId)})
+				#set($order = $pairs.left)
+				#set($lists = $pairs.right)
+				#foreach($item in ${pairs.right})
+        		      #set($rowCount=$!rowCount + 1)
+        		      
+        			  #set ($isOddRow = $rowCount % 2 == 0)
+            			#if ($isOddRow)
+            				<tr>
+            	        #else
+            				<tr class="sep-bar">
+						#end
+						<td>$!rowCount</td>
+						<td>$!item.itemId</td>
+						
+						#if($!item.position)
+						<td>$!item.position</td>
+						#else
+						<td>00</td>
+						#end
+        	          	<td>$!item.itemName</td>
+            			<td>$!item.num #if($!item.bigNum % 1 ==0)($!item.big)#else($!item.bigNum)#end</td>
+        	          	<td>$!item.saleSize</td>
+					#if($user.payBillWay!=4)
+						<td>$NumberTool.toYuanNumber($!item.itemPrice)</td>
+            			<td>$NumberTool.toYuanNumber($!item.fee)</td>
+						#end
+					#end
+			  #end
+			  </tr>
+			  <tr>
+			  			<td></td>
+						<td></td>
+        	          	<td></td>
+						<td></td>
+            			<td>$!order.totalNum</td>
+						<td></td>
+		#if($user.payBillWay!=4)
+						<td></td>
+            			<td>$NumberTool.toYuanNumber($!order.totalFee)</td>
+			#end
+			  </tr>
+			 <!-- #set($num = $lists.size())
+			  	#if($num < 34)
+			  		#set($cxc = 34- $num)
+			  		
+			  		#foreach ( $foo in [1..$cxc] ) 
+			  				 <tr>
+							  			<td>&nbsp;</td>
+										<td></td>
+				        	          	<td></td>
+										<td></td>
+										<td></td>
+				            			<td></td>
+										<td></td>
+							  </tr>
+			  		#end
+			  	#end -->
+			
+			
+			</table>
+			<div>
+		    <span style="display:-moz-inline-box; display:inline-block; width:25%;">日期：$!date.format('yyyy-MM-dd',$!dto.executedTime)</span>
+			<span style="display:-moz-inline-box; display:inline-block; width:25%;">客服电话：#if($!dto.cityId==2) 021-32265286 #else 15345818517 #end</span>
+			#if($!order.discount<1)<span style="display:-moz-inline-box; display:inline-block; width:20%;">折扣：($!order.discount)</span>#end
+			<span style="display:-moz-inline-box; display:inline-block; width:25%;">签字：</span>
+		    </div>
+		    </br>
+		    <span style="font-size:18px;font-weight:bold;position: relative;top:-10px;">#if(!$dto.memo or $dto.memo=="") #else备注：$!dto.memo#end</span>
+		    <br/>
+		#end
+		
+		
+		</div>
+	</body>
+</html>

@@ -1,0 +1,1339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.ShopMonthReportMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.ShopMonthReport" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="region" property="region" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="sum_date" property="sumDate" jdbcType="DATE" />
+    <result column="discount" property="discount" jdbcType="DECIMAL" />
+    <result column="consume_fee" property="consumeFee" jdbcType="BIGINT" />
+    <result column="newconsume_fee" property="newconsumeFee" jdbcType="BIGINT" />
+    <result column="oldconsume_fee" property="oldconsumeFee" jdbcType="BIGINT" />
+    <result column="expand_fee" property="expandFee" jdbcType="BIGINT" />
+    <result column="newexpand_fee" property="newexpandFee" jdbcType="BIGINT" />
+    <result column="oldexpand_fee" property="oldexpandFee" jdbcType="BIGINT" />
+    <result column="before_expand_fee" property="beforeExpandFee" jdbcType="DECIMAL" />
+    <result column="consume_pen" property="consumePen" jdbcType="INTEGER" />
+    <result column="before_consume_pen" property="beforeConsumePen" jdbcType="DECIMAL" />
+    <result column="consume_num" property="consumeNum" jdbcType="INTEGER" />
+    <result column="before_consume_num" property="beforeConsumeNum" jdbcType="DECIMAL" />
+    <result column="avg_fee" property="avgFee" jdbcType="BIGINT" />
+    <result column="before_avg_fee" property="beforeAvgFee" jdbcType="DECIMAL" />
+    <result column="sourcing_fee" property="sourcingFee" jdbcType="BIGINT" />
+    <result column="before_sourcing_fee" property="beforeSourcingFee" jdbcType="DECIMAL" />
+    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+    <result column="refund_num" property="refundNum" jdbcType="INTEGER" />
+    <result column="before_order_num" property="beforeOrderNum" jdbcType="DECIMAL" />
+    <result column="loss_percent" property="lossPercent" jdbcType="INTEGER" />
+    <result column="before_loss_percent" property="beforeLossPercent" jdbcType="DECIMAL" />
+    <result column="month_first_stock" property="monthFirstStock" jdbcType="BIGINT" />
+    <result column="stock" property="stock" jdbcType="BIGINT" />
+    <result column="avg_man_fee" property="avgManFee" jdbcType="BIGINT" />
+    <result column="before_avg_man_fee" property="beforeAvgManFee" jdbcType="DECIMAL" />
+    <result column="wastage" property="wastage" jdbcType="BIGINT" />
+    <result column="zhekoucaigou" property="zhekoucaigou" jdbcType="BIGINT" />
+    <result column="chengben" property="chengben" jdbcType="BIGINT" />
+    <result column="profit" property="profit" jdbcType="BIGINT" />
+    <result column="profit_rate" property="profitRate" jdbcType="DECIMAL" />
+    <result column="subsidy" property="subsidy" jdbcType="BIGINT" />
+    <result column="isnew" property="isnew" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, region, user_name, user_id, sum_date, discount, consume_fee, expand_fee, before_expand_fee, 
+    consume_pen, before_consume_pen, consume_num, before_consume_num, avg_fee, before_avg_fee, 
+    sourcing_fee, before_sourcing_fee, order_num, refund_num, before_order_num, loss_percent, 
+    before_loss_percent, month_first_stock, stock, avg_man_fee, before_avg_man_fee, wastage, 
+    zhekoucaigou, chengben, profit, profit_rate, subsidy, isnew
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.ShopMonthReportExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from shop_month_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from shop_month_report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from shop_month_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.ShopMonthReportExample" >
+    delete from shop_month_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.ShopMonthReport" >
+    insert into shop_month_report (id, region, user_name, 
+      user_id, sum_date, discount, 
+      consume_fee, expand_fee, before_expand_fee, 
+      consume_pen, before_consume_pen, consume_num, 
+      before_consume_num, avg_fee, before_avg_fee, 
+      sourcing_fee, before_sourcing_fee, order_num, 
+      refund_num, before_order_num, loss_percent, 
+      before_loss_percent, month_first_stock, stock, 
+      avg_man_fee, before_avg_man_fee, wastage, 
+      zhekoucaigou, chengben, profit, 
+      profit_rate, subsidy, isnew)
+    values (#{id,jdbcType=INTEGER}, #{region,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER}, #{sumDate,jdbcType=DATE}, #{discount,jdbcType=DECIMAL}, 
+      #{consumeFee,jdbcType=BIGINT}, #{expandFee,jdbcType=BIGINT}, #{beforeExpandFee,jdbcType=DECIMAL}, 
+      #{consumePen,jdbcType=INTEGER}, #{beforeConsumePen,jdbcType=DECIMAL}, #{consumeNum,jdbcType=INTEGER}, 
+      #{beforeConsumeNum,jdbcType=DECIMAL}, #{avgFee,jdbcType=BIGINT}, #{beforeAvgFee,jdbcType=DECIMAL}, 
+      #{sourcingFee,jdbcType=BIGINT}, #{beforeSourcingFee,jdbcType=DECIMAL}, #{orderNum,jdbcType=INTEGER}, 
+      #{refundNum,jdbcType=INTEGER}, #{beforeOrderNum,jdbcType=DECIMAL}, #{lossPercent,jdbcType=INTEGER}, 
+      #{beforeLossPercent,jdbcType=DECIMAL}, #{monthFirstStock,jdbcType=BIGINT}, #{stock,jdbcType=BIGINT}, 
+      #{avgManFee,jdbcType=BIGINT}, #{beforeAvgManFee,jdbcType=DECIMAL}, #{wastage,jdbcType=BIGINT}, 
+      #{zhekoucaigou,jdbcType=BIGINT}, #{chengben,jdbcType=BIGINT}, #{profit,jdbcType=BIGINT}, 
+      #{profitRate,jdbcType=DECIMAL}, #{subsidy,jdbcType=BIGINT}, #{isnew,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.ShopMonthReport" >
+    insert into shop_month_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="region != null" >
+        region,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="sumDate != null" >
+        sum_date,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="consumeFee != null" >
+        consume_fee,
+      </if>
+      <if test="expandFee != null" >
+        expand_fee,
+      </if>
+      <if test="beforeExpandFee != null" >
+        before_expand_fee,
+      </if>
+      <if test="consumePen != null" >
+        consume_pen,
+      </if>
+      <if test="beforeConsumePen != null" >
+        before_consume_pen,
+      </if>
+      <if test="consumeNum != null" >
+        consume_num,
+      </if>
+      <if test="beforeConsumeNum != null" >
+        before_consume_num,
+      </if>
+      <if test="avgFee != null" >
+        avg_fee,
+      </if>
+      <if test="beforeAvgFee != null" >
+        before_avg_fee,
+      </if>
+      <if test="sourcingFee != null" >
+        sourcing_fee,
+      </if>
+      <if test="beforeSourcingFee != null" >
+        before_sourcing_fee,
+      </if>
+      <if test="orderNum != null" >
+        order_num,
+      </if>
+      <if test="refundNum != null" >
+        refund_num,
+      </if>
+      <if test="beforeOrderNum != null" >
+        before_order_num,
+      </if>
+      <if test="lossPercent != null" >
+        loss_percent,
+      </if>
+      <if test="beforeLossPercent != null" >
+        before_loss_percent,
+      </if>
+      <if test="monthFirstStock != null" >
+        month_first_stock,
+      </if>
+      <if test="stock != null" >
+        stock,
+      </if>
+      <if test="avgManFee != null" >
+        avg_man_fee,
+      </if>
+      <if test="beforeAvgManFee != null" >
+        before_avg_man_fee,
+      </if>
+      <if test="wastage != null" >
+        wastage,
+      </if>
+      <if test="zhekoucaigou != null" >
+        zhekoucaigou,
+      </if>
+      <if test="chengben != null" >
+        chengben,
+      </if>
+      <if test="profit != null" >
+        profit,
+      </if>
+      <if test="profitRate != null" >
+        profit_rate,
+      </if>
+      <if test="subsidy != null" >
+        subsidy,
+      </if>
+      <if test="isnew != null" >
+        isnew,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="region != null" >
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="sumDate != null" >
+        #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="consumeFee != null" >
+        #{consumeFee,jdbcType=BIGINT},
+      </if>
+      <if test="expandFee != null" >
+        #{expandFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeExpandFee != null" >
+        #{beforeExpandFee,jdbcType=DECIMAL},
+      </if>
+      <if test="consumePen != null" >
+        #{consumePen,jdbcType=INTEGER},
+      </if>
+      <if test="beforeConsumePen != null" >
+        #{beforeConsumePen,jdbcType=DECIMAL},
+      </if>
+      <if test="consumeNum != null" >
+        #{consumeNum,jdbcType=INTEGER},
+      </if>
+      <if test="beforeConsumeNum != null" >
+        #{beforeConsumeNum,jdbcType=DECIMAL},
+      </if>
+      <if test="avgFee != null" >
+        #{avgFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeAvgFee != null" >
+        #{beforeAvgFee,jdbcType=DECIMAL},
+      </if>
+      <if test="sourcingFee != null" >
+        #{sourcingFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeSourcingFee != null" >
+        #{beforeSourcingFee,jdbcType=DECIMAL},
+      </if>
+      <if test="orderNum != null" >
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="refundNum != null" >
+        #{refundNum,jdbcType=INTEGER},
+      </if>
+      <if test="beforeOrderNum != null" >
+        #{beforeOrderNum,jdbcType=DECIMAL},
+      </if>
+      <if test="lossPercent != null" >
+        #{lossPercent,jdbcType=INTEGER},
+      </if>
+      <if test="beforeLossPercent != null" >
+        #{beforeLossPercent,jdbcType=DECIMAL},
+      </if>
+      <if test="monthFirstStock != null" >
+        #{monthFirstStock,jdbcType=BIGINT},
+      </if>
+      <if test="stock != null" >
+        #{stock,jdbcType=BIGINT},
+      </if>
+      <if test="avgManFee != null" >
+        #{avgManFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeAvgManFee != null" >
+        #{beforeAvgManFee,jdbcType=DECIMAL},
+      </if>
+      <if test="wastage != null" >
+        #{wastage,jdbcType=BIGINT},
+      </if>
+      <if test="zhekoucaigou != null" >
+        #{zhekoucaigou,jdbcType=BIGINT},
+      </if>
+      <if test="chengben != null" >
+        #{chengben,jdbcType=BIGINT},
+      </if>
+      <if test="profit != null" >
+        #{profit,jdbcType=BIGINT},
+      </if>
+      <if test="profitRate != null" >
+        #{profitRate,jdbcType=DECIMAL},
+      </if>
+      <if test="subsidy != null" >
+        #{subsidy,jdbcType=BIGINT},
+      </if>
+      <if test="isnew != null" >
+        #{isnew,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.ShopMonthReportExample" resultType="java.lang.Integer" >
+    select count(*) from shop_month_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update shop_month_report
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.region != null" >
+        region = #{record.region,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sumDate != null" >
+        sum_date = #{record.sumDate,jdbcType=DATE},
+      </if>
+      <if test="record.discount != null" >
+        discount = #{record.discount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.consumeFee != null" >
+        consume_fee = #{record.consumeFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.expandFee != null" >
+        expand_fee = #{record.expandFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.beforeExpandFee != null" >
+        before_expand_fee = #{record.beforeExpandFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.consumePen != null" >
+        consume_pen = #{record.consumePen,jdbcType=INTEGER},
+      </if>
+      <if test="record.beforeConsumePen != null" >
+        before_consume_pen = #{record.beforeConsumePen,jdbcType=DECIMAL},
+      </if>
+      <if test="record.consumeNum != null" >
+        consume_num = #{record.consumeNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.beforeConsumeNum != null" >
+        before_consume_num = #{record.beforeConsumeNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.avgFee != null" >
+        avg_fee = #{record.avgFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.beforeAvgFee != null" >
+        before_avg_fee = #{record.beforeAvgFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sourcingFee != null" >
+        sourcing_fee = #{record.sourcingFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.beforeSourcingFee != null" >
+        before_sourcing_fee = #{record.beforeSourcingFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderNum != null" >
+        order_num = #{record.orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.refundNum != null" >
+        refund_num = #{record.refundNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.beforeOrderNum != null" >
+        before_order_num = #{record.beforeOrderNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lossPercent != null" >
+        loss_percent = #{record.lossPercent,jdbcType=INTEGER},
+      </if>
+      <if test="record.beforeLossPercent != null" >
+        before_loss_percent = #{record.beforeLossPercent,jdbcType=DECIMAL},
+      </if>
+      <if test="record.monthFirstStock != null" >
+        month_first_stock = #{record.monthFirstStock,jdbcType=BIGINT},
+      </if>
+      <if test="record.stock != null" >
+        stock = #{record.stock,jdbcType=BIGINT},
+      </if>
+      <if test="record.avgManFee != null" >
+        avg_man_fee = #{record.avgManFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.beforeAvgManFee != null" >
+        before_avg_man_fee = #{record.beforeAvgManFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.wastage != null" >
+        wastage = #{record.wastage,jdbcType=BIGINT},
+      </if>
+      <if test="record.zhekoucaigou != null" >
+        zhekoucaigou = #{record.zhekoucaigou,jdbcType=BIGINT},
+      </if>
+      <if test="record.chengben != null" >
+        chengben = #{record.chengben,jdbcType=BIGINT},
+      </if>
+      <if test="record.profit != null" >
+        profit = #{record.profit,jdbcType=BIGINT},
+      </if>
+      <if test="record.profitRate != null" >
+        profit_rate = #{record.profitRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.subsidy != null" >
+        subsidy = #{record.subsidy,jdbcType=BIGINT},
+      </if>
+      <if test="record.isnew != null" >
+        isnew = #{record.isnew,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update shop_month_report
+    set id = #{record.id,jdbcType=INTEGER},
+      region = #{record.region,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      sum_date = #{record.sumDate,jdbcType=DATE},
+      discount = #{record.discount,jdbcType=DECIMAL},
+      consume_fee = #{record.consumeFee,jdbcType=BIGINT},
+      expand_fee = #{record.expandFee,jdbcType=BIGINT},
+      before_expand_fee = #{record.beforeExpandFee,jdbcType=DECIMAL},
+      consume_pen = #{record.consumePen,jdbcType=INTEGER},
+      before_consume_pen = #{record.beforeConsumePen,jdbcType=DECIMAL},
+      consume_num = #{record.consumeNum,jdbcType=INTEGER},
+      before_consume_num = #{record.beforeConsumeNum,jdbcType=DECIMAL},
+      avg_fee = #{record.avgFee,jdbcType=BIGINT},
+      before_avg_fee = #{record.beforeAvgFee,jdbcType=DECIMAL},
+      sourcing_fee = #{record.sourcingFee,jdbcType=BIGINT},
+      before_sourcing_fee = #{record.beforeSourcingFee,jdbcType=DECIMAL},
+      order_num = #{record.orderNum,jdbcType=INTEGER},
+      refund_num = #{record.refundNum,jdbcType=INTEGER},
+      before_order_num = #{record.beforeOrderNum,jdbcType=DECIMAL},
+      loss_percent = #{record.lossPercent,jdbcType=INTEGER},
+      before_loss_percent = #{record.beforeLossPercent,jdbcType=DECIMAL},
+      month_first_stock = #{record.monthFirstStock,jdbcType=BIGINT},
+      stock = #{record.stock,jdbcType=BIGINT},
+      avg_man_fee = #{record.avgManFee,jdbcType=BIGINT},
+      before_avg_man_fee = #{record.beforeAvgManFee,jdbcType=DECIMAL},
+      wastage = #{record.wastage,jdbcType=BIGINT},
+      zhekoucaigou = #{record.zhekoucaigou,jdbcType=BIGINT},
+      chengben = #{record.chengben,jdbcType=BIGINT},
+      profit = #{record.profit,jdbcType=BIGINT},
+      profit_rate = #{record.profitRate,jdbcType=DECIMAL},
+      subsidy = #{record.subsidy,jdbcType=BIGINT,
+      isnew = #{record.isnew,jdbcType=INTEGER}}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.ShopMonthReport" >
+    update shop_month_report
+    <set >
+      <if test="region != null" >
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="sumDate != null" >
+        sum_date = #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="consumeFee != null" >
+        consume_fee = #{consumeFee,jdbcType=BIGINT},
+      </if>
+      <if test="expandFee != null" >
+        expand_fee = #{expandFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeExpandFee != null" >
+        before_expand_fee = #{beforeExpandFee,jdbcType=DECIMAL},
+      </if>
+      <if test="consumePen != null" >
+        consume_pen = #{consumePen,jdbcType=INTEGER},
+      </if>
+      <if test="beforeConsumePen != null" >
+        before_consume_pen = #{beforeConsumePen,jdbcType=DECIMAL},
+      </if>
+      <if test="consumeNum != null" >
+        consume_num = #{consumeNum,jdbcType=INTEGER},
+      </if>
+      <if test="beforeConsumeNum != null" >
+        before_consume_num = #{beforeConsumeNum,jdbcType=DECIMAL},
+      </if>
+      <if test="avgFee != null" >
+        avg_fee = #{avgFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeAvgFee != null" >
+        before_avg_fee = #{beforeAvgFee,jdbcType=DECIMAL},
+      </if>
+      <if test="sourcingFee != null" >
+        sourcing_fee = #{sourcingFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeSourcingFee != null" >
+        before_sourcing_fee = #{beforeSourcingFee,jdbcType=DECIMAL},
+      </if>
+      <if test="orderNum != null" >
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="refundNum != null" >
+        refund_num = #{refundNum,jdbcType=INTEGER},
+      </if>
+      <if test="beforeOrderNum != null" >
+        before_order_num = #{beforeOrderNum,jdbcType=DECIMAL},
+      </if>
+      <if test="lossPercent != null" >
+        loss_percent = #{lossPercent,jdbcType=INTEGER},
+      </if>
+      <if test="beforeLossPercent != null" >
+        before_loss_percent = #{beforeLossPercent,jdbcType=DECIMAL},
+      </if>
+      <if test="monthFirstStock != null" >
+        month_first_stock = #{monthFirstStock,jdbcType=BIGINT},
+      </if>
+      <if test="stock != null" >
+        stock = #{stock,jdbcType=BIGINT},
+      </if>
+      <if test="avgManFee != null" >
+        avg_man_fee = #{avgManFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeAvgManFee != null" >
+        before_avg_man_fee = #{beforeAvgManFee,jdbcType=DECIMAL},
+      </if>
+      <if test="wastage != null" >
+        wastage = #{wastage,jdbcType=BIGINT},
+      </if>
+      <if test="zhekoucaigou != null" >
+        zhekoucaigou = #{zhekoucaigou,jdbcType=BIGINT},
+      </if>
+      <if test="chengben != null" >
+        chengben = #{chengben,jdbcType=BIGINT},
+      </if>
+      <if test="profit != null" >
+        profit = #{profit,jdbcType=BIGINT},
+      </if>
+      <if test="profitRate != null" >
+        profit_rate = #{profitRate,jdbcType=DECIMAL},
+      </if>
+      <if test="subsidy != null" >
+        subsidy = #{subsidy,jdbcType=BIGINT},
+      </if>
+      <if test="isnew != null" >
+        isnew = #{isnew,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.ShopMonthReport" >
+    update shop_month_report
+    set region = #{region,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      sum_date = #{sumDate,jdbcType=DATE},
+      discount = #{discount,jdbcType=DECIMAL},
+      consume_fee = #{consumeFee,jdbcType=BIGINT},
+      expand_fee = #{expandFee,jdbcType=BIGINT},
+      before_expand_fee = #{beforeExpandFee,jdbcType=DECIMAL},
+      consume_pen = #{consumePen,jdbcType=INTEGER},
+      before_consume_pen = #{beforeConsumePen,jdbcType=DECIMAL},
+      consume_num = #{consumeNum,jdbcType=INTEGER},
+      before_consume_num = #{beforeConsumeNum,jdbcType=DECIMAL},
+      avg_fee = #{avgFee,jdbcType=BIGINT},
+      before_avg_fee = #{beforeAvgFee,jdbcType=DECIMAL},
+      sourcing_fee = #{sourcingFee,jdbcType=BIGINT},
+      before_sourcing_fee = #{beforeSourcingFee,jdbcType=DECIMAL},
+      order_num = #{orderNum,jdbcType=INTEGER},
+      refund_num = #{refundNum,jdbcType=INTEGER},
+      before_order_num = #{beforeOrderNum,jdbcType=DECIMAL},
+      loss_percent = #{lossPercent,jdbcType=INTEGER},
+      before_loss_percent = #{beforeLossPercent,jdbcType=DECIMAL},
+      month_first_stock = #{monthFirstStock,jdbcType=BIGINT},
+      stock = #{stock,jdbcType=BIGINT},
+      avg_man_fee = #{avgManFee,jdbcType=BIGINT},
+      before_avg_man_fee = #{beforeAvgManFee,jdbcType=DECIMAL},
+      wastage = #{wastage,jdbcType=BIGINT},
+      zhekoucaigou = #{zhekoucaigou,jdbcType=BIGINT},
+      chengben = #{chengben,jdbcType=BIGINT},
+      profit = #{profit,jdbcType=BIGINT},
+      profit_rate = #{profitRate,jdbcType=DECIMAL},
+      subsidy = #{subsidy,jdbcType=BIGINT},
+      isnew = #{isnew,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findByUserIdAndSumDate" resultMap="BaseResultMap">
+  	SELECT
+		*
+	FROM
+		shop_month_report
+	WHERE
+		user_id = #{id}
+	AND date_format(`sum_date`, '%Y-%m') = date_format(
+		#{month}, '%Y-%m')
+  </select>
+  <select id="findByCondition" resultMap="BaseResultMap">
+  SELECT smr.id,
+       smr.`user_name`,
+       smr.`user_id`,
+       smr.`sum_date`,
+       smr.`discount`,
+       smr.`consume_fee`,
+       smr.`expand_fee`,
+       smr.`before_expand_fee`,
+       smr.`consume_pen`,
+       smr.`before_consume_num`,
+       smr.`consume_num`,
+       smr.`avg_fee`,
+       round(smr.`avg_fee`/smr.`consume_pen`) avg_pen_fee,
+       smr.`before_avg_fee`,
+       smr.`sourcing_fee`,
+       smr.`before_sourcing_fee`,
+       smr.`order_num`,
+       smr.`refund_num`,
+       smr.`before_order_num`,
+       smr.`loss_percent`,
+       smr.`before_loss_percent`,
+       smr.`stock`,
+       smr.month_first_stock,
+       smr.`avg_man_fee`,
+       smr.`before_avg_man_fee`,
+       smr.profit,
+       smr.profit_rate,
+       smr.`wastage`,
+       smr.subsidy,
+       round(smr.`consume_pen` /smr.`consume_num`,1) repeatBuyRate,
+        round(smr.`expand_fee` /((ifnull(smr.`month_first_stock`,0)+ifnull(smr.`stock`,0) )/2),1) turnoverRate,
+       re.name region,
+        CASE when date_format(cu.contract_date,'%Y-%m') = date_format(smr.sum_date,'%Y-%m') OR cu.contract_date is NULL   THEN 1 ELSE 0 END isnew
+  FROM shop_month_report smr
+  LEFT JOIN customer_user cu on smr.user_id= cu.id
+  LEFT JOIN `reseau` re on cu.`reseau_id`= re.`id`
+  	<where>
+  		and cu.city_id =#{cityId}
+	  	<if test="username != null and username !='' ">
+	  	 and smr.user_name like '%${username}%'
+	  	</if>
+	  	<if test="startTime != null and startTime !='' ">
+	  	 and smr.sum_date &gt;= #{startTime}
+	  	</if>
+	  	<if test="endTime != null and endTime !='' ">
+	  	 and smr.sum_date &lt;= #{endTime}
+	  	</if>
+	  	<if test="region != null and region !='' ">
+	  	 and smr.region = #{region}
+	  	</if>
+	  	<if test="reseauId >0 ">
+	  	 and cu.reseau_id = #{reseauId}
+	  	</if>
+  	</where>
+  	order by smr.sum_date desc
+  	<if test="param == 0">
+  	  ,cu.created_time desc 
+  	</if>
+  	<if test="param == 2">
+  	  ,smr.consume_fee desc 
+  	</if>
+  	<if test="param == 3">
+  	  ,smr.expand_fee desc 
+  	</if>
+  	<if test="param == 4">
+  	  ,smr.avg_fee desc 
+  	</if>
+  	<if test="param == 5">
+  	  ,smr.consume_pen desc 
+  	</if>
+  	<if test="param == 6">
+  	  ,smr.consume_num desc 
+  	</if>
+  	<if test="param == 7">
+  	  ,smr.avg_man_fee desc 
+  	</if>
+    <if test="param == 8">
+  	  ,smr.loss_percent desc 
+  	</if>
+  	<if test="param == 9">
+  	  ,smr.month_first_stock desc 
+  	</if>
+  	<if test="param == 10">
+  	  ,smr.`stock` desc
+  	</if>
+  	<if test="param == 11">
+  	  ,smr.profit desc
+  	</if>
+  	<if test="param == 12">
+  	  ,smr.profit_rate desc 
+  	</if>
+  </select>
+  <select id="findNetMonthReport" resultMap="BaseResultMap">
+    select
+    region,SUM(openKH) openCusNum,SUM(consumeKH) consumeCusNum,
+    SUM(newopenShopNum) newopenShopNum,
+    SUM(oldopenShopNum) oldopenShopNum,
+    (SUM(newopenShopNum) + SUM(oldopenShopNum)) openShopNum,
+    SUM(newconsumeShopNum) newconsumeShopNum,
+    SUM(oldconsumeShopNum) oldconsumeShopNum,
+    (SUM(newconsumeShopNum)+SUM(oldconsumeShopNum)) consumeShopNum,
+    t.sum_date,
+    sum(newconsume_fee) newconsume_fee,
+    SUM(t.oldconsume_fee)  oldconsume_fee,
+    (sum(newconsume_fee)+sum(oldconsume_fee)) consume_fee,
+    (sum(newconsume_fee) + SUM(t.oldconsume_fee)) / (SUM(newconsumeShopNum)+SUM(oldconsumeShopNum)) avgShopFee,
+    SUM(avg_fee) / (SUM(newconsumeShopNum)+SUM(oldconsumeShopNum)) avg_fee,
+    (sum(newconsume_fee) + SUM(t.oldconsume_fee)) / SUM(consume_pen) avgPenFee,
+    SUM(consume_pen) consume_pen,
+    SUM(consume_num) consume_num,
+    (sum(newconsume_fee) + SUM(t.oldconsume_fee)) / SUM(consume_num) avg_man_fee,
+    SUM(month_first_stock) month_first_stock,
+    SUM(stock) stock,
+    SUM(profit) profit,
+    round(SUM(profit) / SUM(zhekoucaigou) *100, 2) profit_rate,
+    SUM(sourcing_fee) sourcing_fee,
+    SUM(order_num) order_num,
+    SUM(refund_num) refund_num,
+    SUM(newexpand_fee) newexpand_fee,
+    SUM(oldexpand_fee) oldexpand_fee,
+    (SUM(newexpand_fee)+SUM(oldexpand_fee)) expand_fee,
+    SUM(wastage) wastage,
+    SUM(subsidy) subsidy,
+    round(SUM(wastage) / SUM(expand_fee) *100, 2) loss_percent,
+    round(SUM(consume_pen) /(SUM(consume_num)),1) repeatBuyRate,
+    round((SUM(newexpand_fee) + SUM(oldexpand_fee))/((ifnull(SUM(month_first_stock),0)+ ifnull(SUM(stock),0))/2),1) turnoverRate
+    FROM(
+    (SELECT r. NAME region, cu.`reseau_id`,
+    0 newopenShopNum,
+    COUNT(1) oldopenShopNum,
+    0 newconsumeShopNum,
+    SUM(consume_shop) oldconsumeShopNum,
+    t.sum_date,
+    0 newconsume_fee,
+    SUM(t.consume_fee)  oldconsume_fee,
+    SUM(avg_fee) avg_fee,
+    SUM(consume_pen) consume_pen,
+    SUM(consume_num) consume_num,
+    SUM(month_first_stock) month_first_stock,
+    SUM(stock) stock,
+    SUM(profit) profit,
+    SUM(zhekoucaigou) zhekoucaigou,
+    SUM(sourcing_fee) sourcing_fee,
+    SUM(order_num) order_num,
+    SUM(refund_num) refund_num,
+    0 newexpand_fee,
+    SUM(expand_fee) oldexpand_fee,
+    SUM(wastage) wastage,
+    SUM(subsidy) subsidy,
+    SUM(expand_fee) expand_fee,
+   0 openKH,0 consumeKH
+    FROM(
+    SELECT *, IF(`consume_fee`> 0, 1, 0) consume_shop
+    FROM `shop_month_report`) t
+    LEFT JOIN customer_user  cu ON t.user_id= cu.`id`
+    LEFT JOIN `reseau` r ON cu.`reseau_id`= r.`id`
+    <where>
+      and cu.city_id =#{cityId}
+      AND (t.isnew = 0 || t.isnew is null)
+      <if test="reseauId>0">
+        and cu.`reseau_id` =#{reseauId}
+      </if>
+      <if test="querydate!='' and querydate!=null">
+        and  date_format(t.sum_date,'%Y-%m') = #{querydate}
+      </if>
+    </where>
+    GROUP BY t.`sum_date`,cu.`reseau_id`
+    ORDER BY t.sum_date desc)
+
+
+    UNION ALL
+    
+    (
+   SELECT tt.region,tt.`reseau_id`,
+    0 newopenShopNum,
+    0 oldopenShopNum,
+    0 newconsumeShopNum,
+    0 oldconsumeShopNum,
+    tt.sum_date,
+    0 oldconsume_fee,
+    0  newconsume_fee,
+    0 avg_fee,
+    0 consume_pen,
+    0 consume_num,
+   0 month_first_stock,
+    0 stock,
+    0 profit,
+    0 zhekoucaigou,
+    0 sourcing_fee,
+    0 order_num,
+    0 refund_num,
+    0 newexpand_fee,
+    0 oldexpand_fee,
+    0 wastage,
+    0 subsidy,
+    0 expand_fee,
+              COUNT(1) openKH,SUM(num2) consumeKH FROM 
+(SELECT
+             r. NAME region,cu.`reseau_id`,
+   
+            t.sum_date,
+  
+            MAX(consume_shop) num2
+         
+          FROM(
+        SELECT *, IF(`consume_fee`> 0, 1, 0) consume_shop
+          FROM `shop_month_report`) t
+          LEFT JOIN customer_user  cu ON t.user_id= cu.`id`
+  LEFT JOIN `reseau` r ON cu.`reseau_id`= r.`id`
+    <where>
+      and cu.city_id =#{cityId}
+      AND (t.isnew = 0 || t.isnew is null)
+      <if test="reseauId>0">
+        and cu.`reseau_id` =#{reseauId}
+      </if>
+      <if test="querydate!='' and querydate!=null">
+        and  date_format(t.sum_date,'%Y-%m') = #{querydate}
+      </if>
+    </where>
+   
+    GROUP BY t.sum_date,cu.`reseau_id`,cu.`company_name` ) tt
+   GROUP BY tt.`sum_date`,tt.`reseau_id`
+ORDER BY tt.sum_date desc
+    )
+    
+    UNION ALL
+
+
+    (SELECT r. NAME region, cu.`reseau_id`,
+    COUNT(1) newopenShopNum,
+    0 oldopenShopNum,
+    SUM(consume_shop) newconsumeShopNum,
+    0 oldconsumeShopNum,
+    t.sum_date,
+    SUM(t.consume_fee) oldconsume_fee,
+    0  newconsume_fee,
+    SUM(avg_fee) avg_fee,
+    SUM(consume_pen) consume_pen,
+    SUM(consume_num) consume_num,
+    SUM(month_first_stock) month_first_stock,
+    SUM(stock) stock,
+    SUM(profit) profit,
+    SUM(zhekoucaigou) zhekoucaigou,
+    SUM(sourcing_fee) sourcing_fee,
+    SUM(order_num) order_num,
+    SUM(refund_num) refund_num,
+    SUM(expand_fee) newexpand_fee,
+    0 oldexpand_fee,
+    SUM(wastage) wastage,
+    SUM(subsidy) subsidy,
+    SUM(expand_fee) expand_fee,
+    0 openKH,0 consumeKH
+    FROM(
+    SELECT *, IF(`consume_fee`> 0, 1, 0) consume_shop
+    FROM `shop_month_report`) t
+    LEFT JOIN customer_user  cu ON t.user_id= cu.`id`
+    LEFT JOIN `reseau` r ON cu.`reseau_id`= r.`id`
+    <where>
+      and cu.city_id =#{cityId}
+      AND (t.isnew = 1)
+      <if test="reseauId>0">
+        and cu.`reseau_id` =#{reseauId}
+      </if>
+      <if test="querydate!='' and querydate!=null">
+        and  date_format(t.sum_date,'%Y-%m') = #{querydate}
+      </if>
+    </where>
+    GROUP BY t.`sum_date`,cu.`reseau_id`
+    ORDER BY t.sum_date desc)
+    )t
+    GROUP BY t.`sum_date`,t.`reseau_id`
+    ORDER BY t.sum_date desc
+
+  </select>
+  <select id="findAllMonthReport" resultMap="BaseResultMap">
+  	select
+SUM(openKH) openCusNum,SUM(consumeKH) consumeCusNum,
+	       SUM(openShopNum) openShopNum,
+	       SUM(newconsumeShopNum) newconsumeShopNum,
+          SUM(oldconsumeShopNum) oldconsumeShopNum,
+          (SUM(newconsumeShopNum)+SUM(oldconsumeShopNum)) consumeShopNum,
+	       t.sum_date,
+	       sum(newconsume_fee) newconsume_fee,
+	       SUM(t.oldconsume_fee)  oldconsume_fee,
+	       (sum(newconsume_fee) + sum(oldconsume_fee)) consume_fee,
+	       (sum(newconsume_fee) + SUM(t.oldconsume_fee)) / (SUM(newconsumeShopNum)+SUM(oldconsumeShopNum)) avgShopFee,
+	       SUM(avg_fee) / (SUM(newconsumeShopNum)+SUM(oldconsumeShopNum)) avg_fee,
+	       (sum(newconsume_fee) + SUM(t.oldconsume_fee)) / SUM(consume_pen) avgPenFee,
+	       SUM(consume_pen) consume_pen,
+	       SUM(consume_num) consume_num,
+	       (sum(newconsume_fee) + SUM(t.oldconsume_fee)) / SUM(consume_num) avg_man_fee,
+	       SUM(month_first_stock) month_first_stock,
+	       SUM(stock) stock,
+	       SUM(profit) profit,
+	       round(SUM(profit) / SUM(zhekoucaigou) *100, 2) profit_rate,
+	       SUM(sourcing_fee) sourcing_fee,
+	       SUM(order_num) order_num,
+	       SUM(refund_num) refund_num,
+	       SUM(newexpand_fee) newexpand_fee,
+	       SUM(oldexpand_fee) oldexpand_fee,
+	       (SUM(newexpand_fee)+ SUM(oldexpand_fee)) expand_fee,
+	       SUM(wastage) wastage,
+	       SUM(subsidy) subsidy,
+	       round(SUM(wastage) / SUM(expand_fee) *100, 2) loss_percent,
+	        round(SUM(consume_pen) /(SUM(consume_num)),1) repeatBuyRate,
+	        round((SUM(newexpand_fee) + SUM(oldexpand_fee))/((ifnull(SUM(month_first_stock),0)+ ifnull(SUM(stock),0))/2),1) turnoverRate
+    FROM(
+    (SELECT
+               COUNT(1) openShopNum,
+               0 newconsumeShopNum,
+               SUM(consume_shop) oldconsumeShopNum,
+               t.sum_date,
+               0 newconsume_fee,
+               SUM(t.consume_fee)  oldconsume_fee,
+                SUM(avg_fee) avg_fee,
+               SUM(consume_pen) consume_pen,
+               SUM(consume_num) consume_num,
+               SUM(month_first_stock) month_first_stock,
+               SUM(stock) stock,
+               SUM(profit) profit,
+                SUM(zhekoucaigou) zhekoucaigou,
+               SUM(sourcing_fee) sourcing_fee,
+               SUM(order_num) order_num,
+               SUM(refund_num) refund_num,
+               0 newexpand_fee,
+               SUM(expand_fee) oldexpand_fee,
+               SUM(wastage) wastage,
+               SUM(subsidy) subsidy,
+                SUM(expand_fee) expand_fee,
+               0 openKH,0 consumeKH
+          FROM(
+        SELECT *, IF(`consume_fee`> 0, 1, 0) consume_shop
+          FROM `shop_month_report`) t
+          LEFT JOIN customer_user  cu ON t.user_id= cu.`id`
+      where cu.city_id =#{cityId} and (t.isnew = 0 || t.isnew is null)
+      GROUP BY t.`sum_date`
+      ORDER BY t.sum_date desc)
+      UNION ALL
+      (SELECT 
+               0 openShopNum,
+               0 newconsumeShopNum,
+               0 oldconsumeShopNum,
+              tt.sum_date,
+               0 newconsume_fee,
+               0 oldconsume_fee,
+               0 avg_fee,
+               0 consume_pen,
+               0 consume_num,
+               0 month_first_stock,
+               0 stock,
+               0 profit,
+                0 zhekoucaigou,
+               0 sourcing_fee,
+               0 order_num,
+              0 refund_num,
+               0 newexpand_fee,
+               0 oldexpand_fee,
+               0 wastage,
+               0 subsidy,
+               0 expand_fee,COUNT(1) openKH,SUM(num2) consumeKH
+               FROM (
+SELECT
+             
+               MAX(consume_shop) num2,
+               t.sum_date,
+             cu.`company_name` ,t.consume_shop
+              
+          FROM(
+        SELECT *, IF(`consume_fee`> 0, 1, 0) consume_shop
+          FROM `shop_month_report`) t
+          LEFT JOIN customer_user  cu ON t.user_id= cu.`id`
+    where cu.city_id =1
+    GROUP BY t.sum_date,cu.`company_name` 
+) tt
+GROUP BY tt.sum_date
+    ORDER BY tt.sum_date desc)
+      UNION ALL
+      (SELECT
+               COUNT(1) openShopNum,
+               SUM(consume_shop) newconsumeShopNum,
+               0 oldconsumeShopNum,
+               t.sum_date,
+               SUM(t.consume_fee) newconsume_fee,
+               0  oldconsume_fee,
+                SUM(avg_fee) avg_fee,
+               SUM(consume_pen) consume_pen,
+               SUM(consume_num) consume_num,
+               SUM(month_first_stock) month_first_stock,
+               SUM(stock) stock,
+               SUM(profit) profit,
+                SUM(zhekoucaigou) zhekoucaigou,
+               SUM(sourcing_fee) sourcing_fee,
+               SUM(order_num) order_num,
+               SUM(refund_num) refund_num,
+               SUM(expand_fee) newexpand_fee,
+               0 oldexpand_fee,
+               SUM(wastage) wastage,
+               SUM(subsidy) subsidy,
+                SUM(expand_fee) expand_fee,
+                0 openKH,0 consumeKH
+          FROM(
+        SELECT *, IF(`consume_fee`> 0, 1, 0) consume_shop
+          FROM `shop_month_report`) t
+          LEFT JOIN customer_user  cu ON t.user_id= cu.`id`
+    where cu.city_id =#{cityId} and t.isnew = 1
+    GROUP BY t.`sum_date`
+    ORDER BY t.sum_date desc)
+    )t
+    GROUP BY t.`sum_date`
+    ORDER BY t.sum_date desc
+  </select>
+  <select id="findByReseauIdAndDate" resultMap="BaseResultMap">
+    SELECT
+        region,
+               sum(openShopNum) openShopNum,
+               SUM(consumeShopNum) consumeShopNum,
+               t.sum_date,
+               SUM(t.oldconsume_fee) oldconsume_fee,
+                sum(newconsume_fee) newconsume_fee,
+                SUM(t.oldconsume_fee) + sum(newconsume_fee) consume_fee,
+               (SUM(t.oldconsume_fee) + sum(newconsume_fee)) / SUM(consumeShopNum) avgShopFee,
+               SUM(avg_fee) / SUM(consumeShopNum) avg_fee,
+               (SUM(t.oldconsume_fee) + sum(newconsume_fee)) / SUM(consume_pen) avgPenFee,
+               SUM(consume_pen) consume_pen,
+               SUM(consume_num) consume_num,
+               (SUM(t.oldconsume_fee) + sum(newconsume_fee)) / SUM(consume_num) avg_man_fee,
+               SUM(month_first_stock) month_first_stock,
+               SUM(stock) stock,
+               SUM(profit) profit,
+               round(SUM(profit) / SUM(zhekoucaigou) *100, 2) profit_rate,
+               SUM(sourcing_fee) sourcing_fee,
+               SUM(order_num) order_num,
+               SUM(refund_num) refund_num,
+               SUM(oldexpand_fee) oldexpand_fee,
+               SUM(newexpand_fee) newexpand_fee,
+               (SUM(oldexpand_fee) + SUM(newexpand_fee)) expand_fee,
+               SUM(wastage) wastage,
+               SUM(subsidy) subsidy,
+               round(SUM(wastage) / (SUM(oldexpand_fee) + SUM(newexpand_fee)) *100, 2) loss_percent,
+                round(SUM(consume_pen) /SUM(consume_num),2) repeatBuyRate,
+                round((SUM(oldexpand_fee) + SUM(newexpand_fee)) *100/((ifnull(SUM(month_first_stock),0)+ifnull( SUM(stock),0))/2),1) turnoverRate
+      from (
+      (SELECT r. NAME region,
+                  cu.`reseau_id`,
+                 COUNT(1) openShopNum,
+                  t.isnew,
+                 SUM(consume_shop) consumeShopNum,
+                 t.sum_date,
+                 SUM(t.consume_fee) oldconsume_fee,
+                  0 newconsume_fee,
+                 SUM(t.consume_fee) / SUM(consume_shop) avgShopFee,
+                 SUM(avg_fee) / SUM(consume_shop) avg_fee,
+                 SUM(consume_fee) / SUM(consume_pen) avgPenFee,
+                 SUM(consume_pen) consume_pen,
+                 SUM(consume_num) consume_num,
+                 SUM(consume_fee) / SUM(consume_num) avg_man_fee,
+                 SUM(month_first_stock) month_first_stock,
+                 SUM(stock) stock,
+                 SUM(profit) profit,
+                 SUM(zhekoucaigou) zhekoucaigou,
+                 SUM(sourcing_fee) sourcing_fee,
+                 SUM(order_num) order_num,
+                 SUM(refund_num) refund_num,
+                 SUM(expand_fee) oldexpand_fee,
+                 0 newexpand_fee,
+                 SUM(wastage) wastage,
+                 SUM(subsidy) subsidy
+            FROM(
+          SELECT *, IF(`consume_fee`> 0, 1, 0) consume_shop
+            FROM `shop_month_report`) t
+            LEFT JOIN `customer_user` cu ON t.user_id= cu.`id`
+            LEFT JOIN `reseau` r ON cu.`reseau_id`= r.`id`
+              where cu.`reseau_id` =#{reseauId}
+	  		and  date_format(t.sum_date,'%Y-%m') = date_format(#{date},'%Y-%m')
+            AND (t.isnew = 0 || t.isnew is null)
+           GROUP BY t.`sum_date`,cu.`reseau_id`, t.isnew
+           ORDER BY t.sum_date desc
+      )
+
+      UNION ALL
+
+      (SELECT r. NAME region,
+                  cu.`reseau_id`,
+                 COUNT(1) openShopNum,
+                  t.isnew,
+                 SUM(consume_shop) consumeShopNum,
+                 t.sum_date,
+                  0 oldconsume_fee,
+                 SUM(t.consume_fee) newconsume_fee,
+                 SUM(t.consume_fee) / SUM(consume_shop) avgShopFee,
+                 SUM(avg_fee) / SUM(consume_shop) avg_fee,
+                 SUM(consume_fee) / SUM(consume_pen) avgPenFee,
+                 SUM(consume_pen) consume_pen,
+                 SUM(consume_num) consume_num,
+                 SUM(consume_fee) / SUM(consume_num) avg_man_fee,
+                 SUM(month_first_stock) month_first_stock,
+                 SUM(stock) stock,
+                 SUM(profit) profit,
+                 SUM(zhekoucaigou),
+                 SUM(sourcing_fee) sourcing_fee,
+                 SUM(order_num) order_num,
+                 SUM(refund_num) refund_num,
+                 0 oldexpand_fee,
+                 SUM(expand_fee) newexpand_fee,
+                 SUM(wastage) wastage,
+                 SUM(subsidy) subsidy
+
+            FROM(
+          SELECT *, IF(`consume_fee`> 0, 1, 0) consume_shop
+            FROM `shop_month_report`) t
+            LEFT JOIN `customer_user` cu ON t.user_id= cu.`id`
+            LEFT JOIN `reseau` r ON cu.`reseau_id`= r.`id`
+              where cu.`reseau_id` =#{reseauId}
+	  		and  date_format(t.sum_date,'%Y-%m') = date_format(#{date},'%Y-%m')
+            and t.isnew = 1
+           GROUP BY t.`sum_date`,cu.`reseau_id`, t.isnew
+           ORDER BY t.sum_date desc)
+      )t
+
+    GROUP BY t.`sum_date`,`reseau_id`
+    ORDER BY t.sum_date desc
+  </select>
+  <select id="findByShopIdAndDate" resultMap="BaseResultMap">
+  	SELECT smr.id,
+       smr.`user_name`,
+       smr.`user_id`,
+       smr.`sum_date`,
+       smr.`discount`,
+       smr.`consume_fee`,
+       smr.`expand_fee`,
+       smr.`before_expand_fee`,
+       smr.`consume_pen`,
+       smr.`before_consume_num`,
+       smr.`consume_num`,
+       smr.`avg_fee`,
+       round(smr.`avg_fee`/smr.`consume_pen`) avg_pen_fee,
+       smr.`before_avg_fee`,
+       smr.`sourcing_fee`,
+       smr.`before_sourcing_fee`,
+       smr.`order_num`,
+       smr.`refund_num`,
+       smr.`before_order_num`,
+       smr.`loss_percent`,
+       smr.`before_loss_percent`,
+       smr.`stock`,
+       smr.month_first_stock,
+       smr.`avg_man_fee`,
+       smr.`before_avg_man_fee`,
+       smr.profit,
+       smr.profit_rate,
+       smr.`wastage`,
+       smr.subsidy,
+       round(smr.`consume_pen` /smr.`consume_num`,1) repeatBuyRate,
+       round(smr.`expand_fee` /((ifnull(smr.`month_first_stock`,0)+ifnull(smr.`stock`,0) )/2),1) turnoverRate
+  FROM shop_month_report smr
+where smr.`user_id` =#{shopId} and date_format(smr.`sum_date`,'%Y-%m')=date_format(#{date},'%Y-%m')
+  </select>
+  <delete id="deleteByDateAndCityId">
+  	DELETE smr
+  FROM `shop_month_report` smr,
+       `customer_user` cu
+ where smr.user_id= cu.id
+   and date_format(smr.`sum_date`, '%Y-%m')= date_format(#{date}, '%Y-%m')
+   and cu.`city_id`= #{cityId}
+  </delete>
+  <select id="findByCityIdAndDate" resultMap="BaseResultMap">
+  	SELECT 
+       SUM(openShopNum) openShopNum,
+       SUM(consumeShopNum) consumeShopNum,
+       t.sum_date,
+       SUM(t.oldconsume_fee) oldconsume_fee,
+       SUM(t.newconsume_fee) newconsume_fee,
+       (SUM(t.oldconsume_fee) + SUM(t.newconsume_fee)) consume_fee,
+       (SUM(t.oldconsume_fee) + SUM(t.newconsume_fee)) / SUM(consumeShopNum) avgShopFee,
+       SUM(avg_fee) / SUM(consumeShopNum) avg_fee,
+       (SUM(t.oldconsume_fee) + SUM(t.newconsume_fee)) / SUM(consume_pen) avgPenFee,
+       SUM(consume_pen) consume_pen,
+       SUM(consume_num) consume_num,
+       (SUM(t.oldconsume_fee) + SUM(t.newconsume_fee)) / SUM(consume_num) avg_man_fee,
+       SUM(month_first_stock) month_first_stock,
+       SUM(stock) stock,
+       SUM(profit) profit,
+       SUM(zhekoucaigou) zhekoucaigou,
+        round(SUM(profit) / SUM(zhekoucaigou) *100, 2) profit_rate,
+       SUM(sourcing_fee) sourcing_fee,
+       SUM(order_num) order_num,
+       SUM(refund_num) refund_num,
+       SUM(oldexpand_fee) oldexpand_fee,
+       SUM(newexpand_fee) newexpand_fee,
+       (SUM(oldexpand_fee) + SUM(newexpand_fee)) expand_fee,
+       SUM(wastage) wastage,
+       SUM(subsidy) subsidy,
+        round(SUM(wastage) / (SUM(oldexpand_fee) + SUM(newexpand_fee)) *100, 2) loss_percent,
+        round(SUM(consume_pen) /SUM(consume_num), 2) repeatBuyRate,
+        round((SUM(oldexpand_fee) + SUM(newexpand_fee)) *100/((ifnull(SUM(month_first_stock), 0)+ ifnull(SUM(stock), 0)) /2), 1) turnoverRate
+    FROM(
+    (SELECT COUNT(1) openShopNum,
+           SUM(consume_shop) consumeShopNum,
+           t.sum_date,
+           SUM(t.consume_fee) oldconsume_fee,
+           0 newconsume_fee,
+           SUM(t.consume_fee) / SUM(consume_shop) avgShopFee,
+           SUM(avg_fee) / SUM(consume_shop) avg_fee,
+           SUM(consume_fee) / SUM(consume_pen) avgPenFee,
+           SUM(consume_pen) consume_pen,
+           SUM(consume_num) consume_num,
+           SUM(consume_fee) / SUM(consume_num) avg_man_fee,
+           SUM(month_first_stock) month_first_stock,
+           SUM(stock) stock,
+           SUM(profit) profit,
+           SUM(zhekoucaigou) zhekoucaigou,
+           SUM(sourcing_fee) sourcing_fee,
+           SUM(order_num) order_num,
+           SUM(refund_num) refund_num,
+           SUM(expand_fee) oldexpand_fee,
+           0 newexpand_fee,
+           SUM(wastage) wastage,
+           SUM(subsidy) subsidy
+      FROM(
+    SELECT *, IF(`consume_fee`> 0, 1, 0) consume_shop
+      FROM `shop_month_report`) t
+      LEFT JOIN `customer_user` cu ON t.user_id= cu.`id`
+     where cu.`city_id`= #{cityId}
+       and date_format(t.sum_date, '%Y-%m')= date_format( #{date},'%Y-%m')
+       AND (t.isnew = 0 || t.isnew is null))
+
+    UNION ALL
+
+    (SELECT COUNT(1) openShopNum,
+           SUM(consume_shop) consumeShopNum,
+           t.sum_date,
+           0 newconsume_fee,
+           SUM(t.consume_fee) oldconsume_fee,
+           SUM(t.consume_fee) / SUM(consume_shop) avgShopFee,
+           SUM(avg_fee) / SUM(consume_shop) avg_fee,
+           SUM(consume_fee) / SUM(consume_pen) avgPenFee,
+           SUM(consume_pen) consume_pen,
+           SUM(consume_num) consume_num,
+           SUM(consume_fee) / SUM(consume_num) avg_man_fee,
+           SUM(month_first_stock) month_first_stock,
+           SUM(stock) stock,
+           SUM(profit) profit,
+           SUM(zhekoucaigou) zhekoucaigou,
+           SUM(sourcing_fee) sourcing_fee,
+           SUM(order_num) order_num,
+           SUM(refund_num) refund_num,
+           0 oldexpand_fee,
+           SUM(expand_fee) newexpand_fee,
+           SUM(wastage) wastage,
+           SUM(subsidy) subsidy
+      FROM(
+    SELECT *, IF(`consume_fee`> 0, 1, 0) consume_shop
+      FROM `shop_month_report`) t
+      LEFT JOIN `customer_user` cu ON t.user_id= cu.`id`
+     where cu.`city_id`= #{cityId}
+       and date_format(t.sum_date, '%Y-%m')= date_format( #{date},'%Y-%m')
+       AND t.isnew = 1
+    )
+    )t
+  </select>
+  <update id="updateIsnew" >
+    UPDATE shop_month_report smr
+SET smr.isnew = 1
+WHERE smr.id IN (SELECT t.id
+ FROM (SELECT smr.id
+  FROM shop_month_report smr LEFT JOIN customer_user cu ON cu.id = smr.user_id
+  WHERE (date_format(cu.contract_date, '%Y-%m') = date_format(smr.sum_date, '%Y-%m')
+   OR cu.contract_date IS NULL) and  date_format(smr.sum_date, '%Y-%m') = date_format(#{date}, '%Y-%m')
+  ) t)
+  </update>
+</mapper>

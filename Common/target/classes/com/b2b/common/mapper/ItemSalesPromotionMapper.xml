@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.ItemSalesPromotionMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.ItemSalesPromotion" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="money" property="money" jdbcType="BIGINT" />
+    <result column="discount" property="discount" jdbcType="DECIMAL" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="created_userid" property="createdUserid" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="shop_type" property="shopType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, item_name, item_id, type, money, discount, start_time, end_time, status, created_time, 
+    created_userid, city_id, remark, shop_type
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.ItemSalesPromotionExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from item_sales_promotion
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from item_sales_promotion
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from item_sales_promotion
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.ItemSalesPromotionExample" >
+    delete from item_sales_promotion
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.ItemSalesPromotion" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+    insert into item_sales_promotion (id, item_name, item_id, 
+      type, money, discount, 
+      start_time, end_time, status, 
+      created_time, created_userid, city_id, 
+      remark, shop_type)
+    values (#{id,jdbcType=INTEGER}, #{itemName,jdbcType=VARCHAR}, #{itemId,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{money,jdbcType=BIGINT}, #{discount,jdbcType=DECIMAL}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{createdUserid,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{shopType,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.ItemSalesPromotion" >
+    insert into item_sales_promotion
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="itemName != null" >
+        item_name,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="createdUserid != null" >
+        created_userid,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="shopType != null" >
+        shop_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=BIGINT},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserid != null" >
+        #{createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="shopType != null" >
+        #{shopType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.ItemSalesPromotionExample" resultType="java.lang.Integer" >
+    select count(*) from item_sales_promotion
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update item_sales_promotion
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemName != null" >
+        item_name = #{record.itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemId != null" >
+        item_id = #{record.itemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.money != null" >
+        money = #{record.money,jdbcType=BIGINT},
+      </if>
+      <if test="record.discount != null" >
+        discount = #{record.discount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.startTime != null" >
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null" >
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUserid != null" >
+        created_userid = #{record.createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopType != null" >
+        shop_type = #{record.shopType,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update item_sales_promotion
+    set id = #{record.id,jdbcType=INTEGER},
+      item_name = #{record.itemName,jdbcType=VARCHAR},
+      item_id = #{record.itemId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      money = #{record.money,jdbcType=BIGINT},
+      discount = #{record.discount,jdbcType=DECIMAL},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      created_userid = #{record.createdUserid,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      shop_type = #{record.shopType,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.ItemSalesPromotion" >
+    update item_sales_promotion
+    <set >
+      <if test="itemName != null" >
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=BIGINT},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserid != null" >
+        created_userid = #{createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="shopType != null" >
+        shop_type = #{shopType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.ItemSalesPromotion" >
+    update item_sales_promotion
+    set item_name = #{itemName,jdbcType=VARCHAR},
+      item_id = #{itemId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      money = #{money,jdbcType=BIGINT},
+      discount = #{discount,jdbcType=DECIMAL},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      created_userid = #{createdUserid,jdbcType=INTEGER},
+      city_id = #{cityId,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      shop_type = #{shopType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findByItemIdAndDateAndCityId" resultMap="BaseResultMap">
+  	SELECT *
+  FROM `item_sales_promotion`
+ WHERE `status`= 1
+   and `city_id`= #{cityId}
+   and item_id = #{itemId}
+   and date_format(`start_time`, '%Y-%m-%d') &lt;= date_format(#{date}, '%Y-%m-%d')
+   and date_format(`end_time`, '%Y-%m-%d') &gt;= date_format(#{date}, '%Y-%m-%d')
+  </select>
+  <select id="findByItemIdAndStartAndEndTimeAndCityId" resultMap="BaseResultMap">
+  	SELECT *
+  FROM `item_sales_promotion`
+ WHERE `status`= 1
+   and `city_id`= #{cityId}
+   and item_id = #{itemId}
+   and date_format(`start_time`, '%Y-%m-%d') &gt;= date_format(#{startTime}, '%Y-%m-%d')
+   and date_format(`end_time`, '%Y-%m-%d') &lt;= date_format(#{endTime}, '%Y-%m-%d')
+  </select>
+  <select id="findAllByConditions" resultMap="BaseResultMap">
+  	SELECT *,CASE WHEN date_format(now(),'%Y-%m-%d') &lt; `start_time` THEN 0 WHEN date_format(now(),'%Y-%m-%d') &gt;`end_time` THEN 2 ELSE 1 END sign
+  	FROM `item_sales_promotion`
+  	<where>
+  		<if test="itemname != null and itemname != ''">
+  			`item_name` LIKE '%${itemname}%'
+  		</if>
+  		and city_id = #{cityId}
+  		<if test="param == 1">
+  			and status = 1 and start_time &gt; date_format(now(),'%Y-%m-%d')
+  		</if>
+  		<if test="param == 2">
+  			and status = 1 and start_time &lt;= date_format(now(),'%Y-%m-%d') and end_time &gt;=date_format(now(),'%Y-%m-%d')
+  		</if>
+  		<if test="param == 3">
+  			and (status = 0 or status = 1 and end_time &lt; date_format(now(),'%Y-%m-%d'))
+  		</if>
+  	</where>
+  	order by start_time desc
+  </select>
+  <select id="findStratedByCityId" resultMap="BaseResultMap">
+  	SELECT *
+  FROM `item_sales_promotion`
+ where `status`= 1
+   and `start_time` &lt;= date_format(now(), '%Y-%m-%d')
+   and `end_time` &gt;= date_format(now(), '%Y-%m-%d')
+   and city_id= #{cityId}
+  </select>
+  <select id="findByItemSaleIdAndShopId" resultMap="BaseResultMap">
+	SELECT isp.*
+	  FROM `item_sales_promotion` isp
+	  LEFT JOIN `item_sale_customer` isc on isp.`id`= isc.`itemsale_id`
+	 WHERE isp.`id` =#{itemSaleId} and isc.`customer_id` = #{id}
+  </select>
+  <select id="findStratedByCityIdAndShopId" resultMap="BaseResultMap">
+  SELECT isp.*,
+       si.`id` shopItemId
+  FROM `item_sales_promotion` isp
+  LEFT JOIN `shop_item` si on isp.`item_id`= si.`item_id`
+   and si.`shop_id`= #{shopId}
+ where isp.`status`= 1
+   and isp.`start_time` &lt;= date_format(now(), '%Y-%m-%d')
+   and isp.`end_time` &gt;= date_format(now(), '%Y-%m-%d')
+   and isp.city_id= #{cityId}
+  </select>
+  <select id="findPreferentialByItemSaleId" resultMap="BaseResultMap">
+  SELECT t.sumdate createdTime,
+       COUNT(1) manNum,
+       SUM(bishu) penNum,
+       SUM(consumefee) consumefee,
+       SUM(yhfee) yhfee,sum(num) consumeNum
+  FROM(
+SELECT date_format(so.`created_time`, '%Y-%m-%d') sumdate, COUNT(1) bishu, SUM(soi.`price`*soi.`num`) consumefee, SUM(soi.`lwyh_fee`* soi.`num`) yhfee, SUM(`num`) num, soi.`item_name`
+  FROM `shop_order` so
+  LEFT JOIN `shop_order_item` soi on so.`id`= soi.`order_id`
+ WHERE so.`status`= 1
+   and so.`lw_type`= 2
+   and soi.`hd_id`= #{id}
+ GROUP BY date_format(so.`created_time`, '%Y-%m-%d'), so.`buyer_id`, so.`sign`) t
+ GROUP BY sumdate
+  </select>
+  <select id="findTotalByItemSaleId" resultMap="BaseResultMap">
+  	SELECT
+       COUNT(1) manNum,
+       ifnull(SUM(bishu),0) penNum,
+       SUM(yhfee) yhfee,ifnull(sum(num),0) consumeNum
+  FROM(
+SELECT date_format(so.`created_time`, '%Y-%m-%d') sumdate, COUNT(1) bishu, SUM(soi.`price`*soi.`num`) consumefee, SUM(soi.`lwyh_fee`* soi.`num`) yhfee, SUM(`num`) num, soi.`item_name`
+  FROM `shop_order` so
+  LEFT JOIN `shop_order_item` soi on so.`id`= soi.`order_id`
+ WHERE so.`status`= 1
+   and so.`lw_type`= 2
+   and soi.`hd_id`= #{id}
+ GROUP BY date_format(so.`created_time`, '%Y-%m-%d'), so.`buyer_id`, so.`sign`) t
+  </select>
+</mapper>

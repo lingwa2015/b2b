@@ -1,0 +1,9 @@
+ #set($layout="layout/shopLayout.vm")
+ <div class="advice">
+    <p>咨询开通办公室自助便利店</p>
+    <a href="tel:400-880-1703">400-880-1703</a>
+    <span>如已开通便利店，请联系店铺管理员开通管理权限</span>
+  </div>
+  <script type="text/javascript">
+    document.title = "管理后台";
+</script>

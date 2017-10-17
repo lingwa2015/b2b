@@ -1,0 +1,79 @@
+<script type="text/javascript" src="${rc.contextPath}/static/js/zone.js" charset="UTF-8"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+				form.submit();
+				return true;
+    }
+	});
+ });
+
+function cancel(){
+  window.location.href="${rc.contextPath}/stock/stockList.htm";
+}
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/stock/stockList.htm" title="返回库存列表" class="btn btn-return"><</a>
+		<h4 class="tit">
+		编辑库存数量
+		</h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+	<form class="jqtransform" name="stockForm" id="form1" action="${rc.contextPath}/stock/stockNumSave.do" method="post" >
+	<input type="hidden" name="id" id="id" value="$!dto.id"/>
+	<input type="hidden" name="currentPage" id="currentPage" value="$!currentPage"/>
+
+	<table class="form">
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>商品名称：</label></td>
+			<td><input class="form-input" readonly="readonly" type="text" name="itemName" id="itemName" value="$!dto.itemName" validate="{required:true}" >
+			&nbsp;<span></span>
+			</td>
+		</tr>
+
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>库存数量：</label></td>
+			<td><input readonly="readonly" class="form-input" type="text" name="num" id="num" value="$!dto.num" validate="{required:true}">
+			&nbsp;<span></span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>预警数量：</label></td>
+			<td><input class="form-input" type="text" name="warningNum" id="warningNum" value="$!dto.warningNum" validate="{required:true}">
+			&nbsp;<span></span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>告警数量：</label></td>
+			<td><input class="form-input" type="text" name="alertNum" id="alertNum" value="$!dto.alertNum" validate="{required:true}">
+			&nbsp;<span></span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit"><font color='red'></font>仓位：</label></td>
+			<td><input class="form-input" type="text" name="position" id="position" value="$!dto.position">
+			&nbsp;<span></span>
+			</td>
+		</tr>
+
+		<tr class="btn-bar">
+			<td></td>
+			<td><input class="btn btn-success" type="submit" value="提交" /></td>
+		</tr>
+	</table>
+	</form>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

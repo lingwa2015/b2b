@@ -1,0 +1,28 @@
+#set($layout="layout/shopLayout.vm")
+<div class="purchase">
+        <ul>
+            <li>
+                <a href="${rc.contextPath}/convenient/reseau/shop_bianList.htm?reseau_id=$!reseauId">
+                    <img src="${rc.contextPath}/static/images/shop/reseau_bianli.png" >
+                   便利店 
+                </a>
+            </li>
+            <li>
+                <a href="${rc.contextPath}/convenient/reseau/shop_freeList.htm?reseau_id=$!reseauId">
+                    <img src="${rc.contextPath}/static/images/shop/reseau_free.png" >
+                    福利店
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- 底部 -->
+   <div class="footer">
+         <a href="${rc.contextPath}/convenient/reseau/shop_index.htm?reseau_id=$!reseauId" class="home" style="width: 24.8%">首页<i></i><b></b></a>
+         <a href="${rc.contextPath}/convenient/reseau/shop_customerIndex.htm?reseau_id=$!reseauId" class="home live" style="width: 24.8%">客户<i></i><b></b></a>
+         <a href="${rc.contextPath}/convenient/reseau/shop_workSheet.htm?reseau_id=$!reseauId" class="home " style="width: 24.8%">工单<i></i><b></b></a>
+         <a href="${rc.contextPath}/convenient/reseau/shop_warning.htm?reseau_id=$!reseauId" class="home" style="width: 24.8%">预警<b></b></a>
+   </div>
+<script type="text/javascript">
+    document.title = "客户";
+    $("body").css("background-color","#ececec")
+</script>

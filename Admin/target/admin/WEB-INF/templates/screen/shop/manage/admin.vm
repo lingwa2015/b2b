@@ -1,0 +1,18 @@
+#set($layout="layout/shopLayout.vm")
+<div class="purchase">
+        <ul>
+            <li>
+                <a href="${rc.contextPath}/convenient/manage/shop_jlsaleman.htm" style="padding-left: .3rem">销售工作台+++</a>
+            </li>
+            <li>
+                <a href="${rc.contextPath}/convenient/manage/shop_jlclientmanager.htm" style="padding-left: .3rem">运营工作台+++</a>
+            </li>
+            <li>
+                <a href="${rc.contextPath}/convenient/manage/shop_select.htm" style="padding-left: .3rem">仓管工作台</a>
+            </li>
+        </ul>
+    </div>
+<script type="text/javascript">
+    document.title = "工作台";
+    $("body").css("background-color","#ececec")
+</script>

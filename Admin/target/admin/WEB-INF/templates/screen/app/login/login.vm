@@ -1,0 +1,28 @@
+#set($layout="layout/appLayoutV3.vm")
+<script type="text/javascript" src="${rc.contextPath}/static/js/commonUtil.js"></script>
+	<script type="text/javascript">
+		
+	function login(){
+		submitJqueryFormData('loginForm','${rc.contextPath}/appLogin.do',function(data){
+			if (data == 'failure') {
+				alert("用户名或密码错误，请重试！");
+                                return false;
+			} else {
+				window.location.href='${rc.contextPath}'+data;
+			}
+		});
+	}
+	
+	</script>
+            <div class="login_wrap">
+                <h4>登录</h4>
+                <form class="SecurityCode" action="${rc.contextPath}/appLogin.do" method="POST" id="loginForm" name="loginForm"> 
+                    <span class="user_name">
+                        <input type="text" name="account" id="account" placeholder="请输入用户名" style="color:#ccc">
+                    </span>
+                    <span class="pwd">
+                        <input type="password" name="password" id="password" placeholder="请输入密码" style="color:#ccc">
+                    </span>
+                    <button type="button"  onclick="login();">登录</button>
+                </form>
+            </div>

@@ -1,0 +1,60 @@
+#set($layout="layout/shopLayout.vm")
+ <div class="yue_content">
+        <table style="position: fixed;top: 0;">
+            
+                <thead>
+                    <tr style="height:0;">
+                    <th>商品</th>
+                    <th>月初</th>
+                    <th>采购</th>
+                    <th>退货</th>
+                    <th>消费</th>
+                    <th>月底</th>
+                    <th>拟损耗</th>
+                    </tr>
+                </thead>
+        </table> 
+        <table style="margin-top: .72rem;">
+        	<tbody> 
+            	 #if($lists.size()>0)
+                #foreach($dto in $lists)
+                	<tr>
+	                    <td class="shang">$!dto.itemName</td>
+	                    <td>$!dto.firstNum</td>
+	                    <td>$!dto.sourcingNum</td>
+	                    <td>$!dto.refundNum</td>
+	                    <td>$!dto.consumeNum</td>
+	                    <td>$!dto.lastNum</td>
+	                    <!-- 如果大于1 就为红色 -->
+	                    #set($loss = $dto.firstNum + $dto.sourcingNum - $dto.refundNum - $dto.consumeNum - $dto.lastNum)
+	                    #if($loss >= 1)
+	                    <td style="color:red;">$loss</td>
+	                    #elseif($loss < 0)
+	                    <td style="color:green;">$loss</td>
+	                    #else
+	                    <!-- 如果为0 -->
+	                    <td>0</td>
+	                    #end
+	                </tr>
+                #end
+                #else
+                #end
+               
+            </tbody>
+        </table>
+    </div>
+<script type="text/javascript">
+    document.title = "$!month商品明细";
+    $(function() {
+        $('.shang').each(function(){
+            var se = $(this).text();
+            if ($(this).text().length >15) {
+                var swew = se.substring(0,13);
+                var go ='';
+                go+=swew+'...';
+                $(this).text(go);
+            };
+        })
+        
+    })
+</script>

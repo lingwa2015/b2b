@@ -1,0 +1,262 @@
+#set($layout="layout/shopLayout.vm")
+<div class="push_content">
+          #if($!day.contractDay>6)<p class="pandian"><span>已有$day.contractDay天未盘点（上次盘点日期：$!date.format('yyyy-MM-dd',$day.checkTime)）</span></>#end
+      	  <ul style="margin-bottom:1.1rem;">
+        	#foreach($item in $itemlist)
+            <li>
+            <div style="float:left;width:80%;position:relative;" class="dianji" >
+                <img src="$item.imgPath" >
+                #if($item.life<=30)
+                <span class="duan1">短保</span>	
+                #end
+                <div class="new_show">
+                    <p class="shop_name">$item.name</p>
+                    <p style="padding-left: 0.18rem;">
+                        <span class="shop_money">￥<span>$NumberTool.toYuanNumber($item.marketPrice)</span></span>
+                        <span class="price_01">采购价</span>
+                        <span class="price_02">￥<span>$NumberTool.toYuanNumber($item.sourcingPrice)</span></span>
+                        <span class="price_01">售价</span>
+                        <span class="price_02">￥<span>$NumberTool.toYuanNumber($item.salePrice)</span></span>
+                    </p>
+                    <p class="spec">$item.size
+                    #if(!$item.consumeNum)
+	                    #if($!item.flag<7)
+	                    <span class="zhixiao" >周消费<span class="week_o">0</span></span>
+	                    #else
+	                    <span class="week_red">滞销</span>
+	                    #end
+                    #else
+                    <span class="zhixiao" >周消费<span class="week_o">$item.consumeNum</span></span>
+                    #end 
+                    </p>
+                    
+                </div>
+                </div>
+                <div class="push_right">
+                    <p class="num">$item.num</p>
+                    <a href="javascript:void(0);" id="$item.id" class="off">
+                        下架
+                    </a>
+                </div>
+                <div class="push_bottom" id="push_bottom" style="bottom:-5.62rem;">
+                    <div class="liebiao">
+                        <img src="$item.imgPath" >
+                        
+                        <div class="shuzi">
+                            <p class="shop_name"></p>
+                            <p style="padding-left: 0.18rem;font-size:0.24rem;padding-top:0.1rem;">
+                                    <span class="shop_money">￥<span>$NumberTool.toYuanNumber($item.marketPrice)</span></span>
+                                    <span class="price_01">采购价</span>
+                                    <span class="ye">￥<span>$NumberTool.toYuanNumber($item.sourcingPrice)</span></span>
+                            </p>
+                            <p class="spec"></p>
+                        </div>
+                        <span class="quxiao" id="close"  >
+                            x
+                        </span>
+                    </div>
+                    <div class="shuru1">
+                        <span>售价：</span>
+                        <input type="number" name="cost" value="$NumberTool.toYuanNumber($item.salePrice)">
+                    </div>
+                    <div class="shuru1">
+                        <span>数量：</span>
+                        <input type="number" name="number" value="$item.num">
+                    </div>
+                    <div class="butt" data-id="$item.id">
+                        <a href="javascript:void(0);" class="save">保存</a>
+                        <a href="javascript:void(0);" class="push">下架</a>
+                    </div>
+                
+                </div>
+            </li>
+            #end
+        </ul> 
+        <p class="week_goods">周消费量统计截至$!date.format('yyyy-MM-dd',$!sumdate)</p> 
+        <div class="botom_push" ontouchend="godown($shopId)">
+            <span>已下架商品</span>
+        </div>
+        <div class="push_bg" id="push_bg" style="display:none"></div>
+</div>
+<script type="text/javascript">
+	document.title = "在售商品";
+		var touchmove;
+    $(document).on( "touchend", function() {
+  touchmove = false;
+    });
+  $(document).on( "touchmove", function() {
+  touchmove = true;
+    });
+    $(".dianji").on("touchend",function(){
+    if (touchmove) {
+        return;
+    }
+    var a = this;
+    var name =$(a).find(".shop_name").text();
+    var shop_price =  $(a).find("p .shop_money span").text();
+    var img_src = $(a).parent().find("img").attr("src");
+    var caigou_price = $(a).find("p .price_02 span").eq(0).text();
+    var cost_price = $(a).find("p .price_02 span").eq(1).text();
+    var spec = $(a).find(".spec").text();
+    var su = $(a).parent();
+    var shuliang = $(su).find(".push_right .num").text();
+    $(a).siblings(".push_bottom").animate({bottom:"0"},200);
+    $(su).parent().siblings(".push_bg").css("display","block");
+    var sus_name = $(a).siblings(".push_bottom").children(".liebiao");
+    $(sus_name).find("img").attr("src",img_src);
+    $(sus_name).find(".shuzi .shop_name").text(name);
+    $(sus_name).find(".shuzi p .shop_money span").text(shop_price);
+    $(sus_name).find(".shuzi p .ye span").text(caigou_price);
+    $(sus_name).find(".shuzi .spec").text(spec);
+    var biaojia = $(a).siblings(".push_bottom").children(".shuru1");
+    $(biaojia).eq(0).find("input").val(cost_price);
+    $(biaojia).eq(1).find("input").val(shuliang);
+}); 
+
+	 function accMul(num1,num2){
+       var m=0,s1=num1.toString(),s2=num2.toString(); 
+    try{m+=s1.split(".")[1].length}catch(e){};
+    try{m+=s2.split(".")[1].length}catch(e){};
+    return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m);
+    }
+	
+    // close关闭悬浮层
+    $(".quxiao").on("touchend",function(){
+    if (touchmove) {
+        return;
+    }
+    $('input').blur();
+         $(this).parent().parent().animate({bottom:"-5.62rem"},200);
+         $(this).parent().parent().parent().parent().siblings(".push_bg").css("display","none");
+    });
+
+    //保存数据按钮
+    $(".save").on("touchend",function(){
+    if (touchmove) {
+        return;
+    }
+    $('input').blur();
+      var sss =this;
+       var item_id = $(this).parent().attr("data-id");
+       var price_sale = $(this).parent().siblings(".shuru1").eq(0).find("input").val();
+       var num_stock = $(this).parent().siblings(".shuru1").eq(1).find("input").val();
+       var reg = /^(([1-9]+)|([0-9]+\.[0-9]{1,2}))$/;
+       var price = 0;
+       if(reg.test(price_sale)){
+       		price = accMul(price_sale,100);
+       }else{
+       		alert("请输入正确的价格");
+       		return false;
+       }	
+       var tt=/^\d+$/;
+       if (!tt.test(num_stock)) {
+	        alert("请输入正确的数量");
+	       	return false;
+	   }
+	   $.ajax({
+				url:'${rc.contextPath}/convenient/shop_itemUpdate.do',
+				type:'POST',
+				data: {item_id:item_id,price:price,num:num_stock},
+				success:function(data){
+					if(data.status==200){
+			        $(sss).parent().parent().siblings(".dianji").find(".new_show p .price_02 span").eq(1).text(price_sale);
+                    $(sss).parent().parent().siblings(".push_right").find(".num").text(num_stock);     
+                    $(sss).parent().parent().animate({bottom:"-5.62rem"},200);
+                    $(sss).parent().parent().parent().parent().siblings(".push_bg").fadeOut();
+					}else if(data.status==201){
+						alert("你不是管理员！");
+					}else{
+						alert("网络异常，请稍后重试！");
+					}
+				}
+				
+			})
+       
+    });
+  
+    //上架
+    $(".off").on("touchstart",function(){
+    if (touchmove) {
+        return;
+    }
+            if (confirm("确定下架吗？")) {
+            var the = this;
+            var id = $(the).attr("id");
+             $.ajax({
+				url:'${rc.contextPath}/convenient/shop_shelf.do',
+				type:'POST',
+				data: {item_id:id,isdown:0},
+				success:function(data){
+					if(data==200){
+			            $(the).parent().parent().fadeOut(500, function(){
+			                    $(the).remove();
+			                });
+					}else if(data==201){
+						alert("你不是管理员！");
+					}else{
+						alert("网络异常，请稍后重试！");
+					}
+				}
+				
+			})
+        }
+    });
+    //悬浮层上架
+    $(".push").on("touchstart",function(){
+    if (touchmove) {
+        return;
+    }
+        if (confirm("确定下架吗？")) {
+        var sdsd = this;
+        var item_id = $(sdsd).parent().attr("data-id");
+        var price_sale = $(this).parent().siblings(".shuru1").eq(0).find("input").val();
+        var num_stock = $(this).parent().siblings(".shuru1").eq(1).find("input").val();
+        var reg = /^(([1-9]+)|([0-9]+\.[0-9]{1,2}))$/;
+	       var price = 0;
+	       if(reg.test(price_sale)){
+	       		 price = accMul(price_sale,100);
+	       }else{
+	       		alert("请输入正确的价格");
+	       		return false;
+	       }	
+	       var tt=/^\d+$/;
+	       if (!tt.test(num_stock)) {
+		        alert("请输入正确的数量");
+		       	return false;
+		   }
+		   
+		   $.ajax({
+				url:'${rc.contextPath}/convenient/shop_itemUpdate.do',
+				type:'POST',
+				data: {item_id:item_id,price:price,num:num_stock,isdown:0},
+				success:function(data){
+					if(data.status==200){
+			             $(sdsd).parent().parent().parent().parent().siblings(".push_bg").fadeOut();
+				         $(sdsd).parent().parent().animate({bottom:"-5.62rem"},200);
+				         $(sdsd).parent().parent().parent().fadeOut(500, function(){
+				             $(sdsd).remove();
+				         });
+					}else if(data.status==201){
+						alert("你不是管理员！");
+					}else{
+						alert("网络异常，请稍后重试！");
+					}
+				}
+				
+			})
+       
+        
+       
+           
+        }
+        
+         
+    });
+    
+    function godown(id){
+    if (touchmove) {
+        return;
+    }
+    	window.location.href="${rc.contextPath}/convenient/shop_saleItem.htm?shop_id="+id+"&isdown=0";
+    }
+</script>

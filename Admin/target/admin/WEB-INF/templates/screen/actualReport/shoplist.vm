@@ -1,0 +1,90 @@
+<div class="content">
+		<div class="bd-actionbar">
+		<h4 class="tit">便利店列表</h4>
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/actual/actualShopReportList.htm?menuHeight=$!menuHeight&menuName=$!menuName" method="post">
+				<table class="form form-horizontal">
+				<td><label class="tit first-tit">客户简称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="userName" id="userName" value="$!userName" autocomplete="off">
+			</td>
+				<td align="right"><label class="tit">排序：</label></td>
+				<td>
+					<select name="param" id="param" style="width:80px">
+								  <option value="0" #if($param==0)selected=selected#end>默认</option>
+								  <option value="1" #if($param==1)selected=selected#end>最近采购</option>
+								  <option value="2" #if($param==2)selected=selected#end>消费金额</option>
+								  <option value="3" #if($param==3)selected=selected#end>消费笔量</option>
+								  <option value="4" #if($param==4)selected=selected#end>在售金额</option>
+								  <option value="5" #if($param==5)selected=selected#end>在售品类</option>
+								  <option value="6" #if($param==6)selected=selected#end>滞销品</option>
+								  <option value="7" #if($param==7)selected=selected#end>可售天数</option>
+					</select>
+				</td>
+				<td align="right"><label class="tit">网格：</label></td>
+				<td>
+						<select name="reseauId" id="reseauId" validate="{required:true}" >
+						    <option value="">全部</option>
+						    #foreach($reseau in $reseaus)
+							   #if($!reseauId == $reseau.id)
+					            <option value="$reseau.id" selected="selected">$reseau.name</option>
+					           #else
+					            <option value="$reseau.id">$reseau.name</option>
+					           #end
+							#end
+						 </select>
+						 &nbsp;<span></span>
+						</td>
+				<td>
+					<a class="btn btn-warning btn-sm" onclick="javascript:$(form1).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+				</td>
+				<td><a class="btn btn-warning btn-sm" href="javascript:exportExcel();">导出Excel</a></td>
+				</table>
+			</form>
+			
+			<table class="table">
+			  <tr>
+				<th>客户</th>
+				<th>最近采购</th>
+				<th>消费金额</th>
+				<th>消费笔数</th>
+				<th>在售金额</th>
+				<th>在售品类</th>
+				<th>滞销品</th>
+				<th>可售天数</th>
+				<th>最近采购日期</th>
+				<th>最近盘点日期</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>[$!bean.region]$!bean.userName</td>
+					<td><a href="${rc.contextPath}/order/orderlist.htm?userName=$!bean.userName&menuHeight=295&menuName=orderlist-li">$NumberTool.toYuanNumber($!bean.sourcingFee)</a></td>
+					<td><a href="${rc.contextPath}/actual/actualReportList.htm?shopname=$!bean.userName&menuHeight=0&menuName=actualReportList-li">$NumberTool.toYuanNumber($!bean.consumeFee)</a></td>
+					<td>$!bean.consumeNum</td>
+					<td><a href="${rc.contextPath}/actual/actualShopItemList.htm?userName=$!bean.userName&menuHeight=0&menuName=actualShopItemList-li">$NumberTool.toYuanNumber($!bean.onsaleFee)</a></td>
+					<td>$!bean.kinds</td>
+					<td>$!bean.unsalable</td>
+					<td>#if($!bean.day<3) #if($!bean.sourcingFee>0)$!bean.day #else <span style="color:red">$!bean.day</span> #end #else $!bean.day #end</td>
+					<td>$!date.format('yyyy-MM-dd',$!bean.lastTime)</td>
+					<td #if($!bean.checkDay>6)style="color:red"#end>$!date.format('yyyy-MM-dd',$!bean.checkTime)</td>
+					
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->
+<script type="text/javascript">
+$(document).ready(function() {
+	$( "#starttime" ).datepicker();
+	$( "#endtime" ).datepicker();
+ });
+ function exportExcel(){
+ 	window.location.href = "${rc.contextPath}/actual/actualShopExportExcel.do";
+ }
+</script>

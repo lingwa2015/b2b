@@ -1,0 +1,980 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.ShopOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.ShopOrder" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="total_price" property="totalPrice" jdbcType="BIGINT" />
+    <result column="free_price" property="freePrice" jdbcType="BIGINT" />
+    <result column="red_price" property="redPrice" jdbcType="BIGINT" />
+    <result column="actual_price" property="actualPrice" jdbcType="BIGINT" />
+    <result column="buyer_id" property="buyerId" jdbcType="INTEGER" />
+    <result column="shop_id" property="shopId" jdbcType="INTEGER" />
+    <result column="buyer_name" property="buyerName" jdbcType="VARCHAR" />
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="img_path" property="imgPath" jdbcType="VARCHAR" />
+    <result column="sign" property="sign" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="lw_fee_one" property="lwFeeOne" jdbcType="BIGINT" />
+    <result column="lw_type" property="lwType" jdbcType="INTEGER" />
+    <result column="hd_id" property="hdId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, total_price, free_price, red_price, actual_price, buyer_id, shop_id, buyer_name, 
+    shop_name, created_time, status, img_path, sign, city_id, lw_fee_one, lw_type, hd_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.ShopOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from shop_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from shop_order
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from shop_order
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.ShopOrderExample" >
+    delete from shop_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.ShopOrder" >
+    insert into shop_order (id, total_price, free_price, 
+      red_price, actual_price, buyer_id, 
+      shop_id, buyer_name, shop_name, 
+      created_time, status, img_path, 
+      sign, city_id, lw_fee_one, 
+      lw_type, hd_id)
+    values (#{id,jdbcType=VARCHAR}, #{totalPrice,jdbcType=BIGINT}, #{freePrice,jdbcType=BIGINT}, 
+      #{redPrice,jdbcType=BIGINT}, #{actualPrice,jdbcType=BIGINT}, #{buyerId,jdbcType=INTEGER}, 
+      #{shopId,jdbcType=INTEGER}, #{buyerName,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{imgPath,jdbcType=VARCHAR}, 
+      #{sign,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, #{lwFeeOne,jdbcType=BIGINT}, 
+      #{lwType,jdbcType=INTEGER}, #{hdId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.ShopOrder" >
+    insert into shop_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="totalPrice != null" >
+        total_price,
+      </if>
+      <if test="freePrice != null" >
+        free_price,
+      </if>
+      <if test="redPrice != null" >
+        red_price,
+      </if>
+      <if test="actualPrice != null" >
+        actual_price,
+      </if>
+      <if test="buyerId != null" >
+        buyer_id,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="buyerName != null" >
+        buyer_name,
+      </if>
+      <if test="shopName != null" >
+        shop_name,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="imgPath != null" >
+        img_path,
+      </if>
+      <if test="sign != null" >
+        sign,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="lwFeeOne != null" >
+        lw_fee_one,
+      </if>
+      <if test="lwType != null" >
+        lw_type,
+      </if>
+      <if test="hdId != null" >
+        hd_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=BIGINT},
+      </if>
+      <if test="freePrice != null" >
+        #{freePrice,jdbcType=BIGINT},
+      </if>
+      <if test="redPrice != null" >
+        #{redPrice,jdbcType=BIGINT},
+      </if>
+      <if test="actualPrice != null" >
+        #{actualPrice,jdbcType=BIGINT},
+      </if>
+      <if test="buyerId != null" >
+        #{buyerId,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="buyerName != null" >
+        #{buyerName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopName != null" >
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="imgPath != null" >
+        #{imgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        #{sign,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="lwFeeOne != null" >
+        #{lwFeeOne,jdbcType=BIGINT},
+      </if>
+      <if test="lwType != null" >
+        #{lwType,jdbcType=INTEGER},
+      </if>
+      <if test="hdId != null" >
+        #{hdId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.ShopOrderExample" resultType="java.lang.Integer" >
+    select count(*) from shop_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update shop_order
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalPrice != null" >
+        total_price = #{record.totalPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.freePrice != null" >
+        free_price = #{record.freePrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.redPrice != null" >
+        red_price = #{record.redPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.actualPrice != null" >
+        actual_price = #{record.actualPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.buyerId != null" >
+        buyer_id = #{record.buyerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopId != null" >
+        shop_id = #{record.shopId,jdbcType=INTEGER},
+      </if>
+      <if test="record.buyerName != null" >
+        buyer_name = #{record.buyerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopName != null" >
+        shop_name = #{record.shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.imgPath != null" >
+        img_path = #{record.imgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sign != null" >
+        sign = #{record.sign,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.lwFeeOne != null" >
+        lw_fee_one = #{record.lwFeeOne,jdbcType=BIGINT},
+      </if>
+      <if test="record.lwType != null" >
+        lw_type = #{record.lwType,jdbcType=INTEGER},
+      </if>
+      <if test="record.hdId != null" >
+        hd_id = #{record.hdId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update shop_order
+    set id = #{record.id,jdbcType=VARCHAR},
+      total_price = #{record.totalPrice,jdbcType=BIGINT},
+      free_price = #{record.freePrice,jdbcType=BIGINT},
+      red_price = #{record.redPrice,jdbcType=BIGINT},
+      actual_price = #{record.actualPrice,jdbcType=BIGINT},
+      buyer_id = #{record.buyerId,jdbcType=INTEGER},
+      shop_id = #{record.shopId,jdbcType=INTEGER},
+      buyer_name = #{record.buyerName,jdbcType=VARCHAR},
+      shop_name = #{record.shopName,jdbcType=VARCHAR},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER},
+      img_path = #{record.imgPath,jdbcType=VARCHAR},
+      sign = #{record.sign,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      lw_fee_one = #{record.lwFeeOne,jdbcType=BIGINT},
+      lw_type = #{record.lwType,jdbcType=INTEGER},
+      hd_id = #{record.hdId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.ShopOrder" >
+    update shop_order
+    <set >
+      <if test="totalPrice != null" >
+        total_price = #{totalPrice,jdbcType=BIGINT},
+      </if>
+      <if test="freePrice != null" >
+        free_price = #{freePrice,jdbcType=BIGINT},
+      </if>
+      <if test="redPrice != null" >
+        red_price = #{redPrice,jdbcType=BIGINT},
+      </if>
+      <if test="actualPrice != null" >
+        actual_price = #{actualPrice,jdbcType=BIGINT},
+      </if>
+      <if test="buyerId != null" >
+        buyer_id = #{buyerId,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="buyerName != null" >
+        buyer_name = #{buyerName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopName != null" >
+        shop_name = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="imgPath != null" >
+        img_path = #{imgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        sign = #{sign,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="lwFeeOne != null" >
+        lw_fee_one = #{lwFeeOne,jdbcType=BIGINT},
+      </if>
+      <if test="lwType != null" >
+        lw_type = #{lwType,jdbcType=INTEGER},
+      </if>
+      <if test="hdId != null" >
+        hd_id = #{hdId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.ShopOrder" >
+    update shop_order
+    set total_price = #{totalPrice,jdbcType=BIGINT},
+      free_price = #{freePrice,jdbcType=BIGINT},
+      red_price = #{redPrice,jdbcType=BIGINT},
+      actual_price = #{actualPrice,jdbcType=BIGINT},
+      buyer_id = #{buyerId,jdbcType=INTEGER},
+      shop_id = #{shopId,jdbcType=INTEGER},
+      buyer_name = #{buyerName,jdbcType=VARCHAR},
+      shop_name = #{shopName,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      img_path = #{imgPath,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=INTEGER},
+      city_id = #{cityId,jdbcType=INTEGER},
+      lw_fee_one = #{lwFeeOne,jdbcType=BIGINT},
+      lw_type = #{lwType,jdbcType=INTEGER},
+      hd_id = #{hdId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="findCurrentMonthConsumeMoney" resultType="long">
+  	SELECT IFNULL(SUM(total_price),0) from shop_order WHERE DATE_FORMAT(created_time,'%Y%m') = DATE_FORMAT(NOW(),'%Y%m') and `status` =1 AND shop_id = #{shopId}
+  </select>
+  <select id="findTodayConsumeMoney" resultType="hashmap">
+  	SELECT IFNULL(SUM(total_price),0) totalFee,count(1) totalNum from shop_order WHERE to_days(created_time) = to_days(NOW()) and `status` =1 AND shop_id = #{shopId}
+  </select>
+  <resultMap type="com.b2b.common.domain.ShopOrder" id="shopOrderItemMap" autoMapping="true">
+  		<id column="orderId" property="id"/>
+  		<collection property="shopOrderItems" javaType="List" column="orderId" ofType="ShopOrderItem" select="selectshopOrderItems">
+  		</collection>
+  </resultMap>
+  <select id="selectshopOrderItems" resultType="ShopOrderItem">
+  	select soi.item_name itemName,soi.price,soi.num from shop_order_item soi WHERE `order_id` = #{orderId}
+  </select>
+  <select id="findOrderAndItemByShopId" resultMap="shopOrderItemMap">
+  	SELECT t.orderId,t.createdTime,t.status,t.totalPrice,t.freePrice,t.redPrice,t.buyerName,t.headImgurl,t.sign,acc.`locks` buyerId FROM (
+  		SELECT
+			so.id orderId,
+			so.created_time createdTime,
+			so.`status`,
+			so.total_price totalPrice,
+			so.free_price freePrice,so.red_price redPrice,
+			so.buyer_name buyerName,
+			so.`img_path`  headImgurl,so.`sign`,YEAR(so.created_time) years,month(so.created_time) months ,so.`city_id` 
+		FROM
+			shop_order so
+		WHERE
+			so.`status`&lt;&gt;0
+			<if test="name!=null and name!=''"  >
+			 and so.`id` IN (
+SELECT `order_id`  FROM `shop_order_item` WHERE `item_name` LIKE '%${name}%')
+			</if>
+			and so.shop_id = #{shopId}
+			) t LEFT JOIN `account_lock` acc on acc.`years` =t.years and acc.`months` =t.months and t.city_id = acc.city_id ORDER BY t.createdTime desc 
+  </select>
+  <select id="findOrderAndItem" resultMap="shopOrderItemMap">
+  	SELECT
+			so.id orderId,
+			so.created_time createdTime,
+			so.`status`,
+			so.total_price totalPrice,
+			so.free_price freePrice,so.`red_price` redPrice,
+			so.buyer_name buyerName,
+			so.`img_path`  headImgurl,so.`sign`,so.`shop_name`
+		FROM
+			shop_order so
+		<where>
+			and so.city_id =#{cityId}
+			<if test="itemName !='' and itemName !=null">
+			and	so.`id` IN (
+SELECT `order_id`  FROM `shop_order_item` WHERE `item_name` LIKE '%${itemName}%' )
+			</if>
+			<if test="name!=null and name!=''"  >
+			 and so.buyer_name like '%${name}%'
+			</if>
+			<if test="shopname!=null and shopname!=''"  >
+			 and so.shop_name like '%${shopname}%'
+			</if>
+			<if test="param == 1">
+			 and so.`status`=2
+			</if>
+			<if test="param == 0">
+			 and so.`status` &lt;&gt; 0
+			</if>
+		</where>
+			ORDER BY created_time desc
+  </select>
+  <select id="findMonthRecordByShopId" resultType="com.b2b.common.domain.ShopOrder">
+  		  select info.id,
+       info.company_id userId,
+       date_format(CONVERT (
+		concat(
+			CONVERT (info.years, CHAR(10)),
+			'-',
+			CONVERT (info.months, CHAR(10)),
+			'-',
+			CONVERT (info.months, CHAR(10))
+		),
+		DATETIME
+	),'%Y-%m') AS month,
+       amountSum sourcing,
+       amountSum1 actualPrice,
+       amountSum2 redPrice,
+       amountSum3,
+       amountSum4 freePrice,amountSum5 consume,amountSum-amountSum5 totalPrice,loss
+  from(
+select sumlist.company_id, sumlist.years, sumlist.months, ver.id id, sum(amount) amountSum, sum(debitnote_amount) amountSum1, sum(invoice_amount) amountSum2, sum(preferential_amount) amountSum3, sum(consume) amountSum5,CASE WHEN users.`pay_bill_way` =3 THEN SUM(loss)-sum(debitnote_amount)-sum(preferential_amount) WHEN users.`pay_bill_way` =4 THEN if(SUM(subsidy)>0,SUM(subsidy)-sum(debitnote_amount)-sum(preferential_amount),0-sum(debitnote_amount)-sum(preferential_amount)) ELSE sum(amount)-sum(consume) -sum(redfee) - SUM(lwFeeOne) -sum(debitnote_amount)-sum(preferential_amount) END
+      amountSum4 ,loss,subsidy,SUM(redfee) redfee,sum(lwFeeOne) lwFeeOne
+  from(
+      SELECT tc.user_id company_id,
+           YEAR(`sum_date`) years,
+           MONTH(sum_date) months,
+           0 debitnote_amount,
+           0 invoice_amount,
+           0 preferential_amount,
+           0 amount,
+           tc.consume consume,ifnull(`actual_consume`,0)  - ifnull(`consume`,0)- ifnull(`red_fee`,0)- ifnull(`lw_fee_one`,0)+  ifnull(`sourcing_no`,0) subsidy,
+		   ifnull(month_stock_money,0) + ifnull(sourcing,0) - ifnull(consume,0)-ifnull(red_fee,0) -ifnull(lw_fee_one,0) - ifnull(goods_money,0) loss,red_fee redfee,lw_fee_one lwFeeOne
+      FROM `tran_consume` tc
+      where tc.`user_id` =#{shopId}
+        UNION ALL
+select de.company_id, de.years, de.months, de.debitnote_amount, 0 invoice_amount, 0 preferential_amount, 0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+  from debit_note de
+ where de.delete_status= 1 and company_id = #{shopId}
+ union ALL
+select inv.company_id, inv.years, inv.months, 0 debitnote_amount, inv.invoice_amount, 0 preferential_amount, 0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+  from invoice inv
+ where inv.delete_status= 1 and company_id = #{shopId}
+ union ALL
+select pre.company_id, pre.years, pre.months, 0 debitnote_amount, 0 invoice_amount, pre.preferential_amount preferential_amount, 0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+  from preferential pre
+ where pre.delete_status= 1 and company_id = #{shopId}
+ union ALL
+select tra.user_id company_id, YEAR(sum_date) years, month(sum_date) months, 0 debitnote_amount, 0 invoice_amount, 0 preferential_amount, amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+  from tran_sum tra
+ where sum_date> date_format('2015-06-01', '%Y-%m-%d') and user_id = #{shopId}) as sumlist
+  left outer join customer_user users on users.id= sumlist.company_id
+  left outer join `verification` ver on ver.company_id= sumlist.company_id
+   and ver.years= sumlist.years
+   and ver.months= sumlist.months
+   and ver.STATUS= 1
+ group by sumlist.years, sumlist.months) as info
+ order by 
+         info.years desc,
+         (info.months+ 0) desc
+  </select>
+  <select id="findMonthRecordByShopIdAndDate" resultType="com.b2b.common.domain.ShopOrder">
+	  	SELECT
+			t.sourcing,t.consume,t.redFee,t.lwFeeOne,t.MONTH,t.totalPrice,t.STATUS,t.loss,t.xiaohao expend,t.subsidy,t.last,t.shelf
+		FROM
+			(
+
+				SELECT
+					SUM(sourcing1) sourcing,
+					SUM(consume) consume,
+                    SUM(redFee) redFee,SUM(lwFeeOne) lwFeeOne,
+					t. MONTH,
+					SUM(sourcing1) - SUM(consume)-SUM(redFee)-SUM(lwFeeOne) totalPrice,
+					IFNULL(
+						ROUND(
+							(SUM(actual)+SUM(sourcingno)) * 100 / (
+								SUM(last) + SUM(sourcing) - SUM(shlef)
+
+							),
+							0
+						),
+						0
+					) STATUS,
+					IFNULL(
+						SUM(last) + SUM(sourcing) - SUM(consume)-SUM(redFee)-SUM(lwFeeOne) - SUM(shlef),
+						0
+					) loss,
+          IFNULL(
+						SUM(last) + SUM(sourcing) - SUM(shlef),
+						0
+					) xiaohao,
+					IFNULL(SUM(actual) - SUM(consume)-SUM(redFee)-SUM(lwFeeOne)+ SUM(sourcingno), 0) subsidy,
+SUM(last) last,SUM(shlef) shelf
+				FROM
+					(
+						SELECT
+							amount sourcing1,
+							0 sourcing,
+							0 consume,0 redFee,0 lwFeeOne,
+							0 actual,
+							0 shlef,
+							DATE_FORMAT(`sum_date`, '%Y-%m') MONTH,
+							0 last,
+              0 sourcingno
+						FROM
+							`tran_sum`
+						WHERE
+							`user_id` =#{shopId}
+						UNION ALL
+							SELECT
+								0 sourcing1,
+								sourcing,
+								consume,red_fee redFee,lw_fee_one lwFeeOne,
+								actual_consume actual,
+								goods_money shlef,
+								DATE_FORMAT(`sum_date`, '%Y-%m') MONTH,
+								month_stock_money last,
+                sourcing_no sourcingno
+							FROM
+								`tran_consume`
+							WHERE
+								user_id = #{shopId}
+					) t
+				GROUP BY
+					t. MONTH
+			) t
+		WHERE
+			t.`month` =#{month}
+  </select>
+  <select id="findByDate" resultMap="BaseResultMap">
+  		SELECT * FROM `shop_order` WHERE `status` =1 and `created_time` &gt;= #{firstDate} and `created_time`  &lt;=#{sumDate}
+  </select>
+  <select id="findShopDailyReport" resultMap="BaseResultMap">
+  		SELECT IFNULL(SUM(t.total_price),0) totalPrice,
+       IFNULL(SUM(t.actual_price),0) actualPrice,
+       COUNT(t.shop_id) shopId,IFNULL(SUM(consume_num),0) buyerId
+	  from(
+	SELECT SUM(`total_price`) total_price, SUM(`actual_price`) actual_price, `shop_id`,COUNT(1) consume_num
+	  FROM `shop_order`
+	 WHERE `status`= 1
+	   and `created_time` &gt;= #{start}
+	   and `created_time` &lt;= #{end}
+	 GROUP BY `shop_id`) t
+  </select>
+  <select id="findByShopIdAndDate" resultMap="BaseResultMap">
+  	SELECT IFNULL(SUM(t.total_price),0) totalPrice,
+       IFNULL(SUM(t.actual_price),0) actualPrice,
+       COUNT(1) shopId,SUM(t.consume_pen) buyerId
+  FROM(
+SELECT SUM(`total_price`) total_price, SUM(`actual_price`) actual_price, `buyer_id`,COUNT(1) consume_pen
+  FROM `shop_order`
+ where `status`= 1
+   and `shop_id`= #{id}
+   and `created_time` &gt;= #{start}
+   and `created_time` &lt;= #{end}
+ GROUP BY `buyer_id`, `sign`) t
+  </select>
+  <select id="findByDateGroupByBuyer" resultType="int">
+  	SELECT COUNT(1)
+  FROM(
+SELECT *
+  FROM `shop_order`
+ WHERE `status`= 1
+    and `created_time` &gt;= #{start}
+	   and `created_time` &lt;= #{end}
+ GROUP BY `buyer_id`) t
+  </select>
+  <select id="findMonthConsumeNumByMonth" resultType="int">
+  	SELECT COUNT(1)
+  FROM(
+SELECT *
+  FROM `shop_order`
+ WHERE date_format(`created_time`, '%Y-%m')= date_format(#{date}, '%Y-%m')  and `status` = 1
+ GROUP BY `shop_id`) t
+  </select>
+  <select id="findByMonthGroupByBuyer" resultType="int">
+  	SELECT COUNT(1)
+	  FROM(
+	SELECT *
+	  FROM `shop_order`
+	 WHERE `status`= 1
+	    and date_format(`created_time`, '%Y-%m') = date_format(#{date}, '%Y-%m') and `status` = 1
+	 GROUP BY `buyer_id`) t
+  </select>
+  <select id="findPenByMonthGroupByBuyer" resultType="int">
+  	SELECT IFNULL(SUM(t.num),0) from (
+SELECT COUNT(1) num
+	  FROM `shop_order`
+	 WHERE `status`= 1
+	    and date_format(`created_time`, '%Y-%m') = date_format(#{date}, '%Y-%m')  and `status` = 1
+	 GROUP BY `shop_id`) t
+  </select>
+  <select id="findConsumeNumByShopIdAndMonth" resultType="int">
+  	SELECT COUNT(1)
+	  from(
+	SELECT buyer_id
+	  FROM `shop_order`
+	 WHERE `status`= 1
+	   and date_format(`created_time`, '%Y-%m')= date_format(#{date}, '%Y-%m')  and `status` = 1
+	   and `shop_id`= #{id}
+	 GROUP BY `buyer_id`) t
+  </select>
+  <select id="findConsumePenByShopIdAndMonth" resultType="int">
+  	SELECT COUNT(1)
+  from(
+SELECT buyer_id
+  FROM `shop_order`
+ WHERE `status`= 1
+   and date_format(`created_time`, '%Y-%m')= date_format(#{date}, '%Y-%m')  and `status` = 1
+	   and `shop_id`= #{id}
+) t
+  </select>
+  <select id="findTotalLossPercentByMonth" resultType="int">
+  	SELECT IFNULL(ROUND((SUM(trc.`actual_consume`)+SUM(trc.`sourcing_no`)) * 100 /(SUM(trc.`month_stock_money`)+ SUM(trc.sourcing) - SUM(trc.`goods_money`)), 0), 0) precent
+	  FROM `tran_consume` trc LEFT JOIN `customer_user` cu on trc.`user_id`  = cu.`id`
+	 WHERE date_format(trc.`sum_date`, '%Y-%m')= date_format(#{date}, '%Y-%m') and cu.iswxvip = 3
+  </select>
+  <select id="findFirstPayDay" resultType="date">
+  	SELECT `created_time`  FROM `shop_order` WHERE `shop_id` =#{id} and `status` = 1 LIMIT 1
+  </select>
+  <select id="findWeekFeeByShopIdAndDate" resultMap="BaseResultMap">
+  	SELECT ifnull(SUM(`total_price`),0) totalPrice,
+       ifnull(SUM(`actual_price`),0) actualPrice
+	  FROM `shop_order`
+	 WHERE `status`= 1
+	   and `created_time` &gt;= #{startDate}
+	   and `created_time` &lt;= #{endDate}
+	   and `shop_id`= #{id}
+  </select>
+  <select id="findPenByShopIdAndDate" resultType="int">
+  	SELECT count(1)
+	  FROM `shop_order`
+	 WHERE `status`= 1
+	   and `created_time` &gt;= #{startDate}
+	   and `created_time` &lt;= #{endDate}
+	   and `shop_id`= #{id}
+  </select>
+  <select id="findConsumeNumByShopIdAndDateGroupBuyer" resultType="int">
+  	SELECT COUNT(1)
+	  from(
+	SELECT buyer_id
+	  FROM `shop_order`
+	 WHERE `status`= 1
+	   and `created_time` &gt;= #{startDate}
+	   and `created_time` &lt;= #{endDate}
+	   and `shop_id`= #{id}
+	 GROUP BY `buyer_id`) t
+  </select>
+  <select id="findTodayAllConsumeMoney" resultMap="BaseResultMap">
+  	SELECT SUM(`total_price`) totalPrice,
+	       COUNT(1) id
+	  FROM `shop_order`
+	 WHERE `status`= 1 and city_id =#{cityId}
+	   and date_format(`created_time`, '%Y-%m-%d')= date_format(now(), '%Y-%m-%d')
+  </select>
+  <select id="findactualShopReportList" resultType="com.b2b.common.domain.ActualShopReport">
+  SELECT cu.`user_name` ,re.`name` region ,cu.list_time lastTime,cu.check_time checkTime,datediff(NOW(),cu.check_time) checkDay,t1.shopId,t1.consumeFee,t1.consumeNum,t1.sourcingFee,t1.onsaleFee,t1.unsalable,t1.kinds,t1.day FROM (
+SELECT
+	       ttt.shop_id shopId,
+	       SUM(ttt.consumeFee) consumeFee,
+	       SUM(ttt.consumePen) consumeNum,
+	       SUM(ttt.sourcingFee) sourcingFee,
+	       SUM(ttt.onsaleFee) onsaleFee,
+	       SUM(ttt.unsalable) unsalable,
+	       SUM(ttt.kinds) kinds,
+	       convert(SUM(ttt.onsaleFee)/SUM(ttt.avg_fee) , decimal(8,1)) day
+	  FROM(
+	SELECT `shop_id`, SUM(`total_price`) consumeFee, COUNT(1) consumePen, 0 sourcingFee, 0 onsaleFee,0 kinds, 0 unsalable, 0 avg_fee
+	  FROM `shop_order`
+	 WHERE `status`= 1
+	   and date_format(`created_time`, '%Y-%m-%d')= date_format(now(), '%Y-%m-%d')
+	 GROUP BY `shop_id`
+	 UNION ALL
+	SELECT `user_id` shop_id, 0 consumeFee, 0 consumePen, SUM(`total_fee`) sourcingFee, 0 onsaleFee,0 kinds, 0 unsalable, 0 avg_fee
+	  FROM `order`
+	 WHERE `status`= 1
+	   and `comfirm` = 2
+	 GROUP BY `user_id`
+	 UNION ALL
+	SELECT `shop_id`, 0 consumeFee, 0 consumePen, 0 sourcingFee, SUM(t.fee) onsaleFee,count(1) kinds, COUNT(IF(t.consume_num&lt; 0, IF(t.flag&gt;= 3, true, null), null)) unsalable, 0 avg_fee
+	  FROM(
+	SELECT si.`sourcing_price`* si.num fee, si.`shop_id`, CASE DAYOFWEEK(si.onshelf_time) -1 WHEN 1 THEN IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))= 3, IF(DATE_FORMAT(si.onshelf_time, '%k')&lt; 6, 1, 3), DATEDIFF(date_format(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))) WHEN 2 THEN IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))= 3, IF(DATE_FORMAT(si.onshelf_time, '%k')&lt; 6, 1, 3), DATEDIFF(date_format(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))) WHEN 3 THEN IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))= 5, IF(DATE_FORMAT(si.onshelf_time, '%k')&lt; 6, 1, 3), IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))&lt; 5, 1, 3)) WHEN 4 THEN IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))= 5, IF(DATE_FORMAT(si.onshelf_time, '%k')&lt; 6, 1, 3), IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))&lt; 5, 1, 3)) WHEN 5 THEN IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))= 5, IF(DATE_FORMAT(si.onshelf_time, '%k')&lt; 6, 1, 3), IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))&lt; 5, 1, 3)) WHEN 6 THEN IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))= 5, IF(DATE_FORMAT(si.onshelf_time, '%k')&lt; 6, 1, 3), IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))&lt; 5, 1, 3)) WHEN 0 THEN IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))= 4, IF(DATE_FORMAT(si.onshelf_time, '%k')&lt; 6, 1, 3), IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))&lt; 4, 1, 3)) END flag, si.`name`, IFNULL(cr.`consume_num`, -1) consume_num
+	   FROM `shop_item` si
+	  LEFT JOIN consume_rank cr on si.id= cr.item_id
+	 where si.`status`= 1
+	   and si.`isdown`= 1) t
+	 GROUP BY t.shop_id
+	 UNION ALL
+	SELECT `user_id` shop_id, 0 consumeFee, 0 consumePen, 0 sourcingFee, 0 onsaleFee,0 kinds, 0 unsalable, IFNULL(`avg_fee`, 0) `avg_fee`
+	  FROM `shop_week_report`
+	 WHERE YEARWEEK(date_format(sumdate, '%Y-%m-%d'))= YEARWEEK(now()) -1) ttt
+
+	 GROUP BY ttt.shop_id ) t1
+LEFT JOIN `customer_user` cu on t1.shopId= cu.`id`
+LEFT JOIN `reseau` re on cu.`reseau_id` =re.`id`
+where cu.`iswxvip` =3 and cu.city_id = #{cityId}
+<if test="username!='' and username !=null">
+	and cu.user_name=#{username}
+</if>
+<if test="reseauId >0 ">
+    and cu.`reseau_id` = #{reseauId}
+</if>
+<if test="param==0">
+	order by cu.`created_time` desc
+</if>
+<if test="param==1">
+	order by t1.sourcingFee desc
+</if>
+<if test="param==2">
+	order by t1.consumeFee desc
+</if>
+<if test="param==3">
+	order by t1.consumeNum desc
+</if>
+<if test="param==4">
+	order by t1.onsaleFee desc
+</if>
+<if test="param==5">
+	order by t1.kinds desc
+</if>
+<if test="param==6">
+	order by t1.unsalable desc
+</if>
+<if test="param==7">
+	order by t1.day desc
+</if>
+  </select>
+  <select id="findOrderAndItemByUseridAndtype" resultMap="shopOrderItemMap">
+  	SELECT
+			so.id orderId,
+			so.created_time createdTime,
+			so.`status`,
+			so.total_price totalPrice,
+			so.free_price freePrice,so.red_price redPrice,
+			so.buyer_name buyerName,
+			so.`img_path`  headImgurl,so.`sign`,so.shop_name shopName
+		FROM
+			shop_order so
+		WHERE
+			so.`status`=1
+			and so.buyer_id = #{userid}
+			and so.sign=#{type}
+			ORDER BY created_time desc
+  </select>
+  <select id="findFreeFee" resultType="long">
+  	SELECT IFNULL(SUM(free_price),0) FROM `shop_order` WHERE `status` = 1 and buyer_id=#{buyerid} and sign=#{i} and `created_time` &gt;= #{query} and `created_time` &lt;= now()
+  </select>
+  <select id="findKindsByShopIdAndDate" resultType="int">
+  	SELECT COUNT(1)
+	  FROM(
+	SELECT `item_id`
+	  FROM `shop_order` so
+	  LEFT JOIN `shop_order_item` soi on so.`id`= soi.`order_id`
+	 WHERE `shop_id`= #{id}
+	   and `created_time` &gt;= #{startDate}
+	   and `created_time` &lt;= #{endDate}
+	 GROUP BY soi.`item_id`) t
+  </select>
+  <select id="findProfitByShopIdAndDate" resultType="com.b2b.common.domain.ShopOrder">
+	SELECT ifnull(round(SUM(t.price)*t.discount -SUM(t.cost)),0) expend,ifnull(SUM(t.price),0) sourcing  FROM (
+		SELECT i.`price`*soi.`num` price,
+		       i.`cost_price` *soi.`num` cost,cu.`discount`
+		  FROM `shop_order` so
+		  LEFT JOIN `customer_user` cu ON so.`shop_id` =cu.`id`
+		  LEFT JOIN `shop_order_item` soi on so.`id`= soi.`order_id`
+		  LEFT JOIN `shop_item` si on soi.`item_id`= si.`id`
+		  LEFT JOIN `item` i on si.`item_id`= i.`id`
+		where so.`shop_id` =#{id}
+		and so.`created_time` &gt;= #{startDate}
+		and so.`created_time` &lt;= #{endDate}
+	)t;
+  </select>
+  <select id="findConsumeMoneyByReseauIdAndDate" resultType="com.b2b.common.domain.ShopOrder">
+  	SELECT ifnull(SUM(so.`total_price`),0) totalPrice,
+       COUNT(1) id
+  FROM `shop_order` so
+  LEFT JOIN `customer_user` cu on so.`shop_id`= cu.`id`
+ WHERE so.`status`= 1
+   and so.`created_time` &gt;=#{startdate} and so.`created_time` &lt;=#{enddate}
+   and cu.`reseau_id`= #{reseauId}
+  </select>
+  <select id="findTodayAllConsumeMoneyByCityId" resultType="com.b2b.common.domain.ShopOrder">
+  	SELECT ifnull(SUM(so.`total_price`),0) totalPrice,
+       COUNT(1) id
+  FROM `shop_order` so
+  LEFT JOIN `customer_user` cu on so.`shop_id`= cu.`id`
+ WHERE so.`status`= 1
+   and date_format(so.`created_time`, '%Y-%m-%d')= date_format(now(), '%Y-%m-%d')
+   and cu.city_id = #{cityId}
+  </select>
+  <select id="findReseauCountInfo" resultType="com.b2b.common.domain.ShopOrder">
+  	SELECT cu.`user_name` shopName,cu.id shopId,SUM(t.today) actualPrice,SUM(t.yesterday) last,SUM(t.month) totalPrice,SUM(t.shelf) shelf FROM `customer_user` cu LEFT JOIN (
+
+	SELECT so.`shop_id` ,SUM(so.`total_price`) today,null yesterday,null month,0 shelf
+	FROM `shop_order` so LEFT JOIN `customer_user` cu on so.`shop_id` = cu.`id` WHERE so.`status` =1  and date_format(so.`created_time`,'%Y-%m-%d') =  date_format(now(),'%Y-%m-%d')  GROUP BY so.`shop_id`
+	union ALL
+
+	SELECT `shop_id` ,0 today,`total_consume` yesterday,null month,0 shelf  FROM `shop_daily_report` where `sumdate` = date_sub(curdate(),interval 1 day)
+	union ALL
+	    SELECT
+       smr.`user_id` shop_id,0 today,null yesterday,
+       smr.`consume_fee` month,0 shelf
+  FROM shop_month_report smr
+  LEFT JOIN customer_user cu on smr.user_id= cu.id
+ where  date_format(smr.`sum_date`, '%Y-%m')= date_format(now(), '%Y-%m')
+	union ALL
+	SELECT si.`shop_id` ,0 today,null yesterday,null month,SUM(si.`sourcing_price`*si.`num` ) shelf  FROM `shop_item` si LEFT JOIN `customer_user` cu on si.`shop_id` =cu.`id` where si.`status` =1 and si.`isdown` =1  GROUP BY si.`shop_id`
+	) t on  cu.`id` = t.shop_id
+	where cu.`iswxvip` =3 and cu.`status` =1 and cu.`reseau_id` =#{reseauId}  GROUP BY cu.id ORDER BY cu.`created_time` desc;
+  </select>
+  <select id="findactualShopReportByShopId" resultType="com.b2b.common.domain.ActualShopReport">
+   SELECT cu.`user_name` ,re.`name` region ,cu.list_time lastTime,cu.check_time checkTime,datediff(NOW(),cu.check_time) checkDay,t1.shopId,t1.consumeFee,t1.consumeNum,t1.sourcingFee,t1.onsaleFee,t1.unsalable,t1.kinds,t1.day FROM (
+SELECT
+	       ttt.shop_id shopId,
+	       SUM(ttt.consumeFee) consumeFee,
+	       SUM(ttt.consumePen) consumeNum,
+	       SUM(ttt.sourcingFee) sourcingFee,
+	       SUM(ttt.onsaleFee) onsaleFee,
+	       SUM(ttt.unsalable) unsalable,
+	       SUM(ttt.kinds) kinds,
+	       convert(SUM(ttt.onsaleFee)/SUM(ttt.avg_fee) , decimal(8,1)) day
+	  FROM(
+	SELECT `shop_id`, SUM(`total_price`) consumeFee, COUNT(1) consumePen, 0 sourcingFee, 0 onsaleFee,0 kinds, 0 unsalable, 0 avg_fee
+	  FROM `shop_order`
+	 WHERE `status`= 1
+	   and date_format(`created_time`, '%Y-%m-%d')= date_format(now(), '%Y-%m-%d')
+	 GROUP BY `shop_id`
+	 UNION ALL
+	SELECT `user_id` shop_id, 0 consumeFee, 0 consumePen, SUM(`total_fee`) sourcingFee, 0 onsaleFee,0 kinds, 0 unsalable, 0 avg_fee
+	  FROM `order`
+	 WHERE `status`= 1
+	   and `comfirm` = 2
+	 GROUP BY `user_id`
+	 UNION ALL
+	SELECT `shop_id`, 0 consumeFee, 0 consumePen, 0 sourcingFee, SUM(t.fee) onsaleFee,count(1) kinds, COUNT(IF(t.consume_num&lt; 0, IF(t.flag&gt;= 3, true, null), null)) unsalable, 0 avg_fee
+	  FROM(
+	SELECT si.`sourcing_price`* si.num fee, si.`shop_id`, CASE DAYOFWEEK(si.onshelf_time) -1 WHEN 1 THEN IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))= 3, IF(DATE_FORMAT(si.onshelf_time, '%k')&lt; 6, 1, 3), DATEDIFF(date_format(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))) WHEN 2 THEN IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))= 3, IF(DATE_FORMAT(si.onshelf_time, '%k')&lt; 6, 1, 3), DATEDIFF(date_format(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))) WHEN 3 THEN IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))= 5, IF(DATE_FORMAT(si.onshelf_time, '%k')&lt; 6, 1, 3), IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))&lt; 5, 1, 3)) WHEN 4 THEN IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))= 5, IF(DATE_FORMAT(si.onshelf_time, '%k')&lt; 6, 1, 3), IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))&lt; 5, 1, 3)) WHEN 5 THEN IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))= 5, IF(DATE_FORMAT(si.onshelf_time, '%k')&lt; 6, 1, 3), IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))&lt; 5, 1, 3)) WHEN 6 THEN IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))= 5, IF(DATE_FORMAT(si.onshelf_time, '%k')&lt; 6, 1, 3), IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))&lt; 5, 1, 3)) WHEN 0 THEN IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))= 4, IF(DATE_FORMAT(si.onshelf_time, '%k')&lt; 6, 1, 3), IF(DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(si.onshelf_time, '%Y-%m-%d'))&lt; 4, 1, 3)) END flag, si.`name`, IFNULL(cr.`consume_num`, -1) consume_num
+	   FROM `shop_item` si
+	  LEFT JOIN consume_rank cr on si.id= cr.item_id
+	 where si.`status`= 1
+	   and si.`isdown`= 1) t
+	 GROUP BY t.shop_id
+	 UNION ALL
+	SELECT `user_id` shop_id, 0 consumeFee, 0 consumePen, 0 sourcingFee, 0 onsaleFee,0 kinds, 0 unsalable, IFNULL(`avg_fee`, 0) `avg_fee`
+	  FROM `shop_week_report`
+	 WHERE YEARWEEK(date_format(sumdate, '%Y-%m-%d'))= YEARWEEK(now()) -1) ttt
+
+	 GROUP BY ttt.shop_id ) t1
+LEFT JOIN `customer_user` cu on t1.shopId= cu.`id`
+LEFT JOIN `reseau` re on cu.`reseau_id` =re.`id`
+where cu.`iswxvip` =3 and cu.`id` =#{shopId}
+  </select>
+  <select id="findByDateAndCityId" resultMap="BaseResultMap">
+  		SELECT * FROM `shop_order` WHERE `status` =1 and city_id =#{cityId} and `created_time` &gt;= #{firstDate} and `created_time`  &lt;=#{sumDate}
+  </select>
+  <delete id="deleteByCondition">
+  	DELETE
+  FROM `shop_sales`
+ WHERE `shop_id`=#{shopId}
+   and date_format(`sum_date`, '%Y-%m')= date_format(#{sumDate}, '%Y-%m')
+  </delete>
+  <select id="findTodayOrderNumByBuyerIdAndSign" resultType="int">
+  	SELECT COUNT(1)
+  FROM `shop_order`
+ WHERE `status`= 1
+   and `buyer_id`= #{buyer}
+   and `sign`= #{sign}
+   and date_format(`created_time`, '%Y-%m-%d')= date_format(now(), '%Y-%m-%d')
+  </select>
+  <select id="findTotalUseRedFeeByCityId" resultType="long">
+  	SELECT ifnull(SUM(`red_price`),0)  FROM `shop_order` WHERE `status` =1 and `city_id` =#{cityId}
+  </select>
+    <select id="findTemp" resultType="Boolean">
+        SELECT if(datediff(now(), `created_time`) &lt; 8, true, false)
+        FROM `shop_order`
+        WHERE `status`= 1
+        and `shop_id`= #{shopId}
+        and `created_time`> #{contractDate}
+        LIMIT 1
+    </select>
+    <select id="findTodayAllConsumeMoneyByInterfacerId" resultMap="BaseResultMap">
+    SELECT ifnull(SUM(so.`total_price`),0) totalPrice
+  FROM `shop_order` so
+  LEFT JOIN `customer_user` cu on so.`shop_id`= cu.`id`
+ WHERE date_format(so.`created_time`, '%Y-%m-%d')= date_format(now(), '%Y-%m-%d')
+   and cu.`interface_person_id` in
+     <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+     #{item}
+     </foreach>
+   and so.`status`= 1
+   and so.city_id= #{cityId}
+    </select>
+    <select id="findConsumeMoneyByCityIdAndReseauIdsAndDate" resultMap="BaseResultMap">
+    	SELECT ifnull(SUM(so.`total_price`), 0) totalPrice
+		  FROM `shop_order` so
+		  LEFT JOIN `customer_user` cu on so.`shop_id`= cu.`id`
+		 WHERE 
+		    so.`created_time` &gt;=#{startdate} and so.`created_time` &lt;=#{enddate}
+		   and cu.`reseau_id`  in
+		    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+		     #{item}
+		     </foreach>
+		   and so.`status`= 1
+		   and so.city_id= #{cityId}
+    </select>
+    <select id="findConsumeMoneyByCityIdAndDate" resultMap="BaseResultMap">
+    SELECT SUM(so.`total_price`) totalPrice,
+       COUNT(1) id
+  FROM `shop_order` so
+  LEFT JOIN `customer_user` cu on so.`shop_id`= cu.`id`
+ WHERE so.`status`= 1
+   and so.`created_time` &gt;=#{startdate} and so.`created_time` &lt;=#{enddate}
+   and cu.city_id = #{cityId}
+    </select>
+</mapper>

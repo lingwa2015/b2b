@@ -1,0 +1,5 @@
+#set($layout="layout/shopLayout.vm")
+  <div class="add_content">
+  	</br>
+  	<span>请扫描店铺二维码进入店铺管理后台</span>
+  </div>

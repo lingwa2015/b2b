@@ -1,0 +1,203 @@
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/afterSalesRecord/add.htm" class="btn btn-success"><i class="ico"></i>添加记录</a>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner" style="padding:0;">
+	<form class="jqtransform" id="orderListForm" action="${rc.contextPath}/afterSalesRecord/afterSalesRecordList.htm" method="POST" style="padding:20px;">
+		<input type="hidden" name="token" value="">
+		<input type="hidden" name="queryUser" value="0">
+		<table class="form form-horizontal">
+		<tbody>
+		<tr>
+			<td><label class="tit first-tit">客户简称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="userName" id="userName" value="$!userName" autocomplete="off">
+			</td>
+
+			<td><label class="tit">记录人：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="recordMan"  value="$!recordMan">
+			</td>
+			<td><label class="tit">负责人：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="fuzeMan"  value="$!fuzeMan">
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">记录类型：</label></td>
+			<td>
+				<select name="recordType" style="width:80px">
+
+							  <option value="">全部</option>
+							  <option value="1" #if($recordType==1)selected=selected#end>投诉</option>
+							  <option value="2" #if($recordType==2)selected=selected#end>反馈</option>
+							  <option value="3" #if($recordType==3)selected=selected#end>记录</option>
+				</select>
+			</td>
+			<td align="right"><label class="tit">状态：</label></td>
+			<td>
+				<select name="doState" style="width:80px">
+							  <option value="">全部</option>
+							  <option value="1" #if($doState==1)selected=selected#end>待处理</option>
+							  <option value="2" #if($doState==2)selected=selected#end>处理中</option>
+							  <option value="3" #if($doState==3)selected=selected#end>已处理</option>
+				</select>
+			</td>
+			<td align="right"><label class="tit">区域：</label></td>
+			<td>
+						<select name="regionId" validate="{required:true}" >
+						    <option value="">所有地区</option>
+						    #foreach($region in $regions)
+							   #if($!regionId == $region.id)
+					            <option value="$region.id" selected="selected">$region.name</option>
+					           #else
+					            <option value="$region.id">$region.name</option>
+					           #end
+							#end
+						 </select>
+						</td>
+			<td align="right"><label class="tit">网格：</label></td>
+						<td>
+						<select name="reseauId" validate="{required:true}" >
+						    <option value="">全部</option>
+						    #foreach($reseau in $reseaus)
+							   #if($!reseauId == $reseau.id)
+					            <option value="$reseau.id" selected="selected">$reseau.name</option>
+					           #else
+					            <option value="$reseau.id">$reseau.name</option>
+					           #end
+							#end
+						 </select>
+						 &nbsp;<span></span>
+						</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(orderListForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+			</td>
+		</tr>
+	</tbody></table>
+	</form>
+	<span class="j"></span>
+	#foreach($bean in $page.result)
+		<div class="service_list">
+		<div class="main">
+			<!-- 类型 -->
+			<span>[#if($bean.recordType==1)<span class="state">投诉#elseif($bean.recordType==2)<span>反馈#elseif($bean.recordType==3)<span>记录#else#end</span>]</span>
+			<!-- 公司名称 -->
+			<span>[$!bean.region][$bean.userName]</span>
+			<!-- 内容 -->
+			<span style="line-height:20px;">$bean.content</span>
+			<!-- 填写人 -->
+			<span class="name">$!bean.recordMan</span>
+			<span class="date">$!date.format('yyyy-MM-dd HH:mm:ss',$bean.createdTime)</span>
+			<!-- 操作 -->
+			<div class="doing">
+				<!-- <span class="replay">回复</span>-->
+				<a href="${rc.contextPath}/afterSalesRecord/edit.htm?id=$bean.id" style="margin-left:0;">编辑</a>
+				<span class="delete" data-id="$bean.id" style="cursor: pointer;">删除</span>&nbsp;&nbsp;&nbsp;&nbsp;
+				#if($bean.doState==1)
+				<span class="state dostate" data-id="$bean.id">待处理</span>
+				#elseif($bean.doState==2)
+				<span class="dostate" data-id="$bean.id">处理中</span>
+				#elseif($bean.doState==3)
+				<span >已处理</span>
+				#end
+				#if($bean.fuzeMan)
+				<span style="margin-left:10px">负责人:$bean.fuzeMan</span>
+				#end
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				#if($bean.flag==1)
+				<span >内部</span>
+				#end
+			</div>
+		</div>
+		<!-- 输入内容框 -->
+		<div class="going">
+			<input type="" name="text">
+			<span class="save">保存</span>
+			<span class="quxiao">取消</span>
+		</div>
+		</div>
+	#end
+	<div class="text-center">
+        			#parse("/common/page.vm")
+       		</div>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+<script type="text/javascript">
+	// 点击取消按钮 隐藏input
+	$('.quxiao').on('click',function(){
+		$(this).parent().hide();
+	});
+	// 点击回复 显示input
+	$('.replay').on('click',function(){
+		$(this).parent().parent().siblings('.going').show();
+	})
+	// 点击保存 追加内容
+	$('.save').on('click',function(){
+		var list_val = $(this).siblings('input').val();
+		var html = '';
+		if (list_val<=0) {
+			alert("请输入内容");
+			return;
+		}
+		var wo = "董小姐";
+		var date = "2016-10-10  12:23:23";
+		html+= '<div class="add"><span>'+list_val+'</span><span class="name">'+wo+'</span><span class="date">'+date+'</span><span class="del" onclick="del(this);">删除</span></div>';
+		$(this).parent().siblings('.main').append(html);
+		
+		$(this).siblings('input').val('');
+		$(this).parent().hide();
+	});
+	// 回复列表的删除
+	function del(e){
+		if (confirm("是否删除")) {
+			$(e).parent().remove();
+		}
+		
+	}
+	//操作里的删除
+	$('.delete').on('click',function(){
+		if (confirm("是否删除")) {
+			var id = $(this).attr("data-id");
+			var the = $(this);
+			 $.ajax({
+				url:'${rc.contextPath}/afterSalesRecord/delete.do',
+				type:'POST',
+				data: {id:id},
+				success:function(data){
+					if(data=="200"){
+						$(the).parent().parent().parent().remove();
+					}else if(data=="202"){
+						alert("你还未设置默认城市，联系管理员设置");
+					}else if(data=="203"){
+					    alert("你设置的默认城市与实际不符");
+					}else{
+						alert("删除失败");
+					}
+				}
+				
+			})
+		}
+		
+	})
+	
+	$('.dostate').on('click',function(){
+			var id = $(this).attr("data-id");
+			var the = $(this);
+			 $.ajax({
+				url:'${rc.contextPath}/afterSalesRecord/updateState.do',
+				type:'POST',
+				data: {id:id},
+				success:function(data){
+					if(data.status==200){
+						$(the).removeClass("state");
+						$(the).html(data.msg);
+					}else{
+					}
+				}
+				
+			})
+		
+	})
+</script>

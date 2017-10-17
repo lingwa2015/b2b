@@ -1,0 +1,84 @@
+<div class="content">
+		<div class="bd-actionbar">
+			<a href="/shopDiscountSetting/discountSettingList.htm?menuHeight=$!menuHeight&menuName=$!menuName" class="btn btn-success">返回店铺活动列表</a>
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" id="orderListForm" action="/shopDiscountSetting/preferentialDetailList.htm?menuHeight=$!menuHeight&menuName=$!menuName" method="POST">
+				<table class="form form-horizontal">
+				<tr>
+					<td><label class="tit first-tit">下单开始时间：</label></td>
+					<td>
+						<input class="form-input input-time-day" type="text" name="startTime" id="startTime" readonly="readonly" value="$!startTime">
+					</td>
+		
+					<td><label class="tit">下单结束时间：</label></td>
+					<td>
+						<input class="form-input input-time-day" type="text" name="endTime" id="endTime" readonly="readonly" value="$!endTime">
+					</td>
+				</tr>
+				<tr>
+				    <td align="right"><label class="tit">客户简称：</label></td>
+					<td>
+						<input class="form-input input-time-day" type="text"  name="userName" id="userName" value="$!itemName">
+					</td>
+					<td align="right"><label class="tit">网格：</label></td>
+						<td>
+						<select name="reseauId" validate="{required:true}" >
+						    <option value="">全部</option>
+						    #foreach($reseau in $reseaus)
+							   #if($!reseauId == $reseau.id)
+					            <option value="$reseau.id" selected="selected">$reseau.name</option>
+					           #else
+					            <option value="$reseau.id">$reseau.name</option>
+					           #end
+							#end
+						 </select>
+						 &nbsp;<span></span>
+						</td>
+					<td>
+						<a class="btn btn-warning btn-sm" onclick="javascript:$(orderListForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+					</td>
+				</tr>
+			</table>
+			</form>
+			<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+		        <tr class="info">
+					<td colspan="1">
+		                <span>优惠总额：$NumberTool.toYuanNumber($!money) 元</span>
+		            </td>
+				</tr>
+			</table>
+			<table class="table">
+			  <tr>
+			 	 <th>客户简称</th>
+				
+				<th>活动名称</th>
+				
+				<th>日期</th>
+				
+				<th>优惠金额</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>$!bean.shopName</td>
+					<td>$bean.name</td>
+					<td>$!date.format('yyyy-MM-dd',$!bean.createdTime)</td>
+					<td>$NumberTool.toYuanNumber($!bean.fee)</td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->
+<script type="text/javascript">
+	$(document).ready(function() {
+
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+
+ });
+</script>

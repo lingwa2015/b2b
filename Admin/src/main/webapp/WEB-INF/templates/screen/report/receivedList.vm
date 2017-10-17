@@ -1,0 +1,73 @@
+<script type="text/javascript">
+</script>
+<div class="content">
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/received/receivedPaymentsReport.htm" method="post">
+			<table class="form form-horizontal">
+			
+			
+			
+			<td align="right"><label class="tit">类型：</label></td>
+			<td>
+				<select name="type" id="type" style="width:80px">
+				              <option value="-1" >全部</option>
+							  <option value="3" #if($type==3)selected=selected#end>便利店</option>
+							  <option value="2" #if($type==2)selected=selected#end>福利店</option>
+							  <option value="1" #if($type==1)selected=selected#end>礼包</option>
+				</select>
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(form1).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+			</td>
+			</table>
+		</form>
+			
+			<table class="table">
+			  <tr>
+			    <th>月份</th>
+			    <th>销售额</th>
+				<th>自回款</th>
+				<th>应收</th>
+				<th>已开票</th>
+				<th>比例</th>
+				<th>已收款</th>
+				<th>比例</th>
+				<th>占比</th>
+				<th>优惠</th>
+				<th>应收客户数</th>
+				<th>已核销客户数</th>
+				<th>比例</th>
+				<th>未收款</th>
+				<th>未开票</th>
+				<th>操作</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>$!bean.sumdate</td>
+					<td>$NumberTool.toYuanNumber($!bean.amountSum1)</td>
+					<td>$NumberTool.toYuanNumber($!bean.amountSum2)</td>
+					<td>$NumberTool.toYuanNumber($!bean.amountSum3)</td>
+					<td>$NumberTool.toYuanNumber($!bean.amountSum4)</td>
+					<td>$!bean.num1%</td>
+					<td>$NumberTool.toYuanNumber($!bean.amountSum5)</td>
+					<td>$!bean.num2%</td>
+					<td>#if($!bean.num3)$!bean.num3%#end</td>
+					<td>$NumberTool.toYuanNumber($!bean.amountSum6)</td>
+					<td>$!bean.receivableNum</td>
+					<td>$!bean.receivedNum</td>
+					<td>$!bean.num4%</td>
+					#set($fee1 = $!bean.amountSum3 - $!bean.amountSum5 - $!bean.amountSum6)
+					<td>$NumberTool.toYuanNumber($fee1)</td>
+					#set($fee2 = $!bean.amountSum3 - $!bean.amountSum4)
+					<td>$NumberTool.toYuanNumber($fee2)</td>
+					<td><a href="${rc.contextPath}/received/receivedPaymentsReportDetail.htm?queryDate=$!bean.sumdate&type=-1">详情</a></td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

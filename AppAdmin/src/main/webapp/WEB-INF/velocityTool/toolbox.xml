@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<toolbox>  
+    <tool>  
+        <key>NumberTool</key>  
+        <scope>application</scope>  
+        <class>com.b2b.web.util.NumberTool</class>  
+    </tool>
+    <tool>  
+        <key>DateTool</key>  
+        <scope>application</scope>  
+        <class>com.b2b.web.util.DateTool</class>  
+    </tool>  
+    <tool>  
+        <key>StatusUtil</key>  
+        <scope>application</scope>  
+        <class>com.b2b.web.util.StatusUtil</class>  
+    </tool>  
+</toolbox>  

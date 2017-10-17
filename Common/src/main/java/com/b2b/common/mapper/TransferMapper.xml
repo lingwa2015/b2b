@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.TransferMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.Transfer" >
+    <id column="transfer_id" property="transferId" jdbcType="VARCHAR" />
+    <result column="executed_time" property="executedTime" jdbcType="DATE" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="customerId" property="customerid" jdbcType="INTEGER" />
+    <result column="last_customerid" property="lastCustomerid" jdbcType="INTEGER" />
+    <result column="foregift" property="foregift" jdbcType="BIGINT" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="mac_id" property="macId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    transfer_id, executed_time, type, remark, created_time, state, customerId, last_customerid, 
+    foregift, city_id, mac_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.TransferExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from transfer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from transfer
+    where transfer_id = #{transferId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from transfer
+    where transfer_id = #{transferId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.TransferExample" >
+    delete from transfer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.Transfer" >
+    insert into transfer (transfer_id, executed_time, type, 
+      remark, created_time, state, 
+      customerId, last_customerid, foregift, 
+      city_id, mac_id)
+    values (#{transferId,jdbcType=VARCHAR}, #{executedTime,jdbcType=DATE}, #{type,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}, 
+      #{customerid,jdbcType=INTEGER}, #{lastCustomerid,jdbcType=INTEGER}, #{foregift,jdbcType=BIGINT}, 
+      #{cityId,jdbcType=INTEGER}, #{macId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.Transfer" >
+    insert into transfer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="transferId != null" >
+        transfer_id,
+      </if>
+      <if test="executedTime != null" >
+        executed_time,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="customerid != null" >
+        customerId,
+      </if>
+      <if test="lastCustomerid != null" >
+        last_customerid,
+      </if>
+      <if test="foregift != null" >
+        foregift,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="macId != null" >
+        mac_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="transferId != null" >
+        #{transferId,jdbcType=VARCHAR},
+      </if>
+      <if test="executedTime != null" >
+        #{executedTime,jdbcType=DATE},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="customerid != null" >
+        #{customerid,jdbcType=INTEGER},
+      </if>
+      <if test="lastCustomerid != null" >
+        #{lastCustomerid,jdbcType=INTEGER},
+      </if>
+      <if test="foregift != null" >
+        #{foregift,jdbcType=BIGINT},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="macId != null" >
+        #{macId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.TransferExample" resultType="java.lang.Integer" >
+    select count(*) from transfer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update transfer
+    <set >
+      <if test="record.transferId != null" >
+        transfer_id = #{record.transferId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.executedTime != null" >
+        executed_time = #{record.executedTime,jdbcType=DATE},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerid != null" >
+        customerId = #{record.customerid,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastCustomerid != null" >
+        last_customerid = #{record.lastCustomerid,jdbcType=INTEGER},
+      </if>
+      <if test="record.foregift != null" >
+        foregift = #{record.foregift,jdbcType=BIGINT},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.macId != null" >
+        mac_id = #{record.macId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update transfer
+    set transfer_id = #{record.transferId,jdbcType=VARCHAR},
+      executed_time = #{record.executedTime,jdbcType=DATE},
+      type = #{record.type,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      state = #{record.state,jdbcType=INTEGER},
+      customerId = #{record.customerid,jdbcType=INTEGER},
+      last_customerid = #{record.lastCustomerid,jdbcType=INTEGER},
+      foregift = #{record.foregift,jdbcType=BIGINT},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      mac_id = #{record.macId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.Transfer" >
+    update transfer
+    <set >
+      <if test="executedTime != null" >
+        executed_time = #{executedTime,jdbcType=DATE},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="customerid != null" >
+        customerId = #{customerid,jdbcType=INTEGER},
+      </if>
+      <if test="lastCustomerid != null" >
+        last_customerid = #{lastCustomerid,jdbcType=INTEGER},
+      </if>
+      <if test="foregift != null" >
+        foregift = #{foregift,jdbcType=BIGINT},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="macId != null" >
+        mac_id = #{macId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where transfer_id = #{transferId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.Transfer" >
+    update transfer
+    set executed_time = #{executedTime,jdbcType=DATE},
+      type = #{type,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      customerId = #{customerid,jdbcType=INTEGER},
+      last_customerid = #{lastCustomerid,jdbcType=INTEGER},
+      foregift = #{foregift,jdbcType=BIGINT},
+      city_id = #{cityId,jdbcType=INTEGER},
+      mac_id = #{macId,jdbcType=INTEGER}
+    where transfer_id = #{transferId,jdbcType=VARCHAR}
+  </update>
+  <select id="findByCondition" resultMap="BaseResultMap">
+  	SELECT
+		tr.*,e.`name` oneType,eq.`name` twoType,cu.user_name userName,ma.machine_id machineId
+	FROM
+		transfer tr
+	LEFT JOIN machine ma ON tr.mac_id = ma.id
+	LEFT JOIN equipment e ON ma.one_type_id = e.id
+	LEFT JOIN equipment eq ON ma.two_type_id = eq.id
+	LEFT JOIN customer_user cu ON tr.customerId = cu.id
+	WHERE state=1 and tr.city_id =#{cityId}
+	<if test="machineId!='' and machineId!=null">
+		and ma.machine_id = #{machineId}
+	</if>
+	<if test="startTime !='' and startTime !=null">
+		and tr.executed_time &gt;=#{startTime}
+	</if>
+	<if test="endTime !='' and endTime !=null">
+		and tr.executed_time &lt;=#{endTime}
+	</if>
+	<if test="type==1">
+		and tr.type=1
+	</if>
+	<if test="type==2">
+		and tr.type=2
+	</if>
+	order by tr.executed_time desc,tr.created_time desc
+  </select>
+  <select id="findNewest" resultMap="BaseResultMap">
+   select * from transfer where state = 1 and mac_id = #{macId} ORDER BY executed_time DESC LIMIT 1
+  </select>
+  <select id="findById" resultMap="BaseResultMap">
+  SELECT
+	tr.*,cu.user_name userName,cuu.user_name lastUserName,e.`name` oneType,eq.`name` twoType,cu.address,cuu.address lastAddr,ma.machine_id machineId
+	FROM
+		transfer tr
+	LEFT JOIN customer_user cu ON tr.customerId = cu.id
+	LEFT JOIN customer_user cuu ON tr.last_customerid = cuu.id
+	LEFT JOIN machine ma ON tr.mac_id = ma.id
+	LEFT JOIN equipment e ON ma.one_type_id = e.id
+	LEFT JOIN equipment eq ON ma.two_type_id = eq.id
+	WHERE state = 1 and transfer_id=#{transferId}
+  </select>
+</mapper>

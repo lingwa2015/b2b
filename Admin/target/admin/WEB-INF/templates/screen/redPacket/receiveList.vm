@@ -1,0 +1,36 @@
+<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/redPacket/receiveList.htm?id=$!id" method="POST">
+</form>
+<div class="content">
+		<div class="bd-actionbar">
+			<a href="${rc.contextPath}/redPacket/redList.htm" title="返回红包活动列表" class="btn btn-return"><</a>
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+			<table class="table">
+			  <tr>
+				<th>用户名</th>
+				<th>店铺简称</th>
+				<th>性别</th>
+				<th>红包金额</th>
+				<th>领取时间</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>$!bean.nickName</td>
+					<td>$!bean.userName</td>
+					<td>#if($!bean.sex==1)男 #elseif($!bean.sex==2) 女 #end</td>
+					<td>$NumberTool.toYuanNumber($!bean.redFee)</td>
+					<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!bean.createdTime)</td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->
+<script type="text/javascript">
+	
+	
+</script>

@@ -1,0 +1,13 @@
+<div class="content">
+	<div class="bd-actionbar">
+	</div><!--bd-actionbar-->
+		
+	<div class="bd-main">
+		<div class="bd-main-inner">
+        <div class="code_ju">
+            <img src="${rc.contextPath}/customer/getQRCode.htm?shopId=$!shopId">
+        </div>
+        <p>店铺二维码</p>
+</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

@@ -1,0 +1,173 @@
+<script type="text/javascript">
+
+function search(){
+   document.forms[0].submit();
+}
+
+function editNum(id){
+  window.location.href="${rc.contextPath}/stock/stockUpdate.htm?id="+id+"&currentPage="+$!page.pageNum;
+}
+function exportExcel(){
+	var itemName = $('#itemName').val();
+	var alertNum = 0;
+	var r=document.getElementsByName("alertNum");  
+	for(var i=0;i<r.length;i++){
+         if(r[i].checked){
+         alertNum = r[i].value;
+       }
+    }
+    var onecate = $('#onecate').val(); 
+     var cate = $('#twocate').val();
+     var twocate = "";
+     if(cate){
+     	twocate = cate;
+     }  
+      var isdown = $('#isdown').val();   
+	window.location.href="${rc.contextPath}/stock/exportExcel.do?itemName="+itemName+"&alertNum="+alertNum+"&onecate="+onecate+"&twocate="+twocate+"&isdown="+isdown;
+}
+
+function change(obj){
+	var id = $(obj).val();
+	var content ="";
+	$.ajax({
+	             type: "GET",
+	             url: "${rc.contextPath}/item/leavecat.json",
+	             data: {catid:id},
+	             dataType: "json",
+	             success: function(data){
+								if(data.length>0){
+									content+='<td><label class="tit">二级类目：</label></td><td><select name="categorylevelId" id="categorylevelId"><option value="0">全部</option>'
+									$.each(data,function(i){
+										content+='<option value="'+data[i].id+'">'+data[i].categoryName+'</option>'
+									})
+									content+='</select></td>'
+								}
+								$("#twocat").html(content);
+	               }
+	         });
+}
+
+</script>
+<div class="content">
+		<div class="bd-actionbar">
+            <a class="ko" href="${rc.contextPath}/monitor/mointorList.htm">库存每日变更表</a >
+<h4 class="tit">
+	库存列表
+</h4>
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/stock/stockList.htm" method="post">
+		  <table class="form form-horizontal">
+				<tr>
+					<td><label class="tit first-tit">类目：</label></td>
+					<td>
+					<select name="onecate" id="onecate" onchange="change(this)">
+					    <option value="0">全部</option>
+					    #foreach($cat in $catList)$item.itemName
+						   #if ($!onecate == $cat.id)
+				            <option value="$cat.id" selected="selected">$cat.categoryName</option>
+				           #else
+				            <option value="$cat.id">$cat.categoryName</option>
+				           #end
+						#end
+					 </select>
+					</td>
+					<tr id="twocat" style="position:absolute;left:214px;top:20px;">
+					#if($!leaveCats)
+					<td><label class="tit">二级类目：</label></td>
+					<td>
+					<select name="twocate" id="twocate">
+					    <option value="0">全部</option>
+					    #foreach($cat in $leaveCats)$item.categorylevelId
+						   #if ($!twocate == $cat.id)
+				            <option value="$cat.id" selected="selected">$cat.categoryName</option>
+				           #else
+				            <option value="$cat.id">$cat.categoryName</option>
+				           #end
+						#end
+					 </select>
+					</td>
+					#end
+					</tr>
+			</tr>
+				<tr>
+					<td><label class="tit">架上架下筛选：</label></td>
+					<td>
+					<select name="isdown" id="isdown">
+					    <option value="">全部</option>
+					    <option value="0" #if($isdown==0)selected="selected"#end>架上</option>
+					    <option value="1" #if($isdown==1)selected="selected"#end>架下</option>
+					 </select>
+					</td>
+					<td><label class="tit">滞销筛选：</label></td>
+					<td>
+					<select name="unsalable" id="unsalable">
+					    <option value="">全部</option>
+					    <option value="1" #if($unsalable==1)selected="selected"#end>滞销</option>
+					 </select>
+					</td>
+					<td><label class="tit">商品名称：</label></td>
+					<td><input name="itemName" id="itemName" class="form-input" type="text" value="$!itemName"></td>
+
+					<td><label class="tit">预警：</label></td>
+					<td><input type="checkbox" name="alertNum" id="alertNum" value="1" #if($!alertNum==1)checked #end/></td>
+
+					<td ><a class="btn btn-warning btn-sm" href="javascript:search();">查找</a></td>
+					<td ><a class="btn btn-warning btn-sm" href="javascript:exportExcel();">导出商品库存表</a></td>
+				</tr>
+		  </table>
+		</form>
+		<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+	        <tr class="info">
+				<td colspan="1">
+	                <span>库存总额：$NumberTool.toYuanNumber($!stockTotalAmount) 元</span>
+	            </td>
+			</tr>
+		</table>
+		<table class="table">
+		  <tr>
+			<th>商品名称</th>
+			<th>规格</th>
+			<th>数量</th>
+			<th>预警数量</th>
+			<th>告警数量</th>
+			<th>零售规格系数</th>
+			<th>成本价</th>
+			<th>金额</th>
+			<th>仓位</th>
+			<th>最后下单日期</th>
+			<th>操作</th>
+		  </tr>
+
+		  #set ($rowCount = 0)
+		  #foreach($bean in $page.result)
+			  #set ($isOddRow = $rowCount % 2 != 0)
+			  #set ($alert = $!bean.num<=$!bean.warningNum)
+			  #if ($isOddRow)
+	           <tr>
+	          #else
+	           <tr class="sep-bar">
+	          #end
+				<td #if($!bean.isdown==0)#if($alert)style="color:red;"#end#end>#if($!bean.isdown==1)*#end$!bean.itemName </td>
+				<td>$!bean.size</td>
+				<td>$!bean.num</td>
+				<td>$!bean.warningNum</td>
+				<td>$!bean.alertNum</td>
+				<td>$!bean.saleSizeNum</td>
+				<td>$NumberTool.toYuanNumber($!bean.itemCostPrice)</td>
+				<td>$NumberTool.toYuanNumber($!bean.totalAmount)</td>
+				<td>$!bean.position</td>
+				<td #if($!bean.day>7)style="color:red;" #end>$!date.format('yyyy-MM-dd',$!bean.lastTime)</td>
+				<td><a href="javascript:editNum('$bean.id')">编辑</a></td>
+				</tr>
+			  #set ($rowCount = $rowCount + 1)
+		  #end
+
+		</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

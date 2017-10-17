@@ -1,0 +1,87 @@
+<script type="text/javascript">
+$(document).ready(function() {
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+				save();
+				return false;
+        }
+	});
+ });
+
+
+function save(){
+	disableBtn('saveBtn');
+	
+	  var url="${rc.contextPath}/itemVariety/save.do";
+	  submitFormData("form1",url,show);
+}
+
+function show(data){
+    alert(data);
+	if(data.indexOf("成功")!=-1){
+		 cancel();
+	}else{
+	    enableBtn('saveBtn');
+	}
+}
+
+function cancel(){
+    var menuHeight =$('#menuHeight').val();
+    var menuName = $('#menuName').val();
+  window.location.href="${rc.contextPath}/itemVariety/itemVarietyList.htm?menuHeight="+menuHeight+"&menuName="+menuName;
+}
+
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/itemVariety/itemVarietyList.htm?menuHeight=$!menuHeight&menuName=$!menuName" title="返回品种列表" class="btn btn-return"><</a>
+		<h4 class="tit">
+		   #if ($!dto.id>=0) 
+				编辑品种
+			#else
+				 添加品种
+			#end
+		</h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+	<form class="jqtransform" name="itemVarietyForm" id="form1" action="${rc.contextPath}/itemVariety/save.do" method="post">
+	<input type="hidden" name="itemvarietyId" id="itemvarietyId" value="$!dto.itemvarietyId"/>
+   
+	<table class="form">
+		<tr>
+            <input type="hidden" name="menuHeight" id="menuHeight" value="$!menuHeight" />
+            <input type="hidden" name="menuName" id="menuName" value="$!menuName" />
+			<td align="right"><label class="tit"><font color='red'>*</font>品种名称：</label></td>
+			<td>
+			<input class="form-input" type="text" name="itemvarietyName" id="itemvarietyName" value="$!dto.itemvarietyName" validate="{required:true}">
+			&nbsp;<span></span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">备注：</label></td>
+			<td>
+			<input class="form-input" type="text" name="remark" id="remark" value="$!dto.remark">
+			&nbsp;<span></span>
+			</td>
+		</tr>
+		
+		<tr class="btn-bar">
+			<td></td>
+			<td><a class="btn btn-primary" id="saveBtn" href="#" onclick="$('#form1').submit();">保存</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

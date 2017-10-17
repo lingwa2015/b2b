@@ -1,0 +1,207 @@
+#set($layout="layout/shopLayout.vm")
+<div style="position: relative;height: 100%;">
+   <div class="zhifu_content" style="margin-bottom: .8rem;">
+   
+   </div>
+   <p class="s"  id="load" style="display: none;">正在加载更多.....</p>
+</div>
+<script type="text/javascript">
+    document.title = "消费记录";
+    $("body").css("background-color","#ececec");
+    
+    function formatDate(str) { 
+    	 var res = /^[0-9]$/
+    	var now=new Date(str);
+		var year=now.getFullYear(); 
+		var month=now.getMonth()+1; 
+		if(res.test(month)){
+			month = "0"+month;
+		}
+		var date=now.getDate(); 
+		if(res.test(date)){
+			date = "0"+date;
+		}
+		var hour=now.getHours(); 
+		if(res.test(hour)){
+			hour = "0"+hour;
+		}
+		var minute=now.getMinutes(); 
+		if(res.test(minute)){
+			minute = "0"+minute;
+		}
+		var second=now.getSeconds(); 
+		if(res.test(second)){
+			second = "0"+second;
+		}
+		return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second; 
+	} 
+    
+    function formatMoney(num) {
+        var money = num/100;
+        var float = num%100;
+        var float2 = num%10;
+        if(float == 0){
+            money = money + ".00";
+        }else{
+            if(float2 == 0) {
+                money = money + "0";
+            }
+        }
+        return money;
+    }
+    var page = 1 ;
+    var userid = $!userid;
+    var type = $!type;
+    var hasNextPage = true;
+    
+     $(document).ready(function(){
+    	$.ajax({
+				url:'${rc.contextPath}/convenient/shop_personalConsumeTest.json',
+				type:'POST',
+				data: {userid:userid,type:type,page:page,rows:50},
+				success:function(data){
+					if(data.data.hasNextPage){
+						 page +=1;
+					}else{
+						hasNextPage = false;
+					}
+					var list = data.data.list;
+					for (var i = 0; i < list.length; i++) {
+			            var html="";
+			            var buyerName = list[i].buyerName;
+			            var headImgurl = list[i].headImgurl;
+			            var id = list[i].id;
+			            var createdTime = formatDate(list[i].createdTime);
+			            var totalPrice = formatMoney(list[i].totalPrice);
+			            var redFee = formatMoney(list[i].redPrice);
+			            var shopName = list[i].shopName;
+			            var shop = list[i].shopOrderItems;
+			            var freeFee = formatMoney(list[i].freePrice);
+			            
+			           
+			            
+			            html+='<div class="yes_pay list_top">';
+			            if(freeFee>0 && redFee>0){
+			            html+='<p style="position: relative;padding-bottom: .8rem;"><span>消费金额</span>'
+			            
+			            if(freeFee>0){
+			            	html+='<span style="float:right;color:green;margin-right:-.25rem;">（补贴￥'+freeFee+'）</span>';
+			            }
+			            html+='<span class="fr">￥'+totalPrice+'</span>';
+			            if(redFee>0){
+			                html+='<span style="color:red;position: absolute;right: -.25rem;top:.9rem">（红包￥'+redFee+'）</span>'
+			            }
+			            html+='</p><i style="top: 1.5rem;"></i>';
+			            }else{
+			            
+			            html+='<p><span>消费金额</span>'
+			            
+			            if(freeFee>0){
+			            	html+='<span style="float:right;color:green;margin-right:-.25rem;">（补贴￥'+freeFee+'）</span>';
+			            }
+			            
+			            if(redFee>0){
+			                html+='<span style="color:red;float: right;margin-right:-.25rem;">（红包￥'+redFee+'）</span>'
+			            }
+			            html+='<span class="fr">￥'+totalPrice+'</span>';
+			            html+='</p><i></i>';
+			            }
+			            
+			            html+='<p style="padding: 0 0 .1rem 0;font-size:.24rem;">';
+			            for (var j = 0; j < shop.length; j++) { 
+			                var itemName = shop[j].itemName;
+			                var price = formatMoney(shop[j].price);
+			                var num = shop[j].num;
+			                html+='<span class="food"><span>'+itemName+'</span><span class="zhifu_food">￥'+price+'</span><span class="zhifu_right">X'+num+'</span></span>';
+			            }
+			            html+='</p><b></b><div class="zhifu_time"><span>'+createdTime+'</span><span class="fr">'+shopName+'</span></div></div>';
+			            $(".zhifu_content").append(html);
+			        }
+				}
+				
+			})
+    });
+    
+   var isrequest = true;
+ window.onscroll = function(){  
+    if (Math.abs($(document).scrollTop() >= $(document).height()-$(window).height()) && isrequest) {
+        isrequest = false;
+       if(!hasNextPage){
+	        	return;
+	   }
+       $(".s").show();
+        //document.body.scrollTop = document.body.scrollHeight;
+        // if (document.body.scrollTop = document.body.scrollHeight) {
+        //     return false;
+        // }
+        
+        $.ajax({
+				url:'${rc.contextPath}/convenient/shop_personalConsumeTest.json',
+				type:'POST',
+				data: {userid:userid,type:type,page:page,rows:50},
+				success:function(data){
+					if(data.data.hasNextPage){
+						 page +=1;
+					}else{
+						hasNextPage = false;
+					}
+					var list = data.data.list;
+					for (var i = 0; i < list.length; i++) {
+			            var html="";
+			            var buyerName = list[i].buyerName;
+			            var headImgurl = list[i].headImgurl;
+			            var id = list[i].id;
+			            var createdTime = formatDate(list[i].createdTime);
+			            var totalPrice = formatMoney(list[i].totalPrice);
+			            var shopName = list[i].shopName;
+			            var shop = list[i].shopOrderItems;
+			            var freeFee = formatMoney(list[i].freePrice);
+			            var redFee = formatMoney(list[i].redPrice);
+			           
+			              html+='<div class="yes_pay list_top">';
+			            if(freeFee>0 && redFee>0){
+			            html+='<p style="position: relative;padding-bottom: .8rem;"><span>消费金额</span>'
+			            
+			            if(freeFee>0){
+			            	html+='<span style="float:right;color:green;margin-right:-.25rem;">（补贴￥'+freeFee+'）</span>';
+			            }
+			            html+='<span class="fr">￥'+totalPrice+'</span>';
+			            if(redFee>0){
+			                html+='<span style="color:red;position: absolute;right: -.25rem;top:.9rem">（红包￥'+redFee+'）</span>'
+			            }
+			            html+='</p><i style="top: 1.5rem;"></i>';
+			            }else{
+			            
+			            html+='<p><span>消费金额</span>'
+			            
+			            if(freeFee>0){
+			            	html+='<span style="float:right;color:green;margin-right:-.25rem;">（补贴￥'+freeFee+'）</span>';
+			            }
+			            
+			            if(redFee>0){
+			                html+='<span style="color:red;float: right;margin-right:-.25rem;">（红包￥'+redFee+'）</span>'
+			            }
+			            html+='<span class="fr">￥'+totalPrice+'</span>';
+			            html+='</p><i></i>';
+			            }
+			            
+			            html+='<p style="padding: 0 0 .1rem 0;font-size:.24rem;">';
+			            for (var j = 0; j < shop.length; j++) { 
+			                var itemName = shop[j].itemName;
+			                var price = formatMoney(shop[j].price);
+			                var num = shop[j].num;
+			                html+='<span class="food"><span>'+itemName+'</span><span class="zhifu_food">￥'+price+'</span><span class="zhifu_right">X'+num+'</span></span>';
+			            }
+			            html+='</p><b></b><div class="zhifu_time"><span>'+createdTime+'</span><span class="fr">'+shopName+'</span></div></div>';
+			            $(".zhifu_content").append(html);
+			        }
+			        $(".s").hide();
+				}
+				
+			})
+       
+    }
+
+ }
+
+</script>

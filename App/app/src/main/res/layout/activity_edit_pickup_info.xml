@@ -1,0 +1,74 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sxc.natasha.ui.EditPickupInfoActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:padding="20dip"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/picker_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="提货人姓名" />
+
+            <EditText
+                android:id="@+id/picker_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="提货人手机"
+                android:phoneNumber="true" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/picker_find_result"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:height="30dp"
+                    android:layout_marginTop="10dip"
+                    android:text="请选择提货仓"
+                    android:textSize="12dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/picker_address_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:dividerHeight="5dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="0dp"
+        android:background="@color/green_dark"
+        android:text="保存"
+        android:textSize="25dp" />
+
+</RelativeLayout>

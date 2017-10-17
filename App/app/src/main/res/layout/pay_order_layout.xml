@@ -1,0 +1,162 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.sxc.natasha.ui.HelpCommonActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="总价"
+                      android:textSize="14dp"
+                      android:layout_centerVertical="true"
+                      android:layout_marginLeft="10dp" />
+            <TextView
+                android:id="@+id/order_money"
+                android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="￥199.00000"
+                      android:textSize="14dp"
+                      android:textColor="@android:color/holo_red_light"
+                      android:layout_alignParentRight="true"
+                      android:layout_centerVertical="true"
+                      android:layout_marginRight="10dp" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/devide_line" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="帐户余额"
+                      android:textSize="14dp"
+                      android:layout_centerVertical="true"
+                      android:layout_marginLeft="10dp" />
+            <TextView
+                android:id="@+id/customer_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥19999.00000"
+                android:textSize="14dp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/devide_line" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="还需支付"
+                      android:textSize="14dp"
+                      android:layout_centerVertical="true"
+                      android:layout_marginLeft="10dp" />
+            <TextView
+                android:id="@+id/customer_pay_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥19999.00000"
+                android:textSize="14dp"
+                android:textColor="@android:color/holo_red_light"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/devide_line" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/pay_order_recharge"
+
+            >
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="余额不足,去充值"
+                      android:textSize="14dp"
+                      android:layout_centerVertical="true"
+                      android:layout_marginLeft="10dp" />
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_alignParentRight="true"
+                       android:layout_centerVertical="true"
+                       android:layout_marginRight="10dp"
+                       android:scaleType="fitXY"
+                       android:src="@drawable/createorder_05"
+                       android:textColor="@android:color/darker_gray"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray_white">
+            <RelativeLayout
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_width="match_parent">
+                <TextView
+                    android:id="@+id/pay_order_explain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="您可稍后在"
+                    android:textColor="@android:color/darker_gray"
+                    android:gravity="right"/>
+                <TextView
+                    android:layout_toRightOf="@id/pay_order_explain"
+                    android:id="@+id/my_order_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  我的订单  "
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:textColor="@color/green_dark"/>
+                <TextView
+                    android:layout_toRightOf="@id/my_order_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="中继续完成支付      "
+                    android:gravity="center"
+                    android:textColor="@android:color/darker_gray"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <Button
+                    android:id="@+id/pay_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginBottom="0dp"
+                    android:background="@drawable/payorder_btn_selector"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,0 +1,199 @@
+#set($layout="layout/shopLayout.vm")
+<div class="manage_content" style="margin-bottom:1.4rem;">
+        <ul>
+            <li>
+                <span>限时打折：</span>
+                <input type="" name=""  id="discount" value="$!seniorSet.discount">
+            </li>
+            <li>
+                <span>开始时间：</span>
+                <select id="time">
+                	<option value="24" #if($!seniorSet.start==24)selected="selected"#end>24:00</option>
+                	<option value="23" #if($!seniorSet.start==23)selected="selected"#end>23:00</option>
+                	<option value="22" #if($!seniorSet.start==22)selected="selected"#end>22:00</option>
+                    <option value="21" #if(!$!seniorSet.start)selected="selected"#else#if($!seniorSet.start==21)selected="selected"#end#end>21:00</option>
+                	<option value="20" #if($!seniorSet.start==20)selected="selected"#end>20:00</option>
+                    <option value="19" #if($!seniorSet.start==19)selected="selected"#end>19:00</option>
+                	<option value="18" #if($!seniorSet.start==18)selected="selected"#end>18:00</option>
+                	<option value="17" #if($!seniorSet.start==17)selected="selected"#end>17:00</option>
+                	<option value="16" #if($!seniorSet.start==16)selected="selected"#end>16:00</option>
+                	<option value="15" #if($!seniorSet.start==15)selected="selected"#end>15:00</option>
+                	<option value="14" #if($!seniorSet.start==14)selected="selected"#end>14:00</option>
+                	<option value="13" #if($!seniorSet.start==13)selected="selected"#end>13:00</option>
+                	<option value="12" #if($!seniorSet.start==12)selected="selected"#end>12:00</option>
+                	<option value="11" #if($!seniorSet.start==11)selected="selected"#end>11:00</option>
+                	<option value="10" #if($!seniorSet.start==10)selected="selected"#end>10:00</option>
+                	<option value="9" #if($!seniorSet.start==9)selected="selected"#end>09:00</option>
+                	<option value="8" #if($!seniorSet.start==8)selected="selected"#end>08:00</option>
+                	<option value="7" #if($!seniorSet.start==7)selected="selected"#end>07:00</option>
+                	<option value="6" #if($!seniorSet.start==6)selected="selected"#end>06:00</option>
+                </select>
+            </li>
+        </ul>
+        <p style="text-align:left;padding-left:3%;margin:.2rem 0 .4rem;">从设定的时间开始至次日6:00限时打折，清空内容并保存即可关闭相应功能。</p>
+        <ul>
+            <li>
+                <span>补贴金额：</span>
+                <input type="" name=""  id="freeFee" value="#if($!seniorSet.freeFee)$NumberTool.toYuanNumber($!seniorSet.freeFee)#end">
+            </li>
+            <li>
+                <span>周期设定：</span>
+                <select id="dayOrMonth">
+                    <option value="1" #if(!$!seniorSet.dayOrMonth)selected="selected"#else#if($!seniorSet.dayOrMonth==1)selected="selected"#end#end>每月</option>
+                    <option value="2" #if($!seniorSet.dayOrMonth==2)selected="selected" #end>每日</option>
+                </select>
+            </li>
+            <li style="position:relative;">
+                <span>发放渠道：</span>
+                <select id="type" class="bu">
+                    <option value="1" #if(!$!seniorSet.type)selected="selected"#else#if($!seniorSet.type==1)selected="selected"#end#end>微信全员</option>
+                     <option value="3" #if($!seniorSet.type==3)selected="selected" #end >微信指定员工</option>
+                    <option value="2" #if($!seniorSet.type==2)selected="selected" #end>支付宝全员</option>
+                </select>
+                 #if($!seniorSet.type==3)
+                  <img src="${rc.contextPath}/static/images/shop/zhiding_code.png" alt="" class="zhiding_code" style="display: inline;">
+                 #else
+                     <img src="${rc.contextPath}/static/images/shop/zhiding_code.png" alt="" class="zhiding_code">
+                 #end
+            </li>
+            #if($!seniorSet.type==3)
+	            <li class="jj" style="display: list-item;">
+	                        <a href="${rc.contextPath}/convenient/shop_userList.htm?shop_id=$shopId" style="display:block;color: #333;">
+	                            <span>指定员工</span>
+	                        </a>
+	            </li>
+            #else
+            	 <li class="jj">
+	                        <a href="${rc.contextPath}/convenient/shop_userList.htm?shop_id=$shopId" style="display:block;color: #333;">
+	                            <span>指定员工</span>
+	                        </a>
+	            </li>
+            #end
+        </ul>
+        <div class="show_code">
+                    <div class="show_code01">
+                        <img src="${rc.contextPath}/convenient/shop_subsidy.htm?shop_id=$shopId" alt="">
+                    </div>
+                    <p class="show_code02">长按转发二维码至指定员工扫码</p>
+                    <p class="code_sure">完成</p>
+                </div>
+        <p style="text-align:left;padding-left:3%;margin:.2rem 0 .4rem;">按每月或每日设定单人补贴金额，无论是否用完，次月或次日0:00自动重置金额。清空内容并保存即可关闭该功能。</p>
+        <div class="discount">
+            <span>止损金额：</span>
+            <input type="" name=""  id="money" value="#if($!seniorSet.money)$NumberTool.toYuanNumber($!seniorSet.money)#end">
+        </div>
+        #set($loss = $Tran.sourcing - $Tran.consume)
+        <p style="width:94%;margin:.2rem auto 0.5rem;text-align:left;">本月#if($Tran.sumDate)截至#end$!date.format('yyyy-MM-dd',$!Tran.sumDate)亏损为￥$NumberTool.toYuanNumber($!Tran.sourcing)，当亏损超过止损金额，次日自动取消折扣。</p>
+        <div class="show_check">
+            <span>购买时显示市场价：</span>
+            <input type="checkbox" name="showPrice" id="showPrice" #if($!seniorSet.showPrice==0) #else checked #end>
+        </div>
+        <p style="width:94%;margin:.2rem auto 0.5rem;text-align:left;">
+            	当大部分商品销售价定价较高，超过市场价时，建议取消显示市场价
+        </p>
+		<div class="show_check">
+			<span>商品分层展示：</span>
+			<input type="checkbox" name="islayer" id="islayer" #if($!seniorSet.islayer==1)checked #else  #end>
+		</div>
+		<p style="width:94%;margin:.2rem auto 0.5rem;text-align:left;">
+			进入［在售商品］中做商品分层管理
+		</p>
+		 <div class="gou">
+        <a href="javascript:void(0)" ontouchend="save();" style="margin-bottom:0;margin:.3rem auto;" class="save">保存</a>
+        </div>
+        
+    </div>
+<script type="text/javascript">
+    document.title = "高级设置";
+    $("body").css("background-color","#ececec");
+    
+    $(".zhiding_code").on("click",function(){
+                $(".show_code").show();
+            })
+            $(".code_sure").on("click",function(){
+                $(".show_code").hide();
+            })
+            
+            $(".bu").on("change",function(){
+               var ko = $('#type option:selected').text();
+               if(ko == '微信指定员工'){
+                   $(".zhiding_code,.jj").show();
+                   return false;
+               }else{
+                   $(".zhiding_code,.jj").hide();
+                   return false;
+               }
+            })
+    
+    function save(){
+   	 var res = /^(?:[1-9][0-9]*|0)(\.[0-9]+)?$/;
+   	  var discount = $('#discount').val();
+   	  var time = $('#time option:selected').val();
+   	  var money = $('#money').val();
+   	  var freeFee = $('#freeFee').val();
+   	  var dayOrMonth = $('#dayOrMonth option:selected').val();
+   	  var butietype = $('#type option:selected').val();
+   	  var shopId = $!shopId;
+   	  var dis;
+   	  var start;
+   	  var daymonth;
+   	  var money1;
+   	  var money2;
+   	  var type;
+
+   	    if(discount!='' && freeFee!=''){
+   	    	alert("限时打折与补贴不允许同时开启");
+   	    	return false;
+   	    }
+   	    if(discount!=''){
+	   	    if(!res.test(discount)){
+				alert("请填写正确的折扣！");
+				return false;
+			}else{
+				dis = discount;
+				start = time;
+			}
+   	    }
+   	    if(money!=''){
+			if(!res.test(money)){
+				alert("请填写正确的止损！");
+				return false;
+			}else{
+				money1 = money*10000*100/10000;
+			}
+   	    }
+   	    if(freeFee!=''){
+			if(!res.test(freeFee)){
+				alert("请填写正确的补贴金额！");
+				return false;
+			}else{
+				money2 = freeFee*10000*100/10000;
+				daymonth = dayOrMonth;
+				type = butietype;
+			}
+   	    }
+   	    var showPrice = 0;
+   	    if(document.getElementById("showPrice").checked){
+   	    	showPrice = 1;
+   	    }
+
+   	    var islayer = 0;
+        if(document.getElementById("islayer").checked){
+            islayer = 1;
+        }
+		
+		$.ajax({
+				url:'${rc.contextPath}/convenient/home/shop_senior.do',
+				type:'POST',
+				data: {money:money1,freeFee:money2,shopId:shopId,discount:dis,start:start,showPrice:showPrice,dayOrMonth:daymonth,islayer:islayer,type:type},
+				success:function(data){
+					if(data==200){
+						window.location.href="${rc.contextPath}/convenient/home/shop_index.htm?shop_id="+shopId
+					}else{
+						alert("添加高级设置信息出错");
+					}
+				}
+			})
+    }
+    
+</script>

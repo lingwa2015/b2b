@@ -1,0 +1,96 @@
+<div class="content">
+		<div class="bd-actionbar">
+			<a href="/shopDiscountSetting/add.htm?menuHeight=$!menuHeight&menuName=$!menuName" class="btn btn-success"><i class="ico"></i>添加活动</a>
+			<a href="/shopDiscountSetting/preferentialDetailList.htm?menuHeight=$!menuHeight&menuName=$!menuName" class="ko">店铺优惠列表</a>
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/shopDiscountSetting/discountSettingList.htm" method="post">
+					 <input type="hidden" name="menuHeight" id="menuHeight" value="$!menuHeight" />
+                     <input type="hidden" name="menuName" id="menuName" value="$!menuName" />
+			</form>
+			<table class="table">
+			  <tr>
+				<th>活动名称</th>
+				<th>折扣</th>
+				<th>活动时间</th>
+				<th>店铺发放</th>
+				<th>活动状态</th>
+				<th>操作</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>$!bean.name</td>
+					<td>$bean.discount</td>
+					<td>$!date.format('yyyy-MM-dd',$!bean.startTime)~$!date.format('yyyy-MM-dd',$!bean.endTime)</td>
+					<td data-id="$!bean.id">
+						#if($!bean.shopType==0)
+							<select name="type" onchange="fafang(this)">
+								<option value="0">--未发放--</option>
+								<option value="1">全部发放</option>
+								<option value="2">指定店铺发放</option>
+							</select>
+						#elseif($!bean.shopType==1)
+							全部发放
+						#elseif($!bean.shopType==2)
+							<a href="${rc.contextPath}/shopDiscountSetting/addCustomer.htm?id=$!bean.id&menuHeight=$!menuHeight&menuName=$!menuName">指定店铺发放</a>
+						#end
+					</td>
+					<td><span>#if($!bean.status==1)#if($!bean.sign==0)未开始 #elseif($!bean.sign==1)已开始 #elseif($!bean.sign==2)已结束 #end #else 已强制结束 #end</span></td>
+					<td>#if($!bean.status==1)#if($!bean.sign==0 || $!bean.sign==1)<a href="#" data_id="$!bean.id" onclick="over(this);">结束</a> #end #end</td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->
+<script type="text/javascript">
+	function fafang(target){
+		var type = $(target).val();
+		var id = $(target).parent().attr("data-id");
+		if(type==1){
+			//全部发放
+			$.ajax({
+					url:'${rc.contextPath}/shopDiscountSetting/change.do',
+					type:'POST',
+					data: {id:id},
+					success:function(data){
+						if(data=="200"){
+							$(target).parent().html("全部发放");
+						}else{
+							alert("发放失败");
+						}
+					}
+					
+				})
+		}else if(type==2){
+            var menuHeight =$('#menuHeight').val();
+            var menuName = $('#menuName').val();
+			window.location.href="${rc.contextPath}/shopDiscountSetting/addCustomer.htm?id="+id+"&menuHeight="+menuHeight+"&menuName="+menuName;
+		}
+	}
+	
+	function over(obj){
+		var id = $(obj).attr("data_id");
+		if(confirm("确定结束吗？")){
+			$.ajax({
+					url:'${rc.contextPath}/shopDiscountSetting/stop.do',
+					type:'POST',
+					data: {id:id},
+					success:function(data){
+						if(data=="200"){
+							$(obj).parent().siblings().find("span").text("已强制结束");
+							$(obj).parent().html("");
+							
+						}else{
+							alert("强制结束失败");
+						}
+					}
+					
+				})
+			}
+	}
+</script>

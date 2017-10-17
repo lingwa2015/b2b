@@ -1,0 +1,41 @@
+<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/appAdvisory/list.htm" method="post">
+</form>
+<div class="content">
+		<div class="bd-actionbar">
+			<h4 class="tit">客户咨询信息</h4>
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+			<table class="table">
+			  <tr>
+				<th>客户姓名</th>
+				<th>客户电话</th>
+				<th>公司名称</th>
+				<th>业务员</th>
+				<th>备注</th>
+				<th>创建时间</th>
+				<th>操作</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>$!bean.name</td>
+					<td>$!bean.mobilePhone</td>
+					<td>$!bean.companyName</td>
+					<td>$!bean.linkmen</td>
+					<td>$!bean.remark</td>
+					<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!bean.created)</td>
+					<td><a href="javascript:editVar('$bean.id')">编辑</a></td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->
+	<script type="text/javascript">
+	function editVar(id){
+		window.location.href="${rc.contextPath}/advisory/edit.htm?id="+id;
+	}
+</script>

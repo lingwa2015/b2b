@@ -1,0 +1,8 @@
+#set($layout="layout/shopLayout.vm")
+<div class="purchase_order">
+        <div class="no_order">无访问权限</div>
+        
+   </div> 
+   <script type="text/javascript">
+    document.title = "无访问权限";
+</script>

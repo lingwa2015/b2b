@@ -1,0 +1,151 @@
+<script type="text/javascript">
+function show(data){
+	alert(data);
+	if(data.indexOf("成功")!=-1){
+		  window.location.href="${rc.contextPath}/customeBlackwhitelist/list.htm?id=$!customer.id";
+	}
+}
+
+function deleteCate(id){
+    var url="${rc.contextPath}/bwCategory/delete.do?id="+id;
+	doDeleteRequest(url,id,show);
+}
+
+function deleteVar(id){
+    var url="${rc.contextPath}/bwVariety/delete.do?id="+id;
+	doDeleteRequest(url,id,show);
+}
+
+function deleteItem(id){
+    var url="${rc.contextPath}/bwItem/delete.do?id="+id;
+	doDeleteRequest(url,id,show);
+}
+
+</script>
+<div class="content">
+		<div class="bd-actionbar">
+			<a href="$!{rc.contextPath}/customerWise/customerWiseList.htm" title="返回客户智选列表" class="btn btn-return"><</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="${rc.contextPath}/customeBlackwhitelist/add.htm" class="btn btn-success"><i class="ico"></i>添加黑白名单</a>
+			<a href="${rc.contextPath}/customeBlackwhitelist/update.htm?id=$!customer.id" class="btn btn-success"><i class="ico"></i>编辑</a>
+		</div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/itemVariety/itemVarietyList.htm"" method="post">
+		</form>
+		<h2>客户名称：$customer.userName</h2>
+		<table class="table">
+		  <tr>
+			<th>类目黑名单</th>
+			<th>操作</th>
+		  </tr>
+		   #set ($rowCount1 = 0)
+			  #foreach($bean in $blackCate)
+			     #if($bean)
+				  #set ($isOddRow = $rowCount1 % 2 != 0)
+				  #if ($isOddRow)
+		           <tr>
+		          #else
+		           <tr class="sep-bar">
+		          #end
+					<td>$!bean.categoryName</td>
+					<td class="opt">
+						<a href="javascript:deleteCate('$bean.bwlcId')">删除</a>
+					</td>
+				  </tr>
+				  
+				  #set ($rowCount1 = $rowCount1 + 1)
+			  #end
+		  #end
+		  <tr>
+			<th>品种黑名单</td>
+			<th>操作</td>
+		  </tr>
+			#set ($rowCount2 = 0)
+			  #foreach($bean in $blackVariety)
+			      #if($bean)
+				  #set ($isOddRow = $rowCount2 % 2 != 0)
+				  #if ($isOddRow)
+		           <tr>
+		          #else
+		           <tr class="sep-bar">
+		          #end
+					<td>$!bean.itemvarietyName</td>
+					<td class="opt">
+						<a href="javascript:deleteVar('$bean.bwlvId')">删除</a>
+					</td>
+				  </tr>
+				  
+				  #set ($rowCount2 = $rowCount2 + 1)
+			  #end
+		  #end
+		  <tr>
+			<th>单品黑名单</td>
+			<th>操作</td>
+		  </tr>
+		  #set ($rowCount3 = 0)
+			  #foreach($bean in $blackItem)
+			  #if($bean)
+				  #set ($isOddRow = $rowCount3 % 2 != 0)
+				  #if ($isOddRow)
+		           <tr>
+		          #else
+		           <tr class="sep-bar">
+		          #end
+					<td>$!bean.itemName</td>
+					<td class="opt">
+						<a href="javascript:deleteItem('$bean.bwliId')">删除</a>
+					</td>
+				  </tr>
+				  
+				  #set ($rowCount3 = $rowCount3 + 1)
+			  #end
+		  #end
+		  <tr>
+			<th>品种白名单</td>
+			<th>操作</td>
+		  </tr>
+			  #set ($rowCount4 = 0)
+			  #foreach($bean in $whiteVariety)
+			  #if($bean)
+				  #set ($isOddRow = $rowCount4 % 2 != 0)
+				  #if ($isOddRow)
+		           <tr>
+		          #else
+		           <tr class="sep-bar">
+		          #end
+					<td>$!bean.itemvarietyName</td>
+					<td class="opt">
+						<a href="javascript:deleteVar('$bean.bwlvId')">删除</a>
+					</td>
+				  </tr>
+				  
+				  #set ($rowCount4 = $rowCount4 + 1)
+				  #end
+			  #end
+		  <tr>
+			<th>单品白名单</td>
+			<th>操作</td>
+		  </tr>
+			  #set ($rowCount5 = 0)
+			  #foreach($bean in $whiteItem)
+			      #if($bean)
+				  #set ($isOddRow = $rowCount5 % 2 != 0)
+				  #if ($isOddRow)
+		           <tr>
+		          #else
+		           <tr class="sep-bar">
+		          #end
+					<td>$!bean.itemName</td>
+					<td class="opt">
+						<a href="javascript:deleteItem('$bean.bwliId')">删除</a>
+					</td>
+				  </tr>
+				  
+				  #set ($rowCount5 = $rowCount5 + 1)
+				  #end
+			  #end
+		</table>
+		
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

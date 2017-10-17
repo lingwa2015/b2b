@@ -1,0 +1,32 @@
+#set($layout="layout/shopLayout.vm")
+ <div class="add_content">
+    <img src="${rc.contextPath}/static/images/shop/saoma.png">
+    <p style="font-size:0.36rem;margin-bottom:0.12rem;">请扫描店铺二维码</p>
+    <span>扫描货架上的二维码，进入自助便利店选择商品支付</span>
+    <a href="javascript:void(0);" ontouchend="scan();" style="margin-top:1.02rem;">扫描</a>
+  </div>
+<script type="text/javascript" src="${rc.contextPath}/static/js/shop/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/static/js/SHA1.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>  
+    wx.config({  
+        debug: false, 
+        appId: '$!appId',  
+        timestamp:'$!timestamp',  
+        nonceStr:'$!nonceStr', 
+        signature:'$!signature',  
+        jsApiList : ['scanQRCode']  
+    });//end_config  
+	
+	function scan(){
+		wx.scanQRCode({ 
+                needResult : 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，  
+				desc: 'scanQRCode desc',                
+                success : function(res) {  
+                    var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果 
+                } 
+            });  
+	}
+		
+ 
+</script>

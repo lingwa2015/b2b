@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp">
+    <Button
+        android:layout_margin="8dp"
+        android:id="@+id/use_help"
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:layout_weight="1"
+        android:background="@drawable/home_help_btn"
+        android:gravity="center"/>
+    <Button
+        android:layout_margin="8dp"
+        android:id="@+id/recharge"
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:layout_weight="1"
+        android:background="@drawable/home_recharge_btn"
+        android:gravity="center"
+        />
+    <Button
+        android:layout_margin="8dp"
+        android:id="@+id/serviceMsg"
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:layout_weight="1"
+        android:background="@drawable/home_service_btn"
+        android:gravity="center"/>
+</LinearLayout>

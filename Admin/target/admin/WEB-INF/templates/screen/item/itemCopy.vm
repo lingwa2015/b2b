@@ -1,0 +1,1134 @@
+<script type="text/javascript" src="${rc.contextPath}/static/js/zone.js" charset="UTF-8"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	insertRow4addItem2($('#tList'))
+	categoryIdChange()
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+		        var price = $('#actualPrice').val()*100;
+		        var costPrice = $('#actualCostPrice').val()*100;
+		        var marketPrice = $('#marketPrice').val()*100;
+		        var actualPrice = $('#actualPrice').val()*100*1.1;
+				 var chk_supplier =[]; 
+				$('input[name="supplier"]:checked').each(function(){ 
+				    chk_supplier.push($(this).val()); 
+				});
+				if(chk_supplier.length==0){
+					alert("请选择供应商");
+					return false;
+				}
+
+		        if(costPrice>price){
+		           alert("成本价格不能大于价格");
+		           $('#itemCostPrice').focus();
+		           return false;
+		        }
+		        if(marketPrice<actualPrice){
+		           alert("线下价格不能低于1.1倍售价");
+		           $('#marketPrice').focus();
+		           return false;
+		        }
+		        
+		       
+				form.submit();
+				return true;
+        }
+	});
+ });
+ 
+ function insertRow4addItem2(tableObj) {
+	var rowObj = $('#rowTemplate').clone();
+	var tdList = rowObj.children('td');
+	var nameList = '';
+	var rowCount = Number($('#rowCount').val());
+	rowObj.css('display', '');
+	for (var i = 0; i < tdList.length; i++) {
+		var tdEle = tdList[i];
+		if (tdEle.children.length == 0)
+			continue;
+		var inputEle = tdEle.children[0];
+		
+		if (inputEle.tagName == 'SPAN') {
+			//inputEle.insertAdjacentText('afterEnd',skuSize);
+			continue;
+		}
+		
+		inputEle.setAttribute('rowNum',rowCount);
+
+		inputEle.name = inputEle.name + rowCount;
+		inputEle.id = inputEle.name; 
+		//nameList = nameList +"," + tdEle.getAttribute('name');
+	}
+	if(rowCount==0){
+		$('#rowCount').val(rowCount + 1);
+		$('#cateId'+rowCount).trigger('change');
+		tableObj.append(rowObj);
+		$('#itemTaste'+rowCount).val('默认');
+	}
+}
+/*
+ * 判断图片类型
+ *
+ * @param ths
+ *          type="file"的javascript对象
+ * @return true-符合要求,false-不符合
+ */
+function checkImgType(ths){
+    if (ths.value == "") {
+        alert("请上传图片");
+        return false;
+    } else {
+        if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(ths.value)) {
+            alert("图片类型必须是.gif,jpeg,jpg,png中的一种");
+            ths.value = "";
+            return false;
+        }
+    }
+    return true;
+}
+
+function checkImgSize(target) {
+    var fileSize = 0;
+    var isIE = /msie/i.test(navigator.userAgent) && !window.opera;
+    if (isIE && !target.files) {
+          var filePath = target.value;
+          var fileSystem = new ActiveXObject("Scripting.FileSystemObject");
+
+          if(!fileSystem.FileExists(filePath)){
+             alert("请选择上传图片！");
+             return false;
+          }
+          var file = fileSystem.GetFile (filePath);
+          fileSize = file.Size;
+    } else {
+          fileSize = target.files[0].size;
+    }
+
+    var size = fileSize / 1024;
+    if(size>1000){
+         alert("图片大小不能大于1M！");
+         return false;
+    }
+    if(size<=0){
+        alert("图片大小不能为0M！");
+        return false;
+    }
+
+    return true;
+}
+
+/*
+ * 判断图片大小
+ *
+ * @param ths
+ *          type="file"的javascript对象
+ * @param width
+ *          需要符合的宽
+ * @param height
+ *          需要符合的高
+ * @return true-符合要求,false-不符合
+ */
+function checkImgPX(ths, width, height) {
+    var img = null;
+    img = document.createElement("img");
+    document.body.insertAdjacentElement("beforeEnd", img); // firefox不行
+    img.style.visibility = "hidden";
+    img.src = ths.value;
+    var imgwidth = img.offsetWidth;
+    var imgheight = img.offsetHeight;
+
+    alert(imgwidth + "," + imgheight);
+
+    if(imgwidth != width || imgheight != height) {
+        alert("图的尺寸应该是" + width + "x"+ height);
+        ths.value = "";
+        return false;
+    }
+    return true;
+}
+
+
+function setImagePreview(docId,previewId) {
+    var docObj=document.getElementById(docId);
+    var result = checkImgType(docObj);
+    if(!result){
+       return;
+    }
+
+    result = checkImgSize(docObj);
+    if(!result){
+       return;
+    }
+
+    var imgObjPreview=document.getElementById(previewId);
+    if(docObj.files && docObj.files[0]){
+        //火狐下，直接设img属性
+        imgObjPreview.style.display = 'block';
+        imgObjPreview.style.width = '256px';
+        imgObjPreview.style.height = '256px';
+        //imgObjPreview.src = docObj.files[0].getAsDataURL();
+
+        //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
+        imgObjPreview.src = window.URL.createObjectURL(docObj.files[0]);
+    }else{
+        //IE下，使用滤镜
+        docObj.select();
+        var imgSrc = document.selection.createRange().text;
+        var localImagId = document.getElementById("localImag");
+        //必须设置初始大小
+        localImagId.style.width = "256px";
+        localImagId.style.height = "256px";
+        //图片异常的捕捉，防止用户修改后缀来伪造图片
+        try{
+            localImagId.style.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+            localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;
+        }catch(e){
+            alert("您上传的图片格式不正确，请重新选择!");
+            return false;
+        }
+        imgObjPreview.style.display = 'none';
+        document.selection.empty();
+    }
+    return true;
+}
+
+function setImagePreview1(docId,previewId) {
+    var docObj=document.getElementById(docId);
+    var result = checkImgType(docObj);
+    if(!result){
+       return;
+    }
+
+    result = checkImgSize(docObj);
+    if(!result){
+       return;
+    }
+
+    var imgObjPreview=document.getElementById(previewId);
+    if(docObj.files && docObj.files[0]){
+        //火狐下，直接设img属性
+        imgObjPreview.style.display = 'block';
+        imgObjPreview.style.width = '384px';
+        imgObjPreview.style.height = '384px';
+        //imgObjPreview.src = docObj.files[0].getAsDataURL();
+
+        //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
+        imgObjPreview.src = window.URL.createObjectURL(docObj.files[0]);
+    }else{
+        //IE下，使用滤镜
+        docObj.select();
+        var imgSrc = document.selection.createRange().text;
+        var localImagId = document.getElementById("localImag");
+        //必须设置初始大小
+        localImagId.style.width = "384px";
+        localImagId.style.height = "384px";
+        //图片异常的捕捉，防止用户修改后缀来伪造图片
+        try{
+            localImagId.style.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+            localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;
+        }catch(e){
+            alert("您上传的图片格式不正确，请重新选择!");
+            return false;
+        }
+        imgObjPreview.style.display = 'none';
+        document.selection.empty();
+    }
+    return true;
+}
+
+##function save(){
+##    submitJqueryFormData('form1', '$!{rc.contextPath}/itemCopy/save.do', function(data) {
+##        if (data.indexOf("200")!=-1) {
+##            var no = data.substring(5);
+##            window.location.href = "${rc.contextPath}/itemCopy/itemCopy.htm";
+##        } else {
+##            alert("保存失败，原因:" + data);
+##            enableBtn('saveBtn');
+##            saving = false;
+##        }
+##    });
+##}
+
+function show(data){
+    alert(data);
+	if(data.indexOf("成功")!=-1){
+		 cancel();
+	}else{
+	   enableBtn('saveBtn');
+	}
+}
+
+function cancel(){
+  window.location.href="${rc.contextPath}/item/itemList.htm";
+}
+
+
+function calDiv(num,divNum,roundNum){
+   if(num!=null&&num.length>0){
+      if(divNum!=null&&divNum.length>0&&divNum!=0){
+      	return ((num*1.000)/divNum).toFixed(roundNum);
+      }
+   }
+
+   return "";
+}
+
+function calDiv2(num,divNum1,divNum2,roundNum){
+   if(num!=null&&num.length>0){
+      if(divNum1!=null&&divNum1.length>0&&divNum1!=0){
+         if(divNum2!=null&&divNum2.length>0&&divNum2!=0){
+      	     return ((num*1.000)/(divNum1/divNum2)).toFixed(roundNum);
+      	 }
+      }
+   }
+
+   return "";
+}
+
+function changeSaleSize(obj){
+   calSaleCostPrice();
+   calSalePrice();
+   notaxInclusiveSaleCostPrice();
+}
+
+function changeConvertNum(obj){
+   calCostPrice();
+   calPrice();
+   calSaleCostPrice();
+   calSalePrice();
+   notaxInclusiveCostPrice();
+   notaxInclusiveSaleCostPrice();
+}
+
+function changeSaleSizeNum(obj){
+   calSaleCostPrice();
+   notaxInclusiveSaleCostPrice();
+   calSalePrice();
+}
+
+function changeBuyPrice(obj){
+   calCostPrice();
+   calSaleCostPrice();
+   notaxInclusiveCostPrice();
+   notaxInclusiveSaleCostPrice();
+   notaxInclusiveBuyPrice();
+}
+
+function changePurchasePrice(obj){
+   calPrice();
+   calSalePrice();
+}
+
+function change(){
+ notaxInclusiveCostPrice();
+   notaxInclusiveSaleCostPrice();
+   notaxInclusiveBuyPrice();
+}
+
+function calCostPrice(){
+   //成本价  = 采购价 /  批发规格系数
+   var buyPrice = $('#actualBuyPrice').val();
+   var convertNum = $('#convertNum').val();
+
+   var value = calDiv(buyPrice,convertNum,2);
+   $('#actualCostPrice').val(value);
+
+}
+
+function notaxInclusiveBuyPrice(){
+	var temp = document.getElementsByName("inclusive");
+	  var isinclusive = "";
+	  for(var i=0;i<temp.length;i++)
+	  {
+	     if(temp[i].checked)
+	           isinclusive = temp[i].value;
+	  }
+	 var value = $('#actualBuyPrice').val();
+	 var novalue = "";
+	 if(isinclusive=="0"){
+	 	novalue = value;
+	 }else{
+		novalue = (value/1.17).toFixed(2);
+	 }
+	 $('#notaxInclusiveBuyPrice').val(novalue);
+}
+
+function notaxInclusiveCostPrice(){
+var temp = document.getElementsByName("inclusive");
+	  var isinclusive = "";
+	  for(var i=0;i<temp.length;i++)
+	  {
+	     if(temp[i].checked)
+	           isinclusive = temp[i].value;
+	  }
+	var buyPrice = $('#actualBuyPrice').val();
+   var convertNum = $('#convertNum').val();
+   var value = calDiv(buyPrice,convertNum,2);
+   var novalue = "";
+	 if(isinclusive=="0"){
+	 	novalue = value;
+	 }else{
+		novalue = (value/1.17).toFixed(2);
+	 }
+   $('#notaxInclusiveCostPrice').val(novalue);
+}
+
+function notaxInclusiveSaleCostPrice(){
+var temp = document.getElementsByName("inclusive");
+	  var isinclusive = "";
+	  for(var i=0;i<temp.length;i++)
+	  {
+	     if(temp[i].checked)
+	           isinclusive = temp[i].value;
+	  }
+	var buyPrice = $('#actualBuyPrice').val();
+   var convertNum = $('#convertNum').val();
+   var saleSizeNum = $('#saleSizeNum').val();
+   var value = calDiv2(buyPrice,convertNum,saleSizeNum,2);
+   var novalue = "";
+	 if(isinclusive=="0"){
+	 	novalue = value;
+	 }else{
+		novalue = (value/1.17).toFixed(2);
+	 }
+   $('#notaxInclusiveSaleCostPrice').val(novalue);
+}
+
+function calPrice(){
+   //单价 =  批发单价 / 批发规格系数
+   var purchasePrice = $('#actualPurchasePrice').val();
+   var convertNum = $('#convertNum').val();
+
+   var value = calDiv(purchasePrice,convertNum,3);
+   if(value!=""){
+      var lastValue =value.substring(value.length-1,value.length);
+      if(lastValue!='0'&&((lastValue*1<6))){
+          value = (((value*1).toFixed(2))*1+0.01).toFixed(2);
+      }else{
+          value = (value*1).toFixed(2);
+      }
+   }
+
+   $('#actualPrice').val(value);
+
+}
+
+function calSaleCostPrice(){
+   //零售成本价 =  采购价/(批发规格系数 / 零售规格系数)
+   //var buyPrice = $('#actualBuyPrice').val();
+   //var convertNum = $('#convertNum').val();
+   //var saleSizeNum = $('#saleSizeNum').val();
+
+   //var value = calDiv2(buyPrice,convertNum,saleSizeNum,2);
+	var costprice = $('#actualCostPrice').val();
+   var saleSizeNum = $('#saleSizeNum').val();
+   var value = (costprice * saleSizeNum).toFixed(2);
+   $('#actualSaleCostPrice').val(value);
+
+}
+
+function calSalePrice(){
+   //零售价 =  批发价/(批发规格系数 / 零售规格系数)
+   //var purchasePrice = $('#actualPurchasePrice').val();
+   //var convertNum = $('#convertNum').val();
+   //var saleSizeNum = $('#saleSizeNum').val();
+
+  // var value = calDiv2(purchasePrice,convertNum,saleSizeNum,3);
+  // if(value!=""){
+  //    var lastValue =value.substring(value.length-1,value.length);
+  //    if(lastValue!='0'&&((lastValue*1<6))){
+  //       value = (((value*1).toFixed(2))*1+0.01).toFixed(2);
+  //    }else{
+  //        value = (value*1).toFixed(2);
+  //    }
+  // }
+   var price = $('#actualPrice').val();
+   var saleSizeNum = $('#saleSizeNum').val();
+   var value = (price*saleSizeNum).toFixed(2);
+   $('#actualSalePrice').val(value);
+}
+#*var cate=$("#categoryId").val();//选中的值
+	if(cate==24){
+		$("#categorylevelId").show();
+	}else{
+		$("#categorylevelId").val("");
+        $("#categorylevelId").hide();
+        $("#categorylevelId").removeSelected();
+	}*#
+function categoryIdChange(){
+	var levelId = $('#levelId').val();
+		var option = "";
+		var catId = "";
+		var catName = "";
+		var cateId = $("#categoryId").find("option:selected").val();
+		$("#categorylevelId").empty();
+		var itemObjs = document.getElementsByName(cateId);
+		if(itemObjs!=null){
+		   var l = itemObjs.length;
+		   for(var i=0;i<l;i++){
+		      var itemObj = itemObjs[i];
+		      var catId = itemObj.getAttribute("id");
+		      var catName = itemObj.value;
+		      if(catId==levelId){
+		      	option +="<option value=\"" + catId + "\" selected>" + catName + "</option>";
+		      }else{
+			      option += "<option value=\"" + catId + "\">" + catName + "</option>";
+		      }
+		   }
+		}
+		$("#categorylevelId").append(option);
+}
+
+function checkNum(obj) {
+    //检查是否是非数字值
+    if (isNaN(obj.value)) {
+        obj.value = "";
+    }
+    if (obj != null) {
+        //检查小数点后是否对于两位http://blog.csdn.net/shanzhizi
+        if (obj.value.toString().split(".").length > 1 && obj.value.toString().split(".")[1].length > 2) {
+            alert("小数点后多于两位！");
+            obj.value = "";
+        }
+    }
+}
+
+
+
+$(function(){
+    var searchInput = $('#shopName');
+    searchInput.attr('autocomplete', 'off');
+    var autocomplete = $('<ul class="autocomplete"></ul>').hide().insertAfter('#shopName');
+    var clear = function() {
+        autocomplete.empty().hide();
+    };
+    searchInput.blur(function() {
+        setTimeout(clear, 500);
+    });
+    var selectedItem = null;
+    var timeoutid = null;
+    var setSelectedItem = function(item) {
+        selectedItem = item;
+
+        if (selectedItem < 0) {
+            selectedItem = autocomplete.find('li').length - 1;
+        } else if (selectedItem > autocomplete.find('li').length - 1) {
+            selectedItem = 0;
+        }
+
+        autocomplete.find('li').removeClass('supplierName').eq(selectedItem).addClass('highlight');
+    };
+    var ajax_request = function() {
+
+        $.ajax({
+            url: '${rc.contextPath}/item/all.json',
+            data: {'itemName': searchInput.val()},
+            dataType: 'json',
+            type: 'POST',
+            success: function(data) {
+                if (data.length) {
+
+                    $.each(data, function(index, term) {
+
+                        $('<li></li>').text(term.itemName).appendTo(autocomplete).addClass('clickable').hover(function() {
+
+                                    $(this).siblings().removeClass('highlight');
+                                    $(this).addClass('highlight');
+                                    selectedItem = index;
+                                },
+                                function() {
+
+                                    $(this).removeClass('highlight');
+
+                                    selectedItem = -1;
+                                }).click(function() {
+
+                            searchInput.val(term.itemName);
+                            $("#searchId").val(term.id);
+
+                            autocomplete.empty().hide();
+                        });
+                    });
+                    // var ypos = searchInput.position().top;
+                    var xpos = searchInput.position().left;
+                    autocomplete.css('width', searchInput.css('width'));
+                    autocomplete.css({
+                        'position': 'absolute',
+                        'left': xpos + "px",
+                        'font-size' : "14px",
+                        'color': "#666"
+                    });
+                    setSelectedItem(0);
+                    autocomplete.show();
+                }
+            }
+        });
+    };
+
+    searchInput.keyup(function(event) {
+
+        if (event.keyCode > 40 || event.keyCode == 8 || event.keyCode == 32) {
+            autocomplete.empty().hide();
+            clearTimeout(timeoutid);
+            timeoutid = setTimeout(ajax_request, 100);
+        } else if (event.keyCode == 38) {
+            if (selectedItem == -1) {
+                setSelectedItem(autocomplete.find('li').length - 1);
+            } else {
+
+                setSelectedItem(selectedItem - 1);
+            }
+            event.preventDefault();
+        } else if (event.keyCode == 40) {
+
+            if (selectedItem == -1) {
+                setSelectedItem(0);
+            } else {
+
+                setSelectedItem(selectedItem + 1);
+            }
+            event.preventDefault();
+        }
+    }).keypress(function(event) {
+
+        if (event.keyCode == 13) {
+            if (autocomplete.find('li').length == 0 || selectedItem == -1) {
+                return;
+            }
+            searchInput.val(autocomplete.find('li').eq(selectedItem).text());
+            autocomplete.empty().hide();
+            event.preventDefault();
+        }
+    }).keydown(function(event) {
+
+        if (event.keyCode == 27) {
+            autocomplete.empty().hide();
+            event.preventDefault();
+        }
+    });
+
+    $(window).resize(function() {
+        var ypos = searchInput.position().top;
+        var xpos = searchInput.position().left;
+        autocomplete.css('width', searchInput.css('width'));
+        autocomplete.css({
+            'position': 'relative',
+            'left': xpos + "px",
+            'top': ypos + "px"
+        });
+    });
+});
+
+$(function(){
+    var searchInput = $('#itemName');
+    searchInput.attr('autocomplete', 'off');
+    var autocomplete = $('<ul class="autocomplete"></ul>').hide().insertAfter('#itemName');
+    var clear = function() {
+        autocomplete.empty().hide();
+    };
+    searchInput.blur(function() {
+        setTimeout(clear, 500);
+    });
+    var selectedItem = null;
+    var timeoutid = null;
+    var setSelectedItem = function(item) {
+        selectedItem = item;
+
+        if (selectedItem < 0) {
+            selectedItem = autocomplete.find('li').length - 1;
+        } else if (selectedItem > autocomplete.find('li').length - 1) {
+            selectedItem = 0;
+        }
+
+        autocomplete.find('li').removeClass('highlight').eq(selectedItem).addClass('highlight');
+    };
+    var ajax_request = function() {
+        var cityId = $("#cityId").find("option:selected").val();
+        $.ajax({
+            url: '${rc.contextPath}/itemCopy/autoItemNameQuery.do',
+            data: ({'itemName': searchInput.val(), "cityId" : cityId}),
+            dataType: 'json',
+            type: 'POST',
+            success: function(data) {
+                if (data.length) {
+
+                    $.each(data, function(index, term) {
+
+                        $('<li></li>').text(term.itemName).appendTo(autocomplete).addClass('clickable').hover(function() {
+
+                                    $(this).siblings().removeClass('highlight');
+                                    $(this).addClass('highlight');
+                                    selectedItem = index;
+                                },
+                                function() {
+
+                                    $(this).removeClass('highlight');
+
+                                    selectedItem = -1;
+                                }).click(function() {
+
+                            searchInput.val(term.itemName);
+//                            $('#supplierFullName').text(term.supplier_full_name);
+//                            $('#supplierRemake').text(term.remark);
+                            $('#itemId').val(term.id);
+                            autocomplete.empty().hide();
+                        });
+                    });
+                    // var ypos = searchInput.position().top;
+                    var xpos = searchInput.position().left;
+                    autocomplete.css('width', searchInput.css('width'));
+                    autocomplete.css({
+                        'position': 'absolute',
+                        'left': xpos + "px",
+                        'font-size' : "14px",
+                        'color': "#666"
+                    });
+                    setSelectedItem(0);
+                    autocomplete.show();
+                }
+            }
+        });
+    };
+
+    searchInput.keyup(function(event) {
+
+        if (event.keyCode > 40 || event.keyCode == 8 || event.keyCode == 32) {
+            autocomplete.empty().hide();
+            clearTimeout(timeoutid);
+            timeoutid = setTimeout(ajax_request, 100);
+        } else if (event.keyCode == 38) {
+            if (selectedItem == -1) {
+                setSelectedItem(autocomplete.find('li').length - 1);
+            } else {
+
+                setSelectedItem(selectedItem - 1);
+            }
+            event.preventDefault();
+        } else if (event.keyCode == 40) {
+
+            if (selectedItem == -1) {
+                setSelectedItem(0);
+            } else {
+
+                setSelectedItem(selectedItem + 1);
+            }
+            event.preventDefault();
+        }
+    }).keypress(function(event) {
+
+        if (event.keyCode == 13) {
+            if (autocomplete.find('li').length == 0 || selectedItem == -1) {
+                return;
+            }
+            searchInput.val(autocomplete.find('li').eq(selectedItem).text());
+            autocomplete.empty().hide();
+            event.preventDefault();
+        }
+    }).keydown(function(event) {
+
+        if (event.keyCode == 27) {
+            autocomplete.empty().hide();
+            event.preventDefault();
+        }
+    });
+
+    $(window).resize(function() {
+        var ypos = searchInput.position().top;
+        var xpos = searchInput.position().left;
+        autocomplete.css('width', searchInput.css('width'));
+        autocomplete.css({
+            'position': 'relative',
+            'left': xpos + "px",
+            'top': ypos + "px"
+        });
+    });
+});
+function itemUpdate() {
+    var itemName = $('#itemName').val();
+    var itemId = $('#itemId').val();
+    if (itemName == '' || itemId == '') {
+        return alert("请选择正确的商品,然后进行导入");
+	}
+    $.ajax( {
+        url:'/itemCopy/isHad.do',// 跳转到 action
+        data:{
+            'itemName':itemName
+        },
+        type:'post',
+        cache:false,
+        dataType:'text',
+        success:function(data) {
+            if(data == '200'){
+                return alert("该商品已在该城市添加过，请确认！");
+            } else {
+                window.location.href="${rc.contextPath}/itemCopy/itemCopy.htm?id="+itemId+"&itemNames="+itemName;
+            }
+        },
+        error : function() {
+            alert("异常！");
+        }
+    });
+}
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/item/itemList.htm" title="返回商品列表" class="btn btn-return"><</a>
+		<h4 class="tit">
+			商品复制
+		</h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+	<form class="jqtransform" name="itemForm" id="form1" action="${rc.contextPath}/itemCopy/save.do?itemNames=$itemNames&catId=$catId" enctype="multipart/form-data" method="post" >
+	<input type="hidden" name="id" id="id" value="$!dto.id"/>
+    <input type="hidden" name="imgPath" id="imgPath" value="$!dto.imgPath"/>
+    <input type="hidden" name="bigImgPath" id="bigImgPath" value="$!dto.bigImgPath"/>
+    <input type="hidden" name="currentPage" id="currentPage" value="$!currentPage"/>
+	<input type="hidden" name="levelId" id="levelId" value="$!dto.categorylevelId"/>
+	<table class="form">
+        <tr>
+            <td align="right"><label class="tit">来源城市：</label></td>
+            <td><select name="cityId" id="cityId" validate="{required:true}">
+				#foreach($city in $cityList)
+					#if ($!cityId == $city.id)
+                        <option value="$city.id" selected="selected">$city.cityName</option>
+					#else
+                        <option value="$city.id">$city.cityName</option>
+					#end
+				#end
+            </select>
+                &nbsp;<span></span></td>
+            <td>
+        </tr>
+##        <tr class="btn-bar">
+##
+##        </tr>
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>商品名称：</label></td>
+			<td><input class="form-input" type="text" name="itemName" id="itemName" value="$!dto.itemName" validate="{required:true}">
+			&nbsp;<span></span>
+                <input type="hidden" name="itemId" id="itemId" value="$!dto.id"/><a class="btn btn-warning btn-sm" onclick="itemUpdate($('#tList'));">导入</a>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>一级类目：</label></td>
+			<td>
+			<select name="categoryId" id="categoryId" validate="{required:true}" onchange="categoryIdChange(this)">
+			    #foreach($cat in $catList)
+				   #if ($!dto.categoryId == $cat.id)
+		            <option value="$cat.id" selected="selected">$cat.categoryName</option>
+		           #else
+		            <option value="$cat.id">$cat.categoryName</option>
+		           #end
+				#end
+			 </select>
+			 &nbsp;<span></span>
+			</td>
+		</tr>
+		<tr>
+		#foreach($catLevel in $catLevelList)
+			<input type="hidden" name="$catLevel.parentId" id="$catLevel.id" value="$catLevel.categoryName"/>
+		#end
+		<td align="right"><label class="tit" ><font color='red'>*</font>二级类目：</label></td>
+			<td>
+			<select name="categorylevelId" id="categorylevelId" validate="{required:true}">
+			    #foreach($catLevel in $catLevelList)
+				   #if ($!dto.categorylevelId == $catLevel.id)
+		            <option value="$catLevel.id" selected="selected">$catLevel.categoryName</option>
+		           #else
+		            <option value="$catLevel.id">$catLevel.categoryName</option>
+		           #end
+				#end
+			 </select>
+			 &nbsp;<span></span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>品种：</label></td>
+			<td>
+				<input class="form-input" type="text" name="itemVarietyname" id="itemVarietyname" value="$!varietyName" validate="{required:true}">&nbsp;<span></span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"></td>
+				<td>
+                    <table class="table-inline"  id="tList">
+                      <tr>
+                        <th><a class="ico-add" href="#"
+								onclick="insertRow4addItem($('#tList'))">+</a></th>
+						<th>口味</th>
+						<th>条形码</th>
+                      </tr>
+                      
+                      #set($wiCount = 0)
+                        #foreach( $itemTaste in $itemTasteList)
+                        	<tr id="rowTemplateshow" name="rowTemplateshow">
+							<th><a class="ico-subtract" href="#"
+								onclick="deleteRow4ItemRecord(this)">-</a></th>
+							<td><input type="text" name="itemTaste$wiCount" rownum='$wiCount' id="itemTaste$wiCount" validate="{required:true}" value="$!itemTaste.tasteName">&nbsp;<span></span></td>
+							<td><input type="text" name="barcode$wiCount" rownum='$wiCount' id="barcode$wiCount" value="$!itemTaste.barcode">&nbsp;<span></span></td>
+ 							</tr>
+                        #set($wiCount = $wiCount+1)
+                         #end
+                      
+                      <tr id="rowTemplate" name="rowTemplate" style="display: none">
+							<th><a class="ico-subtract" href="#"
+								onclick="deleteRow4ItemRecord(this)">-</a></th>
+							<td><input type="text" name="itemTaste" validate="{required:true}" id="itemTaste">&nbsp;<span></span></td>
+							<td><input type="text" name="barcode" id="barcode">&nbsp;<span></span></td>
+						</tr>
+                    </table>
+					<!-- 删除的时候rowCount不会减少，因为如果从中间删除一行，会导致新生成的行id与现有的行冲突,
+								所以请在后台拿去数据的时候，判断一下当前行是否有数据 -->
+					<input type="hidden" name="rowCount" id="rowCount" value="$!itemTasteSize">
+                </td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>品牌：</label></td>
+			<td>
+				<input class="form-input" type="text" name="brand" id="brand" value="$!dto.brand" validate="{required:true}">&nbsp;<span></span>
+			</td>
+		</tr>
+
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>规格：</label></td>
+			<td>
+				<input class="form-input" type="text" name="size" id="size" value="$!dto.size" validate="{required:true}">&nbsp;<span></span>
+			</td>
+		</tr>
+
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>批发规格：</label></td>
+			<td>
+				<input class="form-input" type="text" name="buySize" id="buySize" value="$!dto.buySize" validate="{required:true}">&nbsp;<span></span>
+			</td>
+		</tr>
+
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>零售规格：</label></td>
+			<td>
+				<input class="form-input" type="text" name="saleSize" id="saleSize" value="$!dto.saleSize" validate="{required:true}">&nbsp;<span></span>
+			</td>
+		</tr>
+
+
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>批发规格系数：</label></td>
+			<td><input class="form-input" type="number" name="convertNum" id="convertNum" value="$!dto.convertNum" validate="{required:true,number:true}"  onchange="changeConvertNum(this)">
+			&nbsp;<span></span></td>
+		</tr>
+
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>零售规格系数：</label></td>
+			<td><input class="form-input" type="number" name="saleSizeNum" id="saleSizeNum" value="$!dto.saleSizeNum" validate="{required:true,number:true}"  onchange="changeSaleSizeNum(this)">
+			&nbsp;<span></span></td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">是否有增票：</label></td>
+			<td><input type="radio" name="inclusive"  onchange="change();" value="0"  />无增票
+                <input type="radio" name="inclusive" onchange="change();" value="1" checked="checked"/>有赠票
+			&nbsp;<span></span></td>
+		</tr>
+
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>批发成本价：</label></td>
+			<td><input class="form-input" type="text" name="actualBuyPrice" id="actualBuyPrice" value="$NumberTool.toYuanNumber($!dto.buyPrice)" validate="{required:true,number:true}"  onchange="changeBuyPrice(this)">
+			&nbsp;(元)&nbsp;<span></span></td>
+		</tr>
+
+
+			<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>批发价：</label></td>
+			<td><input class="form-input" type="text" name="actualPurchasePrice" id="actualPurchasePrice" value="$NumberTool.toYuanNumber($!dto.purchasePrice)" validate="{required:true,number:true}"  onchange="changePurchasePrice(this)">
+			&nbsp;(元)&nbsp;<span></span></td>
+		</tr>
+
+		<tr style="display:none">
+			<td align="right"><label class="tit"><font color='red'>*</font>不含税批发成本价：</label></td>
+			<td><input class="form-input" type="number" name="actualnotaxInclusiveBuyPrice" id="notaxInclusiveBuyPrice" readonly="readonly" value="$NumberTool.toYuanNumber($!dto.notaxInclusiveBuyPrice)" validate="{required:true,number:true}">
+			&nbsp;(元)&nbsp;<span></span></td>
+		</tr>
+
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>成本价：</label></td>
+			<td><input class="form-input" type="number" name="actualCostPrice" id="actualCostPrice" readonly="readonly" value="$NumberTool.toYuanNumber($!dto.costPrice)" validate="{required:true,number:true}">
+			&nbsp;(元)&nbsp;<span></span></td>
+		</tr>
+		<tr style="display:none">
+			<td align="right"><label class="tit"><font color='red'>*</font>不含税成本价：</label></td>
+			<td><input class="form-input" type="number" name="actualnotaxInclusiveCostPrice" id="notaxInclusiveCostPrice" readonly="readonly" value="$NumberTool.toYuanNumber($!dto.notaxInclusiveCostPrice)" validate="{required:true,number:true}">
+			&nbsp;(元)&nbsp;<span></span></td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>单价：</label></td>
+			<td><input class="form-input" type="number" name="actualPrice" id="actualPrice" readonly="readonly" value="$NumberTool.toYuanNumber($!dto.price)" validate="{required:true,number:true}">
+			&nbsp;(元)&nbsp;<span></span></td>
+		</tr>
+
+
+
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>零售成本价：</label></td>
+			<td><input class="form-input" type="number" name="actualSaleCostPrice" id="actualSaleCostPrice" readonly="readonly" value="$NumberTool.toYuanNumber($!dto.saleCostPrice)" validate="{required:true,number:true}">
+			&nbsp;(元)&nbsp;<span></span></td>
+		</tr>
+		<tr style="display:none">
+			<td align="right"><label class="tit"><font color='red'>*</font>不含税零售成本价：</label></td>
+			<td><input class="form-input" type="number" name="actualnotaxInclusiveSaleCostPrice" id="notaxInclusiveSaleCostPrice" readonly="readonly" value="$NumberTool.toYuanNumber($!dto.notaxInclusiveSaleCostPrice)" validate="{required:true,number:true}">
+			&nbsp;(元)&nbsp;<span></span></td>
+		</tr>
+
+
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>零售价：</label></td>
+			<td><input class="form-input" type="number" name="actualSalePrice" id="actualSalePrice" readonly="readonly" value="$NumberTool.toYuanNumber($!dto.salePrice)" validate="{required:true,number:true}">
+			&nbsp;(元)&nbsp;<span></span></td>
+		</tr>
+
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>便利店价：</label></td>
+			<td><input class="form-input" type="number" name="actualMarketPrice" id="marketPrice"  #if($!dto.marketPrice)value="$NumberTool.toYuanNumber($!dto.marketPrice)"#else value="" #end validate="{required:true,number:true}">
+			&nbsp;(元)&nbsp;<span></span></td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">超市价：</label></td>
+			<td><input class="form-input" type="number" name="actualcsPrice" id="csPrice"  #if($!dto.csPrice)value="$NumberTool.toYuanNumber($!dto.csPrice)"#else value="" #end validate="{number:true}">
+			&nbsp;(元)&nbsp;<span></span></td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">京东价：</label></td>
+			<td><input class="form-input" type="number" name="actualjdPrice" id="jdPrice"  #if($!dto.jdPrice)value="$NumberTool.toYuanNumber($!dto.jdPrice)"#else value="" #end validate="{number:true}">
+			&nbsp;(元)&nbsp;<span></span></td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">天猫价：</label></td>
+			<td><input class="form-input" type="number" name="actualtmPrice" id="tmPrice"  #if($!dto.tmPrice)value="$NumberTool.toYuanNumber($!dto.tmPrice)"#else value="" #end validate="{number:true}">
+			&nbsp;(元)&nbsp;<span></span></td>
+		</tr>
+
+		<tr>
+			<td align="right"><label class="tit">千克系数：</label></td>
+			<td><input class="form-input" type="number" name="kgNum" id="kgNum" value="$!dto.kgNum" validate="{number:true}">
+			&nbsp;<span></span></td>
+		</tr>
+		#if($!dto.id)
+            <tr>
+                <td align="right"><label class="tit">上下架：</label></td>
+                <td><input type="radio" name="isdown" value="0" #if($!dto.isdown==0)  checked="checked" #end/>上架
+                    <input type="radio" name="isdown" value="1" #if($!dto.isdown==1)  checked="checked" #end/>下架
+                    &nbsp;<span></span></td>
+            </tr>
+		#else
+		<tr>
+            <td align="right"><label class="tit">上下架：</label></td>
+            <td><input type="radio" name="isdown" value="0" />上架
+                <input type="radio" name="isdown" value="1" checked="checked" />下架
+			&nbsp;<span></span></td>
+		</tr>
+		#end
+		<tr>
+			<td align="right"><label class="tit">商品属性：</label></td>
+			<td><input type="radio" name="property" value="1" #if($!dto.property!=2 )  checked="checked" #end />定量装
+                <input type="radio" name="property" value="2" #if($!dto.property==2) checked="checked" #end/>散装
+			&nbsp;<span></span></td>
+		</tr>
+		<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>分级：</label></td>
+						<td><select name="grade" validate="{required:true}">
+							  <option value ="" >--请选择--</option>
+							  <option value ="KA" #if($!dto.grade=='KA') selected="selected" #end>KA</option>
+							  <option value ="A" #if($!dto.grade=='A') selected="selected" #end>A</option>
+							  <option value ="B" #if($!dto.grade!='A' && $!dto.grade!='C' && $!dto.grade!='KA') selected="selected" #end>B</option>
+							  <option value ="C" #if($!dto.grade=='C') selected="selected" #end>C</option>
+							</select>
+						&nbsp;<span></span></td>
+					</tr>
+        <tr>
+            <td align="right"><label class="tit">KA商品数量：</label></td>
+            <td><input class="form-input" type="number" name="kaNum" id="kaNum" value="$!dto.kaNum">
+                &nbsp;<span></span></td>
+        </tr>
+		<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>储存方式：</label></td>
+						<td><select name="storeWay" validate="{required:true}">
+							  <option value ="" >--请选择--</option>
+							  <option value ="常温" #if($!dto.storeWay!='冷藏' && $!dto.storeWay!='冷冻') selected="selected" #end>常温</option>
+							  <option value ="冷藏" #if($!dto.storeWay=='冷藏') selected="selected" #end>冷藏</option>
+							  <option value ="冷冻" #if($!dto.storeWay=='冷冻') selected="selected" #end>冷冻</option>
+							</select>
+						&nbsp;<span></span></td>
+					</tr>
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>产地：</label></td>
+			<td><input class="form-input" type="text" name="place" id="place" value="$!dto.place" validate="{required:true}">
+			&nbsp;<span></span></td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>保质期：</label></td>
+			<td><input class="form-input" type="number" name="shelfLife" id="shelfLife" value="$!dto.shelfLife" validate="{required:true}">
+			&nbsp;<span></span></td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">福利店特供：</label></td>
+			<td><input type="radio" name="freeSpecialSupply" value="1"  #if($!dto.freeSpecialSupply==1)checked="checked" #end/>是
+                <input type="radio" name="freeSpecialSupply" value="0" #if($!dto.freeSpecialSupply==1)#else checked="checked" #end/>否
+			&nbsp;<span></span></td>
+		</tr>
+		<tr>
+			<td align="right">
+				<label class="tit">备注：</label>
+			</td>
+			<td>
+			    <textarea id="remark" name="remark" cols="50" rows="5" >$!dto.remark</textarea>
+				&nbsp;<span></span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><lable class="tit">小图片：</label></td>
+			<td><input class="form-input" type="file" name="myfile" id="file" value=""  onchange="setImagePreview('file','preview')">
+			&nbsp;<span></span></td>
+		</tr>
+		<tr>
+			<td align="right"><lable class="tit">商品图片预览：</label></td>
+			<td>
+				<img id="preview" alt="预览商品图片" width="256" height="256" src="$!dto.imgPath" />
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><lable class="tit">大图片：</label></td>
+			<td><input class="form-input" type="file" name="myfile1" id="file1" value=""  onchange="setImagePreview1('file1','preview1')">
+			&nbsp;<span></span></td>
+		</tr>
+		<tr>
+			<td align="right"><lable class="tit">商品图片预览：</label></td>
+			<td>
+				<img id="preview1" alt="预览商品图片" width="384" height="384" src="$!dto.bigImgPath" />
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><lable class="tit"><font color='red'>*</font>供应商：</label></td>
+			<td>
+					#foreach($dto in $suppliers)
+						<input type="checkbox" name="supplier" value="$dto.id"> $dto.supplierName 
+					#end
+			</td>
+		</tr>
+		<tr class="btn-bar">
+			<td></td>
+			<td><input class="btn btn-success" type="submit" value="提交" /></td>
+##			<td><input class="btn btn-success" onclick="save()"value="提交" /></td>
+		</tr>
+	</table>
+	</form>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

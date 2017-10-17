@@ -1,0 +1,103 @@
+#set($layout="layout/shopLayout.vm")
+ <input type="hidden" id="flag" value="$!flag">
+<div class="caigou_sure">
+        
+        <ul>
+        
+        </ul>
+        <input type="text" name="memo" id="memo" placeholder="备注">
+</div>
+<div class="caigou_footer" style="background-image:url();">
+        <div class="bi">
+       		<span style="font-size:0.38rem;color:#fff;position:absolute;line-height:1.1rem;left:3%;">总计</span>
+            <span class="bianli_num">￥<span></span></span>
+        </div>
+        
+        <div class="pay">确认下单</div>
+    </div>
+<script type="text/javascript" src="${rc.contextPath}/static/js/shop/cart.js"></script>
+<script type="text/javascript">
+document.title = '采购';
+$("body").css("background-color","#f7f7f7");
+	function formatMoney(num) {
+        var money = num;
+        var float = num*100%100;
+        if(float == 0){
+            money = money + ".00";
+        }else{
+        	if(float%10==0){
+        		 money = money + "0";
+        	}
+        }
+        return money;
+	}
+	
+		var flag = $("#flag").val();
+	$(function(){
+		var content = '';
+		var lists = "";
+		var tnum = "";
+		var tprice ="";
+		if(flag==2){
+			lists = officecart.getproductlist();
+			tnum = officecart.getnum();
+			tprice = officecart.getamount().toFixed(2);
+		}else{
+			lists = cart.getproductlist();
+			tnum = cart.getnum();
+			tprice = cart.getamount().toFixed(2);
+		}
+		if(lists.length>0){
+			for(var i = 0; i <lists.length;i++){
+				var id = lists[i].id;
+				var num = lists[i].num;
+				var name = lists[i].name;
+				var price = lists[i].price;
+				var total = (price*100*num/100).toFixed(2);
+				content += '<li><span class="index">'+name+'</span><span class="index01">￥'+price+'</span><span class="index02">X'+num+'</span><span class="index03">￥'+total+'</span></li>'
+			}
+			$('.caigou_sure').find('ul').html(content);
+			$('.caigou_footer').find('.bianli_num').find("span").text(tprice);
+		}
+	});
+	
+	var payPrevent = false;
+	$('.pay').on('touchend',function(){
+		if (payPrevent == true) return;
+	    payPrevent = true;
+	    var lists = "";
+	    if(flag==2){
+			lists = officecart.getproductlist();
+		}else{
+			lists = cart.getproductlist();
+		}
+		var shopid = $shop_id;
+		var memo = $("#memo").val();
+		if(lists.length>0){
+			var list = JSON.stringify(lists);
+			$.ajax({
+					url:'${rc.contextPath}/convenient/shop_sourcingOrder.do',
+					type:'POST',
+					data: {shop_id:shopid,data:list,memo:memo,flag:flag},
+					success:function(data){
+						if(data.status==200){
+							//下单成功	
+							if(flag==2){
+								localStorage.removeItem("officeShoppingCart"); 
+							}else{
+								localStorage.removeItem("ShoppingCart"); 
+							}
+							window.location.href="${rc.contextPath}/convenient/shop_sourcingSuccess.htm?no="+data.data;           
+						}else{
+							payPrevent = false;
+							alert("下单失败，请稍后重试！")
+						}
+					}
+					
+				})
+		}else{
+			payPrevent = false;
+			alert("请选择商品");
+		}
+	});
+</script>

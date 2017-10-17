@@ -1,0 +1,174 @@
+<html>
+ <head>
+      <meta charset="utf-8" /> 
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" /> 
+      <meta name="apple-mobile-web-app-capable" content="no" /> 
+      <meta name="apple-mobile-web-app-status-bar-style" content="black" /> 
+      <meta content="telephone=no" name="format-detection" /> 
+      <title>500mi生活圈</title> 
+      <meta name="description" content="随时随地，连接您附近的便利店，满足您生活所需。" /> 
+      <script type="text/javascript" src="ui/common/js/require/require.min.js"></script> 
+      <script type="text/javascript" src="ui/common/js/mui.min.js"></script> 
+      <link type="text/css" rel="stylesheet" href="ui/common/css/mui.min.css" /> 
+      <link type="text/css" rel="stylesheet" href="ui/mobile/css/consumer/mui.css" /> 
+      <link type="text/css" rel="stylesheet" href="http://at.alicdn.com/t/font_1418886866_9914722.css" /> 
+      <style>
+      [ms-controller],[ms-important],.ms-controller,.ms-important{visibility:hidden}
+      </style> 
+      <script>
+          window.MiMobile = {
+          from    : 'browser',
+          app_id  : '501',
+          user_id : '85990',
+          domains : {
+          base_url    : 'http://work.500mi.com',
+          work_url    : 'http://work.500mi.com',
+          passport_url    : 'http://passport.500mi.com',
+          cp_url  : 'http://www.500mi.com',
+          weixin_url  : 'http://weixin.500mi.com',
+          img_url : 'http://img.500mi.com',
+          res_url : 'http://res.500mi.com',
+          assets_url  : ''},
+          assets_version: 201503170025};
+          function substr(str, len) {
+              var temp;
+              var icount = 0;
+              var patrn = /[^\x00-\xff]/;
+              var strre = "";
+              for (var i = 0; i < str.length; i++) {
+                  if (icount < len - 1) {
+                      temp = str.substr(i, 1);
+                      if (patrn.exec(temp) == null) {
+                          icount += 1;
+                      } else {
+                          icount += 2;
+                      }
+                      strre += temp;
+                  } else {
+                      break;
+                  }
+              }
+              return strre;
+          }
+          //选项卡点击事件
+          mui.ready(function(){
+          mui('.mui-bar-tab').on('tap', 'a', function(e) {
+                      var targetTab = this.getAttribute('href');
+                      if (targetTab == '#') {
+                          return;
+                      }
+                      location.href = targetTab;
+                  });
+          });
+      </script> 
+      <script type="text/javascript" src="ui/mobile/js/consumer/require.config.js"></script>
+      <script type="text/javascript" src="ui/mobile/js/consumer/confirm_order.js"></script>
+      <script type="text/javascript" src="ui/common/js/require/domReady.js"></script>
+      <script type="text/javascript" src="ui/common/js/avalon/avalon.mi.min.js"></script>
+      <script type="text/javascript" src="ui/common/js/avalon/mobile/avalon.iscroll4.js"></script>
+      <script type="text/javascript" src="ui/mobile/js/consumer/common.js"></script>
+      <script type="text/javascript" src="ui/common/js/zepto.min.js"></script>
+      <script type="text/javascript" src="ui/common/js/store.js"></script>
+      <script type="text/javascript" src="ui/common/js/micart-0.0.1.js"></script>  
+      <link type="text/css" rel="stylesheet" href="ui/mobile/css/consumer/common.css" /> 
+      <link type="text/css" rel="stylesheet" href="ui/mobile/css/consumer/shop_view.css" /> 
+      <link type="text/css" rel="stylesheet" href="ui/mobile/css/consumer/confirm_order.css" /> 
+ </head>
+ <body>
+  
+  
+  <div id="consumer_confirm_order" class="router_confirm_order" avalonctrl="consumer_confirm_order"> 
+   <header class="mui-bar mui-bar-nav mi-bg-gray"> 
+    <a class="mui-btn mui-btn-link mui-btn-nav mui-pull-left" href="/mobile/consumer/shop/view?shop_code=3611"> <i class="mui-icon mui-icon-arrowthinleft"></i> </a> 
+    <h1 class="mui-title">订单确认</h1> 
+   </header> 
+   <div class="mui-content mui-content-center" data-scroll="pageIscroll, pageIscrollOpt" data-init-scroll="ready" style="overflow: hidden;"> 
+    <div style="transition-property: transform; -webkit-transition-property: transform; transition-duration: 0ms; -webkit-transition-duration: 0ms; transform-origin: 0px 0px 0px; transform: translate(0px, 0px) translateZ(0px);"> 
+     <div class="hd-info clearfix"> 
+      <a class="chose-address" href="/mobile/consumer/address/select?shop_code=3611"></a> 
+      <div class="user_mobile clearfix"> 
+       <h3 class="user_name">收货人: 陆晓凤</h3> 
+       <div class="mobile">
+        手机: 13866668888
+       </div> 
+      </div> 
+      <div class="address">
+        地址: 江苏无锡市崇安区测试 
+      </div> 
+     </div> 
+     <!--ms-if--> 
+     <div class="pay-info clearfix"> 
+      <label>支付方式:</label> 
+      <div class="pay_method_list"> 
+       <!--ms-repeat-->
+       <span class="mui-btn mui-icon iconfont only icon-zhengqueyuan active">货到付款</span>
+       <!--ms-repeat-end--> 
+      </div> 
+      <!--ms-if--> 
+     </div> 
+     <!--ms-if--> 
+     <div class="remark-info clearfix"> 
+      <input type="text" class="frm_input_box" placeholder="请输入特殊要求" /> 
+     </div> 
+     <div class="cart-item-box"> 
+      <ul class="item-list" style="display: block;"> 
+       <!--ms-repeat-->
+       <li> <img class="item-img" src="http://res.500mi.com/data/item/9160ffdaecbd19a19e18178d1739d3b2.jpg!80x80" /> 
+        <div class="item-info"> 
+         <div class="item-name">
+          乐事意大利香浓红绘味45g
+         </div> 
+         <div class="spec">
+          45g/包
+         </div> 
+         <div class="price-num">
+          ￥
+          <b>3.50</b> &times; 11
+         </div> 
+        </div> </li>
+       <!--ms-repeat-end--> 
+      </ul> 
+      <div class="cart-item-list-warning" style="display: none;"> 
+       <h5>您还没有选择商品</h5> 
+       <a class="mui-btn mui-btn-orange" href="/mobile/consumer/shop/view?shop_code=3611">去选商品</a> 
+      </div> 
+     </div> 
+     <form action="/mobile/consumer/trade/submit_order" name="submit_order" id="submit_order" method="POST"> 
+      <input type="hidden" name="remark" value="" /> 
+      <input type="hidden" name="shop_id" value="3611" /> 
+      <input type="hidden" name="feeds_id" value="0" /> 
+      <!--ms-repeat-->
+      <span> <input type="hidden" name="cart_items[0][id]" value="168845" /> <input type="hidden" name="cart_items[0][item_name]" value="乐事意大利香浓红绘味45g" /> <input type="hidden" name="cart_items[0][num]" value="11" /> </span>
+      <!--ms-repeat-end--> 
+     </form> 
+     <form method="POST" action="/mobile/consumer/trade/payment_result" id="payment_submit"> 
+      <input type="hidden" name="tid" value="" /> 
+      <!--ms-if--> 
+      <input type="hidden" name="remark" value="" /> 
+      <input type="hidden" name="is_first" value="true" /> 
+      <input type="hidden" name="pay_method" value="COD" /> 
+     </form> 
+    </div> 
+   </div> 
+   <footer class="mui-bar mui-bar-footer mi-bg-orange"> 
+    <div class="cart-info"> 
+     <span class="cart-num">11</span>件, 共
+     <span class="cart-total">38.50</span>元 
+     <!--ms-if--> 
+    </div> 
+    <a href="javascript:void(0)" class="mui-btn mui-btn-orange">立即下单</a> 
+   </footer> 
+   <div class="globle_loading" style="display: none;">
+     加载中 
+   </div> 
+  </div> 
+  <script>
+require(['/ui/mobile/js/consumer/require.config.js'], function() {
+require(['avalon', 'confirm_order', 'domReady!'], function(avalon, confirm_order) {
+confirm_order.index();
+avalon.scan();
+});
+});
+</script> 
+ </body>
+</html>

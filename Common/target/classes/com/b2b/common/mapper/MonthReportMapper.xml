@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.MonthReportMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.MonthReport" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sum_date" property="sumDate" jdbcType="DATE" />
+    <result column="open_num" property="openNum" jdbcType="INTEGER" />
+    <result column="consume_shop_num" property="consumeShopNum" jdbcType="INTEGER" />
+    <result column="consume_fee" property="consumeFee" jdbcType="BIGINT" />
+    <result column="before_consume_fee" property="beforeConsumeFee" jdbcType="DECIMAL" />
+    <result column="avg_fee" property="avgFee" jdbcType="BIGINT" />
+    <result column="before_avg_fee" property="beforeAvgFee" jdbcType="DECIMAL" />
+    <result column="avg_day_fee" property="avgDayFee" jdbcType="BIGINT" />
+    <result column="before_avg_day_fee" property="beforeAvgDayFee" jdbcType="DECIMAL" />
+    <result column="consume_pen" property="consumePen" jdbcType="INTEGER" />
+    <result column="before_consume_pen" property="beforeConsumePen" jdbcType="DECIMAL" />
+    <result column="consume_num" property="consumeNum" jdbcType="INTEGER" />
+    <result column="before_consume_num" property="beforeConsumeNum" jdbcType="DECIMAL" />
+    <result column="sourcing_fee" property="sourcingFee" jdbcType="BIGINT" />
+    <result column="before_sourcing_fee" property="beforeSourcingFee" jdbcType="DECIMAL" />
+    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+    <result column="before_order_num" property="beforeOrderNum" jdbcType="DECIMAL" />
+    <result column="refund_num" property="refundNum" jdbcType="INTEGER" />
+    <result column="loss_percent" property="lossPercent" jdbcType="INTEGER" />
+    <result column="before_loss_percent" property="beforeLossPercent" jdbcType="DECIMAL" />
+    <result column="month_first_stock" property="monthFirstStock" jdbcType="BIGINT" />
+    <result column="month_last_stock" property="monthLastStock" jdbcType="BIGINT" />
+    <result column="expand_fee" property="expandFee" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sum_date, open_num, consume_shop_num, consume_fee, before_consume_fee, avg_fee, 
+    before_avg_fee, avg_day_fee, before_avg_day_fee, consume_pen, before_consume_pen, 
+    consume_num, before_consume_num, sourcing_fee, before_sourcing_fee, order_num, before_order_num, 
+    refund_num, loss_percent, before_loss_percent, month_first_stock, month_last_stock, 
+    expand_fee
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.MonthReportExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from month_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from month_report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from month_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.MonthReportExample" >
+    delete from month_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.MonthReport" >
+    insert into month_report (id, sum_date, open_num, 
+      consume_shop_num, consume_fee, before_consume_fee, 
+      avg_fee, before_avg_fee, avg_day_fee, 
+      before_avg_day_fee, consume_pen, before_consume_pen, 
+      consume_num, before_consume_num, sourcing_fee, 
+      before_sourcing_fee, order_num, before_order_num, 
+      refund_num, loss_percent, before_loss_percent, 
+      month_first_stock, month_last_stock, expand_fee
+      )
+    values (#{id,jdbcType=INTEGER}, #{sumDate,jdbcType=DATE}, #{openNum,jdbcType=INTEGER}, 
+      #{consumeShopNum,jdbcType=INTEGER}, #{consumeFee,jdbcType=BIGINT}, #{beforeConsumeFee,jdbcType=DECIMAL}, 
+      #{avgFee,jdbcType=BIGINT}, #{beforeAvgFee,jdbcType=DECIMAL}, #{avgDayFee,jdbcType=BIGINT}, 
+      #{beforeAvgDayFee,jdbcType=DECIMAL}, #{consumePen,jdbcType=INTEGER}, #{beforeConsumePen,jdbcType=DECIMAL}, 
+      #{consumeNum,jdbcType=INTEGER}, #{beforeConsumeNum,jdbcType=DECIMAL}, #{sourcingFee,jdbcType=BIGINT}, 
+      #{beforeSourcingFee,jdbcType=DECIMAL}, #{orderNum,jdbcType=INTEGER}, #{beforeOrderNum,jdbcType=DECIMAL}, 
+      #{refundNum,jdbcType=INTEGER}, #{lossPercent,jdbcType=INTEGER}, #{beforeLossPercent,jdbcType=DECIMAL}, 
+      #{monthFirstStock,jdbcType=BIGINT}, #{monthLastStock,jdbcType=BIGINT}, #{expandFee,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.MonthReport" >
+    insert into month_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sumDate != null" >
+        sum_date,
+      </if>
+      <if test="openNum != null" >
+        open_num,
+      </if>
+      <if test="consumeShopNum != null" >
+        consume_shop_num,
+      </if>
+      <if test="consumeFee != null" >
+        consume_fee,
+      </if>
+      <if test="beforeConsumeFee != null" >
+        before_consume_fee,
+      </if>
+      <if test="avgFee != null" >
+        avg_fee,
+      </if>
+      <if test="beforeAvgFee != null" >
+        before_avg_fee,
+      </if>
+      <if test="avgDayFee != null" >
+        avg_day_fee,
+      </if>
+      <if test="beforeAvgDayFee != null" >
+        before_avg_day_fee,
+      </if>
+      <if test="consumePen != null" >
+        consume_pen,
+      </if>
+      <if test="beforeConsumePen != null" >
+        before_consume_pen,
+      </if>
+      <if test="consumeNum != null" >
+        consume_num,
+      </if>
+      <if test="beforeConsumeNum != null" >
+        before_consume_num,
+      </if>
+      <if test="sourcingFee != null" >
+        sourcing_fee,
+      </if>
+      <if test="beforeSourcingFee != null" >
+        before_sourcing_fee,
+      </if>
+      <if test="orderNum != null" >
+        order_num,
+      </if>
+      <if test="beforeOrderNum != null" >
+        before_order_num,
+      </if>
+      <if test="refundNum != null" >
+        refund_num,
+      </if>
+      <if test="lossPercent != null" >
+        loss_percent,
+      </if>
+      <if test="beforeLossPercent != null" >
+        before_loss_percent,
+      </if>
+      <if test="monthFirstStock != null" >
+        month_first_stock,
+      </if>
+      <if test="monthLastStock != null" >
+        month_last_stock,
+      </if>
+      <if test="expandFee != null" >
+        expand_fee,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sumDate != null" >
+        #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="openNum != null" >
+        #{openNum,jdbcType=INTEGER},
+      </if>
+      <if test="consumeShopNum != null" >
+        #{consumeShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="consumeFee != null" >
+        #{consumeFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeConsumeFee != null" >
+        #{beforeConsumeFee,jdbcType=DECIMAL},
+      </if>
+      <if test="avgFee != null" >
+        #{avgFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeAvgFee != null" >
+        #{beforeAvgFee,jdbcType=DECIMAL},
+      </if>
+      <if test="avgDayFee != null" >
+        #{avgDayFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeAvgDayFee != null" >
+        #{beforeAvgDayFee,jdbcType=DECIMAL},
+      </if>
+      <if test="consumePen != null" >
+        #{consumePen,jdbcType=INTEGER},
+      </if>
+      <if test="beforeConsumePen != null" >
+        #{beforeConsumePen,jdbcType=DECIMAL},
+      </if>
+      <if test="consumeNum != null" >
+        #{consumeNum,jdbcType=INTEGER},
+      </if>
+      <if test="beforeConsumeNum != null" >
+        #{beforeConsumeNum,jdbcType=DECIMAL},
+      </if>
+      <if test="sourcingFee != null" >
+        #{sourcingFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeSourcingFee != null" >
+        #{beforeSourcingFee,jdbcType=DECIMAL},
+      </if>
+      <if test="orderNum != null" >
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="beforeOrderNum != null" >
+        #{beforeOrderNum,jdbcType=DECIMAL},
+      </if>
+      <if test="refundNum != null" >
+        #{refundNum,jdbcType=INTEGER},
+      </if>
+      <if test="lossPercent != null" >
+        #{lossPercent,jdbcType=INTEGER},
+      </if>
+      <if test="beforeLossPercent != null" >
+        #{beforeLossPercent,jdbcType=DECIMAL},
+      </if>
+      <if test="monthFirstStock != null" >
+        #{monthFirstStock,jdbcType=BIGINT},
+      </if>
+      <if test="monthLastStock != null" >
+        #{monthLastStock,jdbcType=BIGINT},
+      </if>
+      <if test="expandFee != null" >
+        #{expandFee,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.MonthReportExample" resultType="java.lang.Integer" >
+    select count(*) from month_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update month_report
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.sumDate != null" >
+        sum_date = #{record.sumDate,jdbcType=DATE},
+      </if>
+      <if test="record.openNum != null" >
+        open_num = #{record.openNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.consumeShopNum != null" >
+        consume_shop_num = #{record.consumeShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.consumeFee != null" >
+        consume_fee = #{record.consumeFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.beforeConsumeFee != null" >
+        before_consume_fee = #{record.beforeConsumeFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.avgFee != null" >
+        avg_fee = #{record.avgFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.beforeAvgFee != null" >
+        before_avg_fee = #{record.beforeAvgFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.avgDayFee != null" >
+        avg_day_fee = #{record.avgDayFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.beforeAvgDayFee != null" >
+        before_avg_day_fee = #{record.beforeAvgDayFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.consumePen != null" >
+        consume_pen = #{record.consumePen,jdbcType=INTEGER},
+      </if>
+      <if test="record.beforeConsumePen != null" >
+        before_consume_pen = #{record.beforeConsumePen,jdbcType=DECIMAL},
+      </if>
+      <if test="record.consumeNum != null" >
+        consume_num = #{record.consumeNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.beforeConsumeNum != null" >
+        before_consume_num = #{record.beforeConsumeNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sourcingFee != null" >
+        sourcing_fee = #{record.sourcingFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.beforeSourcingFee != null" >
+        before_sourcing_fee = #{record.beforeSourcingFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderNum != null" >
+        order_num = #{record.orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.beforeOrderNum != null" >
+        before_order_num = #{record.beforeOrderNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.refundNum != null" >
+        refund_num = #{record.refundNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.lossPercent != null" >
+        loss_percent = #{record.lossPercent,jdbcType=INTEGER},
+      </if>
+      <if test="record.beforeLossPercent != null" >
+        before_loss_percent = #{record.beforeLossPercent,jdbcType=DECIMAL},
+      </if>
+      <if test="record.monthFirstStock != null" >
+        month_first_stock = #{record.monthFirstStock,jdbcType=BIGINT},
+      </if>
+      <if test="record.monthLastStock != null" >
+        month_last_stock = #{record.monthLastStock,jdbcType=BIGINT},
+      </if>
+      <if test="record.expandFee != null" >
+        expand_fee = #{record.expandFee,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update month_report
+    set id = #{record.id,jdbcType=INTEGER},
+      sum_date = #{record.sumDate,jdbcType=DATE},
+      open_num = #{record.openNum,jdbcType=INTEGER},
+      consume_shop_num = #{record.consumeShopNum,jdbcType=INTEGER},
+      consume_fee = #{record.consumeFee,jdbcType=BIGINT},
+      before_consume_fee = #{record.beforeConsumeFee,jdbcType=DECIMAL},
+      avg_fee = #{record.avgFee,jdbcType=BIGINT},
+      before_avg_fee = #{record.beforeAvgFee,jdbcType=DECIMAL},
+      avg_day_fee = #{record.avgDayFee,jdbcType=BIGINT},
+      before_avg_day_fee = #{record.beforeAvgDayFee,jdbcType=DECIMAL},
+      consume_pen = #{record.consumePen,jdbcType=INTEGER},
+      before_consume_pen = #{record.beforeConsumePen,jdbcType=DECIMAL},
+      consume_num = #{record.consumeNum,jdbcType=INTEGER},
+      before_consume_num = #{record.beforeConsumeNum,jdbcType=DECIMAL},
+      sourcing_fee = #{record.sourcingFee,jdbcType=BIGINT},
+      before_sourcing_fee = #{record.beforeSourcingFee,jdbcType=DECIMAL},
+      order_num = #{record.orderNum,jdbcType=INTEGER},
+      before_order_num = #{record.beforeOrderNum,jdbcType=DECIMAL},
+      refund_num = #{record.refundNum,jdbcType=INTEGER},
+      loss_percent = #{record.lossPercent,jdbcType=INTEGER},
+      before_loss_percent = #{record.beforeLossPercent,jdbcType=DECIMAL},
+      month_first_stock = #{record.monthFirstStock,jdbcType=BIGINT},
+      month_last_stock = #{record.monthLastStock,jdbcType=BIGINT},
+      expand_fee = #{record.expandFee,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.MonthReport" >
+    update month_report
+    <set >
+      <if test="sumDate != null" >
+        sum_date = #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="openNum != null" >
+        open_num = #{openNum,jdbcType=INTEGER},
+      </if>
+      <if test="consumeShopNum != null" >
+        consume_shop_num = #{consumeShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="consumeFee != null" >
+        consume_fee = #{consumeFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeConsumeFee != null" >
+        before_consume_fee = #{beforeConsumeFee,jdbcType=DECIMAL},
+      </if>
+      <if test="avgFee != null" >
+        avg_fee = #{avgFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeAvgFee != null" >
+        before_avg_fee = #{beforeAvgFee,jdbcType=DECIMAL},
+      </if>
+      <if test="avgDayFee != null" >
+        avg_day_fee = #{avgDayFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeAvgDayFee != null" >
+        before_avg_day_fee = #{beforeAvgDayFee,jdbcType=DECIMAL},
+      </if>
+      <if test="consumePen != null" >
+        consume_pen = #{consumePen,jdbcType=INTEGER},
+      </if>
+      <if test="beforeConsumePen != null" >
+        before_consume_pen = #{beforeConsumePen,jdbcType=DECIMAL},
+      </if>
+      <if test="consumeNum != null" >
+        consume_num = #{consumeNum,jdbcType=INTEGER},
+      </if>
+      <if test="beforeConsumeNum != null" >
+        before_consume_num = #{beforeConsumeNum,jdbcType=DECIMAL},
+      </if>
+      <if test="sourcingFee != null" >
+        sourcing_fee = #{sourcingFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeSourcingFee != null" >
+        before_sourcing_fee = #{beforeSourcingFee,jdbcType=DECIMAL},
+      </if>
+      <if test="orderNum != null" >
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="beforeOrderNum != null" >
+        before_order_num = #{beforeOrderNum,jdbcType=DECIMAL},
+      </if>
+      <if test="refundNum != null" >
+        refund_num = #{refundNum,jdbcType=INTEGER},
+      </if>
+      <if test="lossPercent != null" >
+        loss_percent = #{lossPercent,jdbcType=INTEGER},
+      </if>
+      <if test="beforeLossPercent != null" >
+        before_loss_percent = #{beforeLossPercent,jdbcType=DECIMAL},
+      </if>
+      <if test="monthFirstStock != null" >
+        month_first_stock = #{monthFirstStock,jdbcType=BIGINT},
+      </if>
+      <if test="monthLastStock != null" >
+        month_last_stock = #{monthLastStock,jdbcType=BIGINT},
+      </if>
+      <if test="expandFee != null" >
+        expand_fee = #{expandFee,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.MonthReport" >
+    update month_report
+    set sum_date = #{sumDate,jdbcType=DATE},
+      open_num = #{openNum,jdbcType=INTEGER},
+      consume_shop_num = #{consumeShopNum,jdbcType=INTEGER},
+      consume_fee = #{consumeFee,jdbcType=BIGINT},
+      before_consume_fee = #{beforeConsumeFee,jdbcType=DECIMAL},
+      avg_fee = #{avgFee,jdbcType=BIGINT},
+      before_avg_fee = #{beforeAvgFee,jdbcType=DECIMAL},
+      avg_day_fee = #{avgDayFee,jdbcType=BIGINT},
+      before_avg_day_fee = #{beforeAvgDayFee,jdbcType=DECIMAL},
+      consume_pen = #{consumePen,jdbcType=INTEGER},
+      before_consume_pen = #{beforeConsumePen,jdbcType=DECIMAL},
+      consume_num = #{consumeNum,jdbcType=INTEGER},
+      before_consume_num = #{beforeConsumeNum,jdbcType=DECIMAL},
+      sourcing_fee = #{sourcingFee,jdbcType=BIGINT},
+      before_sourcing_fee = #{beforeSourcingFee,jdbcType=DECIMAL},
+      order_num = #{orderNum,jdbcType=INTEGER},
+      before_order_num = #{beforeOrderNum,jdbcType=DECIMAL},
+      refund_num = #{refundNum,jdbcType=INTEGER},
+      loss_percent = #{lossPercent,jdbcType=INTEGER},
+      before_loss_percent = #{beforeLossPercent,jdbcType=DECIMAL},
+      month_first_stock = #{monthFirstStock,jdbcType=BIGINT},
+      month_last_stock = #{monthLastStock,jdbcType=BIGINT},
+      expand_fee = #{expandFee,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findByDate" resultMap="BaseResultMap">
+  	SELECT
+* FROM month_report WHERE date_format(`sum_date`,'%Y-%m') = date_format(#{month},'%Y-%m')
+  </select>
+  <select id="findList" resultMap="BaseResultMap">
+  	SELECT mr.*,
+	       dn.getFee,
+	       ia.invoiceFee
+	  FROM `month_report` mr
+	  LEFT JOIN(
+	SELECT  SUM(`debitnote_amount`) getFee, `years`, `months`
+	  FROM `debit_note` dd LEFT JOIN `customer_user` cu on dd.`company_id` = cu.`id` 
+	 WHERE cu.`iswxvip` = 3 and `delete_status`= 1 
+	 GROUP BY `years`, `months`) dn on YEAR(mr.`sum_date`)= dn.`years`
+	   and MONTH(mr.sum_date)= dn.`months`
+	  LEFT JOIN(
+	SELECT SUM(`invoice_amount`) invoiceFee, `years`, `months`
+	  FROM `invoice` i LEFT JOIN `customer_user` cu on i.`company_id` = cu.`id` 
+	 where cu.`iswxvip` = 3 and i.`delete_status`= 1
+	 GROUP BY `years`, `months`) ia on YEAR(mr.`sum_date`)= ia.`years`
+	   and MONTH(mr.sum_date)= ia.`months` ORDER BY mr.`sum_date` desc
+  </select>
+</mapper>

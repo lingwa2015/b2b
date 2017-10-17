@@ -1,0 +1,162 @@
+#set($layout="layout/wxLayout.vm")
+    <div class="pay_content">
+    <img src="${rc.contextPath}/static/images/wx/lingshi.jpg" style="width:0px; height:0px; overflow:hidden;display: block;">
+        <div class="pay_header">
+           <img src="data:image/jpeg;base64,%2F9j%2F4AAQSkZJRgABAQEAAQABAAD%2F2wBDAAwJCQsJCAwLCgsODQwPEx8UExEREyYbHRcfLSgwLywoLCsyOEg9MjVENissPlU%2FREpMUFFQMDxYXldOXkhPUE3%2FwAALCAMqBDgBAREA%2F8QAGQABAQEBAQEAAAAAAAAAAAAAAAMCBAEH%2F8QAKRABAQEAAgIAAwgDAQAAAAAAAAIDEjITIiNCUgQUM0NTYnKCETRjAf%2FaAAgBAQAAPwD6kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM1Uz2Sr7TJ95ludZpQAAAAAAAAE61mWPvMk%2FaZVmprq0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACemnj%2FklGVae1K8Zza9a%2BhLTD6Up0rP1Xnea7eioAAAAAAAlW8z190K0rT1VzwmeyvKZ%2FYcY0%2FehplWftkrlp5P5KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADmifNtyrqprr4%2FWezm7KZZcvanRPqlvHpyJmdI5M%2BKp66Hlqe2ak7zSvLkAAAAAdUq3mU%2FLVdczxVXbRqpnOORhHpyXc2uXH2lLq6ctfJ612TufDtyl0gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM6dLYw6Ia1yu2FstJn1pS9Z4erc%2B0IYLvGaymk%2FBx66Hx5PPU9s2p%2B0y35c%2Fra8k%2FWcmgZ5Hkn62fLn9bFfaZZ89V1zPj0eDl20UnKZaeob9F%2BsMRrPD2T11mvWUW8q43C%2B%2FRvPpDQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM1PKOKX2avTi34p58qc%2Bk8b4sPePL1dVfDhjCfRUAGfHNPPFLPglnwHg%2F6PPBX6j3wf9DwNeCWvFL3xzLQAJbz6N5%2B0OWp4%2Brx7nPK%2BLq8U8%2BUsfaa9OKszxhoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABzX8Hbkv8AiR6uesKn97M5VS%2BeXj%2FknrfkvjKszx9WgAAAAAABmp5eqWV%2BO%2BNKaZeT%2BSFZVLU4VX7HR%2BHHshPxtuXyOkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAT0z8kcXPnVT1Vn7T9UH3mWa%2F8AdNv4KZ58WwAAAAAAAGNM%2FInNaY9urX3mSvtM%2FKlpVV2dGefjhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHNrPG%2FJKk8dI5PeMtAAAAAAAAADPGXlcc%2FZPKfJfkp0gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM1PL1c8%2FBvjXR0AAM1XHsl51Z0murQAAAAAAOeq818Z6OiZ4%2BrQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAnpn5ISy04%2FDpcAENPbbirxlLTLj7SpF8v5tgAAAAAIa6cvWVc8%2FHCgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACWuXk%2Fknnp8tLgCGnrtyVmuXVpDSfHfKVZrlHJoAABmq49mM9Kq%2FwBioAlpp8s92ssuPtXdUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEtcvJ7T2Tz14%2BtLgM1PJKs6z9paz1muzdTy9Usq43xXAABLTWZ6sTnWntS0zxaAQvX5ZUyy4%2B1d1QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABPTPyfyRnSs%2FWlprk0AxWU0lx1z6szp78nROk00AM1UylW%2FwBLzjrp2VnKZbAZ5cUq0rT1lTPLx%2FyVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZqZrshWdZ%2B0tZ6zSoAzUzXZisJZ8Ws9dD458c%2BOeLWu2jU4S3Ocz1aAGNNZlOZrb2rovOcz1aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS0ymkvi4%2FwVnWabAAAABitZlPlrp16KRhM9lQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABKsJpPx659Sd%2FqzUnSabAABitJlOt%2FpOOunZScJnt7qgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAzU8uzFYTSfgqeuhx3k8mn6Z5a%2Bg89fpnlr6DyafpnHejwVXbRScJbmZnq0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAObXWufGXk71P71Z3mv2KgAzy4sVvM9fdKtapvC6r1pcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcev41sD2aqeq%2Be%2FL1o11%2BWUPJX6jpy15etd063r5Uqrl2eCuHd1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADj1%2FGtgFcvxk6eN5d4Z0728BXDu6gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABx6%2FjWwPZmq6r54cfajXLl7Sl46%2BhfLLj7V3TrD6Uqmp7PBXDu6gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABza5VV8peThVdvRWcJn96oACVYTXX0SrCpbyzqfalwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQrf5cmfJv%2BmpGvk9fmVT8uf1nlz%2Bs8uf1nlz%2Bs8uf1nlz%2Bs8uf1qdhnSuMckPLrXXNqd658dFwENN%2FfjLPl1ntmrnp5FAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS3rjHH6jOeMNoazx9pa1rlj%2FNmc8uDXjyPHk14pPHkz48jx5H2b510PtPyKJ7z6K59IaGa9YQwn05LoZeu1y6QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAc2nxNuP0rs8po0nlHFjD2jjR92lis8p%2FMM5nzeroc%2Btcr4nDL9Rv%2FzCa%2BdWZmfWStJns59dJ04cXQlv0M954cW60mY5JeXWuuZWmtfltZTxj2VQ9p25Tm1z1%2FTJ1rnxpcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGdK4xySwn5mtNOMIcaz4U6JrklXw9uXyNa1yvxyThLUzMtJ%2BLM8UsVPhvlPR0VXGOSGefL2pSpmWnlVPzPPHNIVPG%2BLU68fV751M9OTaVa8b4s%2Bd5yra%2FV1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA5qrzXx%2BRWqnOEZitvYryTHGveTLTj%2FBXSeUIR3dTj072pOCdZ8XTn0hPfo3f%2Bt%2FV5l0Z3%2BRXPolv8iufRLT8aHSzp0tLDoqhn%2Fs26QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE9fwbSzqZgma2v9hU1jf7FZrl7MaZcurGevH1p76%2BaOK7l%2FO%2Fu6kN%2FkUz6Qnv0Ur%2FW%2Fozl0Z3Vz6Jb%2FACK59Eta47RTX3mSt5qDDoq5%2FJ49rpv7zJP2mVwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAActeCbb88yVvlXqlnp4%2FwCCtbylnU%2FM1PHzevR0OX87%2B7qQ3%2BRTPpCe%2FRSv9b%2BjOXRndXPolv8AIrn0S0qZ29lPJkeTI8snln9Q8mR5Mk9dJqFcukKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM10c%2BVTPZXyZHkyPJk9njRxmkZnjtxdDl%2FO%2Fu6kN%2FkUz6Qnv0Ur%2FW%2Fozl0Z3Vz6Jb%2FACKz0S09toV8Wf0PKyyn8tLLPl7UrWc0llnNXc0t4s%2FoJymfy1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATrPPtTzxZPfFmlrnOcKZzxhtz8uWzocv5393Uhv8imfSE9%2Biv%2FAJ%2F5yx4%2FtRmqx9ab88qs1XH2Y88sx7X5K6qeeWa3moMOirn5ePa6pXzy9nWaUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABzV8TbjR4qn2yanf5dWbrzbcflXS104wxnPHZ0Of87%2B7oQ3%2BRTPpCe%2FRfPpDTm3mZ4cV0t%2BjOec1DFcp9aV%2BH%2FzPh%2F8ANuePytJV4vm8Z8P%2FAJsVx80eJ1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlrly9p7s568vWu7dTNdnmefje1XFLPPyX5Ka1mpvySz5zL2vkuxpn5E508frTyqrb1l1Dm%2B0%2FIuxrPKOMmc8YNM%2BUJ5ROnbu1WEzBh0VQmeW1zSngl7Ocz1UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS1y5e092ctOXrXdVLTPkZX%2BXStVxc9V5r4ytM8fVjTTj6z3MtPlpup5dkeNY%2B09Fa39OUp%2BPTTtbU4SqxWkyznrytVCfX7T6r6dLSw6KoZ%2FwCzbpAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ1z5e092s9OUNufSuO3J77be1dFPXOE61qvXJTPLj7V3Z3z%2FMlrOuUNOSvW3VNTXsxWsyz8XT9kKThM9vdnTOpvySzOladXnirs98en6imc8YbQrOufKTx6fqFTpPt5F865RyaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEKyqb5ZM8d6UnCeH7k5jSfWWpw%2BpWZmerQ5qyqb5ZHHelc8pmOLH3aW5ymVAc1Z1N8smv8AO30H%2BdvoP87fQf52%2Bg%2Fzt9B%2Fnb6GanevVfOeMcWgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB%2F%2FZ"  class="banner" id="now">
+           <a href="${rc.contextPath}/wxuserStandardOrder/wxWeekStandardOrderList.htm"><img src="${rc.contextPath}/static/images/wx/bag_details.png"></a>
+           <div class="pay">
+            <span class="bag">$!standardOrder.typeValue</span>
+            <span class="price">￥<b>$NumberTool.toYuanNumber($!standardOrder.offerPrice)</b></span>
+           </div> 
+        </div>
+        <div class="zhanshi">
+           <img src="${rc.contextPath}/static/images/wx/bag_01.png" class="top">
+           
+            <dl class="note">
+            <dt class="no1">商品信息</dt>
+            <dd>&nbsp;&nbsp;</dd>
+            <dt class="a">零食品种：</dt>
+            <dd class="b">饼干糕点、蜜饯果干、熟食速食、坚果炒货、 糖果巧克力等<a href="#bottom" class="details" style="color:#ffc000;">（详看商品清单）</a> </dd>
+            <dt>毛&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重：</dt>
+            #if($!standardOrder.typeValue=="能量加油包")
+         	<dd>约 3.6 kg</dd>
+         #else
+         	<dd>约 3.3 kg</dd>
+         #end
+            <dt>盒子尺寸：</dt>
+            <dd>长×宽×高（39cm×29cm ×29cm）</dd>
+            <dt>储存方式：</dt>
+            <dd>阴凉干燥处保存</dd>
+        </dl>
+            <img src="${rc.contextPath}/static/images/wx/bag_03.jpg" >
+            <img src="${rc.contextPath}/static/images/wx/bag_04.jpg" >
+            <img src="${rc.contextPath}/static/images/wx/bag_05.jpg" >
+            <img src="${rc.contextPath}/static/images/wx/bag_06.jpg" >
+            <img src="${rc.contextPath}/static/images/wx/bag_07.jpg" >
+            <img src="${rc.contextPath}/static/images/wx/bag_08.jpg" class="num3">
+            <img src="${rc.contextPath}/static/images/wx/bag_09.jpg" >
+            <img src="${rc.contextPath}/static/images/wx/bag_10.png" >
+            <img src="${rc.contextPath}/static/images/wx/bag_11.jpg" >
+            <img src="${rc.contextPath}/static/images/wx/bag_12.jpg" >
+            <img src="${rc.contextPath}/static/images/wx/bag_13.jpg" >
+        </div>
+        <div class="pay_list" id="bottom">
+            <div class="wenzi"><span class="zi">本周搭配清单</span></div>
+            <ul class="pay_shop">
+            #foreach($item in $standardOrderItemList)
+                <li>
+                    <img src="$!item.imgPath">
+                    <span class="shu">x$!item.num</span>
+                    <span class="an">$!item.itemName $!item.itemSize</span>
+                </li>
+            #end
+            </ul>
+            <div class="shuoming">
+                <span class="tip" >温馨提示</span>
+                <span class="c1">1、当日12:00之前付款的订单当日发出，超出的次日发出（特殊节假日、大型活动期间除外）</span>
+                <span class="c1">2、偶尔因供应商缺货，部分商品可能出现用同类型同价格商品替换的情况！</span>
+                <span class="c1">3、收到如有不满意，在商品没有食用过的情况下，亲们可以在收货后7天内及时联系客服，协商后可以无条件退换。商品务必整盒退回并注明退换信息，不接受部分退还；非质量问题的退换货，来回邮费由亲们自理。</span>
+            </div>
+        </div>
+        <input name="num"  id="num" type="hidden" value="1">
+        <div class="pay_footer">
+            <span class="sub">-</span>
+            <span class="center">1</span>
+            <span class="add">+</span>
+            <a href="javascript:payOrder();"  class="pay_buy" >立即购买</a>
+        </div>
+    </div>
+    #if($!standardOrder.typeValue=="能量反应堆")
+        <script type="text/javascript">
+			document.title = "能量反应堆-领蛙商城";
+			$(window).load(function() {
+			    var bug = document.getElementById('now');
+			    bug.src="${rc.contextPath}/static/images/wx/Banner_02_02.jpg";
+			}); 
+		</script>
+    #else
+      <script type="text/javascript">
+			document.title = "活力反应堆-领蛙商城";
+			$(window).load(function() {
+			    var bug = document.getElementById('now');
+			    bug.src="${rc.contextPath}/static/images/wx/Banner_03_02.jpg";
+			}); 
+	  </script>
+    #end
+        <script type="text/javascript" src="${rc.contextPath}/static/js/wx/jquery.scrollTo.js"></script>
+<script>
+    (function ($) {
+        $.fn.NumberFix = function (options) {
+            var configs = {
+                addEle: '.add',
+                addEvent: function () { },
+                subEle: '.sub',
+                subEvent: function () { },
+                showEle: '.center',
+                format: null,
+                changeVal: 1 //每次点击增加的量
+            };
+
+            if (options) {
+                $.extend(configs, options);
+            }
+
+            $(this).each(function () {
+                var add = $.type(configs.addEle) === 'string' ? $(this).find(configs.addEle) : configs.addEle;
+                var sub = $.type(configs.subEle) === 'string' ? $(this).find(configs.subEle) : configs.subEle;
+                var show = $.type(configs.showEle) === 'string' ? $(this).find(configs.showEle) : configs.showEle;
+
+                add.on('click', function () {
+                    var i = getval(show);
+                    i = i + (configs.changeVal || 1);
+                    if (i > configs.max) i = configs.max;
+                    setval(show, i);
+                    configs.addEvent.call(this, i, show, add, sub);
+                });
+
+                sub.on('click', function () {
+                    var i = getval(show);
+                    i = i - (configs.changeVal || 1);
+                    if (i < configs.min) i = configs.min;
+                    setval(show, i);
+                    configs.subEvent.call(this, i, show, add, sub);
+                });
+            });
+
+            function getval(obj) {
+                return parseFloat(obj.is(':text') ? obj.val() : obj.text()) || 0;
+            }
+
+            function setval(obj, v) {
+                v = $.type(configs.format) === 'function' ? configs.format.call(this, parseFloat(v)) : v;
+                $("#num").val(v);
+                obj.is(':text') ? (obj.val(v)) : (obj.text(v));
+            }
+        };
+    })(jQuery);
+
+    $(function () {
+        var cucun = 1; //库存量
+        $('.pay_footer').NumberFix({
+            addEvent: function (crt, show, addbtn, subbtn) {
+                subbtn.removeClass('btndis'); //恢复按钮
+            },
+            subEvent: function (crt, show, addbtn, subbtn) {
+                if (crt<=cucun) {
+                    show.text(cucun);//重置为存为
+                    subbtn.addClass('btndis');
+                }
+            }
+        });
+    });
+    
+    
+    function payOrder(){
+    	window.location.href="${rc.contextPath}/weixin/wxconfirmOrderList.htm?standId=$!standardOrder.standardorderId&offerPrice=$!standardOrder.offerPrice&num="+$("#num").val();
+    }
+    $(function(){
+    $(".details").click(function(){
+        $.scrollTo('#bottom',1000);
+    });
+});
+</script>  

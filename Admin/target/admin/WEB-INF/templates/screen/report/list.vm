@@ -1,0 +1,54 @@
+<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/dailyReport/reportList.htm" method="post">
+</form>
+<div class="content">
+		<div class="bd-actionbar">
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+			<table class="table">
+			  <tr>
+				<th>日期</th>
+				<th>开通店铺数</th>
+				<th>消费店铺数</th>
+				<th>消费总额</th>
+				<th>同比上周</th>
+				<th>店均消费额</th>
+				<th>消费笔数</th>
+				<th>笔均</th>
+				<th>消费人数</th>
+				<th>人均</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>$!date.format('yyyy-MM-dd',$!bean.sumDate)</td>
+					<td>$!bean.openShopNum</td>
+					<td>$!bean.consumeShopNum</td>
+					<td>$NumberTool.toYuanNumber($!bean.totalConsume)</td>
+					<td>#if($!bean.beforeLastWeekConsume) #if($!bean.beforeLastWeekConsume>0)+$!bean.beforeLastWeekConsume% #else $!bean.beforeLastWeekConsume% #end #end</td>
+					<td>$NumberTool.toYuanNumber($!bean.avgConsume)</td>
+					<!--<td>#if($!bean.beforeLastWeekAvg)#if($!bean.beforeLastWeekAvg>0)+$!bean.beforeLastWeekAvg% #else $!bean.beforeLastWeekAvg% #end #end</td>-->
+					<td>$!bean.consumePen</td>
+					<td>
+					#if($!bean.consumePen>0)
+					#set($avg_pen = $!bean.totalConsume / $!bean.consumePen)
+					$NumberTool.toYuanNumber($!avg_pen)
+					#end
+					</td>
+					<!--<td>#if($!bean.beforeLastWeekConsumePen)#if($!bean.beforeLastWeekConsumePen>0)+$!bean.beforeLastWeekConsumePen% #else $!bean.beforeLastWeekConsumePen% #end #end</td>-->
+					<td>$!bean.consumeNum</td>
+					<td>
+					#if($!bean.consumeNum>0)
+					#set($avg_num = $!bean.totalConsume / $!bean.consumeNum)
+					$NumberTool.toYuanNumber($!avg_num)
+					#end
+					</td>
+					<!--<td>#if($!bean.beforeLastWeekConsumeNum)#if($!bean.beforeLastWeekConsumeNum>0)+$!bean.beforeLastWeekConsumeNum% #else $!bean.beforeLastWeekConsumeNum% #end #end</td>-->
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

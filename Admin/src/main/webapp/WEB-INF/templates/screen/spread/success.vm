@@ -1,0 +1,7 @@
+ #set($layout="layout/wxLayout.vm")
+                    <div style="display:block;margin-top:20%;text-align:center;">
+                        <img src="${rc.contextPath}/static/images/wx/success.png" style="vertical-align:middle;margin-left:8%;">
+                        <span style="margin-left:1.2rem;font-size:3.2rem;color:#ffb800;vertical-align:middle;font-family: SimSun;">提交成功！</span>
+                    </div>
+                   <span style="color:#666;font-size:1.48rem;width:90%;display:block;margin-left:5%;margin-top:10%;line-height: 24px;text-align:center;">领蛙工作人员已收到您的咨询，会在1－2个工作日内联系您。<span>
+                    <a href="" class="so" onclick="this.close()">确定</a>

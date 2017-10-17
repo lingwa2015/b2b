@@ -1,0 +1,162 @@
+#set($layout="layout/wxLayout.vm")
+<div class="pindan_content">
+<img src="${rc.contextPath}/static/images/wx/lingshi.jpg" style="width:0px; height:0px; overflow:hidden;display: block;">
+    <div class="lw_pindan">
+        <img src="${rc.contextPath}/static/images/wx/pindan_beijing.jpg">
+        <div class="pindan_header">
+            <span class="portrait">
+                <img src="$!info.head_imgurl">
+            </span>
+            <h5 class="started"><span class="who">$!info.nick_name</span><span class="faqi">发起的拼单</span></h5>
+        	<input type="hidden" name="surplustime" class="surplustime" value="${time}" />
+        	#if($!percent=='100%')
+        	
+        	#else 
+            <span class="leave_time_font">
+            </span>
+            #end
+        </div>
+        <div class="pindan_core">
+            <span class="energy">$!info.spValue</span>
+            <p><span>￥$NumberTool.toYuanNumber($!info.snackpackage_fee) </span>x $!info.snackpackage_num</p>
+        </div>
+        <div class="pindan_shopping">
+            <span class="percentage">$!percent</span>
+            <span class="shop">
+                <img src="${rc.contextPath}/static/images/wx/fanying.jpg">
+            </span>
+        </div>
+        #if($time>0)
+	        #if($!percent=='100%')
+	        	<div class="pindan_core">
+	            <p class="pindan_success">拼单成功,$count人支付共计$NumberTool.toYuanNumber($paymoney)元</p>
+	        	</div>
+	    	#else
+	        	<div class="pindan_help">
+	            <p>剩余 <span><b>￥</b>$NumberTool.toYuanNumber($surplus)</span></p>
+	            <span class="help">求支援</span>
+	        	</div>
+	    	#end
+        #else
+        	<div class="pindan_help">
+        	<p class="pindan_success">拼单失败，已退款</p>
+        	</div>
+    	#end
+        
+        
+    </div>
+    <div class="lw_pinyou">
+    	#if($payFriends.size()>0)
+        <img src="${rc.contextPath}/static/images/wx/pinyou.jpg" style="width: 100%;">
+        #else
+        
+        #end
+        <ul>
+	          #set ($rowCount = 0)
+	          #foreach($dto in $payFriends)
+	            <li>
+	                <div class="pinyou_rank">
+	                    <span class="pinyou_portrait">
+	                    <!-- 第一名 有皇冠 -->
+	                    #if($!percent=='100%')
+		                    #if($rowCount==0)
+		                    <img src="${rc.contextPath}/static/images/wx/huangguan.png"class="crown">
+		                    #else
+		                    #end
+		                #else
+		                #end   
+	                    <img src="$!dto.headImg" class="touxiang">
+	                    </span>
+	                    <div class="pinyou_right">
+	                        <h5 style="max-width:80%">
+	                            <span class="pinyou_right_one">$!dto.nickname</span>
+	                            <span class="pinyou_right_two">支持</span>
+	                            <span class="pinyou_right_three">￥$NumberTool.toYuanNumber($!dto.fee)</span>
+	                        </h5>
+	                        <!-- 土豪标志 -->
+	                         #if($!percent=='100%')
+		                         #if($rowCount==0)
+			                     <div class="rich">土豪</div>
+			                    #else
+			                    #end
+			                 #else
+		                    #end
+	                        <time> $!date.format( 'yyyy-MM-dd hh:mm:ss',$!dto.createTime)</time>
+	                    </div>
+	                </div>
+	            </li>
+	            #set ($rowCount = $rowCount + 1)
+	           #end
+        </ul>
+        <fieldset>
+            <legend align="center">拼单活动说明</legend>
+            <span>24小时内完成拼单金额，拼单成功，我们随即安排发货。拼单失败，所有用户支付的费用将自动返回支付账户。</span>
+        </fieldset>
+    </div>
+    #if($time>0)
+	    #if($!percent=='100%')
+	    <div style="position: fixed;bottom: 0;" class="pay_pindan_footer">
+	        <a href="${rc.contextPath}/weixin/wxgroup.htm?id=$!info.id" >拼单成功，查看订单详情</a>
+	    </div>
+	    #else
+		    <div class="pinyou_footer">
+		    #if($flag==1)
+		        <a href="${rc.contextPath}/weixin/wxpingPay.htm?id=$!info.id" class="me_pay">自己先垫点</a>
+		    #else
+		     	<a href="${rc.contextPath}/weixin/wxpingPay.htm?id=$!info.id" class="me_pay">立即支持</a>
+		    #end
+		        <a href="#" onclick="hidediv();"class="friend_pay">喊朋友支持</a>
+		    </div>
+	    #end
+    #else
+    #end
+</div>
+<!-- 邀请好友拼单 -->
+<div class="yaoqing" style="display: none;" onclick="showdiv();" id="bg">
+    <div class="yaoqing_footer">
+        <img src="${rc.contextPath}/static/images/wx/yaoqing.png">
+        <p>点击右上角</p>
+        <p>选择【发送给好友】或【分享到朋友圈】 </br>邀请好友支持拼单</p>
+    </div>
+</div>
+<script type="text/javascript">
+	document.title = "好友拼单-领蛙商城";
+    function hidediv() {
+            document.getElementById("bg").style.display ='block';
+  	}
+  	function showdiv() {
+            document.getElementById("bg").style.display ='none';
+  	}
+  	$(document).ready(function(e) { 
+		var _countSeconds = 0; 
+		function _countDown(){ 
+			_countSeconds ++; 
+			$('input.surplustime').each(function(index, element) { 
+				var $this = $(this); 
+				var _totalTime = Number($this.val()) - _countSeconds; 
+				if(_totalTime>0){
+				    var res = /^[0-9]$/
+					var _hours = parseInt(_totalTime/3600%24);
+					if(res.test(_hours)){
+						_hours = "0"+_hours;
+					}
+					var _minutes = parseInt(_totalTime/60%60); 
+					if(res.test(_minutes)){
+						_minutes = "0"+_minutes;
+					}
+					var _seconds = parseInt(_totalTime%60);
+					if(res.test(_seconds)){
+						_seconds = "0"+_seconds;
+					} 
+					var _strLite = '<span class="surplus">剩余</span><span class="number">'+_hours+'</span><b>:</b><span class="number">'+_minutes+'</span><b>:</b><span class="number">'+_seconds+'</span>'; 
+					$this.next('span.leave_time_font').html(_strLite); 
+				}else{
+					var _str = '<p class="pindan_success">拼单失败，已退款</p>';
+					$('.pindan_help').html(_str);
+					$('.pinyou_footer').hide();
+				}
+			}); 
+		} 
+		setInterval(_countDown, 1000); 
+	}) 
+</script>

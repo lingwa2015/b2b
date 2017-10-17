@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.RedPacketTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.RedPacketType" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="red_packet_id" property="redPacketId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="down_fee" property="downFee" jdbcType="BIGINT" />
+    <result column="up_fee" property="upFee" jdbcType="BIGINT" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="fee" property="fee" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, red_packet_id, type, down_fee, up_fee, num, fee
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.RedPacketTypeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from red_packet_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from red_packet_type
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from red_packet_type
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.RedPacketTypeExample" >
+    delete from red_packet_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.RedPacketType" >
+    insert into red_packet_type (id, red_packet_id, type, 
+      down_fee, up_fee, num, 
+      fee)
+    values (#{id,jdbcType=INTEGER}, #{redPacketId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{downFee,jdbcType=BIGINT}, #{upFee,jdbcType=BIGINT}, #{num,jdbcType=INTEGER}, 
+      #{fee,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.RedPacketType" >
+    insert into red_packet_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="redPacketId != null" >
+        red_packet_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="downFee != null" >
+        down_fee,
+      </if>
+      <if test="upFee != null" >
+        up_fee,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="fee != null" >
+        fee,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="redPacketId != null" >
+        #{redPacketId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="downFee != null" >
+        #{downFee,jdbcType=BIGINT},
+      </if>
+      <if test="upFee != null" >
+        #{upFee,jdbcType=BIGINT},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.RedPacketTypeExample" resultType="java.lang.Integer" >
+    select count(*) from red_packet_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update red_packet_type
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.redPacketId != null" >
+        red_packet_id = #{record.redPacketId,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.downFee != null" >
+        down_fee = #{record.downFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.upFee != null" >
+        up_fee = #{record.upFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.num != null" >
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.fee != null" >
+        fee = #{record.fee,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update red_packet_type
+    set id = #{record.id,jdbcType=INTEGER},
+      red_packet_id = #{record.redPacketId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      down_fee = #{record.downFee,jdbcType=BIGINT},
+      up_fee = #{record.upFee,jdbcType=BIGINT},
+      num = #{record.num,jdbcType=INTEGER},
+      fee = #{record.fee,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.RedPacketType" >
+    update red_packet_type
+    <set >
+      <if test="redPacketId != null" >
+        red_packet_id = #{redPacketId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="downFee != null" >
+        down_fee = #{downFee,jdbcType=BIGINT},
+      </if>
+      <if test="upFee != null" >
+        up_fee = #{upFee,jdbcType=BIGINT},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="fee != null" >
+        fee = #{fee,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.RedPacketType" >
+    update red_packet_type
+    set red_packet_id = #{redPacketId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      down_fee = #{downFee,jdbcType=BIGINT},
+      up_fee = #{upFee,jdbcType=BIGINT},
+      num = #{num,jdbcType=INTEGER},
+      fee = #{fee,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findTotalNumByRedId" resultType="int">
+  	SELECT SUM(`num`)  FROM `red_packet_type` WHERE `red_packet_id` = #{id}
+  </select>
+  <select id="findByRedId" resultMap="BaseResultMap">
+  	SELECT *,
+       round(`num`*100000 /(
+SELECT SUM(num)
+  FROM `red_packet_type`
+ WHERE `red_packet_id`= #{redId})) rate
+  FROM `red_packet_type`
+ WHERE `red_packet_id`= #{redId}
+  </select>
+</mapper>

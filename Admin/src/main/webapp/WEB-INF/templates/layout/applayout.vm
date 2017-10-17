@@ -1,0 +1,75 @@
+<html>
+	<head>
+		<meta charset="utf-8" /> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" /> 
+		<meta name="apple-mobile-web-app-capable" content="no" /> 
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" /> 
+		<meta content="telephone=no" name="format-detection" /> 
+    	<title>领蛙 － 专业的办公室零食提供商</title>
+		<meta name="keywords" content="领蛙,领带蛙,杭州领带蛙网络科技有限公司,智能优选零食,零食,领蛙零食,企业文化"/>
+		<meta name="description" content="领蛙,领带蛙,杭州领带蛙网络科技有限公司,智能优选零食,零食,领蛙零食,企业文化"/>
+
+		<link type="text/css" rel="stylesheet" href="$!{rc.contextPath}/static/ui/common/css/mui.min.css" /> 
+		<link type="text/css" rel="stylesheet" href="$!{rc.contextPath}/static/ui/mobile/css/consumer/mui.css" /> 
+		<link type="text/css" rel="stylesheet" href="http://at.alicdn.com/t/font_1418886866_9914722.css" /> 
+		<link type="text/css" rel="stylesheet" href="$!{rc.contextPath}/static/ui/mobile/css/consumer/common.css" /> 
+		<link type="text/css" rel="stylesheet" href="$!{rc.contextPath}/static/ui/mobile/css/consumer/shop_view.css" /> 
+		<link type="text/css" rel="stylesheet" href="$!{rc.contextPath}/static/ui/mobile/css/consumer/common.css" /> 
+		<link type="text/css" rel="stylesheet" href="$!{rc.contextPath}/static/ui/mobile/css/consumer/shop_view.css?v=0.0.1" /> 
+		<link type="text/css" rel="stylesheet" href="$!{rc.contextPath}/static/ui/mobile/css/consumer/confirm_order.css" /> 
+       	<link rel="stylesheet" href="$!{rc.contextPath}/static/css/cc-main.css" type="text/css" />
+		
+		
+		<script type="text/javascript" src="$!{rc.contextPath}/static/js/jquery.js"></script>
+		<script language="javascript">  
+			
+			
+				$(document).ready(function(){
+				 	var pathArray = location.pathname.split('/');
+				
+					if(pathArray.length != 0){
+						var htmlFileName = pathArray[pathArray.length -1];
+						var endPostion = htmlFileName.indexOf('.');
+						htmlFileName = htmlFileName.substring(0,endPostion);
+						
+						$("#" + htmlFileName + "-a").addClass('c');
+						
+					}
+				});
+			
+				
+			
+			function disableBtn(btnId){
+			   $('#'+btnId).attr('disabled',"disabled");
+		       $('#'+btnId).attr('class', "btn");
+			}
+			
+			function enableBtn(btnId){
+			   $('#'+btnId).attr('disabled',"");
+		       $('#'+btnId).attr('class', "btn btn-primary");
+			}
+		</script> 
+        <style>
+            [ms-controller],[ms-important],.ms-controller,.ms-important{visibility:hidden}
+        </style>
+	</head>
+    
+    <body >
+        <div class="header">
+        	<h1 class="logo"><a href="${rc.contextPath}/welcome.htm"></a></h1><!--logo-->
+        	<div class="user-infor">
+        		<p>欢迎<span><a style="color:yellow" href="${rc.contextPath}/useradmin/resetPassword.htm">$!session.getAttribute("user").userName</a></span></p>
+        		<a class="sign-out" href="${rc.contextPath}/logout.htm">登出</a>
+        	</div>
+        </div>
+		$screen_content
+		
+		
+		
+		<div class="navigation">
+            <a href="/appItem/appItemList.htm" id="appItemList-a">首页</a>
+            <a href="/appOrder/appOrderList.htm" id="appOrderList-a">订单</a>
+            <a href="/appUser/appUserInfo.htm" id="appUserInfo-a">我的</a>
+        </div>
+    </body>
+</html>

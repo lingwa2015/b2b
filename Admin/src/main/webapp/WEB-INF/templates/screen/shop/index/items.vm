@@ -1,0 +1,1145 @@
+#set($layout="layout/shopLayout.vm")
+
+<div class="bianli_one">
+    <input id="shopid" type="hidden" value="$!shopid">
+	<input id="isshow" type="hidden" value="$!isshow">
+	<input id="cateid" type="hidden" value="$!cid">
+	<input id="surplus" type="hidden" value="$NumberTool.toYuanNumber($!surplus)">
+	<input id="free" type="hidden" value="$!free">
+      <input id="red_flag" type="hidden" value="$!red_flag">
+      #if($new_flag==1)
+      <div class="search-wrapper active" style="">
+                <div class="input-holder"> <span>新用户享受一周优惠</span> </div>
+                <span style="position:absolute;width:.8rem;height:.6rem;right:0;top:0;" ontouchend="searchToggle();">
+                    <span class="close"></span>
+                </span>  
+        </div>
+        #elseif($new_flag==2)
+         <div class="search-wrapper active" style="">
+                <div class="input-holder1"> <span>店铺限时优惠</span> </div>
+                <span style="position:absolute;width:.8rem;height:.6rem;right:0;top:0;" ontouchend="searchToggle();">
+                    <span class="close"></span>
+                </span>  
+        </div>
+        #end
+    <div class="bianli">
+
+    <div class="contacts-bd">
+
+        <div class="contacts-content">
+            <div class="shop_list_search" style="z-index:9999;">
+            <input type="" name="itemName" id="sec" style="z-index: 1000;font-size:.28rem;">
+            <span class="sou">搜索</span>
+            <span class="wo" id="cl" style="z-index: 10001;" ></span>
+            </div>
+            <div class="no_shop">
+            <p>没有匹配的商品</p>
+            <a href="tel://$!shop.mobilePhone">
+                <img src="${rc.contextPath}/static/images/shop/no_phone.png">
+                <span style="display:block;text-align:center;padding:.4rem 0 0 16%;">请及时联系店铺管理员</span>
+                <span style="display:block;text-align:center;padding-left: 16%;">$!shop.likeman：$!shop.mobilePhone</span>
+            </a>
+        </div>
+           
+            #foreach($member in $map.entrySet())
+            		<div  class="contacts-group" id="a">
+            			#foreach($cat in $cats)
+            				#if($member.key == $cat.id)
+                			<div class="contacts-group-hd" >$cat.categoryName</div>
+                			#end
+                		#end
+            		#set($items=$member.value)
+            		   #foreach($item in $items)
+            		   			<div class="one k" data-pId="$item.id" data-cid="$item.categoryId" data-onPrice="$NumberTool.toYuanNumber($item.marketPrice)" data-price="$NumberTool.toYuanNumber($item.salePrice)" data-amount="0">
+					            #if($item.isPreferentail==1)
+					            <img src="${rc.contextPath}/static/images/shop/preference.png" alt="" class="jiuban">
+					            #end
+					            <span data-img="$item.bigImgPath">
+					                                <!-- 放大图标 -->
+					            <img src="${rc.contextPath}/static/images/shop/big.png" class="wode" style="width:.3rem;margin:0;">
+					            </span>
+					                <img src="$item.imgPath">
+					                <span class="in" >$item.name</span>
+					                <span class="xiao" #if($!red==1)style="color:red"#elseif($!red==2)style="color:green"#end><span class="zhekou" >￥$NumberTool.toYuanNumber($item.marketPrice)</span>￥<span class="fei">$NumberTool.toYuanNumber($item.salePrice)</span></span>
+						            <span style="display:none;" class="binggan">$item.categoryName</span>
+						           
+						            <div class="su" style="display:none;">
+						                <b class="s">
+						                    <img src="${rc.contextPath}/static/images/shop/close.png">
+						                </b>
+						                <p class="num">0</p>
+						                <p class="shop_tip" style="display:none;">$item.name</p>
+						                #if($isshow==0)
+						                <p class="shop_price" style="display:none">￥<span>$NumberTool.toYuanNumber($item.marketPrice)</span></p>
+						                #else
+						                <p class="shop_price" >￥<span>$NumberTool.toYuanNumber($item.marketPrice)</span></p>
+						                #end
+						                <p class="price_9" style="display:none;">￥<span>$NumberTool.toYuanNumber($item.salePrice)</span></p>
+					            </div>
+            		   			</div>
+            		   #end
+            		   	 #set($size = $items.size())
+    		               #set($num = $size %3)
+    		              #if($num ==0)
+    		             #elseif($num ==1)
+    		             <div class="xiao_one"></div><div class="xiao_one"></div>
+    		            #elseif($num ==2)
+    		            <div class="xiao_one"></div>
+    		            #else
+    		            #end
+            		  </div>
+            #end
+            
+            </div>
+            
+        </div>
+        </div>
+    
+
+        
+    <div class="bianli_pay">
+        <div class="bi" id="sure">
+            <p class="onon" style="display:none;">品种过多已默认显示品名，轻触取消</p>
+            <span class="number" style="display:none;">0</span>
+                    <span class="xiang" gouwu="购物车"></span>
+            <span class="bianli_num" style="display:none;">￥<span>0.00</span></span>
+            <span class="cost_price" style="display:none;">￥<span>0.00</span></span>
+            <span class="shou_price" style="display:none;">优惠￥<span>0.00</span></span>
+        </div>
+        <div class="Layer" style="display:none"></div>
+        <div class="pay">支付</div>
+    </div>
+    <div class="imgFull" style="display:none;">
+            <img src="" class="su">
+            <div id="name_1"></div>
+    </div>
+    <span class="why" style="display:none">轻触退出</span>
+    <div class="Layer1" style="display:none"></div>
+    #if($!free==1 || $!red_flag==1)
+   <div class="butie">
+    #if($!free==1)
+    <p class="bu" index="1">
+        <span class="sy_hong">使用补贴，补贴剩余¥<span>$NumberTool.toYuanNumber($!surplus)</span>（#if($dayOrMonth==1)每月#elseif($dayOrMonth==2)每日#end￥$NumberTool.toYuanNumber($!freeFee)）</span>
+        <span class="xuan_yuan active"></span>
+    </p>
+    #end
+    #if($!red_flag==1)
+    <p class="bu" index="2" style="border-top: 1px solid #efefef;">
+        <span class="sy_hong">使用红包，红包剩余¥<span>$NumberTool.toYuanNumber($!redAccount)</span></span>
+        <span class="xuan_yuan active"></span>
+    </p>
+    #end
+    <p class="so">
+        <span class="qu_xiao">取消</span>
+        <b></b>
+        <span class="sure">确定</span>
+    </p>
+   </div>
+   #end
+    		#if($!isadmin==1)
+            <a href="/convenient/manage/shop_index.htm?shop_id=$shopid" class="entrance">管理后台</a>
+            #end
+</div>
+<script type="text/javascript">
+document.title = "$shopName自助便利店";
+    $(function(){
+        var reyin = $('#cateid').val();
+        if (reyin == -1 || reyin == "" ) {
+            return;
+        }
+        $('#sec').animate({"background-position":'.2rem'});
+        $('#sec').siblings('.sou').animate({left:"11%"});
+        document.getElementById("cl").style.visibility="visible";
+        
+        $('#sec').siblings('.sou').hide();
+        $('#sec').val(reyin); 
+        $('#sec').siblings('.sou').hide();
+        search();
+})
+$(function(){
+	 var butie = $('.butie').height();
+    $(".butie").css("bottom",-butie);
+
+})
+
+function searchToggle(){
+            var container = $('.search-wrapper');
+            $('.close').hide();
+            $('.close').parent().prev().find("span").hide();
+            if(container.hasClass('active')){
+                  container.removeClass('active');
+            }
+}
+document.getElementById("sec").addEventListener("keyup",function(){
+        if(this.value.length>0)
+        {
+            document.getElementById("cl").style.visibility="visible";
+            $('.n').animate({top:'.1rem'},300);
+            $('.n').css("z-index","-1");
+        }else
+        {
+            $('.sou').show();
+            if ($("li:last-child").attr('attr_jia') == "j") {
+               $("li:last-child").remove();
+            }
+            document.getElementById("cl").style.visibility="hidden";
+        }
+});
+
+
+
+
+$(".bianli").on("touchstart",function(){
+    if ($('.n').css("z-index") == 1000) {
+        $('.n').animate({top:'.3rem'});
+        $('.n').css("z-index","-1");
+        if ($('#sec').val() == "") {
+            $('#sec').animate({"background-position":"47%"});
+            $('.sou').animate({left:"50%"})
+        }
+        document.activeElement.blur();
+    }
+})
+
+function buquan(){
+   var gt = $(".group .one").length;
+   var gt1 = $(".group1 .one").length;
+   var oo1 = gt1%3;
+   var oo = gt%3;
+   var html = '<div class="j"></div>';
+   var html1 = '<div class="xiaoo"></div>';
+   
+   if (oo == 1) {
+        $('.group').append(html1);
+        $('.group').append(html);
+        //return false;
+   }
+   if (oo == 2) {
+        $('.group').append(html1);
+        //return false;
+   }
+   if (oo1 == 1) {
+        $('.group1').append(html1);
+        $('.group1').append(html);
+   }
+   if (oo1 == 2) {
+        $('.group1').append(html1);
+   }
+   if ($('.xiaoo').length>1) {
+    $('.xiaoo').not(":eq(0)").remove();
+    //return false;
+   }
+   if ($('.j').length>1) {
+    $('.j').not(":eq(0)").remove();
+    //return false;
+   }
+   
+}
+
+function search(){
+
+    var searchShop = $('#sec').val();
+    $(".group").remove();
+    if ($(".group").length == 0) {
+        $('.contacts-content').append('<div class="group"></div>');
+    }else{
+
+    }
+    
+    if (searchShop == "") {
+         	$(".one ").show();
+            $(".group").remove();
+            $(".group1").remove();
+            $('.contacts-group ,.contacts-group-hd').show();
+            $(".contacts-header").hide();
+            $('.no_shop').hide();
+    }else{
+
+        $(".one ").each(function() {
+                var shopName = $(this).find('.in').text();
+                var leimu = $(this).find('.binggan').text();
+                 $('.contacts-group').hide();
+                if (shopName.indexOf(searchShop) != -1  || leimu == (searchShop)) {
+                    if ($(this).css("display") != "none") {
+                       var a = $(this);
+                       //console.log('<div>'+a.html()+'</div');
+                       var d_pid = $(this).attr("data-pId");
+                       var c_id = $(this).attr("data-cId");
+                       var d_onprice = $(this).attr("data-onprice");
+                       var d_price = $(this).attr("data-price");
+                       var d_amount = $(this).attr("data-amount");
+                       $('.group').show();
+                       
+                        $('.group').prepend('<div class="one" id="ko'+d_pid+'" data-pId ="'+d_pid+'" data-cId="'+c_id+'" data-onPrice="'+d_onprice+'" data-Price1="'+d_price+'" data-amount="'+d_amount+'">'+a.html()+'</div>');
+                       
+                    
+                }
+                    
+                    //console.log($(this).attr("data-pId"));
+                    //$(this).parent().find(".contacts-group-hd").css('color','red');
+                    //console.log($(this).siblings(".contacts-group-hd").text())
+                } else {
+                    
+                    
+                }
+                // if ($(this).css("display") != "none") {
+                //        var a = $(this).clone();
+                //        console.log($(this).attr("data-pId"));
+
+                // }
+
+                if (searchShop == "购物车") {
+                    $(this).show();
+                    $(".no_shop").hide();
+                    $(this).removeClass("d");
+                    if ($(this).find(".su").is(":hidden")) {
+                        $(this).hide();
+                    }else{
+                        $(this).show();
+                    }
+                }
+
+               if ($('.one:hidden').length == $('.one').length) {
+                    $('.no_shop').show();
+               }else{
+                $('.no_shop').hide();
+               }
+
+        });
+        buquan();
+        // $("#a").each(function(){
+
+        //     var cha = $(this).find(".one").length - $(this).find(".one:hidden").length;
+        //     if (cha>0) {
+        //        $(this).find(".contacts-group-hd").show(); 
+        //     }else{
+        //         $(this).css("padding-top","0");
+        //     }
+        //     // if ($(this).find(".one").css("display") == "none") {
+                
+        //     //    var a = $(this).find(".one").clone();
+        //     //    console.log(a.html());
+        //     // }
+        // });
+        // $("#b").each(function(){
+        //     var cha = $(this).find(".one").length - $(this).find(".one:hidden").length;
+        //     if (cha>0) {
+        //        $(this).find(".contacts-group-hd").show(); 
+        //     }else{
+        //         $(this).css("padding-top","0");
+        //     }
+        // });
+        // $("#c").each(function(){
+        //     var cha = $(this).find(".one").length - $(this).find(".one:hidden").length;
+        //     if (cha>0) {
+        //        $(this).find(".contacts-group-hd").show(); 
+        //     }else{
+        //         $(this).css("padding-top","0");
+        //     }
+        // });
+        // $("#d").each(function(){
+        //     var cha = $(this).find(".one").length - $(this).find(".one:hidden").length;
+        //     if (cha>0) {
+        //        $(this).find(".contacts-group-hd").show(); 
+        //     }else{
+        //         $(this).css("padding-top","0");
+        //     }
+        // });
+        // $("#e").each(function(){
+        //     var cha = $(this).find(".one").length - $(this).find(".one:hidden").length;
+        //     if (cha>0) {
+        //        $(this).find(".contacts-group-hd").show(); 
+        //     }else{
+        //         $(this).css("padding-top","0");
+        //     }
+        // });
+        // $("#f").each(function(){
+        //     var cha = $(this).find(".one").length - $(this).find(".one:hidden").length;
+        //     if (cha>0) {
+        //        $(this).find(".contacts-group-hd").show(); 
+        //     }else{
+        //         $(this).css("padding-top","0");
+        //     }
+        // });
+        // $("#g").each(function(){
+        //     var cha = $(this).find(".one").length - $(this).find(".one:hidden").length;
+        //     if (cha>0) {
+        //        $(this).find(".contacts-group-hd").show(); 
+        //     }else{
+        //         $(this).css("padding-top","0");
+        //     }
+        // });
+        //buquan();
+        // if ($('.one:hidden').length == $('.one').length) {
+        //     if ($("li:last-child").attr('attr_jia') == "j") {
+        //           $("li:last-child").hide();     
+        //     }
+        // }     
+    }
+}
+
+function trimStr(str){return str.replace(/(^\s*)|(\s*$)/g,"");}
+
+$('#sec').on('input', function() {
+    $('.sou').css('display','none');
+    var str= navigator.userAgent.toLowerCase();
+    if (/iphone|ipad|ipod/.test(str)) {
+        var ver=str.match(/cpu iphone os (.*?) like mac os/);
+        var banben = parseFloat(ver[1].replace(/_/g,"."));
+        if (banben >= 10.3) {
+        }else{
+            if($(this).prop('comStart')) return;// 中文输入过程中不截断 
+        }          
+    } else if (/android/.test(str)) {
+            if($(this).prop('comStart')) return;   
+    }
+        search();        
+}).on('compositionstart', function(){
+    $(this).prop('comStart', true);
+}).on('compositionend', function(){
+    $(this).prop('comStart', false);
+});
+$('#sec').on('touchend',function(){
+    $(this).animate({"background-position":'.2rem'});
+    $(this).siblings('.sou').animate({left:"11%"});
+    $(this).parent().siblings('.n').animate({top:'1rem'},200);
+    $(this).parent().siblings('.n').css("z-index","1000");
+    var openid = '$!shopuser.openid';
+    var cityId = $!shop.cityId;
+    var shopId = $!shop.id;
+    var code = 'D1';
+    $.ajax({
+				url:'${rc.contextPath}/dataCollect/shop_save.do',
+				type:'POST',
+				data: {cityId:cityId,openid:openid,shopId:shopId,code:code,type:1},
+				success:function(data){
+				
+				}
+				
+			})
+});
+$('.sou').on('touchend',function(){
+    $(this).siblings('#sec').animate({"background-position":'.2rem'});
+    $(this).animate({left:"11%"});
+    $(this).parent().siblings('.n').animate({top:'1rem'},200);
+    $(this).parent().siblings('.n').css("z-index","1000");
+});
+$('.ai').on('touchend',function(){
+    var lei = $(this).attr("lei-mu");
+    $('#sec').val(lei);
+    $('.wo').css('visibility','visible');
+    document.activeElement.blur();
+    $('#sec').animate({"background-position":'.2rem'});
+    $('#sec').siblings('.sou').animate({left:"11%"});
+    $('.sou').css('display','none');
+    $('.n').css("z-index","-1");
+    $('.n').animate({top:'.1rem'});
+    search();
+});
+$('.wo').on('touchend',function(e){
+    $('#sec').val("");
+    $(this).css('visibility','hidden');
+    $('#sec').animate({"background-position":"47%"});
+    $('.sou').animate({left:"50%"})
+    $('.sou').show();
+    document.activeElement.blur();
+    $('.no_shop').hide();
+    $('.group').remove();
+    $(".group1").remove();
+    $(" .one ").show();
+    $(".contacts-group").css("padding-top",".6rem");
+    $(".contacts-group-hd").show();
+    $(".contacts-group").show();
+    count =0;
+    var chae = $('.one').length - $('.one:hidden').length;
+    var oo = chae%3;
+    if (oo == 0) {
+        $("li:not(.one)").remove();
+    }
+    if ($("li:last-child").attr('attr_jia') == "j") {
+        $("li:last-child").remove();
+    }
+    e.preventDefault();
+})
+//点击购物车区域
+//点击次数
+var count =0;
+$('.xiang').on("touchend",function(){
+    var xiangyin = $(this).attr("gouwu");
+    if ($("#sec").val()!="购物车" && $(".bianli_pay").find(".number").text()==0) {
+        $('#sec').val("");
+        $('#sec').animate({"background-position":"47%"});
+        $('.sou').css('display','block');
+        $('.sou').animate({left:"50%"});
+        $('.wo').css('visibility','hidden');
+
+        $('.group').remove();
+        $('.group1').remove();
+        $(".one").show();
+        $(".contacts-group").show();
+        return false;
+    }
+    if ($("#sec").val()!="购物车" && $("#sec").val().length>0  ){
+        // count =1;
+        $('#sec').val(xiangyin);
+        $('.group').remove();
+        $('.no_shop').hide();
+        if ($(".group1").length == 0) {
+            $('.contacts-content').append('<div class="group1"></div>');
+        }else{
+
+        }
+        $(".k").each(function(){
+
+            if ($(this).find(".su").css("display")  == "block") {
+                var a = $(this);
+                       //console.log('<div>'+a.html()+'</div');
+                       var d_pid = $(this).attr("data-pId");
+                       var c_id = $(this).attr("data-cId");
+                       var d_onprice = $(this).attr("data-onprice");
+                       var d_price = $(this).attr("data-price");
+                       var d_amount = $(this).attr("data-amount");
+                       $('.group1').show();
+                       // if ($(".group .one").length) {
+                       //      $(".group .one").each(function(){
+                       //      if (d_pid == $(this).attr('data-pId') ) {
+                       //          $("#ko"+d_pid).remove();
+                       //      }
+                       // });
+                       //      $('.group').append('<div class="one" id="ko'+d_pid+'" data-pId ="'+d_pid+'" data-cId="'+c_id+'" data-onPrice="'+d_onprice+'" data-Price="'+d_price+'" data-amount="'+d_amount+'">'+a.html()+'</div>');
+                       // }else{
+                        $('.group1').append('<div class="one" id="ko'+d_pid+'" data-pId ="'+d_pid+'" data-cId="'+c_id+'" data-onPrice="'+d_onprice+'" data-Price1="'+d_price+'" data-amount="'+d_amount+'">'+a.html()+'</div>');
+                } 
+            });
+        buquan();
+        return false;
+    }
+    if ($(".bianli_pay").find(".number").text()==0) {
+        $('#sec').val("");
+        $('#sec').animate({"background-position":"47%"});
+        $('.sou').css('display','block');
+        $('.sou').animate({left:"50%"});
+        $('.wo').css('visibility','hidden');
+        $('.group').remove();
+        $('.group1').remove();
+        $(".one").show();
+        $(".contacts-group").show();
+        return false;
+    }
+    count++;
+    //console.log(count);
+    
+    if ($(".number").text() == 0) {
+        count = 0;
+        $("ul li").show();
+        $("#sec").val("");
+        $('#sec').animate({"background-position":"47%"});
+        $('.sou').css('display','block');
+        $('.wo').css('visibility','hidden');
+        $('.sou').animate({left:"50%"});
+        buquan();
+        return;
+    }
+    if ($('.n').css("z-index") == 1000) {
+        $('.n').animate({top:'.3rem'});
+        $('.n').css("z-index","-1");
+        document.activeElement.blur();
+    }
+    if ($("#sec").val() == "购物车" && ($('.one').length - $('.one:hidden').length)>0) {
+        count = 2;
+    }
+    $("html,body").animate({scrollTop:0}, 100);
+    if (count%2 ==0) {
+        $('#sec').val("");
+        $('#sec').animate({"background-position":"47%"});
+        $('.sou').css('display','block');
+        $('.sou').animate({left:"50%"});
+        $('.wo').css('visibility','hidden');
+        $('.group').remove();
+        $('.group1').remove();
+        $(".one").show();
+        $(".contacts-group").show();
+
+        console.log(count);
+        console.log("双数");
+    }else{
+        $('#sec').val(xiangyin);
+
+        $('#sec').animate({"background-position":'.2rem'},200);
+        $('#sec').siblings('.sou').animate({left:"11%"});
+        $('.sou').css('display','none');
+        //$('.group1').remove();
+
+        $('.wo').css('visibility','visible');
+        $(".wo").on("touchend",function(){
+            count =0; 
+            
+            console.log(count);
+        });
+        if ($(".group").length == 0) {
+            $('.contacts-content').append('<div class="group1"></div>');
+        }else{
+
+        }
+        ko_each();
+        $('.contacts-group').hide();
+        console.log("单数");
+        buquan();
+    }
+});
+function ko_each(){
+    $(".one").each(function(){
+
+            if (!$(this).find(".su").is(":hidden")) {
+             var a = $(this);
+                       //console.log('<div>'+a.html()+'</div');
+                       var d_pid = $(this).attr("data-pId");
+                       var c_id = $(this).attr("data-cId");
+                       var d_onprice = $(this).attr("data-onprice");
+                       var d_price = $(this).attr("data-price");
+                       var d_amount = $(this).attr("data-amount");
+                       $('.group1').show();
+                       // if ($(".group .one").length) {
+                       //      $(".group .one").each(function(){
+                       //      if (d_pid == $(this).attr('data-pId') ) {
+                       //          $("#ko"+d_pid).remove();
+                       //      }
+                       // });
+                       //      $('.group').append('<div class="one" id="ko'+d_pid+'" data-pId ="'+d_pid+'" data-cId="'+c_id+'" data-onPrice="'+d_onprice+'" data-Price="'+d_price+'" data-amount="'+d_amount+'">'+a.html()+'</div>');
+                       // }else{
+                        $('.group1').append('<div class="one" id="ko'+d_pid+'" data-pId ="'+d_pid+'" data-cId="'+c_id+'" data-onPrice="'+d_onprice+'" data-Price1="'+d_price+'" data-amount="'+d_amount+'">'+a.html()+'</div>');
+                    //console.log($(this).attr("data-pId"));
+                    //$(this).parent().find(".contacts-group-hd").css('color','red');
+                    //console.log($(this).siblings(".contacts-group-hd").text())
+                } 
+            });
+}
+// var a =0;
+// $(document).ready(function() {
+//     $('li').each(function(){
+//         var cat = $(this).attr('catId');
+//         if (cat.length>0) {
+//             a++
+//         }
+//     });
+//     if (a>=10) {
+//         $('.bi').attr('id','');
+//         $('.onon').css('display','block');
+//         $(this).find(".xiao").css("display","none");
+//         $(this).find(".in").css("display","block");
+//         $(this).find(".in").css("width","85%");
+//         $(this).find(".in").css("margin-left","7.5%");
+//         $(this).find(".in").css("height","13%");
+//         $(this).find(".in").css("overflow","hidden");
+//         $(this).find(".in").css("display","block");
+//         $(this).find(".in").css("font-size",".26rem");
+//     }
+// });
+
+// 图片放大功能
+var documentWidth = $(document).width();
+var documentHeight = window.screen.availHeight
+$('.Layer').width(documentWidth);
+$('.Layer').height(documentHeight);
+$('.imgFull').width(documentWidth);
+$('.imgFull').height(documentWidth);
+$('.imgFull img.su').width(documentWidth);
+$('.imgFull img.su').height(documentWidth);
+
+$('.wode').on("touchend",function(){
+    if (touchmove) {
+        return;
+    }
+    $('.Layer1').on("touchmove",function(){
+        return false;
+    });
+    $('.imgFull').on("touchmove",function(){
+        return false;
+    });
+    // 判断屏幕目前的位置
+    if (window.orientation == 90 || window.orientation == -90) {
+            return false;
+    }
+    $('.Layer1').css('display','block');
+    //得到屏幕的高
+    // var windowHeight = window.screen.availHeight;
+    // var no = (windowHeight - $('.imgFull img.su').height()) / 2;
+    // $('.imgFull').css({'top': document.body.scrollTop + no + 'px'});
+    $('.Layer1').fadeIn();
+    $('.top').fadeIn();
+    $('#name_1').fadeIn();
+    $('#icon').fadeIn();
+    $('.imgFull').fadeIn(300);
+    var goodName = $(this).parent().siblings('.binggan').text();
+    var imgsrc = $(this).parent().attr('data-img');
+    var shi = $(this).parent().parent().attr('catId')
+    var icon = $(this).parent().siblings('.icon').attr('src');
+    $('.imgFull img').attr('src', imgsrc);
+    if(shi == 2){
+        $('#icon').css('left','36%');
+    }
+    if($(this).parent().parent().find(".jiuban").length>0){
+        $(".imgFull").append('<img src = "${rc.contextPath}/static/images/shop/preference.png" class="pp">')
+    }
+    $('#name_1').text(goodName);
+    return false;
+});
+$('.imgFull').on('touchend',function(){
+    if (touchmove) {
+        return;
+    }
+        $('.Layer1').fadeOut();
+        $('.imgFull').hide();
+        $('.top').hide();
+        $('#name_1').hide();
+        $('#icon').hide();
+        $(".pp").remove();
+        
+});
+$('.Layer1').on('touchend',function(){
+    if (touchmove) {
+        return;
+    }
+        $('.Layer1').fadeOut();
+        $('.imgFull').hide();
+        $('.top').hide();
+        $('#name_1').hide();
+        $('#icon').hide();
+        var butie = $('.butie').height();
+    	$('.butie').animate({bottom:-butie},200);
+    	$(".pp").remove();
+        
+});
+$('.top').on('touchend',function(){
+    if (touchmove) {
+        return;
+    }
+        $('.Layer1').fadeOut();
+        $('.imgFull').hide();
+        $('.top').hide();
+        $('#name_1').hide();
+        $('#icon').hide();
+        
+});
+// $('#name_1,.top').on('touchend',function(){
+//     if (touchmove) {
+//         return;
+//     }
+//         $('.Layer').fadeOut();
+//         $('.imgFull').hide();
+//         $('.top').hide();
+//         $('#name_1').hide();
+//         $('#icon').hide();
+//         $('.wo').fadeOut();  
+        
+// });
+
+  var touchmove;
+
+  $(document).on('touchend','.one',(function(){
+    //var f = $(this).data('price');
+    if (touchmove) {
+        return;
+    }
+    var show = $("#isshow").val();
+        if(show == 0){
+        	$(this).find(".xiao").find(".zhekou").hide();
+        }else{
+       	 $(this).find(".xiao .zhekou").show();
+        }
+    // var hengzhe = $(this).find("div.su").find(".shop_price").text();
+    // var html="";
+    // html+='<span style="text-decoration: line-through;margin-right:0.1rem;">'+hengzhe+'</span>';
+    // $(this).find(".xiao").prepend(html);
+        
+        var se =$(this).find(".in").text();
+        $(this).find(".in").css("width","100%");
+        if (se.length>9) {
+            var swew = se.substring(0,4);
+            var r = se.substr(se.length-4);
+            var go ='';
+            go+=swew+'...'+r;
+            $(this).find(".in").text(go);
+        }
+		$(this).find(".jiuban").hide();
+        $(this).find(".su").find(".s").show();
+        $(this).find("div.su").css("animation-play-state","paused");
+        $(this).find("div.su").css("animation","big .3s");
+        $(this).find("div.su").css("animation-fill-mode","forwards");
+        $(this).find("div.su").on("animationend", myStartFunction);
+        $(".shop_tip").hide();
+        $(".shop_price").hide();
+        $(".price_9").hide();
+        $('.bianli_pay').addClass('bo_show');
+        var a = this;
+        $(a).find(".su").css("display","block");
+
+        var amount = parseInt($(a).attr('data-amount')) + 1;
+        
+        $(a).find('.wode').hide();
+        $(a).find(".num").text(amount);
+        $(a).data('amount', amount);
+        $(a).attr('data-amount',amount);
+        var s = $(this).parent().parent().parent().parent().parent().parent();
+        var i =parseInt($(s).find(".bianli_pay .number").text());
+        i = i+1;
+        
+       
+        //$(s).find(".bianli_pay .number").text(i);
+        var shuzi =parseInt($(s).find(".suspension").text());
+        $(s).find(".suspension").text(i);
+        $(s).find(".bianli_pay .onon").css("display","none");
+        $(s).find(".bianli_pay .number").css("display","block");
+        $(s).find(".bianli_pay .bianli_num").css("display","block");
+        var isshow = $('#isshow').val();
+        if(isshow==1){
+	        $(s).find(".bianli_pay .cost_price").css("display","block");
+	        $(s).find(".bianli_pay .shou_price").css("display","block");
+        }
+        if ($('.group').length != 0 || $('.group1').length != 0 ) {
+        var p_id = $(this).attr('data-pId');
+        var amount = $(this).attr('data-amount');
+        var i = $(this).find('.num').text();
+        $(".bianli .k").each(function(){
+            var pd = $(this).attr('data-pId');
+            var i = $(this).find(".num").text();
+            if (p_id == pd) {
+                $(this).attr('data-amount',amount);
+                if (amount>0) {
+                    $(this).find(".su").css("display","block");
+                    $(this).find(".num").text(amount);
+                    if(show == 0){
+        				$(this).find(".xiao").find(".zhekou").hide();
+        			}else{
+       	 				$(this).find(".xiao .zhekou").show();
+        			}
+        			$(this).find(".jiuban").hide();
+                    $(this).find(".su").find(".s").show();
+                    $(this).find('.wode').hide();
+
+                    var se =$(this).find(".in").text();
+                    $(this).find(".in").css("width","100%");
+                    if (se.length>9) {
+                        var swew = se.substring(0,4);
+                        var r = se.substr(se.length-4);
+                        var go ='';
+                        go+=swew+'...'+r;
+                        $(this).find(".in").text(go);
+                    }
+                }
+            }
+        })
+    }
+        setTotal();
+        //$(this).find("div.su").removeAttr("style");
+
+        return false;      
+  }));
+
+  $(document).on( "touchstart", function() {
+  touchmove = false;
+    });
+  $(document).on( "touchmove", function() {
+  touchmove = true;
+    }); 
+// $(".bi").on("touchend",function(e){  
+//     e.preventDefault();
+//     if (touchmove) {
+//         return;
+//     }
+//     var pay = this;
+//     $(this).find('.onon').css('display','none');
+//     var u = $(pay).parent().siblings(".bianli");
+//     if($(this).attr('id') == 'sure'){
+//         $(this).attr('id','');
+//         $(u).find(".one .xiao").css("display","none");
+//         $(u).find(".one .in").css("font-size","0.26rem");
+//         $(u).find(".one .in").css("width","85%");
+//         $(u).find(".one .in").css("margin-left","7.5%");
+//         $(u).find(".one .in").css("height","13%");
+//         $(u).find(".one .in").css("overflow","hidden");
+//         $(u).find(".one .in").css("display","block");
+//         return false;
+//     }else{
+//         $(this).attr('id','sure');
+//         $(u).find(".one .xiao").css("display","block");
+//         $(u).find(".one .in").css("display","none");
+//         return false;
+//     }
+//   });
+
+
+ $(document).on('touchend','.s',(function () {
+   if (touchmove) {
+        return;
+    }
+    if ($('#sec').val()=="购物车" && ($('.one').length - $('.one:hidden').length)>0) {
+        $(this).parent().parent().removeClass("d");
+
+    }
+    if ($('#sec').val() == 0) {
+        $(this).parent().parent().addClass("d");
+    }
+    var a =this;
+    $(this).hide();
+    $(this).parent().parent().find(".jiuban").show();
+    $(this).parent().css("animation","small .3s");
+    $(this).parent().siblings(".xiao").find(".zhekou").hide();
+    var yuanlai = $(this).siblings(".shop_tip").text();
+    yuanlai_o = $.trim(yuanlai);
+    $(this).parent().siblings(".in").css("width","67%");
+    $(this).parent().siblings(".in").text(yuanlai_o);
+    var parent = $(this).parent().parent();
+    $(a).parent().css("animation-play-state","running");
+    $(a).parent().on("animationend", myEndFunction);
+    var userAgent = navigator.userAgent;  
+    var index = userAgent.indexOf("Android")  
+    if(index >= 0){  
+        var androidVersion = parseFloat(userAgent.slice(index+8));   
+        if(androidVersion<5.2){   
+            $(a).parent().fadeOut();  
+   }  
+ }
+
+    $(parent).find('.wode').show();
+    
+    var amount = parseInt($(parent).data('amount')) *0;
+
+    
+    var chushi = parseInt($(parent).data('amount'));
+    $(parent).find(".num").text(amount);
+    $(parent).data('amount', amount);
+    $(parent).attr('data-amount',amount);
+    var s = $(this).parent().parent().parent().parent().parent().parent().parent().parent().parent();
+    var i =parseInt($(s).find(".bianli_pay .number").text());
+    i = i-chushi;
+    $(s).find(".bianli_pay .number").text(i);
+
+    var shuzi =parseInt($(s).find(".suspension").text());
+    shuzi = shuzi-amount;
+    $(s).find(".suspension").text(i);
+    if ($('.group').length != 0 || $('.group1').length != 0 ) {
+        var p_id = $(parent).attr('data-pId');
+        var amount = $(parent).attr('data-amount');
+        var i = $(parent).find('.num').text();
+        $(".bianli .k").each(function(){
+            var pd = $(this).attr('data-pId');
+            var i = $(this).find(".num").text();
+            if (p_id == pd) {
+                $(this).attr('data-amount',amount);
+                if (amount == 0) {
+                    $(this).find(".su").css("display","none");
+                    $(this).find(".num").text(amount);
+                    $(this).find(".jiuban").show();
+                    $(this).find(".xiao .zhekou").hide();;
+                    var yuanlai = $(this).find(".shop_tip").text();
+                    $(this).find('.wode').show();
+                    yuanlai_o = $.trim(yuanlai);
+                    $(this).find(".in").css("width","67%");
+                    $(this).find(".in").text(yuanlai_o);
+                }
+            }
+        })
+    }
+    setTotal();
+      return false;
+      
+  }));
+function stop(){
+    $(this).css("animation-play-state","paused")
+}
+function myEndFunction() {
+    this.style.display= "none";
+}
+function myStartFunction(){
+    $(this).show();
+    $(this).removeAttr("style");
+}
+
+function setTotal() {
+      var sum = 0.00;
+      var cost = 0.00;
+      var su = 0.00;
+      var num = 0;
+      $(".k").each(function(){ 
+        num+=parseInt($(this).find(".num").text());
+        sum+=parseInt($(this).find(".num").text()) * parseFloat($(this).find('.xiao .fei').text());
+        cost+=parseInt($(this).find(".num").text()) * parseFloat($(this).find('.shop_price span').text());
+        su = cost - sum;
+        
+});
+      
+      $(".bianli_pay .number").text(num);
+      $(".bianli_num span").html(sum.toFixed(2));
+      $(".cost_price span").html(cost.toFixed(2));
+      $(".shou_price span").html(su.toFixed(2));
+  }
+setTotal();
+
+function butie(){
+    $('.Layer1').css('display','block');
+    $('.butie').css('display','block');
+    $('.butie').animate({bottom:"0px"},200);
+}
+
+$(".qu_xiao").on('touchend',function(){
+if(touchmove){return}
+ var butie = $('.butie').height()
+ $('.butie').animate({bottom:-butie},200);
+ $('.Layer1').fadeOut(); 
+});
+
+$(".bu").on("touchend",function(){
+    if (touchmove) {
+        return;
+    }
+    
+    if ($(this).find(".xuan_yuan").hasClass("active")) {
+        $(this).find(".xuan_yuan").removeClass("active");
+    }else{
+        $(this).find(".xuan_yuan").addClass("active");
+    }
+})
+
+$(".sure").on('touchend',function(event){
+    	if(touchmove){return}
+         var red_sy_fee = 0;
+         var free_sy_fee = 0;
+         var red_flag = 0;
+         var free_flag = 0;
+         $(".bu").each(function(){
+            if ($(this).find(".xuan_yuan").hasClass("active")) {
+                // index 1是补贴，2是红包
+                var index =$(this).attr("index");
+                if (index == 2) {
+                    red_sy_fee = $(this).find(".sy_hong span").text();
+                    red_flag = 1;
+                }
+                if (index == 1) {
+                    free_sy_fee = $(this).find(".sy_hong span").text();
+                    free_flag = 1;
+                }
+            }
+         })
+         var totalfee = parseFloat($('.bianli_num').find("span").text());
+         var free_total = parseFloat(red_sy_fee) + parseFloat(free_sy_fee);
+         if(totalfee<=free_total){
+         	
+         	if(free_flag > 0 && red_flag > 0){
+         		if (confirm("确定使用补贴吗？")) {
+         			wxpay(free_flag,red_flag);
+         		}
+         	}else if(free_flag > 0 ){
+         		if (confirm("确定使用补贴吗？")) {
+         			wxpay(free_flag,red_flag);
+         		}
+         	}else if(red_flag > 0 ){
+         		if (confirm("确定使用红包吗？")) {
+         			wxpay(free_flag,red_flag);
+         	    }
+         	}
+         }else{
+         	wxpay(free_flag,red_flag);
+         }
+         
+   
+});
+
+var payPrevent = false;
+$(".pay").on('touchend',function() {
+    if (touchmove) {
+        return;
+    }
+    
+     var free = $("#free").val();
+    var red_flag =  $("#red_flag").val();
+    if(free==1 || red_flag==1){
+    	butie();
+    }else{
+    	wxpay(0,0);
+    }
+    
+});
+
+function wxpay(free_flag,red_flag){
+	if (payPrevent == true) return;
+	payPrevent = true;
+	var li = $(".k");
+    var now = [];
+    for (var i=0; i<li.length; i++) {
+	    var s = li[i];
+	    var id = $(li[i]).attr("data-pId");
+	    var amount = $(li[i]).attr("data-amount");
+	    var arr = {};
+	    arr["id"] = id;
+	    arr["num"] = amount;
+	    if (amount>0) {
+	        now.push(arr);
+	    }
+    }
+    if(now.length == 0){
+    	alert("请选择商品");
+		payPrevent = false;
+		return;
+    }
+    var shopid = $('#shopid').val();
+    var data = JSON.stringify(now);
+     $.ajax({
+				url:'${rc.contextPath}/convenient/shop_pay.do',
+				type:'POST',
+				data: {shop_id:shopid,data:data,free_flag:free_flag,red_flag:red_flag},
+				success:function(data){
+					if(data.status==200){
+						appId=data.data.appId;
+						timeStamp=data.data.timeStamp;
+						nonceStr=data.data.nonceStr;
+						packages=data.data.package;
+						signType=data.data.signType;
+						paySign=data.data.paySign;
+						orderId = data.data.orderId;
+						if (typeof WeixinJSBridge == "undefined"){
+							   if( document.addEventListener ){
+							         document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+							     }else if (document.attachEvent){
+							         document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+							        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+							    }
+							 }else{
+							   onBridgeReady();
+							 }
+					}else if(data.status==202){
+						window.location.href="${rc.contextPath}/convenient/shop_paySuccess.htm?orderNo="+data.data;
+					}else if(data.status==201){
+						alert("请选择商品");
+						payPrevent = false;
+					}else{
+						alert("网络连接超时,请重试！");
+						payPrevent = false;
+					}
+				}
+				
+			})
+}
+
+//微信支付
+function onBridgeReady(){
+    WeixinJSBridge.invoke(
+        'getBrandWCPayRequest', {
+            "appId" : appId,     //公众号名称，由商户传入     
+            "timeStamp":timeStamp, //时间戳，自1970年以来的秒数     
+            "nonceStr" :nonceStr, //随机串     
+            "package" :packages,     
+            "signType" :signType,//微信签名方式:     
+            "paySign" : paySign //微信签名 
+       },
+        function(res){
+    	  if(res.err_msg == "get_brand_wcpay_request:ok" ) {// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返
+    		   window.location.href="${rc.contextPath}/convenient/shop_paySuccess.htm?orderNo="+orderId;
+    	  }else{
+    	  		payPrevent = false;
+    	  }
+
+       }
+   ); 
+ }
+</script>

@@ -1,0 +1,68 @@
+<script type="text/javascript">
+function editData(id){
+  window.location.href="${rc.contextPath}/weightCoefficient/weightCoefficientUpdate.htm?id="+id;
+}
+
+function deleteData(id){
+   var url="${rc.contextPath}/weightCoefficient/delete.do?id="+id;
+  doDeleteRequest(url,id,show);
+}
+function show(data){
+	alert(data);
+	if(data.indexOf("成功")!=-1){
+		  window.location.href="${rc.contextPath}/weightCoefficient/weightCoefficientList.htm";
+	}
+}
+
+</script>
+<div class="content">
+		<div class="bd-actionbar">
+			<a href="${rc.contextPath}/weightCoefficient/weightCoefficientAdd.htm" class="btn btn-success"><i class="ico"></i>添加权重系数</a>
+		</div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/weightCoefficient/weightCoefficientList.htm"" method="post">
+		</form>
+		<table class="table">
+		  <tr>
+			<th>新品天数</td>
+			<th>新品权重</td>
+			<th>新品权重系数</td>
+			<th>利润权重</td>
+			<th>利润权重系数</td>
+			<th>商品人工干预权重</td>
+			<th>商品人工干预权重系数</td>
+			<th>操作</td>
+		  </tr>
+		  
+		  #set ($rowCount = 0)
+		  #foreach($bean in $page.result)
+			  #set ($isOddRow = $rowCount % 2 != 0)
+			  #if ($isOddRow)
+	           <tr>
+	          #else
+	           <tr class="sep-bar">
+	          #end
+				<td>$!bean.newitemDay</td>
+				<td>$!bean.newitemWeight</td>
+				<td>$!bean.newitemweightCoeff</td>
+				<td>$!bean.profitWeight</td>
+				<td>$!bean.profitweightCoeff</td>
+				<td>$!bean.itemWeights</td>
+				<td>$!bean.itemweightCoeff</td>
+				<td class="opt">
+					<a href="javascript:editData('$bean.weightId')">编辑</a>
+					<a href="javascript:deleteData('$bean.weightId')">删除</a>
+				</td>
+			  </tr>
+			  
+			  #set ($rowCount = $rowCount + 1)
+		  #end
+		 
+		</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

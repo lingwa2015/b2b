@@ -1,0 +1,35 @@
+ #set($layout="layout/wxLayout.vm")
+<div class="order_content">
+        <ul class="order_list">
+            #if($!orders.size()>0)
+	           #foreach($order in $orders)
+	           		<li>
+	                <a href="${rc.contextPath}/weixin/wxorderDetail.htm?id=$!order.orderNo">
+	                    <img class="goods_pic" src="${rc.contextPath}/static/images/wx/xiao2.jpg">
+	                    <div class="goods_detail">
+	                        <h5>
+	                            <span class="t fl">智选反应堆</span>
+	                            <span class="fr">￥$NumberTool.toYuanNumber($!order.totalFee) <b></b></span>
+	                        </h5>
+	                        <span class="time">下单时间: $!date.format( 'yyyy-MM-dd HH:mm:ss',$!order.executedTime)</span>
+	                        <p class="status">
+	                            状态： 
+	                            <span class="e">已发货</span>
+	                        </p>
+	                    </div>
+	                </a>
+	            </li>
+	           #end
+            #else
+            	 <span class="kongbai">无订单!</span>
+           #end
+        </ul>
+    </div>
+    <div class="foot_box"> <!-- 当前选中页面a标签加class="c" -->
+        <a class="index_btn " href="${rc.contextPath}/wxuserStandardOrder/wxWeekStandardOrderList.htm"></a>
+         <a class="vip_btn " href="${rc.contextPath}/weixin/wxaccount.htm"></a>
+        <a class="order_btn c" href="${rc.contextPath}/wxuserOrder/wxlist.htm"></a>
+    </div>
+   <script type="text/javascript">
+document.title = "领蛙商城";
+</script>

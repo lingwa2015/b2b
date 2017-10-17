@@ -1,0 +1,87 @@
+<script type="text/javascript">
+ var checkSubmitFlag = false;
+	function save() {
+
+	  	if(checkSubmitFlag ==true){
+	       alert("请勿重复提交");
+	       return false;
+	    }
+
+	    checkSubmitFlag = true;
+
+		disableBtn('saveBtn');
+
+		submitJqueryFormData('roleForm', '$!{rc.contextPath}/role/add.do', function(
+				data) {
+			checkSubmitFlag = false;
+			if (data == "添加成功") {
+				window.location.href = "${rc.contextPath}/role/roleList.htm";
+			} else {
+				alert("操作失败，原因:" + data);
+				enableBtn('saveBtn');
+
+			}
+		});
+	}
+
+	
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+		<h4 class="tit">添加角色</h4>
+
+
+	</div>
+	<!--bd-actionbar-->
+	<div class="bd-main">
+		<div class="bd-main-inner">
+
+			<form class="jqtransform" id="roleForm" method="POST"
+				action="$!{rc.contextPath}/role/add.do">
+				<input type="hidden" name="roleId" id="roleId" value="$!role.roleId" />
+				<input type="hidden" name="num" id="num" value="$!size" />
+				<table class="form">
+					<tr>
+						<td align="right"><label class="tit">角色：</label></td>
+						<td><input type="text" name="name" id="name" value="$!role.roleName"></td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">描述：</label></td>
+						<td><input type="text" name="description" id="description" value="$!role.description"></td>
+					</tr>
+					<tr>
+					<td align="right"><label class="tit">权限:</label></td>
+					<td>
+					#set($count = 1)
+					#foreach($dto in $privileges)
+						#set($num=0)
+						#if($exist)
+							#foreach($bean in $exist)
+							#if($dto.id==$bean.id)
+								#set($num=1)
+							#end
+							#end
+							<input type="checkbox" name="checkbox$count" value="$dto.id" #if($num==1)checked="checked" #end> $dto.name
+						#else
+						<input type="checkbox" name="checkbox$count" value="$dto.id"> $dto.name 
+						#end
+						#set($count = $count+1)
+					#end
+					</td>
+					</tr>
+					<tr class="btn-bar">
+						<td></td>
+						<td>
+
+						<a class="btn btn-primary" id="saveBtn" href="#" onclick="save();">确认</a>
+
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<!--bd-main-inner-->
+	</div>
+	<!--bd-main-->
+</div>
+<!--content-->

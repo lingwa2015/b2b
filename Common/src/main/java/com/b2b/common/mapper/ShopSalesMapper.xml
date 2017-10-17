@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.ShopSalesMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.ShopSales" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="shop_id" property="shopId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="pay_bill_way" property="payBillWay" jdbcType="INTEGER" />
+    <result column="contract_date" property="contractDate" jdbcType="TIMESTAMP" />
+    <result column="contract_number" property="contractNumber" jdbcType="VARCHAR" />
+    <result column="sum_base" property="sumBase" jdbcType="BIGINT" />
+    <result column="royalty_coefficient" property="royaltyCoefficient" jdbcType="DECIMAL" />
+    <result column="sum_proportion" property="sumProportion" jdbcType="DECIMAL" />
+    <result column="sum_fee" property="sumFee" jdbcType="BIGINT" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="sum_date" property="sumDate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, shop_id, user_name, pay_bill_way, contract_date, contract_number, sum_base, royalty_coefficient, 
+    sum_proportion, sum_fee, city_id, sum_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.ShopSalesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from shop_sales
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from shop_sales
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from shop_sales
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.ShopSalesExample" >
+    delete from shop_sales
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.ShopSales" >
+    insert into shop_sales (id, shop_id, user_name, 
+      pay_bill_way, contract_date, contract_number, 
+      sum_base, royalty_coefficient, sum_proportion, 
+      sum_fee, city_id, sum_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{payBillWay,jdbcType=INTEGER}, #{contractDate,jdbcType=TIMESTAMP}, #{contractNumber,jdbcType=VARCHAR}, 
+      #{sumBase,jdbcType=BIGINT}, #{royaltyCoefficient,jdbcType=DECIMAL}, #{sumProportion,jdbcType=DECIMAL}, 
+      #{sumFee,jdbcType=BIGINT}, #{cityId,jdbcType=INTEGER}, #{sumDate,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.ShopSales" >
+    insert into shop_sales
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="payBillWay != null" >
+        pay_bill_way,
+      </if>
+      <if test="contractDate != null" >
+        contract_date,
+      </if>
+      <if test="contractNumber != null" >
+        contract_number,
+      </if>
+      <if test="sumBase != null" >
+        sum_base,
+      </if>
+      <if test="royaltyCoefficient != null" >
+        royalty_coefficient,
+      </if>
+      <if test="sumProportion != null" >
+        sum_proportion,
+      </if>
+      <if test="sumFee != null" >
+        sum_fee,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="sumDate != null" >
+        sum_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="payBillWay != null" >
+        #{payBillWay,jdbcType=INTEGER},
+      </if>
+      <if test="contractDate != null" >
+        #{contractDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contractNumber != null" >
+        #{contractNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sumBase != null" >
+        #{sumBase,jdbcType=BIGINT},
+      </if>
+      <if test="royaltyCoefficient != null" >
+        #{royaltyCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="sumProportion != null" >
+        #{sumProportion,jdbcType=DECIMAL},
+      </if>
+      <if test="sumFee != null" >
+        #{sumFee,jdbcType=BIGINT},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="sumDate != null" >
+        #{sumDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.ShopSalesExample" resultType="java.lang.Integer" >
+    select count(*) from shop_sales
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update shop_sales
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopId != null" >
+        shop_id = #{record.shopId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payBillWay != null" >
+        pay_bill_way = #{record.payBillWay,jdbcType=INTEGER},
+      </if>
+      <if test="record.contractDate != null" >
+        contract_date = #{record.contractDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.contractNumber != null" >
+        contract_number = #{record.contractNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sumBase != null" >
+        sum_base = #{record.sumBase,jdbcType=BIGINT},
+      </if>
+      <if test="record.royaltyCoefficient != null" >
+        royalty_coefficient = #{record.royaltyCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sumProportion != null" >
+        sum_proportion = #{record.sumProportion,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sumFee != null" >
+        sum_fee = #{record.sumFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sumDate != null" >
+        sum_date = #{record.sumDate,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update shop_sales
+    set id = #{record.id,jdbcType=INTEGER},
+      shop_id = #{record.shopId,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      pay_bill_way = #{record.payBillWay,jdbcType=INTEGER},
+      contract_date = #{record.contractDate,jdbcType=TIMESTAMP},
+      contract_number = #{record.contractNumber,jdbcType=VARCHAR},
+      sum_base = #{record.sumBase,jdbcType=BIGINT},
+      royalty_coefficient = #{record.royaltyCoefficient,jdbcType=DECIMAL},
+      sum_proportion = #{record.sumProportion,jdbcType=DECIMAL},
+      sum_fee = #{record.sumFee,jdbcType=BIGINT},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      sum_date = #{record.sumDate,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.ShopSales" >
+    update shop_sales
+    <set >
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="payBillWay != null" >
+        pay_bill_way = #{payBillWay,jdbcType=INTEGER},
+      </if>
+      <if test="contractDate != null" >
+        contract_date = #{contractDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contractNumber != null" >
+        contract_number = #{contractNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sumBase != null" >
+        sum_base = #{sumBase,jdbcType=BIGINT},
+      </if>
+      <if test="royaltyCoefficient != null" >
+        royalty_coefficient = #{royaltyCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="sumProportion != null" >
+        sum_proportion = #{sumProportion,jdbcType=DECIMAL},
+      </if>
+      <if test="sumFee != null" >
+        sum_fee = #{sumFee,jdbcType=BIGINT},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="sumDate != null" >
+        sum_date = #{sumDate,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.ShopSales" >
+    update shop_sales
+    set shop_id = #{shopId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      pay_bill_way = #{payBillWay,jdbcType=INTEGER},
+      contract_date = #{contractDate,jdbcType=TIMESTAMP},
+      contract_number = #{contractNumber,jdbcType=VARCHAR},
+      sum_base = #{sumBase,jdbcType=BIGINT},
+      royalty_coefficient = #{royaltyCoefficient,jdbcType=DECIMAL},
+      sum_proportion = #{sumProportion,jdbcType=DECIMAL},
+      sum_fee = #{sumFee,jdbcType=BIGINT},
+      city_id = #{cityId,jdbcType=INTEGER},
+      sum_date = #{sumDate,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteBySumDateAndCityId">
+  	DELETE FROM `shop_sales` WHERE `city_id` = #{cityId} and date_format(`sum_date`,'%Y-%m') =  date_format(#{sumDate},'%Y-%m')
+  </delete>
+  <select id="findByCondition" resultMap="BaseResultMap">
+    SELECT
+    sumDate,
+    `user_name`,
+    `post`,
+    SUM(num) num, interfaceId, city_id, SUM(submitNum) submitNum, SUM(sevenNum) sevenNum
+    FROM(
+    (
+    SELECT
+    #{date} sumDate,
+    pu.`user_name`,
+    pu.`post`,
+    SUM(num) num, interfaceId, city_id, 0 submitNum, SUM(sevenNum) sevenNum
+    FROM(
+
+    (SELECT
+    pu.`user_name`,
+    pu.`post`,
+    COUNT(1) num,cu.`interface_person_id` interfaceId,cu.city_id, 0 sevenNum
+    FROM customer_user cu
+    LEFT JOIN `person_user` pu on cu.`interface_person_id`= pu.`id`
+    WHERE cu.`status`= 1
+    and (cu.iswxvip = 0 || cu.iswxvip = 3)
+    and cu.`city_id`= #{cityId} and cu.`interface_person_id` > 0
+    <if test="interfaceId > 0">
+      and cu.interface_person_id = #{interfaceId}
+    </if>
+    and date_format(cu.`submit_time`, '%Y-%m') = date_format(#{date}, '%Y-%m')
+    and date_format(cu.`contract_date`, '%Y-%m-%d') > date_format(#{date}, '%Y-%m-%d')
+    and date_format(#{dateEnd}, '%Y-%m') > date_format(cu.`contract_date`, '%Y-%m')
+    GROUP BY cu.`interface_person_id`,
+    date_format(cu.`contract_date`, '%Y-%m')
+    ORDER BY date_format(cu.`contract_date`, '%Y-%m') DESC,pu.`id`)
+
+    UNION ALL
+
+    (SELECT
+    pu.`user_name`,
+    pu.`post`,
+    0 num,cu.`interface_person_id` interfaceId,cu.city_id, COUNT(1) sevenNum
+    FROM customer_user cu
+    LEFT JOIN `person_user` pu on cu.`interface_person_id`= pu.`id`
+    WHERE cu.`status`= 1
+    and (cu.iswxvip = 0 || cu.iswxvip = 3)
+    and cu.`city_id`= #{cityId} and cu.`interface_person_id` > 0
+    <if test="interfaceId > 0">
+      and cu.interface_person_id = #{interfaceId}
+    </if>
+    and date_format(cu.`submit_time`, '%Y-%m') != date_format(#{date}, '%Y-%m')
+    and date_format(cu.`contract_date`, '%Y-%m-%d') > date_format(#{date}, '%Y-%m-%d')
+    and date_format(#{dateEnd}, '%Y-%m') > date_format(cu.`contract_date`, '%Y-%m')
+    GROUP BY cu.`interface_person_id`,
+    date_format(cu.`contract_date`, '%Y-%m')
+    ORDER BY date_format(cu.`contract_date`, '%Y-%m') DESC,pu.`id`)
+
+    UNION ALL
+
+    (SELECT
+    pu.`user_name`,
+    pu.`post`,
+    COUNT(1) num,cu.`interface_person_id` interfaceId,cu.city_id, 0 sevenNum
+    FROM customer_user cu
+    LEFT JOIN `person_user` pu on cu.`interface_person_id`= pu.`id`
+    WHERE cu.`status`= 1
+    and (cu.iswxvip = 0 || cu.iswxvip = 3)
+    and cu.`city_id`= #{cityId} and cu.`interface_person_id` > 0
+    <if test="interfaceId > 0">
+      and cu.interface_person_id = #{interfaceId}
+    </if>
+    and date_format(cu.submit_time, '%Y-%m') = date_format(#{date}, '%Y-%m')
+
+    and #{date} >= date_format(cu.`contract_date`, '%Y-%m-%d')
+    and date_format(cu.`contract_date`, '%Y-%m') > date_format(#{dateStart}, '%Y-%m')
+    GROUP BY cu.`interface_person_id`,
+    date_format(cu.`contract_date`, '%Y-%m')
+    ORDER BY date_format(cu.`contract_date`, '%Y-%m') DESC,pu.`id` )
+
+    UNION ALL
+
+
+    (SELECT
+    pu.`user_name`,
+    pu.`post`,
+    COUNT(1) num,cu.`interface_person_id` interfaceId,cu.city_id, 0 sevenNum
+    FROM customer_user cu
+    LEFT JOIN `person_user` pu on cu.`interface_person_id`= pu.`id`
+    WHERE cu.`status`= 1
+    and (cu.iswxvip = 0 || cu.iswxvip = 3)
+    and cu.`city_id`= #{cityId} and cu.`interface_person_id` > 0
+    <if test="interfaceId > 0">
+      and cu.interface_person_id = #{interfaceId}
+    </if>
+    and date_format(#{date}, '%Y-%m')>= date_format(cu.submit_time, '%Y-%m')
+
+    and date_format(#{dateEnd}, '%Y-%m-%d') >= date_format(cu.`contract_date`, '%Y-%m-%d')
+    and date_format(cu.`contract_date`, '%Y-%m') > date_format(#{date}, '%Y-%m')
+    GROUP BY cu.`interface_person_id`,
+    date_format(cu.`contract_date`, '%Y-%m')
+    ORDER BY date_format(cu.`contract_date`, '%Y-%m') DESC,pu.`id` )
+
+    ) pu
+
+    GROUP BY `interfaceId` )
+
+    UNION ALL
+
+    (SELECT dr.submit_time sumDate,
+    pu.`user_name`,
+    pu.`post`,
+    0 num,pu.id interfaceId,pu.city_id, COUNT(1) submitNum, 0 sevenNum
+    FROM  customer_user dr
+    LEFT JOIN `person_user` pu  ON dr.interface_person_id = pu.id
+    WHERE dr.`status`= 1
+    and (dr.iswxvip = 0 || dr.iswxvip = 3)
+    and dr.`city_id` = #{cityId} and pu.id >0
+    <if test="interfaceId > 0">
+      and pu.id = #{interfaceId}
+    </if>
+    <if test="date !=null and date !=''">
+      and date_format(dr.submit_time, '%Y-%m') = date_format(#{date}, '%Y-%m')
+    </if>
+    GROUP BY dr.interface_person_id,
+    date_format(dr.submit_time, '%Y-%m')
+    ORDER BY date_format(dr.submit_time, '%Y-%m') DESC,pu.`id` )
+    ) t
+    GROUP BY interfaceId
+    ORDER BY interfaceId
+  </select>
+  <select id="findDetailByInterfaceIdAndDateAndCityId" resultMap="BaseResultMap">
+    (SELECT
+    `id` ,`user_name` ,`pay_bill_way` ,`contract_date` ,`contract_number`, submit_time submitTime
+    FROM `customer_user` cu
+    where `interface_person_id`= #{interfaceId}
+    and cu.`status`= 1
+    and (cu.iswxvip = 0 || cu.iswxvip = 3)
+    and date_format(`contract_date`, '%Y-%m-%d') > date_format(#{sumdate}, '%Y-%m-%d')
+    and date_format(#{dateEnd}, '%Y-%m') > date_format(`contract_date`, '%Y-%m-%d')
+    and `city_id`= #{cityId}
+    ORDER BY `submit_time` desc)
+
+    UNION ALL
+
+    (SELECT
+    `id` ,`user_name` ,`pay_bill_way` ,`contract_date` ,`contract_number`, submit_time submitTime
+    FROM `customer_user` cu
+    where `interface_person_id`= #{interfaceId}
+    and cu.`status`= 1
+    and (cu.iswxvip = 0 || cu.iswxvip = 3)
+    AND date_format(#{sumdate}, '%Y-%m') >= date_format(submit_time, '%Y-%m')
+    and date_format(#{dateEnd}, '%Y-%m-%d') >= date_format(`contract_date`, '%Y-%m-%d')
+    and  date_format(`contract_date`, '%Y-%m') > date_format(#{sumdate}, '%Y-%m')
+    and `city_id`= #{cityId}
+    ORDER BY `submit_time` desc)
+
+    UNION ALL
+
+    (SELECT
+    `id` ,`user_name` ,`pay_bill_way` ,`contract_date` ,`contract_number`, submit_time submitTime
+    FROM `customer_user` cu
+    where `interface_person_id`= #{interfaceId}
+    and cu.`status`= 1
+    and (cu.iswxvip = 0 || cu.iswxvip = 3)
+    AND date_format(submit_time, '%Y-%m') = date_format(#{sumdate}, '%Y-%m')
+    and date_format(#{sumdate}, '%Y-%m-%d') >= date_format(`contract_date`, '%Y-%m-%d')
+    and  date_format(`contract_date`, '%Y-%m') >= date_format(#{sumdate}, '%Y-%m')
+    and `city_id`= #{cityId}
+    ORDER BY `submit_time` desc)
+
+    ORDER BY `submitTime` desc
+
+  </select>
+  
+  <select id="findCurrentMonthDetailByInterfaceIdAndCityId" resultMap="BaseResultMap">
+  	SELECT cu.iswxvip,
+       ss.id,
+       ss.shop_id,
+       ss.user_name,
+       ss.pay_bill_way,
+       ss.contract_date,
+       ss.contract_number,
+       ss.sum_base,
+       ss.royalty_coefficient,
+       ss.sum_proportion,
+       ss.city_id,
+       ss.sum_date,
+       IF(ss.sum_base &lt; 100000, 0, sum_fee) sum_fee
+  FROM `shop_sales` ss
+  LEFT JOIN `customer_user` cu on ss.`shop_id`= cu.`id`
+ where cu.`interface_person_id`= #{interfaceId}
+   and date_format(ss.`sum_date`, '%Y-%m')= date_format(now(), '%Y-%m')
+   and ss.`city_id`= #{cityId}
+ORDER BY cu.`contract_date` desc
+  </select>
+</mapper>

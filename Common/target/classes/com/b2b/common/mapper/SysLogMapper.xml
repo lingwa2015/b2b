@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.SysLogMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.SysLog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="data_id" property="dataId" jdbcType="VARCHAR" />
+    <result column="data_type" property="dataType" jdbcType="VARCHAR" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.b2b.common.domain.SysLog" extends="BaseResultMap" >
+    <result column="data_content" property="dataContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, create_time, content, data_id, data_type, city_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    data_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.b2b.common.domain.SysLogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.SysLogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitFlag">
+	  limit ${start},${limit}
+	</if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sys_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.SysLogExample" >
+    delete from sys_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.SysLog" >
+    insert into sys_log (id, user_id, create_time, 
+      content, data_id, data_type, 
+      city_id, data_content)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{content,jdbcType=VARCHAR}, #{dataId,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR}, 
+      #{cityId,jdbcType=INTEGER}, #{dataContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.SysLog" >
+    insert into sys_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="dataId != null" >
+        data_id,
+      </if>
+      <if test="dataType != null" >
+        data_type,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="dataContent != null" >
+        data_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="dataId != null" >
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null" >
+        #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="dataContent != null" >
+        #{dataContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.SysLogExample" resultType="java.lang.Integer" >
+    select count(*) from sys_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_log
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataId != null" >
+        data_id = #{record.dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataType != null" >
+        data_type = #{record.dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dataContent != null" >
+        data_content = #{record.dataContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update sys_log
+    set id = #{record.id,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      content = #{record.content,jdbcType=VARCHAR},
+      data_id = #{record.dataId,jdbcType=VARCHAR},
+      data_type = #{record.dataType,jdbcType=VARCHAR},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      data_content = #{record.dataContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_log
+    set id = #{record.id,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      content = #{record.content,jdbcType=VARCHAR},
+      data_id = #{record.dataId,jdbcType=VARCHAR},
+      data_type = #{record.dataType,jdbcType=VARCHAR},
+      city_id = #{record.cityId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.SysLog" >
+    update sys_log
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="dataId != null" >
+        data_id = #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null" >
+        data_type = #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="dataContent != null" >
+        data_content = #{dataContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.b2b.common.domain.SysLog" >
+    update sys_log
+    set user_id = #{userId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=VARCHAR},
+      data_id = #{dataId,jdbcType=VARCHAR},
+      data_type = #{dataType,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=INTEGER},
+      data_content = #{dataContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.SysLog" >
+    update sys_log
+    set user_id = #{userId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=VARCHAR},
+      data_id = #{dataId,jdbcType=VARCHAR},
+      data_type = #{dataType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="findList" resultType="com.b2b.common.domain.SysLog">
+  	 SELECT sl.`id`,
+	       pu.`user_name` userName,
+	       pu.`mobile_phone` mobilePhone,
+	       sl.`create_time` createTime,
+	       sl.`content`
+	  FROM `sys_log` sl
+	  LEFT JOIN `person_user` pu on sl.`user_id`= pu.`id`
+	  <where>
+	  	<if test="startTime!=null and startTime!=''">
+	  		and sl.create_time &gt;= #{startTime}
+	  	</if>
+	  	<if test="endTime!=null and endTime!=''">
+	  		and sl.create_time &lt;= #{endTime}
+	  	</if>
+	  	<if test="phone!='' and phone!=null">
+	  		and pu.mobile_phone = #{phone}
+	  	</if>
+	  	<if test="content!='' and content !=null">
+	  		and sl.content like '%${content}%'
+	  	</if>
+	  	<if test="null!=cityId and ''!=cityId">
+	  		and sl.city_id = #{cityId}
+	  	</if>
+	  </where>
+	 ORDER BY sl.`create_time` desc
+  </select>
+</mapper>

@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.FreeMonthReportMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.FreeMonthReport" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sum_date" property="sumDate" jdbcType="DATE" />
+    <result column="open_shop_num" property="openShopNum" jdbcType="INTEGER" />
+    <result column="order_shop_num" property="orderShopNum" jdbcType="INTEGER" />
+    <result column="order_fee" property="orderFee" jdbcType="BIGINT" />
+    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+    <result column="refund_fee" property="refundFee" jdbcType="BIGINT" />
+    <result column="refund_num" property="refundNum" jdbcType="INTEGER" />
+    <result column="sourcing_fee" property="sourcingFee" jdbcType="BIGINT" />
+    <result column="avg_fee" property="avgFee" jdbcType="BIGINT" />
+    <result column="avd_day_fee" property="avdDayFee" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sum_date, open_shop_num, order_shop_num, order_fee, order_num, refund_fee, refund_num, 
+    sourcing_fee, avg_fee, avd_day_fee
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.FreeMonthReportExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from free_month_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from free_month_report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from free_month_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.FreeMonthReportExample" >
+    delete from free_month_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.FreeMonthReport" >
+    insert into free_month_report (id, sum_date, open_shop_num, 
+      order_shop_num, order_fee, order_num, 
+      refund_fee, refund_num, sourcing_fee, 
+      avg_fee, avd_day_fee)
+    values (#{id,jdbcType=INTEGER}, #{sumDate,jdbcType=DATE}, #{openShopNum,jdbcType=INTEGER}, 
+      #{orderShopNum,jdbcType=INTEGER}, #{orderFee,jdbcType=BIGINT}, #{orderNum,jdbcType=INTEGER}, 
+      #{refundFee,jdbcType=BIGINT}, #{refundNum,jdbcType=INTEGER}, #{sourcingFee,jdbcType=BIGINT}, 
+      #{avgFee,jdbcType=BIGINT}, #{avdDayFee,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.FreeMonthReport" >
+    insert into free_month_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sumDate != null" >
+        sum_date,
+      </if>
+      <if test="openShopNum != null" >
+        open_shop_num,
+      </if>
+      <if test="orderShopNum != null" >
+        order_shop_num,
+      </if>
+      <if test="orderFee != null" >
+        order_fee,
+      </if>
+      <if test="orderNum != null" >
+        order_num,
+      </if>
+      <if test="refundFee != null" >
+        refund_fee,
+      </if>
+      <if test="refundNum != null" >
+        refund_num,
+      </if>
+      <if test="sourcingFee != null" >
+        sourcing_fee,
+      </if>
+      <if test="avgFee != null" >
+        avg_fee,
+      </if>
+      <if test="avdDayFee != null" >
+        avd_day_fee,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sumDate != null" >
+        #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="openShopNum != null" >
+        #{openShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderShopNum != null" >
+        #{orderShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderFee != null" >
+        #{orderFee,jdbcType=BIGINT},
+      </if>
+      <if test="orderNum != null" >
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="refundFee != null" >
+        #{refundFee,jdbcType=BIGINT},
+      </if>
+      <if test="refundNum != null" >
+        #{refundNum,jdbcType=INTEGER},
+      </if>
+      <if test="sourcingFee != null" >
+        #{sourcingFee,jdbcType=BIGINT},
+      </if>
+      <if test="avgFee != null" >
+        #{avgFee,jdbcType=BIGINT},
+      </if>
+      <if test="avdDayFee != null" >
+        #{avdDayFee,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.FreeMonthReportExample" resultType="java.lang.Integer" >
+    select count(*) from free_month_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update free_month_report
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.sumDate != null" >
+        sum_date = #{record.sumDate,jdbcType=DATE},
+      </if>
+      <if test="record.openShopNum != null" >
+        open_shop_num = #{record.openShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderShopNum != null" >
+        order_shop_num = #{record.orderShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderFee != null" >
+        order_fee = #{record.orderFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderNum != null" >
+        order_num = #{record.orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.refundFee != null" >
+        refund_fee = #{record.refundFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.refundNum != null" >
+        refund_num = #{record.refundNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.sourcingFee != null" >
+        sourcing_fee = #{record.sourcingFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.avgFee != null" >
+        avg_fee = #{record.avgFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.avdDayFee != null" >
+        avd_day_fee = #{record.avdDayFee,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update free_month_report
+    set id = #{record.id,jdbcType=INTEGER},
+      sum_date = #{record.sumDate,jdbcType=DATE},
+      open_shop_num = #{record.openShopNum,jdbcType=INTEGER},
+      order_shop_num = #{record.orderShopNum,jdbcType=INTEGER},
+      order_fee = #{record.orderFee,jdbcType=BIGINT},
+      order_num = #{record.orderNum,jdbcType=INTEGER},
+      refund_fee = #{record.refundFee,jdbcType=BIGINT},
+      refund_num = #{record.refundNum,jdbcType=INTEGER},
+      sourcing_fee = #{record.sourcingFee,jdbcType=BIGINT},
+      avg_fee = #{record.avgFee,jdbcType=BIGINT},
+      avd_day_fee = #{record.avdDayFee,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.FreeMonthReport" >
+    update free_month_report
+    <set >
+      <if test="sumDate != null" >
+        sum_date = #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="openShopNum != null" >
+        open_shop_num = #{openShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderShopNum != null" >
+        order_shop_num = #{orderShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderFee != null" >
+        order_fee = #{orderFee,jdbcType=BIGINT},
+      </if>
+      <if test="orderNum != null" >
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="refundFee != null" >
+        refund_fee = #{refundFee,jdbcType=BIGINT},
+      </if>
+      <if test="refundNum != null" >
+        refund_num = #{refundNum,jdbcType=INTEGER},
+      </if>
+      <if test="sourcingFee != null" >
+        sourcing_fee = #{sourcingFee,jdbcType=BIGINT},
+      </if>
+      <if test="avgFee != null" >
+        avg_fee = #{avgFee,jdbcType=BIGINT},
+      </if>
+      <if test="avdDayFee != null" >
+        avd_day_fee = #{avdDayFee,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.FreeMonthReport" >
+    update free_month_report
+    set sum_date = #{sumDate,jdbcType=DATE},
+      open_shop_num = #{openShopNum,jdbcType=INTEGER},
+      order_shop_num = #{orderShopNum,jdbcType=INTEGER},
+      order_fee = #{orderFee,jdbcType=BIGINT},
+      order_num = #{orderNum,jdbcType=INTEGER},
+      refund_fee = #{refundFee,jdbcType=BIGINT},
+      refund_num = #{refundNum,jdbcType=INTEGER},
+      sourcing_fee = #{sourcingFee,jdbcType=BIGINT},
+      avg_fee = #{avgFee,jdbcType=BIGINT},
+      avd_day_fee = #{avdDayFee,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findAll" resultMap="BaseResultMap">
+  	SELECT mr.*,
+	       dn.getFee,
+	       ia.invoiceFee
+	  FROM free_month_report mr
+	  LEFT JOIN(
+	SELECT  SUM(`debitnote_amount`) getFee, `years`, `months`
+	  FROM `debit_note` dd LEFT JOIN `customer_user` cu on dd.`company_id` = cu.`id` 
+	 WHERE cu.`iswxvip` &lt;&gt; 3 and `delete_status`= 1 
+	 GROUP BY `years`, `months`) dn on YEAR(mr.`sum_date`)= dn.`years`
+	   and MONTH(mr.sum_date)= dn.`months`
+	  LEFT JOIN(
+	SELECT SUM(`invoice_amount`) invoiceFee, `years`, `months`
+	  FROM `invoice` i LEFT JOIN `customer_user` cu on i.`company_id` = cu.`id` 
+	 where cu.`iswxvip` &lt;&gt; 3 and i.`delete_status`= 1
+	 GROUP BY `years`, `months`) ia on YEAR(mr.`sum_date`)= ia.`years`
+	   and MONTH(mr.sum_date)= ia.`months` ORDER BY mr.`sum_date` desc
+  </select>
+</mapper>

@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.AfterSalesRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.AfterSalesRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="record_type" property="recordType" jdbcType="INTEGER" />
+    <result column="do_state" property="doState" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="region" property="region" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="record_man" property="recordMan" jdbcType="VARCHAR" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="flag" property="flag" jdbcType="INTEGER" />
+    <result column="fuze_man" property="fuzeMan" jdbcType="VARCHAR" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, record_type, do_state, user_name, region, user_id, content, attachment, status, 
+    record_man, created_time, flag, fuze_man, city_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.AfterSalesRecordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from after_sales_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from after_sales_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from after_sales_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.AfterSalesRecordExample" >
+    delete from after_sales_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.AfterSalesRecord" >
+    insert into after_sales_record (id, record_type, do_state, 
+      user_name, region, user_id, 
+      content, attachment, status, 
+      record_man, created_time, flag, 
+      fuze_man, city_id)
+    values (#{id,jdbcType=INTEGER}, #{recordType,jdbcType=INTEGER}, #{doState,jdbcType=INTEGER}, 
+      #{userName,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{recordMan,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{flag,jdbcType=INTEGER}, 
+      #{fuzeMan,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.AfterSalesRecord" >
+    insert into after_sales_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="recordType != null" >
+        record_type,
+      </if>
+      <if test="doState != null" >
+        do_state,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="region != null" >
+        region,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="recordMan != null" >
+        record_man,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="fuzeMan != null" >
+        fuze_man,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="recordType != null" >
+        #{recordType,jdbcType=INTEGER},
+      </if>
+      <if test="doState != null" >
+        #{doState,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null" >
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="recordMan != null" >
+        #{recordMan,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="fuzeMan != null" >
+        #{fuzeMan,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.AfterSalesRecordExample" resultType="java.lang.Integer" >
+    select count(*) from after_sales_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update after_sales_record
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.recordType != null" >
+        record_type = #{record.recordType,jdbcType=INTEGER},
+      </if>
+      <if test="record.doState != null" >
+        do_state = #{record.doState,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.region != null" >
+        region = #{record.region,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attachment != null" >
+        attachment = #{record.attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.recordMan != null" >
+        record_man = #{record.recordMan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.flag != null" >
+        flag = #{record.flag,jdbcType=INTEGER},
+      </if>
+      <if test="record.fuzeMan != null" >
+        fuze_man = #{record.fuzeMan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update after_sales_record
+    set id = #{record.id,jdbcType=INTEGER},
+      record_type = #{record.recordType,jdbcType=INTEGER},
+      do_state = #{record.doState,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      region = #{record.region,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=VARCHAR},
+      attachment = #{record.attachment,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      record_man = #{record.recordMan,jdbcType=VARCHAR},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      flag = #{record.flag,jdbcType=INTEGER},
+      fuze_man = #{record.fuzeMan,jdbcType=VARCHAR},
+      city_id = #{record.cityId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.AfterSalesRecord" >
+    update after_sales_record
+    <set >
+      <if test="recordType != null" >
+        record_type = #{recordType,jdbcType=INTEGER},
+      </if>
+      <if test="doState != null" >
+        do_state = #{doState,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null" >
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="recordMan != null" >
+        record_man = #{recordMan,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="fuzeMan != null" >
+        fuze_man = #{fuzeMan,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.AfterSalesRecord" >
+    update after_sales_record
+    set record_type = #{recordType,jdbcType=INTEGER},
+      do_state = #{doState,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      region = #{region,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      record_man = #{recordMan,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      flag = #{flag,jdbcType=INTEGER},
+      fuze_man = #{fuzeMan,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findByCondition" resultMap="BaseResultMap">
+  	SELECT asr.id,
+	       asr.record_type,
+	       asr.fuze_man,
+	       asr.flag,
+	       re.name region,
+	       asr.do_state,
+	       asr.user_name,
+	       asr.user_id,
+	       asr.content,
+	       asr.attachment,
+	       asr.`status`,
+	       asr.created_time,
+	       su.nick_name recordMan
+	  from after_sales_record asr
+	  LEFT JOIN shop_user su on asr.record_man= su.openId
+	  LEFT JOIN customer_user cu on asr.user_id= cu.id
+	  LEFT JOIN `reseau` re on cu.`reseau_id`= re.`id`
+    <where>
+  		and asr.status = 1 and asr.city_id = #{cityId}
+  		<if test="userName != null and userName!='' ">
+  			and asr.user_name like '%${userName}%'
+  		</if>
+  		<if test="regionId != null and regionId!='' ">
+  			and cu.region_id = #{regionId}
+  		</if>
+  		<if test="fuzeMan != null and fuzeMan!='' ">
+  			and asr.fuze_man like '%${fuzeMan}%'
+  		</if>
+  		<if test="recordMan != null and recordMan!='' ">
+  			and su.nick_name like '%${recordMan}%'
+  		</if>
+  		<if test="recordType != null and recordType!='' ">
+  			and asr.record_type = #{recordType}
+  		</if>
+  		<if test="doState != null and doState != '' ">
+  			and asr.do_state = #{doState}
+  		</if>
+  		<if test="reseauId !=null and reseauId != ''">
+			and cu.reseau_id = #{reseauId}
+		</if>
+  	</where>
+  	order by created_time desc
+  </select>
+  <update id="delete">
+  	UPDATE after_sales_record
+	SET STATUS = 0
+	WHERE
+		id = #{id}
+  </update>
+  <select id="findByUserId" resultMap="BaseResultMap">
+  	SELECT asr.id,asr.record_type,asr.do_state,asr.user_name,asr.user_id,asr.content,asr.attachment,asr.`status`,asr.created_time,su.nick_name recordMan from after_sales_record asr LEFT JOIN shop_user su on asr.record_man= su.openId
+  	where  asr.user_id = #{shopId} and asr.status = 1
+  	order by created_time desc
+  </select>
+  <select id="findByUserIdAndFlag" resultMap="BaseResultMap">
+  	SELECT asr.id,asr.record_type,asr.do_state,asr.user_name,asr.user_id,asr.content,asr.attachment,asr.`status`,asr.created_time,su.nick_name recordMan from after_sales_record asr LEFT JOIN shop_user su on asr.record_man= su.openId
+  	where  asr.user_id = #{shopId} and asr.flag=#{flag} and asr.status = 1
+  	order by created_time desc
+  </select>
+  <select id="findByUserIdLimitTwo" resultMap="BaseResultMap">
+  	SELECT asr.id,asr.record_type,asr.do_state,asr.user_name,asr.user_id,asr.content,asr.attachment,asr.`status`,asr.created_time,su.nick_name recordMan from after_sales_record asr LEFT JOIN shop_user su on asr.record_man= su.openId
+  	where  asr.created_time > DATE_SUB(NOW(),INTERVAL 2 MONTH) and asr.user_id = #{shopId} and asr.status = 1
+  	order by asr.created_time
+  </select>
+  <select id="findByUserIdNotCompelete" resultMap="BaseResultMap">
+	  SELECT asr.`id`,
+	       asr.`record_type`,
+	       asr.`do_state`,
+	       asr.`user_name`,
+	       asr.`region`,
+	       asr.`user_id`,
+	       asr.`content`,
+	       asr.`attachment`,
+	       asr.`status`,
+	       asr.`created_time`,
+	       asr.`flag`,
+	       asr.`fuze_man`,
+	       pu.`user_name` recordMan
+	  FROM `after_sales_record` asr
+	  LEFT JOIN `person_user` pu on asr.`record_man`= pu.`openid`
+	 WHERE asr.`status`= 1
+	   and asr.`user_id`= #{customerId}
+	   and asr.`do_state` IN(1, 2)
+  </select>
+  <select id="findCountByUserIdNotCompelete" resultType="int">
+  SELECT COUNT(1) FROM `after_sales_record` WHERE `status` =1 and `user_id` =#{shopId} and `do_state` IN (1,2)
+  </select>
+</mapper>

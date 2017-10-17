@@ -1,0 +1,30 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta name="baidu-site-verification" content="4vNEpUr1Eg" />
+    <meta charset="utf-8" />
+    <title>领蛙 － 专业的办公室零食提供商</title>
+	<meta name="keywords" content="领蛙,领带蛙,杭州领带蛙网络科技有限公司,智能优选零食,零食,领蛙零食,企业文化"/>
+	<meta name="description" content="领蛙,领带蛙,杭州领带蛙网络科技有限公司,智能优选零食,零食,领蛙零食,企业文化"/>
+    <!--允许全屏-->
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="yes" name="apple-touch-fullscreen" />
+    <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <link rel="dns-prefetch" href="//lingwa.com.cn">
+    <link rel="dns-prefetch" href="//www.lingwa.com.cn">
+    <meta content="fullscreen=yes,preventMove=no" name="ML-Config" />
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/static/css/reset.css" media="all"> 
+    <link rel="stylesheet" type="text/css" href="${rc.contextPath}/static/css/lingwa.css" media="all">
+    <link href="" rel="apple-touch-icon-precomposed">
+    <link href="" rel="Shortcut Icon" type="image/x-icon" />
+    <script type="text/javascript" src="${rc.contextPath}/static/js/jquery-1.7.2.min.js"></script>
+
+</head>
+<body>
+$screen_content
+
+    <script type="text/javascript" src="${rc.contextPath}/static/js/lingwa.js"></script>
+</body>
+</html>

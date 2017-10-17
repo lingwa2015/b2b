@@ -1,0 +1,1146 @@
+#set($layout="layout/shopLayout.vm")
+    <div class="caigou_content">
+        <ul class="caigou_left"  >
+        	#set($cat_flag = 0)
+        	#foreach($cat in $cates)
+        		<li #if($cat_flag==0) class="active" #end data-item="$cat.id" >$cat.categoryName</li>
+        		#set($cat_flag = 1)
+        	#end
+        </ul>
+        <div class="caigou_header">
+                <span class="caigou_push" id="drop" >二级类目<span class="sanjiao"></span></span>
+            	<span class="biaoqian" id="biao" >标签<span class="sanjiao"></span></span>
+                <img src="${rc.contextPath}/static/images/shop/caigou_search.png"  class="search_img">
+                <!-- 搜索 -->
+                <form  name="itemForm" id="form" action="${rc.contextPath}/convenient/shop_sourcingSearch.htm" method="get">
+                <input type="" name="searchName" style="display:none;">
+                <input type="hidden" name="shop_id" value="$shop_id" style="display:none;">
+                <input type="hidden" name="twoCate_id" id="twoCate_id" style="display:none;" value="-1">
+                <input type="hidden" name="biaoqian_id" id="biaoqian_id" style="display:none;" value="-1">
+                <input type="submit" style="display:none">
+                <span class="cl" id="cl" style="display:none;">x</span>
+                </form>
+                <span class="caigou_search" style="display:none;">取消</span>
+        </div>
+        <div class="caigou_right">
+            
+            <!-- 二级类目 -->
+            <div class="good_list">
+                <!-- 商品 -->
+                #foreach($item in $items)
+                	#if($item.convertNum>=0)
+                <div class="goods" data-pid="$item.id" date-ku="$item.convertNum">
+                   <img class="goods_img" src="${rc.contextPath}/static/images/shop/blank.png" data-original="$item.imgPath">
+                   <span class="big" data-img="$item.bigImgPath"></span>
+                   <div class="ziti">$item.itemName</div> 
+                   
+                   <div class="goods_price"><span class="so">￥$NumberTool.toYuanNumber($item.marketPrice)</span><span>￥<span>$NumberTool.toYuanNumber($item.price)</span></span></div>
+                   <div class="goods_spec"><span>$item.size</span><span>X<span>$item.saleSizeNum</span></span></div>
+                   
+                   #if($item.isnew==1)
+                   <img src="${rc.contextPath}/static/images/shop/new_pin.png" class="new_pin">
+                   #end
+                   #if($item.isblack==1)
+                   <img src="${rc.contextPath}/static/images/shop/black.png" class="jingzhang">
+                   #end
+                   #if($item.recommend==1)
+                   <img src="${rc.contextPath}/static/images/shop/guagua.png" class="new_pin">
+                   #end
+                   #if($item.itemWeight>=7)
+                   <img src="${rc.contextPath}/static/images/shop/bao.png" class="new_pin">
+                   #end
+                    #if($item.frequency>0)
+                    <span class="ssss">$item.score分/$item.frequency周</span>
+                    #end
+                   #if($item.convertNum>0)
+                    <div class="button_a">
+                      <img src="${rc.contextPath}/static/images/shop/caigou_sup.png" class="sup" style="display:none;">
+                      <input type="text" name="" #if($item.convertNum>0) class="shu_input" #else class="shu_input ku" #end value="0" style="display:none;" readonly="readonly">
+                      <img src="${rc.contextPath}/static/images/shop/caigou_add.png" class="add" >
+                   </div>
+                   #else
+                      <div class="button_a" style="font-size:.24rem;color:#999;bottom:.25rem;right:0.3rem;">库存不足</div>
+                   #end
+                   
+                </div>
+                	#end
+                #end
+            </div>
+            <div class="erji" style="display:none;">
+                <p class="go" id="-1">全部</p>
+                #foreach($leavecat in $leaveCates)
+                	<p class="go" id="$leavecat.id">$leavecat.categoryName</p>
+                #end
+            </div>
+            <div class="erji_biaoqian" style="display: none;">
+                <p class="bq" id="-1">全部</p>
+                <p class="bq" id="7">爆款</p>
+                <p class="bq" id="1">新品</p>
+                <p class="bq" id="0">黑名单</p>
+                <p class="bq" id="9">推荐</p>
+            </div>
+        </div>
+        <!-- 购物车 -->
+        <div class="cart_bg" style="display:none;"></div>
+        <div class="ca_head" style="bottom:-9.27rem;"> 
+                <span style="margin-left:.18rem;">购物车</span>
+                <span class="cart_close" onclick="close_item(this);">清空</span>
+        </div>
+        <div class="cart" style="bottom:-8.97rem;">
+            
+            <ul class="cart_list">
+                
+            </ul>
+            <a href="#"" class="xuanpin">智能选品</a>
+        </div>
+        <div class="imgFull" style="display:none;">
+            <img src="" class="su">
+            
+        </div>
+        <span class="why" style="display:none">轻触退出</span>
+        <div class="Layer" style="display:none">    
+        </div>
+    </div>
+    <div class="caigou_footer" style="z-index:999;">
+        <div class="bi" id="sure">
+            <span class="number" style="display:none;">0</span>
+            <span class="bianli_num" style="display:none;margin-left:1.55rem;">￥<span>0.00</span></span>
+        </div>
+        <div class="pay">下单</div>
+    </div>
+<script type="text/javascript" src="${rc.contextPath}/static/js/shop/cart.js?t=201611020145"></script>
+<script type="text/javascript" src="${rc.contextPath}/static/js/shop/jquery.lazyload.js"></script>
+<script type="text/javascript">
+document.title = '采购';
+$(".cart_list li:last-child").css("border","0");
+$(".good_list .goods:last-child").css("margin-bottom","1.1rem");
+$(function() { 
+	var item = utils.getParam("ShoppingCart");
+    	if(null!=item){
+			var lists = cart.getproductlist();
+			if(lists.length>0){
+				for(var i = 0; i <lists.length;i++){
+					var id = lists[i].id;
+					var num = lists[i].num;
+					var s = $("div[data-pid="+id+"]");
+					$(s).find('.button_a .shu_input').val(num).show();
+					$(s).find('.button_a .sup').show();
+				}
+				setnum();
+				setTotal();
+				$('.caigou_footer').find('.bi .number').css('display','block');
+				$('.caigou_footer').find('.bi .bianli_num').css('display','block');
+			}
+    	}
+
+});
+
+function formatMoney(num) {
+        var money = num/100;
+        var float = num%100;
+        var float1 = num%10;
+        if(float == 0){
+            money = money + ".00";
+        }else{
+        	if(float1==0){
+        		 money = money + "0";
+        	}
+        }
+        return money;
+}
+
+//点击其他地方 二级类目隐藏
+
+$('body').on('touchend',function(){
+    $('.erji').hide();
+    $('.caigou_push').attr('id','drop');
+});
+$('.cart_bg').on('touchend',function(){
+    $('.bi').attr('id','sure');
+    $(".cart").animate({bottom:"-8.97rem"},200);
+    $(".ca_head").animate({bottom:"-9.27rem"},200);
+    $('.cart_bg').fadeOut(); 
+})
+$('input[name="searchName"]').keyup(function(){
+        var a = $(this).val();
+        if (a.length>0) {
+                $("#cl").css("visibility","visible");
+                $("#cl").css("display","block");
+            }else{
+                $("#cl").css("visibility","hidden");
+                $("#cl").css("display","none");
+            }
+        
+});
+var a = $('input[name="searchName"]').val();
+    if(a){
+        $("#cl").css("visibility","visible");
+}
+$("#cl").on("touchend",function(){
+            $('input[name="searchName"]').val("");
+            $("#cl").css("visibility","hidden");
+});
+  // 搜索
+ $('.search_img').on('touchend',function(){
+    $(this).hide();
+    $('.caigou_push').hide();
+    $('.biaoqian').hide();
+    $('input[name="searchName"]').show();
+    $('input[name="searchName"]').focus();
+    $('.caigou_search').show();
+    $('.erji').hide();
+    $('.erji_biaoqian').hide();
+    $('.caigou_push').attr('id','drop');
+    $('.biaoqian').attr('id','biao');
+    $(".caigou_push").find(".sanjiao").removeClass("fanzhuang");
+    $(".biaoqian").find(".sanjiao").removeClass("fanzhuang");
+    $('.biaoqian').css("color","#333");
+    $('.biaoqian').attr('id','biao');
+    $('.caigou_push').css("color","#333");
+    $('.caigou_push').attr('id','drop');
+});
+   //取消
+$('.caigou_search').on('touchend',function(){
+    $(this).hide();
+    $('.caigou_push').show();
+    $('.biaoqian').show();
+    $('input[name="searchName"]').hide();
+    $("#cl").css("visibility","hidden");
+    $('.search_img').show();
+});
+
+ 
+ $(function() {
+       $("img.goods_img").lazyload({ threshold :200});
+   });
+
+$("li").on("touchend",function(){
+	if (touchmove) {
+        return;
+    }
+    $(this).addClass("active").siblings().removeClass("active");
+    var cateid = parseInt($(this).attr("data-item"));
+    var shopid = $shop_id;
+    var biaoqian_id = $('#biaoqian_id').val();
+    var first = $(this).parent().siblings('.caigou_right').find('.erji p').eq(0).text();
+    $(this).parent().siblings('.caigou_header').find('.caigou_push').text("二级类目");
+    $(this).parent().siblings('.caigou_header').find('.caigou_push').attr('id','drop');
+    $(this).parent().siblings('.caigou_header').find('.caigou_push').append('<span class="sanjiao"></span>');
+    $(this).parent().siblings('.caigou_right').find('.erji').hide();
+    $(".loading").css("display","block");
+	$.ajax({
+				url:'${rc.contextPath}/convenient/shop_onesourcingItem.json',
+				type:'POST',
+				data: {shop_id:shopid,cateid:cateid,lableId:biaoqian_id},
+				beforeSend:function(){
+				   
+		           $('.good_list').html('<div class="loading"><img src="${rc.contextPath}/static/images/shop/loading.gif" style="width:1.28rem;"></div>');
+		
+		        },
+				success:function(data){
+					if(data.status==200){
+						var content = "";
+						var content2 = '<p class="go" id="-1">全部</p>';
+						$.each(data.data.items,function(i){
+							   var categoryId =data.data.items[i].categoryId;
+					           var itemName = data.data.items[i].itemName;
+					           var item_id = data.data.items[i].id;
+					           var marketPrice = formatMoney(data.data.items[i].marketPrice);
+					           var price = formatMoney(data.data.items[i].price);
+					           var size = data.data.items[i].size;
+					           var imgPath = data.data.items[i].imgPath;
+					           var bigImgPath = data.data.items[i].bigImgPath;
+					           var saleSizeNum = data.data.items[i].saleSizeNum;
+					           //二级类目id
+					           var categorylevelId =data.data.items[i].categorylevelId;
+					           var kucun = data.data.items[i].convertNum;
+					           var isnew = data.data.items[i].isnew;
+					           var isblack = data.data.items[i].isblack;
+					           var recommend = data.data.items[i].recommend;
+					           var itemWeight = data.data.items[i].itemWeight;
+					           var frequency = data.data.items[i].frequency;
+					            var score = data.data.items[i].score;
+					           var item = utils.getParam("ShoppingCart");
+					           if(kucun>0){
+    						   if(null!=item){
+						           if(cart.existproduct(item_id)){
+						           		var num = cart.getproduct(item_id).num;
+						           		content+='<div class="goods" level-id="'+categorylevelId+'" data-pId = "'+item_id+'" cat-id="'+categoryId+'"><img data-original="'+imgPath+'" src="${rc.contextPath}/static/images/shop/blank.png"    width="1.2rem"  class="goods_img"><span class="big" data-img ="'+bigImgPath+'"></span><div class="ziti">'+itemName+'</div><div class="goods_price"><span class="so">￥'+marketPrice+'</span><span>￥<span>'+price+'</span></span></div><div class="goods_spec"><span>'+size+'</span><span>X<span>'+saleSizeNum+'</span></span></div>'
+						           		
+						           		if(isnew==1){
+						           			content+='<img src="${rc.contextPath}/static/images/shop/new_pin.png" class="new_pin">'
+						           		}
+						           		if(isblack==1){
+						           			content+='<img src="${rc.contextPath}/static/images/shop/black.png" class="jingzhang">'
+						           		}
+						           		if(recommend==1){
+						           		    content+='<img src="${rc.contextPath}/static/images/shop/guagua.png" class="new_pin">'
+						           		}
+						           		if(itemWeight>=7){
+						           			content+='<img src="${rc.contextPath}/static/images/shop/bao.png" class="new_pin">'
+						           		}
+						           		if(frequency>0){
+						           		  content+='<span class="ssss">'+score+'分/'+frequency+'周</span>'
+						           		}
+						           		if(kucun>0){
+						           			content+='<div class="button_a"><img src="${rc.contextPath}/static/images/shop/caigou_sup.png" class="sup" ><input type="text" name="" class="shu_input" value="'+num+'"  readonly="readonly"><img src="${rc.contextPath}/static/images/shop/caigou_add.png" class="add"></div></div>'
+						           		}else{
+						           		  content+='<div class="button_a" style="font-size:.24rem;color:#999;bottom:.25rem;right:0.3rem;">库存不足</div></div>'
+						           		}
+						           
+						           }else{
+						              content+='<div class="goods" level-id="'+categorylevelId+'" data-pId = "'+item_id+'" cat-id="'+categoryId+'"><img data-original="'+imgPath+'" src="${rc.contextPath}/static/images/shop/blank.png"    width="1.2rem"  class="goods_img"><span class="big" data-img ="'+bigImgPath+'"></span><div class="ziti">'+itemName+'</div><div class="goods_price"><span class="so">￥'+marketPrice+'</span><span>￥<span>'+price+'</span></span></div><div class="goods_spec"><span>'+size+'</span><span>X<span>'+saleSizeNum+'</span></span></div>'
+							            
+							            if(isnew==1){
+						           			content+='<img src="${rc.contextPath}/static/images/shop/new_pin.png" class="new_pin">'
+						           		}
+						           		if(isblack==1){
+						           			content+='<img src="${rc.contextPath}/static/images/shop/black.png" class="jingzhang">'
+						           		}
+						           		if(recommend==1){
+						           		    content+='<img src="${rc.contextPath}/static/images/shop/guagua.png" class="new_pin">'
+						           		}
+						           		if(itemWeight>=7){
+						           			content+='<img src="${rc.contextPath}/static/images/shop/bao.png" class="new_pin">'
+						           		}
+						           		if(frequency>0){
+						           		  content+='<span class="ssss">'+score+'分/'+frequency+'周</span>'
+						           		}
+						                if(kucun>0){
+							                content+='<div class="button_a"><img src="${rc.contextPath}/static/images/shop/caigou_sup.png" class="sup" style="display:none;"><input type="text" name="" class="shu_input " value="0" style="display:none;" readonly="readonly"><img src="${rc.contextPath}/static/images/shop/caigou_add.png" class="add"></div></div>'
+						                }else{
+						           	      content+='<div class="button_a" style="font-size:.24rem;color:#999;bottom:.25rem;right:0.3rem;">库存不足</div></div>'
+						                }
+						           }
+    						   }else{
+    						   			content+='<div class="goods" level-id="'+categorylevelId+'" data-pId = "'+item_id+'" cat-id="'+categoryId+'"><img data-original="'+imgPath+'" src="${rc.contextPath}/static/images/shop/blank.png" width="1.2rem"  class="goods_img"><span class="big" data-img ="'+bigImgPath+'"></span><div class="ziti">'+itemName+'</div><div class="goods_price"><span class="so">￥'+marketPrice+'</span><span>￥<span>'+price+'</span></span></div><div class="goods_spec"><span>'+size+'</span><span>X<span>'+saleSizeNum+'</span></span></div>'
+							          	
+							          	if(isnew==1){
+						           			content+='<img src="${rc.contextPath}/static/images/shop/new_pin.png" class="new_pin">'
+						           		}
+						           		if(isblack==1){
+						           			content+='<img src="${rc.contextPath}/static/images/shop/black.png" class="jingzhang">'
+						           		}
+						           		if(recommend==1){
+						           		    content+='<img src="${rc.contextPath}/static/images/shop/guagua.png" class="new_pin">'
+						           		}
+						           		if(itemWeight>=7){
+						           			content+='<img src="${rc.contextPath}/static/images/shop/bao.png" class="new_pin">'
+						           		}
+						           		if(frequency>0){
+						           		  content+='<span class="ssss">'+score+'分/'+frequency+'周</span>'
+						           		}
+							          	if(kucun>0){
+							           		content+='<div class="button_a"><img src="${rc.contextPath}/static/images/shop/caigou_sup.png" class="sup" style="display:none;"><input type="text" name="" class="shu_input" value="0" style="display:none;" readonly="readonly"><img src="${rc.contextPath}/static/images/shop/caigou_add.png" class="add"></div></div>'
+							           }else{
+							           	   content+='<div class="button_a" style="font-size:.24rem;color:#999;bottom:.25rem;right:0.3rem;">库存不足</div></div>'
+							           }
+						        }
+						        }
+						});
+						$.each(data.data.leaveCates,function(i){
+							var id = data.data.leaveCates[i].id;
+							var name = data.data.leaveCates[i].categoryName;
+							content2 += '<p class="go" id="'+id+'">'+name+'</p>'
+						});
+						$('.good_list').html(content);
+						$('.erji').html(content2);
+            			
+					}
+					$("img.goods_img").lazyload({ threshold :200}); 
+					$(".loading").css("display","none");
+				}
+				
+			})
+    
+});
+var touchmove;
+$(document).on( "touchstart", function() {
+  touchmove = false;
+});
+$(document).on( "touchmove", function() {
+  touchmove = true;
+});
+$('.caigou_content').on('touchend',function(e){
+    if (touchmove) {
+        return;
+    }
+    var doing = e.target;
+    var shopid = $shop_id;
+    //下拉列表
+    if (doing.nodeName == "SPAN" && doing.className == "caigou_push") {
+        if ($(doing).attr('id') == 'drop') {
+            $(doing).attr('id','');
+            $(doing).parent().siblings('.caigou_right').find('.erji').show();
+            $(doing).find(".sanjiao").addClass("fanzhuang");
+            $(doing).css("color","red");
+            $(".biaoqian").find(".sanjiao").removeClass("fanzhuang");
+            $('.biaoqian').css("color","#333");
+            $('.biaoqian').attr('id','biao');
+            $(".erji_biaoqian").hide();
+            return false;
+        }else{
+            $(doing).attr('id','drop');
+            $(doing).find(".sanjiao").removeClass("fanzhuang");
+            $(doing).css("color","#333");
+            $(doing).parent().siblings('.caigou_right').find('.erji').hide();
+            return false;
+        }
+        return;
+    }
+    if (doing.nodeName == "SPAN" && doing.className == "biaoqian") {
+        if ($(doing).attr('id') == 'biao') {
+            $(doing).attr('id','');
+            $(doing).parent().siblings('.caigou_right').find('.erji_biaoqian').show();
+            $(doing).find(".sanjiao").addClass("fanzhuang");
+            $(".caigou_push").find(".sanjiao").removeClass("fanzhuang");
+            $('.caigou_push').css("color","#333");
+            $('.caigou_push').attr('id','drop');
+            $('.erji').hide();
+            $(doing).css("color","red");
+            return false;
+        }else{
+            $(doing).attr('id','biao');
+            $(doing).find(".sanjiao").removeClass("fanzhuang");
+            $(doing).css("color","#333");
+            $(doing).parent().siblings('.caigou_right').find('.erji_biaoqian').hide();
+            return false;
+        }
+        return;
+    }
+    // 图片放大功能
+    var documentWidth = $(document).width();
+    var documentHeight = $(document).height();
+    $('.Layer').width(documentWidth);
+    $('.Layer').height(documentHeight);
+    $('.imgFull').width(documentWidth);
+    $('.imgFull').height(documentWidth);
+    $('.imgFull img.su').width(documentWidth);
+    $('.imgFull img.su').height(documentWidth);
+    if (doing.className == "goods_img") {
+        $('.Layer').on("touchmove",function(){
+        return false;
+        });
+         $('.imgFull').on("touchmove",function(){
+        return false;
+        });
+        $('.Layer').css('display','block');
+        $('.Layer').fadeIn();
+        $('.why').fadeIn();
+        $('.imgFull').fadeIn(300);
+        var imgsrc = $(doing).siblings('.big').attr('data-img');
+        $('.imgFull img').attr('src', imgsrc);
+    }
+    if (doing.className == "su") {
+        if (touchmove) {
+        return;
+        }
+        $('.Layer').fadeOut();
+        $('.imgFull').hide();
+        $('.why').hide();
+    }
+    if (doing.className == "Layer") {
+        if (touchmove) {
+        return;
+        }
+        $('.Layer').fadeOut();
+        $('.imgFull').hide();
+        $('.why').hide();
+    }
+    if (doing.className == "why") {
+        if (touchmove) {
+        return;
+        }
+        $('.Layer').fadeOut();
+        $('.imgFull').hide();
+        $('.why').hide();
+    }
+    //下拉列表 二级类目
+    if(doing.className == "go"){
+        //当前点击的二级类目
+        var two_lei = $(doing).text();
+        var one_lei = $('.caigou_left .active').attr('data-item');
+        $(doing).parent().parent().siblings('.caigou_header').find('.caigou_push').text(two_lei);
+        $(doing).parent().parent().siblings('.caigou_header').find('.caigou_push').attr('id','drop');
+        $(doing).parent().parent().siblings('.caigou_header').find('.caigou_push').append('<span class="sanjiao"></span>')
+        $(doing).parent().parent().siblings('.caigou_header').find('.caigou_push').attr('id','drop');
+        $(doing).parent().parent().siblings('.caigou_header').find('.caigou_push').css("color","#333");
+        $(doing).addClass("active").siblings().removeClass("active");
+        $(doing).parent().slideUp();
+        var level = $(doing).attr('id');
+        var biaoqian_id = $('#biaoqian_id').val();
+        $('#twoCate_id').val(level);
+        $(".good_list").children().hide();
+        $('.good_list .goods').each(function(){
+                var level_id = $(this).attr('level-id');
+                if (level == level_id) {
+                   $(this).show();
+                }
+            });
+        
+         $.ajax({
+				url:'${rc.contextPath}/convenient/shop_levsourcingItem.json',
+				type:'POST',
+				data: {shop_id:shopid,id:level,one:one_lei,lableId:biaoqian_id},
+				beforeSend:function(){
+				   
+		           $('.good_list').html('<div class="loading"><img src="${rc.contextPath}/static/images/shop/loading.gif" style="width:1.28rem;"></div>');
+		
+		        },
+				success:function(data){
+					if(data.status==200){
+						var content = "";
+						$.each(data.data,function(i){
+							   var categoryId =data.data[i].categoryId;
+					           var itemName = data.data[i].itemName;
+					           var item_id = data.data[i].id;
+					           var marketPrice = formatMoney(data.data[i].marketPrice);
+					           var price = formatMoney(data.data[i].price);
+					           var size = data.data[i].size;
+					           var imgPath = data.data[i].imgPath;
+					           var bigImgPath = data.data[i].bigImgPath;
+					           var saleSizeNum = data.data[i].saleSizeNum;
+					           //二级类目id
+					           var kucun = data.data[i].convertNum;
+					           var isnew = data.data[i].isnew;
+					           var isblack = data.data[i].isblack;
+					           var recommend = data.data[i].recommend;
+					           var categorylevelId =data.data[i].categorylevelId;
+					            var frequency = data.data[i].frequency;
+					            var score = data.data[i].score;
+                                var itemWeight = data.data[i].itemWeight;
+					            var item = utils.getParam("ShoppingCart");
+					            if(kucun>0){
+    						   if(null!=item){
+						          if(cart.existproduct(item_id)){
+						           		var num = cart.getproduct(item_id).num;
+						           		content+='<div class="goods" level-id="'+categorylevelId+'" data-pId = "'+item_id+'" cat-id="'+categoryId+'"><img data-original="'+imgPath+'" src="${rc.contextPath}/static/images/shop/blank.png"   width="1.2rem"  class="goods_img"><span class="big" data-img ="'+bigImgPath+'"></span><div class="ziti">'+itemName+'</div><div class="goods_price"><span class="so">￥'+marketPrice+'</span><span>￥<span>'+price+'</span></span></div><div class="goods_spec"><span>'+size+'</span><span>X<span>'+saleSizeNum+'</span></span></div>'
+						           		if(isnew==1){
+						           			content+='<img src="${rc.contextPath}/static/images/shop/new_pin.png" class="new_pin">'
+						           		}
+						           		if(isblack==1){
+						           			content+='<img src="${rc.contextPath}/static/images/shop/black.png" class="jingzhang">'
+						           		}
+						           		if(recommend==1){
+						           		    content+='<img src="${rc.contextPath}/static/images/shop/guagua.png" class="new_pin">'
+						           		}
+                                      if(itemWeight>=7){
+                                          content+='<img src="${rc.contextPath}/static/images/shop/bao.png" class="new_pin">'
+                                      }
+                                      if(frequency>0){
+                                            content+='<span class="ssss">'+score+'分/'+frequency+'周</span>'
+                                        }
+						           		if(kucun>0){
+						           			content+='<div class="button_a"><img src="${rc.contextPath}/static/images/shop/caigou_sup.png" class="sup" ><input type="text" name="" class="shu_input" value="'+num+'"  readonly="readonly"><img src="${rc.contextPath}/static/images/shop/caigou_add.png" class="add"></div></div>'
+						           		}else{
+						           		  content+='<div class="button_a" style="font-size:.24rem;color:#999;bottom:.25rem;right:0.3rem;">库存不足</div></div>'
+						           		}
+						           
+						           }else{
+						                content+='<div class="goods" level-id="'+categorylevelId+'" data-pId = "'+item_id+'" cat-id="'+categoryId+'"><img data-original="'+imgPath+'"  src="${rc.contextPath}/static/images/shop/blank.png"  width="1.2rem"  class="goods_img"><span class="big" data-img ="'+bigImgPath+'"></span><div class="ziti">'+itemName+'</div><div class="goods_price"><span class="so">￥'+marketPrice+'</span><span>￥<span>'+price+'</span></span></div><div class="goods_spec"><span>'+size+'</span><span>X<span>'+saleSizeNum+'</span></span></div>'
+							            if(isnew==1){
+						           			content+='<img src="${rc.contextPath}/static/images/shop/new_pin.png" class="new_pin">'
+						           		}
+						           		if(isblack==1){
+						           			content+='<img src="${rc.contextPath}/static/images/shop/black.png" class="jingzhang">'
+						           		}
+						           		if(recommend==1){
+						           		    content+='<img src="${rc.contextPath}/static/images/shop/guagua.png" class="new_pin">'
+                                        }
+                                      if(itemWeight>=7){
+                                          content+='<img src="${rc.contextPath}/static/images/shop/bao.png" class="new_pin">'
+                                      }
+                                      if(frequency>0){
+                                            content+='<span class="ssss">'+score+'分/'+frequency+'周</span>'
+                                        }
+						                if(kucun>0){
+							                content+='<div class="button_a"><img src="${rc.contextPath}/static/images/shop/caigou_sup.png" class="sup" style="display:none;"><input type="text" name="" class="shu_input " value="0" style="display:none;" readonly="readonly"><img src="${rc.contextPath}/static/images/shop/caigou_add.png" class="add"></div></div>'
+						                }else{
+						           	      content+='<div class="button_a" style="font-size:.24rem;color:#999;bottom:.25rem;right:0.3rem;">库存不足</div></div>'
+						                }
+
+						           }
+    						   }else{
+    						   			content+='<div class="goods" level-id="'+categorylevelId+'" data-pId = "'+item_id+'" cat-id="'+categoryId+'"><img data-original="'+imgPath+'" src="${rc.contextPath}/static/images/shop/blank.png"  width="1.2rem"  class="goods_img"><span class="big" data-img ="'+bigImgPath+'"></span><div class="ziti">'+itemName+'</div><div class="goods_price"><span class="so">￥'+marketPrice+'</span><span>￥<span>'+price+'</span></span></div><div class="goods_spec"><span>'+size+'</span><span>X<span>'+saleSizeNum+'</span></span></div>'
+							          	if(isnew==1){
+						           			content+='<img src="${rc.contextPath}/static/images/shop/new_pin.png" class="new_pin">'
+						           		}
+						           		if(isblack==1){
+						           			content+='<img src="${rc.contextPath}/static/images/shop/black.png" class="jingzhang">'
+						           		}
+						           		if(recommend==1){
+                                            content+='<img src="${rc.contextPath}/static/images/shop/guagua.png" class="new_pin">'
+                                        }
+                                        if(itemWeight>=7){
+                                            content+='<img src="${rc.contextPath}/static/images/shop/bao.png" class="new_pin">'
+                                        }
+
+                                   if(frequency>0){
+                                            content+='<span class="ssss">'+score+'分/'+frequency+'周</span>'
+                                        }
+                                   if(kucun>0){
+                                            content+='<div class="button_a"><img src="${rc.contextPath}/static/images/shop/caigou_sup.png" class="sup" style="display:none;"><input type="text" name="" class="shu_input" value="0" style="display:none;" readonly="readonly"><img src="${rc.contextPath}/static/images/shop/caigou_add.png" class="add"></div></div>'
+                                        }else{
+                                            content+='<div class="button_a" style="font-size:.24rem;color:#999;bottom:.25rem;right:0.3rem;">库存不足</div></div>'
+                                        }
+						        }
+						       }
+            
+						});
+						$('.good_list').html(content);
+            
+					}
+					$("img.goods_img").lazyload({ threshold :200});
+				}
+				
+			})
+    }
+    //下拉列表 标签
+    if(doing.className == "bq" ){
+        //当前点击的标签
+        var biaoqianText = $(doing).text();
+        var one_lei = $('.caigou_left .active').attr('data-item');
+        $(doing).parent().parent().siblings('.caigou_header').find('.biaoqian').text(biaoqianText);
+//        $(doing).parent().parent().siblings('.caigou_header').find('.biaoqian').append('<span class="sanjiao"></span>')
+        $(doing).parent().parent().siblings('.caigou_header').find('.biaoqian').attr('id','biao');
+        $(doing).parent().parent().siblings('.caigou_header').find('.biaoqian').append('<span class="sanjiao"></span>')
+        $(doing).parent().parent().siblings('.caigou_header').find('.biaoqian').css("color","#333");
+        $(doing).addClass("active").siblings().removeClass("active");
+        $(doing).parent().hide();
+        var biaoqian_id = $(doing).attr('id');
+        var twoCate_id = $('#twoCate_id').val();
+        $('#biaoqian_id').val(biaoqian_id);
+        $(".good_list").children().hide();
+        $('.good_list .goods').each(function(){
+            var level_id = $(this).attr('level-id');
+        });
+
+        $.ajax({
+            url:'${rc.contextPath}/convenient/shop_levsourcingItem.json',
+            type:'POST',
+            data: {shop_id:shopid,id:twoCate_id,one:one_lei,lableId:biaoqian_id},
+            beforeSend:function(){
+
+                $('.good_list').html('<div class="loading"><img src="${rc.contextPath}/static/images/shop/loading.gif" style="width:1.28rem;"></div>');
+
+            },
+            success:function(data){
+                if(data.status==200){
+                    var content = "";
+                    $.each(data.data,function(i){
+                        var categoryId =data.data[i].categoryId;
+                        var itemName = data.data[i].itemName;
+                        var item_id = data.data[i].id;
+                        var marketPrice = formatMoney(data.data[i].marketPrice);
+                        var price = formatMoney(data.data[i].price);
+                        var size = data.data[i].size;
+                        var imgPath = data.data[i].imgPath;
+                        var bigImgPath = data.data[i].bigImgPath;
+                        var saleSizeNum = data.data[i].saleSizeNum;
+                        //二级类目id
+                        var kucun = data.data[i].convertNum;
+                        var isnew = data.data[i].isnew;
+                        var isblack = data.data[i].isblack;
+                        var recommend = data.data[i].recommend;
+                        var categorylevelId =data.data[i].categorylevelId;
+                        var frequency = data.data[i].frequency;
+                        var score = data.data[i].score;
+                        var itemWeight = data.data[i].itemWeight;
+                        var item = utils.getParam("ShoppingCart");
+                        if(kucun>0){
+                            if(null!=item){
+                                if(cart.existproduct(item_id)){
+                                    var num = cart.getproduct(item_id).num;
+                                    content+='<div class="goods" level-id="'+categorylevelId+'" data-pId = "'+item_id+'" cat-id="'+categoryId+'"><img data-original="'+imgPath+'" src="${rc.contextPath}/static/images/shop/blank.png"   width="1.2rem"  class="goods_img"><span class="big" data-img ="'+bigImgPath+'"></span><div class="ziti">'+itemName+'</div><div class="goods_price"><span class="so">￥'+marketPrice+'</span><span>￥<span>'+price+'</span></span></div><div class="goods_spec"><span>'+size+'</span><span>X<span>'+saleSizeNum+'</span></span></div>'
+
+                                    if(isnew==1){
+                                        content+='<img src="${rc.contextPath}/static/images/shop/new_pin.png" class="new_pin">'
+                                    }
+                                    if(isblack==1){
+                                        content+='<img src="${rc.contextPath}/static/images/shop/black.png" class="jingzhang">'
+                                    }
+                                    if(recommend==1){
+                                        content+='<img src="${rc.contextPath}/static/images/shop/guagua.png" class="new_pin">'
+                                    }
+                                    if(itemWeight>=7){
+                                        content+='<img src="${rc.contextPath}/static/images/shop/bao.png" class="new_pin">'
+                                    }
+                                    if(frequency>0){
+                                        content+='<span class="ssss">'+score+'分/'+frequency+'周</span>'
+                                    }
+                                    if(kucun>0){
+                                        content+='<div class="button_a"><img src="${rc.contextPath}/static/images/shop/caigou_sup.png" class="sup" ><input type="text" name="" class="shu_input" value="'+num+'"  readonly="readonly"><img src="${rc.contextPath}/static/images/shop/caigou_add.png" class="add"></div></div>'
+                                    }else{
+                                        content+='<div class="button_a" style="font-size:.24rem;color:#999;bottom:.25rem;right:0.3rem;">库存不足</div></div>'
+                                    }
+                                }else{
+                                    content+='<div class="goods" level-id="'+categorylevelId+'" data-pId = "'+item_id+'" cat-id="'+categoryId+'"><img data-original="'+imgPath+'"  src="${rc.contextPath}/static/images/shop/blank.png"  width="1.2rem"  class="goods_img"><span class="big" data-img ="'+bigImgPath+'"></span><div class="ziti">'+itemName+'</div><div class="goods_price"><span class="so">￥'+marketPrice+'</span><span>￥<span>'+price+'</span></span></div><div class="goods_spec"><span>'+size+'</span><span>X<span>'+saleSizeNum+'</span></span></div>'
+
+                                    if(isnew==1){
+                                        content+='<img src="${rc.contextPath}/static/images/shop/new_pin.png" class="new_pin">'
+                                    }
+                                    if(isblack==1){
+                                        content+='<img src="${rc.contextPath}/static/images/shop/black.png" class="jingzhang">'
+                                    }
+                                    if(recommend==1){
+                                        content+='<img src="${rc.contextPath}/static/images/shop/guagua.png" class="new_pin">'
+                                    }
+                                    if(itemWeight>=7){
+                                        content+='<img src="${rc.contextPath}/static/images/shop/bao.png" class="new_pin">'
+                                    }
+                                    if(frequency>0){
+                                        content+='<span class="ssss">'+score+'分/'+frequency+'周</span>'
+                                    }
+                                    if(kucun>0){
+                                        content+='<div class="button_a"><img src="${rc.contextPath}/static/images/shop/caigou_sup.png" class="sup" style="display:none;"><input type="text" name="" class="shu_input " value="0" style="display:none;" readonly="readonly"><img src="${rc.contextPath}/static/images/shop/caigou_add.png" class="add"></div></div>'
+                                    }else{
+                                        content+='<div class="button_a" style="font-size:.24rem;color:#999;bottom:.25rem;right:0.3rem;">库存不足</div></div>'
+                                    }
+                                }
+                            }else{
+                                content+='<div class="goods" level-id="'+categorylevelId+'" data-pId = "'+item_id+'" cat-id="'+categoryId+'"><img data-original="'+imgPath+'" src="${rc.contextPath}/static/images/shop/blank.png"  width="1.2rem"  class="goods_img"><span class="big" data-img ="'+bigImgPath+'"></span><div class="ziti">'+itemName+'</div><div class="goods_price"><span class="so">￥'+marketPrice+'</span><span>￥<span>'+price+'</span></span></div><div class="goods_spec"><span>'+size+'</span><span>X<span>'+saleSizeNum+'</span></span></div>'
+
+                                if(isnew==1){
+                                    content+='<img src="${rc.contextPath}/static/images/shop/new_pin.png" class="new_pin">'
+                                }
+                                if(isblack==1){
+                                    content+='<img src="${rc.contextPath}/static/images/shop/black.png" class="jingzhang">'
+                                }
+                                if(recommend==1){
+                                    content+='<img src="${rc.contextPath}/static/images/shop/guagua.png" class="new_pin">'
+                                }
+                                if(itemWeight>=7){
+                                    content+='<img src="${rc.contextPath}/static/images/shop/bao.png" class="new_pin">'
+                                }
+                                if(frequency>0){
+                                    content+='<span class="ssss">'+score+'分/'+frequency+'周</span>'
+                                }
+                                if(kucun>0){
+                                    content+='<div class="button_a"><img src="${rc.contextPath}/static/images/shop/caigou_sup.png" class="sup" style="display:none;"><input type="text" name="" class="shu_input" value="0" style="display:none;" readonly="readonly"><img src="${rc.contextPath}/static/images/shop/caigou_add.png" class="add"></div></div>'
+                                }else{
+                                    content+='<div class="button_a" style="font-size:.24rem;color:#999;bottom:.25rem;right:0.3rem;">库存不足</div></div>'
+                                }
+                            }
+                        }
+
+                    });
+                    $('.good_list').html(content);
+
+                }
+                $("img.goods_img").lazyload({ threshold :200});
+            }
+
+        })
+    }
+
+
+    //购物车外 添加
+    if (doing.className == "add") {
+        //商品一次性卖出数量
+        var sp = $(doing).parent().siblings('.goods_spec').find('span').eq(1).find('span').text();
+        //找到底部购物车的圆圈
+        var number =$(doing).parent().parent().parent().parent().parent().siblings('.caigou_footer').find('.bi .number');
+        $(number).css('display','block');
+        $(doing).parent().parent().parent().parent().parent().siblings('.caigou_footer').find('.bi .bianli_num').css('display','block');
+        $(doing).siblings('.sup').show();
+        $(doing).siblings('.shu_input').show();
+        //当前点击的商品data-id
+        var n_id = $(doing).parent().parent().attr('data-pId');
+        var name = $(doing).parent().siblings('.ziti').text();
+        var price = $(doing).parent().siblings('.goods_price').find('span').eq(1).find('span').text();
+        //获取商品数量
+        var caigou_add = $(doing).siblings('.shu_input').val();
+        if (sp.length>0) {
+            //如果这个商品要成倍的卖出
+            var have = parseInt($(doing).siblings('.shu_input').val())+ parseInt(sp);
+            $(doing).siblings('.shu_input').val(have);
+            $(doing).siblings('.shu_input').attr('value',have);
+            var nu = parseInt(number.text())+parseInt(sp);
+            $(number).text(nu);
+        }else{
+            //否则加1
+            var par = parseInt(caigou_add)+1;
+            $(doing).siblings('.shu_input').val(par);
+            $(doing).siblings('.shu_input').attr('value',par);
+            var nu = parseInt(number.text())+1;
+            $(number).text(nu);
+        }
+        var product = {
+        	'id': n_id,        //属性名用引号括起来，属性间由逗号隔开  
+		    'name': name,  
+		    'num':sp,  
+		    'price':price,
+		    'conv':sp
+        }
+		cart.addproduct(product);
+		setnum();
+		setTotal();
+
+    }
+    //购物车外 减掉
+    if (doing.className == "sup") {
+        var s=$(doing).parent().parent().attr('data-pId');
+        var sp = $(doing).parent().siblings('.goods_spec').find('span').eq(1).find('span').text();
+        var caigou_add = $(doing).siblings('.shu_input').val();
+        var number = $(doing).parent().parent().parent().parent().parent().siblings('.caigou_footer').find('.bi .number');
+        if (sp.length>0) {
+            var have = parseInt($(doing).siblings('.shu_input').val()) - parseInt(sp);
+            $(doing).siblings('.shu_input').val(have);
+            $(doing).siblings('.shu_input').attr('value',have);
+            var nu = parseInt(number.text()) - parseInt(sp);
+            $(number).text(nu);
+             if (have <= 0) {
+                $(doing).siblings('.shu_input').val(0);
+                }
+        }else{
+           var par = parseInt(caigou_add)-1;
+           $(doing).siblings('.shu_input').val(par);
+           $(doing).siblings('.shu_input').attr('value',par); 
+           var nu = parseInt(number.text())-1;
+           $(number).text(nu);
+        }
+        if (par <= 0) {
+            $(doing).siblings('.shu_input').val(0);     
+         }
+        if (nu <=0) {
+             $(number).text(0);
+         }
+        var numb = caigou_add/sp;
+        var num_duc = parseInt(caigou_add - parseInt(sp));
+		if(numb>1){
+			cart.updateproductnum(s,num_duc);
+		}else{
+			cart.deleteproduct(s);
+		}
+        //当商品数量减到0时  就隐藏
+        if ($(doing).siblings('.shu_input').val()== 0) {
+            $(doing).hide();
+            $(doing).siblings('.shu_input').hide();
+        }
+        setnum();
+		setTotal();
+        
+    }
+   
+    
+     
+    //购物车内 添加
+    if (doing.className == "plus") {
+        //购物车内单品数量
+        var p_id = $(doing).parent().attr('data-pId');
+        var pl_val = $(doing).siblings('span').eq(1).find('span').text();
+        //判断如果购物车内 有单品数量 就累加 如果没有就默认＋1
+        if (pl_val.length>0){
+            var pl_inp = parseInt($(doing).siblings('.shu_input').val())+parseInt(pl_val);
+            $(doing).siblings('.shu_input').val(pl_inp);
+        }else{
+            var pl_only = parseInt($(doing).siblings('.shu_input').val())+1;
+            $(doing).siblings('.shu_input').val(pl_only);
+        }
+        var goods_wai = $(doing).parent().parent().parent().siblings('.caigou_right').find('.good_list .goods');
+        $('.good_list .goods').each(function(){
+                var now_amout = $(doing).siblings('.shu_input').val();
+            if (p_id == $(this).attr('data-pId')) {
+                //购物车内的当前点击商品的数量
+                $(this).find('.button_a .shu_input').val(now_amout);
+                
+            }
+            cart.updateproductnum(p_id,now_amout);
+        });
+            setnum();
+			setTotal();
+        return;
+    }
+    //购物车内 减掉
+    if (doing.className == "reduce") {
+        var p_id = $(doing).parent().attr('data-pId');
+        //购物车内单品数量
+        var pl_val = $(doing).siblings('span').eq(1).find('span').text();
+        //判断如果购物车内 有单品数量 就累减 如果没有就默认-1
+        if (pl_val.length>0){
+           var pl_inp = parseInt($(doing).siblings('.shu_input').val())-parseInt(pl_val);
+           $(doing).siblings('.shu_input').val(pl_inp);
+           if (pl_inp <= 0){
+               $(doing).siblings('.shu_input').val(0); 
+           } 
+        }else{
+           var pl_only = parseInt($(doing).siblings('.shu_input').val())-1;
+           $(doing).siblings('.shu_input').val(pl_only);
+           if (pl_only <= 0) {
+            $(doing).siblings('.shu_input').val(0);
+           }
+        }
+        var goods_wai = $(doing).parent().parent().parent().siblings('.caigou_right').find('.good_list .goods');
+        $('.good_list .goods').each(function(){
+                var now_amout = $(doing).siblings('.shu_input').val();
+            if (p_id == $(this).attr('data-pId')) {
+                //购物车内的当前点击商品的数量
+                $(this).find('.button_a .shu_input').val(now_amout);
+                if ($(this).find('.button_a .shu_input').val()==0) {
+                    $(this).find('.button_a .shu_input').hide();
+                    $(this).find('.button_a .sup').hide()
+                }
+            }
+                if(now_amout>0){
+	                cart.updateproductnum(p_id,now_amout);
+                }else{
+					cart.deleteproduct(p_id);                
+                }
+        });
+                setnum();
+				setTotal();
+        if ($(doing).siblings('.shu_input').val() == 0) {
+            $(doing).parent().remove();
+        }
+        if($('.cart_list').find('li').length==0){
+        	 $(this).attr('id','sure');
+	      	 $(".cart").animate({bottom:"-8.97rem"},200);
+	         $(".ca_head").animate({bottom:"-9.27rem"},200);
+	         $('.cart_bg').fadeOut(); 
+        }
+        return;
+    }
+});
+
+
+function close_item(object){
+   if ($(object).parent().siblings('.cart').find('.cart_list li').length>0){
+        if (confirm("确定清空商品吗？")){
+           $(object).parent().siblings('.cart').find('.cart_list li').remove();
+           $('.good_list .goods').each(function(){
+                $(this).find('.button_a .shu_input').val(0).hide();
+                $(this).find('.button_a .sup').hide();
+            });
+            $('.number').text(0);
+               $('.number').css('display','none');
+               $('.bianli_num').find('span').text(0);
+               $('.bianli_num').css('display','none'); 
+               $('.bi').attr('id','sure');
+               $(".cart").animate({bottom:"-8.97rem"},200);
+               $(".ca_head").animate({bottom:"-9.27rem"},200);
+               $('.cart_bg').fadeOut();
+               localStorage.removeItem("ShoppingCart");
+           }
+        
+}
+           else{
+       	  $('.bi').attr('id','sure');
+          $(".cart").animate({bottom:"-8.97rem"},200);
+          $(".ca_head").animate({bottom:"-9.27rem"},200);
+          $('.cart_bg').fadeOut();
+         
+       }
+       return;
+     }
+
+//智能选品
+$(".xuanpin").on("touchend",function(){
+    if (touchmove) {
+        return;
+    }
+    var good_le = $(this).siblings(".cart_list").find("li").length;
+    if (good_le == 0) {
+        intelligentItems();
+    }else{
+
+            intelligentItems();
+
+
+
+
+    }
+})
+
+function intelligentItems() {
+    var shopid = $shop_id;
+    $.ajax({
+        url:'${rc.contextPath}/convenient/shop_intelligentItems.json',
+        type:'POST',
+        data: {shop_id:shopid},
+        success:function(data){
+            if(data.status==200){
+                var content = "";
+                if(data.data.length != 0) {
+                    var good_le = $(".cart_list").find("li").length;
+                    if (good_le != 0) {
+                    if (confirm("智能选品会清空购物车原有商品，确定清空吗？")) {
+                        good_le = $(this).siblings(".cart_list").find("li").remove();
+                        $('.good_list .goods').each(function () {
+                            $(this).find('.button_a .shu_input').val(0).hide();
+                            $(this).find('.button_a .sup').hide();
+                        });
+                        $('.number').text(0);
+                        $('.number').css('display', 'none');
+                        $('.bianli_num').find('span').text(0);
+                        $('.bianli_num').css('display', 'none');
+                        $('.bi').attr('id', 'sure');
+                        localStorage.removeItem("ShoppingCart");
+                    } else {
+                        return;
+                    }
+
+
+                    }
+                    $.each(data.data, function (i) {
+                        var id = data.data[i].id;
+                        var itemName = data.data[i].itemName;
+                        var num = data.data[i].kgNum;
+                        var price = formatMoney(data.data[i].price);
+                        var conv = data.data[i].saleSizeNum;
+                        var stockNum = data.data[i].convertNum;
+//                    var stockNum = utils.getParam("ShoppingCart");
+                        var product = {
+                            'id': id,        //属性名用引号括起来，属性间由逗号隔开
+                            'name': itemName,
+                            'num': num,
+                            'price': price,
+                            'conv': conv
+                        }
+                        cart.addproduct(product);
+                        setnum();
+                        setTotal();
+
+
+                    });
+
+                } else {
+                    alert("暂无可添加的商品")
+                    return;
+                }
+
+
+            }
+            $("img.goods_img").lazyload({ threshold :200});
+            var item = utils.getParam("ShoppingCart");
+            console.log(item);
+            if (null != item) {
+                var lists = cart.getproductlist();
+                if (lists.length > 0) {
+                    for (var i = 0; i < lists.length; i++) {
+                        var id = lists[i].id;
+                        var num = lists[i].num;
+                        var name = lists[i].name;
+                        var conv = lists[i].conv;
+                        var price = lists[i].price;
+                        var s = $("div[data-pid=" + id + "]");
+                        $(s).find('.button_a .shu_input').val(num).show();
+                        $(s).find('.button_a .sup').show();
+                        content += '<li data-pId="'+id+'"><span class="cart_name">'+name+'</span><span style="display:none;">X<span>'+conv+'</span></span><span class="cart_price">￥<span>'+price+'</span></span><img src="${rc.contextPath}/static/images/shop/caigou_sup.png" class="reduce"><input type="" name="" class="shu_input" value="'+num+'" readonly="readonly"><img src="${rc.contextPath}/static/images/shop/caigou_add.png" class="plus"></li>'
+
+                    }
+                    $('.cart_list').html(content);
+                    setnum();
+                    setTotal();
+                    $('.caigou_footer').find('.bi .number').css('display', 'block');
+                    $('.caigou_footer').find('.bi .bianli_num').css('display', 'block');
+                }
+            }
+        }
+
+    })
+}
+
+// // 计算数量
+function setnum(){
+    var v = cart.getnum();
+    $('.number').text(v);
+}
+// // 计算金额
+function setTotal(){
+	var s = cart.getamount();
+    $(".bianli_num span").html(s.toFixed(2));
+}
+// //点击购物车
+$('.bi').on("touchend",function(){
+    if (touchmove) {
+        return;
+    }
+  if($(this).attr('id') == 'sure'){
+
+    if(! $('.cart_bg ').is(":animated")){
+    	var item = utils.getParam("ShoppingCart");
+    	if(null!=item){
+	    	var lists = cart.getproductlist();
+	    	var content='';
+			if(lists.length>0){
+				for(var i = 0; i <lists.length;i++){
+					var id = lists[i].id;
+					var num = lists[i].num;
+					var name = lists[i].name;
+					var price = lists[i].price;
+					var conv = lists[i].conv;
+					content += '<li data-pId="'+id+'"><span class="cart_name">'+name+'</span><span style="display:none;">X<span>'+conv+'</span></span><span class="cart_price">￥<span>'+price+'</span></span><img src="${rc.contextPath}/static/images/shop/caigou_sup.png" class="reduce"><input type="" name="" class="shu_input" value="'+num+'" readonly="readonly"><img src="${rc.contextPath}/static/images/shop/caigou_add.png" class="plus"></li>'
+				}
+				$('.cart_list').html(content);
+			}
+    	}
+        //判断元素是否处于动画状态
+        if (! $('.cart').is(":animated")) {
+            $(this).attr('id','');
+            $(".cart").animate({bottom:"1.1rem"},200);
+            $('.ca_head').animate({bottom:"9.27rem"},200);
+            $('.cart_bg').fadeIn();
+            return false;
+        }
+ 
+  	}
+  }else{
+       $(this).attr('id','sure');
+       $(".cart").animate({bottom:"-8.97rem"},200);
+       $(".ca_head").animate({bottom:"-9.27rem"},200);
+       $('.cart_bg').fadeOut(); 
+  }       
+});
+$(function(){
+    pushHistory(); 
+    window.addEventListener("popstate", function(e) { 
+         payPrevent = false;
+        
+    }, false); 
+    function pushHistory() { 
+        var state = { 
+            title: "title", 
+            url: "#"
+        }; 
+        window.history.pushState(state, "title", "#"); 
+    } 
+});
+var payPrevent = false;
+$('.pay').on("click",function(){
+	if (touchmove) {
+        return;
+    }
+    
+    if (payPrevent == true) return;
+	payPrevent = true;
+    var item = utils.getParam("ShoppingCart");
+    var aa = $('.bianli_num span').html();
+    var  total = parseFloat(aa);
+    if(null!=item){
+    	if(total<200){
+    		if(confirm("下单金额需大于200元，仍然下单？")){
+    			var lists = cart.getproductlist();
+			    if(lists.length>0){
+			    	window.location.href="${rc.contextPath}/convenient/shop_sourcingsure.htm?shop_id=$!shop_id"
+			    }else{
+			    	payPrevent = false;
+			    	alert("购物车都干瘪了！");
+			    }
+    		}
+    		payPrevent = false;
+    	}else{
+		    var lists = cart.getproductlist();
+		    if(lists.length>0){
+		    	window.location.href="${rc.contextPath}/convenient/shop_sourcingsure.htm?shop_id=$!shop_id"
+		    }else{
+		    	payPrevent = false;
+		    	alert("购物车都干瘪了！");
+		    }
+    	}
+    }else{
+    	payPrevent = false;
+	    alert("购物车都干瘪了！");
+    }
+});
+
+</script>

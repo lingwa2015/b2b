@@ -1,0 +1,44 @@
+#set($layout="layout/shopLayout.vm")
+<div class="caigou_sure">
+        <p style="margin-bottom:.5rem;">下单成功，待领蛙确认</p>
+        <div class="message">
+            <div class="price o">
+                <span class="order_pr">订单金额：</span>
+                <span>￥$NumberTool.toYuanNumber($!price)</span>
+            </div>
+            <div class="price">
+                <span class="order_pr">订单编号：</span>
+                <span>$!orderNo</span>
+            </div>
+            <div class="price">
+                <span class="order_pr">配送日期：</span>
+                <span>$!date.format('yyyy-MM-dd',$!exedate)</span>
+            </div>
+            #if($!memo)
+            <div class="price">
+                <span class="order_pr">订单备注：</span>
+                <span class="tip_now">$!memo</span>
+            </div>
+            #end
+        </div>
+        <div class="tip">请保持通讯畅通，如有问题可及时沟通调整。</div>
+        <a href="${rc.contextPath}/convenient/shop_sourcingOrderDetail.htm?id=$!orderNo" class="detail">订单详情</a>
+        <a href="${rc.contextPath}/convenient/manage/shop_index.htm?shop_id=$shop_id" class="houtai" style="margin-top:.4rem;">管理后台</a>
+    </div>
+<script type="text/javascript">
+document.title = '采购';
+$("body").css("background-color","#f7f7f7");
+$(".message .price:last-child").css("padding-bottom",".3rem");
+    $(function(){
+        var io = $("span").hasClass('tip_now');
+        if (io) {
+            if ($('.tip_now').text().length>18) {
+                $(".message .price:last-child").css("padding-bottom",".5rem");
+            }
+            if ($('.tip_now').text().length>=38) {
+                $(".message .price:last-child").css("padding-bottom","1rem");
+            }
+            
+        }
+    })
+</script>

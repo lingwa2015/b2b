@@ -1,0 +1,26 @@
+#set($layout="layout/shopLayout.vm")
+<div class="manage_content">
+        <ul>
+            <li>
+                <span style="float: left;">手机号码：</span>
+                
+                <a href="tel:$!user.mobilePhone" style="display：block;color:#000;">
+                	<span style="border: 0;width: 71%" >$!user.mobilePhone</span>	
+                </a>
+            </li>
+            <li>
+                <span style="float: left;">联系人：</span>
+                <span style="border: 0;width: 71%" >$!user.likeman</span>
+            </li>
+            <li>
+                <span style="float: left;">职位：</span>
+                <span style="border: 0;width: 71%" >$!user.position</span>
+            </li>
+            
+        </ul>
+    </div>
+<script type="text/javascript">
+    document.title = "联系方式";
+    $("body").css("background-color","#ececec");
+
+</script>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.BlackWhiteListItemMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.BlackWhiteListItem" >
+    <id column="bwli_id" property="bwliId" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="blackwhite_id" property="blackwhiteId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    bwli_id, item_id, blackwhite_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.BlackWhiteListItemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from blackwhitelist_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from blackwhitelist_item
+    where bwli_id = #{bwliId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from blackwhitelist_item
+    where bwli_id = #{bwliId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.BlackWhiteListItemExample" >
+    delete from blackwhitelist_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.BlackWhiteListItem" >
+    insert into blackwhitelist_item (bwli_id, item_id, blackwhite_id
+      )
+    values (#{bwliId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{blackwhiteId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.BlackWhiteListItem" >
+    insert into blackwhitelist_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bwliId != null" >
+        bwli_id,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="blackwhiteId != null" >
+        blackwhite_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bwliId != null" >
+        #{bwliId,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="blackwhiteId != null" >
+        #{blackwhiteId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.BlackWhiteListItemExample" resultType="java.lang.Integer" >
+    select count(*) from blackwhitelist_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update blackwhitelist_item
+    <set >
+      <if test="record.bwliId != null" >
+        bwli_id = #{record.bwliId,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemId != null" >
+        item_id = #{record.itemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.blackwhiteId != null" >
+        blackwhite_id = #{record.blackwhiteId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update blackwhitelist_item
+    set bwli_id = #{record.bwliId,jdbcType=INTEGER},
+      item_id = #{record.itemId,jdbcType=INTEGER},
+      blackwhite_id = #{record.blackwhiteId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.BlackWhiteListItem" >
+    update blackwhitelist_item
+    <set >
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="blackwhiteId != null" >
+        blackwhite_id = #{blackwhiteId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where bwli_id = #{bwliId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.BlackWhiteListItem" >
+    update blackwhitelist_item
+    set item_id = #{itemId,jdbcType=INTEGER},
+      blackwhite_id = #{blackwhiteId,jdbcType=INTEGER}
+    where bwli_id = #{bwliId,jdbcType=INTEGER}
+  </update>
+  <select id="findByItemId" resultType="BlackWhiteListItem">
+  	SELECT
+		bi.blackwhite_id blackwhiteId,
+		bi.item_id itemId,
+		bi.bwli_id bwliId
+	FROM
+		customer_blackwhitelist cb
+	LEFT JOIN blackwhitelist_item bi ON cb.blackwhite_id = bi.blackwhite_id
+	WHERE
+		cb.customer_id = #{customerId}
+	AND cb.blackwhite_type = #{flag}
+	AND bi.item_id = #{itemId}
+  </select>
+  <select id="findAll" resultType="hashmap">
+  	SELECT
+		bi.item_id itemId,bi.bwli_id bwliId,i.item_name itemName,i.category_id categoryId
+	FROM
+		customer_blackwhitelist cbl
+	LEFT JOIN blackwhitelist_item bi ON cbl.blackwhite_id = bi.blackwhite_id
+	LEFT JOIN item i ON bi.item_id = i.id and i.`status` =1
+	WHERE
+		cbl.`status` = 1
+	AND cbl.blackwhite_type = #{i}
+	AND cbl.customer_id = #{id};
+  </select>
+</mapper>

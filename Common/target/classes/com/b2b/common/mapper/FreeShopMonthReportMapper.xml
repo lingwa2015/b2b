@@ -1,0 +1,926 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.FreeShopMonthReportMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.FreeShopMonthReport" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="region" property="region" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shopId" jdbcType="INTEGER" />
+    <result column="sum_date" property="sumDate" jdbcType="DATE" />
+    <result column="order_fee" property="orderFee" jdbcType="BIGINT" />
+    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+    <result column="refund_fee" property="refundFee" jdbcType="BIGINT" />
+    <result column="refund_num" property="refundNum" jdbcType="INTEGER" />
+    <result column="soucing_fee" property="soucingFee" jdbcType="BIGINT" />
+    <result column="before_soucing_fee" property="beforeSoucingFee" jdbcType="DECIMAL" />
+    <result column="avg_day_fee" property="avgDayFee" jdbcType="BIGINT" />
+    <result column="profit" property="profit" jdbcType="BIGINT" />
+    <result column="profit_rate" property="profitRate" jdbcType="DECIMAL" />
+    <result column="zhekoucaigou" property="zhekoucaigou" jdbcType="BIGINT" />
+    <result column="isnew" property="isnew" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, region, user_name, shop_id, sum_date, order_fee, order_num, refund_fee, refund_num, 
+    soucing_fee, before_soucing_fee, avg_day_fee, profit, profit_rate, zhekoucaigou, isnew
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.FreeShopMonthReportExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from free_shop_month_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from free_shop_month_report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from free_shop_month_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.FreeShopMonthReportExample" >
+    delete from free_shop_month_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.FreeShopMonthReport" >
+    insert into free_shop_month_report (id, region, user_name, 
+      shop_id, sum_date, order_fee, 
+      order_num, refund_fee, refund_num, 
+      soucing_fee, before_soucing_fee, avg_day_fee, 
+      profit, profit_rate, zhekoucaigou, isnew
+      )
+    values (#{id,jdbcType=INTEGER}, #{region,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{shopId,jdbcType=INTEGER}, #{sumDate,jdbcType=DATE}, #{orderFee,jdbcType=BIGINT}, 
+      #{orderNum,jdbcType=INTEGER}, #{refundFee,jdbcType=BIGINT}, #{refundNum,jdbcType=INTEGER}, 
+      #{soucingFee,jdbcType=BIGINT}, #{beforeSoucingFee,jdbcType=DECIMAL}, #{avgDayFee,jdbcType=BIGINT}, 
+      #{profit,jdbcType=BIGINT}, #{profitRate,jdbcType=DECIMAL}, #{zhekoucaigou,jdbcType=BIGINT},
+      #{isnew,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.FreeShopMonthReport" >
+    insert into free_shop_month_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="region != null" >
+        region,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="sumDate != null" >
+        sum_date,
+      </if>
+      <if test="orderFee != null" >
+        order_fee,
+      </if>
+      <if test="orderNum != null" >
+        order_num,
+      </if>
+      <if test="refundFee != null" >
+        refund_fee,
+      </if>
+      <if test="refundNum != null" >
+        refund_num,
+      </if>
+      <if test="soucingFee != null" >
+        soucing_fee,
+      </if>
+      <if test="beforeSoucingFee != null" >
+        before_soucing_fee,
+      </if>
+      <if test="avgDayFee != null" >
+        avg_day_fee,
+      </if>
+      <if test="profit != null" >
+        profit,
+      </if>
+      <if test="profitRate != null" >
+        profit_rate,
+      </if>
+      <if test="zhekoucaigou != null" >
+        zhekoucaigou,
+      </if>
+      <if test="isnew != null" >
+        isnew,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="region != null" >
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="sumDate != null" >
+        #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="orderFee != null" >
+        #{orderFee,jdbcType=BIGINT},
+      </if>
+      <if test="orderNum != null" >
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="refundFee != null" >
+        #{refundFee,jdbcType=BIGINT},
+      </if>
+      <if test="refundNum != null" >
+        #{refundNum,jdbcType=INTEGER},
+      </if>
+      <if test="soucingFee != null" >
+        #{soucingFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeSoucingFee != null" >
+        #{beforeSoucingFee,jdbcType=DECIMAL},
+      </if>
+      <if test="avgDayFee != null" >
+        #{avgDayFee,jdbcType=BIGINT},
+      </if>
+      <if test="profit != null" >
+        #{profit,jdbcType=BIGINT},
+      </if>
+      <if test="profitRate != null" >
+        #{profitRate,jdbcType=DECIMAL},
+      </if>
+      <if test="zhekoucaigou != null" >
+        #{zhekoucaigou,jdbcType=BIGINT},
+      </if>
+      <if test="isnew != null" >
+        #{isnew,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.FreeShopMonthReportExample" resultType="java.lang.Integer" >
+    select count(*) from free_shop_month_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update free_shop_month_report
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.region != null" >
+        region = #{record.region,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopId != null" >
+        shop_id = #{record.shopId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sumDate != null" >
+        sum_date = #{record.sumDate,jdbcType=DATE},
+      </if>
+      <if test="record.orderFee != null" >
+        order_fee = #{record.orderFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderNum != null" >
+        order_num = #{record.orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.refundFee != null" >
+        refund_fee = #{record.refundFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.refundNum != null" >
+        refund_num = #{record.refundNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.soucingFee != null" >
+        soucing_fee = #{record.soucingFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.beforeSoucingFee != null" >
+        before_soucing_fee = #{record.beforeSoucingFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.avgDayFee != null" >
+        avg_day_fee = #{record.avgDayFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.profit != null" >
+        profit = #{record.profit,jdbcType=BIGINT},
+      </if>
+      <if test="record.profitRate != null" >
+        profit_rate = #{record.profitRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.zhekoucaigou != null" >
+        zhekoucaigou = #{record.zhekoucaigou,jdbcType=BIGINT},
+      </if>
+      <if test="record.isnew != null" >
+        isnew = #{record.isnew,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update free_shop_month_report
+    set id = #{record.id,jdbcType=INTEGER},
+      region = #{record.region,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      shop_id = #{record.shopId,jdbcType=INTEGER},
+      sum_date = #{record.sumDate,jdbcType=DATE},
+      order_fee = #{record.orderFee,jdbcType=BIGINT},
+      order_num = #{record.orderNum,jdbcType=INTEGER},
+      refund_fee = #{record.refundFee,jdbcType=BIGINT},
+      refund_num = #{record.refundNum,jdbcType=INTEGER},
+      soucing_fee = #{record.soucingFee,jdbcType=BIGINT},
+      before_soucing_fee = #{record.beforeSoucingFee,jdbcType=DECIMAL},
+      avg_day_fee = #{record.avgDayFee,jdbcType=BIGINT},
+      profit = #{record.profit,jdbcType=BIGINT},
+      profit_rate = #{record.profitRate,jdbcType=DECIMAL},
+      zhekoucaigou = #{record.zhekoucaigou,jdbcType=BIGINT},
+      isnew = #{record.isnew,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.FreeShopMonthReport" >
+    update free_shop_month_report
+    <set >
+      <if test="region != null" >
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="sumDate != null" >
+        sum_date = #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="orderFee != null" >
+        order_fee = #{orderFee,jdbcType=BIGINT},
+      </if>
+      <if test="orderNum != null" >
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="refundFee != null" >
+        refund_fee = #{refundFee,jdbcType=BIGINT},
+      </if>
+      <if test="refundNum != null" >
+        refund_num = #{refundNum,jdbcType=INTEGER},
+      </if>
+      <if test="soucingFee != null" >
+        soucing_fee = #{soucingFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeSoucingFee != null" >
+        before_soucing_fee = #{beforeSoucingFee,jdbcType=DECIMAL},
+      </if>
+      <if test="avgDayFee != null" >
+        avg_day_fee = #{avgDayFee,jdbcType=BIGINT},
+      </if>
+      <if test="profit != null" >
+        profit = #{profit,jdbcType=BIGINT},
+      </if>
+      <if test="profitRate != null" >
+        profit_rate = #{profitRate,jdbcType=DECIMAL},
+      </if>
+      <if test="zhekoucaigou != null" >
+        zhekoucaigou = #{zhekoucaigou,jdbcType=BIGINT},
+      </if>
+      <if test="isnew != null" >
+        isnew = #{isnew,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.FreeShopMonthReport" >
+    update free_shop_month_report
+    set region = #{region,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      shop_id = #{shopId,jdbcType=INTEGER},
+      sum_date = #{sumDate,jdbcType=DATE},
+      order_fee = #{orderFee,jdbcType=BIGINT},
+      order_num = #{orderNum,jdbcType=INTEGER},
+      refund_fee = #{refundFee,jdbcType=BIGINT},
+      refund_num = #{refundNum,jdbcType=INTEGER},
+      soucing_fee = #{soucingFee,jdbcType=BIGINT},
+      before_soucing_fee = #{beforeSoucingFee,jdbcType=DECIMAL},
+      avg_day_fee = #{avgDayFee,jdbcType=BIGINT},
+      profit = #{profit,jdbcType=BIGINT},
+      profit_rate = #{profitRate,jdbcType=DECIMAL},
+      zhekoucaigou = #{zhekoucaigou,jdbcType=BIGINT},
+      isnew = #{isnew,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findByUserIdAndSumDate" resultMap="BaseResultMap">
+  	SELECT * FROM free_shop_month_report WHERE  DATE_FORMAT(sum_date,'%Y%m') = DATE_FORMAT(#{date},'%Y%m') and shop_id = #{id}
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+  	SELECT fsmr.`id` ,fsmr.`user_name` ,fsmr.`shop_id` ,fsmr.`sum_date` ,fsmr.`order_fee` ,fsmr.`order_num` ,
+      fsmr.`refund_fee` ,fsmr.`refund_num` ,fsmr.`soucing_fee` ,fsmr.`before_soucing_fee` ,fsmr.`avg_day_fee`,
+      re.name region,fsmr.profit,fsmr.profit_rate, CASE WHEN date_format(cu.contract_date, '%Y-%m') = date_format(fsmr.sum_date, '%Y-%m')
+    OR cu.contract_date is NULL  THEN 1 ELSE 0 END isnew
+      FROM free_shop_month_report fsmr LEFT JOIN customer_user cu on fsmr.shop_id = cu.id LEFT JOIN `reseau`  re on cu.`reseau_id` = re.`id`
+  	<where>
+	  	and cu.city_id =#{cityId}
+	  	<if test="username != null and username !='' ">
+	  	 and fsmr.user_name like '%${username}%'
+	  	</if>
+	  	<if test="querytime != null and querytime !='' ">
+	  	 AND date_format(fsmr.`sum_date`, '%Y-%m') = date_format(#{querytime}, '%Y-%m')
+	  	</if>
+	  	<if test="flag == 1">
+	  		and fsmr.soucing_fee &gt; 0
+	  	</if>
+	  	<if test="region != null and region != ''">
+	  		and fsmr.region = #{region}
+	  	</if>
+	  	<if test="reseauId >0 ">
+	  	 and cu.reseau_id = #{reseauId}
+	  	</if>
+  	</where>
+  	order by fsmr.sum_date desc
+  	<if test="param == 0">
+  	  ,cu.created_time desc 
+  	</if>
+  	<if test="param == 2">
+  	  ,fsmr.order_fee desc 
+  	</if>
+  	<if test="param == 3">
+  	  ,fsmr.order_num desc 
+  	</if>
+  	<if test="param == 4">
+  	  ,fsmr.refund_fee desc 
+  	</if>
+  	<if test="param == 5">
+  	  ,fsmr.refund_num desc 
+  	</if>
+  	<if test="param == 6">
+  	  ,fsmr.soucing_fee desc 
+  	</if>
+  	<if test="param == 7">
+  	  ,fsmr.avg_day_fee desc 
+  	</if>
+  </select>
+  <select id="findNetShopmonthReport" resultMap="BaseResultMap">
+    SELECT
+        region,sum(num1) openCusNum,sum(num2) orderCusNum,
+        IFNULL(sum(openshopnum), 0)  openshopnum,
+        IFNULL(SUM(oldordershopnum), 0)  oldordershopnum,
+        IFNULL(SUM(newordershopnum), 0)  newordershopnum,
+        IFNULL(SUM(oldordershopnum) +SUM(newordershopnum), 0)   ordershopnum,
+        t.sum_date,
+        IFNULL(SUM(t.order_fee), 0)  order_fee,
+        IFNULL(SUM(t.order_num), 0)  order_num,
+        IFNULL(SUM(t.refund_fee), 0)  refund_fee,
+        IFNULL(SUM(t.refund_num), 0)  refund_num,
+        IFNULL(SUM(t.oldsoucing_fee), 0)  oldsoucing_fee,
+        IFNULL(SUM(t.newsoucing_fee), 0)  newsoucing_fee,
+        IFNULL((SUM(t.oldsoucing_fee)+SUM(t.newsoucing_fee)), 0) soucing_fee,
+        IFNULL((SUM(t.oldsoucing_fee)+SUM(t.newsoucing_fee)) / SUM(order_shop), 0) avgShopDayFee,
+        IFNULL(SUM(t.avg_day_fee) / SUM(order_shop), 0) avg_day_fee,
+        IFNULL(SUM(t.profit),0) profit,
+        IFNULL(round(SUM(t.profit) / SUM(t.zhekoucaigou) * 100,2), 0) profit_rate
+        FROM(
+        (SELECT
+            r.`name` region,cu.`reseau_id`,
+            COUNT(1) openshopnum,
+            0 oldordershopnum,
+            SUM(order_shop)  newordershopnum,
+            mr.sum_date,
+            SUM(mr.order_fee) order_fee,
+            SUM(mr.order_num) order_num,
+            SUM(mr.refund_fee) refund_fee,
+            SUM(mr.refund_num) refund_num,
+            0 oldsoucing_fee,
+            SUM(mr.soucing_fee) newsoucing_fee,
+            SUM(mr.profit) profit,
+            SUM(mr.zhekoucaigou) zhekoucaigou,
+            SUM(order_shop) order_shop,
+            SUM(avg_day_fee) avg_day_fee,0 num1,0 num2
+          FROM
+            (
+              SELECT
+                *,
+              IF (`order_fee` > 0, 1, 0) order_shop
+              FROM
+                free_shop_month_report
+            ) mr
+          LEFT JOIN `customer_user` cu ON mr.`shop_id` = cu.`id`
+          LEFT JOIN `reseau` r ON cu.`reseau_id` = r.`id`
+      <where>
+          and cu.city_id =#{cityId} AND mr.isnew = 1
+          <if test="querydate !=null and querydate !=''">
+              and date_format(mr.sum_date,'%Y-%m') = #{querydate}
+          </if>
+          <if test="reseauId>0">
+              and cu.`reseau_id` = #{reseauId}
+          </if>
+      </where>
+        GROUP BY
+            mr.sum_date,
+            cu.`reseau_id`
+          ORDER BY
+            mr.sum_date DESC)
+        UNION ALL
+
+(SELECT t.region,t.reseau_id,
+0 openshopnum,
+            0 oldordershopnum,
+            0  newordershopnum,
+            t.sum_date,
+            0 order_fee,
+           0 order_num,
+            0 refund_fee,
+            0 refund_num,
+            0 oldsoucing_fee,
+            0 newsoucing_fee,
+            0 profit,
+            0 zhekoucaigou,
+            0 order_shop,
+            0 avg_day_fee,COUNT(1) num1,
+SUM(num2) num2 FROM (
+SELECT
+             r. NAME region,cu.`reseau_id`,
+   
+            mr.sum_date,
+  
+            MAX(order_shop) num2
+          FROM
+            (
+              SELECT
+                *,
+              IF (`order_fee` > 0, 1, 0) order_shop
+              FROM
+                free_shop_month_report
+            ) mr
+          LEFT JOIN `customer_user` cu ON mr.`shop_id` = cu.`id`
+          LEFT JOIN `reseau` r ON cu.`reseau_id` = r.`id`
+    
+       <where>
+          and cu.city_id =#{cityId}
+          <if test="querydate !=null and querydate !=''">
+              and date_format(mr.sum_date,'%Y-%m') = #{querydate}
+          </if>
+          <if test="reseauId>0">
+              and cu.`reseau_id` = #{reseauId}
+          </if>
+      </where>
+        
+        GROUP BY
+            mr.sum_date,
+            cu.`reseau_id`,cu.`company_name` 
+) t
+ GROUP BY
+            t.sum_date,
+            t.`reseau_id`
+
+          ORDER BY
+            t.sum_date DESC
+)
+
+ UNION ALL
+
+        (SELECT
+            r.`name` region,cu.`reseau_id`,
+            COUNT(1) openshopnum,
+            SUM(order_shop) oldordershopnum,
+            0 newordershopnum,
+            mr.sum_date,
+            SUM(mr.order_fee) order_fee,
+            SUM(mr.order_num) order_num,
+            SUM(mr.refund_fee) refund_fee,
+            SUM(mr.refund_num) refund_num,
+            SUM(mr.soucing_fee) oldsoucing_fee,
+            0 newsoucing_fee,
+            SUM(mr.profit) profit,
+            SUM(mr.zhekoucaigou) zhekoucaigou,
+            SUM(order_shop) order_shop,
+            SUM(avg_day_fee) avg_day_fee,0 num1,0 num2
+          FROM
+            (
+              SELECT
+                *,
+              IF (`order_fee` > 0, 1, 0) order_shop
+              FROM
+                free_shop_month_report
+            ) mr
+          LEFT JOIN `customer_user` cu ON mr.`shop_id` = cu.`id`
+          LEFT JOIN `reseau` r ON cu.`reseau_id` = r.`id`
+      <where>
+          and cu.city_id =#{cityId} AND mr.isnew = 0
+          <if test="querydate !=null and querydate !=''">
+              and date_format(mr.sum_date,'%Y-%m') = #{querydate}
+          </if>
+          <if test="reseauId>0">
+              and cu.`reseau_id` = #{reseauId}
+          </if>
+      </where>
+        GROUP BY
+            mr.sum_date,
+            cu.`reseau_id`
+          ORDER BY
+            mr.sum_date DESC)
+        )t
+        GROUP BY
+            t.sum_date,
+            t.`reseau_id`
+          ORDER BY
+            t.sum_date DESC
+  </select>
+  <select id="findAllMonthReport"  resultMap="BaseResultMap">
+      SELECT
+        sum(openshopnum) openshopnum,sum(num1) openCusNum,sum(num2) orderCusNum,
+        SUM(oldordershopnum) oldordershopnum,
+        SUM(newordershopnum) newordershopnum,
+        SUM(oldordershopnum) +SUM(newordershopnum)  ordershopnum,
+        t.sum_date,
+        SUM(t.order_fee) order_fee,
+        SUM(t.order_num) order_num,
+        SUM(t.refund_fee) refund_fee,
+        SUM(t.refund_num) refund_num,
+        SUM(t.oldsoucing_fee) oldsoucing_fee,
+        SUM(t.newsoucing_fee) newsoucing_fee,
+        (SUM(t.oldsoucing_fee)+SUM(t.newsoucing_fee)) soucing_fee,
+        (SUM(t.oldsoucing_fee)+SUM(t.newsoucing_fee)) / SUM(order_shop) avgShopDayFee,
+        SUM(t.avg_day_fee) / SUM(order_shop) avg_day_fee,
+        SUM(t.profit) profit,
+        round(SUM(t.profit) / SUM(t.zhekoucaigou) * 100,2) profit_rate
+        FROM(
+        (SELECT
+            COUNT(1) openshopnum,
+            0 oldordershopnum,
+            SUM(order_shop)  newordershopnum,
+            mr.sum_date,
+            SUM(mr.order_fee) order_fee,
+            SUM(mr.order_num) order_num,
+            SUM(mr.refund_fee) refund_fee,
+            SUM(mr.refund_num) refund_num,
+            0 oldsoucing_fee,
+            SUM(mr.soucing_fee) newsoucing_fee,
+            SUM(mr.profit) profit,
+            SUM(mr.zhekoucaigou) zhekoucaigou,
+            SUM(order_shop) order_shop,
+            SUM(avg_day_fee) avg_day_fee,0 num1,0 num2
+          FROM
+            (
+              SELECT
+                *,
+              IF (`order_fee` > 0, 1, 0) order_shop
+              FROM
+                free_shop_month_report
+            ) mr
+          LEFT JOIN `customer_user` cu ON mr.`shop_id` = cu.`id`
+      where cu.city_id =#{cityId} AND mr.isnew = 1
+        GROUP BY
+            mr.sum_date,mr.isnew
+          ORDER BY
+            mr.sum_date DESC)
+        UNION ALL
+        
+        (
+        
+SELECT
+0 openshopnum,
+            0 oldordershopnum,
+            0  newordershopnum,
+            t.sum_date,
+            0 order_fee,
+           0 order_num,
+            0 refund_fee,
+            0 refund_num,
+            0 oldsoucing_fee,
+            0 newsoucing_fee,
+            0 profit,
+            0 zhekoucaigou,
+            0 order_shop,
+            0 avg_day_fee,COUNT(1) num1,
+SUM(num2) num2 FROM (
+SELECT
+   
+            mr.sum_date,
+  
+            MAX(order_shop) num2
+          FROM
+            (
+              SELECT
+                *,
+              IF (`order_fee` > 0, 1, 0) order_shop
+              FROM
+                free_shop_month_report
+            ) mr
+          LEFT JOIN `customer_user` cu ON mr.`shop_id` = cu.`id`
+       
+    
+        where cu.city_id =1
+        
+        GROUP BY
+            mr.sum_date,
+           cu.`company_name` 
+) t
+ GROUP BY
+            t.sum_date
+
+          ORDER BY
+            t.sum_date DESC
+        )
+        
+         UNION ALL
+
+        (SELECT
+            COUNT(1) openshopnum,
+            SUM(order_shop) oldordershopnum,
+            0 newordershopnum,
+            mr.sum_date,
+            SUM(mr.order_fee) order_fee,
+            SUM(mr.order_num) order_num,
+            SUM(mr.refund_fee) refund_fee,
+            SUM(mr.refund_num) refund_num,
+            SUM(mr.soucing_fee) oldsoucing_fee,
+            0 newsoucing_fee,
+            SUM(mr.profit) profit,
+            SUM(mr.zhekoucaigou) zhekoucaigou,
+            SUM(order_shop) order_shop,
+            SUM(avg_day_fee) avg_day_fee,0 num1,0 num2
+          FROM
+            (
+              SELECT
+                *,
+              IF (`order_fee` > 0, 1, 0) order_shop
+              FROM
+                free_shop_month_report
+            ) mr
+          LEFT JOIN `customer_user` cu ON mr.`shop_id` = cu.`id`
+      where cu.city_id =#{cityId} AND mr.isnew = 0
+        GROUP BY
+            mr.sum_date,mr.isnew
+          ORDER BY
+            mr.sum_date DESC)
+        )t
+        GROUP BY
+            t.sum_date
+          ORDER BY
+            t.sum_date DESC
+  </select>
+  <select id="findByReseauIdAndDate" resultMap="BaseResultMap">
+  	SELECT
+		`reseau_id`,
+		region,
+		SUM(openshopnum) openshopnum,
+		SUM(ordershopnum) ordershopnum,
+		t.sum_date,
+		SUM(t.order_fee) order_fee,
+		SUM(t.order_num) order_num,
+		SUM(t.refund_fee) refund_fee,
+		SUM(t.refund_num) refund_num,
+		SUM(t.oldsoucing_fee) oldsoucing_fee,
+		SUM(t.newsoucing_fee) newsoucing_fee,
+		(SUM(t.oldsoucing_fee) + SUM(t.newsoucing_fee)) soucing_fee,
+		SUM(t.avg_day_fee) avg_day_fee,
+		(SUM(t.oldsoucing_fee) + SUM(t.newsoucing_fee)) / SUM(ordershopnum) avgShopDayFee,
+		SUM(t.avg_day_fee) / SUM(ordershopnum) avg_day_fee,
+		SUM(t.profit) profit,
+		round(SUM(t.profit) / SUM(t.zhekoucaigou) * 100,2) profit_rate
+
+      FROM (
+      (SELECT
+              cu.`reseau_id`,
+              r.`name` region,
+              COUNT(1) openshopnum,
+              SUM(order_shop) ordershopnum,
+              mr.sum_date,
+              SUM(mr.order_fee) order_fee,
+              SUM(mr.order_num) order_num,
+              SUM(mr.refund_fee) refund_fee,
+              SUM(mr.refund_num) refund_num,
+              SUM(mr.soucing_fee) oldsoucing_fee,
+              0 newsoucing_fee,
+              SUM(mr.avg_day_fee) avg_day_fee,
+              SUM(mr.profit) profit,
+              round(SUM(mr.profit) / SUM(mr.zhekoucaigou) * 100,2) profit_rate,
+              SUM(mr.zhekoucaigou) zhekoucaigou
+          FROM
+              (
+                  SELECT
+                      *,
+                  IF (`order_fee` > 0, 1, 0) order_shop
+                  FROM
+                      free_shop_month_report
+              ) mr
+          LEFT JOIN `customer_user` cu ON mr.`shop_id` = cu.`id`
+          LEFT JOIN `reseau` r ON cu.`reseau_id` = r.`id`
+
+                  where date_format(mr.sum_date,'%Y-%m') = date_format(#{date},'%Y-%m')
+
+                  and cu.`reseau_id` = #{reseauId}
+                  and mr.isnew = 0
+
+          GROUP BY
+              mr.sum_date,
+              cu.`reseau_id`
+          ORDER BY
+              mr.sum_date DESC)
+
+      UNION ALL
+
+      (
+      SELECT
+              cu.`reseau_id`,
+              r.`name` region,
+              COUNT(1) openshopnum,
+              SUM(order_shop) ordershopnum,
+              mr.sum_date,
+              SUM(mr.order_fee) order_fee,
+              SUM(mr.order_num) order_num,
+              SUM(mr.refund_fee) refund_fee,
+              SUM(mr.refund_num) refund_num,
+              0 oldsoucing_fee,
+              SUM(mr.soucing_fee) newsoucing_fee,
+              SUM(mr.avg_day_fee) avg_day_fee,
+              SUM(mr.profit) profit,
+              round(SUM(mr.profit) / SUM(mr.zhekoucaigou) * 100,2) profit_rate,
+              SUM(mr.zhekoucaigou) zhekoucaigou
+          FROM
+              (
+                  SELECT
+                      *,
+                  IF (`order_fee` > 0, 1, 0) order_shop
+                  FROM
+                      free_shop_month_report
+              ) mr
+          LEFT JOIN `customer_user` cu ON mr.`shop_id` = cu.`id`
+          LEFT JOIN `reseau` r ON cu.`reseau_id` = r.`id`
+
+                  where date_format(mr.sum_date,'%Y-%m') = date_format(#{date},'%Y-%m')
+
+                  and cu.`reseau_id` = #{reseauId}
+                  and mr.isnew = 1
+
+          GROUP BY
+              mr.sum_date,
+              cu.`reseau_id`
+          ORDER BY
+              mr.sum_date DESC)
+      )t
+      GROUP BY
+              t.sum_date,
+              t.`reseau_id`
+      ORDER BY
+              t.sum_date DESC
+  </select>
+  <select id="findShopInfoByReseauIdAndDate" resultMap="BaseResultMap">
+  	SELECT fs.`shop_id`,
+       cu.`user_name`,
+       fs.`order_fee`,
+       fs.`order_num`,
+       fs.`refund_fee`,
+       fs.`refund_num`,
+       fs.`soucing_fee`
+  FROM `free_shop_month_report` fs
+  LEFT JOIN `customer_user` cu on fs.`shop_id`= cu.`id`
+ where cu.`reseau_id`= #{reseauId}
+   and date_format(fs.`sum_date`, '%Y-%m')= date_format(#{date}, '%Y-%m') ORDER BY cu.`created_time` desc
+  </select>
+  <delete id="deleteByDateAndCityId">
+  	DELETE smr
+  FROM `free_shop_month_report` smr
+       `customer_user` cu
+ where smr.shop_id= cu.id
+  and date_format(smr.`sum_date`, '%Y-%m')= date_format(#{date}, '%Y-%m')
+   and cu.`city_id`= #{cityId}
+  </delete>
+  <select id="findBycityIdAndDate" resultMap="BaseResultMap">
+  	SELECT
+	SUM(openshopnum) openshopnum,
+       SUM(ordershopnum) ordershopnum,
+       t.sum_date,
+       SUM(t.order_fee) order_fee,
+       SUM(t.order_num) order_num,
+       SUM(t.refund_fee) refund_fee,
+       SUM(t.refund_num) refund_num,
+       SUM(t.oldsoucing_fee) oldsoucing_fee,
+       SUM(t.newsoucing_fee) newsoucing_fee,
+       (SUM(t.oldsoucing_fee) + SUM(t.newsoucing_fee)) soucing_fee,
+       SUM(t.avg_day_fee) avg_day_fee,
+       (SUM(t.oldsoucing_fee) + SUM(t.newsoucing_fee)) / SUM(ordershopnum) avgShopDayFee,
+       SUM(t.avg_day_fee) / SUM(ordershopnum) avg_day_fee,
+       SUM(t.profit) profit,
+       SUM(t.zhekoucaigou) zhekoucaigou,
+       round(SUM(t.profit) / SUM(t.zhekoucaigou) * 100, 2) profit_rate
+    FROM
+    (
+    (SELECT COUNT(1) openshopnum,
+           SUM(order_shop) ordershopnum,
+           mr.sum_date,
+           SUM(mr.order_fee) order_fee,
+           SUM(mr.order_num) order_num,
+           SUM(mr.refund_fee) refund_fee,
+           SUM(mr.refund_num) refund_num,
+           SUM(mr.soucing_fee) oldsoucing_fee,
+           0 newsoucing_fee,
+           SUM(mr.avg_day_fee) avg_day_fee,
+           SUM(mr.profit) profit,
+           SUM(mr.zhekoucaigou) zhekoucaigou
+      FROM(
+    SELECT *, IF(`order_fee`> 0, 1, 0) order_shop
+      FROM free_shop_month_report) mr
+      LEFT JOIN `customer_user` cu ON mr.`shop_id`= cu.`id`
+     where date_format(mr.sum_date, '%Y-%m')= date_format( #{date},'%Y-%m')
+       and cu.`city_id`= #{cityId}
+        AND mr.isnew = 0)
+
+    UNION ALL
+
+    (SELECT COUNT(1) openshopnum,
+           SUM(order_shop) ordershopnum,
+           mr.sum_date,
+           SUM(mr.order_fee) order_fee,
+           SUM(mr.order_num) order_num,
+           SUM(mr.refund_fee) refund_fee,
+           SUM(mr.refund_num) refund_num,
+           0 oldsoucing_fee,
+           SUM(mr.soucing_fee) newsoucing_fee,
+           SUM(mr.avg_day_fee) avg_day_fee,
+           SUM(mr.profit) profit,
+           SUM(mr.zhekoucaigou) zhekoucaigou
+      FROM(
+    SELECT *, IF(`order_fee`> 0, 1, 0) order_shop
+      FROM free_shop_month_report) mr
+      LEFT JOIN `customer_user` cu ON mr.`shop_id`= cu.`id`
+     where date_format(mr.sum_date, '%Y-%m')= date_format( #{date},'%Y-%m')
+       and cu.`city_id`= #{cityId}
+        AND mr.isnew = 1)
+    ) t
+  </select>
+</mapper>

@@ -1,0 +1,59 @@
+ #set($layout="layout/wxLayout.vm")
+  <div class="lw_hd">
+        <a href="${rc.contextPath}/wxuserOrder/wxlist.htm">
+            <img src="${rc.contextPath}/static/images/wx/address_02.png">
+            <span class="mid">&nbsp;&nbsp;订单详情</span>
+        </a>
+    </div>
+    <div class="orderDetail_content">
+        <ul class="order_list">
+            <li>
+                <a href="">
+                    <img class="goods_pic" src="$!wxUserOrder.imgPath">
+                    <div class="goods_detail">
+                        <h5>
+                            <span class="t fl">$!wxUserOrder.spValue</span>
+                            <span class="fr">￥$NumberTool.toYuanNumber($!wxUserOrder.snackpackageFee) <b>x $!wxUserOrder.snackpackageNum</b></span>
+                        </h5>
+                        <span class="time">下单时间:  $!date.format( 'yyyy-MM-dd hh:mm:ss',$!wxUserOrder.createdTime)</span>
+                        <p class="status">
+                            状态： 				#if($!wxUserOrder.groups==1)
+	                            #if($!wxUserOrder.expire==0)
+	                            	拼单失败
+	                            #else
+	                            <span class="e">#if($!wxUserOrder.payfeeStatus==-1)拼单中#elseif($!wxUserOrder.payfeeStatus==0)待发货#elseif($!wxUserOrder.payfeeStatus==1)已发货#elseif($!wxUserOrder.payfeeStatus==2)已退货#else #end</span><!-- 审核状态span加class="e" -->
+	                        	#end
+	                        #else
+	                        	 <span class="e">#if($!wxUserOrder.payfeeStatus==0)待发货#elseif($!wxUserOrder.payfeeStatus==1)已发货#elseif($!wxUserOrder.payfeeStatus==2)已退货#else #end</span><!-- 审核状态span加class="e" -->
+	                        #end
+                        </p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <dl class="detail_wrap">
+            <dt>订单编号</dt>
+            <dd>$!wxUserOrder.wxorderNum</dd>
+            <dt>付款金额</dt>
+            <dd>$NumberTool.toYuanNumber($!wxUserOrder.snackpackageTotal)元</dd>
+            <dt>支付方式</dt>
+            <dd>微信支付</dd>
+            #if($wxUserOrder.fastexpressNo)
+            <dt>配送信息</dt>
+            <dd>$!wxUserOrder.fastexpressNo</dd>
+            #else
+            #end
+            <dt class="addr">收货信息</dt>
+            <dd>
+                <span class="tel">$!wxUserOrder.wxname $!wxUserOrder.wxphone</span>
+                <span class="address">$!wxUserOrder.wxaddress</span>
+            </dd>
+        </dl>
+    </div>
+    #if($!wxUserOrder.groups==1)
+     <a href="${rc.contextPath}/weixin/wxgroup.htm?id=$!wxUserOrder.id" style="width: 90%;display: block;height: 5.07rem;background-color: #fff;line-height: 5.07rem;text-align: center;margin-left: 5%; border:1px solid #ddd;font-size: 1.68rem;color: #949494;position: fixed;bottom: 2%">拼单详情</a>
+   	#else
+   	#end
+   <script type="text/javascript">
+document.title = "领蛙商城";
+</script>

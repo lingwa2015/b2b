@@ -1,0 +1,49 @@
+ #set($layout="layout/wxLayout.vm")
+<div class="order_content">
+        <ul class="order_list">
+            #if($!wxUserOrderList.size()>0)
+	           #foreach($order in $wxUserOrderList)
+	           		<li>
+	                <a href="${rc.contextPath}/wxuserOrder/wxdetail.htm?id=$!order.id">
+	                    <img class="goods_pic" src="$!order.imgPath">
+	                    <div class="goods_detail">
+	                        <h5>
+	                            <span class="t fl">$!order.spValue</span>
+	                            <span class="fr">￥$NumberTool.toYuanNumber($!order.snackpackageFee) <b>x $!order.snackpackageNum</b></span>
+	                        </h5>
+	                        <span class="time">下单时间: $!date.format( 'yyyy-MM-dd HH:mm:ss',$!order.createdTime)</span>
+	                        #if($!order.groups==1)
+	                        <p class="status">
+	                            	状态： 
+	                            	#if($!order.expire==0)
+	                            	<span class="e">拼单失败</span>
+	                            	#else
+	                            	<span class="e">#if($!order.payfeeStatus==-1)拼单中#elseif($!order.payfeeStatus==0)待发货#elseif($!order.payfeeStatus==1)已发货#elseif($!order.payfeeStatus==2)已退货#else #end</span>
+	                            	#end
+	                        </p>
+	                        <span style="width: 8rem;height: 3.14rem;display: block;border:1px solid #ddd;float: right;color: #444;font-size: 1.4rem;line-height: 3.14rem;text-align: center;">
+	                          	  拼单详情
+	                        </span>
+	                        #else
+	                        	<p class="status">
+	                            	状态： 
+	                            <span class="e">#if($!order.payfeeStatus==0)待发货#elseif($!order.payfeeStatus==1)已发货#elseif($!order.payfeeStatus==2)已退货#else #end</span>
+	                        </p>
+	                        #end
+	                    </div>
+	                </a>
+	            </li>
+	           #end
+            #else
+            	 <span class="kongbai">无订单!</span>
+           #end
+        </ul>
+    </div>
+    <div class="foot_box"> <!-- 当前选中页面a标签加class="c" -->
+        <a class="index_btn " href="${rc.contextPath}/wxuserStandardOrder/wxWeekStandardOrderList.htm"></a>
+         <a class="vip_btn " href="${rc.contextPath}/weixin/wxaccount.htm"></a>
+        <a class="order_btn c" href="${rc.contextPath}/wxuserOrder/wxlist.htm"></a>
+    </div>
+   <script type="text/javascript">
+document.title = "领蛙商城";
+</script>

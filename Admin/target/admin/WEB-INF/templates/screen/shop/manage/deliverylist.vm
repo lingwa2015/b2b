@@ -1,0 +1,37 @@
+#set($layout="layout/shopLayout.vm")
+ <div class="shop_list_content">
+        <div class="list_1" style="margin-bottom: 1.1rem;">
+           #foreach($dto in $lists)
+            <div class="shop_con" style="position: relative;">
+                <a href="${rc.contextPath}/convenient/manage/shop_updatedelivery.htm?id=$dto.id" style="color:#000;display: block;">
+                    <p>$!dto.userName #if($dto.shopNum>1)（$dto.shopNum）#end</p>
+                    <span>
+                        #if($dto.interfaceName)<span style="display: inline-block;margin-left: 0;">$dto.interfaceName</span>#end
+                        $!date.format('yyyy-MM-dd',$!dto.submitTime)
+                    </span>
+
+                </a>
+                <span style="position: absolute;right: .2rem;bottom: .2rem;#if($!dto.unqualifiednum > 0) color:red #end " class="ko" data-p="$!dto.checkremark">
+                    #if($!dto.unqualifiednum == 0)
+                        已完成
+                    #elseif($!dto.unqualifiednum > 0)
+                        不合格#if($!dto.unqualifiednum == 1) #else（$!dto.unqualifiednum）#end
+                    #elseif($!dto.iscommit==2)
+                        已提交
+                    #end
+                </span>
+            </div>
+           #end
+        </div>
+    </div>
+    <div class="botom_push">
+        <a href="${rc.contextPath}/convenient/manage/shop_adddelivery.htm" style="color:#fff;display:block"><span>添加交接单</span></a>
+    </div>
+<script type="text/javascript">
+document.title = "交接单";
+$(".ko").on("click",function () {
+    if($(this).text().indexOf("不合格") != -1){
+        alert($(this).attr("data-p"));
+    }
+})
+</script>

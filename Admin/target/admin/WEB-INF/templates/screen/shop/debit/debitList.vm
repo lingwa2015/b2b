@@ -1,0 +1,127 @@
+#set($layout="layout/shopLayout.vm")
+<input type="hidden" id="isHasNextPage" value="$!{isHasNextPage}" />
+<input type="hidden" id="pageNum" value="$!{pagenum}" />
+<div class="purchase_details" style="background-color:#ececec;">
+       <ul id="concent_ul">
+           
+           #foreach($dto in $lists)
+           	<li>
+               <div class="purchase_01" style="padding-top:0;">
+                   <div class="huikuan_01">
+                       <span>$dto.years年$dto.months月</span>
+                       <span>回款时间：$!date.format('yyyy-MM-dd',$dto.createDate)</span>
+                   </div>
+                   <p style="font-size:.32rem;font-family: PingFangSC-Regular;">$dto.userName</p>
+                   <div class="huikuan_02">
+                       <span class="huikuan_03">$dto.companyName</span>
+                       <span class="huikuan_04"><span>¥</span><span>$NumberTool.toYuanNumber($dto.debitnoteAmount)</span></span>
+                   </div>
+               </div>
+               <div class="huikuan_05">
+                   <span>备注：</span>
+                   <span>$dto.remark</span>
+                   <span>#if($dto.invoiceAmount) 已开票：¥$NumberTool.toYuanNumber($dto.invoiceAmount) #else 未开票 #end</span>
+               </div>
+           </li>
+           #end
+       </ul>
+   </div>
+<script type="text/javascript">
+    document.title = "回款明细";
+    $("body").css("background-color","#ececec");
+    
+    function formatDate(str) { 
+    	 var res = /^[0-9]$/
+    	var now=new Date(str);
+		var year=now.getFullYear(); 
+		var month=now.getMonth()+1; 
+		if(res.test(month)){
+			month = "0"+month;
+		}
+		var date=now.getDate(); 
+		if(res.test(date)){
+			date = "0"+date;
+		}
+		var hour=now.getHours(); 
+		if(res.test(hour)){
+			hour = "0"+hour;
+		}
+		var minute=now.getMinutes(); 
+		if(res.test(minute)){
+			minute = "0"+minute;
+		}
+		var second=now.getSeconds(); 
+		if(res.test(second)){
+			second = "0"+second;
+		}
+		return year+"-"+month+"-"+date; 
+	} 
+    
+    function formatMoney(num) {
+        var money = num/100;
+        var float = num%100;
+        var float2 = num%10;
+        if(float == 0){
+            money = money + ".00";
+        }else{
+            if(float2 == 0) {
+                money = money + "0";
+            }
+        }
+        return money;
+    }
+    
+     var isrequest = true;
+     var hasNextPage = $('#isHasNextPage').val();
+     var page = parseInt($('#pageNum').val());
+ window.onscroll = function(){  
+    if (Math.abs($(document).scrollTop() >= $(document).height()-$(window).height()) && isrequest) {
+        isrequest = false;
+       if(!hasNextPage){
+	        	return;
+	   }
+        page = page+1;
+        $.ajax({
+				url:'${rc.contextPath}/convenient/debitNote/shop_debitList.json',
+				type:'POST',
+				data: {page:page,rows:50},
+				success:function(data){
+				    if(data.status==200){
+						if(!data.data.hasNextPage){
+							hasNextPage = false;
+						}
+						var list = data.data.list;
+				        var html="";
+						for (var i = 0; i < list.length; i++) {
+				            var userName = list[i].userName;
+				            var companyName = list[i].companyName;
+				            var years = list[i].years;
+				            var months = list[i].months;
+				            var remark = list[i].remark;
+				            var createDate = formatDate(list[i].createDate);
+				            var invoiceAmount = formatMoney(list[i].invoiceAmount);
+				            var debitnoteAmount = formatMoney(list[i].debitnoteAmount);
+				            html += '<li><div class="purchase_01" style="padding-top:0;"><div class="huikuan_01"><span>'+years+'年'+months+'月</span><span>回款时间：'+createDate+'</span></div><p style="font-size:.32rem;">'+userName+'</p><div class="huikuan_02"><span class="huikuan_03">'+companyName+'</span><span class="huikuan_04"><span>¥</span><span>'+debitnoteAmount+'</span></span></div></div><div class="huikuan_05"><span>备注：</span><span>'+remark+'</span>';
+				            
+				            if(list[i].invoiceAmount == null){
+				             html += '<span>未开票</span></div></li>';
+				            }else{
+				             html += '<span>已开票：¥'+invoiceAmount+'</span></div></li>';
+				            }
+				        }
+				        $("#concent_ul").append(html);
+				        isrequest = true;
+			        }else if(data.status==201){
+			         	alert("权限不足");
+			         	isrequest = true;
+			        }else{
+			        	alert("加载失败");
+			         	isrequest = true;
+			        }
+				}
+			})
+       
+    }
+
+ }
+</script>

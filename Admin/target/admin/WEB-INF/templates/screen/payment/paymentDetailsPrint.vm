@@ -1,0 +1,73 @@
+<script type="text/javascript">
+function exportExcel(){
+	var supplierId = $('#supplierId').val();
+	var sumdate = $('#sumdate').val();
+	window.location.href = "${rc.contextPath}/payment/exportStorageExcel.do?supplierId="+supplierId+"&sumdate="+sumdate;
+}
+</script>
+
+<div class="content">
+    <div class="bd-actionbar">
+        <a href="${rc.contextPath}/payment/paymentDetails.htm?supplierId=$supplierId&menuHeight=$!menuHeight&menuName=$!menuName" title="返回付款列表" class="btn btn-return"><</a>
+        <h4 class="tit">采购、退货明细</h4>
+    </div>
+    <div class="bd-main">
+        <div class="bd-main-inner">
+
+            <form class="jqtransform" id="orderListForm" action="paymentApplyList.htm" method="POST">
+                <table class="form form-horizontal">
+                    <tr>
+                        <td>
+                            <a class="btn btn-warning btn-sm" href="javascript:exportExcel();">导出Excel</a>
+                            <input type="hidden" name="supplierId" id="supplierId" value="$!supplierId"/>
+                            <input type="hidden" name="sumdate" id="sumdate" value="$!date.format('yyyy-MM',$sumdate)"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+            <table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+                <tr class="info">
+                    <td colspan="1">
+                        <span>供应商：$!supplierName</span>
+                        <span>年月：$!date.format('yyyy-MM',$sumdate)</span>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+
+            <table class="table">
+                <tr>
+                    <th>采购/退货</th>
+                    <th>操作日期</th>
+                    <th>单号</th>
+                    <th>品名</th>
+                    <th>单位</th>
+##                    <th>最小规格</th>
+                    <th>数量</th>
+                    <th>单价</th>
+                    <th>金额</th>
+                </tr>
+				#foreach($item in $list)
+##					#set($itemList = $pair.right)
+##					#set($dto = $pair.left)
+##					#foreach($item in $itemList)
+						<tr>
+                            <td>#if($!item.id == 1)采购 #else 退货 #end</td>
+							<td>$!date.format('yyyy-MM-dd',$!item.executedTime)</td>
+							<td>$!item.number</td>
+							<td>$!item.itemName</td>
+							<td>$!item.sizeValue</td>
+##							<td>$!item.saleSize</td>
+							<td>$!item.buyNum</td>
+							<td>$NumberTool.toYuanNumber($!item.buyPrice)</td>
+							<td>$NumberTool.toYuanNumber($!item.totalFee)</td>
+						</tr>
+					#end
+##				#end
+            </table>
+##            <div class="text-center">
+##				#parse("/common/page.vm")
+##            </div>
+        </div>
+    </div>

@@ -1,0 +1,41 @@
+#set($layout="layout/blank.vm")
+
+
+<html>
+ <head>
+    <meta charset="utf-8" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" /> 
+    <meta name="apple-mobile-web-app-capable" content="no" /> 
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" /> 
+    <meta content="telephone=no" name="format-detection" /> 
+    <title>500mi生活圈</title> 
+    <meta name="description" content="随时随地，连接您附近的便利店，满足您生活所需。" /> 
+    <script type="text/javascript" src="/static/js/jquery.js"></script> 
+    <script type="text/javascript" src="/static/jquery_mobile/jquery.mobile-1.4.5.js"></script> 
+    
+<link rel=stylesheet href='/static/jquery_mobile/jquery.mobile-1.4.5.css'>
+    
+   
+   
+    
+ </head>
+ <body id="main-content">
+ 
+ <div data-role="page">
+ 
+ 		  <div data-role="content" style="margin:0">
+		    <iframe src="/appItem/appItemList.htm" frameborder="0" width="100%" height="100%" src></iframe>
+		  </div>
+ 		
+		<div data-role="footer" data-id="foo1" data-position="fixed">  
+		<div data-role="navbar">  
+		<ul>  
+		<li><a href="#" class="ui-btn-active ui-state-persist">Friends</a></li>  
+		<li><a href="#">Albums</a></li>  
+		<li><a href="#">Emails</a></li>  
+		</ul>  
+		</div><!-- /navbar -->  
+		</div>  
+<div>			
+ </body>
+</html>

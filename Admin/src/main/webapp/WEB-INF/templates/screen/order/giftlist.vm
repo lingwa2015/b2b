@@ -1,0 +1,92 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+
+ });
+   
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+        <a href="${rc.contextPath}/order/orderlist.htm?menuHeight=$!menuHeight&menuName=$!menuName" title="返回付款申请单" class="btn btn-return"><</a>
+        <h4 class="tit">
+            礼包列表
+        </h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" id="orderListForm" action="/gift/giftList.htm?menuHeight=$!menuHeight&menuName=$!menuName" method="POST">
+		<table class="form form-horizontal">
+		<tr>
+			<td><label class="tit first-tit">开始时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="startTime" id="startTime" readonly="readonly" value="$!startTime">
+			</td>
+
+			<td><label class="tit">结束时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="endTime" id="endTime" readonly="readonly" value="$!endTime">
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">订单号：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="orderNum" id="orderNum" value="$!orderNum">
+			</td>
+			<td align="right"><label class="tit">客户简称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="userName" id="userName" value="$!userName">
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(orderListForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+	<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+        <tr class="info">
+			<td colspan="1">
+                <span>订单金额：$NumberTool.toYuanNumber($!total.totalFee) 元</span>
+                <span>订单数量：$!total.totalNum</span>
+            </td>
+		</tr>
+	</table>
+	<table class="table">
+		<tr>
+			<th width="10%">日期</th>
+			<th>客户</th>
+			<th>业务员</th>
+			<th>订单编号</th>
+			<th>总金额</th>
+			<th>折扣</th>
+			<th>备注</th>
+		</tr>
+
+		#foreach($dto in $page.result)
+		<tr>
+			<td>$!date.format('yyyy-MM-dd',$!dto.executedTime)</td>
+			<td>$!dto.userName</td>
+			<td>$!dto.buyerName</td>
+			<td><a href="/order/orderlist.htm?orderNum=$!dto.orderNo">$!dto.orderNo</a></td>
+			<td>$NumberTool.toYuanNumber($!dto.totalFee)</td>
+			<td>$!dto.discount</td>
+			<td>$!dto.memo</td>
+		</tr>
+		#end
+
+
+
+	</table>
+	
+	<div class="text-center">
+			#parse("/common/page.vm")
+	</div>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+
+
+
+

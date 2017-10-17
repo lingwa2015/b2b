@@ -1,0 +1,222 @@
+#set($layout="layout/shopLayout.vm")
+ <div class="home_page ki" style="background-color:#fafafa;">
+         <ul style="margin-top:0.16rem;">
+             <li style="height:2rem;">
+                 <a href="javascript:void(0);" style="letter-spacing:0px;color:#333;">
+                     <p class="home_tip" style="color: #555;padding:.26rem 0 .45rem;">待回款客户数</p>
+                     <p class="home_price">$!debit.num1</p>
+                 </a>
+             </li>
+             <li class="border_l" style="height:2rem;">
+                 <a href="javascript:void(0);" style="letter-spacing:0px;color:#333;">
+                     <p class="home_tip" style="color: #555;padding:.26rem 0 .45rem;">待回款总金额</p>
+                     <p class="home_price">￥$NumberTool.toYuanNumber($debit.amountSum)</p>
+                 </a>
+             </li>
+             <li style="height:2rem;">
+                 <a href="javascript:void(0);" style="letter-spacing:0px;color:#333;">
+                     <p class="home_tip" style="color: #555;padding:.26rem 0 .45rem;">本月已回款</p>
+                     <p class="home_price" style="color: #09AF07;">¥$NumberTool.toYuanNumber($money1)</p>
+                 </a>
+             </li>
+            <li style="height:2rem;">
+                 <a href="javascript:void(0);" style="letter-spacing:0px;color:#333;">
+                     <p class="home_tip" style="color: #555;padding:.26rem 0 .45rem;">已开票待回款客户数</p>
+                     <p class="home_price">$!invo.num1</p>
+                 </a>
+             </li>
+            <li class="border_l" style="height:2rem;">
+                <a href="javascript:void(0);" style="letter-spacing:0px;color:#333;">
+                     <p class="home_tip" style="color: #555;padding:.26rem 0 .45rem;">已开票待回款总金额</p>
+                     <p class="home_price">￥$NumberTool.toYuanNumber($invo.amountSum)</p>
+                </a>
+            </li>
+            <li style="height:2rem;">
+                 <a href="javascript:void(0);" style="letter-spacing:0px;color:#333;">
+                     <p class="home_tip" style="color: #555;padding:.26rem 0 .45rem;">上月已回款</p>
+                     <p class="home_price">￥$NumberTool.toYuanNumber($money2)</p>
+                </a>
+             </li>
+         </ul>
+  </div>
+  <div class="purchase_details" style="margin-top:.2rem;margin-bottom:0;">
+    <ul>
+        <li style="margin-bottom:.2rem;">
+        <a href="${rc.contextPath}/convenient/debitNote/shop_invoiceList.htm" class="wl">
+            <div class="purchase_01" style="padding-top:0;">
+                <div class="huikuan_01" style="margin-bottom:.3rem;">
+                    <span>最近开票</span>
+                    <span class="lm">今天$invinfo.num1张，近一周$invinfo.num2张</span>
+                </div>
+                <p style="font-size:.32rem;font-family: PingFangSC-Regular;">
+                    <span>$!invinfo.userName</span>
+                    <span style="float:right;">¥$NumberTool.toYuanNumber($invinfo.invoiceAmount)</span>    
+                </p>
+                <div class="huikuan_02" style="padding-top:.16rem;">
+                    <span class="huikuan_03" style="font-size:.28rem;">$invinfo.companyName</span>
+                    <span class="huikuan_04" style="color: #8F8F8F;"><span style="margin-right:0;">$!date.format('yyyy-MM-dd',$invinfo.createDate)</span>
+                </div>
+            </div>
+            <div class="huikuan_05" style="text-align:center;font-size:.26rem;">
+                   <span class="jk">查看全部</span> 
+            </div>
+        </a>
+        </li>
+        <li style="margin-bottom:.2rem;">
+        <a href="${rc.contextPath}/convenient/debitNote/shop_debitList.htm" class="wl">
+            <div class="purchase_01" style="padding-top:0;">
+                <div class="huikuan_01" style="margin-bottom:.3rem;">
+                    <span>最近回款</span>
+                    <span class="lm">今天$!debitinfo.num1笔，近一周$!debitinfo.num2笔</span>
+                </div>
+                <p style="font-size:.32rem;font-family: PingFangSC-Regular;">
+                    <span>$!debitinfo.userName</span>
+                    <span style="float:right;">¥$NumberTool.toYuanNumber($debitinfo.debitnoteAmount)</span>    
+                </p>
+                <div class="huikuan_02" style="padding-top:.16rem;">
+                    <span class="huikuan_03" style="font-size:.28rem;">$!debitinfo.companyName</span>
+                    <span class="huikuan_04" style="color: #8F8F8F;"><span style="margin-right:0;">$!date.format('yyyy-MM-dd',$debitinfo.createDate)</span>
+                </div>
+            </div>
+            <div class="huikuan_05" style="text-align:center;font-size:.26rem;">
+                <span class="jk">查看全部</span> 
+            </div>
+        </a>
+        </li>
+    </ul>
+  </div>
+  <!-- 票龄 -->
+  <div class="biaoge_01">
+    <p>票龄</p>
+    <ul>
+        <li>
+            <span class="biaoge_02">超过2个月</span>
+        <a href="${rc.contextPath}/convenient/debitNote/shop_invoiceageList.htm?flag=2" class="pl">
+            <div class="biaoge_03">
+                <span class="doing"><span class="biaoge_05">¥$NumberTool.toYuanNumber($invoage.amountSum2)</span></span>
+                <span class="biaoge_04">$invoage.num2家</span>
+            </div>
+        </a>
+        </li>
+        <li>
+        
+            <span class="biaoge_02 hj jh">0-2个月</span>
+        <a href="${rc.contextPath}/convenient/debitNote/shop_invoiceageList.htm?flag=3" class="pl">
+            <div class="biaoge_03">
+                <span class="doing"><span class="biaoge_05">¥$NumberTool.toYuanNumber($invoage.amountSum1)</span></span>
+                <span class="biaoge_04">$invoage.num1家</span>
+            </div>
+        </a>
+        </li>
+    </ul>
+    
+    <div class="huikuan_05" style="text-align:center;font-size:.26rem;">
+    <a href="${rc.contextPath}/convenient/debitNote/shop_invoiceageList.htm?flag=1" class="pl">
+        <span class="jk" style="color:#8f8f8f;">查看全部</span> 
+    </a> 
+    </div>
+  </div>
+  <!-- 帐龄 -->
+  <div class="biaoge_01">
+    <p>帐龄</p>
+    <ul>
+        <li>
+            <span class="biaoge_02 hj jh">超过1年</span>
+            <div class="biaoge_03">
+                <a href="${rc.contextPath}/convenient/debitNote/shop_debitageList.htm?flag=2" class="pl">
+                    <span class="doing"><span class="biaoge_05">¥$NumberTool.toYuanNumber($debitage.amountSum5)</span></span>
+                    <span class="biaoge_04">$!debitage.num5家</span>
+                </a>
+            </div>
+        </li>
+        <li>
+            <span class="biaoge_02 hj jh">9-12个月</span>
+            <div class="biaoge_03">
+                <a href="${rc.contextPath}/convenient/debitNote/shop_debitageList.htm?flag=3" class="pl">
+                    <span class="doing"><span class="biaoge_05">¥$NumberTool.toYuanNumber($debitage.amountSum4)</span></span>
+                    <span class="biaoge_04">$debitage.num4家</span>
+                </a>
+            </div>
+        </li>
+        <li>
+            <span class="biaoge_02 hj jh">6-9个月</span>
+            <div class="biaoge_03">
+                <a href="${rc.contextPath}/convenient/debitNote/shop_debitageList.htm?flag=4" class="pl">
+                    <span class="doing"><span class="biaoge_05">¥$NumberTool.toYuanNumber($debitage.amountSum3)</span></span>
+                    <span class="biaoge_04">$debitage.num3家</span>
+                </a>
+            </div>
+        </li>
+        <li>
+            <span class="biaoge_02 hj jh">3-6个月</span>
+            <div class="biaoge_03">
+            <a href="${rc.contextPath}/convenient/debitNote/shop_debitageList.htm?flag=5" class="pl">
+                <span class="doing"><span class="biaoge_05">¥$NumberTool.toYuanNumber($debitage.amountSum2)</span></span>
+                <span class="biaoge_04">$debitage.num2家</span>
+            </a>
+            </div>
+        </li>
+        <li>
+            <span class="biaoge_02 hj jh">0-3个月</span>
+            <div class="biaoge_03">
+            <a href="${rc.contextPath}/convenient/debitNote/shop_debitageList.htm?flag=6" class="pl">
+                <span class="doing"><span class="biaoge_05">¥$NumberTool.toYuanNumber($debitage.amountSum1)</span></span>
+                <span class="biaoge_04">$debitage.num1家</span>
+            </a>
+            </div>
+        </li>
+    </ul>
+    <div class="huikuan_05" style="text-align:center;font-size:.26rem;">
+    <a href="${rc.contextPath}/convenient/debitNote/shop_debitageList.htm?flag=1" class="pl">
+        <span class="jk" style="color:#8f8f8f;">查看全部</span>
+    </a> 
+    </div>
+  </div>
+  <!-- 到底了 -->
+  <p class="dao_footer">
+      <span></span>
+      <span>已经到底啦</span>
+      <span></span>
+  </p>
+  <script type="text/javascript">
+    document.title = "客户回款";
+    $("body").css("background-color","#f5f5f5");
+    $(function(){
+        var chushi = 1500000;
+        var baifen = 0.66;
+        $(".biaoge_05").each(function(){
+            var te = $(this).text();
+            var str = parseInt(te.replace("¥",""));
+            if(str<300000){
+               $(this).css({
+                   'left':'1.38rem',
+                   'top':'-.3rem',
+                   'right':'auto'
+               });
+               $(this).parent().css("position","static")    
+            }
+            if(str<=500000){
+                var str_50 = str/500000*0.7*baifen*100;
+                $(this).parent().css("width",str_50+'%');
+            }else if(str>=500001 && str<=1000000){
+                var str_100 = (0.7*0.66 + ((str-500000)/500000*0.2*0.66))*100;
+                $(this).parent().css("width",str_100+'%');
+            }else if(str>1000001 && str<=1500000){
+                var str_150 = (0.9*0.66 + ((str-1000000)/500000*0.1*0.66))*100;
+                $(this).parent().css("width",str_150+'%');
+            }else{
+                $(this).parent().css("width","66%");
+            }
+            
+            // if(str<chushi){
+            //     $(this).parent().css("width",ju+'%');
+            // }else{
+            //     $(this).parent().css("width","66%");
+            // }
+            // if(ju == 0){
+            //     $(this).parent().css("width","1%");
+            // }
+        })
+        
+    })
+</script>

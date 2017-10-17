@@ -1,0 +1,138 @@
+<script type="text/javascript">
+
+function setRole(id){
+	window.location.href = "$rc.contextPath/user/edit.htm?userId="+id;
+}
+function setCity(id){
+	window.location.href = "$rc.contextPath/user/editCity.htm?userId="+id;
+}
+function cancelManager(id){
+	if(confirm("确认解绑微信？")){
+		$.ajax({
+				url:'${rc.contextPath}/user/cancalManager.do',
+				type:'POST',
+				data: {userid:id},
+				success:function(data){
+					if(data==200){
+						window.location.reload();
+					}else{
+						alert("取消失败")
+					}
+				}
+				
+			})
+	}
+}
+
+function editData(id){
+    window.location.href="${rc.contextPath}/user/userUpdate.htm?id="+id;
+}
+
+function delData(id){
+    if(confirm("确认删除吗")){
+        var url="${rc.contextPath}/user/userDelete.do?id="+id;
+        doDeleteRequest(url,id,show);
+    }else{
+        return;
+    }
+}
+
+function show(data) {
+    alert(data);
+    if (data.indexOf("成功") != -1) {
+        window.location.href = "${rc.contextPath}/user/userlist.htm";
+    }
+}
+
+function editPassword(id){
+  window.location.href="${rc.contextPath}/user/userUpdatePassword.htm?id="+id;
+}
+
+function setPost(id){
+  window.location.href="${rc.contextPath}/user/setPost.htm?id="+id;
+}
+
+</script>
+<div class="content">
+    <div class="bd-actionbar">
+        <a href="${rc.contextPath}/user/userAdd.htm" class="btn btn-success"><i class="ico"></i>添加用户</a>
+    </div><!--bd-actionbar-->
+		
+	<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" id="form1" name="form1" action="$rc.contextPath/user/userlist.htm" method="post">
+                <table class="form form-horizontal">
+                    <tr>
+                        <td><label class="tit first-tit">用户简称：</label></td>
+                        <td><input name="userName" class="form-input" type="text" value="$!userName"></td>
+                        <td><label class="tit">手机号码：</label></td>
+                        <td><input name="mobilePhone" id="mobilePhone" class="form-input" type="text" value="$!mobilePhone"></td>
+                        <td><a class="btn btn-warning btn-sm" href="javascript:goPage(1)">查找</a></td>
+                    </tr>
+                </table>
+				
+			</form>
+			
+			<table class="table">
+		 		<tr>
+					<th>用户简称</th>
+					<th>手机号</th>
+					<th>备注</th>
+					<th>创建时间</th>
+					<th>角色</th>
+					<th>岗位</th>
+					<th>层级</th>
+					<th>上级</th>
+					<th>微信</th>
+					<th>操作</th>
+		  		</tr>
+		  		
+		  		#set ($rowCount = 0)
+		  		#foreach($user in $page.result)
+			  		#set ($isOddRow = $rowCount % 2 != 0)
+			  		#if ($isOddRow)
+	           		<tr>
+	          		#else
+	           		<tr class="sep-bar">
+	          		#end
+						<td>$!user.userName</td>
+                    <td>$!user.mobilePhone</td>
+                    <td>$!user.companyMemo</td>
+                    <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!user.createdTime)</td>
+						#set($roles = $user.roles)
+						<td>
+						#foreach($role in $roles)
+						$role.roleName
+						#end
+						</td>
+						<td>$!user.post</td>
+						<td>#if($!user.gread==1)员工 #elseif($!user.gread==4)主管 #elseif($!user.gread==2)经理 #elseif($!user.gread==3)总监 #end</td>
+						<td>$!user.manageName</td>
+						<td>$!user.weixinnum</td>
+						<td class="opt">
+							<a href="javascript:setRole('$user.id')">设置角色</a><span>|</span>
+							<a href="javascript:editPassword('$user.id')">修改密码</a><span>|</span>
+							<a href="javascript:setPost('$user.id')">设置岗位层级</a>
+							</br>
+                            </br>
+							#if($user.openid)
+							<a href="javascript:cancelManager('$user.id')">解绑微信</a>
+							#else
+							<a href="$rc.contextPath/user/setManager.htm?userid=$user.id">绑定微信</a><span>|</span>
+							#end
+                            <a href="javascript:editData('$user.id')">编辑</a><span>|</span>
+                            <a href="javascript:delData('$user.id')">删除</a><span></span>
+						</td>
+			  		</tr>
+			  
+			  		#set ($rowCount = $rowCount + 1)
+		 		#end
+
+			</table>
+			
+			<div class="text-center">
+        			#parse("/common/page.vm")
+       		</div>
+		</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

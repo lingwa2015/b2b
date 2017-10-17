@@ -1,0 +1,44 @@
+#set($layout="layout/appLayoutV3.vm")
+        <div class="lw_content">
+            <div class="snacks_list">
+                <ul>
+                    <li>
+                        <img src="${rc.contextPath}/static/images/f1.jpg">
+                    </li>
+                    <li>
+                        <img src="${rc.contextPath}/static/images/f2.jpg">
+                    </li>
+                    <li>
+                        <img src="${rc.contextPath}/static/images/f3.png">
+                    </li>
+                    <li>
+                        <img src="${rc.contextPath}/static/images/f4.jpg">
+                    </li>
+                    <li>
+                        <img src="${rc.contextPath}/static/images/f5.jpg">
+                    </li>
+                    <li>
+                        <img src="${rc.contextPath}/static/images/f6.jpg">
+                    </li>
+                    <li>
+                        <img src="${rc.contextPath}/static/images/f7.jpg">
+                    </li>
+                    <li>
+                        <img src="${rc.contextPath}/static/images/f8.jpg">
+                    </li>
+                    <li>
+                        <img src="${rc.contextPath}/static/images/f9.jpg">
+                    </li>
+                    <li>
+                        <img src="${rc.contextPath}/static/images/f10.jpg">
+                    </li>
+                    <li>
+                        <img src="${rc.contextPath}/static/images/f11.jpg">
+                    </li>
+                    <li>
+                        <img src="${rc.contextPath}/static/images/f12.jpg">
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>

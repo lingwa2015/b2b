@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="pass_word" property="passWord" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="mobile_phone" property="mobilePhone" jdbcType="VARCHAR" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="created_userid" property="createdUserid" jdbcType="INTEGER" />
+    <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
+    <result column="updated_userid" property="updatedUserid" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="isadmin" property="isadmin" jdbcType="INTEGER" />
+    <result column="business_id" property="businessId" jdbcType="INTEGER" />
+    <result column="managerShopId" property="managershopid" jdbcType="INTEGER" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="company_personnum" property="companyPersonnum" jdbcType="INTEGER" />
+    <result column="interface_person" property="interfacePerson" jdbcType="VARCHAR" />
+    <result column="discount" property="discount" jdbcType="DECIMAL" />
+    <result column="company_memo" property="companyMemo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_name, pass_word, address, mobile_phone, created_time,created_userid, updated_time, updated_userid, status,isadmin, business_id,
+    managerShopId, company_name, company_personnum, interface_person, discount, company_memo
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitFlag">
+		limit ${start},${limit}
+	</if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.UserExample" >
+    delete from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.User" >
+  <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user (id, user_name, pass_word,
+      address, mobile_phone, created_time,
+      created_userid, updated_time, updated_userid,
+      status, isadmin, business_id,
+      managerShopId, company_name, company_personnum,
+      interface_person, discount, company_memo
+      )
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{passWord,jdbcType=VARCHAR},
+      #{address,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP},
+      #{createdUserid,jdbcType=INTEGER}, #{updatedTime,jdbcType=TIMESTAMP}, #{updatedUserid,jdbcType=INTEGER},
+      #{status,jdbcType=INTEGER}, #{isadmin,jdbcType=INTEGER}, #{businessId,jdbcType=INTEGER},
+      #{managershopid,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, #{companyPersonnum,jdbcType=INTEGER},
+      #{interfacePerson,jdbcType=VARCHAR}, #{discount,jdbcType=DECIMAL}, #{companyMemo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="passWord != null" >
+        pass_word,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="mobilePhone != null" >
+        mobile_phone,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="createdUserid != null" >
+        created_userid,
+      </if>
+      <if test="updatedTime != null" >
+        updated_time,
+      </if>
+      <if test="updatedUserid != null" >
+        updated_userid,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="isadmin != null" >
+        isadmin,
+      </if>
+      <if test="businessId != null" >
+        business_id,
+      </if>
+      <if test="managershopid != null" >
+        managerShopId,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="companyPersonnum != null" >
+        company_personnum,
+      </if>
+      <if test="interfacePerson != null" >
+        interface_person,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="companyMemo != null" >
+        company_memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="passWord != null" >
+        #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null" >
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserid != null" >
+        #{createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="updatedTime != null" >
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUserid != null" >
+        #{updatedUserid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isadmin != null" >
+        #{isadmin,jdbcType=INTEGER},
+      </if>
+      <if test="businessId != null" >
+        #{businessId,jdbcType=INTEGER},
+      </if>
+      <if test="managershopid != null" >
+        #{managershopid,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPersonnum != null" >
+        #{companyPersonnum,jdbcType=INTEGER},
+      </if>
+      <if test="interfacePerson != null" >
+        #{interfacePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="companyMemo != null" >
+        #{companyMemo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.UserExample" resultType="java.lang.Integer" >
+    select count(*) from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passWord != null" >
+        pass_word = #{record.passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobilePhone != null" >
+        mobile_phone = #{record.mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUserid != null" >
+        created_userid = #{record.createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatedTime != null" >
+        updated_time = #{record.updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedUserid != null" >
+        updated_userid = #{record.updatedUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.isadmin != null" >
+        isadmin = #{record.isadmin,jdbcType=INTEGER},
+      </if>
+      <if test="record.businessId != null" >
+        business_id = #{record.businessId,jdbcType=INTEGER},
+      </if>
+      <if test="record.managershopid != null" >
+        managerShopId = #{record.managershopid,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyName != null" >
+        company_name = #{record.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyPersonnum != null" >
+        company_personnum = #{record.companyPersonnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.interfacePerson != null" >
+        interface_person = #{record.interfacePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.discount != null" >
+        discount = #{record.discount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.companyMemo != null" >
+        company_memo = #{record.companyMemo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user
+    set id = #{record.id,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      pass_word = #{record.passWord,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      mobile_phone = #{record.mobilePhone,jdbcType=VARCHAR},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      created_userid = #{record.createdUserid,jdbcType=INTEGER},
+      updated_time = #{record.updatedTime,jdbcType=TIMESTAMP},
+      updated_userid = #{record.updatedUserid,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      isadmin = #{record.isadmin,jdbcType=INTEGER},
+      business_id = #{record.businessId,jdbcType=INTEGER},
+      managerShopId = #{record.managershopid,jdbcType=INTEGER},
+      company_name = #{record.companyName,jdbcType=VARCHAR},
+      company_personnum = #{record.companyPersonnum,jdbcType=INTEGER},
+      interface_person = #{record.interfacePerson,jdbcType=VARCHAR},
+      discount = #{record.discount,jdbcType=DECIMAL},
+      company_memo = #{record.companyMemo,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.User" >
+    update user
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="passWord != null" >
+        pass_word = #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null" >
+        mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserid != null" >
+        created_userid = #{createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="updatedTime != null" >
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUserid != null" >
+        updated_userid = #{updatedUserid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isadmin != null" >
+        isadmin = #{isadmin,jdbcType=INTEGER},
+      </if>
+      <if test="businessId != null" >
+        business_id = #{businessId,jdbcType=INTEGER},
+      </if>
+      <if test="managershopid != null" >
+        managerShopId = #{managershopid,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPersonnum != null" >
+        company_personnum = #{companyPersonnum,jdbcType=INTEGER},
+      </if>
+      <if test="interfacePerson != null" >
+        interface_person = #{interfacePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="companyMemo != null" >
+        company_memo = #{companyMemo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.User" >
+    update user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      pass_word = #{passWord,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      created_userid = #{createdUserid,jdbcType=INTEGER},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      updated_userid = #{updatedUserid,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      isadmin = #{isadmin,jdbcType=INTEGER},
+      business_id = #{businessId,jdbcType=INTEGER},
+      managerShopId = #{managershopid,jdbcType=INTEGER},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      company_personnum = #{companyPersonnum,jdbcType=INTEGER},
+      interface_person = #{interfacePerson,jdbcType=VARCHAR},
+      discount = #{discount,jdbcType=DECIMAL},
+      company_memo = #{companyMemo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

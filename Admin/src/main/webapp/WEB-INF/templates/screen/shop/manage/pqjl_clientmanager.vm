@@ -1,0 +1,20 @@
+#set($layout="layout/shopLayout.vm")
+ <div class="purchase">
+        <p style="font-size:.32rem;color:#999;margin:.38rem auto;width:90%;">实时消费额：$NumberTool.toYuanNumber($!data.totalPrice)</p >
+        <ul style="margin-top: .4rem;">
+            <li>
+                <a href="${rc.contextPath}/convenient/manage/shop_reseaulist.htm" style="padding-left: .3rem">网格列表</a>
+            </li>
+            <li>
+                <a href="${rc.contextPath}/convenient/manage/shop_lists.htm" style="padding-left: .3rem">店铺搜索</a>
+            </li>
+        </ul>
+    </div>
+<script type="text/javascript">
+    if($puls==1){
+	    document.title = "运营工作台+";
+    }else{
+   		document.title = "运营工作台++";
+    }
+    $("body").css("background-color","#ececec")
+</script>

@@ -1,0 +1,64 @@
+<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/monthreport/monthReportList.htm" method="post">
+</form>
+<div class="content">
+		<div class="bd-actionbar">
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+			<table class="table">
+			  <tr>
+				<th>月份</th>
+				<th>开通店铺数</th>
+				<th>消费店铺数</th>
+				<th>消费总额</th>
+				<!--<th>同比</th>-->
+				<th>店均消费额</th>
+				<!--<th>同比</th>-->
+				<th>店日均消费额</th>
+				<!--<th>同比</th>-->
+				<th>消费笔数</th>
+				<!--<th>同比</th>-->
+				<th>消费人数</th>
+				<!--<th>同比</th>-->
+				<th>采购总额</th>
+				<!--<th>同比</th>-->
+				<th>订单数</th>
+				<!--<th>同比</th>-->
+				<th>开票额</th>
+				<th>收款额</th>
+				<th>损耗率</th>
+				<!--<th>同比</th>-->
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>$!date.format('yyyy-MM',$!bean.sumDate)</td>
+					<td>$!bean.openNum</td>
+					<td>$!bean.consumeShopNum</td>
+					<td>$NumberTool.toYuanNumber($!bean.consumeFee)</td>
+					<!--<td>#if($!bean.beforeConsumeFee) #if($!bean.beforeConsumeFee>0)+$!bean.beforeConsumeFee% #else $!bean.beforeConsumeFee% #end #end</td>-->
+					<td>$NumberTool.toYuanNumber($!bean.avgFee)</td>
+					<!--<td>#if($!bean.beforeAvgFee)#if($!bean.beforeAvgFee>0)+$!bean.beforeAvgFee% #else $!bean.beforeAvgFee% #end #end</td>-->
+					<td>$NumberTool.toYuanNumber($!bean.avgDayFee)</td>
+					<!--<td>#if($!bean.beforeAvgDayFee)#if($!bean.beforeAvgDayFee>0)+$!bean.beforeAvgDayFee% #else $!bean.beforeAvgDayFee% #end #end</td>-->
+					<td>$!bean.consumePen</td>
+					<!--<td>#if($!bean.beforeConsumePen)#if($!bean.beforeConsumePen>0)+$!bean.beforeConsumePen% #else $!bean.beforeConsumePen% #end #end</td>-->
+					<td>$!bean.consumeNum</td>
+					<!--<td>#if($!bean.beforeConsumeNum)#if($!bean.beforeConsumeNum>0)+$!bean.beforeConsumeNum% #else $!bean.beforeConsumeNum% #end #end</td>-->
+					<td>$NumberTool.toYuanNumber($!bean.sourcingFee)</td>
+					<!--<td>#if($!bean.beforeSourcingFee)#if($!bean.beforeSourcingFee>0)+$!bean.beforeSourcingFee% #else $!bean.beforeSourcingFee% #end #end</td>-->
+					<td>$!bean.orderNum（$!bean.refundNum）</td>
+					<!--<td>#if($!bean.beforeOrderNum)#if($!bean.beforeOrderNum>0)+$!bean.beforeOrderNum% #else $!bean.beforeOrderNum% #end #end</td>-->
+					<td>$NumberTool.toYuanNumber($!bean.invoiceFee)</td>
+					<td>$NumberTool.toYuanNumber($!bean.getFee)</td>
+					<td>$!bean.lossPercent%</td>
+					<!--<td>#if($!bean.beforeLossPercent)#if($!bean.beforeLossPercent>0)+$!bean.beforeLossPercent% #else $!bean.beforeLossPercent% #end #end</td>-->
+				
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

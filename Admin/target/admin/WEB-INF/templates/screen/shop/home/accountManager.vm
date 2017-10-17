@@ -1,0 +1,32 @@
+#set($layout="layout/shopLayout.vm")
+<div class="manage_content">
+        <!-- 樊斌斌 -->
+        <span class="touxiang">
+            #if($manage.weixinimg)
+            <img src="$manage.weixinimg" style="width:2rem;">
+            #else
+            <img src="${rc.contextPath}/static/images/shop/lingwa.jpg" style="width:2rem;">
+            #end
+        </span>
+        <ul style="border-top:1px #e8e8e8 solid;">
+            <li style="padding-top:0;-webkit-user-select: auto !important;">
+                <span>姓名：</span>
+                <span style="width:60%">#if($manage.userName)$manage.userName #else #end</span>
+            </li>
+            <li style="padding-top:0;-webkit-user-select: auto !important;">
+                <span>微信号：</span>
+                <span style="width:60%">#if($manage.weixinnum)$manage.weixinnum #else #end</span>
+            </li>
+            <li style="padding-top:0;">
+                <span>联系电话：</span>
+                #if($manage.mobilePhone)
+	                <a href="tel://$manage.mobilePhone" class="go">$manage.mobilePhone</a>
+                #else
+                	 <a href="tel://400-880-1703" class="go">400-880-1703</a>
+                #end
+            </li>
+        </ul>
+    </div>
+<script type="text/javascript">
+    document.title = "客户经理";
+</script>

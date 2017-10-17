@@ -1,0 +1,95 @@
+#set($layout="layout/shopLayout.vm")
+    <div class="shop_list_content">
+        <div class="shop_list_search">
+            <span class="cl" id="cl">x</span>
+            <form  name="itemForm" id="form" action="${rc.contextPath}/convenient/manage/shop_lists.htm" method="get">
+	            <input type="text" name="shop_name" value="$!shopName" id="sec">
+	            <input type="submit" style="display:none">
+	            <span class="cl" id="cl">x</span>
+        	</form>
+        	#if($!shopName)
+            <a class="cancel" style="display:none" id="cancel" data="1" href="javascript:void(0);">取消</a>
+            #else
+            <a class="cancel" style="display:none" id="cancel" href="javascript:void(0);">取消</a>
+            #end
+        </div>
+        <div class="list_1">
+        	#foreach($shop in $shops)
+        	<div class="shop_con" >
+        	<a href="${rc.contextPath}/convenient/manage/shop_index.htm?shop_id=$shop.id" style="color:#000;">
+                #if($shop.iswxvip==3)
+                <p>$shop.user_name</p>
+                #else
+                <p>$shop.user_name~</p>
+                #end
+                <span>$shop.company_name</span>
+            </a>
+            </div>
+        	#end 
+        </div>
+        #if($reseauId)
+        	<a href="${rc.contextPath}/convenient/reseau/shop_index.htm?reseau_id=$!reseauId" class="entrance" style="margin-top: 1rem;">网格工作台</a>
+        #end
+        #if($shops.size()>49)
+	      <p class="more_sou">更多店铺请通过顶部搜索框查找</p> 
+	    #end
+    </div>
+    <!--<div class="botom_push">
+    <a href="" style="color:#fff;">
+        <span>开通便利店</span>
+    </a>
+    </div>-->
+<script type="text/javascript">
+    document.title = "便利店列表";
+    $("body").css("background-color","#e8e8e8");
+    // 当输入有值的时候 x 显示出来 反之没有
+   
+    
+     // 当输入有值的时候 x 显示出来 反之没有
+    $("#sec").keyup(function(){
+        var a = $(this).val();
+        if (a.length>0) {
+                $("#cl").css("visibility","visible");
+            }else{
+                $("#cl").css("visibility","hidden")
+            }
+        
+    });
+    var a = $("#sec").val();
+    if(a){
+    	$("#cl").css("visibility","visible");
+    	$('input[name="shop_name"]').css("width","69.5%");
+        $("#cancel").show();
+    }
+    $("#cl").on("touchend",function(){
+            $("#sec").val("");
+            $("#cl").css("visibility","hidden");
+        }); 
+    
+    // 点击 取消按钮出现
+    $('input[name="shop_name"]').on("touchend",function() {
+        $('input[name="shop_name"]').css("width","69.5%");
+        $("#cancel").show();
+        $('input[name="shop_name"]').focus();
+    });
+    $("#cancel").on("touchend",function() {
+    	var flag = $(this).attr("data");
+        if(flag){
+        	window.location.href="${rc.contextPath}/convenient/shop_manageIndex.htm";
+        	return;
+        }
+        $('input[name="shop_name"]').css("width","87%");
+        $('input[name="shop_name"]').val("");
+        $("#cl").css("visibility","hidden");
+        $("#cancel").hide();
+        
+    });
+    function goShop(id){
+    	 window.location.href="${rc.contextPath}/convenient/manage/shop_index.htm?shop_id="+id;
+    }
+    
+    function open(){
+    	window.location.href="${rc.contextPath}/convenient/manage/shop_add.htm";
+    }
+    $('.botom_push').on('click', open);
+</script>

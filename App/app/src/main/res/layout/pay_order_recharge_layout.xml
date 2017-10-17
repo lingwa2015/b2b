@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:clickable="true"
+             android:orientation="vertical"
+             android:padding="20dp" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/payorder_08"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginRight="40dp"
+                android:gravity="center"
+                android:text="您可以通过以下两种方式充值"
+                android:layout_centerVertical="true"
+                android:textColor="@android:color/white"
+                android:textSize="16dp"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/close"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/dialog_close_selector" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minHeight="120dp"
+            android:orientation="vertical"
+            android:paddingBottom="15dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp" >
+
+            <LinearLayout
+                android:layout_marginBottom="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center"
+                    android:layout_marginTop="15dp"
+                    android:text="联系您的客服经理帮您充值:"
+                    android:textSize="18sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp" >
+
+                    <TextView
+                        android:id="@+id/custom_manager_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical|left"
+                        android:text="小龙"
+                        android:textSize="18sp" />
+
+                    <ImageButton
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/custom_manager_name"
+                        android:background="@drawable/hom_2_07"
+                        android:id="@+id/custom_manager_call_btn"/>
+
+                    <TextView
+                        android:id="@+id/custom_manager_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="10dp"
+                        android:text="158-7498-0315"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+            </LinearLayout>
+            <View android:layout_width="match_parent"
+                  android:layout_height="0.5dp"
+                  android:background="@color/devide_line"  />
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center"
+                    android:layout_marginTop="15dp"
+                    android:text="您本人来到您所在农贸市场的服务站:"
+                    android:textSize="18sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp" >
+
+                    <TextView
+                        android:id="@+id/market_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical|left"
+                        android:text="小龙"
+                        android:textSize="18sp" />
+
+                    <ImageButton
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/market_name"
+                        android:background="@drawable/hom_2_07"
+                        android:id="@+id/market_call_btn"/>
+
+                    <TextView
+                        android:id="@+id/market_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="10dp"
+                        android:text="158-7498-0315"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+                <TextView
+                    android:id="@+id/market_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="武汉市江汉区天目山路29号光谷农贸市场6号"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

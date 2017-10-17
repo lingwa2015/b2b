@@ -1,0 +1,60 @@
+<script type="text/javascript">
+ var checkSubmitFlag = false;
+	function save() {
+		var right = $("input[name='right']").val();
+		if(!name){
+			alert("权限不能为空");
+			return false;
+		}else{
+			if(checkSubmitFlag ==true){
+		       alert("请勿重复提交");
+		       return false;
+		    }
+		    checkSubmitFlag = true;
+			return true;
+		}
+		
+	}
+
+	
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+		<h4 class="tit">添加权限</h4>
+
+
+	</div>
+	<!--bd-actionbar-->
+	<div class="bd-main">
+		<div class="bd-main-inner">
+
+			<form class="jqtransform" id="rightForm" method="POST"
+				action="$!{rc.contextPath}/privilege/add.do">
+				<input type="hidden" name="id" id="id" value="$!privilege.id" />
+
+				<table class="form">
+					<tr>
+						<td align="right"><label class="tit">权限：</label></td>
+						<td><input type="text" name="right" id="right" value="$!privilege.name"></td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">描述：</label></td>
+						<td><input type="text" name="description" id="description" value="$!privilege.description"></td>
+					</tr>
+					
+					<tr class="btn-bar">
+						<td></td>
+						<td>
+
+						<a class="btn btn-primary" id="saveBtn" href="#" onclick="$('#rightForm').submit();">确认</a>
+
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<!--bd-main-inner-->
+	</div>
+	<!--bd-main-->
+</div>
+<!--content-->

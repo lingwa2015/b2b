@@ -1,0 +1,778 @@
+#set($layout="layout/shopLayouttwo.vm")
+<div class="bianli_one" >
+	<input id="shopid" type="hidden" value="$!shopid">
+	<input id="isshow" type="hidden" value="$!isshow">
+	<input id="cateid" type="hidden" value="$!cid">
+	<input id="surplus" type="hidden" value="$NumberTool.toYuanNumber($!surplus)">
+	<input id="free" type="hidden" value="$!free">
+	<input id="red_flag" type="hidden" value="$!red_flag">
+	<div class="shop_list_search"  style="z-index:9999;">
+            <input type="" name="itemName" id="sec" style="z-index: 1000;font-size:.28rem;">
+            <span class="sou">搜索</span>
+            <span class="wo" id="cl" style="z-index: 1001;"> </span>
+    </div>
+    <div class="n">
+        <img src="${rc.contextPath}/static/images/shop/top_bake.png" lei-mu="饼干糕点" class="ai">
+        <img src="${rc.contextPath}/static/images/shop/top_fruit.png" lei-mu="蜜饯果干" class="ai">
+        <img src="${rc.contextPath}/static/images/shop/top_meat.png" lei-mu="熟食速食" class="ai">
+        <img src="${rc.contextPath}/static/images/shop/top_entity.png" lei-mu="坚果炒货" class="ai">
+        <img src="${rc.contextPath}/static/images/shop/top_sweet.png" lei-mu="糖果甜点" class="ai">
+        <img src="${rc.contextPath}/static/images/shop/top_water.png" lei-mu="饮料冲调" class="ai">
+        <img src="${rc.contextPath}/static/images/shop/top_office.png" lei-mu="办公用品" class="ai"> 
+    </div>
+    <ul class="bianli">
+    	<!-- 没有商品显示 -->
+        <div class="no_shop">
+            <p>没有匹配的商品</p>
+            <a href="tel://$!shop.mobilePhone">
+                <img src="${rc.contextPath}/static/images/shop/no_phone.png">
+                <span style="display:block;text-align:center;padding:.4rem 0 0 16%;">请及时联系店铺管理员</span>
+                <span style="display:block;text-align:center;padding-left: 16%;">$!shop.likeman：$!shop.mobilePhone</span>
+            </a>
+        </div>
+    		#set($cat1 = 0)
+    		#foreach($item in $itemlist)
+    		<li class="one" data-pId="$item.id" data-cid="$item.categoryId" data-onPrice="$NumberTool.toYuanNumber($item.marketPrice)" data-price="$NumberTool.toYuanNumber($item.salePrice)" data-amount="0">
+	            	#if($item.categoryId == 24)
+	            		<img src="${rc.contextPath}/static/images/shop/bake_null.png" class="icon" style="width:.3rem;margin:.09rem 0 0 .07rem;">
+	            	#elseif($item.categoryId == 25)
+	            		<img src="${rc.contextPath}/static/images/shop/fruit_null.png" class="icon" style="width:.24rem;margin:.09rem 0 0 .07rem;">
+	            	#elseif($item.categoryId == 26)
+	            		<img src="${rc.contextPath}/static/images/shop/meat_null.png" class="icon" style="width:.3rem;margin:.09rem 0 0 .07rem;">
+	            	#elseif($item.categoryId == 27)
+	            		<img src="${rc.contextPath}/static/images/shop/nut_null.png" class="icon" style="width:.3rem;margin:.09rem 0 0 .07rem;">
+	            	#elseif($item.categoryId == 28)
+	            		<img src="${rc.contextPath}/static/images/shop/sweet_null.png" class="icon" style="width:.3rem;margin:.09rem 0 0 .07rem;">
+	            	#elseif($item.categoryId == 29)
+	            		<img src="${rc.contextPath}/static/images/shop/water_null.png" class="icon" style="width:.32rem;margin:.09rem 0 0 .07rem;">
+	            	#elseif($item.categoryId == 61)
+	            		<img src="${rc.contextPath}/static/images/shop/ice_null.png" class="icon" style="width:.3rem;margin:.09rem 0 0 .07rem;;">
+	            	#elseif($item.categoryId == 63)
+	            	    <img src="${rc.contextPath}/static/images/shop/office_null.png" class="icon" style="width:.3rem;margin:.09rem 0 0 .07rem;">
+	            	#elseif($item.categoryId == 131)
+	            	    <img src="${rc.contextPath}/static/images/shop/io.png" class="icon" style="width:.3rem;margin:.09rem 0 0 .07rem;">
+	            	#end
+	            #if($item.bigImgPath)
+	            	<span data-img="$item.bigImgPath">
+	            #else
+	            	<span data-img="$item.imgPath">
+	            #end
+	            <!-- 放大图标 -->
+	                <img src="${rc.contextPath}/static/images/shop/big.png" class="wode" style="width:.3rem;margin:0;">
+	            </span>
+	            <img src="$item.imgPath">
+	            <span class="xiao" #if($!red==1)style="color:red"#elseif($!red==2)style="color:green"#end><span class="zhekou" >￥$NumberTool.toYuanNumber($item.marketPrice)</span>￥<span class="fei">$NumberTool.toYuanNumber($item.salePrice)</span></span>
+	            <span style="display:none;" class="binggan">$item.categoryName</span>
+	            <span class="in" >$item.name</span>
+	            <div class="su" style="display:none;">
+	                <b class="s">
+	                    <img src="${rc.contextPath}/static/images/shop/close.png">
+	                </b>
+	                <p class="num">0</p>
+	                <p class="shop_tip" style="display:none;">$item.name</p>
+	                #if($isshow==0)
+	                <p class="shop_price" style="display:none">￥<span>$NumberTool.toYuanNumber($item.marketPrice)</span></p>
+	                #else
+	                <p class="shop_price" >￥<span>$NumberTool.toYuanNumber($item.marketPrice)</span></p>
+	                #end
+	                <p class="price_9" style="display:none;">￥<span>$NumberTool.toYuanNumber($item.salePrice)</span></p>
+	            </div>
+        	</li>
+    		#end
+    		#set($size = $itemlist.size())
+    		#set($num = $size %3)
+    		#if($num ==0)
+    		#elseif($num ==1)
+    		<li ></li><li ></li>
+    		#elseif($num ==2)
+    		<li ></li>
+    		#else
+    		#end
+    </ul>
+    <div class="bianli_pay">
+    	<div class="bi" id="sure">
+        <span class="number" style="display:none;">0</span>
+        <span class="xiang" gouwu="购物车"></span>
+        <span class="bianli_num" style="display:none;">￥<span>0.00</span></span>
+        <span class="cost_price" style="display:none;">￥<span>0.00</span></span>
+        <span class="shou_price" style="display:none;">#if($free==1)专属折扣#else公司补贴#end￥<span>0.00</span></span>
+        <p class="onon" style="display:none;">品种过多已默认显示品名，轻触取消</p>
+        </div>
+        <div class="Layer" style="display:none">
+        
+    	</div>
+        
+        <div id="pay" class="pay">支付</div>
+    </div>
+    <div class="imgFull" style="display:none">
+            <img src="" class="su">
+            <img id="icon" src="">
+            <div id="name_1"></div>
+    </div>
+    <span class="why" style="display:none">轻触退出</span>
+    <div class="Layer1" style="display:none"></div>
+   #if($!free==1 || $!red_flag==1)
+   <div class="butie">
+    #if($!free==1)
+    <p class="bu" index="1">
+        <span class="sy_hong">使用补贴，补贴剩余¥<span>$NumberTool.toYuanNumber($!surplus)</span>（#if($dayOrMonth==1)每月#elseif($dayOrMonth==2)每日#end补贴￥$NumberTool.toYuanNumber($!freeFee)）</span>
+        <span class="xuan_yuan"></span>
+    </p>
+    #end
+    #if($!red_flag==1)
+    <p class="bu" index="2" style="border-top: 1px solid #efefef;">
+        <span class="sy_hong">使用红包，红包剩余¥<span>$NumberTool.toYuanNumber($!redAccount)</span></span>
+        <span class="xuan_yuan"></span>
+    </p>
+    #end
+    <p class="so">
+        <span class="qu_xiao">取消</span>
+        <b></b>
+        <span class="sure">确定</span>
+    </p>
+   </div>
+   #end
+	#if($!isadmin==1)
+    <a href="${rc.contextPath}/convenient/manage/shop_index.htm?shop_id=$shopid" class="entrance">管理后台</a>
+    #else
+    #end
+</div>
+<script type="text/javascript">
+	document.title = "$shopName自助便利店";
+$(function(){
+        var reyin = $('#cateid').val();
+        if (reyin == -1 || reyin == "" ) {
+            return;
+        }
+        $('#sec').animate({"background-position":'.2rem'});
+        $('#sec').siblings('.sou').animate({left:"11%"});
+        document.getElementById("cl").style.visibility="visible";
+        
+        
+        $('#sec').val(reyin); 
+        $('#sec').siblings('.sou').hide();
+        
+        search();
+})
+$(function(){
+	 var butie = $('.butie').height();
+    $(".butie").css("bottom",-butie);
+
+})
+function numSub(num1, num2) {
+	var baseNum, baseNum1, baseNum2;
+	var precision;// 精度
+	try {
+		baseNum1 = num1.toString().split(".")[1].length;
+	} catch (e) {
+		baseNum1 = 0;
+	}
+	try {
+		baseNum2 = num2.toString().split(".")[1].length;
+	} catch (e) {
+		baseNum2 = 0;
+	}
+	baseNum = Math.pow(10, Math.max(baseNum1, baseNum2));
+	precision = (baseNum1 >= baseNum2) ? baseNum1 : baseNum2;
+	return ((num1 * baseNum - num2 * baseNum) / baseNum).toFixed(precision);
+};
+
+document.getElementById("sec").addEventListener("keyup",function(){
+        if(this.value.length>0)
+        {
+            document.getElementById("cl").style.visibility="visible";
+            $('.n').animate({top:'.1rem'},300);
+            $('.n').css("z-index","-1");
+        }else
+        {
+        	$('.sou').show();
+        	if ($("li:last-child").attr('attr_jia') == "j") {
+               $("li:last-child").remove();
+            }
+            document.getElementById("cl").style.visibility="hidden";
+        }
+});
+$(".bianli").on("touchstart",function(){
+    if ($('.n').css("z-index") == 1000) {
+    	$('.n').animate({top:'.3rem'});
+        $('.n').css("z-index","-1");
+    	if ($("#sec").val() =='') {
+            $('#sec').animate({"background-position":'47%'},200);
+            $('.sou').animate({left:"50%"},200);
+        }
+        $('.n').animate({top:'.3rem'});
+        $('.n').css("z-index","-1");
+        document.activeElement.blur();
+    }
+})
+function buquan(){
+         var chae = $('.one').length - $('.one:hidden').length;
+         var oo = chae%3;
+         var html = '<li attr_jia="j"></li>';
+         var html1 = '<li></li>';
+         if (oo == 0) {
+            $('li:not(.one)').hide();
+         }
+         if ($('li:not(.one)').length == 0) {
+            if (oo == 1) {
+                $('.bianli').append(html1);
+                $('.bianli').append(html);
+            }
+            if (oo == 2) {
+                $('.bianli').append(html);
+            }
+         }
+         if ($('li:not(.one)').length == 1) {
+             if (oo == 1) {
+                $('.bianli').append(html);
+            }  
+         }
+         if ($('li:not(.one)').length == 2) {
+           if (oo == 1) {
+                $('li:not(.one)').show();
+            }
+            if (oo == 2) {
+                $('li:not(.one)').show();
+                $('li:last-child').hide();
+            } 
+         }
+}
+function search(){
+    var searchShop = $('#sec').val();
+    if (searchShop == "") {
+        $(".one ").show();
+        $('.no_shop').hide();
+    }else{
+        $(".bianli .one ").each(function() {
+                var shopName = $(this).find('.in').text();
+                var leimu = $(this).find('.binggan').text();
+                $(this).removeClass("d");
+                if (shopName.indexOf(searchShop) != -1 || leimu == searchShop ) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+                if (searchShop == "购物车") {
+                    $(this).show();
+                    $(".no_shop").hide();
+                    $(this).removeClass("d");
+                    if ($(this).find(".su").is(":hidden")) {
+                        $(this).hide();
+                    }else{
+                        $(this).show();
+                    }
+                }
+               if ($('.one:hidden').length == $('.one').length) {
+                    $('.no_shop').show();
+               }else{
+                $('.no_shop').hide();
+               }
+        });
+        buquan();
+        if ($('.one:hidden').length == $('.one').length) {
+            if ($("li:last-child").attr('attr_jia') == "j") {
+                  $("li:last-child").hide();     
+            }
+        }
+    }
+}
+$('#sec').on('input', function() {
+	$('.sou').css('display','none');
+    if($(this).prop('comStart')) return;
+    search();
+    
+}).on('compositionstart', function(){
+    $(this).prop('comStart', true);
+}).on('compositionend', function(){
+    $(this).prop('comStart', false);
+});
+$('#sec').on('touchend',function(){
+    $(this).animate({"background-position":'.2rem'});
+    $(this).siblings('.sou').animate({left:"11%"});
+    $(this).parent().siblings('.n').animate({top:'1rem'},200);
+    $(this).parent().siblings('.n').css("z-index","1000");
+    var openid = '$!shopuser.openid';
+    var cityId = $!shop.cityId;
+    var shopId = $!shop.id;
+    var code = 'D1';
+    $.ajax({
+				url:'${rc.contextPath}/dataCollect/shop_save.do',
+				type:'POST',
+				data: {cityId:cityId,openid:openid,shopId:shopId,code:code,type:1},
+				success:function(data){
+				
+				}
+				
+			})
+});
+$('.sou').on('touchend',function(){
+    $(this).siblings('#sec').animate({"background-position":'.2rem'});
+    $(this).animate({left:"11%"});
+    $(this).parent().siblings('.n').animate({top:'1rem'},200);
+    $(this).parent().siblings('.n').css("z-index","1000");
+});
+$('.ai').on('touchend',function(){
+    var lei = $(this).attr("lei-mu");
+    $('#sec').val(lei);
+    $('.wo').css('visibility','visible');
+    document.activeElement.blur();
+    $('#sec').animate({"background-position":'.2rem'});
+    $('#sec').siblings('.sou').animate({left:"11%"});
+    $('.sou').css('display','none');
+    $('.n').css("z-index","-1");
+    $('.n').animate({top:'.1rem'});
+    search();
+});
+$('.wo').on('touchend',function(e){
+    $('#sec').val("");
+    $(this).css('visibility','hidden');
+    document.activeElement.blur();
+    $('#sec').animate({"background-position":'47%'},200);
+    $('.sou').animate({left:"50%"},200);
+    $('.sou').show();
+    $('.no_shop').hide();
+    $('ul  li').show();
+    var chae = $('.one').length - $('.one:hidden').length;
+    var oo = chae%3;
+    if (oo == 0) {
+        $("li:not(.one)").remove();
+    }
+    if ($("li:last-child").attr('attr_jia') == "j") {
+        $("li:last-child").remove();
+    }
+	e.preventDefault();
+})
+
+//点击购物车区域
+//点击次数
+var count =0;
+$('.xiang').on("touchend",function(){
+    count++;
+    var xiangyin = $(this).attr("gouwu");
+    if ($(".number").text() == 0) {
+        count = 0;
+        $("ul li").show();
+        $("#sec").val("");
+        $('#sec').animate({"background-position":"47%"});
+        $('.sou').css('display','block');
+        $('.wo').css('visibility','hidden');
+        $('.sou').animate({left:"50%"});
+        return;
+    }
+    if ($('.n').css("z-index") == 1000) {
+        $('.n').animate({top:'.3rem'});
+        $('.n').css("z-index","-1");
+        document.activeElement.blur();
+    }
+    if ($("#sec").val() == "购物车" && ($('.one').length - $('.one:hidden').length)>0) {
+        count = 2;
+    }
+    $("html,body").animate({scrollTop:0}, 100);
+    if (count%2 ==0) {
+        $('#sec').val("");
+        $('#sec').animate({"background-position":"47%"});
+        $('.sou').css('display','block');
+        $('.sou').animate({left:"50%"});
+        $('.wo').css('visibility','hidden');
+        $("ul li").show();
+    }else{
+        $('#sec').val(xiangyin);
+        $('#sec').animate({"background-position":'.2rem'},200);
+        $('#sec').siblings('.sou').animate({left:"11%"});
+        $('.sou').css('display','none');
+        $('.wo').css('visibility','visible');
+        $(".wo").on("touchend",function(){
+            count =0; 
+            
+        });
+        $("ul li").each(function(){
+            $(this).show();
+            $(".no_shop").hide();
+            $(this).removeClass("d");
+            if ($(this).find(".su").is(":hidden")) {
+                $(this).hide();
+            }else{
+                $(this).show();
+            }
+        });
+    }
+    buquan();
+});	 
+	 // 图片放大功能
+var documentWidth = $(document).width();
+var documentHeight = $(document).height();
+$('.Layer').width(documentWidth);
+$('.Layer').height(documentHeight);
+$('.imgFull').width(documentWidth);
+$('.imgFull').height(documentWidth);
+$('.imgFull img.su').width(documentWidth);
+$('.imgFull img.su').height(documentWidth);
+
+$('.wode').on("touchend",function(){
+    if (touchmove) {
+        return;
+    }
+    
+    $('.Layer1').on("touchmove",function(){
+        return false;
+    });
+    $('.imgFull').on("touchmove",function(){
+        return false;
+    });
+    //得到屏幕的高
+    var windowHeight = window.screen.availHeight;
+    var no = (windowHeight - $('#imgFull img').height()) / 2;
+    $('.Layer1').css('display','block');
+    $('.Layer1').fadeIn();
+    $('.why').fadeIn();
+    $('#name_1').fadeIn();
+    $('#icon').fadeIn(600);
+    $('.imgFull').fadeIn(300);
+    var goodName = $(this).parent().siblings('.binggan').text();
+    var imgsrc = $(this).parent().attr('data-img');
+    var icon = $(this).parent().parent().attr('data-cid');
+    var iconImg = "";
+    if(icon==24){
+    	iconImg = "${rc.contextPath}/static/images/shop/bake_entity.png";
+    }else if(icon==25){
+    	iconImg = "${rc.contextPath}/static/images/shop/fruit_entity.png";
+    }else if(icon==26){
+    	iconImg = "${rc.contextPath}/static/images/shop/meat_entity.png";
+    }else if(icon==27){
+    	iconImg = "${rc.contextPath}/static/images/shop/nut_entity.png";
+    }else if(icon==28){
+    	iconImg = "${rc.contextPath}/static/images/shop/sweet_entity.png";
+    }else if(icon==29){
+    	iconImg = "${rc.contextPath}/static/images/shop/water_entity.png";
+    }else if(icon==61){
+    	iconImg = "${rc.contextPath}/static/images/shop/ice_entity.png";
+    }else if(icon==63){
+    	iconImg = "${rc.contextPath}/static/images/shop/office_entity.png";
+    }
+    else if(icon==131){
+    	iconImg = "${rc.contextPath}/static/images/shop/io.png";
+    }
+    $('.imgFull img').attr('src', imgsrc);
+    $('#icon').attr('src',iconImg);
+    if(icon == 25){
+        $('#icon').css('left','36%');
+    }
+    $('#name_1').text(goodName);
+    return false;
+});
+$('.imgFull').on('touchend',function(){
+    if (touchmove) {
+        return;
+    }
+        $('.Layer1').fadeOut();
+        $('.imgFull').hide();
+        $('.why').hide();
+        $('#name_1').hide();
+        $('#icon').hide();
+});
+$('.Layer1').on('touchend',function(){
+    if (touchmove) {
+        return;
+    }
+        $('.Layer1').fadeOut();
+        $('.imgFull').hide();
+        $('.why').hide();
+        $('#name_1').hide();
+        $('#icon').hide();
+        $('.butie').animate({bottom:"-4.7rem"},200);
+});
+$('.why').on('touchend',function(){
+    if (touchmove) {
+        return;
+    }
+        $('.Layer1').fadeOut();
+        $('.imgFull').hide();
+        $('.why').hide();
+        $('#name_1').hide();
+        $('#icon').hide();
+});	
+	var touchmove;
+   $(".one").on('touchend',function(){
+    	if (touchmove) {
+        return;
+    	}
+    	var shopid = $('#shopid').val()
+    	var show = $("#isshow").val();
+        if(show == 0){
+        	$(this).find(".xiao").find(".zhekou").hide();
+        }else{
+       	 $(this).find(".xiao .zhekou").show();
+        }
+        var a = this;
+        var se =$(this).find(".in").text();
+        $(this).find(".in").css("width","100%");
+        if (se.length>9) {
+            var swew = se.substring(0,4);
+            var r = se.substr(se.length-4);
+            var go ='';
+            go+=swew+'...'+r;
+            $(this).find(".in").text(go);
+        }
+        $(this).find(".su").find(".s").css("display","block");
+        $(this).find("div.su").css("animation-play-state","paused");
+        $(this).find("div.su").css("animation","big .3s");
+        $(this).find("div.su").css("animation-fill-mode","forwards");
+        $(".shop_tip").hide();
+        $(".shop_price").hide();
+        $(".price_9").hide();
+        $('.bianli_pay').addClass('bo_show');
+        var amount = parseInt($(a).data('amount')) + 1;
+        $(a).find('.wode').hide();
+        $(a).find(".num").text(amount);
+        $(a).data('amount', amount);
+         $(a).attr('data-amount',amount);
+        var s = $(this).parent().parent();
+        var i =parseInt($(s).find(".bianli_pay .number").text());
+        i = i+1;
+        $(s).find(".bianli_pay .number").text(i);
+        var shuzi =parseInt($(s).find(".suspension").text());
+        $(s).find(".suspension").text(i);
+        $(a).find(".su").css("display","block");
+        $(s).find(".bianli_pay .number").css("display","block");
+        $(s).find(".bianli_pay .bianli_num").css("display","block");
+        var isshow = $('#isshow').val();
+        if(isshow==1){
+	        $(s).find(".bianli_pay .cost_price").css("display","block");
+	        $(s).find(".bianli_pay .shou_price").css("display","block");
+        }
+        $(s).find(".bianli_pay .onon").css("display","none");
+        setTotal();
+  });
+	$(document).on( "touchstart", function() {
+  touchmove = false;
+    });
+  $(document).on( "touchmove", function() {
+  touchmove = true;
+    });
+   $(".s").on('touchend',function () {
+   if (touchmove) {
+        return;
+    }
+    if ($('#sec').val()=="购物车" && ($('.one').length - $('.one:hidden').length)>0) {
+        $(this).parent().parent().removeClass("d");
+
+    }
+    if ($('#sec').val() == 0) {
+        $(this).parent().parent().addClass("d");
+    }
+    var a =this;
+    $(this).hide();
+    $(this).parent().css("animation","small .3s");
+    $(this).parent().siblings(".xiao").find(".zhekou").hide();
+    var yuanlai = $(this).siblings(".shop_tip").text();
+    yuanlai_o = $.trim(yuanlai);
+    $(this).parent().siblings(".in").css("width","67%");
+    $(this).parent().siblings(".in").text(yuanlai_o);
+    var parent = $(this).parent().parent();
+    $(a).parent().css("animation-play-state","running");
+    $(a).parent().on("animationend", myEndFunction);
+    var userAgent = navigator.userAgent;  
+    var index = userAgent.indexOf("Android")  
+    if(index >= 0){  
+        var androidVersion = parseFloat(userAgent.slice(index+8));   
+        if(androidVersion<5.2){   
+            $(a).parent().fadeOut();  
+   }  
+ }
+    $(parent).find('.wode').show();
+    var amount = parseInt($(parent).data('amount')) *0;
+    var chushi = parseInt($(parent).data('amount'));
+    $(parent).find(".num").text(amount);
+    $(parent).data('amount', amount);
+    $(parent).attr('data-amount',amount);
+    var s = $(this).parent().parent().parent().parent();
+    var i =parseInt($(s).find(".bianli_pay .number").text());
+    i = i-chushi;
+    $(s).find(".bianli_pay .number").text(i);
+
+    var shuzi =parseInt($(s).find(".suspension").text());
+    shuzi = shuzi-amount;
+    $(s).find(".suspension").text(i);
+    setTotal();
+      return false;
+      
+  });
+
+function stop(){
+    $(this).css("animation-play-state","paused")
+}
+function myEndFunction() {
+    this.style.display= "none";
+}
+  function setTotal() {
+      var sum = 0.00;
+      var cost = 0.00;
+      var su = 0.00;
+      $(".one").each(function(){ 
+        sum+=parseInt($(this).find(".num").text()) * parseFloat($(this).find('.xiao .fei').text());
+        cost+=parseInt($(this).find(".num").text()) * parseFloat($(this).find('.shop_price span').text());
+        su = cost - sum;
+});
+      $(".bianli_num span").html(sum.toFixed(2));
+      $(".cost_price span").html(cost.toFixed(2));
+      $(".shou_price span").html(su.toFixed(2));
+  }
+setTotal();
+
+function butie(){
+    $('.Layer1').css('display','block');
+    $('.butie').css('display','block');
+    $('.butie').animate({bottom:"0px"},200);
+}
+
+$(".qu_xiao").on('touchend',function(){
+if(touchmove){return}
+ var butie = $('.butie').height()
+ $('.butie').animate({bottom:-butie},200);
+ $('.Layer1').fadeOut(); 
+});
+
+$(".xuan_yuan").on("touchend",function(){
+    if (touchmove) {
+        return;
+    }
+    
+    if ($(this).hasClass("active")) {
+        $(this).removeClass("active");
+    }else{
+        $(this).addClass("active");
+    }
+})
+
+$(".sure").on('touchend',function(event){
+    if (confirm("确定付款吗？")) {
+       //window.location="http://192.168.10.36/xiaofei/zhifu_success.html";
+         $(".bu").each(function(){
+            if ($(this).find(".xuan_yuan").hasClass("active")) {
+                console.log();
+                // index 1是补贴，2是红包
+                var index =$(this).attr("index");
+                if (index == 2) {
+                    var hongbao = $(this).find(".sy_hong span").text()
+                }
+                if (index == 1) {
+                    var butie = $(this).find(".sy_hong span").text();
+                }
+                console.log(hongbao);
+            }
+         })
+   }else{
+      
+       
+   }
+   return false;
+});
+
+$(".no_pay").on('touchend',function(){
+	wxpay(0);
+});
+
+$(".free_pay").on('touchend',function(){
+	var shengyu = $("#surplus").val();
+	if(shengyu<=0){
+		alert("补贴金额已用完！");
+	}else{
+		wxpay(1);
+	}
+});
+
+function pay(){
+    if (touchmove) {
+        return;
+    }
+    var free = $("#free").val();
+    var red_flag =  $("#red_flag").val();
+    if(free==1 || red_flag==1){
+    	butie();
+    }else{
+    	wxpay(0,0);
+    }
+	
+}
+
+function wxpay(flag){
+	if (payPrevent == true) return;
+	payPrevent = true;
+	var li = $(".one");
+    var now = [];
+    for (var i=0; i<li.length; i++) {
+	    var s = li[i];
+	    var id = $(li[i]).attr("data-pId");
+	    var amount = $(li[i]).attr("data-amount");
+	    var arr = {};
+	    arr["id"] = id;
+	    arr["num"] = amount;
+	    if (amount>0) {
+	        now.push(arr);
+	    }
+    }
+    var shopid = $('#shopid').val();
+    var data = JSON.stringify(now);
+     $.ajax({
+				url:'${rc.contextPath}/convenient/shop_pay.do',
+				type:'POST',
+				data: {shop_id:shopid,data:data,flag:flag},
+				success:function(data){
+					if(data.status==200){
+						appId=data.data.appId;
+						timeStamp=data.data.timeStamp;
+						nonceStr=data.data.nonceStr;
+						packages=data.data.package;
+						signType=data.data.signType;
+						paySign=data.data.paySign;
+						orderId = data.data.orderId;
+						if (typeof WeixinJSBridge == "undefined"){
+							   if( document.addEventListener ){
+							         document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+							     }else if (document.attachEvent){
+							         document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+							        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+							    }
+							 }else{
+							   onBridgeReady();
+							 }
+					}else if(data.status==202){
+						window.location.href="${rc.contextPath}/convenient/shop_paySuccess.htm?orderNo="+data.data;
+					}else if(data.status==201){
+						alert("请选择商品");
+						payPrevent = false;
+					}else{
+						alert("网络连接超时,请重试！");
+						payPrevent = false;
+					}
+				}
+				
+			})
+}
+
+var payPrevent = false;
+$('#pay').on('touchend', pay);
+
+//微信支付
+function onBridgeReady(){
+    WeixinJSBridge.invoke(
+        'getBrandWCPayRequest', {
+            "appId" : appId,     //公众号名称，由商户传入     
+            "timeStamp":timeStamp, //时间戳，自1970年以来的秒数     
+            "nonceStr" :nonceStr, //随机串     
+            "package" :packages,     
+            "signType" :signType,//微信签名方式:     
+            "paySign" : paySign //微信签名 
+       },
+        function(res){
+    	  if(res.err_msg == "get_brand_wcpay_request:ok" ) {// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返
+    		   window.location.href="${rc.contextPath}/convenient/shop_paySuccess.htm?orderNo="+orderId;
+    	  }else{
+    	  		payPrevent = false;
+    	  }
+
+       }
+   ); 
+ }
+
+</script>

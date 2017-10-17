@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8 />
+    <title>出错提示</title>
+</head>
+<body>
+<div id="page">
+    <div id="content">
+		<div class="bd">
+			$screen_placeholder
+		</div>
+    </div>
+</div>
+</body>
+</html>

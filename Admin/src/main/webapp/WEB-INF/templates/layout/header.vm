@@ -1,0 +1,52 @@
+<div class="header">
+	<h1 class="logo"><a href="${rc.contextPath}/welcome.htm"></a></h1><!--logo-->
+	#set($citys = $!session.getAttribute("user").citys)
+	<span #if($citys.size()>1) class="bottom_push" style="cursor:hand" #else class="bottom_push2" #end id="drop" data-id = "$!session.getAttribute("user").id">$!session.getAttribute("user").cityName</span>
+	<div class="erji" style="cursor:hand">
+		#foreach($city in $citys )
+			<span  class="go" data-id="$city.id">$city.cityName</span>
+		#end
+    </div>
+	<div class="user-infor">
+		<p>欢迎<span><a style="color:yellow" href="${rc.contextPath}/useradmin/resetPassword.htm">$!session.getAttribute("user").userName</a></span></p>
+		<a class="sign-out" href="${rc.contextPath}/logout.htm">登出</a>
+	</div>
+</div>
+<script type="text/javascript">
+$('.bottom_push').click(function(){
+	if ($(this).attr('id') == 'drop') {
+		$(this).attr('id','');
+		$(this).siblings('.erji').show();
+		return false;
+	}else{
+		$(this).attr('id','drop');
+		$(this).siblings('.erji').hide();
+		return false;
+	}
+});
+$('.go').click(function(){
+	// var now = $(this).text();
+	// $(this).parent().siblings('.bottom_push').text(now);
+	var userId = $!session.getAttribute("user").id;
+	var id = $(this).attr("data-id");
+	$.ajax({
+				url:'${rc.contextPath}/user/changeDefaultCity.do',
+				type:'POST',
+				data: {userId:userId,cityId:id},
+				success:function(data){
+					if(data==200){
+	$(this).parent().siblings('.bottom_push').attr('id','drop');
+	$(this).parent().hide();
+						window.location.href="${rc.contextPath}/welcome.htm"
+					}else{
+						alert("切换城市失败")
+					}
+				}
+				
+			})
+})
+$('body').click(function(){
+	$('.bottom_push').attr('id','drop');
+	$('.erji').hide();
+})
+</script>

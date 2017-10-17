@@ -1,0 +1,54 @@
+#set($layout="layout/shopLayout.vm")
+<div class="dh_content">
+        <div class="head">
+            <img src="${rc.contextPath}/static/images/shop/logo_dui.png">
+        </div>
+        <div class="caoyue_01">
+            <img src="${rc.contextPath}/static/images/shop/caoyue_01.png" alt="" class="caoyue_02">
+            <span class="caoyue_03"></span>
+            <img src="${rc.contextPath}/static/images/shop/caoyue_02.png" alt="" class="caoyue_02">
+            <span class="caoyue_03"></span>
+            <img src="${rc.contextPath}/static/images/shop/caoyue_03.png" alt="" class="caoyue_02">
+        </div>
+        <div class="caoyue_04">
+            <span>扫码进入信</br>息填写页面</span>
+            <span>填写真实姓名，方</br>便工作人员核对</span>
+            <span>提交信息，</br>补贴发放</span>
+        </div>
+        <div class="dh_form" style="margin-bottom:0;">
+            <span class="user_name" style="border-radius:0px;border:1px solid #FFE500;margin-bottom:0;">
+                <span class="form_name" style="left:.3rem;">姓名：</span>
+                <input type="text" name="user_conpany" id="name1" style="width: 5rem;margin-left: 1.3rem;font-size:.34rem;">
+            </span>
+            <p style="font-size:.26rem;margin-left:.3rem;width:100%;margin-bottom:2.76rem;">请留下您的真实姓名，方便相关工作人员进行核对</p>
+            <a href="#" class="save" style="font-family: PingFangSC-Regular;">提交</a>
+        </div>
+        
+    </div>
+<script type="text/javascript">
+    document.title = "信息填写";
+    $(".save").on("click",function(){
+    	var userId = $userId;
+    	var shopId = $shopId;
+        var name = $("#name1").val();
+        if(name == ''){
+            alert("请填写信息。");
+            return false;
+        }else{
+             $.ajax({
+				url:'${rc.contextPath}/convenient/shop_addUser.do',
+				type:'POST',
+				data: {userId:userId,shopId:shopId,userName:name},
+				success:function(data){
+				    if(data == 200){
+						window.location.href='${rc.contextPath}/convenient/shop_addUserSuccess.htm';
+					}else if(data == 202){
+						alert("已添加，无需再次添加");
+					}else{
+						alert("添加失败");
+					}
+				}
+			})
+        }
+    })
+</script>

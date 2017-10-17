@@ -1,0 +1,325 @@
+<script type="text/javascript">
+//var phoneflag=false;
+$(document).ready(function() {
+
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+			//checkPhone();
+			//if(phoneflag==true){
+			var chk_value=[];
+   	  $('input[name="check_str"]:checked').each(function(){ 
+		chk_value.push($(this).val()); 
+	  });
+	  var stra = chk_value.toString();
+	  if(!stra){
+	  	alert("必须选择一个支持");
+	  	return false;
+	  }
+	   var discount = $('#discount').val();
+		        var shopDiscount = $('#shopDiscount').val();
+	   if(0>=discount || discount >2){
+		        	alert("折扣超出范围");
+		        	return false;
+		        }
+		        if(0>=shopDiscount || shopDiscount >2){
+		        
+		            alert("店铺折扣超出范围");
+		            return false;
+		        }
+	  $('#checkStr').val(stra);
+	  
+        			save();
+        	//	}
+            //	return false;
+        }
+	});
+
+	//$('#mobilePhone').blur(function(){
+	//	checkPhone();
+	//});
+
+ });
+
+
+
+function save(){
+	disableBtn('saveBtn');
+
+	var url="${rc.contextPath}/customer/userSave.do";
+  	submitFormData("form1",url,show);
+}
+
+function show(data){
+
+	if(data.indexOf("成功")!=-1){
+		alert(data);
+		cancel();
+	}else{
+		alert(data);
+		enableBtn('saveBtn');
+	}
+}
+
+function cancel(){
+  	window.location.href="${rc.contextPath}/customer/customerList.htm";
+}
+
+function checkNum(obj) {
+    //检查是否是非数字值
+    if (isNaN(obj.value)) {
+        obj.value = "";
+    }
+    if (obj != null) {
+        //检查小数点后是否对于两位http://blog.csdn.net/shanzhizi
+        if (obj.value.toString().split(".").length > 1 && obj.value.toString().split(".")[1].length > 2) {
+            alert("小数点后多于两位！");
+            obj.value = "";
+        }
+    }
+}
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/customer/customerList.htm" title="返回客户列表" class="btn btn-return"><</a>
+		<h4 class="tit">添加客户</h4>
+	</div><!--bd-actionbar-->
+
+	<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" name="userForm" id="form1" action="${rc.contextPath}/customer/userSave.do" method="post">
+				<input type="hidden" name="checkStr" id="checkStr" value=""/>
+				<table class="form">
+					<tr>
+						<td align="right"><label class="tit">分店：</label></td>
+						<td><input type="radio" name="branch" value="0" checked="checked" />否
+			                <input type="radio" name="branch" value="1" />是
+						&nbsp;<span></span></td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>公司简称：</label></td>
+						<td>
+							<input validate="{required:true,maxlength:255}" placeholder="2-6个字" class="form-input" type="text" name="userName" id="userName" />
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					
+
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>店铺地址：</label></td>
+						<td>
+
+							<input validate="{required:true,maxlength:255}" class="form-input" type="text" name="address" id="address" value=""/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+
+					<tr>
+						<td align="right">
+							<label class="tit"><font color='red'>*</font>公司全称：</label>
+						</td>
+						<td>
+							<input validate="{required:true,maxlength:255}" class="form-input" type="text" name="companyName" id="companyName" value=""/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">合同编号：</label>
+						</td>
+						<td>
+							<input validate="{maxlength:255}" class="form-input" type="text" name="contractNumber" id="contractNumber" value=""/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">公司人数：</label>
+						</td>
+						<td>
+							<input  class="form-input" type="number" min="0" max="100000000"  name="companyPersonnum" id="companyPersonnum" value=""/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">开票税号：</label>
+						</td>
+						<td>
+							<input  class="form-input" type="text" name="dutyParagraph" id="dutyParagraph" value=""/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>手机号码：</label></td>
+						<td>
+							<input validate="{required:true,maxlength:255}" class="form-input" type="text" name="mobilePhone" id="mobilePhone" />
+							&nbsp;<span id="mobilePhoneResult"></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">联系人：</label>
+						</td>
+						<td>
+							<input  class="form-input" type="text" name="likeman" id="likeman"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">职位：</label>
+						</td>
+						<td>
+							<input  class="form-input" type="text" name="position" id="position"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">接口业务员：</label>
+						</td>
+						<td>
+						<select name="interfacePersonId" >
+						    <option value="-1"></option>
+						    #foreach($puser in $pusers)
+					            <option value="$puser.id">$puser.userName</option>
+							#end
+						 </select>
+						 &nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">折扣：</label>
+						</td>
+						<td>
+							<input  class="form-input" type="text" name="discount" id="discount" value="1" onkeyup="checkNum(this)" />
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">售价折扣：</label>
+						</td>
+						<td>
+							<input  class="form-input" type="text" name="shopDiscount" id="shopDiscount" value="1" onkeyup="checkNum(this)" />
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">货架数量：</label>
+						</td>
+						<td>
+							<input  class="form-input" type="text" name="goodsShelfNum" id="goodsShelfNum" value="0" onkeyup="checkNum(this)" />
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>托管：</label></td>
+						<td>
+							<input type="radio" name="buyWay" value="1" checked="checked"/>托管
+							<input type="radio" name="buyWay" value="2" />非托管
+						&nbsp;<span></span></td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>回款方式：</label></td>
+						<td>
+			                <input type="radio" name="payBillWay" value="2" />按结算额
+			                <input type="radio" name="payBillWay" value="3" />按亏损额
+			                <input type="radio" name="payBillWay" value="4" checked="checked"/>不承担亏损
+						&nbsp;<span></span></td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">业务类型：</label></td>
+						<td>
+			                <input type="radio" name="iswxvip" value="3" />便利店
+			                <input type="radio" name="iswxvip" value="0" checked="checked"/>福利店
+						    <input type="radio" name="iswxvip" value="1" />礼包
+						&nbsp;<span></span></td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>区域：</label></td>
+						<td>
+						<select name="regionId" validate="{required:true}">
+						    <option value="">--请选择--</option>
+						    #foreach($region in $regions)
+					            <option value="$region.id">$region.name</option>
+							#end
+						 </select>
+						 &nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>分级：</label></td>
+						<td><select name="grade" validate="{required:true}">
+							  <option value ="" selected="selected">--请选择--</option>
+							  <option value ="KA" >KA</option>
+							  <option value ="A" >A</option>
+							  <option value ="B" >B</option>
+							  <option value ="C" >C</option>
+							</select>
+						&nbsp;<span></span></td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>网格：</label></td>
+						<td>
+						<select name="reseauId" validate="{required:true}">
+						    <option value="">--请选择--</option>
+						    #foreach($reseau in $reseaus)
+					            <option value="$reseau.id">$reseau.name</option>
+							#end
+						 </select>
+						 &nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>支持：</label></td>
+						<td>
+						<input type="checkbox" name="check_str" checked="checked"
+            	
+             value="1">微信
+            <input type="checkbox" name="check_str" checked="checked"
+            	
+             value="2">支付宝
+						</td>
+					</tr>
+					
+					<tr>
+						<td align="right">
+							<label class="tit">特殊优惠：</label>
+						</td>
+						<td>
+						    <textarea id="special" name="special" cols="40" rows="5" ></textarea>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">公司备注：</label>
+						</td>
+						<td>
+						    <textarea id="companyMemo" name="companyMemo" cols="50" rows="5" ></textarea>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					
+					<tr class="btn-bar">
+						<td></td>
+						<td><a class="btn btn-primary" id="saveBtn" href="javascript:void(0)" onclick="$('#form1').submit();">保存</a></td>
+					</tr>
+				</table>
+			</form>
+		</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

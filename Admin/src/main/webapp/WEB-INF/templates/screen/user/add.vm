@@ -1,0 +1,83 @@
+<script type="text/javascript">
+ var checkSubmitFlag = false;
+	function save() {
+
+	  	if(checkSubmitFlag ==true){
+	       alert("请勿重复提交");
+	       return false;
+	    }
+
+	    checkSubmitFlag = true;
+
+		disableBtn('saveBtn');
+
+		submitJqueryFormData('roleForm', '$!{rc.contextPath}/user/addRole.do', function(
+				data) {
+			checkSubmitFlag = false;
+			if (data == "添加成功") {
+				window.location.href = "${rc.contextPath}/user/userlist.htm";
+			} else {
+				alert("操作失败，原因:" + data);
+				enableBtn('saveBtn');
+
+			}
+		});
+	}
+
+	
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+		<h4 class="tit">关联角色</h4>
+
+
+	</div>
+	<!--bd-actionbar-->
+	<div class="bd-main">
+		<div class="bd-main-inner">
+
+			<form class="jqtransform" id="roleForm" method="POST"
+				action="$!{rc.contextPath}/user/addRole.do">
+				<input type="hidden" name="userId" id="userId" value="$!user.id" />
+				<input type="hidden" name="num" id="num" value="$!size" />
+				<table class="form">
+					<tr>
+						<td align="right"><label class="tit">用户名：</label></td>
+						<td><input type="text" name="username" id="username" value="$!user.userName" readonly="readonly"></td>
+					</tr>
+					<tr>
+					<td align="right"><label class="tit">角色:</label></td>
+					<td>
+					#set($count = 1)
+					#foreach($dto in $roles)
+						#set($num=0)
+						#if($exist)
+							#foreach($bean in $exist)
+							#if($dto.roleId==$bean.roleId)
+								#set($num=1)
+							#end
+							#end
+							<input type="checkbox" name="checkbox$count" value="$dto.roleId" #if($num==1)checked="checked" #end> $dto.roleName 
+						#else
+						<input type="checkbox" name="checkbox$count" value="$dto.roleId"> $dto.roleName 
+						#end
+						#set($count = $count+1)
+					#end
+					</td>
+					</tr>
+					<tr class="btn-bar">
+						<td></td>
+						<td>
+
+						<button class="btn btn-primary" id="saveBtn" href="#" onclick="save();">确认</button>
+
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<!--bd-main-inner-->
+	</div>
+	<!--bd-main-->
+</div>
+<!--content-->

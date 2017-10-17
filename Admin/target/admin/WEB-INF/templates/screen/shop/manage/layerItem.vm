@@ -1,0 +1,584 @@
+#set($layout="layout/shopLayout1.vm")
+<ul class="zaishou_left">
+    #foreach($layer in $!shopLayers)
+        #if($layer.id == $layerId)
+            <li class="a active" index="$layer.id">$layer.name</li>
+        #else
+            <li class="a" index="$layer.id">$layer.name</li>
+        #end
+    #end
+    <div class="zs_add">
+        <img src="${rc.contextPath}/static/images/shop/zs_add.png">
+    </div>
+</ul>
+
+<div class="push_content">
+    <input id="shopId" type="hidden" value="$!shopId">
+    <ul>
+        <div id="layer_items" layer-id="$!layerId">
+        #if($!itemlist)
+            #foreach($item in $!itemlist)
+                <li index="$item.layerId" data-id = "$item.id">
+                    <div style="float:left;width:77.52%;position:relative;" class="dianji">
+                        <img src="$!item.imgPath" class="xiaofei" >
+                        #if($item.life<=30)
+                        <span class="duan">短保</span>
+                        #end
+                        <div class="new_show">
+                            <p class="shop_name">$!item.name</p>
+                            <p style="padding-left: 0.1rem;">
+                                <span class="shop_money">￥<span>$NumberTool.toYuanNumber($item.marketPrice)</span></span>
+                                <span class="price_01">采购价</span>
+                                <span class="price_02">￥<span>$NumberTool.toYuanNumber($item.sourcingPrice)</span></span>
+                                </br>
+                                <span class="price_01" style="margin-left: 0;">售价</span>
+                                <span class="price_02">￥<span>$NumberTool.toYuanNumber($item.salePrice)</span></span>
+                            </p>
+                            <p class="spec">
+                                $item.size
+                                #if(!$item.consumeNum)
+                                    #if($!item.flag<7)
+                                        <span class="zhixiao" >周消费<span class="week_o">0</span></span>
+                                    #else
+                                        <span class="week_red">滞销</span>
+                                    #end
+                                #else
+                                    <span class="zhixiao" >周消费<span class="week_o">$item.consumeNum</span></span>
+                                #end
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="push_right">
+                        <p class="num">$item.num</p>
+                        <a href="javascript:" class="off" id="1">
+                            操作
+                        </a>
+                    </div>
+                    <div class="push_bottom" id="push_bottom" style="bottom:-5.62rem;">
+                        <div class="liebiao" style="height: 2.1rem;">
+                            <img src="$item.imgPath" style="padding:0;height: initial;">
+                            <div class="shuzi">
+                                <p class="shop_name"></p>
+                                <p style="padding-left: 0.18rem;font-size:0.24rem;padding-top:0.1rem;">
+                                    <span class="shop_money">￥<span>$NumberTool.toYuanNumber($item.marketPrice)</span></span>
+                                    <span class="price_01">采购价</span>
+                                    <span class="ye">￥<span>$NumberTool.toYuanNumber($item.sourcingPrice)</span></span>
+                                </p>
+                                <p class="spec"></p>
+                            </div>
+                            <span class="quxiao" id="close"  >
+                            x
+                        </span>
+                        </div>
+                        <div class="shuru1">
+                            <span>售价：</span>
+                            <input type="number" name="cost" value="$NumberTool.toYuanNumber($item.salePrice)">
+                        </div>
+                        <div class="shuru1">
+                            <span>数量：</span>
+                            <input type="number" name="number" value="$item.num">
+                        </div>
+                        <div class="butt" data-id="$item.id">
+                            <a href="javascript:void(0);" class="save">保存</a>
+                            <a href="javascript:void(0);" class="push">下架</a>
+                        </div>
+
+                    </div>
+
+                </li>
+            #end
+
+        #else
+            <div class="no_result">
+                <img src="${rc.contextPath}/static/images/shop/no_result.png">
+                <span>本层暂未添加商品</span>
+            </div>
+        #end
+        </div>
+        <div class="push_bottom1" id="push_bottom1">
+            #foreach($layer in $!shopLayers)
+                <button class="push_ceng ps_s" index="$layer.id"  type="button" >调整至$layer.name</button>
+            #end
+            <div class="ps_xj">下架</div>
+            <div class="ps_qx">取消</div>
+        </div>
+
+        <div class="zs_edit">
+            <span class="zs_del del_sure">删除本层</span>
+            <span class="zs_del ed_sure" >编辑本层</span>
+        </div>
+    </ul>
+    <!-- <p class="week_goods">周消费量统计截至2016-08-21</p>  -->
+
+    <div class="push_bg" id="push_bg" style="display:none"></div>
+</div>
+
+<!-- 添加层 -->
+<div class="ae_ceng">
+    <div class="ae_content">
+        <span>添加层</span>
+        <img src="${rc.contextPath}/static/images/shop/zs_close.png" id="zs_close">
+    </div>
+    <div class="ae_footer">
+        <input type="" name="" placeholder="请输入层的名称（最多三个字）" id="ceng_val">
+        <span class="ae_anniu ae_quxiao">取消</span>
+        <span class="ae_anniu ae_sure">确定</span>
+    </div>
+</div>
+<!-- 编辑层 -->
+<div class="botom_push" style="color: #FFE500" ontouchend="godown($shopId)">
+    <span>已下架商品</span>
+</div>
+<script type="text/javascript">
+    document.title = "在售商品";
+    var touchmove;
+    $(document).on( "touchend", function() {
+        touchmove = false;
+    });
+    $(document).on( "touchmove", function() {
+        touchmove = true;
+    });
+    function formatMoney(num) {
+        var money = num/100;
+        var float = num%100;
+        var float2 = num%10;
+        if(float == 0){
+            money = money + ".00";
+        }else{
+            if(float2 == 0) {
+                money = money + "0";
+            }
+        }
+        return money;
+    }
+    $(function() {
+        var n_he = $(".push_bottom1").height();
+        console.log(n_he);
+        $(".push_bottom1").css("bottom",-n_he);
+    });
+    $(".zaishou_left").on("touchend",function(e){
+        var sf = e.target;
+        if (touchmove) {
+            return;
+        }
+        if (sf.nodeName == "LI" && sf.className == "a"){
+            $(sf).addClass("active").siblings().removeClass("active");
+            var now_index = $(sf).attr("index");
+            var shopId = $('#shopId').val();
+            $(".ps_s").removeAttr("disable");
+            $(".ps_s").css("color","#000");
+            $.ajax({
+                url:'${rc.contextPath}/convenient/shop_layerItem.json',
+                type:'POST',
+                data: {shop_id:shopId,layerId:now_index},
+                success:function(data){
+                    if(data.status==200){
+                        if(data.data.length>0){
+                            var content = '';
+                            $.each(data.data,function(i){
+                                var marketPrice = formatMoney(data.data[i].marketPrice);
+                                var sourcingPrice = formatMoney(data.data[i].sourcingPrice);
+                                var salePrice = formatMoney(data.data[i].salePrice);
+                                content += '<li index="'+data.data[i].layerId+'" data-id = "'+data.data[i].id+'"><div style="float:left;width:77.52%;" class="dianji"><img src="'+data.data[i].imgPath+'" class="xiaofei"><div class="new_show"><p class="shop_name">'+data.data[i].name+'</p><p style="padding-left: 0.1rem;"><span class="shop_money">￥<span>'+marketPrice+'</span></span><span class="price_01">采购价</span><span class="price_02">￥<span>'+sourcingPrice+'</span></span></br><span class="price_01" style="margin-left: 0;">售价</span><span class="price_02">￥<span>'+salePrice+'</span></span></p><p class="spec">'+data.data[i].size;
+                                var consumenum = data.data[i].consumeNum;
+                                var flag = data.data[i].flag;
+                                if(!consumenum){
+                                    if (flag<7){
+                                        content +='<span class="zhixiao" >周消费<span class="week_o">0</span></span>';
+                                    }else{
+                                        content +='<span class="week_red">滞销</span>';
+                                    }
+                                }else{
+                                    content +=' <span class="zhixiao" >周消费<span class="week_o">'+consumenum+'</span></span>'
+                                }
+                                content +='</p></div></div><div class="push_right"><p class="num">'+data.data[i].num+'</p><a href="javascript:" class="off" id="1">操作</a></div><div class="push_bottom" id="push_bottom" style="bottom:-5.62rem;"><div class="liebiao" style="height: 2.1rem;"><img src="'+data.data[i].imgPath+'" style="padding:0;height: initial;"><div class="shuzi"><p class="shop_name"></p><p style="padding-left: 0.18rem;font-size:0.24rem;padding-top:0.1rem;"><span class="shop_money">￥<span>'+marketPrice+'</span></span><span class="price_01">采购价</span><span class="ye">￥<span>'+sourcingPrice+'</span></span></p><p class="spec"></p></div><span class="quxiao" id="close"  >x</span></div><div class="shuru1"><span>售价：</span><input type="number" name="cost" value="'+salePrice+'"></div><div class="shuru1"><span>数量：</span><input type="number" name="number" value="'+data.data[i].num+'"></div><div class="butt" data-id="'+data.data[i].id+'"><a href="javascript:void(0);" class="save">保存</a><a href="javascript:void(0);" class="push">下架</a></div></div>'
+                            });
+                            $('#layer_items').html(content);
+                        }else{
+                            var no_content = '<div class="no_result"><img src="${rc.contextPath}/static/images/shop/no_result.png"><span>本层暂未添加商品</span></div>'
+                            $('#layer_items').html(no_content);
+                            $(".no_result").show();
+                        }
+                    }else{
+                        alert("失败");
+                    }
+                    $('#layer_items').attr("layer-id",now_index);
+                }
+            })
+
+        }
+
+    })
+
+
+    $(document).on("touchend",".dianji",function(){
+        if (touchmove) {
+            return;
+        }
+        var a = this;
+        var name =$(a).find(".shop_name").text();
+        var shop_price =  $(a).find("p .shop_money span").text();
+        var img_src = $(a).parent().find("img").attr("src");
+        var caigou_price = $(a).find("p .price_02 span").eq(0).text();
+        var cost_price = $(a).find("p .price_02 span").eq(1).text();
+        var spec = $(a).find(".spec").text();
+        var su = $(a).parent();
+        var shuliang = $(su).find(".push_right .num").text();
+        $(a).siblings(".push_bottom").animate({bottom:"0"},200);
+        $(su).parent().parent().siblings(".push_bg").css("display","block");
+        var sus_name = $(a).siblings(".push_bottom").children(".liebiao");
+        $(sus_name).find("img").attr("src",img_src);
+        $(sus_name).find(".shuzi .shop_name").text(name);
+        $(sus_name).find(".shuzi p .shop_money span").text(shop_price);
+        $(sus_name).find(".shuzi p .ye span").text(caigou_price);
+        $(sus_name).find(".shuzi .spec").text(spec);
+        var biaojia = $(a).siblings(".push_bottom").children(".shuru1");
+        $(biaojia).eq(0).find("input").val(cost_price);
+        $(biaojia).eq(1).find("input").val(shuliang);
+    });
+
+    function accMul(num1,num2){
+        var m=0,s1=num1.toString(),s2=num2.toString();
+        try{m+=s1.split(".")[1].length}catch(e){};
+        try{m+=s2.split(".")[1].length}catch(e){};
+        return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m);
+    }
+
+    // close关闭悬浮层
+    $(document).on("touchend",".quxiao",function(){
+        if (touchmove) {
+            return;
+        }
+        $('input').blur();
+        $(this).parent().parent().animate({bottom:"-5.62rem"},200);
+        $(this).parent().parent().parent().parent().parent().siblings(".push_bg").css("display","none");
+    });
+
+    //保存数据按钮
+    $(document).on("touchend",".save",function(){
+        if (touchmove) {
+            return;
+        }
+        $('input').blur();
+        var sss =this;
+        var item_id = $(this).parent().attr("data-id");
+        var price_sale = $(this).parent().siblings(".shuru1").eq(0).find("input").val();
+        var num_stock = $(this).parent().siblings(".shuru1").eq(1).find("input").val();
+        var reg = /^(([1-9]+)|([0-9]+\.[0-9]{1,2}))$/;
+        var price = 0;
+        if(reg.test(price_sale)){
+            price = accMul(price_sale,100);
+        }else{
+            alert("请输入正确的价格");
+            return false;
+        }
+        var tt=/^\d+$/;
+        if (!tt.test(num_stock)) {
+            alert("请输入正确的数量");
+            return false;
+        }
+        $.ajax({
+            url:'${rc.contextPath}/convenient/shop_itemUpdate.do',
+            type:'POST',
+            data: {item_id:item_id,price:price,num:num_stock},
+            success:function(data){
+                if(data.status==200){
+                    $(sss).parent().parent().siblings(".dianji").find(".new_show p .price_02 span").eq(1).text(price_sale);
+                    $(sss).parent().parent().siblings(".push_right").find(".num").text(num_stock);
+                    $(sss).parent().parent().animate({bottom:"-5.62rem"},200);
+                    $(sss).parent().parent().parent().parent().parent().siblings(".push_bg").fadeOut();
+                }else if(data.status==201){
+                    alert("你不是管理员！");
+                }else{
+                    alert("网络异常，请稍后重试！");
+                }
+            }
+
+        })
+
+    });
+
+    //悬浮层上架
+    $(document).on("touchstart",".push",function(){
+        if (touchmove) {
+            return;
+        }
+        if (confirm("确定下架吗？")) {
+            var sdsd = this;
+            var item_id = $(sdsd).parent().attr("data-id");
+            var price_sale = $(this).parent().siblings(".shuru1").eq(0).find("input").val();
+            var num_stock = $(this).parent().siblings(".shuru1").eq(1).find("input").val();
+            var reg = /^(([1-9]+)|([0-9]+\.[0-9]{1,2}))$/;
+            var price = 0;
+            if(reg.test(price_sale)){
+                price = accMul(price_sale,100);
+            }else{
+                alert("请输入正确的价格");
+                return false;
+            }
+            var tt=/^\d+$/;
+            if (!tt.test(num_stock)) {
+                alert("请输入正确的数量");
+                return false;
+            }
+
+            $.ajax({
+                url:'${rc.contextPath}/convenient/shop_itemUpdate.do',
+                type:'POST',
+                data: {item_id:item_id,price:price,num:num_stock,isdown:0},
+                success:function(data){
+                    if(data.status==200){
+                        $(sdsd).parent().parent().parent().parent().parent().siblings(".push_bg").fadeOut();
+                        $(sdsd).parent().parent().animate({bottom:"-5.62rem"},200);
+                        $(sdsd).parent().parent().parent().fadeOut(500, function(){
+                            $(sdsd).remove();
+                        });
+                    }else if(data.status==201){
+                        alert("你不是管理员！");
+                    }else{
+                        alert("网络异常，请稍后重试！");
+                    }
+                }
+
+            })
+
+
+
+
+        }
+
+
+    });
+
+    // 添加层浮出
+    $(".zs_add").on("touchend",function(){
+    	if (touchmove) {
+            return;
+        }
+        $(".ae_content").find("span").text("添加层");
+        $(".ae_footer").find("input").attr("placeholder","请输入层的名称（最多三个字）");
+        $('.ae_ceng').animate({bottom:"0"},200);
+        $('.push_bg').fadeIn();
+        $('.ae_footer').removeAttr("layer-id");
+    })
+    //编辑层浮出
+    $(".ed_sure").on("touchend",function() {
+    	if (touchmove) {
+            return;
+        }
+        $(".ae_content").find("span").text("编辑层");
+        $(".ae_footer").find("input").attr("placeholder","请重新输入层的名称（最多三个字）");
+        $('.ae_ceng').animate({bottom:"0"},200);
+        var layerId=$(this).parent().parent().find("div").attr("layer-id");
+        $(".ae_footer").attr("layer-id",layerId);
+        $('.push_bg').fadeIn();
+    })
+    // 添加层关闭
+    $("#zs_close").on("touchend",function(){
+    	if (touchmove) {
+            return;
+        }
+        $('.ae_ceng').animate({bottom:"-4.08rem"},200);
+        $('.push_bg').fadeOut();
+        $(this).parent().siblings(".ae_footer").removeAttr("layer-id");
+    })
+
+    // 添加层取消
+    $(".ae_quxiao").on("touchend",function(){
+    	if (touchmove) {
+            return;
+        }
+        $('.ae_ceng').animate({bottom:"-4.08rem"},200);
+        $('.push_bg').fadeOut();
+        $("#ceng_val").val('');
+        $(this).parent().removeAttr("layer-id");
+    })
+
+    // 添加层确定
+    $(".ae_sure").on("touchend",function(){
+    	if (touchmove) {
+            return;
+        }
+        document.activeElement.blur();
+        var al = $("#ceng_val").val();
+        var layerId=$(this).parent().attr("layer-id");
+
+        var shopId = $('#shopId').val();
+        if (al.length == 0) {
+            alert("至少输入一个字");
+            return;
+        }
+        if (al.length>3) {
+            alert("不得超过三个字");
+            return;
+        }
+
+        $.ajax({
+            url:'${rc.contextPath}/convenient/shop_saveLayer.do',
+            type:'POST',
+            data: {shopId:shopId,id:layerId,name:al},
+            success:function(data){
+                if(data.status==200){
+                    if(data.data){
+                        var a_size = data.data.id;
+                        var name = data.data.name;
+                        $('<li class="a" index='+a_size+'>'+name+'</li>').insertBefore($(".zs_add"));
+                        $('<button class="push_ceng ps_s" index='+a_size+' type="button">'+name+'</button>').insertBefore($(".ps_xj"));
+                        $('.ae_ceng').animate({bottom:"-4.08rem"},200);
+                        $('.push_bg').fadeOut();
+                    }else{
+                        $("li.active").text(al);
+                        $('.ae_ceng').animate({bottom:"-4.08rem"},200);
+                        $('.push_bg').fadeOut();
+                    }
+                }else{
+                    alert("失败");
+                }
+                $("#ceng_val").val('');
+            }
+        })
+
+    })
+
+    // 删除本层
+    $(".del_sure").on("touchend",function(){
+        if(touchmove){
+            return;
+        }
+        if(confirm("确定删除本层吗？")){
+            var layerId=$(this).parent().parent().find("div").attr("layer-id");
+            var shopId = $('#shopId').val();
+            var yes_no = $(".push_content ul li:not(:hidden)").length;
+            if (yes_no >0) {
+                alert("请先将本层的商品调整至其它层");
+                return;
+            }else{
+                //console.log($('li.active').attr("index"));
+                $.ajax({
+                    url:'${rc.contextPath}/convenient/shop_deleteLayer.do',
+                    type:'POST',
+                    data: {shopId:shopId,layerId:layerId},
+                    success:function(data){
+                        if(data==200){
+                            window.location.reload();
+                        }else{
+                            alert("设置层级出错");
+                        }
+                    }
+                })
+
+            }
+        }
+
+        $(".L").css("color","#C7C7C7");
+    })
+
+    // 操作
+    $(".push_content").on("touchend",function(e){
+        var dod = e.target;
+        if (touchmove) {
+            return;
+        }
+        // 操作
+        if (dod.nodeName == "A" && dod.className == "off"){
+            console.log();
+            var ddd = $(dod).parent().parent().parent().siblings(".push_bottom1");
+            var itemid = $(dod).parent().parent().attr("data-id");
+            $('.push_bottom1').attr("item-id",itemid);
+            $('.push_bg').fadeIn();
+            $(ddd).animate({bottom:0},200);
+            ddd.show();
+            var noww_index = $(dod).parent().parent().attr("index");
+            var pu_index = $(ddd).find(".ps_s");
+            $(".zaishou_left li").each(function(){
+                var index2 = $(this).attr("index");
+                var jo = $(this).text();
+                for (var i = 0; i < pu_index.length; i++) {
+                    if ($(pu_index[i]).attr('index') == noww_index) {
+                        $(pu_index[i]).attr('disable','disable');
+                        $(pu_index[i]).css("color","#C7C7C7");
+                    }
+                    if ($(pu_index[i]).attr('index') == index2) {
+                        $(pu_index[i]).text("调整至"+jo);
+                    }
+                }
+            })
+
+        }
+        // 调节层数
+        if (dod.nodeName == "BUTTON") {
+            if ($(dod).attr("disable") == "disable") {
+                return;
+            }
+
+            var layerId = $(dod).attr("index");
+            var itemId = $(dod).parent().attr("item-id");
+            var shopId = $('#shopId').val();
+            $.ajax({
+                url:'${rc.contextPath}/convenient/shop_setLayer.do',
+                type:'POST',
+                data: {shopId:shopId,itemId:itemId,layerId:layerId},
+                success:function(data){
+                    if(data==200){
+                        $("#layer_items li").each(function(){
+                            var idi = $(this).attr("data-id");
+                            if(idi == itemId){
+                                $(this).remove();
+                            }
+                        });
+                        $('.push_bottom1').hide();
+                        $('.push_bg').fadeOut();
+                    }else{
+                        alert("设置层级出错");
+                    }
+                }
+            })
+
+        }
+        // 调节层数 取消
+        if (dod.className == "ps_qx") {
+            var koko = $(".push_bottom").height();
+            $('.push_bottom1').animate({bottom:-koko},200);
+            $('.push_bottom1').hide();
+            $('.push_bg').fadeOut();
+        }
+        //下架
+        if (dod.className == "ps_xj") {
+            var itemId = $(dod).parent().attr("item-id");
+            if (confirm("确定下架吗？")) {
+                var the = this;
+                var id = $(the).attr("id");
+                $.ajax({
+                    url: '${rc.contextPath}/convenient/shop_shelf.do',
+                    type: 'POST',
+                    data: {item_id: itemId, isdown: 0},
+                    success: function (data) {
+                        if (data == 200) {
+                            $("#layer_items li").each(function () {
+                                var idi = $(this).attr("data-id");
+                                if (idi == itemId) {
+                                    $(this).remove();
+                                    $('.push_bottom1').hide();
+                                    $('.push_bg').fadeOut();
+                                }
+                            });
+                        } else if (data == 201) {
+                            alert("你不是管理员！");
+                        } else {
+                            alert("网络异常，请稍后重试！");
+                        }
+                    }
+
+                })
+            }
+        }
+    })
+
+    function godown(id){
+        if (touchmove) {
+            return;
+        }
+        window.location.href="${rc.contextPath}/convenient/shop_saleItem.htm?shop_id="+id+"&isdown=0";
+    }
+</script>

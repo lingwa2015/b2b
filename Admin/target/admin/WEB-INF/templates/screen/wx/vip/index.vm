@@ -1,0 +1,26 @@
+ #set($layout="layout/wxLayout.vm")
+ 	<img src="${rc.contextPath}/static/images/wx/vip_num.jpg" style="width:0px; height:0px; overflow:hidden;display: block;">
+ 	#if($status==1)
+ 		<div class="vip_header">
+	        <a href="${rc.contextPath}/weixin/wxinfo.htm" class="btn"><img src="${rc.contextPath}/static/images/wx/vip_3.png" class="vip_03"></a>
+	        <span class="company">$company</span>
+	        <span class="price">余额：<b>$NumberTool.toYuanNumber($account)</b>元</span>
+	        <a href="${rc.contextPath}/weixin/wxcharge.htm" class="re">充值</a>
+	        <a href="${rc.contextPath}/weixin/wxagreement.htm" class="look">查看服务细则</a>
+    	</div>
+ 	#else
+     <div class="vip_open">
+        <img src="${rc.contextPath}/static/images/wx/open.jpg"class="vip_img">
+        <a href="${rc.contextPath}/weixin/wxagreement.htm" class="look"><span class="watch">查看服务细则</span></a>
+        <!-- <a href="${rc.contextPath}/weixin/wxadd.htm" class="open">立即开通会员</a> -->
+    </div>
+ 	#end
+   
+    <div class="foot_box"> <!-- 当前选中页面a标签加class="c" -->
+        <a class="index_btn " href="${rc.contextPath}/wxuserStandardOrder/wxWeekStandardOrderList.htm"></a>
+        <a class="vip_btn c" href="${rc.contextPath}/weixin/wxaccount.htm"></a>
+        <a class="order_btn " href="${rc.contextPath}/wxuserOrder/wxlist.htm"></a>
+    </div>
+    <script type="text/javascript">
+document.title = "企业会员－领蛙商城";
+</script>

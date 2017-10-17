@@ -1,0 +1,36 @@
+#set($layout="layout/shopLayout.vm")
+ <div class="add_addr" id="add_addr" style="display:block;">
+		                <a href="javascript:addr();">
+		                    <img src="${rc.contextPath}/static/images/wx/confirm_03.png">
+		                    <span>新增收货地址</span>
+		                </a>
+		            </div>
+
+<script type="text/javascript" src="${rc.contextPath}/static/js/shop/cart.js"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+<script type="text/javascript">
+document.title = '采购';
+$("body").css("background-color","#f7f7f7");
+	
+	
+	
+	wx.config({  
+        debug: true, 
+        appId: '$!appId',  
+        timestamp:'$!timestamp',  
+        nonceStr:'$!nonceStr', 
+        signature:'$!signature',  
+        jsApiList : ['openAddress']  
+    });//end_config 
+	
+	function addr(){
+         wx.openAddress({ 
+         success: function (res) {
+		   alert(JSON.stringify(res));  
+		 }
+		 });
+	
+	}
+
+	
+</script>

@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sxc.natasha.ui.login.Login"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+          <ImageView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/green_dark"
+              android:layout_weight="2"
+              android:id="@+id/test_banner"
+              />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="4"
+                >
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:hint="手机号码"
+                    android:id="@+id/login_mobilePhone"
+                    android:phoneNumber="true"
+
+                    />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:hint="密码"
+                    android:password="true"
+                    android:id="@+id/login_password"
+
+                    />
+                   <Button
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:text="登录"
+                       android:layout_marginLeft="20dp"
+                       android:layout_marginRight="20dp"
+                       android:id="@+id/login_submit_btn"
+                       />
+
+            </LinearLayout>
+        </LinearLayout>
+
+</RelativeLayout>

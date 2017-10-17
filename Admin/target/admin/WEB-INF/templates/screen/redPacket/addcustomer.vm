@@ -1,0 +1,164 @@
+<div class="content">
+	<div class="bd-actionbar">
+        <a href="${rc.contextPath}/redPacket/redList.htm" title="返回红包活动列表" class="btn btn-return"><</a>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" id="orderListForm" action="addcustomer.htm?id=$!redId" method="POST">
+		<table class="form form-horizontal">
+		<tr>
+		    <td align="right"><label class="tit">客户简称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="userName" id="userName" value="$!itemName">
+			</td>
+            <td><label class="tit ">活动店铺：</label></td>
+            <td >
+                <select name="selectev">
+                    <option value ="" >全部</option>
+                    <option value ="0" #if($!selectev=='0')selected="selected"#end>未选择</option>
+                    <option value ="1" #if($!selectev=='1')selected="selected"#end>已选择</option>
+                </select>
+            </td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(orderListForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+    <div>
+		全选<input type="checkbox" style="width: 19px; height: 15px;" id="checkAll" value="1" onClick="checkAll(this);" />
+	</div>
+
+
+	<table class="table" #if($dto.comfirm == 0) style="border:#FF0000 solid 2px;margin-bottom:20px" #else style="border:#000 solid 2px;margin-bottom:20px" #end>
+		<input type='hidden' id='redid' value="$!redId"/>
+		<tr>
+			<th width="40%">公司简称</th>
+			<th width="20%">公司全称</th>
+			<th width="10%">分级</th>
+			<th width="10%">活跃度</th>
+		</tr>
+		#foreach($user in $page.result)
+		<tr>
+			
+			<td ><input type="checkbox" style="width: 19px; height: 14px;" id="$!dto.id" name="orderCheckbox" onClick="check(this);" value="$!user.id" #if($user.isadmin>0)checked="checked" #end>$!user.userName</td>
+			<td>$!user.companyName</td>
+			<td>$!user.grade</td>
+			<td>            
+			                #if($!user.contractDay<=7)
+								<span style="color:green;">正常</span>
+							#elseif(7<$!user.contractDay and $!user.contractDay<=14)
+								<span style="color:red;">异常</span>
+							#elseif(14<$!user.contractDay and $!user.contractDay<=60)
+								<span style="color:red;">预警</span>
+							#elseif($!user.contractDay>60)
+								<span style="color:#000000;">断约</span>
+						    #else
+						    	
+						    #end
+		   </td>
+		</tr>
+		#end
+	</table>
+	<div class="text-center">
+			#parse("/common/page.vm")
+	</div>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+<script>
+    var payPrevent = false;
+    function checkAll(target) {
+    if (payPrevent == true){
+    	alert("你的操作太频繁，请稍后");
+    }
+	payPrevent = true;
+    	var flag = $('#checkAll').prop("checked");
+		var redid = $('#redid').val();
+		var now = [];
+		var boxs =  document.getElementsByName('orderCheckbox');
+		for(var i=0,length = boxs.length;i<length;i++){
+			var ele = document.getElementsByName('orderCheckbox')[i];
+			var id =$(ele).val();
+			ele.checked = document.getElementById('checkAll').checked;
+			var arr = {};
+	   		arr["redId"] = redid;
+	        arr["customerId"] = id;
+	        now.push(arr);
+		}
+		var data = JSON.stringify(now);
+		if(flag){
+			 $.ajax({
+					url:'${rc.contextPath}/redPacket/addcustomer.do',
+					type:'POST',
+					data: {redId:redid,jsondata:data},
+					success:function(data){
+						if(data=="201"){
+							alert(勾选失败);
+						}
+						payPrevent = false;
+					}
+					
+				})
+		
+		}else{
+			 $.ajax({
+					url:'${rc.contextPath}/redPacket/delcustomer.do',
+					type:'POST',
+					data: {jsondata:data},
+					success:function(data){
+						if(data=="201"){
+							alert(勾选失败);
+						}
+						payPrevent = false;
+					}
+					
+				})
+		}
+		
+	}
+	
+	function check(target) {
+		if (payPrevent == true){
+	    	alert("你的操作太频繁，请稍后");
+	    }
+		payPrevent = true;
+		var redid = $('#redid').val();
+		var id =$(target).val();
+		var flag = $(target).prop("checked");
+		var now = [];
+		    var arr = {};
+	   		arr["redId"] = redid;
+	        arr["customerId"] = id;
+	        now.push(arr);
+	        var data = JSON.stringify(now);
+	    if(flag){
+			 $.ajax({
+					url:'${rc.contextPath}/redPacket/addcustomer.do',
+					type:'POST',
+					data: {redId:redid,jsondata:data},
+					success:function(data){
+						if(data=="201"){
+							alert("勾选失败");
+						}
+						payPrevent = false;
+					}
+					
+				})
+		
+		}else{
+			 $.ajax({
+					url:'${rc.contextPath}/redPacket/delcustomer.do',
+					type:'POST',
+					data: {jsondata:data},
+					success:function(data){
+						if(data=="201"){
+							alert("勾选失败");
+						}
+						payPrevent = false;
+					}
+					
+				})
+		}
+	}
+</script>

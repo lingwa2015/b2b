@@ -1,0 +1,81 @@
+<script type="text/javascript">
+function editData(id){
+  window.location.href="${rc.contextPath}/business/businessUpdate.htm?id="+id;
+}
+
+function delData(id){
+  var url="${rc.contextPath}/business/businessDelete.do?id="+id;
+  doDeleteRequest(url,id,show);
+}
+
+function setBusinessManager(id){
+  var url="${rc.contextPath}/business/createBusinessUser.do?id="+id;
+  doDeleteRequest(url,id,show);
+}
+
+function show(data){
+    alert(data);
+	if(data.indexOf("成功")!=-1){
+		 window.location.href="${rc.contextPath}/business/businessList.htm";
+	}
+}
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/business/businessAdd.htm" class="btn btn-success"><i class="ico"></i>添加商家</a>
+	</div><!--bd-actionbar-->
+		
+	<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" id="form1" name="form1" action="$rc.contextPath/business/businessList.htm" method="post">
+				<table class="form form-horizontal">
+					<tr>
+						<td><label class="tit first-tit">姓名：</label></td>
+						<td><input name="businessName" id="businessName" class="form-input" type="text" value="$!businessName"></td>
+						<td><label class="tit">手机号码：</label></td>
+						<td><input name="mobilePhone" id="mobilePhone" class="form-input" type="text" value="$!mobilePhone"></td>
+						<td><a class="btn btn-warning btn-sm" href="javascript:goPage(1)">查找</a></td>
+					</tr>
+				</table>
+			</form>
+			
+			<table class="table">
+		 		<tr>
+					<th>姓名</th>
+					<th>手机号码</th>
+					<th>商家地址</th>
+					<th>创建时间</>
+					<th>操作</th>
+		  		</tr>
+		  		
+		  		#set ($rowCount = 0)
+		  		#foreach($business in $page.result)
+			  		#set ($isOddRow = $rowCount % 2 != 0)
+			  		#if ($isOddRow)
+	           		<tr>
+	          		#else
+	           		<tr class="sep-bar">
+	          		#end
+						<td>$!business.businessName</td>
+						<td>$!business.mobilePhone</td>
+						<td>$!business.businessAddress</td>
+						<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!business.createdTime)</td>
+						<td class="opt">
+							<a href="javascript:editData('$business.id')">编辑</a><span>|</span>
+							<a href="javascript:delData('$business.id')">删除</a><span>|</span>
+							<a href="javascript:setBusinessManager('$business.id')">设置为商家管理员</a><span>|</span>
+						</td>
+			  		</tr>
+			  
+			  		#set ($rowCount = $rowCount + 1)
+		 		#end
+
+			</table>
+			
+			<div class="text-center">
+        			#parse("/common/page.vm")
+       		</div>
+		</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

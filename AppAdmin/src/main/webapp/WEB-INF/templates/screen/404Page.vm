@@ -1,0 +1,17 @@
+#set($layout="layout/blank.vm")
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>404提示</title>
+</head>
+<body>
+  <div>您输入的网址不存在：</div>
+  <div>错误状态代码是：$!{pageContext.errorData.statusCode}</div>
+  <div>错误发生页面是：$!{pageContext.errorData.requestURI}</div>
+  <div>错误信息：$!{pageContext.exception}</div>
+  <div>
+     错误堆栈信息：<br/>
+  </div>
+</body>
+</html>

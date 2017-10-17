@@ -1,0 +1,48 @@
+#set($layout="layout/phoneLayout.vm")
+    <div class="contain">
+        <div class="head">
+            <img src="${rc.contextPath}/static/images/phone/head_logo.png">
+        </div>
+        <img src="${rc.contextPath}/static/images/phone/banner_01.png" class="banner_01">
+        <p class="dao"></p>
+        <p class="banner_02">办公室自助便利店</p>
+        <p class="banner_03">领蛙，是一家专注于企业服务的互联网公司，通过为企业免费提供开放式自助便利店服务，为写字楼白领解决早餐、下午茶、加班零食等即时性的消费需求，帮助企业提升员工幸福指数，提高员工工作效率。</p>
+        <p class="dao"></p>
+        <p class="banner_02">我们的优势</p>
+        <img src="${rc.contextPath}/static/images/phone/banner_02.png" class="banner_04">
+        <p class="banner_02" style="margin-top: 0;">快捷</p>
+        <p class="heng"></p>
+        <p class="banner_05">将便利店搬到您身边，美味就在转身之间</p>
+        <img src="${rc.contextPath}/static/images/phone/banner_03.png" class="banner_06">
+        <p class="banner_02" style="margin-top: 0;">方便</p>
+        <p class="heng"></p>
+        <p class="banner_05">微信或支付宝购买，商品自取</p>
+        <img src="${rc.contextPath}/static/images/phone/banner_04.png" class="banner_06" style="width: 6.04rem;height: 5.8rem;">
+        <p class="banner_02" style="margin-top: 0;">安全</p>
+        <p class="heng"></p>
+        <p class="banner_07">所有商品均来自正规渠道，证件齐全，安全放心</p>
+        <img src="${rc.contextPath}/static/images/phone/banner_05.png" class="banner_06">
+        <p class="banner_02" style="margin-top: 0;">丰富</p>
+        <p class="heng"></p>
+        <p class="banner_07">品类齐全，国产进口应有尽有，价格低于传统便利店</p>
+        <p class="dao" style="margin-top: 1.56rem;"></p>
+        <p class="banner_02">办公室自助便利店</p>
+        <img src="${rc.contextPath}/static/images/phone/banner_06.png" class="banner_08">
+        <span class="banner_09">联系我们</span>
+        <div class="ko" style="position: relative;margin-bottom: 1.44rem;">
+            <span class="banner_10">地址：杭州市余杭区荆长路40号2楼</span>
+            <span class="banner_10 lolo">客服热线：400-880-1703</span>
+            <span class="banner_10 lolo">官网：www.lingwa.com.cn</span>
+            <div class="right">
+                <img src="${rc.contextPath}/static/images/phone/banner_07.png" class="banner_11">
+                <span>领蛙公众号</span>
+            </div>
+        </div>
+        <span class="banner_09" style="font-size: .24rem;line-height: .52rem;color: #333;margin-bottom: 0;">杭州领带蛙网络科技有限公司</span>
+        <span class="banner_09" style="font-size: .24rem;line-height: .52rem;color:#333;margin-bottom: .2rem;">浙ICP备15009557号-2</span>
+        
+        
+    </div>
+
+<script>   
+</script>

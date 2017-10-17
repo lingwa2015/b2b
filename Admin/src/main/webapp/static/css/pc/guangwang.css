@@ -1,0 +1,562 @@
+
+a{text-decoration: none;border: 0;}
+body{min-width: 1024px;}
+/*1280åˆ†è¾¨çŽ‡*/
+@media screen and (min-width:1025px) and (max-width: 1280px) {
+body{min-width: 1224px;}
+/*å¤´éƒ¨*/
+.head{width: 100%;height: 52px;background-color:#C9E8FB;position: fixed;top: 0;z-index: 100;}
+.head .head_01{position: absolute;top: 17px;left: 52px;}
+.head .gang{width: 1px;height: 26px;background-color: #2A2A2A;position: absolute;top: 19.5px;left: 172.5px;}
+.head .head_02{position: absolute;top:14px;left: 188.5px;width: 41px;height: 36px;}
+.head .head_contain{position: absolute;left: 46%;}
+.head .head_contain .head_top{
+	line-height: 52px;height: 52px;width: 132.7px;text-align: left;font-size: 16px;cursor: pointer;padding-left: 40.5px;float: left;z-index: 1;
+	color: #231815;background-image: url("../../images/pc/dao_logo.png");background-size: 22px 22px;background-repeat:no-repeat;background-position:11.5px 15.2px;
+}
+.head .head_tel{float: right;margin-right: 75.7px;margin-top: 18px;}
+.llp{margin-left: 32.3px;}
+.head .active{background-color: #FDDC2F;width: 132.7px;height: 52px;position: absolute;left: 46%;z-index: -1;
+	transition: all .18s ease-out;
+}
+/*banneréƒ¨åˆ†*/
+.banner{height: 503px; background-image: url("../../images/pc/banner.jpg");background-size: cover;background-repeat:no-repeat;}
+/*å…³äºŽé¢†è›™*/
+.shouye_about{height: 603px;width: 100%;position: relative;}
+.shouye_about .shouye_about_01{}
+.shouye_about .shouye_about_01 img{top: 128px;position: absolute;left: 156px}
+.shouye_about .shouye_about_01 .dao{width: 0;height: 0; border-left: 15px solid transparent;border-right: 15px solid transparent;border-top: 18px solid #FEDE00;margin: 30px auto 13px;}
+.shouye_about .shouye_about_01 .bian_01{font-size: 22px;color: #231815;text-align: center;}
+.shouye_about .shouye_about_01 .bian_02{font-size: 14px;color: #9B9B9B;text-align: center;margin-top: 6px;}
+.shouye_about .shouye_about_01 .bian_li{height: 293px;width: 436px;position: absolute;right: 167px;top: 195px;color: #231815;}
+.shouye_about .shouye_about_01 .bian_li .bian_03{font-size: 18px;}
+.shouye_about .shouye_about_01 .bian_li .bian_04{font-size: 16px;line-height: 30px}
+.shouye_about .shouye_about_01 .bian_li .bian_05{width: 34px;height: 3px;background-color: #FDDC2F;display: block;margin: 7px 0 25px 0}
+/*è´­ä¹°æµç¨‹*/
+.buy{height: 640px; background-image: url("../../images/pc/gou_buy.jpg");background-size: cover;background-repeat:no-repeat;position: relative;}
+.buy .buy_01{font-size: 18px;color: #231815;position: absolute;top: 55px;left: 174px;}
+.buy .buy_02{width: 34px;height: 3px;background-color: #FDDC2F;position: absolute;left: 176px;top: 86px}
+.buy .liuc_01{position: absolute;padding: 13.5px 10px;left: 167px;top: 164px;}
+.buy .liuc_02{position: absolute;padding: 13.5px 10px;left: 555px;top: 164px;}
+.buy .liuc_03{position: absolute;padding: 13.5px 10px;right: 150px;top: 164px;}
+.buy .buy_zhi{position: absolute;padding: 51.5px 0 0 3.6px;left: 401px;top: 260px;}
+.buy .buy_wen{position: absolute;width: 187px;font-size: 14px;color: #231815;line-height: 26px;text-align: center;bottom: 224px;left: 359px;}
+.rr{left: 791px !important;}
+.kk{left: 745px !important;bottom: 246px !important;}
+/*æˆ‘ä»¬çš„ä¼˜åŠ¿*/
+.our{height: 622px !important;}
+.shouye_about .shouye_about_01 .box{width: 948px;height: 374px;background: -webkit-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: -o-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: -ms-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);margin: 61px auto 0;position: relative;}
+.shouye_about .shouye_about_01 .box .ka_01{position: absolute;width: 248px;height: 195.8px;background-color: #fff;box-shadow: -3px 0 10px 0 rgba(202,177,45,0.22);top: 88px;left: -45px;text-align: center;}
+.shouye_about .shouye_about_01 .box .ka_01 img{width: 60px;left:94px;top:19px;position: absolute;}
+.shouye_about .shouye_about_01 .box .ka_01 .ka_001{font-size: 22px;color: #231815;margin-top: 93px;margin-bottom: 9px;}
+.shouye_about .shouye_about_01 .box .ka_01 .ka_002{font-size: 14px;color: #B0B0B0;line-height: 22px;width: 197px;margin: 0 auto;}
+.k_2{box-shadow: 0 !important;left: 218px !important;}
+.k_3{box-shadow: 0 !important;left: 481px !important;}
+.shouye_about .shouye_about_01 .box .ka_04{position: absolute;width: 248px;height: 195.8px;background-color: #fff;box-shadow: -3px 0 10px 0 rgba(202,177,45,0.42);top: 88px;right: -45px;text-align: center;}
+.shouye_about .shouye_about_01 .box .ka_04 img{width: 60px;left:94px;top:19px;position: absolute;}
+.shouye_about .shouye_about_01 .box .ka_04 .ka_001{font-size: 22px;color: #231815;margin-top: 93px;margin-bottom: 9px;}
+.shouye_about .shouye_about_01 .box .ka_04 .ka_002{font-size: 14px;color: #B0B0B0;line-height: 22px;width: 197px;margin: 0 auto;}
+
+/*å…³äºŽæˆ‘ä»¬*/
+.about_our{position: relative;height: 640px; background-image: url("../../images/pc/about.jpg");background-size: cover;background-repeat:no-repeat;position: relative;transition: all .18s ease-out;}
+.about_our .shouye_about_01{padding-top: 30px}
+.about_our .shouye_about_01 img{top: 128px;position: absolute;left: 156px}
+.about_our .shouye_about_01 .dao{width: 0;height: 0; border-left: 15px solid transparent;border-right: 15px solid transparent;border-top: 18px solid #FEDE00;margin: 30px auto 13px;}
+.about_our .shouye_about_01 .bian_01{font-size: 22px;color: #231815;text-align: center;}
+.about_our .shouye_about_01 .bian_02{font-size: 14px;color: #9B9B9B;text-align: center;margin-top: 6px;}
+.about_our .shouye_about_01 .bian_03{font-size: 18px;color: #231815;text-align: center;margin-top: 76px;}
+.about_our .shouye_about_01 .bian_04{font-size: 16px;color: #231815;line-height: 30px;width: 601.8px;margin:25px auto;}
+.about_our .shouye_about_01 .buy_02{width: 20px;height: 3px;background-color: #FDDC2F;margin: 0 auto;}
+
+/*æˆ‘ä»¬åˆä½œçš„å®¢æˆ·*/
+.kehu{position: relative;height: 674.5px;text-align: center;}
+.kehu .kehu_01{font-size: 18px;color: #231815;padding-top: 76px;}
+.kehu .kehu_02{width: 20px;height: 3px;background-color: #FDDC2F;margin: 1px auto;}
+.kehu .kehu_03{font-size: 14px;color: #9B9B9B;padding-top: 10px;}
+.kehu .kehu_04{width: 937px;height: 305.4px;margin: 90px auto 0;}
+.kehu .kehu_04 .lvdi{float: left;width: 90px;height: 125.2px;}
+.lp{margin-left: 31px;}
+.lt{margin-top: 49.3px;}
+}
+
+/*1920åˆ†è¾¨çŽ‡*/
+@media screen and (min-width:1680px) and (max-width: 1930px) {
+/*å¤´éƒ¨*/
+.head{width: 100%;height: 68px;background-color:#C9E8FB;position: fixed;top: 0;z-index: 100;}
+.head .head_01{position: absolute;top: 17px;left: 52px;}
+.head .gang{width: 1px;height: 26px;background-color: #2A2A2A;position: absolute;top: 19.5px;left: 172.5px;}
+.head .head_02{position: absolute;top:14px;left: 188.5px;width: 41px;height: 36px;}
+.head .head_contain{position: absolute;left: 46%;}
+.head .head_contain .head_top{
+	line-height: 68px;height: 68px;width: 198.7px;text-align: left;font-size: 18px;cursor: pointer;padding-left: 60.5px;float: left;z-index: 1;
+	color: #231815;background-image: url("../../images/pc/dao_logo.png");background-size: 34px 34px;background-repeat:no-repeat;background-position:15.7px 18.2px;
+}
+.head .head_tel{float: right;margin-right: 9%;margin-top: 25px;width: 175px;}
+.llp{margin-left: 32.3px;}
+.head .active{background-color: #FDDC2F;width: 198.7px;height: 68px;position: absolute;left: 46%;z-index: -1;
+	transition: all .18s ease-out;
+}
+/*banneréƒ¨åˆ†*/
+.banner{height: 757px; background-image: url("../../images/pc/banner.jpg");background-size: cover;background-repeat:no-repeat;}
+/*å…³äºŽé¢†è›™*/
+.shouye_about{height:969px;width: 100%;position: relative;}
+.shouye_about .shouye_about_01{}
+.shouye_about .shouye_about_01 img{top: 213.4px;position: absolute;left: 232.4px;width: 660px;height: 606px;}
+.shouye_about .shouye_about_01 .dao{width: 0;height: 0; border-left: 15px solid transparent;border-right: 15px solid transparent;border-top: 18px solid #FEDE00;margin: 30px auto 13px;}
+.shouye_about .shouye_about_01 .bian_01{font-size: 22px;color: #231815;text-align: center;}
+.shouye_about .shouye_about_01 .bian_02{font-size: 18px;color: #9B9B9B;text-align: center;margin-top: 6px;}
+.shouye_about .shouye_about_01 .bian_li{height: 293px;position: absolute;right: 256px;top: 330px;color: #231815;}
+.shouye_about .shouye_about_01 .bian_li .bian_03{font-size: 24px;}
+.shouye_about .shouye_about_01 .bian_li .bian_04{font-size: 20px;width: 545px;line-height: 37px}
+.shouye_about .shouye_about_01 .bian_li .bian_05{width: 34px;height: 3px;background-color: #FDDC2F;display: block;margin: 7px 0 25px 0}
+/*è´­ä¹°æµç¨‹*/
+.buy{height: 940px; background-image: url("../../images/pc/gou_buy.jpg");background-size: cover;background-repeat:no-repeat;position: relative;}
+.buy .buy_01{font-size: 18px;color: #231815;position: absolute;top: 88.1px;left: 259.6px;}
+.buy .buy_02{width: 34px;height: 3px;background-color: #FDDC2F;position: absolute;left: 263.8px;top: 128.9px}
+.buy .liuc_01{position: absolute;width: 200px; left: 250px;top: 320px;}
+.buy .liuc_02{position: absolute;width: 200px;left: 820px;top: 320px;}
+.buy .liuc_03{position: absolute;width: 200px;right: 270px;top: 320px;}
+.buy .buy_zhi{position: absolute;width: 122px; left: 570px;top: 480px;}
+.buy .buy_wen{position: absolute;width: 272px;font-size: 18px;color: #231815;line-height: 26px;text-align: center;bottom: 336px;left: 500px;}
+.rr{left: 1185.9px !important;}
+.kk{left: 1100.6px !important;bottom: 356.9px !important;}
+/*æˆ‘ä»¬çš„ä¼˜åŠ¿*/
+.our{height: 953px !important;}
+.shouye_about .shouye_about_01 .box{width: 1184.4px;height: 467.4px;background: -webkit-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: -o-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: -ms-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);margin: 77px auto 0;position: relative;}
+.shouye_about .shouye_about_01 .box .ka_01{position: absolute;width: 309px;height: 244.7px;background-color: #fff;box-shadow: -3px 0 10px 0 rgba(202,177,45,0.22);top: 110px;left: -45px;text-align: center;}
+.shouye_about .shouye_about_01 .box .ka_01 img{width: 75px;left:117.4px;top:23.8px;position: absolute;height:75px;}
+.shouye_about .shouye_about_01 .box .ka_01 .ka_001{font-size: 22px;color: #231815;margin-top: 122.2px;margin-bottom: 21.4px;}
+.shouye_about .shouye_about_01 .box .ka_01 .ka_002{font-size: 14px;color: #B0B0B0;line-height: 22px;width: 197px;margin: 0 auto;}
+.k_2{box-shadow: 0 !important;left: 276.4px !important;}
+.k_3{box-shadow: 0 !important;left: 601px !important;}
+.shouye_about .shouye_about_01 .box .ka_04{position: absolute;width: 309px;height: 244.7px;background-color: #fff;box-shadow: -3px 0 10px 0 rgba(202,177,45,0.42);top: 110px;right: -45px;text-align: center;}
+.shouye_about .shouye_about_01 .box .ka_04 img{width: 75px;height:75px;left:117.4px;top:23.8px;position: absolute;}
+.shouye_about .shouye_about_01 .box .ka_04 .ka_001{font-size: 22px;color: #231815;margin-top: 122.2px;margin-bottom: 21.4px;}
+.shouye_about .shouye_about_01 .box .ka_04 .ka_002{font-size: 14px;color: #B0B0B0;line-height: 22px;width: 197px;margin: 0 auto;}
+/*å…³äºŽæˆ‘ä»¬*/
+.about_our{position: relative;height: 959.6px; background-image: url("../../images/pc/about.jpg");background-size: cover;background-repeat:no-repeat;position: relative;transition: all .18s ease-out;}
+.about_our .shouye_about_01{padding-top: 30px}
+.about_our .shouye_about_01 img{top: 128px;position: absolute;left: 156px}
+.about_our .shouye_about_01 .dao{width: 0;height: 0; border-left: 15px solid transparent;border-right: 15px solid transparent;border-top: 18px solid #FEDE00;margin: 30px auto 13px;}
+.about_our .shouye_about_01 .bian_01{font-size: 22px;color: #231815;text-align: center;}
+.about_our .shouye_about_01 .bian_02{font-size: 14px;color: #9B9B9B;text-align: center;margin-top: 6px;}
+.about_our .shouye_about_01 .bian_03{font-size: 18px;color: #231815;text-align: center;margin-top: 160px;}
+.about_our .shouye_about_01 .bian_04{font-size: 16px;color: #231815;line-height: 37px;width: 621.8px;margin:100px auto;}
+.about_our .shouye_about_01 .buy_02{width: 20px;height: 3px;background-color: #FDDC2F;margin: 0 auto;}
+/*æˆ‘ä»¬åˆä½œçš„å®¢æˆ·*/
+.kehu{position: relative;height: 674.5px;text-align: center;}
+.kehu .kehu_01{font-size: 18px;color: #231815;padding-top: 76px;}
+.kehu .kehu_02{width: 20px;height: 3px;background-color: #FDDC2F;margin: 1px auto;}
+.kehu .kehu_03{font-size: 14px;color: #9B9B9B;padding-top: 10px;}
+.kehu .kehu_04{width: 1000px;height: 305.4px;margin: 90px auto 0;}
+.kehu .kehu_04 .lvdi{float: left;width: 90px;height: 125.2px;}
+.lp{margin-left: 31px;}
+.lt{margin-top: 49.3px;}
+
+.footer{width: 100%;height: 183.6px;background: #202020;opacity: .9;}
+.foo{width: 652px;height: 100%;margin: 0 auto;position: relative;}
+.foo li .logo1{display: block;width: 105px;height: 104.2px;}
+.foo li{float: left;}
+.foo li .guanzhu{position: absolute;font-size: 2px;color: #9B9B9B;left: -12px;margin-top: 8.2px;}
+.foo li .address{font-size: 16px;color: #9B9B9B;line-height: 26px;float: left;}
+}
+
+
+@media screen and (min-width:1441px) and (max-width: 1879px) {
+/*å¤´éƒ¨*/
+.head{width: 100%;height: 52px;background-color:#C9E8FB;position: fixed;top: 0;z-index: 100;}
+.head .head_01{position: absolute;top: 17px;left: 52px;}
+.head .gang{width: 1px;height: 26px;background-color: #2A2A2A;position: absolute;top: 19.5px;left: 172.5px;}
+.head .head_02{position: absolute;top:14px;left: 188.5px;width: 41px;height: 36px;}
+.head .head_contain{position: absolute;left: 46%;}
+.head .head_contain .head_top{
+	line-height: 52px;height: 52px;width: 132.7px;text-align: left;font-size: 16px;cursor: pointer;padding-left: 40.5px;float: left;z-index: 1;
+	color: #231815;background-image: url("../../images/pc/dao_logo.png");background-size: 22px 22px;background-repeat:no-repeat;background-position:11.5px 15.2px;
+}
+.head .head_tel{float: right;margin-right: 10%;margin-top: 18px;}
+.llp{margin-left: 32.3px;}
+.head .active{background-color: #FDDC2F;width: 132.7px;height: 52px;position: absolute;left: 46%;z-index: -1;
+	transition: all .18s ease-out;
+}
+/*banneréƒ¨åˆ†*/
+.banner{height: 631px; background-image: url("../../images/pc/banner.jpg");background-size: cover;background-repeat:no-repeat;}
+/*å…³äºŽé¢†è›™*/
+.shouye_about{height: 764px;width: 100%;position: relative;}
+.shouye_about .shouye_about_01{}
+.shouye_about .shouye_about_01 img{top: 170px;position: absolute;left: 195.1px;width:550px;height:505px}
+.shouye_about .shouye_about_01 .dao{width: 0;height: 0; border-left: 15px solid transparent;border-right: 15px solid transparent;border-top: 18px solid #FEDE00;margin: 30px auto 13px;}
+.shouye_about .shouye_about_01 .bian_01{font-size: 22px;color: #231815;text-align: center;}
+.shouye_about .shouye_about_01 .bian_02{font-size: 14px;color: #9B9B9B;text-align: center;margin-top: 6px;}
+.shouye_about .shouye_about_01 .bian_li{height: 293px;width: 436px;position: absolute;right: 213px;top:260px;color: #231815;}
+.shouye_about .shouye_about_01 .bian_li .bian_03{font-size: 18px;}
+.shouye_about .shouye_about_01 .bian_li .bian_04{font-size: 16px;}
+.shouye_about .shouye_about_01 .bian_li .bian_05{width: 34px;height: 3px;background-color: #FDDC2F;display: block;margin: 7px 0 25px 0}
+/*è´­ä¹°æµç¨‹*/
+.buy{height: 800px; background-image: url("../../images/pc/gou_buy.jpg");background-size: cover;background-repeat:no-repeat;position: relative;}
+.buy .buy_01{font-size: 18px;color: #231815;position: absolute;top: 73.4px;left: 247.9px;}
+.buy .buy_02{width: 34px;height: 3px;background-color: #FDDC2F;position: absolute;left: 249.9px;top: 107.5px}
+.buy .liuc_01{position: absolute;padding: 60.5px 33.5px;left: 208.7px;top: 204.9px;}
+.buy .liuc_02{position: absolute;padding: 60.5px 33.5px;left: 693.6px;top: 204.9px;}
+.buy .liuc_03{position: absolute;padding: 60.5px 33.5px;right: 187.7px;top: 204.9px;}
+.buy .buy_zhi{position: absolute;padding: 51.5px 0 0 3.6px;left: 500.7px;top: 346.2px;}
+.buy .buy_wen{position: absolute;width: 187px;font-size: 14px;color: #231815;line-height: 26px;text-align: center;bottom: 286.5px;left: 452.1px;}
+.rr{left: 988.5px !important;}
+.kk{left: 960.6px !important;bottom: 313.9px !important;}
+/*æˆ‘ä»¬çš„ä¼˜åŠ¿*/
+.our{height: 795px !important;}
+.shouye_about .shouye_about_01 .box{width: 1184.4px;height: 467.4px;background: -webkit-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: -o-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: -ms-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);margin: 61px auto 0;position: relative;}
+.shouye_about .shouye_about_01 .box .ka_01{position: absolute;width: 309px;height: 244.7px;background-color: #fff;box-shadow: -3px 0 10px 0 rgba(202,177,45,0.22);top: 110px;left: -45px;text-align: center;}
+.shouye_about .shouye_about_01 .box .ka_01 img{width: 75px;left:117.4px;top:23.8px;position: absolute;height:75px;}
+.shouye_about .shouye_about_01 .box .ka_01 .ka_001{font-size: 22px;color: #231815;margin-top: 122.2px;margin-bottom: 21.4px;}
+.shouye_about .shouye_about_01 .box .ka_01 .ka_002{font-size: 14px;color: #B0B0B0;line-height: 22px;width: 197px;margin: 0 auto;}
+.k_2{box-shadow: 0 !important;left: 276.4px !important;}
+.k_3{box-shadow: 0 !important;left: 601px !important;}
+.shouye_about .shouye_about_01 .box .ka_04{position: absolute;width: 309px;height: 244.7px;background-color: #fff;box-shadow: -3px 0 10px 0 rgba(202,177,45,0.42);top: 110px;right: -45px;text-align: center;}
+.shouye_about .shouye_about_01 .box .ka_04 img{width: 75px;height:75px;left:117.4px;top:23.8px;position: absolute;}
+.shouye_about .shouye_about_01 .box .ka_04 .ka_001{font-size: 22px;color: #231815;margin-top: 122.2px;margin-bottom: 21.4px;}
+.shouye_about .shouye_about_01 .box .ka_04 .ka_002{font-size: 14px;color: #B0B0B0;line-height: 22px;width: 197px;margin: 0 auto;}
+
+/*å…³äºŽæˆ‘ä»¬*/
+.about_our{position: relative;height: 800px; background-image: url("../../images/pc/about.jpg");background-size: cover;background-repeat:no-repeat;position: relative;transition: all .18s ease-out;}
+.about_our .shouye_about_01{padding-top: 30px}
+.about_our .shouye_about_01 img{top: 128px;position: absolute;left: 156px}
+.about_our .shouye_about_01 .dao{width: 0;height: 0; border-left: 15px solid transparent;border-right: 15px solid transparent;border-top: 18px solid #FEDE00;margin: 30px auto 13px;}
+.about_our .shouye_about_01 .bian_01{font-size: 22px;color: #231815;text-align: center;}
+.about_our .shouye_about_01 .bian_02{font-size: 14px;color: #9B9B9B;text-align: center;margin-top: 6px;}
+.about_our .shouye_about_01 .bian_03{font-size: 18px;color: #231815;text-align: center;margin-top: 120px;}
+.about_our .shouye_about_01 .bian_04{font-size: 16px;color: #231815;line-height: 26px;width: 601.8px;margin:50px auto;}
+.about_our .shouye_about_01 .buy_02{width: 20px;height: 3px;background-color: #FDDC2F;margin: 0 auto;}
+
+/*æˆ‘ä»¬åˆä½œçš„å®¢æˆ·*/
+.kehu{position: relative;height: 674.5px;text-align: center;}
+.kehu .kehu_01{font-size: 18px;color: #231815;padding-top: 76px;}
+.kehu .kehu_02{width: 20px;height: 3px;background-color: #FDDC2F;margin: 1px auto;}
+.kehu .kehu_03{font-size: 14px;color: #9B9B9B;padding-top: 10px;}
+.kehu .kehu_04{width: 937px;height: 305.4px;margin: 90px auto 0;}
+.kehu .kehu_04 .lvdi{float: left;width: 90px;height: 125.2px;}
+.lp{margin-left: 31px;}
+.lt{margin-top: 49.3px;}
+
+.footer{width: 100%;height: 183.6px;background: #202020;opacity: .9;}
+.foo{width: 652px;height: 100%;margin: 0 auto;position: relative;}
+.foo li .logo1{display: block;width: 105px;height: 104.2px;}
+.foo li{float: left;}
+.foo li .guanzhu{position: absolute;font-size: 2px;color: #9B9B9B;left: -12px;margin-top: 8.2px;}
+.foo li .address{font-size: 16px;color: #9B9B9B;line-height: 26px;float: left;}
+}
+
+/*1366åˆ†è¾¨çŽ‡*/
+@media screen and (min-width:1281px) and (max-width: 1368px) {
+ /*å¤´éƒ¨*/
+.head{width: 100%;height: 52px;background-color:#C9E8FB;position: fixed;top: 0;z-index: 100;}
+.head .head_01{position: absolute;top: 17px;left: 52px;}
+.head .gang{width: 1px;height: 26px;background-color: #2A2A2A;position: absolute;top: 19.5px;left: 172.5px;}
+.head .head_02{position: absolute;top:14px;left: 188.5px;width: 41px;height: 36px;}
+.head .head_contain{position: absolute;left: 46%;}
+.head .head_contain .head_top{
+	line-height: 52px;height: 52px;width: 132.7px;text-align: left;font-size: 16px;cursor: pointer;padding-left: 40.5px;float: left;z-index: 1;
+	color: #231815;background-image: url("../../images/pc/dao_logo.png");background-size: 22px 22px;background-repeat:no-repeat;background-position:11.5px 15.2px;
+}
+.head .head_tel{float: right;margin-right: 75.7px;margin-top: 18px;}
+.llp{margin-left: 32.3px;}
+.head .active{background-color: #FDDC2F;width: 132.7px;height: 52px;position: absolute;left: 46%;z-index: -1;
+	transition: all .18s ease-out;
+}
+ .banner{height: 545.2px; background-image: url("../../images/pc/banner.jpg");background-size: cover;background-repeat:no-repeat;}
+/*å…³äºŽé¢†è›™*/
+.shouye_about{height: 697px;width: 100%;position: relative;}
+.shouye_about .shouye_about_01{}
+.shouye_about .shouye_about_01 img{top: 184px;position: absolute;left: 124px;width: 475px;height: 437px;}
+.shouye_about .shouye_about_01 .dao{width: 0;height: 0; border-left: 15px solid transparent;border-right: 15px solid transparent;border-top: 18px solid #FEDE00;margin: 30px auto 13px;}
+.shouye_about .shouye_about_01 .bian_01{font-size: 22px;color: #231815;text-align: center;}
+.shouye_about .shouye_about_01 .bian_02{font-size: 14px;color: #9B9B9B;text-align: center;margin-top: 6px;}
+.shouye_about .shouye_about_01 .bian_li{width: 438px;position: absolute;right: 184px;top: 261px;color: #231815;}
+.shouye_about .shouye_about_01 .bian_li .bian_03{font-size: 18px;}
+.shouye_about .shouye_about_01 .bian_li .bian_04{font-size: 16px;line-height: 30px;}
+.shouye_about .shouye_about_01 .bian_li .bian_05{width: 34px;height: 3px;background-color: #FDDC2F;display: block;margin: 7px 0 25px 0}
+/*è´­ä¹°æµç¨‹*/
+.buy{height: 691px; background-image: url("../../images/pc/gou_buy.jpg");background-size: cover;background-repeat:no-repeat;position: relative;}
+.buy .buy_01{font-size: 16px;color: #231815;position: absolute;top: 43.1px;left: 151px;}
+.buy .buy_02{width: 27.2px;height: 3px;background-color: #FDDC2F;position: absolute;left: 150px;top: 68.9px}
+.buy .liuc_01{position: absolute;left: 130px;top: 177px;padding: 28.5px 17.5px;}
+.buy .liuc_02{position: absolute;left: 584px;top: 177px;padding: 28.5px 17.5px;}
+.buy .liuc_03{position: absolute;right: 160px;top: 177px;padding: 28.5px 17.5px;}
+.buy .buy_zhi{position: absolute;width: 112.5px;left: 418px;top: 330px;}
+.buy .buy_wen{position: absolute;width: 195px;font-size: 14px;color: #231815;line-height: 24px;text-align: center;bottom: 247px;left: 367px;}
+.rr{left: 839.2px !important;}
+.kk{left: 798px !important;bottom: 271px !important;}
+/*æˆ‘ä»¬çš„ä¼˜åŠ¿*/
+.our{height: 717px !important;}
+.shouye_about .shouye_about_01 .box{width: 1023px;height: 403px;background: -webkit-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: -o-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: -ms-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);margin: 61px auto 0;position: relative;}
+.shouye_about .shouye_about_01 .box .ka_01{position: absolute;width: 267.4px;height: 211.4px;background-color: #fff;box-shadow: -3px 0 10px 0 rgba(202,177,45,0.22);top: 95px;left: -48.5px;text-align: center;}
+.shouye_about .shouye_about_01 .box .ka_01 img{width: 65px;left:101.2px;top:15px;position: absolute;height: 65px}
+.shouye_about .shouye_about_01 .box .ka_01 .ka_001{font-size: 22px;line-height: 22px; color: #231815;margin-top: 105px;margin-bottom: 18.8px;}
+.shouye_about .shouye_about_01 .box .ka_01 .ka_002{font-size: 14px;color: #B0B0B0;line-height: 19px;width: 207px;margin: 0 auto;}
+.k_2{box-shadow: 0 !important;left: 235px !important;}
+.k_3{box-shadow: 0 !important;left: 519px !important;}
+.shouye_about .shouye_about_01 .box .ka_04{position: absolute;width: 267.4px;height: 211.4px;background-color: #fff;box-shadow: -3px 0 10px 0 rgba(202,177,45,0.42);top: 95px;right: -48.5px;text-align: center;}
+.shouye_about .shouye_about_01 .box .ka_04 img{width: 65px;left:101.2px;top:15px;position: absolute;height: 65px}
+.shouye_about .shouye_about_01 .box .ka_04 .ka_001{font-size: 22px;line-height: 17px;color: #231815;margin-top: 105px;margin-bottom: 18.8px;}
+.shouye_about .shouye_about_01 .box .ka_04 .ka_002{font-size: 14px;color: #B0B0B0;line-height: 19px;width: 207px;margin: 0 auto;}
+
+/*å…³äºŽæˆ‘ä»¬*/
+.about_our{position: relative;height: 690px; background-image: url("../../images/pc/about.jpg");background-size: cover;background-repeat:no-repeat;position: relative;transition: all .18s ease-out;}
+.about_our .shouye_about_01{padding-top: 30px}
+.about_our .shouye_about_01 img{top: 128px;position: absolute;left: 156px}
+.about_our .shouye_about_01 .dao{width: 0;height: 0; border-left: 15px solid transparent;border-right: 15px solid transparent;border-top: 18px solid #FEDE00;margin: 30px auto 13px;}
+.about_our .shouye_about_01 .bian_01{font-size: 22px;color: #231815;text-align: center;}
+.about_our .shouye_about_01 .bian_02{font-size: 14px;color: #9B9B9B;text-align: center;margin-top: 6px;}
+.about_our .shouye_about_01 .bian_03{font-size: 18px;color: #231815;text-align: center;margin-top: 88px;}
+.about_our .shouye_about_01 .bian_04{font-size: 16px;color: #231815;line-height: 30px;width: 638px;margin:25px auto;}
+.about_our .shouye_about_01 .buy_02{width: 20px;height: 3px;background-color: #FDDC2F;margin: 0 auto;}
+
+/*æˆ‘ä»¬åˆä½œçš„å®¢æˆ·*/
+.kehu{position: relative;height: 728px;text-align: center;}
+.kehu .kehu_01{font-size: 18px;color: #231815;padding-top: 76px;}
+.kehu .kehu_02{width: 20px;height: 3px;background-color: #FDDC2F;margin: 1px auto;}
+.kehu .kehu_03{font-size: 14px;color: #9B9B9B;padding-top: 10px;}
+.kehu .kehu_04{width: 1000px;height: 305.4px;margin: 57px auto 0;}
+.kehu .kehu_04 .lvdi{float: left;width: 97.1px;height: 135.2px;}
+.lp{margin-left: 31px;}
+.lt{margin-top: 49.3px;}
+.lo{margin-top: 43px !important;}
+}
+
+
+
+@media screen and (min-width:1369px) and (max-width: 1440px) {
+/*å¤´éƒ¨*/
+.head{width: 100%;height: 52px;background-color:#C9E8FB;position: fixed;top: 0;z-index: 100;}
+.head .head_01{position: absolute;top: 17px;left: 52px;}
+.head .gang{width: 1px;height: 26px;background-color: #2A2A2A;position: absolute;top: 19.5px;left: 172.5px;}
+.head .head_02{position: absolute;top:14px;left: 188.5px;width: 41px;height: 36px;}
+.head .head_contain{position: absolute;left: 46%;}
+.head .head_contain .head_top{
+	line-height: 52px;height: 52px;width: 132.7px;text-align: left;font-size: 16px;cursor: pointer;padding-left: 40.5px;float: left;z-index: 1;
+	color: #231815;background-image: url("../../images/pc/dao_logo.png");background-size: 22px 22px;background-repeat:no-repeat;background-position:11.5px 15.2px;
+}
+.head .head_tel{float: right;margin-right: 75.7px;margin-top: 18px;}
+.llp{margin-left: 32.3px;}
+.head .active{background-color: #FDDC2F;width: 132.7px;height: 52px;position: absolute;left: 46%;z-index: -1;
+	transition: all .18s ease-out;
+}
+ .banner{height: 568.4px; background-image: url("../../images/pc/banner.jpg");background-size: cover;background-repeat:no-repeat;}
+/*å…³äºŽé¢†è›™*/
+.shouye_about{height: 697px;width: 100%;position: relative;}
+.shouye_about .shouye_about_01{}
+.shouye_about .shouye_about_01 img{top: 184px;position: absolute;left: 124px;width: 475px;height: 437px;}
+.shouye_about .shouye_about_01 .dao{width: 0;height: 0; border-left: 15px solid transparent;border-right: 15px solid transparent;border-top: 18px solid #FEDE00;margin: 30px auto 13px;}
+.shouye_about .shouye_about_01 .bian_01{font-size: 22px;color: #231815;text-align: center;}
+.shouye_about .shouye_about_01 .bian_02{font-size: 14px;color: #9B9B9B;text-align: center;margin-top: 6px;}
+.shouye_about .shouye_about_01 .bian_li{width: 438px;position: absolute;right: 184px;top: 261px;color: #231815;}
+.shouye_about .shouye_about_01 .bian_li .bian_03{font-size: 18px;}
+.shouye_about .shouye_about_01 .bian_li .bian_04{font-size: 16px;line-height: 30px;}
+.shouye_about .shouye_about_01 .bian_li .bian_05{width: 34px;height: 3px;background-color: #FDDC2F;display: block;margin: 7px 0 25px 0}
+/*è´­ä¹°æµç¨‹*/
+.buy{height: 691px; background-image: url("../../images/pc/gou_buy.jpg");background-size: cover;background-repeat:no-repeat;position: relative;}
+.buy .buy_01{font-size: 16px;color: #231815;position: absolute;top: 43.1px;left: 151px;}
+.buy .buy_02{width: 27.2px;height: 3px;background-color: #FDDC2F;position: absolute;left: 150px;top: 68.9px}
+.buy .liuc_01{position: absolute;left: 130px;top: 177px;padding: 28.5px 17.5px;}
+.buy .liuc_02{position: absolute;left: 584px;top: 177px;padding: 28.5px 17.5px;}
+.buy .liuc_03{position: absolute;right: 160px;top: 177px;padding: 28.5px 17.5px;}
+.buy .buy_zhi{position: absolute;width: 112.5px;left: 418px;top: 330px;}
+.buy .buy_wen{position: absolute;width: 195px;font-size: 14px;color: #231815;line-height: 24px;text-align: center;bottom: 247px;left: 367px;}
+.rr{left: 867.2px !important;}
+.kk{left: 824px !important;bottom: 271px !important;}
+/*æˆ‘ä»¬çš„ä¼˜åŠ¿*/
+.our{height: 717px !important;}
+.shouye_about .shouye_about_01 .box{width: 1023px;height: 403px;background: -webkit-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: -o-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: -ms-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);margin: 61px auto 0;position: relative;}
+.shouye_about .shouye_about_01 .box .ka_01{position: absolute;width: 267.4px;height: 211.4px;background-color: #fff;box-shadow: -3px 0 10px 0 rgba(202,177,45,0.22);top: 95px;left: -48.5px;text-align: center;}
+.shouye_about .shouye_about_01 .box .ka_01 img{width: 65px;left:101.2px;top:15px;position: absolute;height: 65px}
+.shouye_about .shouye_about_01 .box .ka_01 .ka_001{font-size: 22px;line-height: 22px; color: #231815;margin-top: 105px;margin-bottom: 18.8px;}
+.shouye_about .shouye_about_01 .box .ka_01 .ka_002{font-size: 14px;color: #B0B0B0;line-height: 19px;width: 207px;margin: 0 auto;}
+.k_2{box-shadow: 0 !important;left: 235px !important;}
+.k_3{box-shadow: 0 !important;left: 519px !important;}
+.shouye_about .shouye_about_01 .box .ka_04{position: absolute;width: 267.4px;height: 211.4px;background-color: #fff;box-shadow: -3px 0 10px 0 rgba(202,177,45,0.42);top: 95px;right: -48.5px;text-align: center;}
+.shouye_about .shouye_about_01 .box .ka_04 img{width: 65px;left:101.2px;top:15px;position: absolute;height: 65px}
+.shouye_about .shouye_about_01 .box .ka_04 .ka_001{font-size: 22px;line-height: 17px;color: #231815;margin-top: 105px;margin-bottom: 18.8px;}
+.shouye_about .shouye_about_01 .box .ka_04 .ka_002{font-size: 14px;color: #B0B0B0;line-height: 19px;width: 207px;margin: 0 auto;}
+
+/*å…³äºŽæˆ‘ä»¬*/
+.about_our{position: relative;height: 720px; background-image: url("../../images/pc/about.jpg");background-size: cover;background-repeat:no-repeat;position: relative;transition: all .18s ease-out;}
+.about_our .shouye_about_01{padding-top: 30px}
+.about_our .shouye_about_01 img{top: 128px;position: absolute;left: 156px}
+.about_our .shouye_about_01 .dao{width: 0;height: 0; border-left: 15px solid transparent;border-right: 15px solid transparent;border-top: 18px solid #FEDE00;margin: 30px auto 13px;}
+.about_our .shouye_about_01 .bian_01{font-size: 22px;color: #231815;text-align: center;}
+.about_our .shouye_about_01 .bian_02{font-size: 14px;color: #9B9B9B;text-align: center;margin-top: 6px;}
+.about_our .shouye_about_01 .bian_03{font-size: 18px;color: #231815;text-align: center;margin-top: 88px;}
+.about_our .shouye_about_01 .bian_04{font-size: 16px;color: #231815;line-height: 30px;width: 638px;margin:57px auto;}
+.about_our .shouye_about_01 .buy_02{width: 20px;height: 3px;background-color: #FDDC2F;margin: 0 auto;}
+
+/*æˆ‘ä»¬åˆä½œçš„å®¢æˆ·*/
+.kehu{position: relative;height: 728px;text-align: center;}
+.kehu .kehu_01{font-size: 18px;color: #231815;padding-top: 76px;}
+.kehu .kehu_02{width: 20px;height: 3px;background-color: #FDDC2F;margin: 1px auto;}
+.kehu .kehu_03{font-size: 14px;color: #9B9B9B;padding-top: 10px;}
+.kehu .kehu_04{width: 1000px;height: 305.4px;margin: 57px auto 0;}
+.kehu .kehu_04 .lvdi{float: left;width: 97.1px;height: 135.2px;}
+.lp{margin-left: 31px;}
+.lt{margin-top: 49.3px;}
+.lo{margin-top: 43px !important;}	
+}
+
+
+
+/*1024*/
+@media screen and (max-width: 1024px) {
+ /*å¤´éƒ¨*/
+.head{width: 100%;height: 37px;background-color:#C9E8FB;position: fixed;top: 0;z-index: 100;}
+.head .head_01{position: absolute;top: 8.8px;left: 41.6px;width: 84.5px;height: 25.2px;}
+.head .gang{width: 1.6px;height: 20.8px;background-color: #2A2A2A;position: absolute;top: 10.8px;left: 138.5px;}
+.head .head_02{position: absolute;top:3.8px;left: 146.8px;width: 36px;height: 31px;}
+.head .head_contain{position: absolute;left: 46%;}
+.head .head_contain .head_top{
+	line-height: 37px;height: 37px;width: 107px;text-align: left;font-size: 12px;cursor: pointer;padding-left: 33.8px;float: left;z-index: 1;
+	color: #231815;background-image: url("../../images/pc/dao_logo.png");background-size: 18px 18px;background-repeat:no-repeat;background-position:8.4px 8.8px;
+}
+.head .head_tel{float: right;margin-right: 60.7px;margin-top: 10.5px;width: 94px;height: 14px;}
+.llp{margin-left: 32.3px;}
+.head .active{background-color: #FDDC2F;width: 107px;height: 37px;position: absolute;left: 46%;z-index: -1;
+	transition: all .18s ease-out;
+}
+ .banner{height: 404px; background-image: url("../../images/pc/banner.jpg");background-size: cover;background-repeat:no-repeat;}
+/*å…³äºŽé¢†è›™*/
+.shouye_about{height: 517px;width: 100%;position: relative;}
+.shouye_about .shouye_about_01{}
+.shouye_about .shouye_about_01 img{top: 136px;position: absolute;left: 124px;width: 352px;height: 324px;}
+.shouye_about .shouye_about_01 .dao{width: 0;height: 0; border-left: 15px solid transparent;border-right: 15px solid transparent;border-top: 18px solid #FEDE00;margin: 30px auto 13px;}
+.shouye_about .shouye_about_01 .bian_01{font-size: 22px;color: #231815;text-align: center;}
+.shouye_about .shouye_about_01 .bian_02{font-size: 14px;color: #9B9B9B;text-align: center;margin-top: 6px;}
+.shouye_about .shouye_about_01 .bian_li{height: 179px;width: 342px;position: absolute;right: 136px;top: 180px;color: #231815;}
+.shouye_about .shouye_about_01 .bian_li .bian_03{font-size: 16px;}
+.shouye_about .shouye_about_01 .bian_li .bian_04{font-size: 14px;line-height: 25px;}
+.shouye_about .shouye_about_01 .bian_li .bian_05{width: 34px;height: 3px;background-color: #FDDC2F;display: block;margin: 7px 0 25px 0}
+/*è´­ä¹°æµç¨‹*/
+.buy{height: 512px; background-image: url("../../images/pc/gou_buy.jpg");background-size: cover;background-repeat:no-repeat;position: relative;}
+.buy .buy_01{font-size: 16px;color: #231815;position: absolute;top: 43.1px;left: 139px;}
+.buy .buy_02{width: 27.2px;height: 3px;background-color: #FDDC2F;position: absolute;left: 140px;top: 68.9px}
+.buy .liuc_01{position: absolute;left: 124px;top: 119px;width: 149.7px;height: 298.7px}
+.buy .liuc_02{position: absolute;left: 454px;top: 119px;width: 149.7px;height: 298.7px}
+.buy .liuc_03{position: absolute;right: 112px;top: 119px;width: 149.7px;height: 298.7px}
+.buy .buy_zhi{position: absolute;width: 83.4px;left: 321px;top: 230px;}
+.buy .buy_wen{position: absolute;width: 157px;font-size: 12px;color: #231815;line-height: 24px;text-align: center;bottom: 183px;left: 283px;}
+.rr{left: 644.2px !important;}
+.kk{left: 609px !important;bottom: 200px !important;}
+/*æˆ‘ä»¬çš„ä¼˜åŠ¿*/
+.our{height: 532px !important;}
+.shouye_about .shouye_about_01 .box{width: 758px;height: 299px;background: -webkit-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: -o-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: -ms-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);margin: 61px auto 0;position: relative;}
+.shouye_about .shouye_about_01 .box .ka_01{position: absolute;width: 198.4px;height: 156.4px;background-color: #fff;box-shadow: -3px 0 10px 0 rgba(202,177,45,0.22);top: 70.4px;left: -36px;text-align: center;}
+.shouye_about .shouye_about_01 .box .ka_01 img{width: 48.4px;left:75px;top:15px;position: absolute;height: 48.4px}
+.shouye_about .shouye_about_01 .box .ka_01 .ka_001{font-size: 18px;line-height: 17px; color: #231815;margin-top: 78.2px;margin-bottom: 13.8px;}
+.shouye_about .shouye_about_01 .box .ka_01 .ka_002{font-size: 12px;color: #B0B0B0;line-height: 19px;width: 156px;margin: 0 auto;}
+.k_2{box-shadow: 0 !important;left: 174px !important;}
+.k_3{box-shadow: 0 !important;left: 384px !important;}
+.shouye_about .shouye_about_01 .box .ka_04{position: absolute;width: 198.4px;height: 156.4px;background-color: #fff;box-shadow: -3px 0 10px 0 rgba(202,177,45,0.42);top: 70.4px;right: -36px;text-align: center;}
+.shouye_about .shouye_about_01 .box .ka_04 img{width: 48.4px;left:75px;top:15px;position: absolute;height: 48.4px}
+.shouye_about .shouye_about_01 .box .ka_04 .ka_001{font-size: 18px;line-height: 17px;color: #231815;margin-top: 78.2px;margin-bottom: 13.8px;}
+.shouye_about .shouye_about_01 .box .ka_04 .ka_002{font-size: 12px;color: #B0B0B0;line-height: 19px;width: 156px;margin: 0 auto;}
+
+/*å…³äºŽæˆ‘ä»¬*/
+.about_our{position: relative;height: 512px; background-image: url("../../images/pc/about.jpg");background-size: cover;background-repeat:no-repeat;position: relative;transition: all .18s ease-out;}
+.about_our .shouye_about_01{padding-top: 30px}
+.about_our .shouye_about_01 img{top: 128px;position: absolute;left: 156px}
+.about_our .shouye_about_01 .dao{width: 0;height: 0; border-left: 15px solid transparent;border-right: 15px solid transparent;border-top: 18px solid #FEDE00;margin: 30px auto 13px;}
+.about_our .shouye_about_01 .bian_01{font-size: 22px;color: #231815;text-align: center;}
+.about_our .shouye_about_01 .bian_02{font-size: 14px;color: #9B9B9B;text-align: center;margin-top: 6px;}
+.about_our .shouye_about_01 .bian_03{font-size: 18px;color: #231815;text-align: center;margin-top: 28px;}
+.about_our .shouye_about_01 .bian_04{font-size: 14px;color: #231815;line-height: 26px;width: 473.2px;margin:25px auto;}
+.about_our .shouye_about_01 .buy_02{width: 20px;height: 3px;background-color: #FDDC2F;margin: 0 auto;}
+
+/*æˆ‘ä»¬åˆä½œçš„å®¢æˆ·*/
+.kehu{position: relative;height: 539px;text-align: center;}
+.kehu .kehu_01{font-size: 18px;color: #231815;padding-top: 76px;}
+.kehu .kehu_02{width: 20px;height: 3px;background-color: #FDDC2F;margin: 1px auto;}
+.kehu .kehu_03{font-size: 14px;color: #9B9B9B;padding-top: 10px;}
+.kehu .kehu_04{width: 800px;height: 305.4px;margin: 57px auto 0;}
+.kehu .kehu_04 .lvdi{float: left;width: 72px;height: 100.2px;}
+.lp{margin-left: 31px;}
+.lt{margin-top: 49.3px;}
+.lo{margin-top: 43px !important;}
+}
+
+/*4k*/
+@media screen and (min-width:1931px) and (max-width: 10000px) {
+	/*å¤´éƒ¨*/
+	.head{width: 100%;height: 68px;background-color:#C9E8FB;position: fixed;top: 0;z-index: 100;}
+	.head .head_01{position: absolute;top: 17px;left: 52px;}
+	.head .gang{width: 1px;height: 26px;background-color: #2A2A2A;position: absolute;top: 19.5px;left: 172.5px;}
+	.head .head_02{position: absolute;top:14px;left: 188.5px;width: 41px;height: 36px;}
+	.head .head_contain{position: absolute;left: 46%;}
+	.head .head_contain .head_top{
+		line-height: 68px;height: 68px;width: 198.7px;text-align: left;font-size: 18px;cursor: pointer;padding-left: 60.5px;float: left;z-index: 1;
+		color: #231815;background-image: url("../../images/pc/dao_logo.png");background-size: 34px 34px;background-repeat:no-repeat;background-position:15.7px 18.2px;
+	}
+	.head .head_tel{float: right;margin-right: 9%;margin-top: 25px;width: 175px;}
+	.llp{margin-left: 32.3px;}
+	.head .active{background-color: #FDDC2F;width: 198.7px;height: 68px;position: absolute;left: 46%;z-index: -1;
+		transition: all .18s ease-out;
+	}
+	/*banneréƒ¨åˆ†*/
+	.banner{height: 757px; background-image: url("../../images/pc/banner.jpg");background-size: cover;background-repeat:no-repeat;}
+	/*å…³äºŽé¢†è›™*/
+	.shouye_about{height:969px;width: 100%;position: relative;}
+	.shouye_about .shouye_about_01{}
+	.shouye_about .shouye_about_01 img{top: 213.4px;position: absolute;left: 232.4px;width: 660px;height: 606px;}
+	.shouye_about .shouye_about_01 .dao{width: 0;height: 0; border-left: 15px solid transparent;border-right: 15px solid transparent;border-top: 18px solid #FEDE00;margin: 30px auto 13px;}
+	.shouye_about .shouye_about_01 .bian_01{font-size: 22px;color: #231815;text-align: center;}
+	.shouye_about .shouye_about_01 .bian_02{font-size: 18px;color: #9B9B9B;text-align: center;margin-top: 6px;}
+	.shouye_about .shouye_about_01 .bian_li{height: 293px;position: absolute;right: 256px;top: 330px;color: #231815;}
+	.shouye_about .shouye_about_01 .bian_li .bian_03{font-size: 24px;}
+	.shouye_about .shouye_about_01 .bian_li .bian_04{font-size: 20px;width: 545px;line-height: 37px}
+	.shouye_about .shouye_about_01 .bian_li .bian_05{width: 34px;height: 3px;background-color: #FDDC2F;display: block;margin: 7px 0 25px 0}
+	/*è´­ä¹°æµç¨‹*/
+	.buy{height: 940px; background-image: url("../../images/pc/gou_buy.jpg");background-size: cover;background-repeat:no-repeat;position: relative;}
+	.buy .buy_01{font-size: 18px;color: #231815;position: absolute;top: 88.1px;left: 259.6px;}
+	.buy .buy_02{width: 34px;height: 3px;background-color: #FDDC2F;position: absolute;left: 263.8px;top: 128.9px}
+	.buy .liuc_01{position: absolute;width: 200px; left: 250px;top: 320px;}
+	.buy .liuc_02{position: absolute;width: 200px;left: 850px;top: 320px;}
+	.buy .liuc_03{position: absolute;width: 200px;right: 270px;top: 320px;}
+	.buy .buy_zhi{position: absolute;width: 122px; left: 570px;top: 480px;}
+	.buy .buy_wen{position: absolute;width: 272px;font-size: 18px;color: #231815;line-height: 26px;text-align: center;bottom: 336px;left: 500px;}
+	.rr{left: 1222.9px !important;}
+	.kk{left: 1152.6px !important;bottom: 356.9px !important;}
+	/*æˆ‘ä»¬çš„ä¼˜åŠ¿*/
+	.our{height: 953px !important;}
+	.shouye_about .shouye_about_01 .box{width: 1184.4px;height: 467.4px;background: -webkit-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: -o-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: -ms-linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);background: linear-gradient(132deg, #FDDC2F 11%, #FFF8CC 100%);margin: 77px auto 0;position: relative;}
+	.shouye_about .shouye_about_01 .box .ka_01{position: absolute;width: 309px;height: 244.7px;background-color: #fff;box-shadow: -3px 0 10px 0 rgba(202,177,45,0.22);top: 110px;left: -45px;text-align: center;}
+	.shouye_about .shouye_about_01 .box .ka_01 img{width: 75px;left:117.4px;top:23.8px;position: absolute;height:75px;}
+	.shouye_about .shouye_about_01 .box .ka_01 .ka_001{font-size: 22px;color: #231815;margin-top: 122.2px;margin-bottom: 21.4px;}
+	.shouye_about .shouye_about_01 .box .ka_01 .ka_002{font-size: 14px;color: #B0B0B0;line-height: 22px;width: 197px;margin: 0 auto;}
+	.k_2{box-shadow: 0 !important;left: 276.4px !important;}
+	.k_3{box-shadow: 0 !important;left: 601px !important;}
+	.shouye_about .shouye_about_01 .box .ka_04{position: absolute;width: 309px;height: 244.7px;background-color: #fff;box-shadow: -3px 0 10px 0 rgba(202,177,45,0.42);top: 110px;right: -45px;text-align: center;}
+	.shouye_about .shouye_about_01 .box .ka_04 img{width: 75px;height:75px;left:117.4px;top:23.8px;position: absolute;}
+	.shouye_about .shouye_about_01 .box .ka_04 .ka_001{font-size: 22px;color: #231815;margin-top: 122.2px;margin-bottom: 21.4px;}
+	.shouye_about .shouye_about_01 .box .ka_04 .ka_002{font-size: 14px;color: #B0B0B0;line-height: 22px;width: 197px;margin: 0 auto;}
+	/*å…³äºŽæˆ‘ä»¬*/
+	.about_our{position: relative;height: 959.6px; background-image: url("../images/about.jpg");background-size: cover;background-repeat:no-repeat;position: relative;transition: all .18s ease-out;}
+	.about_our .shouye_about_01{padding-top: 30px}
+	.about_our .shouye_about_01 img{top: 128px;position: absolute;left: 156px}
+	.about_our .shouye_about_01 .dao{width: 0;height: 0; border-left: 15px solid transparent;border-right: 15px solid transparent;border-top: 18px solid #FEDE00;margin: 30px auto 13px;}
+	.about_our .shouye_about_01 .bian_01{font-size: 22px;color: #231815;text-align: center;}
+	.about_our .shouye_about_01 .bian_02{font-size: 14px;color: #9B9B9B;text-align: center;margin-top: 6px;}
+	.about_our .shouye_about_01 .bian_03{font-size: 18px;color: #231815;text-align: center;margin-top: 160px;}
+	.about_our .shouye_about_01 .bian_04{font-size: 16px;color: #231815;line-height: 37px;width: 621.8px;margin:100px auto;}
+	.about_our .shouye_about_01 .buy_02{width: 20px;height: 3px;background-color: #FDDC2F;margin: 0 auto;}
+	/*æˆ‘ä»¬åˆä½œçš„å®¢æˆ·*/
+	.kehu{position: relative;height: 674.5px;text-align: center;}
+	.kehu .kehu_01{font-size: 18px;color: #231815;padding-top: 76px;}
+	.kehu .kehu_02{width: 20px;height: 3px;background-color: #FDDC2F;margin: 1px auto;}
+	.kehu .kehu_03{font-size: 14px;color: #9B9B9B;padding-top: 10px;}
+	.kehu .kehu_04{width: 1000px;height: 305.4px;margin: 90px auto 0;}
+	.kehu .kehu_04 .lvdi{float: left;width: 90px;height: 125.2px;}
+	.lp{margin-left: 31px;}
+	.lt{margin-top: 49.3px;}
+
+	.footer{width: 100%;height: 183.6px;background: #202020;opacity: .9;}
+	.foo{width: 652px;height: 100%;margin: 0 auto;position: relative;}
+	.foo li .logo1{display: block;width: 105px;height: 104.2px;}
+	.foo li{float: left;}
+	.foo li .guanzhu{position: absolute;font-size: 2px;color: #9B9B9B;left: -12px;margin-top: 8.2px;}
+	.foo li .address{font-size: 16px;color: #9B9B9B;line-height: 26px;float: left;}
+}

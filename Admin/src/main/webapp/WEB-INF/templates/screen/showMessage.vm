@@ -1,0 +1,7 @@
+#set($layout = "/layout/default.vm")  
+showMessage page - result
+<h1>
+#foreach( $item in $itemList) 
+	$item.itemName <br/>
+#end
+</h1>

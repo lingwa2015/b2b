@@ -1,0 +1,354 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+
+ });
+
+    function pageBack(){
+    	location.reload();
+    }
+
+	function checkAll() {
+
+		for(var i in document.getElementsByName('orderCheckbox')){
+			var ele = document.getElementsByName('orderCheckbox')[i];
+			ele.checked = document.getElementById('checkAll').checked;
+		}
+		//$("[name='orderCheckbox']").removeAttr("checked");
+
+		//$("[name='orderCheckbox']").attr("checked",document.getElementById('checkAll').checked);//全选
+	}
+
+	function unCheckAll() {
+		$("[name='orderCheckbox']").removeAttr("checked");//取消全选
+	}
+
+	function printData(id){
+
+        var checkBoxes = document.getElementsByName("orderCheckbox");
+        var hasChecked = false;
+        var ids = '';
+
+        for(var i=0; i<checkBoxes.length; i++) {
+            if(checkBoxes[i].checked == true) {
+                ids +=  checkBoxes[i].value + ',';
+                hasChecked = true;
+            }
+        }
+        if (!hasChecked) {
+            alert('至少选择一条记录进行打印!');
+            return false;
+        }
+
+        $('#ids').val(ids);
+
+        $('#printForm').submit();
+
+
+        return true;
+
+    }
+
+
+
+	function cancelOutstock(id){
+		$.ajax( {
+				url:'/outstockList/cancelOutstock.do',// 跳转到 action
+			    data:{
+			         'id':id
+			    },
+			    type:'post',
+			    cache:false,
+			    dataType:'text',
+			    success:function(data) {
+
+			    	if(data == 'success'){
+			    		$(orderListForm).submit();
+			    	}else{
+			    		alert(data);
+			    	}
+
+			     },
+			     error : function() {
+			          alert("异常！");
+			     }
+			});
+	}
+	
+	function outstockStock(id){
+##	  window.location.href="${rc.contextPath}/outstockList/outstockStock.htm?outstockId="+id;
+        $.ajax( {
+            url:'/outstockList/outstockStock.do',// 跳转到 action
+            data:{
+                'id':id
+            },
+            type:'post',
+            cache:false,
+            dataType:'text',
+            success:function(data) {
+
+                if(data == 'success'){
+                    $(orderListForm).submit();
+                }else{
+                    alert(data);
+                }
+
+            },
+            error : function() {
+                alert("异常！");
+            }
+        });
+	}
+
+$(function(){
+    var searchInput = $('#supplierName');
+    searchInput.attr('autocomplete', 'off');
+    var autocomplete = $('<ul class="autocomplete"></ul>').hide().insertAfter('#supplierName');
+    var clear = function() {
+        autocomplete.empty().hide();
+    };
+    searchInput.blur(function() {
+        setTimeout(clear, 500);
+    });
+    var selectedItem = null;
+    var timeoutid = null;
+    var setSelectedItem = function(item) {
+        selectedItem = item;
+
+        if (selectedItem < 0) {
+            selectedItem = autocomplete.find('li').length - 1;
+        } else if (selectedItem > autocomplete.find('li').length - 1) {
+            selectedItem = 0;
+        }
+
+        autocomplete.find('li').removeClass('highlight').eq(selectedItem).addClass('highlight');
+    };
+    var ajax_request = function() {
+
+        $.ajax({
+            url: '${rc.contextPath}/supplier/autoUserNameQuery.do',
+            data: ({'userName': searchInput.val()}),
+            dataType: 'json',
+            type: 'POST',
+            success: function(data) {
+                if (data.length) {
+
+                    $.each(data, function(index, term) {
+
+                        $('<li></li>').text(term.supplier_name).appendTo(autocomplete).addClass('clickable').hover(function() {
+
+                                    $(this).siblings().removeClass('highlight');
+                                    $(this).addClass('highlight');
+                                    selectedItem = index;
+                                },
+                                function() {
+
+                                    $(this).removeClass('highlight');
+
+                                    selectedItem = -1;
+                                }).click(function() {
+
+                            searchInput.val(term.supplier_name);
+                            $('#supplierId').val(term.id);
+                            autocomplete.empty().hide();
+                        });
+                    });
+                    // var ypos = searchInput.position().top;
+                    var xpos = searchInput.position().left;
+                    autocomplete.css('width', searchInput.css('width'));
+                    autocomplete.css({
+                        'position': 'absolute',
+                        'left': xpos + "px",
+                        'font-size' : "14px",
+                        'color': "#666"
+                    });
+                    setSelectedItem(0);
+                    autocomplete.show();
+                }
+            }
+        });
+    };
+
+    searchInput.keyup(function(event) {
+
+        if (event.keyCode > 40 || event.keyCode == 8 || event.keyCode == 32) {
+            autocomplete.empty().hide();
+            clearTimeout(timeoutid);
+            timeoutid = setTimeout(ajax_request, 100);
+        } else if (event.keyCode == 38) {
+            if (selectedItem == -1) {
+                setSelectedItem(autocomplete.find('li').length - 1);
+            } else {
+
+                setSelectedItem(selectedItem - 1);
+            }
+            event.preventDefault();
+        } else if (event.keyCode == 40) {
+
+            if (selectedItem == -1) {
+                setSelectedItem(0);
+            } else {
+
+                setSelectedItem(selectedItem + 1);
+            }
+            event.preventDefault();
+        }
+    }).keypress(function(event) {
+
+        if (event.keyCode == 13) {
+            if (autocomplete.find('li').length == 0 || selectedItem == -1) {
+                return;
+            }
+            searchInput.val(autocomplete.find('li').eq(selectedItem).text());
+            autocomplete.empty().hide();
+            event.preventDefault();
+        }
+    }).keydown(function(event) {
+
+        if (event.keyCode == 27) {
+            autocomplete.empty().hide();
+            event.preventDefault();
+        }
+    });
+
+    $(window).resize(function() {
+        var ypos = searchInput.position().top;
+        var xpos = searchInput.position().left;
+        autocomplete.css('width', searchInput.css('width'));
+        autocomplete.css({
+            'position': 'relative',
+            'left': xpos + "px",
+            'top': ypos + "px"
+        });
+    });
+});
+
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+        <a href="${rc.contextPath}/outstockAdd/outstockAdd.htm" class="btn btn-success"><i class="ico"></i>添加退货单</a>
+<!-- 		<a href="addOrderAuto.htm" class="btn btn-success"><i class="ico"></i>自动计算添加订单</a> -->
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" id="orderListForm" action="outstockList.htm" method="POST">
+		<input type="hidden" name="token" value="$!{token}" />
+		<table class="form form-horizontal">
+		<tr>
+		#if($!num>0)
+		<a href="${rc.contextPath}/outstockList/outstockList.htm?param=0" style="color:red;font-size:20px;">有$!num个待出库的订单</a>
+		#end
+		</tr>
+		<tr>
+			<td><label class="tit first-tit">开始时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="startTime" id="startTime" readonly="readonly" value="$!startTime">
+			</td>
+
+			<td><label class="tit">结束时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="endTime" id="endTime" readonly="readonly" value="$!endTime">
+			</td>
+		</tr>
+		<tr>
+			</td>
+			<td align="right"><label class="tit">供应商简称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="supplierName" id="supplierName" value="$!supplierName">
+			</td>
+            <td align="right"><label class="tit">商品名称：</label></td>
+            <td>
+                <input class="form-input input-time-day" type="text"  name="itemName" id="itemName" value="$!itemName">
+            </td>
+            <td>
+                <a class="btn btn-warning btn-sm" onclick="javascript:$(orderListForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+            </td>
+		</tr>
+	</table>
+	</form>
+
+	<div>
+		<form id="printForm" action="/outstockList/printOutstock.do" method="POST" target='_blank' >
+			<input type='hidden' id='ids' name='ids'/>
+		</form><br/>
+		<button class="btn btn-warning btn-sm" onclick="return printData();">打印退货单</button>
+	</div>
+	<br/>
+
+	<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+		<tr class="info">
+			<td colspan="1">
+                <span>已退货总额：$NumberTool.toYuanNumber($!completionMoney) 元</span>
+                <span>待退货总额：$NumberTool.toYuanNumber($!waitMoney) 元</span>
+				<span>退货量单数：$!page.records</span>
+			</td>
+		</tr>
+	</table>
+	<br/>
+
+
+	<div>
+		全选<input type="checkbox" style="width: 19px; height: 15px;" id="checkAll" onClick="checkAll();" />
+	</div>
+	#foreach($dto in $page.result)
+	#set($itemList = $dto.outstockItemList)
+##	#set($count = $NumberTool.toYuanNumber($!itemList))
+	<table class="table" #if($dto.comfirm == 0) style="border:#FF0000 solid 2px;margin-bottom:20px" #else style="border:#000 solid 2px;margin-bottom:20px" #end>
+        <tr class="info">
+			<td colspan="6">
+                <input type="checkbox" style="width: 19px; height: 14px;" id="$!dto.id" name="orderCheckbox" value="$!dto.id">
+                <span>创建时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!dto.executedTime)</span>
+                <span>供应商：$!dto.supplierName</span>
+                <span>日期：$!date.format('yyyy-MM-dd',$!dto.outstockTime)</span>
+                <span>退货总金额：$NumberTool.toYuanNumber($!dto.totalPrice) 元</span>
+                <span>备注：$!dto.remark</span>
+                <span>状态：#if($!dto.printFlg==1)<em class="num"> 已打印</em> #else 未打印 #end #if($!dto.status==1)  -- 已出库 #end</span>
+            	<br/>
+				#if($dto.status == 0)
+					<span>
+							<button class="btn btn-success refundMoney" onclick="if(confirm('确定删除?')){cancelOutstock('$dto.id')}">删除</button>
+	##	                	<button class="btn btn-success refundMoney" onclick="if(confirm('确定取消?')){cancelOrder('$dto.orderNo')}">取消订单</button>
+					</span>
+
+					<span>
+							<button class="btn btn-success refundMoney" onclick="outstockStock('$dto.id')">待出库</button>
+					</span>
+				#end
+##                 <span>
+##                	<button class="btn btn-success refundMoney xs" onclick="printData('$dto.id');">打印</button>
+##                </span>
+            </td>
+
+		</tr>
+		<tr>
+			<th>商品名称</th>
+			<th>规格</th>
+			<th>数量</th>
+##			<th>数量</th>
+			<th>价格</th>
+			<th>总金额</th>
+			<th>原因</th>
+##			<th>备注</th>
+		</tr>
+		#foreach($item in $itemList)
+		<tr>
+			<td>$!item.itemName</td>
+			<td>$!item.size</td>
+			<td>$!item.outstockNum</td>
+##			<td>$!item.outstockNum</td>
+			<td>$NumberTool.toYuanNumber($!item.price)</td>
+			<td>$NumberTool.toYuanNumber($!item.totalPrice)</td>
+			<td>$!item.itemRemark</td>
+		</tr>
+		#end
+	</table>
+	#end
+	<div class="text-center">
+			#parse("/common/page.vm")
+	</div>
+	</div>
+	</div>

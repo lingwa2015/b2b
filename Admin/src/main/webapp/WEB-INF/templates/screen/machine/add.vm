@@ -1,0 +1,177 @@
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+		var one = $('#oneTypeId').val();
+		var two = $('#twoTypeId').val();
+				save();
+				return false;
+        }
+	});
+	var flag = $("#flag").val();
+	if(flag==1){
+		oneChange();
+	}
+ });
+
+
+function save(){
+	disableBtn('saveBtn');
+	
+	  var url="${rc.contextPath}/machine/save.do";
+	  submitFormData("form1",url,show);
+}
+
+function show(data){
+    alert(data);
+	if(data.indexOf("成功")!=-1){
+		 cancel();
+	}else{
+	    enableBtn('saveBtn');
+	}
+}
+
+function cancel(){
+	window.location.href="${rc.contextPath}/machine/machineList.htm";
+}
+
+function oneChange(){
+	var twoId = $('#twoId').val();
+		var option = "";
+		var catId = "";
+		var catName = "";
+		var oneId = $("#oneTypeId").find("option:selected").val();
+		$("#twoTypeId").empty();
+		var itemObjs = document.getElementsByName(oneId);
+		if(itemObjs!=null){
+		   var l = itemObjs.length;
+		   for(var i=0;i<l;i++){
+		      var itemObj = itemObjs[i];
+		      var catId = itemObj.getAttribute("id");
+		      var catName = itemObj.value;
+			  option += "<option value=\"" + catId + "\">" + catName + "</option>";
+		   }
+		}
+		$("#twoTypeId").append(option);
+		var fornt =itemObjs[0].getAttribute("data-code");
+		var idStr = GenNonDuplicateID(3);
+		if(fornt){
+			fornt += idStr; 
+			$("#machineId").val(fornt);
+		}else{
+			$("#machineId").val("");
+		}
+}
+
+function twoChange(){
+	var twoId = $("#twoTypeId").find("option:selected").val();
+	var fornt = $("#"+twoId).attr("data-code");
+	var idStr = GenNonDuplicateID(3);
+	if(fornt){
+		fornt += idStr; 
+		$("#machineId").val(fornt);
+	}else{
+		$("#machineId").val("");
+	}
+}
+
+function GenNonDuplicateID(randomLength){
+	 var idStr = Date.now();
+	 idStr += Math.random().toString().substr(3,randomLength)
+	 return idStr
+	}
+
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+		<h4 class="tit">
+				#if($!dto.id)
+				编辑设备				
+				#else
+				 添加设备
+				#end
+		</h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+	<form class="jqtransform" name="itemCategoryForm" id="form1" action="${rc.contextPath}/machine/save.do" method="post">
+	<input type="hidden" name="twoId" id="twoId" value="$!dto.twoTypeId"/>
+	<input type="hidden" name="flag" id="flag" value="$!flag"/>
+	<input type="hidden" name="id" id="id" value="$!dto.id"/>
+	<table class="form">
+			<tr>
+				<td align="right"><label class="tit"><font color='red'>*</font>编号：</label></td>
+				<td>
+				<input class="form-input" type="text" style="width:200px" name="machineId" id="machineId" value="$!dto.machineId" validate="{required:true}">
+				&nbsp;<span></span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td align="right"><label class="tit"><font color='red'>*</font>类别：</label></td>
+				<td>
+				<select name="oneTypeId" id="oneTypeId" validate="{required:true}" onchange="oneChange(this)">
+				    #foreach($one in $onetype)
+					   #if ($!dto.oneTypeId == $one.id)
+			            <option value="$one.id" selected="selected">$one.name</option>
+			           #else
+			            <option value="$one.id">$one.name</option>
+			           #end
+					#end
+				 </select>
+				 &nbsp;<span></span>
+				</td>
+			</tr>
+			<tr>
+		#foreach($twot in $twotype)
+			<input type="hidden" name="$twot.parentId" id="$twot.id" data-code="$!twot.code" value="$twot.name"/>
+		#end
+		<td align="right"><label class="tit" ><font color='red'>*</font>型号：</label></td>
+			<td>
+			<select name="twoTypeId" id="twoTypeId" validate="{required:true}" onchange="twoChange(this)">
+				#foreach($twot in $twotype)
+					#if ($!dto.oneTypeId == $twot.parentId)
+						#if ($!dto.twoTypeId == $twot.id)
+					 	 <option value="$twot.id" selected="selected">$twot.name</option>
+						 #else
+						 	<option value="$twot.id" >$twot.name</option>
+						 #end
+					#end
+				#end
+			 </select>
+			 &nbsp;<span></span>
+			</td>
+		</tr>
+			
+			
+			<tr>
+				<td align="right">
+					<label class="tit">备注：</label>
+				</td>
+				<td>
+				    <textarea id="remark" name="remark" cols="50" rows="5" >$!dto.remark</textarea>
+					&nbsp;<span></span>
+				</td>
+			</tr>
+		
+		
+		<tr class="btn-bar">
+			<td></td>
+			<td><a class="btn btn-primary" id="saveBtn" href="#" onclick="$('#form1').submit();">保存</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

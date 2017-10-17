@@ -1,0 +1,138 @@
+<script type="text/javascript">
+
+function preferentialData(companyId,years,months){
+	 if(confirm("确认核销吗？")){
+	  	 $.ajax({
+				url:'${rc.contextPath}/debitnote/preferentialData.do',
+				type:'GET',
+				data: {companyId:companyId,years:years,months:months},
+				success:function(data){
+					if(data=="200"){
+						window.location.reload();
+					}else if(data=="202"){
+						alert("你还未设置默认城市，联系管理员设置！");
+					}else if(data=="203"){
+						alert("你设置的默认城市与操作城市不符！");
+					}else{
+						alert("网络连接超时,请重试！");
+						payPrevent = false;
+					}
+				}
+				
+			})
+	 }else{
+		return;
+	 }
+}
+
+
+function amountDebitNote(companyId,companyName,years,months){
+	  var url="$!{rc.contextPath}/debitnote/addDebitNote.htm?companyId="+companyId+"&companyName="+companyName+"&years="+years+"&months="+months;
+	  window.location.href=url;
+}
+
+function amountInvoice(companyId,companyName,years,months){
+	  var url="$!{rc.contextPath}/debitnote/addInvoice.htm?companyId="+companyId+"&companyName="+companyName+"&years="+years+"&months="+months;
+	  window.location.href=url;
+}
+
+function editRemark(companyId,companyName,years,months){
+	  var url="$!{rc.contextPath}/debitnote/addRemark.htm?companyId="+companyId+"&companyName="+companyName+"&years="+years+"&months="+months;
+	  window.location.href=url;
+}
+
+function amountPreferential(companyId,companyName,years,months){
+	  var url="$!{rc.contextPath}/debitnote/addPreferential.htm?companyId="+companyId+"&companyName="+companyName+"&years="+years+"&months="+months;
+	  window.location.href=url;
+}
+
+function GetDateStr(AddDayCount) {
+    var dd = new Date();
+    dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期
+    var y = dd.getFullYear();
+    var m = dd.getMonth()+1;//获取当前月份的日期
+    var d = dd.getDate();
+    return y+"-"+m+"-"+d;
+}
+
+function orderList(userid,years,months){
+	  var url="${rc.contextPath}/tranSum/detailNote.htm?userid="+userid+"&years="+years+"&months="+months;
+	  window.open(url);
+}
+
+function exportdata(companyId,years,months){
+	  if(years>2016){
+	  var url="$!{rc.contextPath}/debitnote/export.do?userId="+companyId+"&years="+years+"&months="+months;
+	  window.location.href=url;
+	  
+	  }else{
+	  	alert("2017年起支持导出")
+	  	return false;
+	  }
+}
+
+var $companyNameForeach="";
+var $amountForeach=0;
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+	<h4 class="tit">回款列表</h4>
+	</div>
+	<div class="bd-main">
+	<div class="bd-main-inner">
+	<h2>$!user.userName （#if($!user.payBillWay==1)按亏损额分担&nbsp;&nbsp; #elseif($!user.payBillWay==2)按结算额&nbsp;&nbsp; #elseif($!user.payBillWay==3)按亏损额&nbsp;&nbsp; #elseif($!user.payBillWay==4)不承担&nbsp;&nbsp; #end $!user.special #if($!user.discount!=1)&nbsp;&nbsp; 折扣：$!user.discount #end）</h2>
+	<table class="table">
+	<tr>
+					<th>年份</th>
+					<th>月份</th>
+					<th>销售金额</th>
+					<th>收款金额</th>
+					<th>未收款金额</th>
+					<th>优惠金额</th>
+					<th>开票金额</th>
+					<th>结算额</th>
+					<th>消费额</th>
+					<th>补贴</th>
+					<th>红包</th>
+					<th>优惠</th>
+					<th>亏损额</th>
+					<th>备注</th>
+					<th>操作</th>
+					<th>商品明细</th>
+	</tr>
+    #foreach($dto in $lists)
+		<tr>
+			<td width="4%">$!dto.years</td>
+			<td width="4%">$!dto.months</td>
+			<td width="8%"><a href="javascript:orderList('$!dto.companyId','$!dto.years','$!dto.months')">$NumberTool.toYuanNumber($!dto.amountSum) </a></td>
+			<td width="8%"><a href="javascript:amountDebitNote('$!dto.companyId','$!dto.companyName','$!dto.years','$!dto.months')">$NumberTool.toYuanNumber($!dto.amountSum1) </a></td>
+			<td width="8%">$NumberTool.toYuanNumber($!dto.amountSum4)</td>
+			<td width="8%"><a href="javascript:amountPreferential('$!dto.companyId','$!dto.companyName','$!dto.years','$!dto.months')">$NumberTool.toYuanNumber($!dto.amountSum3)</a></td>
+			<td width="8%"><a href="javascript:amountInvoice('$!dto.companyId','$!dto.companyName','$!dto.years','$!dto.months')">$NumberTool.toYuanNumber($!dto.amountSum2)</a></td>
+			<td width="8%">$NumberTool.toYuanNumber($!dto.amountSum7) </td>
+			<td width="8%">$NumberTool.toYuanNumber($!dto.amountSum5) </td>
+			<td width="8%">$NumberTool.toYuanNumber($!dto.subsidy) </td>
+			<td width="8%">$NumberTool.toYuanNumber($!dto.redFee) </td>
+			<td width="8%">$NumberTool.toYuanNumber($!dto.lwFeeOne) </td>
+			<td width="8%">$NumberTool.toYuanNumber($!dto.amountSum6) </td>
+			<td width="12%"><a href="javascript:editRemark('$!dto.companyId','$!dto.companyName','$!dto.years','$!dto.months')">#if($!dto.remark)$!dto.remark#else无#end</a></td>
+			<td width="8%">
+			#if($!dto.locks==1)
+				#if($dto.id)
+				已核销#if($dto.type==1)－#elseif($dto.type==2)＝#end
+				#else
+				<a href="javascript:preferentialData('$!dto.companyId','$!dto.years','$!dto.months')">核销</a>
+				#end
+			#else
+			#end
+			</td>
+			<td width="8%">
+				<a href="javascript:exportdata('$!dto.companyId','$!dto.years','$!dto.months')">导出</a>
+			</td>
+		</tr>
+	#end 
+	</table>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+	</div>

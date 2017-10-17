@@ -1,0 +1,55 @@
+ #set($layout="layout/wxLayout.vm")
+
+        <div class="propaganda">
+        <img src="${rc.contextPath}/static/images/wx/lw_logo.png" style="width:0px; height:0px; overflow:hidden;display: block;">
+            <img src="${rc.contextPath}/static/images/wx/xuan2.png" class="pro">
+            <h1 class="pro1">引领办公新时尚,</br>倡导和谐高效的企业氛围</h1>
+            <img src="${rc.contextPath}/static/images/wx/xuan3.png" class="pro2">
+            <span class="pro3">领蛙致力于为企业解决零食的采购和配送需求</span>
+            <img src="${rc.contextPath}/static/images/wx/xuan4.png" class="pro4">
+        </div>
+        <div class="xuan">
+            <img src="${rc.contextPath}/static/images/wx/xuan5.jpg" class="pro5">
+            <span class="pro6">填写信息，就能享受精美的零食试吃礼包哦~</span>
+            <a href="tel://400-8801-703" style="display:block;"><img src="${rc.contextPath}/static/images/wx/tel.png" style="display:block;margin:0 auto 5%;width:80%;"></a>
+            <form  id="advisoryForm" name="advisoryForm" class="SecurityCode FormAdv" action="${rc.contextPath}/appAdvisory/wxSpread.do" method="post">
+            <dl style="font-size:2rem;width:90%;display:block;margin:0 auto 5%;">
+                <dt class="pro7"><i style="color:red;">*</i>&nbsp;&nbsp;
+                姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</dt>
+                <dd class="pro8"><input class="name" name="name" type="text"></dd>
+                <dt class="pro7"><i style="color:red;">*</i>&nbsp;&nbsp;
+                电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话：</dt>
+                <dd class="pro8"><input class="name" name="mobilePhone" type="text"></dd>
+                <dt class="pro7"><i style="color:red;">*</i>&nbsp;&nbsp;
+                公司全称：</dt>
+                <dd class="pro8"><input class="name" name="companyName" type="text"></dd>
+            </dl>
+            <button class="pro12" type="submit" onclick="return save();">提交</button>
+            </form>
+            <img src="${rc.contextPath}/static/images/wx/xuan6.jpg" style="width:95%;display:block;margin:6% auto 0;">
+        </div>
+
+<script type="text/javascript">
+var checkSubmitFlag = false;
+    function save() {
+        var user_name = $("input[name='name']").val();
+        var mobile = $("input[name='mobilePhone']").val();
+        var companyName = $("input[name='companyName']").val();
+        if(!user_name||!mobile||!companyName){
+            alert("信息不能为空");
+            return false;
+        }else{
+            if(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/.test(mobile)){
+                if(checkSubmitFlag ==true){
+                   alert("请勿重复提交");
+                   return false;
+                }
+                checkSubmitFlag = true;
+                return true;
+            }else{
+                alert("请填写正确的手机号码！");
+                return false;
+            }
+        }   
+    }
+</script>

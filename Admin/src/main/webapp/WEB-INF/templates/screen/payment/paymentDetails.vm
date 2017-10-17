@@ -1,0 +1,139 @@
+<script type="text/javascript">
+
+function preferentialData(companyId,years,months){
+	 if(confirm("确认核销吗？")){
+	  	 $.ajax({
+				url:'${rc.contextPath}/debitnote/preferentialData.do',
+				type:'GET',
+				data: {companyId:companyId,years:years,months:months},
+				success:function(data){
+					if(data=="200"){
+						window.location.reload();
+					}else if(data=="202"){
+						alert("你还未设置默认城市，联系管理员设置！");
+					}else if(data=="203"){
+						alert("你设置的默认城市与操作城市不符！");
+					}else{
+						alert("网络连接超时,请重试！");
+						payPrevent = false;
+					}
+				}
+				
+			})
+	 }else{
+		return;
+	 }
+}
+
+
+function paymentEdition(id, supplierId){
+    var menuHeight =$('#menuHeight').val();
+    var menuName = $('#menuName').val();
+	  var url="$!{rc.contextPath}/payment/paymentEdition.htm?id="+id+"&supplierId="+supplierId+"&menuHeight="+menuHeight+"&menuName="+menuName;
+	  window.location.href=url;
+}
+
+
+function GetDateStr(AddDayCount) {
+    var dd = new Date();
+    dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期
+    var y = dd.getFullYear();
+    var m = dd.getMonth()+1;//获取当前月份的日期
+    var d = dd.getDate();
+    return y+"-"+m+"-"+d;
+}
+
+function storageList(supplierId,sumdate){
+    var menuHeight =$('#menuHeight').val();
+    var menuName = $('#menuName').val();
+  	var url="${rc.contextPath}/payment/findStorageList.htm?supplierId="+supplierId+"&sumdate="+sumdate+"&menuHeight="+menuHeight+"&menuName="+menuName;
+    window.location.href=url;
+}
+
+function exportdata(companyId,years,months){
+	  if(years>2016){
+	  var url="$!{rc.contextPath}/debitnote/export.do?userId="+companyId+"&years="+years+"&months="+months;
+	  window.location.href=url;
+	  
+	  }else{
+	  	alert("2017年起支持导出")
+	  	return false;
+	  }
+}
+
+function changeRemake(id, count) {
+    var remake = $('.'+"remake"+count).val();
+    $.ajax({
+        type: "POST",
+        url: "${rc.contextPath}/payment/changeRemake.do",
+        data: {id:id, remake:remake},
+        success: function(data){
+            if(200==data){
+            }else{
+                alert("添加失败");
+            }
+        }
+    });
+}
+
+var $companyNameForeach="";
+var $amountForeach=0;
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+        <a href="${rc.contextPath}/payment/paymentList.htm?menuHeight=$!menuHeight&menuName=$!menuName" title="返回付款列表" class="btn btn-return"><</a>
+	<h4 class="tit">付款列表</h4>
+	</div>
+	<div class="bd-main">
+	<div class="bd-main-inner">
+	<h2>$!supplier.supplierName</h2>
+        <input type="hidden" name="menuHeight" id="menuHeight" value="$!menuHeight" />
+        <input type="hidden" name="menuName" id="menuName" value="$!menuName" />
+	<table class="table">
+	<tr>
+					<th>年月</th>
+					<th>采购入库金额</th>
+					<th>退货金额</th>
+					<th>优惠金额</th>
+					<th>应付款金额</th>
+					<th>正在付款金额</th>
+					<th>未付款金额</th>
+					<th>开票金额</th>
+					<th>累计未付款额</th>
+					<th>备注</th>
+##					<th>操作</th>
+	</tr>
+		#set ($Count = 0)
+    #foreach($dto in $lists)
+		<tr>
+			<td >$!date.format('yyyy-MM',$!dto.sumdate)</td>
+			<td ><a href="javascript:storageList('$!dto.supplierId','$!date.format('yyyy-MM',$!dto.sumdate)')">$NumberTool.toYuanNumber($!dto.stockPrice) </a></td>
+            <td >$NumberTool.toYuanNumber($!dto.outstockPrice)</td>
+            <td >$NumberTool.toYuanNumber($!dto.preferentialBenefitPrice)</td>
+            <td ><a href="javascript:paymentEdition('$!dto.id', '$!dto.supplierId')">$NumberTool.toYuanNumber($!dto.paymentPrice) </a></td>
+            <td >$NumberTool.toYuanNumber($!dto.paymentingPrice)</td>
+            <td >$NumberTool.toYuanNumber($!dto.notpaymentPrice)</td>
+            <td >$NumberTool.toYuanNumber($!dto.receiptPrice)</td>
+            <td >$NumberTool.toYuanNumber($!dto.beforeMonthNotpaymentPrice)</td>
+			<td >
+##				<a href="javascript:editRemark('$!dto.supplierId','$!date.format('yyyy-MM',$!dto.sumdate)')">#if($!dto.remake)$!dto.remake#else无#end</a>
+                <textarea id="remake" class="remake$Count" cols="25" rows="2"  value="$!dto.remake$Count" onchange="changeRemake($!dto.id, $Count)">$!dto.remake</textarea>
+			</td>
+##			<td >
+##			#if($!dto.locks==1)
+##				#if($dto.id)
+##				已核销#if($dto.type==1)－#elseif($dto.type==2)＝#end
+##				#else
+##				<a href="javascript:preferentialData('$!dto.supplierId','$!dto.sumdate')">核销</a>
+##				#end
+##			#else
+##			#end
+##			</td>
+		</tr>
+		#set ($Count = $Count + 1)
+	#end
+	</table>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+	</div>

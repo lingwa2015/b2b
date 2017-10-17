@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<request>
+  <actionType>ADD</actionType>
+  <item>
+    <barCode>11342</barCode>
+    <brandName>eeesd</brandName>
+    <itemCode>12s345</itemCode>
+    <itemName>22222x</itemName>
+    <itemType>ZC</itemType>
+  </item>
+  <ownerCode>01</ownerCode>
+  <warehouseCode>上海领蛙</warehouseCode>
+</request>

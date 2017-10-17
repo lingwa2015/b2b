@@ -1,0 +1,5 @@
+message.recharge.success=尊敬的宋小菜会员，您已成功充值{0}元，当前账户余额为{1}元。
+message.expend.success.orderNum=尊敬的宋小菜会员，您已成功下单，订单号为：{0}，消费金额为{1}元，当前账户余额为{2}元。
+message.refund.success.orderNum=尊敬的宋小菜会员，您的订单：{0} 已成功退款{1}元，当前账户余额为{2}元。
+message.register.success={0}，您好，恭喜您已经成为“宋小菜”会员。您在“宋小菜”的账户信息如下：用户名：{1} 密码：{2}。您将享受“宋小菜”为您提供的配送售后保障服务。“宋小菜”将不定期举行优惠活动，期待您时刻关注。
+message.getCheckCode=您的验证码为：{0}。

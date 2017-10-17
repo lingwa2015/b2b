@@ -1,0 +1,27 @@
+#set($layout="layout/shopLayout.vm")
+<div class="code" style="position:relative;">
+		<select style="position:absolute;top:.68rem;left:40%;">
+	        <option value="">全部</option>
+	        #foreach($dto in $cats)
+	        	<option value="$dto.id">$dto.categoryName</option>
+	        #end
+   		 </select>
+        <div class="code_ju">
+            <img id="ecode" src="${rc.contextPath}/convenient/shop_QRCode.htm?shop_id=$!shopId">
+        </div>
+        <p>长按保存到手机</p>
+    </div>
+<script type="text/javascript">
+    document.title = "店铺二维码";
+    $("body").css("background-color","#ececec");
+    $('select').change(function(){
+        var cid = $(this).val();
+        if(!cid){
+            var url = "${rc.contextPath}/convenient/shop_QRCode.htm?shop_id=$!shopId";
+		    document.getElementById("ecode").src = url;
+        }else{
+        	var url = "${rc.contextPath}/convenient/shop_QRCode.htm?shop_id=$!shopId&cid="+cid;
+        	document.getElementById("ecode").src = url;
+        }
+    });
+</script>

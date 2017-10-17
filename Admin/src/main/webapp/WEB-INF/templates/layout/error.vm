@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>出错提示</title>
+	<meta name="keywords" content="领蛙,领带蛙,杭州领带蛙网络科技有限公司,智能优选零食,零食,领蛙零食,企业文化"/>
+	<meta name="description" content="领蛙,领带蛙,杭州领带蛙网络科技有限公司,智能优选零食,零食,领蛙零食,企业文化"/>
+</head>
+<body>
+<div id="page">
+    <div id="content">
+		<div class="bd">
+			$screen_placeholder
+		</div>
+    </div>
+</div>
+</body>
+</html>

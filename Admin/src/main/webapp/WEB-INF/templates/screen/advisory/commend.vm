@@ -1,0 +1,169 @@
+#set($layout="layout/shopLayout.vm")
+<div class="dh_content">
+    <div class="head">
+        <img src="${rc.contextPath}/static/images/shop/logo_dui.png">
+    </div>
+    <img src="${rc.contextPath}/static/images/shop/logo_huan.png" class="logo_1">
+    <div class="dh_form">
+            <span class="xuanze">
+                城市选择：
+                <span style="margin-left: .2rem;" class="cs">
+                    <span class="yuan" style="position: relative;top: 0;left: 0;" city-id="1"></span>
+                    <label>杭州</label>
+                </span>
+                <span style="margin-left: .2rem;" class="cs">
+                    <span class="yuan" style="position: relative;top: 0;left: 0;" city-id="2"></span>
+                    <label>上海</label>
+                </span>
+                <span style="margin-left: .2rem;" class="cs">
+                    <span class="yuan" style="position: relative;top: 0;left: 0;" city-id="3"></span>
+                    <label>深圳</label>
+                </span>
+            </span>
+        <span class="user_name">
+                <span class="form_name">推荐公司：</span>
+                <input type="text" name="user_conpany" id="user_conpany" >
+            </span>
+        <span class="user_name">
+                <span class="form_name">推荐公司联系人姓名：</span>
+                <input type="text" name="user_name" id="user_name" class="conpany_02">
+            </span>
+        <span class="user_name">
+                <span class="form_name">联系人电话：</span>
+                <input type="number" name="contactTel" id="contactTel" class="conpany_01">
+            </span>
+        <span class="user_name">
+                <span class="form_name">联系人职务：</span>
+                <input type="text" name="zhiwu" id="zhiwu" class="conpany_01">
+            </span>
+        <span class="user_name">
+                <span class="form_name">我的姓名：</span>
+                <input type="text" name="name" id="name" >
+            </span>
+        <span class="user_name">
+                <span class="form_name">我的电话：</span>
+                <input type="number" name="phone" id="phone" >
+            </span>
+        <span class="user_name">
+                <span class="form_name">我的支付宝账号：</span>
+                <input type="text" name="airpay" id="airpay" class="conpany">
+            </span>
+    </div>
+    <a href="javascript:;" class="save">提交</a>
+    <p>
+        <span>活动规则：</span></br>
+        <span>1.提交完整信息后，领蛙会联系需安装货架的公司</span></br>
+        <span>2.正常安装货架一周后，佣金将会打入填表人账户</span></br>
+        <span>3.联系电话：400-880-1703</span>
+    </p>
+</div>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript">
+    document.title = "领蛙-办公室自助便利店";
+    var touchmove;
+    $(document).on( "touchstart", function() {
+        touchmove = false;
+    });
+    $(document).on( "touchmove", function() {
+        touchmove = true;
+    });
+    var checkSubmitFlag = false;
+    $(".cs").on("touchend",function(){
+        if(touchmove){return}
+        $(this).find(".yuan").addClass("active").parent().siblings().find(".yuan").removeClass("active");
+    })
+    $(".save").on("touchend",function() {
+        if (checkSubmitFlag == true) return;
+        if(touchmove){return}
+        checkSubmitFlag = true;
+        var user_conpany = $("#user_conpany").val();
+        var user_name = $("#user_name").val();
+        var zhiwu = $("#zhiwu").val();
+        var name = $("#name").val();
+        var phone = $("#phone").val();
+        var airpay = $("#airpay").val();
+        var contactTel = $("#contactTel").val();
+        var cityId = $(".yuan.active").attr("city-id");
+        if(!user_conpany||!user_name||!contactTel||!zhiwu||!name||!phone||!airpay|| !cityId){
+            alert("请将信息填写完整");
+            checkSubmitFlag = false;
+        }else{
+            $.ajax({
+                url: '${rc.contextPath}/advisory/wxCommend.do',
+                type: 'POST',
+                data: {name:name,mobile:phone,alipayNum:airpay,recommendCompany:user_conpany,linkMan:user_name,position:zhiwu,cityId:cityId,contactTel:contactTel},
+                success: function (data) {
+                    if (data == 200) {
+                        alert("提交成功");
+                        checkSubmitFlag = false;
+                        window.location.reload();
+                    } else {
+                        alert("网络异常，请稍后重试！");
+                        checkSubmitFlag = false;
+                    }
+                }
+
+            })
+        }
+    });
+    $(function(){
+    	var link = location.href;
+		$.ajax({
+		        url:"${rc.contextPath}/advisory/wxconfig.json",//后台给你提供的接口
+		        type:"GET",
+		        data:{"url":link},
+		        async:true,
+		        dataType:"json",
+		        success:function (data){
+		        	if(data.status==200){
+		        	
+			            wx.config({
+					        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来
+					        appId: data.data.appId, // 必填，公众号的唯一标识
+					        timestamp: data.data.timestamp, // 必填，生成签名的时间戳
+					        nonceStr: data.data.nonceStr, // 必填，生成签名的随机串
+					        signature: data.data.signature,// 必填，签名，见附录1
+					        jsApiList: [
+					            "onMenuShareTimeline",
+					            "onMenuShareAppMessage"
+					        ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+					    });
+			           
+		        	}
+		        },
+		        error:function (error){
+		            alert(error)
+		        }
+		    });
+		    wx.ready(function(res) {
+		        wx.onMenuShareAppMessage({
+		            title: '领蛙-办公室自助便利店',
+		            desc:'加入推荐返佣行动，领取200元现金',
+		            link: location.href,
+		            imgUrl:'http://assets.lingwa.com.cn/images/item/97005ba9-9c9b-45e4-b380-74dc18eb43ac.jpg',
+		             type: 'link',
+		            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空  
+			        success: function () {  
+			            // 用户确认分享后执行的回调函数  
+			        },  
+			        cancel: function () {  
+			            // 用户取消分享后执行的回调函数  
+			        }  
+		        });
+		        wx.onMenuShareTimeline({
+		            title: '领蛙-办公室自助便利店',
+		            link: location.href,
+		            imgUrl:'http://assets.lingwa.com.cn/images/item/97005ba9-9c9b-45e4-b380-74dc18eb43ac.jpg',
+		            success: function () {  
+			            // 用户确认分享后执行的回调函数  
+			        },  
+			        cancel: function () {  
+			            // 用户取消分享后执行的回调函数  
+			        }  
+		        });
+		    });
+    })
+    
+    
+    
+</script>

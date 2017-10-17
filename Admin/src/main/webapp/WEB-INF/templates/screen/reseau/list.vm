@@ -1,0 +1,45 @@
+<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/reseau/reseauList.htm" method="post">
+</form>
+<div class="content">
+		<div class="bd-actionbar">
+			<a href="${rc.contextPath}/reseau/add.htm" class="btn btn-success"><i class="ico"></i>添加网格</a>
+	    </div>
+		<div class="bd-main">
+		<div class="bd-main-inner">
+			<table class="table">
+			  <tr>
+				<th>名称</th>
+				<th>客户经理</th>
+				<th>备注</th>
+				<th>操作</th>
+			
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>$!bean.name</td>
+					<td>$!bean.userName</th>
+					<td>$!bean.remark</td>
+					<td><a href="${rc.contextPath}/reseau/edit.htm?id=$bean.id">编辑</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:delData('$bean.id')">删除</a></td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->
+<script type="text/javascript">
+	function delData(id){
+		 if(confirm("确定要删除吗？")){
+			  var url="${rc.contextPath}/reseau/delete.do?id="+id;
+			  doDeleteRequest(url,id,show);
+		 }
+	}
+	
+	function show(data){
+		if(data.indexOf("200")!=-1){
+			 window.location.href="${rc.contextPath}/reseau/reseauList.htm";
+		}
+	}
+</script>

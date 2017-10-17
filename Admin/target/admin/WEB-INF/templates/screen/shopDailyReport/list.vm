@@ -1,0 +1,129 @@
+<div class="content">
+	    <div class="bd-actionbar">
+		<h4 class="tit">单店日报</h4>
+            <div class="an">
+                <a href="${rc.contextPath}/shopDailyReport/shopDailyReportList.htm?menuHeight=$!menuHeight&menuName=$!menuName" class="wo active">日报</a >
+                <a href="${rc.contextPath}/shopMonthReport/shopMonthReportList.htm?menuHeight=$!menuHeight&menuName=$!menuName" class="wo">月报</a >
+            </div>
+		</div>
+		<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/shopDailyReport/shopDailyReportList.htm?menuHeight=$!menuHeight&menuName=$!menuName" method="post">
+					<table class="form form-horizontal">
+					<input type="hidden" name="customerId" id="customerId" value=""/>
+					<tr>
+						<td><label class="tit">日期：</label></td>
+						<td>
+							<input class="form-input input-time-day" type="text" name="starttime" id="starttime" readonly="readonly" value="$!starttime">
+						</td>
+						<td><label class="tit">至：</label></td>
+						<td>
+							<input class="form-input input-time-day" type="text" name="endtime" id="endtime" readonly="readonly" value="$!endtime">
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">客户简称：</label></td>
+						<td>
+							<input class="form-input input-time-day" type="text" name="userName" id="userName" value="$!userName">
+						</td>
+						<td align="right"><label class="tit">网格：</label></td>
+						<td>
+						<select name="reseauId" id="reseauId" validate="{required:true}" >
+						    <option value="">全部</option>
+						    #foreach($reseau in $reseaus)
+							   #if($!reseauId == $reseau.id)
+					            <option value="$reseau.id" selected="selected">$reseau.name</option>
+					           #else
+					            <option value="$reseau.id">$reseau.name</option>
+					           #end
+							#end
+						 </select>
+						 &nbsp;<span></span>
+						</td>
+						<td ><label class="tit">排序：</label></td>
+						<td >
+							<select name="param" id="param">
+							  <option value ="0" #if($!param==0)selected="selected"#end>默认</option>
+							  <option value ="1" #if($!param==1)selected="selected"#end>消费额</option>
+							  <option value ="2" #if($!param==2)selected="selected"#end>消费额同比</option>
+							  <option value ="3" #if($!param==3)selected="selected"#end>消费笔数</option>
+							  <option value ="4" #if($!param==4)selected="selected"#end>消费人数</option>
+							  <option value ="5" #if($!param==5)selected="selected"#end>人均</option>
+							  <option value ="6" #if($!param==6)selected="selected"#end>加权消费额</option>
+							  <option value ="7" #if($!param==7)selected="selected"#end>笔均</option>
+							  <option value ="8" #if($!param==8)selected="selected"#end>在架库存</option>
+							  <option value ="9" #if($!param==9)selected="selected"#end>动销率</option>
+							</select>
+						</td>
+						<td>
+							<a class="btn btn-warning btn-sm" onclick="javascript:$(form1).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+						</td>
+						<td><a class="btn btn-warning btn-sm" href="javascript:exportExcel();">导出Excel</a></td>
+					</tr>
+					</table>
+			</form>
+			<table class="table" style="width:130%">
+			  <tr>
+				<th>客户</th>
+				<th>日期</th>
+				<th>折扣</th>
+				<th>消费额</th>
+			    <th>同比上周</th>
+				<th>消费笔数</th>
+				<th>笔均</th>
+				<th>消费人数</th>
+				<th>人均</th>
+				<th>加权消费额</th>
+				<th>在架库存</th>
+				<th>在架品类</th>
+				<th>动销品类</th>
+				<th>动销率</th>
+				<th>订单数量</th>
+				<th>订单金额</th>
+				<th>操作</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>#if($!bean.region && $!bean.region!="")[$!bean.region] #end $!bean.shopName</td>
+					<td>$!date.format('yyyy-MM-dd',$!bean.sumdate)</td>
+					<td>$!bean.discount</td>
+					<td>$NumberTool.toYuanNumber($!bean.totalConsume)</td>
+					<td>#if($!bean.beforeLastWeekExpand) #if($!bean.beforeLastWeekExpand>0)+$!bean.beforeLastWeekExpand% #else $!bean.beforeLastWeekExpand% #end #end</td>
+					<td>$!bean.consumePen</td>
+					<td>$NumberTool.toYuanNumber($!bean.avgPenFee)</td>
+					<td>$!bean.consumePersonNum</td>
+					<td>$NumberTool.toYuanNumber($!bean.avgExpend)</td>
+					<td>$NumberTool.toYuanNumber($!bean.totalExpend)</td>
+					<td>$NumberTool.toYuanNumber($!bean.onshelfFee)</td>
+					<td>$!bean.onshelfKind</td>
+					<td>$!bean.moveKind</td>
+					<td>#if($!bean.movePercent>0)$!bean.movePercent% #end</td>
+					<td>#if($!bean.orderNum) $!bean.orderNum #end</td>
+					<td>#if($!bean.orderFee)$NumberTool.toYuanNumber($!bean.orderFee) #end</td>
+					<td><a href="${rc.contextPath}/shopDailyReport/shopDailyReportList.htm?userName=$!bean.shopName&menuHeight=$!menuHeight&menuName=$!menuName">本店</a></td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->
+<script type="text/javascript">
+$(document).ready(function() {
+	$( "#starttime" ).datepicker();
+	$( "#endtime" ).datepicker();
+ });
+ function exportExcel(){
+ 	var starttime = $('#starttime').val();
+ 	var endtime = $('#endtime').val();
+ 	var userName = $('#userName').val();
+ 	var param = $('#param').val();
+ 	var reseauId = $('#reseauId').val();
+ 	window.location.href = "${rc.contextPath}/shopDailyReport/exportExcel.do?starttime="+starttime+"&endtime="+endtime+"&userName="+userName+"&param="+param+"&reseauId="+reseauId;
+ }
+$(".wo").on("click",function(){
+    $(this).addClass("active").siblings().removeClass("active")
+})
+</script>

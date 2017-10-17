@@ -1,0 +1,169 @@
+#set($layout="layout/shopLayout.vm")
+<div class="manage_content">
+        <ul>
+            <li>
+                <span style="float: left;">公司简称：</span>
+                <span style="border: 0;width: 71%;overflow-x: auto;white-space: nowrap;-webkit-overflow-scrolling: touch;" >$!user.userName</span>
+            </li>
+            <li>
+                <span style="float: left;">公司名称：</span>
+                <span style="border: 0;width: 71%;overflow-x: auto;white-space: nowrap;-webkit-overflow-scrolling: touch;" >$!user.companyName</span>
+            </li>
+            <li>
+                <span style="float: left;">店铺地址：</span>
+                <span style="border: 0;width: 71%;overflow-x: auto;white-space: nowrap;-webkit-overflow-scrolling: touch;" >$!user.address</span>
+            </li>
+            <li>
+                <span style="float: left;">合同编号：</span>
+                <span style="border: 0;width: 71%" >$!user.contractNumber</span>
+            </li>
+            <li>
+            	<span style="float: left;">激活时间：</span>
+                <span style="border: 0;width: 71%" >$!date.format('yyyy-MM-dd',$!user.contractDate)</span>
+            </li>
+            <li>
+                <span style="float: left;">公司人数：</span>
+                <span style="border: 0;width: 71%" >$!user.companyPersonnum</span>
+            </li>
+            <li>
+                <span style="float: left;">开票税号：</span>
+                <span style="border: 0;width: 71%" >$!user.dutyParagraph</span>
+            </li>
+##            <li>
+##                <span style="float: left;">手机号码：</span>
+##                <span style="border: 0;width: 71%" >$!user.mobilePhone</span>
+##            </li>
+##            <li>
+##                <span style="float: left;">联系人：</span>
+##                <span style="border: 0;width: 71%" >$!user.likeman</span>
+##            </li>
+##            <li>
+##                <span style="float: left;">职位：</span>
+##                <span style="border: 0;width: 71%" >$!user.position</span>
+##            </li>
+            <li>
+                <span style="float: left;width: 30%;">接口业务员：</span>
+                <span style="border: 0;width: 64%" >$!user.interfacePerson</span>
+            </li>
+            <li>
+                <span style="float: left;">折扣：</span>
+                <span style="border: 0;width: 71%" >$!user.discount</span>
+            </li>
+            <li>
+                <span style="float: left;">售价折扣：</span>
+                <span style="border: 0;width: 71%" >$!user.shopDiscount</span>
+            </li>
+            <li>
+                <span style="float: left;">货架数量：</span>
+                <span style="border: 0;width: 71%" >$!user.goodsShelfNum</span>
+            </li>
+            <li>
+                <span style="float: left;">托管：</span>
+                #if($!user.buyWay==3)
+                <span style="border: 0;width: 71%" >非托管</span>
+                #elseif($!user.buyWay==1)
+                <span style="border: 0;width: 71%" >采购托管</span>
+                #elseif($!user.buyWay==2)
+                <span style="border: 0;width: 71%" >全托管</span>
+                #end
+
+            </li>
+            <li>
+                <span style="float: left;">回款方式：</span>
+                #if($!user.payBillWay==2)
+                <span style="border: 0;width: 71%" >按结算额</span>
+                #elseif($!user.payBillWay==3)
+                <span style="border: 0;width: 71%" >按亏损额</span>
+                #elseif($!user.payBillWay==1)
+                <span style="border: 0;width: 71%" >按亏损额分担</span>
+                #elseif($!user.payBillWay==4)
+                <span style="border: 0;width: 71%" >不承担</span>
+                #end
+            </li>
+            #if($!islock!=1)
+                <li>
+                    <span style="float: left;">业务类型：</span>
+                    #if($!user.iswxvip==3)
+                        <span style="border: 0;width: 71%" >便利店</span>
+                    #elseif($!user.iswxvip==0)
+                        <span style="border: 0;width: 71%" >福利店</span>
+                    #elseif($!user.iswxvip==1)
+                        <span style="border: 0;width: 71%" >礼包</span>
+                    #end
+                </li>
+            #end
+            <li>
+                <span style="float: left;">区域：</span>
+                <span style="border: 0;width: 71%" >$!user.region</span>
+            </li>
+            <li>
+                <span style="float: left;">分级：</span>
+                <span style="border: 0;width: 71%" >$!user.grade</span>
+            </li>
+            <li>
+                <span style="float: left;">网格：</span>
+                <span style="border: 0;width: 71%" >$!user.reseauName</span>
+            </li>
+            <li>
+                <span style="float: left;">支持：</span>
+                <span style="border: 0;width: 71%" >$!user.checkStr</span>
+            </li>
+            <li style="height:2.1rem;">
+                <span style="float: left;">特殊优惠：</span>
+                <span style="border: 0;width: 71%;height: 1.75rem;
+                        line-height: .4rem;padding-top: .3rem;overflow: auto;
+                        -webkit-overflow-scrolling: touch;" >$!user.special</span>
+            </li>
+            <li style="height:2.1rem;">
+                <span style="float: left;">公司备注：</span>
+                <span style="border: 0;width: 71%;height: 1.75rem;
+                        line-height: .4rem;padding-top: .3rem;overflow: auto;
+                        -webkit-overflow-scrolling: touch;" >$!user.companyMemo</span>
+            </li>
+        </ul>
+##        <div class="discount">
+##            <span style="float: left;">折扣：</span>
+##            <input type="number" name=""  id="discount" value="$!user.shopDiscount">
+##        </div>
+##        <a href="javascript:void(0)" ontouchend="save($!user.id)" class="save">保存</a>
+    </div>
+<script type="text/javascript">
+    document.title = "店铺详情";
+    $("body").css("background-color","#ececec");
+##    var checkSubmitFlag = false;
+##    function save(id) {
+##        var full_name = $("#full_name").val();
+##        var short_name = $("#short_name").val();
+##        var address =$("#address").val();
+##        var discount =$("#discount").val();
+##        var company_personnum =$("#company_personnum").val();
+##        var goodsShelfNum =$("#goodsShelfNum").val();
+##        var popsicleIceboxNum =$("#popsicleIceboxNum").val();
+##        var drinkIceboxNum =$("#drinkIceboxNum").val();
+##        var res = /^(?:[1-9][0-9]*|0)(\.[0-9]+)?$/;
+##        var res_tel = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+##        if(!full_name||!short_name||!address||!discount||!company_personnum){
+##            alert("信息不能为空");
+##        }else{
+##
+##        	if(!res.test(discount)){
+##        		alert("请填写正确的折扣！");
+##				return false;
+##        	}
+##
+##        	$.ajax({
+##				url:'${rc.contextPath}/convenient/home/shop_common.do',
+##				type:'POST',
+##				data: {id:id,userName:short_name,companyName:full_name,address:address,shopDiscount:discount,companyPersonnum:company_personnum,goodsShelfNum:goodsShelfNum,popsicleIceboxNum:popsicleIceboxNum,drinkIceboxNum:drinkIceboxNum},
+##				success:function(data){
+##					if(data==200){
+##						window.location.href="${rc.contextPath}/convenient/home/shop_index.htm?shop_id="+id
+##					}else{
+##						alert("修改店铺基础信息出错");
+##					}
+##				}
+##
+##			})
+##        }
+##    }
+</script>

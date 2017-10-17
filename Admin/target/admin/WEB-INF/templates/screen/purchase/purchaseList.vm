@@ -1,0 +1,376 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+
+ });
+
+    function pageBack(){
+    	location.reload();
+    }
+
+	function checkAll() {
+
+		for(var i in document.getElementsByName('orderCheckbox')){
+			var ele = document.getElementsByName('orderCheckbox')[i];
+			ele.checked = document.getElementById('checkAll').checked;
+		}
+		//$("[name='orderCheckbox']").removeAttr("checked");
+
+		//$("[name='orderCheckbox']").attr("checked",document.getElementById('checkAll').checked);//全选
+	}
+
+	function unCheckAll() {
+		$("[name='orderCheckbox']").removeAttr("checked");//取消全选
+	}
+
+	function printData(id){
+
+
+        $('#id').val(id);
+
+        $('#printForm').submit();
+
+
+        return true;
+
+    }
+
+
+
+	function cancelPurchase(id){
+		$.ajax( {
+				url:'/purchaseList/cancelPurchase.do',// 跳转到 action
+			    data:{
+			         'id':id
+			    },
+			    type:'post',
+			    cache:false,
+			    dataType:'text',
+			    success:function(data) {
+
+			    	if(data == 'success'){
+			    		$(orderListForm).submit();
+			    	}else{
+			    		alert(data);
+			    	}
+
+			     },
+			     error : function() {
+			          alert("异常！");
+			     }
+			});
+	}
+
+	function editPurchase(id){
+	  window.location.href="${rc.contextPath}/purchaseList/showPurchase.htm?purchaseId="+id;
+	}
+	
+	function purchaseStock(id){
+	  window.location.href="${rc.contextPath}/purchaseList/purchaseStock.htm?purchaseId="+id;
+	}
+	
+	
+	function purchaseOk(id){
+		$.ajax({
+    	    url:'$!{rc.contextPath}/purchaseList/purchaseOk.do',
+    	    data:{
+    	    	'id':id,
+    	    },
+    	    type:'post',
+    	    success:function(data) {
+    	        if (data == 'success') {
+    				alert("完成订单!");
+    				location.reload();
+    			} else  {
+    				alert(data);
+    			}
+    	     }
+    	});
+	}
+
+$(function(){
+    var searchInput = $('#supplierName');
+    searchInput.attr('autocomplete', 'off');
+    var autocomplete = $('<ul class="autocomplete"></ul>').hide().insertAfter('#supplierName');
+    var clear = function() {
+        autocomplete.empty().hide();
+    };
+    searchInput.blur(function() {
+        setTimeout(clear, 500);
+    });
+    var selectedItem = null;
+    var timeoutid = null;
+    var setSelectedItem = function(item) {
+        selectedItem = item;
+
+        if (selectedItem < 0) {
+            selectedItem = autocomplete.find('li').length - 1;
+        } else if (selectedItem > autocomplete.find('li').length - 1) {
+            selectedItem = 0;
+        }
+
+        autocomplete.find('li').removeClass('highlight').eq(selectedItem).addClass('highlight');
+    };
+    var ajax_request = function() {
+
+        $.ajax({
+            url: '${rc.contextPath}/supplier/autoUserNameQuery.do',
+            data: ({'userName': searchInput.val()}),
+            dataType: 'json',
+            type: 'POST',
+            success: function(data) {
+                if (data.length) {
+
+                    $.each(data, function(index, term) {
+
+                        $('<li></li>').text(term.supplier_name).appendTo(autocomplete).addClass('clickable').hover(function() {
+
+                                    $(this).siblings().removeClass('highlight');
+                                    $(this).addClass('highlight');
+                                    selectedItem = index;
+                                },
+                                function() {
+
+                                    $(this).removeClass('highlight');
+
+                                    selectedItem = -1;
+                                }).click(function() {
+
+                            searchInput.val(term.supplier_name);
+                            $('#supplierId').val(term.id);
+                            autocomplete.empty().hide();
+                        });
+                    });
+                    // var ypos = searchInput.position().top;
+                    var xpos = searchInput.position().left;
+                    autocomplete.css('width', searchInput.css('width'));
+                    autocomplete.css({
+                        'position': 'absolute',
+                        'left': xpos + "px",
+                        'font-size' : "14px",
+                        'color': "#666"
+                    });
+                    setSelectedItem(0);
+                    autocomplete.show();
+                }
+            }
+        });
+    };
+
+    searchInput.keyup(function(event) {
+
+        if (event.keyCode > 40 || event.keyCode == 8 || event.keyCode == 32) {
+            autocomplete.empty().hide();
+            clearTimeout(timeoutid);
+            timeoutid = setTimeout(ajax_request, 100);
+        } else if (event.keyCode == 38) {
+            if (selectedItem == -1) {
+                setSelectedItem(autocomplete.find('li').length - 1);
+            } else {
+
+                setSelectedItem(selectedItem - 1);
+            }
+            event.preventDefault();
+        } else if (event.keyCode == 40) {
+
+            if (selectedItem == -1) {
+                setSelectedItem(0);
+            } else {
+
+                setSelectedItem(selectedItem + 1);
+            }
+            event.preventDefault();
+        }
+    }).keypress(function(event) {
+
+        if (event.keyCode == 13) {
+            if (autocomplete.find('li').length == 0 || selectedItem == -1) {
+                return;
+            }
+            searchInput.val(autocomplete.find('li').eq(selectedItem).text());
+            autocomplete.empty().hide();
+            event.preventDefault();
+        }
+    }).keydown(function(event) {
+
+        if (event.keyCode == 27) {
+            autocomplete.empty().hide();
+            event.preventDefault();
+        }
+    });
+
+    $(window).resize(function() {
+        var ypos = searchInput.position().top;
+        var xpos = searchInput.position().left;
+        autocomplete.css('width', searchInput.css('width'));
+        autocomplete.css({
+            'position': 'relative',
+            'left': xpos + "px",
+            'top': ypos + "px"
+        });
+    });
+});
+	
+	function exportExcel(id){
+		window.location.href="${rc.contextPath}/purchaseList/exportExcel.do?id="+id;
+	}
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/purchaseItemPlan/purchaseItemList.htm" class="btn btn-success"><i class="ico"></i>采购计划</a>
+        <a href="${rc.contextPath}/purchaseAdd/purchaseAdd.htm" class="btn btn-success"><i class="ico"></i>添加订单</a>
+<!-- 		<a href="addOrderAuto.htm" class="btn btn-success"><i class="ico"></i>自动计算添加订单</a> -->
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" id="orderListForm" action="purchaseList.htm" method="POST">
+		<input type="hidden" name="token" value="$!{token}" />
+		<table class="form form-horizontal">
+		<tr>
+		#if($!num>0)
+		<a href="${rc.contextPath}/purchaseList/purchaseList.htm?param=1" style="color:red;font-size:20px;">有$!num个待确认的订单</a>
+		#end
+		</tr>
+		<tr>
+			<td><label class="tit first-tit">开始时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="startTime" id="startTime" readonly="readonly" value="$!startTime">
+			</td>
+
+			<td><label class="tit">结束时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="endTime" id="endTime" readonly="readonly" value="$!endTime">
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">订单号：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="purchaseId" id="purchaseId" value="$!purchaseId">
+			</td>
+			<td align="right"><label class="tit">供应商简称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="supplierName" id="supplierName" value="$!supplierName">
+			</td>
+		</tr>
+		<tr>
+		<td align="right"><label class="tit">商品名称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="itemName" id="itemName" value="$!itemName">
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(orderListForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+
+	<div>
+		<form id="printForm" action="/purchaseList/printPurchase.do" method="POST" target='_blank' >
+			<input type='hidden' id='id' name='id'/>
+		</form><br/>
+##		<button class="btn btn-warning btn-sm" onclick="return exportExcel();">导出订单清单</button>?
+	</div>
+	<br/>
+
+##	<div>
+##        全选<input type="checkbox" style="width: 19px; height: 15px;" id="checkAll" onClick="checkAll();" />
+##    </div>
+	#foreach($dto in $page.result)
+	
+	#set($itemList = $dto.purchaseItemList)
+
+##	#set($count = $NumberTool.toYuanNumber($!itemList))
+	<table class="table" #if($dto.comfirm == 0) style="border:#FF0000 solid 2px;margin-bottom:20px" #else style="border:#000 solid 2px;margin-bottom:20px" #end>
+        <tr class="info">
+			<td colspan="12">
+##                <input type="checkbox" style="width: 19px; height: 14px;" id="$!dto.id" name="orderCheckbox" value="$!dto.id">
+                <span>单号：$dto.id</span>
+                <span>创建时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!dto.createdTime)</span>
+                <span>供应商：$!dto.supplierName</span>
+                <span>日期：$!date.format('yyyy-MM-dd',$!dto.purchasedTime)</span>
+                <span>含税总金额：$NumberTool.toYuanNumber($!dto.totalPrice) 元</span>
+                <span>状态：#if($!dto.printFlag==1)<em class="num"> 已打印</em> #else 未打印 #end</span>
+            	<br/>
+                <span>
+                		<button class="btn btn-success refundMoney" onclick="if(confirm('确定删除?')){cancelPurchase('$dto.id')}">删除订单</button>
+##	                	<button class="btn btn-success refundMoney" onclick="if(confirm('确定取消?')){cancelOrder('$dto.orderNo')}">取消订单</button>
+                </span>
+				#if($dto.status != 2 && $dto.status != 3 && $dto.status != 4)
+					<span>
+							<button class="btn btn-success refundMoney" onclick="editPurchase('$dto.id')">编辑订单</button>
+					</span>
+				#end
+				#if($dto.status != 2 && $dto.status != 3 && $dto.status != 4)
+					<span>
+							<button class="btn btn-success refundMoney" onclick="purchaseStock('$dto.id')">生成入库单</button>
+					</span>
+				#end
+                 <span>
+                	<button class="btn btn-success refundMoney xs" onclick="printData('$dto.id');">打印</button>
+                </span>
+                <span>
+                	<button class="btn btn-success refundMoney xs" onclick="exportExcel('$dto.id');">导出EXCEL</button>
+                </span>
+				#if($dto.status != 2 && $dto.status != 3 && $dto.status != 4)
+					<span>
+						<button class="btn btn-success refundMoney xs" onclick="purchaseOk('$dto.id')">完成</button>
+					</span>
+				#end
+            </td>
+
+		</tr>
+		<tr>
+			<th>商品名称</th>
+			<th>条形码</th>
+            <th>最小规格</th>
+            <th>商品规格</th>
+            <th>批发规格系数</th>
+			<th>批发成本价</th>
+			<th>库存量</th>
+			<th>进货数量</th>
+			<th>到货数量</th>
+			<th>差异</th>
+			<th>金额</th>
+			<th>备注</th>
+		</tr>
+		#foreach($item in $itemList)
+		#set($diffNum = $!item.purchasedNum - $!item.purchaseNum)
+		<tr>
+			<td>$!item.itemName</td>
+			<td>$!item.barcode</td>
+            <td>$!item.saleSize</td>
+            <td>$!item.size</td>
+			<td>$!item.convertNum</td>
+			<td>$NumberTool.toYuanNumber($!item.costPrice)</td>
+			<td>$!item.stockNum</td>
+			<td>$!item.purchaseNum</td>
+##			#if($dto.status == 4)
+##				<td>$!item.purchasedNum</td>
+##				<td>$!diffNum</td>
+##			#else
+##				<td></td>
+##				<td></td>
+##			#end
+            <td>$!item.purchasedNum</td>
+            <td>$!diffNum</td>
+			<td>$NumberTool.toYuanNumber($!item.totalPrice)</td>
+			<td>#if($item.stockFlag == 1)
+                部分入库
+				#elseif($item.stockFlag == 2)
+					全部入库
+				#else
+                未入库
+			#end</td>
+		</tr>
+		#end
+	</table>
+	#end
+	<div class="text-center">
+			#parse("/common/page.vm")
+	</div>
+	</div>
+	</div>

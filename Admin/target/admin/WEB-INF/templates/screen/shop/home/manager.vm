@@ -1,0 +1,47 @@
+#set($layout="layout/shopLayout.vm")
+ <div class="people_content" style="margin-bottom:1.1rem;">
+ 	   #foreach($manager in $managers)
+	       <div class="people_list">
+	           <img src="$!manager.headImgurl">
+	           <p class="people_name">$!manager.nickName</p>
+	           <p class="people_date">$!date.format('yyyy-MM-dd',$!manager.created)</p>
+	           #if($manager.id!=$userId)
+	           <a href="javascript:void(0);" data-id="$!manager.id" class="off">删除</a>
+	           #else
+	           #end
+	       </div>
+       #end
+       
+   </div>
+    <a href="${rc.contextPath}/convenient/home/shop_addManage.htm?shop_id=$!shopId" class="botom_push">
+    	<span>添加店铺管理员</span>
+   		 </a>
+<script type="text/javascript">
+    document.title = "店铺管理员";
+    $("body").css("background-color","#ececec");
+    $(".off").click(function(){
+     if (confirm("确定删除吗？")){
+    	var the = this;
+    	var id = $(the).attr("data-id");
+    	var shop_id = $!shopId;
+    	 $.ajax({
+				url:'${rc.contextPath}/convenient/home/shop_manager.do',
+				type:'POST',
+				data: {id:id,shop_id:shop_id},
+				success:function(data){
+					if(data==200){
+			           $(the).parent().fadeOut(500, function(){
+			                    $(the).remove();
+			                });
+					}else if(data==201){
+						alert("你不是管理员！");
+					}else{
+						alert("网络异常，请稍后重试！");
+					}
+				}
+				
+			})
+       } 
+    });
+    
+</script>

@@ -1,0 +1,11 @@
+#set($layout="layout/shopLayout.vm")
+ <div class="dh_content">
+        <div class="head">
+            <img src="${rc.contextPath}/static/images/shop/logo_dui.png">
+        </div>
+        <img src="${rc.contextPath}/static/images/shop/tj_success.png" alt="" class="tj_success" style="margin-top:2.86rem;">
+        <span class="tj_success1">信息已提交</span>
+    </div>
+<script type="text/javascript">
+    document.title = "提交成功";
+</script>

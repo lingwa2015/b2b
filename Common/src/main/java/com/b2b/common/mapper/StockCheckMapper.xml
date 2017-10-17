@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.StockCheckMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.StockCheck" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="last_mod_user" property="lastModUser" jdbcType="INTEGER" />
+    <result column="executed_time" property="executedTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="total_fee" property="totalFee" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, created_time, modified_time, state, last_mod_user, executed_time, remark, 
+    type, city_id, total_fee
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.StockCheckExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from stock_check
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitFlag">
+		limit ${start},${limit} 
+	</if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from stock_check
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from stock_check
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.StockCheckExample" >
+    delete from stock_check
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.StockCheck" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into stock_check (id, user_id, created_time, 
+      modified_time, state, last_mod_user, 
+      executed_time, remark, type, 
+      city_id, total_fee)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{modifiedTime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}, #{lastModUser,jdbcType=INTEGER}, 
+      #{executedTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{cityId,jdbcType=INTEGER}, #{totalFee,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.StockCheck" >
+    insert into stock_check
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="lastModUser != null" >
+        last_mod_user,
+      </if>
+      <if test="executedTime != null" >
+        executed_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="totalFee != null" >
+        total_fee,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null" >
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="lastModUser != null" >
+        #{lastModUser,jdbcType=INTEGER},
+      </if>
+      <if test="executedTime != null" >
+        #{executedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="totalFee != null" >
+        #{totalFee,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.StockCheckExample" resultType="java.lang.Integer" >
+    select count(*) from stock_check
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update stock_check
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifiedTime != null" >
+        modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastModUser != null" >
+        last_mod_user = #{record.lastModUser,jdbcType=INTEGER},
+      </if>
+      <if test="record.executedTime != null" >
+        executed_time = #{record.executedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalFee != null" >
+        total_fee = #{record.totalFee,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update stock_check
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      state = #{record.state,jdbcType=INTEGER},
+      last_mod_user = #{record.lastModUser,jdbcType=INTEGER},
+      executed_time = #{record.executedTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      total_fee = #{record.totalFee,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.StockCheck" >
+    update stock_check
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="lastModUser != null" >
+        last_mod_user = #{lastModUser,jdbcType=INTEGER},
+      </if>
+      <if test="executedTime != null" >
+        executed_time = #{executedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="totalFee != null" >
+        total_fee = #{totalFee,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.StockCheck" >
+    update stock_check
+    set user_id = #{userId,jdbcType=INTEGER},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      last_mod_user = #{lastModUser,jdbcType=INTEGER},
+      executed_time = #{executedTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      city_id = #{cityId,jdbcType=INTEGER},
+      total_fee = #{totalFee,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findStockCheckAboveZero" resultType="hashmap">
+  	SELECT i.`cost_price` ,sci.`num`   FROM `stock_check` sc LEFT JOIN `stock_check_item` sci on sc.`id`  = sci.`check_id` LEFT JOIN `item` i on sci.`item_id` = i.`id`  where sc.state=1 and sc.city_id =#{cityId} and sci.`num` &gt;0 and sc.`created_time`  &gt;= #{start} and sc.`created_time` &lt;= #{end}
+  </select>
+  <select id="findStockCheckBelowZero" resultType="hashmap">
+  	SELECT i.`cost_price` ,sci.`num` num  FROM `stock_check` sc LEFT JOIN `stock_check_item` sci on sc.`id`  = sci.`check_id` LEFT JOIN `item` i on sci.`item_id` = i.`id`  where sc.state=1 and sc.city_id =#{cityId} and sci.`num` &lt;0 and sc.`created_time`  &gt;= #{start} and sc.`created_time` &lt;= #{end}
+  </select>
+  <select id="findTotalByCondition" resultType="long">
+  	SELECT
+		SUM(sc.total_fee)
+	FROM
+		stock_check sc
+	LEFT JOIN customer_user cu ON sc.user_id = cu.id
+	WHERE
+		sc.state = 1 and sc.city_id = #{cityId}
+	<if test="userName!=null and userName !=''">
+		and cu.user_name like '%${userName}%'
+	</if>
+	<if test="itemName!=null and itemName !=''">
+		and sc.id in (SELECT `check_id`  from `stock_check_item` WHERE `item_name` LIKE '%${itemName}%')
+	</if>
+	<if test="startTime!=null and startTime !=''">
+		and sc.executed_time &gt;= #{startTime}
+	</if>
+	<if test="endTime!=null and endTime !=''">
+	and sc.executed_time &lt;= #{endTime}
+	</if>
+	<if test="type!=null and type !=''">
+	and sc.type = #{type}
+	</if>
+  </select>
+</mapper>

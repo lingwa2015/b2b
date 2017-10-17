@@ -1,0 +1,49 @@
+<div class="content">
+	<div class="bd-actionbar">
+		 超级管理员
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	
+	
+
+
+	<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+
+		<tr>
+			<th>昵称</th>
+			<th>openId</th>
+			<th>操作</th>
+		</tr>
+		#foreach($user in $users)
+		<tr>
+			<td>$!user.nickName</td>
+			<td>$!user.openid</td>
+			<td><a href="javascript:void(0);" onclick="Delete($user.id)">删除</a></td>
+		</tr>
+		#end
+	</table>
+
+
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+<script type="text/javascript">
+	function Delete(id){
+		if (confirm("确定要删除吗？")) {
+		 $.ajax({
+				url:'${rc.contextPath}/super/delete.do',
+				type:'POST',
+				data: {id:id},
+				success:function(data){
+					if(data==200){
+						window.location.reload();
+					}else{
+						alert("删除失败");
+					}
+				}
+				
+			})
+		}
+	}
+</script>

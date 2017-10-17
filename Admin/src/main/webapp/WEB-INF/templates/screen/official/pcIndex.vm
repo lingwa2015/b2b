@@ -1,0 +1,254 @@
+#set($layout="layout/pcLayout.vm")
+    <!-- 头部 -->
+   <div class="head">
+        <img src="${rc.contextPath}/static/images/pc/ling_logo.png" class="head_01">
+        <span class="gang"></span>
+        <img src="${rc.contextPath}/static/images/pc/wa_logo.png" class="head_02">
+        <ul class="head_contain">
+          <li class="head_top ko_1" index="0">自助便利店</li>
+          <li class="head_top llp ko_2" index="1">我们的优势</li>
+          <li class="head_top llp ko_3" index="2">关于我们</li>
+        </ul>
+        <div class="active"></div>
+        <div class="head_tel">
+          <img src="${rc.contextPath}/static/images/pc/dao_tel.png">
+        </div>
+    </div>
+    <!-- banner图 -->
+    <div class="ban_index" id="hu">
+      <div class="banner"></div>
+    </div>
+    
+    <!-- 自助便利店 -->
+    <div class="shouye_about">
+      <div class="shouye_about_01">
+        <img src="${rc.contextPath}/static/images/pc/zizhu.png">
+        <p class="dao"></p>
+        <p class="bian_01">自助便利店</p>
+        <p class="bian_02">把便利店开进办公室，为企业和员工定制最爱的零食。</p>
+        <div class="bian_li">
+          <p class="bian_03" style="font-weight: 600">员工福利新风向</p>
+          <span class="bian_05"></span>
+          <p class="bian_04">
+            <span style="font-weight: 600">企业零投入：</span>只要企业规模超过30人，签订合同后即可安排专人上门安装货架，无需任何费用，真正做到企业零负担&零成本；</br>
+            <span style="font-weight: 600">员工更省钱：</span>全线产品价格相比传统便利店便宜10-20%，在办公室边上的一步之遥，感受互联网时代的产品性价比；</br>
+            <span style="font-weight: 600">行政更省事：</span>为员工提供更好的企业福利始终是行政的重要目标之一，而在不占用公司任何资源的情况下，领蛙可以为行政人员交出满分答卷；
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- 购买流程 -->
+    <div class="buy">
+      <p class="buy_01">购买流程</p>
+      <p class="buy_02"></p>
+      <img src="${rc.contextPath}/static/images/pc/liuc_01.png" class="liuc_01">
+      <img src="${rc.contextPath}/static/images/pc/zhi.png" class="buy_zhi">
+      <p class="buy_wen">打开支付宝或者微信，扫码货架上的二维码进行商品选购</p>
+      <img src="${rc.contextPath}/static/images/pc/liuc_02.png" class="liuc_02">
+      <img src="${rc.contextPath}/static/images/pc/zhi.png" class="buy_zhi rr">
+      <p class="buy_wen kk">商品选购后，点击支付</p>
+      <img src="${rc.contextPath}/static/images/pc/liuc_03.png" class="liuc_03">
+    </div>
+    <!-- 我们的优势 -->
+    <div class="shouye_about our" id="our">
+      <div class="shouye_about_01">
+        <p class="dao"></p>
+        <p class="bian_01">我们的优势</p>
+        <p class="bian_02">领蛙品类齐全，美味就在转身之间</p>
+        <div class="box">
+          <div class="ka_01">
+            <img src="${rc.contextPath}/static/images/pc/icon_1.png">
+            <p class="ka_001">快捷</p>
+            <p class="ka_002">把便利店搬到你身边，美味就在转身之间</p>
+          </div>
+          <div class="ka_01 k_2">
+            <img src="${rc.contextPath}/static/images/pc/icon_2.png">
+            <p class="ka_001">方便</p>
+            <p class="ka_002">微信或支付宝扫码购买，商品自取</p>
+          </div>
+          <div class="ka_01 k_3">
+            <img src="${rc.contextPath}/static/images/pc/icon_3.png">
+            <p class="ka_001">安全</p>
+            <p class="ka_002">所有商品均来自正规渠道，证件齐全，安全放心</p>
+          </div>
+          <div class="ka_04">
+            <img src="${rc.contextPath}/static/images/pc/icon_4.png">
+            <p class="ka_001">丰富</p>
+            <p class="ka_002">品类齐全，国产进口应有尽有，价格低于传统便利店</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 关于我们 -->
+    <div class="about_our">
+      <div class="shouye_about_01">
+        <p class="dao"></p>
+        <p class="bian_01">关于我们</p>
+        <p class="bian_02">领蛙，一家专注于企业服务的互联网公司</p>
+        <p class="bian_03">领蛙</p>
+        <p class="buy_02"></p>
+        <div class="bian_04">
+          领蛙是一家有伟大梦想的公司，主要服务于力求解决员工福利的公司。</br>
+          公司创始团队多为阿里系出身，基于自行研发的云端自助便利店系统与配套物流服务体系，每家企业均可零成本开通自助便利店，为员工提供休闲零食、饮料、水果、冷饮等日常所需。同时，领蛙还提供会议茶歇、节日福利礼包等定制服务。</br>
+          自2015年创立至今，领蛙已服务近万家企业，其中不乏众多知名上市公司，期待为更多企业提供省心服务。
+        </div>
+      </div>
+    </div>
+    <!-- 我们合作的客户 -->
+    <div class="kehu" >
+      <p class="kehu_01">我们合作的客户</p>
+      <p class="kehu_02"></p>
+      <p class="kehu_03">感谢上千家企业选择了领蛙</p>
+      <div class="kehu_04">
+        <div class="lvdi">
+          <img src="${rc.contextPath}/static/images/pc/logo_1.png">
+        </div>
+        <div class="lvdi lp">
+          <img src="${rc.contextPath}/static/images/pc/logo_2.png">
+        </div>
+        <div class="lvdi lp">
+          <img src="${rc.contextPath}/static/images/pc/logo_3.png">
+        </div>
+        <div class="lvdi lp">
+          <img src="${rc.contextPath}/static/images/pc/logo_4.png">
+        </div>
+        <div class="lvdi lp">
+          <img src="${rc.contextPath}/static/images/pc/logo_5.png">
+        </div>
+        <div class="lvdi lp">
+          <img src="${rc.contextPath}/static/images/pc/logo_6.png">
+        </div>
+        <div class="lvdi lp">
+          <img src="${rc.contextPath}/static/images/pc/logo_7.png">
+        </div>
+        <div class="lvdi lp">
+          <img src="${rc.contextPath}/static/images/pc/logo_8.png">
+        </div>
+        <div class="lvdi lt">
+          <img src="${rc.contextPath}/static/images/pc/logo_9.png">
+        </div>
+        <div class="lvdi lt lp">
+          <img src="${rc.contextPath}/static/images/pc/logo_10.png">
+        </div>
+        <div class="lvdi lt lp">
+          <img src="${rc.contextPath}/static/images/pc/logo_11.png">
+        </div>
+        <div class="lvdi lt lp">
+          <img src="${rc.contextPath}/static/images/pc/logo_12.png">
+        </div>
+        <div class="lvdi lt lp">
+          <img src="${rc.contextPath}/static/images/pc/logo_13.png">
+        </div>
+        <div class="lvdi lt lp">
+          <img src="${rc.contextPath}/static/images/pc/logo_14.png">
+        </div>
+        <div class="lvdi lt lp">
+          <img src="${rc.contextPath}/static/images/pc/logo_15.png">
+        </div>
+        <div class="lvdi lt lp">
+          <img src="${rc.contextPath}/static/images/pc/logo_16.png">
+        </div>
+      </div>
+    </div>
+     
+    <!-- 页尾 -->
+    <div class="footer">
+        <ul class="foo">
+            <li class="tc">
+                <img src="${rc.contextPath}/static/images/pc/croder.png" class="logo1">
+                <span class="guanzhu">关注领蛙公众号了解更多</span>
+            </li>
+            <li class="foo_tel">
+                <img src="${rc.contextPath}/static/images/pc/foo_tel.png">
+                <img src="${rc.contextPath}/static/images/pc/footer_tel.png" class="footer_tel">
+            </li>
+            <li>
+                <span class="address dress">杭州市余杭区荆长路40号2楼</span>
+                <span class="address yb">邮编：310023</span>
+            </li>
+            <li>
+                <span class="address re_tel">客服热线：400-880-1703</span>
+                <span class="address conpan">浙ICP备15009557号-2</span>
+            </li>
+        </ul>
+    </div>
+<script type="text/javascript">
+document.title ="领蛙-办公室自助便利店";
+  var static =true;
+  var documentWidth = $(document).width();
+  console.log(documentWidth);
+  function ko(){
+    static = false;
+  }
+  $(".head_top").on("click",function() {
+    var marginleft = parseInt($(this).css('marginLeft'));
+    var index = parseInt($(this).attr("index"));
+    var width = parseFloat($(this).width()) + parseFloat($(this).css('paddingLeft'));
+    var zong = (index*marginleft)+(index*width);
+    
+    $(".active").css("transform","translateX("+zong+"px)");
+    static =false;
+    return false;
+    
+  });
+ 
+    $(window).on("scroll",function(){
+   console.log(static);
+   if (static == false) {
+    setTimeout('static = true',500);
+    return;
+   }
+   static=true
+   
+    var bho = parseInt($("body").scrollTop());
+    var ji = parseInt($("#our").offset().top) - parseInt($(".head").height()) - parseInt($(".dao").css("marginTop"));
+    var joo = parseInt($(".about_our").offset().top) - parseInt($(".head").height()-30);
+    if (bho >= ji) {
+      var marginleft = parseInt($('.ko_2').css('marginLeft'));
+      var width = parseFloat($('.head_top').width()) + parseFloat($('.head_top').css('paddingLeft'));
+      var zong = (1*marginleft)+(1*width);
+      $(".active").css("transform","translateX("+zong+"px)");
+    }
+    if (bho >= joo) {
+      var zong1 = (2*marginleft)+(2*width);
+      $(".active").css("transform","translateX("+zong1+"px)");
+    }
+    if (bho ==0) {
+      $(".active").css("transform","translateX(0px)")
+    }
+  })
+ 
+  $(".ko_3").on("click",function(){
+    var height_01 = $(".banner").height();
+    var height_02 = $(".shouye_about").height();
+    var height_03 = $(".shouye_about").height();
+    var height_04 = $(".buy").height();
+    var height = height_01+height_02+height_03+height_04+26;
+    $("body").animate({scrollTop:height})
+  })
+  $(".ko_2").on("click",function(){
+    var height_01 = $(".banner").height();
+    var height_02 = $(".shouye_about").height();
+    var height_03 = $(".shouye_about").height();
+    var height_04 = $(".buy").height();
+    var height = height_01+height_02+height_03+26;
+    $("body").animate({scrollTop:height}) 
+  })
+  $(".ko_1").on("click",function(){
+    var height_01 = $(".banner").height();
+     $("body").animate({scrollTop:"0px"});
+  })
+  // if (documentWidth == 1920) {
+  //   $(".banner").css("height","755px");
+  //   $(".buy").css("height","959px");
+  //   $(".shouye_about_01 img").css("width","660px");
+  //   $(".shouye_about_01 img").css("height","606px");
+  //   $(".shouye_about").css("height","969px")
+  // }else if (documentWidth == 1366) {
+  //   $(".banner").css("height","537px")
+  // }else if (documentWidth == 1440) {
+  //   $(".banner").css("height","565px")
+  // }else if (documentWidth == 1600) {
+  //   $(".banner").css("height","630px")
+  // }
+</script>

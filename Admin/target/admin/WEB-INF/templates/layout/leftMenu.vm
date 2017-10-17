@@ -1,0 +1,80 @@
+<div class="sidebar">
+		<ul class="s-nav">
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_01"></i>商品管理 </a>
+				<ul class="b-menu">
+				    <li id='itemCategoryList-li'><a href="${rc.contextPath}/itemCategory/itemCategoryList.htm">品种列表</a></li>
+					<li id='itemList-li'><a href="${rc.contextPath}/item/itemList.htm">商品列表</a></li>
+				</ul>
+			</li>
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_01"></i>入库单管理 </a>
+				<ul class="b-menu">
+					<li id='storageList-li'><a href="${rc.contextPath}/storage/storageList.htm">入库单列表</a></li>
+					<li id='storageAdd-li'><a href="${rc.contextPath}/storage/storageAdd.htm">添加入库单</a></li>
+				</ul>
+			</li>
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_01"></i>盘库单管理 </a>
+				<ul class="b-menu">
+					<li id='storageList-li'><a href="${rc.contextPath}/stockCheck/stockCheckList.htm">盘库单列表</a></li>
+					<li id='storageAdd-li'><a href="${rc.contextPath}/stockCheck/stockCheckAdd.htm">添加盘库单</a></li>
+				</ul>
+			</li>
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_01"></i>库存管理 </a>
+				<ul class="b-menu">
+					<li id='stockList-li'><a href="${rc.contextPath}/stock/stockList.htm">库存列表</a></li>
+				</ul>
+			</li>
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_05"></i>订单管理</a>
+				<ul class="b-menu">
+					<li id='orderlist-li'><a href="${rc.contextPath}/order/orderlist.htm">订单列表</a></li>
+					<li id='addOrder-li'><a href="${rc.contextPath}/order/addOrder.htm">添加订单</a></li>
+				</ul>
+			</li>
+
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_05"></i>退货单管理</a>
+				<ul class="b-menu">
+					<li id='refundlist-li'><a href="${rc.contextPath}/refund/refundList.htm">退货单列表</a></li>
+					<li id='refundlist-li'><a href="${rc.contextPath}/refund/refundAdd.htm">添加退货单</a></li>
+				</ul>
+			</li>
+
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_03"></i>用户管理</a>
+				<ul class="b-menu">
+					<li id='userList-li'><a href="${rc.contextPath}/user/userList.htm">用户列表</a></li>
+					<li id='userAdd-li'><a href="${rc.contextPath}/user/userAdd.htm">添加用户</a></li>
+					<li id='userAdd-li'><a href="${rc.contextPath}/user/SendSms.htm">短信群发</a></li>
+				</ul>
+			</li>
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_02"></i>查询统计</a>
+				<ul class="b-menu">
+					<li id='statisticslist-li'><a href="/statistics/statisticslist.htm">销售查询统计</a></li>
+				</ul>
+			</li>
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_02"></i>核算管理</a>
+				<ul class="b-menu">
+					<li id='tranSumList-li'><a href="/tranSum/tranSumList.htm">核算列表</a></li>
+				</ul>
+			</li>
+<!-- 			<li> -->
+<!-- 				<a class="a-menu" href="#"><i class="ico ico_02"></i>收款管理</a> -->
+<!-- 				<ul class="b-menu"> -->
+<!-- 					<li id='tranSumList-li'><a href="/debitnote/debitNoteList.htm">收款单</a></li> -->
+<!-- 				</ul> -->
+<!-- 			</li> -->
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_02"></i>日志管理</a>
+				<ul class="b-menu">
+					<li id='tranSumList-li'><a href="/log/logList.htm">日志列表</a></li>
+				</ul>
+			</li>
+
+		</ul><!--s-nav-->
+	</div><!--sidebar-->

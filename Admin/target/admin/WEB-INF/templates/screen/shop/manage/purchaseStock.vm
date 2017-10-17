@@ -1,0 +1,94 @@
+#set($layout="layout/shopLayout.vm")
+<div class="purchase_details">
+    <input type="hidden" name="purchaseId" id="purchaseId" value="$!id" />
+    <ul>
+        #set($oiCount = 0)
+        #foreach($dto in $list)
+            <input type="hidden" id="id$oiCount" value="$!dto.id"/>
+            <input type="hidden" id="item_id$oiCount" value="$!dto.itemId"/>
+            <li>
+                <div class="purchase_01">
+                    <p>$!dto.itemName</p>
+                    <div class="purchase_02">
+                        <span class="purchase_012">$NumberTool.toYuanNumber($!dto.costPrice)</span>
+                        <span class="purchase_112">进货数量：$!dto.purchaseNum</span>
+                        <div class="purpp">
+                            <span class="purchase_022">$!dto.saleSize</span>
+                            <span class="purchase_023"></span>
+                            <span class="purchase_024">$!dto.size</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="purchase_03">
+                    <span>到货数量</span>
+                    <input type="number" id="purchasedNum$oiCount" placeholder="请输入到货数量">
+                </div>
+            </li>
+            #set($oiCount = $oiCount+1)
+        #end
+        <input type="hidden" name="oiCount" id="oiCount" value="$oiCount"/>
+
+    </ul>
+    <div class="ruku">
+        <span>入库单号：</span>
+        <input type="number" id="numbers" placeholder="请输入供应商送货单上的单据编号">
+    </div>
+    <div class="Layer" style="display: none"></div>
+</div>
+<a onclick="purchaseStockAdd()" class="shengcheng">生成入库单</a>
+<script type="text/javascript">
+    document.title = "采购订单详情";
+    $("body").css("background-color","#ececec");
+    function purchaseStockAdd() {
+        var hasChecked = false;
+        var itemId = '';
+        var purchasedNums = '';
+        var ids = '';
+        if ($('#numbers').val() == '') {
+            alert('请输入单号!');
+            return false;
+        }
+
+        var numbers = $('#numbers').val();
+
+        for (var i = 0; i < $('#oiCount').val(); i++) {
+            if($('#purchasedNum' + i).val() != '') {
+                purchasedNums += $('#purchasedNum' + i).val() + ',';
+                itemId += $('#item_id' + i).val() + ',';
+                ids += $('#id' + i).val() + ',';
+                hasChecked = true;
+            }
+        }
+        if (!hasChecked) {
+            alert('至少选择一条记录进行入库!');
+            return;
+        } else {
+            $('#itemIds').val(itemId);
+            $('#purchasedNums').val(purchasedNums);
+            $('#ids').val(ids);
+            var purchaseId = $('#purchaseId').val();
+            if (confirm('确认生成入库单吗？')) {
+                $.ajax({
+                    url: '${rc.contextPath}/convenient/manage/shop_purchaseStock.do',
+                    data: ({purchaseId: purchaseId, itemIds: itemId, purchasedNums: purchasedNums, ids: ids, numbers: numbers}),
+                    dataType: 'json',
+                    type: 'POST',
+                    beforeSend:function(){
+                        $(".Layer").fadeIn();
+                    },
+                    success: function (data) {
+                        if (data == '200') {
+                            $(".Layer").fadeOut();
+                            window.location.href = "${rc.contextPath}/convenient/manage/shop_select.htm";
+                            return true;
+                        } else {
+                            alert("保存失败，原因:" + data);
+                            disableBtn('saveBtn');
+                        }
+                    }
+                });
+            }
+            return true;
+        }
+    }
+</script>

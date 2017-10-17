@@ -1,0 +1,119 @@
+#set($layout="layout/shopLayout.vm")
+<div class="purchase">
+        <ul>
+            <li>
+                <a href="${rc.contextPath}/convenient/shop_saleItem.htm?shop_id=$shopId">
+                    <img src="${rc.contextPath}/static/images/shop/manage_1.png" >
+                   在售商品 
+                </a>
+            </li>
+            <li>
+                <a href="${rc.contextPath}/convenient/home/shop_rank.htm?shop_id=$shopId">
+                    <img src="${rc.contextPath}/static/images/shop/rank.png" >
+                    消费排行榜
+                </a>
+            </li>
+            <li>
+                <a href="${rc.contextPath}/convenient/home/shop_monthRecord.htm?shop_id=$shopId">
+                    <img src="${rc.contextPath}/static/images/shop/manage_2.png" >
+                    月账单
+                </a>
+            </li>
+            
+            <li>
+                <a href="${rc.contextPath}/convenient/home/shop_manager.htm?shop_id=$shopId">
+                    <img src="${rc.contextPath}/static/images/shop/manage_4.png" >
+                    店铺管理员
+                </a>
+            </li>
+            <li>
+                <a href="${rc.contextPath}/convenient/home/shop_QRCode.htm?shop_id=$shopId">
+                    <img src="${rc.contextPath}/static/images/shop/manage_5.png" >
+                    店铺二维码
+                </a>
+            </li>
+            #if($!flag == 1)
+                <li>
+                    <a href="${rc.contextPath}/convenient/home/shop_details.htm?shop_id=$shopId">
+                        <img src="${rc.contextPath}/static/images/shop/details.png" >
+                        店铺详情
+                    </a>
+                </li>
+           
+           		#if($!link==1)
+           		 <li>
+                    <a href="${rc.contextPath}/convenient/home/shop_link.htm?shop_id=$shopId">
+                        <img src="${rc.contextPath}/static/images/shop/hometel.png" >
+                        联系方式
+                    </a>
+                </li>
+                #end
+            <li>
+                #if($!type == 0)
+                    <a href="${rc.contextPath}/convenient/reseau/shop_freeDetail.htm?shopId=$shopId">
+                #else
+                    <a href="${rc.contextPath}/convenient/reseau/shop_bianDetail.htm?shopId=$shopId">
+                #end
+                    <img src="${rc.contextPath}/static/images/shop/statistics.png" >
+                    店铺统计
+                </a>
+            </li>
+            #end
+            <li>
+                <a href="${rc.contextPath}/convenient/home/shop_common.htm?shop_id=$shopId">
+                    <img src="${rc.contextPath}/static/images/shop/manage_3.png" >
+                    基础设置
+                </a>
+            </li>
+            #if($!flag == 1)
+            <li>
+                <a href="${rc.contextPath}/convenient/home/shop_senior.htm?shop_id=$shopId">
+                    <img src="${rc.contextPath}/static/images/shop/manage_6.png" >
+                    高级设置
+                </a>
+            </li>
+            #end
+        </ul>
+        <ul style="margin-top:0;margin-bottom:2rem;">
+            <li>
+                <a href="${rc.contextPath}/convenient/home/shop_accountManager.htm?shop_id=$shopId">
+                    <img src="${rc.contextPath}/static/images/shop/kehu.png" >
+                   客户经理 
+                </a>
+            </li>
+            <li>
+                <a href="${rc.contextPath}/convenient/shop_record.htm?shop_id=$shopId">
+                    <img src="${rc.contextPath}/static/images/shop/shouhou.png" >
+                   售后服务
+                </a>
+            </li>
+            <li>
+                <a href="${rc.contextPath}/convenient/points/shop_index.htm?shop_id=$shopId">
+                    <img src="${rc.contextPath}/static/images/shop/points.png" >
+                   积分
+                </a>
+            </li>
+            <li>
+                <a href="${rc.contextPath}/advisory/wxCommend.htm">
+                    <img src="${rc.contextPath}/static/images/shop/cashback.png" >
+                    推荐返佣
+                </a>
+            </li>
+            <li>
+                <a href="${rc.contextPath}/convenient/home/shop_faq.htm">
+                    <img src="${rc.contextPath}/static/images/shop/FAQ.png" >
+                   FAQ 
+                </a>
+            </li>
+        </ul>
+    </div>
+<div class="footer">
+       <a href="${rc.contextPath}/convenient/manage/shop_index.htm?shop_id=$shopId" class="home">首页<i></i><b></b></a>
+       <a href="${rc.contextPath}/convenient/shop_sourcingIndex.htm?shop_id=$shopId" class="home ">采购<i></i><b></b></a>
+       <a href="${rc.contextPath}/convenient/shop_consumeList.htm?shop_id=$shopId" class="home ">消费记录<i></i><b></b></a>
+       <a href="${rc.contextPath}/convenient/home/shop_index.htm?shop_id=$shopId" class="home live ">店铺管理<b></b></a>
+   </div>
+ <script type="text/javascript">
+    document.title = "店铺管理";
+    $("body").css("background-color","#ececec");
+</script>

@@ -1,0 +1,71 @@
+<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/privilege/list.htm" method="post">
+</form>
+<div class="content">
+		<div class="bd-actionbar">
+			<a href="${rc.contextPath}/role/add.htm" class="btn btn-success"><i class="ico"></i>添加角色</a>
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+			<table class="table">
+			  <tr>
+				<th>角色名称</th>
+				<th>描述</th>
+				<th>拥有权限</th>
+				<th>操作</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>$!bean.roleName</td>
+					<td>$!bean.description</td>
+					#set($dtos = $bean.privileges)
+					<td>
+						 #foreach($dto in $dtos)
+						 	$dto.name&nbsp;&nbsp;
+						 #end
+					</td>
+					<td>
+						<a href="javascript:editVar('$bean.roleId')">编辑</a>
+						<a href="javascript:deleteVar('$bean.roleId')">删除</a>
+					</td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->
+<script type="text/javascript">
+	function editVar(id){
+		window.location.href="${rc.contextPath}/role/edit.htm?roleId="+id;
+	}
+	function deleteVar(id){
+		$.ajax( {
+				url:'/role/delete.do',// 跳转到 action
+			    data:{
+			         'roleId':id
+			    },
+			    type:'post',
+			    cache:false,
+			    dataType:'text',
+			    success:function(data) {
+
+			    	if(data == '200'){
+			    		alert("删除成功");
+			    		window.location.reload();
+			    	}else if(data == '202'){
+			    		alert("你还未设置默认城市，联系管理员设置");
+			    	}else if(data == '203'){
+			    		alert("你设置的默认城市与操作城市不符");
+			    	}else{
+			    		alert("删除失败");
+			    	}
+
+			     },
+			     error : function() {
+			          alert("异常！");
+			     }
+			});
+	}
+</script>

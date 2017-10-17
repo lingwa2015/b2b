@@ -1,0 +1,97 @@
+#set($layout="layout/shopLayout.vm")
+<div class="home_page" style="margin-bottom: 1.8rem;">
+       <!-- 第一列 -->
+       <ul style="margin-bottom:.2rem; margin-top: .2rem; border-top: 1px solid #e8e8e8">
+           <li class="wang">
+               <a href="${rc.contextPath}/convenient/shop_sourcingOrderList.htm?shop_id=$shopId">
+                   <p class="home_tip01 ge">活跃度</p>
+				   #if($!model1.contractDay<=7)
+                   <p class="home_price zhengchang">
+				   		正常</p>
+				   	#elseif($!model1.contractDay>7 and $!model1.contractDay <=14)
+				   	<p class="home_price dan_red">
+				   	            异常</p>
+				   	#elseif($!model1.contractDay>14 and $!model1.contractDay <=60)
+				   	<p class="home_price dan_red">
+				   		预警</p>
+				   	#elseif($!model1.contractDay>60)
+				   	<p class="home_price dan_red">
+				   	            断约
+				   	 </p>
+				   	#end
+				   
+               </a>
+           </li>
+           <li class="border_l wang">
+               <a href="${rc.contextPath}/convenient/home/shop_monthRecord.htm?shop_id=$shopId">
+                   <p class="home_tip01 ge">回款情况</p>
+                    <p #if($!hasVerification>0) class="home_price dan_red" #else class="home_price" #end>#if($!hasVerification==0) 良好 #else #if($!model2>0) 催款 #else 开票 #end #end</p>
+               </a>
+           </li>
+           <li class="wang">
+               <a href="${rc.contextPath}/convenient/shop_record.htm?shop_id=$shopId">
+                   <p class="home_tip01 ge">售后记录</p>
+                   <p class="home_price ">$!model3</p>
+               </a>
+           </li>
+           <li class="wang">
+               <a href="${rc.contextPath}/convenient/home/shop_monthRecord.htm?shop_id=$shopId">
+                   <p class="home_tip01 ge">本月采购额</p>
+                   <p class="home_price">￥$NumberTool.toYuanNumber($!model4.soucingFee)</p>
+               </a>
+           </li>
+           <li class="border_l wang">
+               <a href="${rc.contextPath}/convenient/home/shop_monthRecord.htm?shop_id=$shopId">
+                   <p class="home_tip01 ge">订单金额</p>
+                   <p class="home_price">￥$NumberTool.toYuanNumber($!model4.orderFee)</p>
+               </a>
+           </li>
+           <li class="wang">
+               <a href="${rc.contextPath}/convenient/home/shop_monthRecord.htm?shop_id=$shopId">
+                   <p class="home_tip01 ge">订单数</p>
+                   <p class="home_price">$!model4.orderNum</p>
+               </a>
+           </li>
+           <li class="wang">
+               <a href="${rc.contextPath}/convenient/home/shop_monthRecord.htm?shop_id=$shopId">
+                   <p class="home_tip01 ge">退货金额</p>
+                   <p class="home_price">￥$NumberTool.toYuanNumber($!model4.refundFee)</p>
+               </a>
+           </li>
+           <li class="border_l wang">
+               <a href="${rc.contextPath}/convenient/home/shop_monthRecord.htm?shop_id=$shopId">
+                   <p class="home_tip01 ge">退货单数</p>
+                   <p class="home_price">$!model4.refundNum</p>
+               </a>
+           </li>
+           <li class="wang">
+              <a href="${rc.contextPath}/convenient/home/shop_monthRecord.htm?shop_id=$shopId">
+                   <p class="home_tip01 ge">利润</p>
+                   <p class="home_price">￥$NumberTool.toYuanNumber($!model4.profit)</p>
+               </a>
+           </li>
+           <li class="wang">
+               <a href="${rc.contextPath}/convenient/home/shop_monthRecord.htm?shop_id=$shopId">
+                   <p class="home_tip01 ge">利润率</p>
+                   <p class="home_price">#if($!model4.profitRate) $!model4.profitRate% #end</p>
+               </a>
+           </li>
+           <li class="border_l wang">
+               <a href="${rc.contextPath}/convenient/shop_sourcingOrderList.htm?shop_id=$shopId">
+                   <p class="home_tip01 ge">最近采购</p>
+                   <p class="home_price">$!date.format('yyyy-MM-dd',$!model1.listTime)</p>
+               </a>
+           </li>
+           <li class="wang">
+           </li>
+       </ul>
+       
+   </div>
+   <!-- 底部 -->
+   <a href="${rc.contextPath}/convenient/manage/shop_index.htm?shop_id=$!shopId" class="botom_push">
+      <span>店铺管理后台</span>
+  </a>
+<script type="text/javascript">
+    document.title = "$shopname";
+    $("body").css("background-color","#ececec");
+</script>

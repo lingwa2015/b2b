@@ -1,0 +1,782 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.OrderItemMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.OrderItem" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="fee" property="fee" jdbcType="BIGINT" />
+    <result column="item_price" property="itemPrice" jdbcType="BIGINT" />
+    <result column="item_size" property="itemSize" jdbcType="VARCHAR" />
+    <result column="item_cost_price" property="itemCostPrice" jdbcType="BIGINT" />
+    <result column="notax_inclusive_cost_price" property="notaxInclusiveCostPrice" jdbcType="BIGINT" />
+    <result column="item_size_type" property="itemSizeType" jdbcType="VARCHAR" />
+    <result column="consume_stock_num" property="consumeStockNum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, order_no, item_id, item_name, num, fee, item_price, item_size, item_cost_price, 
+    notax_inclusive_cost_price, item_size_type, consume_stock_num
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.OrderItemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from order_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from order_item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from order_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.OrderItemExample" >
+    delete from order_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.OrderItem" >
+    insert into order_item (id, order_no, item_id, 
+      item_name, num, fee, 
+      item_price, item_size, item_cost_price, 
+      notax_inclusive_cost_price, item_size_type, consume_stock_num
+      )
+    values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{itemId,jdbcType=INTEGER}, 
+      #{itemName,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{fee,jdbcType=BIGINT}, 
+      #{itemPrice,jdbcType=BIGINT}, #{itemSize,jdbcType=VARCHAR}, #{itemCostPrice,jdbcType=BIGINT}, 
+      #{notaxInclusiveCostPrice,jdbcType=BIGINT}, #{itemSizeType,jdbcType=VARCHAR}, #{consumeStockNum,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.OrderItem" >
+    insert into order_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="itemName != null" >
+        item_name,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="fee != null" >
+        fee,
+      </if>
+      <if test="itemPrice != null" >
+        item_price,
+      </if>
+      <if test="itemSize != null" >
+        item_size,
+      </if>
+      <if test="itemCostPrice != null" >
+        item_cost_price,
+      </if>
+      <if test="notaxInclusiveCostPrice != null" >
+        notax_inclusive_cost_price,
+      </if>
+      <if test="itemSizeType != null" >
+        item_size_type,
+      </if>
+      <if test="consumeStockNum != null" >
+        consume_stock_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=BIGINT},
+      </if>
+      <if test="itemPrice != null" >
+        #{itemPrice,jdbcType=BIGINT},
+      </if>
+      <if test="itemSize != null" >
+        #{itemSize,jdbcType=VARCHAR},
+      </if>
+      <if test="itemCostPrice != null" >
+        #{itemCostPrice,jdbcType=BIGINT},
+      </if>
+      <if test="notaxInclusiveCostPrice != null" >
+        #{notaxInclusiveCostPrice,jdbcType=BIGINT},
+      </if>
+      <if test="itemSizeType != null" >
+        #{itemSizeType,jdbcType=VARCHAR},
+      </if>
+      <if test="consumeStockNum != null" >
+        #{consumeStockNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.OrderItemExample" resultType="java.lang.Integer" >
+    select count(*) from order_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update order_item
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNo != null" >
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemId != null" >
+        item_id = #{record.itemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemName != null" >
+        item_name = #{record.itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.num != null" >
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.fee != null" >
+        fee = #{record.fee,jdbcType=BIGINT},
+      </if>
+      <if test="record.itemPrice != null" >
+        item_price = #{record.itemPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.itemSize != null" >
+        item_size = #{record.itemSize,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemCostPrice != null" >
+        item_cost_price = #{record.itemCostPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.notaxInclusiveCostPrice != null" >
+        notax_inclusive_cost_price = #{record.notaxInclusiveCostPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.itemSizeType != null" >
+        item_size_type = #{record.itemSizeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.consumeStockNum != null" >
+        consume_stock_num = #{record.consumeStockNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update order_item
+    set id = #{record.id,jdbcType=INTEGER},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      item_id = #{record.itemId,jdbcType=INTEGER},
+      item_name = #{record.itemName,jdbcType=VARCHAR},
+      num = #{record.num,jdbcType=INTEGER},
+      fee = #{record.fee,jdbcType=BIGINT},
+      item_price = #{record.itemPrice,jdbcType=BIGINT},
+      item_size = #{record.itemSize,jdbcType=VARCHAR},
+      item_cost_price = #{record.itemCostPrice,jdbcType=BIGINT},
+      notax_inclusive_cost_price = #{record.notaxInclusiveCostPrice,jdbcType=BIGINT},
+      item_size_type = #{record.itemSizeType,jdbcType=VARCHAR},
+      consume_stock_num = #{record.consumeStockNum,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.OrderItem" >
+    update order_item
+    <set >
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="itemName != null" >
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="fee != null" >
+        fee = #{fee,jdbcType=BIGINT},
+      </if>
+      <if test="itemPrice != null" >
+        item_price = #{itemPrice,jdbcType=BIGINT},
+      </if>
+      <if test="itemSize != null" >
+        item_size = #{itemSize,jdbcType=VARCHAR},
+      </if>
+      <if test="itemCostPrice != null" >
+        item_cost_price = #{itemCostPrice,jdbcType=BIGINT},
+      </if>
+      <if test="notaxInclusiveCostPrice != null" >
+        notax_inclusive_cost_price = #{notaxInclusiveCostPrice,jdbcType=BIGINT},
+      </if>
+      <if test="itemSizeType != null" >
+        item_size_type = #{itemSizeType,jdbcType=VARCHAR},
+      </if>
+      <if test="consumeStockNum != null" >
+        consume_stock_num = #{consumeStockNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.OrderItem" >
+    update order_item
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      item_id = #{itemId,jdbcType=INTEGER},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      num = #{num,jdbcType=INTEGER},
+      fee = #{fee,jdbcType=BIGINT},
+      item_price = #{itemPrice,jdbcType=BIGINT},
+      item_size = #{itemSize,jdbcType=VARCHAR},
+      item_cost_price = #{itemCostPrice,jdbcType=BIGINT},
+      notax_inclusive_cost_price = #{notaxInclusiveCostPrice,jdbcType=BIGINT},
+      item_size_type = #{itemSizeType,jdbcType=VARCHAR},
+      consume_stock_num = #{consumeStockNum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectStatisticsByDateTime" resultMap="BaseResultMap"
+		parameterType="java.util.HashMap">
+		select item_id,item_name,num,fee,item_cost_price,item_price from (
+		select item_id,item_name,SUM(num) as num,SUM(fee) as fee,IFNULL(SUM(item_cost_price*num),0) as item_cost_price,IFNULL(SUM(item_price*num),0) as item_price
+		from order_item
+		where order_no IN(SELECT order_no from `order` where
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+			executed_time BETWEEN #{startTime} and #{endTime}
+		</if>
+		<if test="startTime!=null and startTime!='' and (endTime==null or endTime=='')">
+			executed_time &gt; #{startTime}
+		</if>
+
+		<if test="(startTime==null or startTime=='') and endTime!=null and endTime!=''">
+			executed_time &lt; #{endTime}
+		</if>
+
+		<if test="userId!=null and userId!=0">
+			and user_id = #{userId}
+		</if>
+
+		<if test="status!=null">
+			and status = #{status}
+		</if>
+
+		<if test="orderStatus!=null">
+			and order_status not in (${orderStatus})
+		</if>
+
+		)
+		<if test="item_name!=null and item_name!=''">
+			 and item_name like '%${item_name}%'
+		</if>
+		GROUP BY item_id,item_name
+		) as itemInfo
+
+		<if test="sortList!=null">
+			order by  ${sortList}
+		</if>
+
+		<if test="start!=null">
+			limit #{start},#{limit}
+		</if>
+
+	</select>
+
+	<select id="countByStatisticsSql" parameterType="java.util.HashMap"
+		resultType="java.lang.Integer">
+		select IFNULL(count(*),0) from (select item_id,item_name,SUM(num) num,SUM(fee) fee
+		from order_item
+		where order_no IN(SELECT order_no from `order` where
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+		executed_time BETWEEN #{startTime} and #{endTime}
+		</if>
+		<if test="startTime!=null and startTime!='' and (endTime==null or endTime=='')">
+		executed_time &gt; #{startTime}
+		</if>
+
+		<if test="(startTime==null or startTime=='') and endTime!=null and endTime!=''">
+		executed_time &lt; #{endTime}
+		</if>
+
+		<if test="userId!=null and userId!=0">
+			and user_id = #{userId}
+		</if>
+
+		<if test="status!=null">
+			and status = #{status}
+		</if>
+
+		<if test="orderStatus!=null">
+			and order_status not in (${orderStatus})
+		</if>
+
+		)
+		<if test="item_name!=null and item_name!=''">
+			and item_name like '%${item_name}%'
+		</if>
+
+
+
+		GROUP BY item_id,item_name) as total
+	</select>
+
+	<select id="countByStatisticsTotal" parameterType="java.util.HashMap"
+		resultMap="BaseResultMap">
+		SELECT
+		IFNULL(SUM(fee),0) as fee,IFNULL(SUM(item_cost_price*num),0) item_cost_price,IFNULL(SUM(item_price*num),0) item_price
+
+		from order_item  where order_no IN(SELECT order_no from `order` where
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+		executed_time BETWEEN #{startTime} and #{endTime}
+		</if>
+		<if test="startTime!=null and startTime!='' and (endTime==null or endTime=='')">
+		executed_time &gt; #{startTime}
+		</if>
+		<if test="(startTime==null or startTime=='') and endTime!=null and endTime!=''">
+		executed_time &lt; #{endTime}
+		</if>
+
+		<if test="userId!=null and userId!=0">
+			and user_id = #{userId}
+		</if>
+
+		<if test="userId!=null and userId!=0">
+			and user_id = #{userId}
+		</if>
+
+		<if test="status!=null">
+			and status = #{status}
+		</if>
+
+		<if test="orderStatus!=null">
+			and order_status not in (${orderStatus})
+		</if>
+
+		)
+	</select>
+	
+
+	
+  <select id="selectStatisticsByDateTimeNew" resultMap="BaseResultMap"
+		parameterType="java.util.HashMap">
+		select salesInfoNew.*,ic.`category_name` oneCate,icc.`category_name` twoCate,i.size itemSize from (
+		select item_id,item_name,sum(num) num,-sum(refundNum) refundNum,-sum(refundtotal_fee) refundFee,
+		sum(fee)-sum(refundtotal_fee) fee,sum(item_cost_price)-sum(refunditem_price) item_cost_price,sum(item_nocost_price)-sum(refundnoitem_price) notax_inclusive_cost_price,
+		((sum(fee)-sum(refundtotal_fee)))-(sum(item_cost_price)-sum(refunditem_price)) profitFee from (  
+		
+		select item_id,item_name,num,fee,item_nocost_price,item_cost_price,item_price,0 refundNum,0 refundtotal_fee,0 refundnoitem_price,0 refunditem_price from ( 
+		select item_id,item_name,SUM(num) as num,SUM(fee) as fee,IFNULL(SUM(notax_inclusive_cost_price*num),0) as item_nocost_price,IFNULL(SUM(item_cost_price*num),0) as item_cost_price,
+		IFNULL(SUM(item_price*num),0) as item_price 
+		from order_item where order_no IN(SELECT o.order_no from `order` o
+		<if test="type!='' and type!=null">
+			left join customer_user cu on o.user_id = cu.id
+		</if>
+		<where> 
+		<if test="cityId!=null and cityId !=''">
+			and o.city_id =#{cityId}
+		</if>
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+			and o.executed_time BETWEEN #{startTime} and #{endTime}
+		</if>
+		<if test="userId!=null and userId!=0">
+			and o.user_id = #{userId}
+		</if>
+
+		<if test="status!=null">
+			and o.status = #{status}
+		</if>
+
+		<if test="orderStatus!=null">
+			and o.order_status not in (${orderStatus})
+		</if>
+		<if test="type==1">
+			and cu.iswxvip = 1
+		</if>
+		<if test="type==2">
+			and cu.iswxvip = 0
+		</if>
+		<if test="type==3">
+			and cu.iswxvip = 3
+		</if>
+		</where>
+		) 
+		<if test="item_name!=null and item_name!=''">
+			and item_name like '%${item_name}%'
+		</if>
+		GROUP BY item_id,item_name ) as itemInfo 
+		union all
+		select ri.item_id,ri.item_name,0 num,0 fee,0 item_nocost_price,0 item_cost_price,0 item_price,SUM(ri.num) as refundNum,
+		SUM(ri.total_fee) as refundtotal_fee,
+		sum(ri.cost_fee) refundnoitem_price,
+		sum(ri.item_cost_fee) refunditem_price 
+		from refund_item ri 
+		left join item i on ri.item_id = i.id 
+		where refund_id IN
+		(SELECT r.id from `refund` r 
+		<if test="type!='' and type!=null">
+			left join customer_user cu on r.user_id = cu.id
+		</if>
+		<where>
+		<if test="cityId!=null and cityId !=''">
+			and r.city_id =#{cityId}
+		</if>
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+			and r.executed_time BETWEEN #{startTime} and #{endTime}
+		</if>
+		<if test="userId!=null and userId!=0">
+			and r.user_id = #{userId}
+		</if>
+
+		<if test="status!=null">
+			and r.state = #{status}
+		</if>
+		<if test="type==1">
+			and cu.iswxvip = 1
+		</if>
+		<if test="type==2">
+			and cu.iswxvip = 0
+		</if>
+		<if test="type==3">
+			and cu.iswxvip = 3
+		</if>
+		</where>
+		) 	
+		<if test="item_name!=null and item_name!=''">
+			and ri.item_name  like '%${item_name}%'
+		</if>
+		GROUP BY ri.item_id,ri.item_name 
+		)as salesInfo
+		group by item_id,item_name
+		)as salesInfoNew LEFT JOIN `item` i on salesInfoNew.item_id = i.`id`
+		LEFT JOIN `item_category` ic on i.`category_id` = ic.`id` 
+		LEFT JOIN `item_category` icc on i.`categorylevel_id` =icc.`id` 
+		<where>
+			<if test="catid!=null and catid!=''">
+			 and i.`category_id` = #{catid}
+			</if>
+		</where>
+		<if test="sortList!=null">
+			order by  ${sortList}
+		</if>
+
+	
+	</select>
+	
+	<select id="countByStatisticsSqlNew" parameterType="java.util.HashMap"
+		resultType="java.lang.Integer">
+		select  IFNULL(count(*),0)  from ( 
+		
+		select * from (
+		select item_id,item_name,sum(num) num,-sum(refundNum) refundNum,-sum(refundtotal_fee) refundFee,
+		sum(fee)-sum(refundtotal_fee) fee,sum(item_cost_price)-sum(refunditem_price) item_cost_price,
+		(sum(fee)-sum(refundtotal_fee))-(sum(item_cost_price)-sum(refunditem_price)) profitFee from (  
+		
+		select item_id,item_name,num,fee,item_cost_price,item_price,0 refundNum,0 refundtotal_fee,0 refunditem_price from ( 
+		select item_id,item_name,SUM(num) as num,SUM(fee) as fee,IFNULL(SUM(item_cost_price*num),0) as item_cost_price,
+		IFNULL(SUM(item_price*num),0) as item_price 
+		from order_item where order_no IN(SELECT order_no from `order` 
+		where 
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+			executed_time BETWEEN #{startTime} and #{endTime}
+		</if>
+		<if test="startTime!=null and startTime!='' and (endTime==null or endTime=='')">
+			executed_time &gt; #{startTime}
+		</if>
+
+		<if test="(startTime==null or startTime=='') and endTime!=null and endTime!=''">
+			executed_time &lt; #{endTime}
+		</if>
+		<if test="userId!=null and userId!=0">
+			and user_id = #{userId}
+		</if>
+
+		<if test="status!=null">
+			and status = #{status}
+		</if>
+
+		<if test="orderStatus!=null">
+			and order_status not in (${orderStatus})
+		</if>
+		) 
+		<if test="item_name!=null and item_name!=''">
+			and item_name like '%${item_name}%'
+		</if>
+		GROUP BY item_id,item_name ) as itemInfo 
+		union all
+		select ri.item_id,ri.item_name,0 num,0 fee,0 item_cost_price,0 item_price,SUM(ri.num) as refundNum,
+		SUM(ri.total_fee) as refundtotal_fee,IFNULL(SUM(i.cost_price*num),0) as refunditem_price from refund_item ri 
+		left join item i on ri.item_id = i.id 
+		where refund_id IN
+		(SELECT id from `refund` where 
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+			executed_time BETWEEN #{startTime} and #{endTime}
+		</if>
+		<if test="startTime!=null and startTime!='' and (endTime==null or endTime=='')">
+			executed_time &gt; #{startTime}
+		</if>
+
+		<if test="(startTime==null or startTime=='') and endTime!=null and endTime!=''">
+			executed_time &lt; #{endTime}
+		</if>
+
+		<if test="userId!=null and userId!=0">
+			and user_id = #{userId}
+		</if>
+
+		<if test="status!=null">
+			and state = #{status}
+		</if>
+		) 	
+		<if test="item_name!=null and item_name!=''">
+			and ri.item_name  like '%${item_name}%'
+		</if>
+		GROUP BY ri.item_id,ri.item_name 
+		)as salesInfo
+		group by item_id,item_name
+		)as salesInfoNew
+		)as ordercount
+	</select>
+	
+	  <select id="selectStatisticsByDateTimeTotalNew" resultMap="BaseResultMap"
+		parameterType="java.util.HashMap">
+		select sum(fee)-sum(refundtotal_fee) fee,sum(item_cost_price)-sum(refunditem_price) itemCostPrice,sum(item_nocost_price)-sum(refundnoitem_price) notaxInclusiveCostPrice,
+		((sum(fee)-sum(refundtotal_fee))/1.17)-(sum(item_nocost_price)-sum(refundnoitem_price)) profitFee from (  
+		
+		select item_id,item_name,num,fee,item_nocost_price,item_cost_price,item_price,0 refundNum,0 refundtotal_fee,0 refundnoitem_price,0 refunditem_price from ( 
+		select item_id,item_name,SUM(num) as num,SUM(fee) as fee,IFNULL(SUM(notax_inclusive_cost_price*num),0) as item_nocost_price,IFNULL(SUM(item_cost_price*num),0) as item_cost_price,
+		IFNULL(SUM(item_price*num),0) as item_price 
+		from order_item where order_no IN(SELECT o.order_no from `order` o
+		<if test="type!='' and type!=null">
+			left join customer_user cu on o.user_id = cu.id
+		</if>
+		<where>
+		<if test="cityId!=null and cityId !=''">
+			and o.city_id =#{cityId}
+		</if>
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+			and o.executed_time BETWEEN #{startTime} and #{endTime}
+		</if>
+		<if test="userId!=null and userId!=0">
+			and o.user_id = #{userId}
+		</if>
+
+		<if test="status!=null">
+			and o.status = #{status}
+		</if>
+        <if test="type==1">
+			and cu.iswxvip = 1
+		</if>
+		<if test="type==2">
+			and cu.iswxvip = 0
+		</if>
+		<if test="type==3">
+			and cu.iswxvip = 3
+		</if>
+		</where> 
+		) 
+		<if test="item_name!=null and item_name!=''">
+			and item_name like '%${item_name}%'
+		</if>
+		GROUP BY item_id,item_name ) as itemInfo 
+		union all
+		select ri.item_id,ri.item_name,0 num,0 fee,0 item_nocost_price,0 item_cost_price,0 item_price,SUM(ri.num) as refundNum,
+		SUM(ri.total_fee) as refundtotal_fee,
+		sum(ri.cost_fee) refundnoitem_price,
+		sum(ri.item_cost_fee) refunditem_price 
+		from refund_item ri 
+		left join item i on ri.item_id = i.id 
+		where refund_id IN
+		(SELECT r.id from `refund` r
+		<if test="type!='' and type!=null">
+			left join customer_user cu on r.user_id = cu.id
+		</if>
+		<where> 
+		<if test="cityId!=null and cityId !=''">
+			and r.city_id =#{cityId}
+		</if>
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+			and r.executed_time BETWEEN #{startTime} and #{endTime}
+		</if>
+		<if test="userId!=null and userId!=0">
+			and r.user_id = #{userId}
+		</if>
+
+		<if test="status!=null">
+			and r.state = #{status}
+		</if>
+		<if test="type==1">
+			and cu.iswxvip = 1
+		</if>
+		<if test="type==2">
+			and cu.iswxvip = 0
+		</if>
+		<if test="type==3">
+			and cu.iswxvip = 3
+		</if>
+		</where> 
+		) 
+		<if test="item_name!=null and item_name!=''">
+			and ri.item_name like '%${item_name}%'
+		</if>
+		GROUP BY ri.item_id,ri.item_name 
+		)as salesInfo left join item i on salesInfo.item_id = i.id 
+		<where>
+			<if test="catid!=null and catid!=''">
+			 and i.`category_id` = #{catid}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findOrderItemByOrderNo" resultType="hashmap">
+		SELECT
+			oi.id,
+			oi.order_no orderNo,
+			oi.item_id itemId,
+			oi.item_name itemName,
+			oi.num,
+			oi.fee,
+			oi.item_size itemSize,
+			oi.item_price itemPrice,
+			oi.item_cost_price itemCostPrice,
+			oi.item_size_type itemSizeType,
+			oi.consume_stock_num consumeStockNum,
+			i.category_id categoryId,
+			i.isDown,
+			s.num AS itemStock
+		FROM
+			order_item oi
+		LEFT JOIN item i ON oi.item_id = i.id
+		LEFT JOIN stock s ON oi.item_id = s.item_id and s.state = 1
+		WHERE
+			order_no = #{orderNo}
+	</select>
+	<select id="findOrderItemWithCatAndStockByOrderNo" resultType="OrderItem">
+		SELECT
+				oi.id id,
+				oi.order_no orderNo,
+				oi.item_id itemId,
+				concat(oi.item_name,"【",i.`size`,"】") itemName,
+				oi.num,
+				oi.fee,
+				oi.item_price itemPrice,
+				oi.item_size itemSize,
+				oi.item_cost_price itemCostPrice,
+				oi.item_size_type itemSizeType,
+				oi.consume_stock_num consumeStockNum,
+				ic.id categoryId,
+				i.sale_size saleSize,
+				s.num itemStock,
+				IFNULL(s.position,'') position,
+				ROUND(IF(i.sale_size_num&lt;&gt;1,oi.consume_stock_num/i.sale_size_num,oi.consume_stock_num),1) bigNum
+		FROM
+			order_item oi
+		LEFT JOIN item i ON oi.item_id = i.id
+		LEFT JOIN item_category ic ON i.category_id = ic.id
+		LEFT JOIN stock s ON oi.item_id = s.item_id and s.state=1
+		WHERE
+			oi.`order_no` = #{orderNo}
+		ORDER BY
+			s.position,oi.`item_id`;
+	</select>
+	<select id="findItemInfoByOrderNo" resultType="hashmap">
+		SELECT
+		  i.img_path,
+		  oi.item_id,
+		 oi.item_name,
+		oi.item_price,oi.item_size,oi.item_size_type,oi.num,IFNULL(i.market_price,0) market_price,si.`layer_id`
+		FROM
+			`order` o
+		LEFT JOIN order_item oi ON o.order_no = oi.order_no
+		LEFT JOIN item i ON oi.item_id = i.id
+		LEFT JOIN stock s ON oi.item_id = s.item_id and s.state=1
+		 LEFT JOIN `shop_item` si on o.`user_id` = si.`shop_id` and oi.`item_id` = si.`item_id`
+		WHERE
+			o.status=1 and o.order_no = #{id} ORDER BY
+			s.position,oi.`item_id`
+	</select>
+</mapper>

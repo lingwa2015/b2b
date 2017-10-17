@@ -1,0 +1,237 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+
+ });
+function exportSumExcel(){
+	window.location.href="${rc.contextPath}/debitnote/exportSumExcel.do?userName="+$("#userName").val()+"&startdate="+$("#startdate").val()+"&querydate="+$("#querydate").val()+"&param="+$("#param").val();
+}
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+	<h4 class="tit">回款列表</h4>
+	</div>
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" name="DebitNoteSumForm" id="DebitNoteSumForm" action="${rc.contextPath}/debitnote/debitNoteTranSum.htm" method="POST">
+		<table class="form form-horizontal">
+		<tr>
+			<td ><label class="tit first-tit">起始月份：</label></td>
+			<td>
+			<select name="startdate" id="startdate" validate="{required:true}">
+				<option value="" ></option>
+				<option value="2016-01" #if($startdate=='2016-01')selected=selected#end>2016-01</option>
+				<option value="2016-02" #if($startdate=='2016-02')selected=selected#end>2016-02</option>
+				<option value="2016-03" #if($startdate=='2016-03')selected=selected#end>2016-03</option>
+				<option value="2016-04" #if($startdate=='2016-04')selected=selected#end>2016-04</option>
+				<option value="2016-05" #if($startdate=='2016-05')selected=selected#end>2016-05</option>
+				<option value="2016-06" #if($startdate=='2016-06')selected=selected#end>2016-06</option>
+				<option value="2016-07" #if($startdate=='2016-07')selected=selected#end>2016-07</option>
+				<option value="2016-08" #if($startdate=='2016-08')selected=selected#end>2016-08</option>
+				<option value="2016-09" #if($startdate=='2016-09')selected=selected#end>2016-09</option>
+				<option value="2016-10" #if($startdate=='2016-10')selected=selected#end>2016-10</option>
+				<option value="2016-11" #if($startdate=='2016-11')selected=selected#end>2016-11</option>
+				<option value="2016-12" #if($startdate=='2016-12')selected=selected#end>2016-12</option>
+				<option value="2017-01" #if($startdate=='2017-01')selected=selected#end>2017-01</option>
+				
+				<option value="2017-02" #if($startdate=='2017-02')selected=selected#end>2017-02</option>
+				<option value="2017-03" #if($startdate=='2017-03')selected=selected#end>2017-03</option>
+				<option value="2017-04" #if($startdate=='2017-04')selected=selected#end>2017-04</option>
+				<option value="2017-05" #if($startdate=='2017-05')selected=selected#end>2017-05</option>
+				<option value="2017-06" #if($startdate=='2017-06')selected=selected#end>2017-06</option>
+				<option value="2017-07" #if($startdate=='2017-07')selected=selected#end>2017-07</option>
+				<option value="2017-08" #if($startdate=='2017-08')selected=selected#end>2017-08</option>
+				<option value="2017-09" #if($startdate=='2017-09')selected=selected#end>2017-09</option>
+				<option value="2017-10" #if($startdate=='2017-10')selected=selected#end>2017-10</option>
+				<option value="2017-11" #if($startdate=='2017-11')selected=selected#end>2017-11</option>
+				<option value="2017-12" #if($startdate=='2017-12')selected=selected#end>2017-12</option>
+			 </select>
+			 &nbsp;<span></span>
+			</td>
+			<td ><label class="tit first-tit">截止月份：</label></td>
+			<td>
+			<select name="querydate" id="querydate" validate="{required:true}">
+				<option value="" ></option>
+				<option value="2016-01" #if($querydate=='2016-01')selected=selected#end>2016-01</option>
+				<option value="2016-02" #if($querydate=='2016-02')selected=selected#end>2016-02</option>
+				<option value="2016-03" #if($querydate=='2016-03')selected=selected#end>2016-03</option>
+				<option value="2016-04" #if($querydate=='2016-04')selected=selected#end>2016-04</option>
+				<option value="2016-05" #if($querydate=='2016-05')selected=selected#end>2016-05</option>
+				<option value="2016-06" #if($querydate=='2016-06')selected=selected#end>2016-06</option>
+				<option value="2016-07" #if($querydate=='2016-07')selected=selected#end>2016-07</option>
+				<option value="2016-08" #if($querydate=='2016-08')selected=selected#end>2016-08</option>
+				<option value="2016-09" #if($querydate=='2016-09')selected=selected#end>2016-09</option>
+				<option value="2016-10" #if($querydate=='2016-10')selected=selected#end>2016-10</option>
+				<option value="2016-11" #if($querydate=='2016-11')selected=selected#end>2016-11</option>
+				<option value="2016-12" #if($querydate=='2016-12')selected=selected#end>2016-12</option>
+				<option value="2017-01" #if($querydate=='2017-01')selected=selected#end>2017-01</option>
+				
+				<option value="2017-02" #if($querydate=='2017-02')selected=selected#end>2017-02</option>
+				<option value="2017-03" #if($querydate=='2017-03')selected=selected#end>2017-03</option>
+				<option value="2017-04" #if($querydate=='2017-04')selected=selected#end>2017-04</option>
+				<option value="2017-05" #if($querydate=='2017-05')selected=selected#end>2017-05</option>
+				<option value="2017-06" #if($querydate=='2017-06')selected=selected#end>2017-06</option>
+				<option value="2017-07" #if($querydate=='2017-07')selected=selected#end>2017-07</option>
+				<option value="2017-08" #if($querydate=='2017-08')selected=selected#end>2017-08</option>
+				<option value="2017-09" #if($querydate=='2017-09')selected=selected#end>2017-09</option>
+				<option value="2017-10" #if($querydate=='2017-10')selected=selected#end>2017-10</option>
+				<option value="2017-11" #if($querydate=='2017-11')selected=selected#end>2017-11</option>
+				<option value="2017-12" #if($querydate=='2017-12')selected=selected#end>2017-12</option>
+			 </select>
+			 &nbsp;<span></span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">公司名：</label></td>
+			<td>
+				<input class="form-input" type="text" name="userName" id="userName" value="$!userName"/>
+				&nbsp;<span></span>
+			</td>
+			<td align="right"><label class="tit">客户类型：</label></td>
+			<td >
+				<select name="type">
+				  <option value ="-1" >全部</option>
+				  <option value ="3" #if($!type==3) selected="selected" #end>便利店</option>
+				   <option value ="2" #if($!type==2) selected="selected" #end>福利店</option>
+				    <option value ="1" #if($!type==1) selected="selected" #end>礼包</option>
+				</select>
+			</td>
+			<td align="right"><label class="tit">排序：</label></td>
+			<td >
+				<select name="param" id="param">
+				  <option value ="0" #if($!param==0)selected="selected"#end>默认</option>
+				  <option value ="1" #if($!param==1)selected="selected"#end>未收款金额</option>
+				  <option value ="2" #if($!param==2)selected="selected"#end>已开票未收款额</option>
+				  <option value ="3" #if($!param==3)selected="selected"#end>未开票金额</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">区域：</label></td>
+			<td>
+						<select name="regionId" validate="{required:true}" >
+						    <option value="">所有地区</option>
+						    #foreach($region in $regions)
+							   #if($!regionId == $region.id)
+					            <option value="$region.id" selected="selected">$region.name</option>
+					           #else
+					            <option value="$region.id">$region.name</option>
+					           #end
+							#end
+						 </select>
+						</td>
+			<td align="right"><label class="tit">网格：</label></td>
+						<td>
+						<select name="reseauId" validate="{required:true}" >
+						    <option value="">全部</option>
+						    #foreach($reseau in $reseaus)
+							   #if($!reseauId == $reseau.id)
+					            <option value="$reseau.id" selected="selected">$reseau.name</option>
+					           #else
+					            <option value="$reseau.id">$reseau.name</option>
+					           #end
+							#end
+						 </select>
+						 &nbsp;<span></span>
+						</td>
+		    <td align="right"><label class="tit">账龄：</label></td>
+			<td >
+				<select name="debflag" id="debflag">
+				  <option value ="" >全部</option>
+				  <option value ="1" #if($!debflag==1)selected="selected"#end>超过1年</option>
+				  <option value ="2" #if($!debflag==2)selected="selected"#end>9-12个月</option>
+				  <option value ="3" #if($!debflag==3)selected="selected"#end>6-9个月</option>
+				  <option value ="4" #if($!debflag==4)selected="selected"#end>3-6个月</option>
+				  <option value ="5" #if($!debflag==5)selected="selected"#end>0-3个月</option>
+				</select>
+			</td>
+			 <td align="right"><label class="tit">票龄：</label></td>
+			<td >
+				<select name="invflag" id="invflag">
+				  <option value ="" >全部</option>
+				  <option value ="1" #if($!invflag==1)selected="selected"#end>超过2个月</option>
+				  <option value ="2" #if($!invflag==2)selected="selected"#end>0-2个月</option>
+				</select>
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(DebitNoteSumForm).submit()">&nbsp;&nbsp;查 &nbsp;询 &nbsp;&nbsp;</a>
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="exportSumExcel()">&nbsp;&nbsp;导 &nbsp;出 &nbsp;&nbsp;</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+	<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+        <tr class="info">
+			<td colspan="1">
+                <span>销售总额：$NumberTool.toYuanNumber($!total2.amountSum) 元</span>
+                <span>收款总额：$NumberTool.toYuanNumber($!total2.amountSum1) 元</span>
+                <span>优惠总额：$NumberTool.toYuanNumber($!total2.amountSum3) 元</span>
+                <span>开票总额：$NumberTool.toYuanNumber($!total2.amountSum2) 元</span>
+            </td>
+		</tr>
+	</table>
+	<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+        <tr class="info">
+			<td colspan="1">
+                <span>未核销的销售总额：$NumberTool.toYuanNumber($!total.amountSum) 元</span>
+                <span>收款总额：$NumberTool.toYuanNumber($!total.amountSum1) 元</span>
+                <span>优惠总额：$NumberTool.toYuanNumber($!total.amountSum3) 元</span>
+                <span>未收款总额：$NumberTool.toYuanNumber($!total.amountSum4) 元</span>
+                <span>开票总额：$NumberTool.toYuanNumber($!total.amountSum2) 元</span>
+            </td>
+		</tr>
+	</table>
+	
+	<table class="table">
+	<tr>
+					<th>用户简称</th>
+					<th>公司名称</th>
+					<th>销售金额</th>
+					<th>收款金额</th>
+					<th>未收款金额</th>
+					<th>优惠金额</th>
+					<th>开票金额</th>
+					<th>结算额</th>
+					<th>消费额</th>
+					<th>补贴</th>
+					<th>红包</th>
+					<th>优惠</th>
+					<th>亏损额</th>
+					<th>账龄</th>
+					<th>票龄</th>
+					<th>操作</th>
+	</tr>
+	#foreach($dtoSum in $page.result)
+	<tr>
+	<td>[$!dtoSum.region]$!dtoSum.userName</td>
+    <td>$!dtoSum.companyName</td>
+    <td>$NumberTool.toYuanNumber($!dtoSum.amountSum)</td>
+    <td><a href="${rc.contextPath}/debitnote/debitNoteList.htm?userName=$!dtoSum.companyName">$NumberTool.toYuanNumber($!dtoSum.amountSum1)</a></td>
+    <td>$NumberTool.toYuanNumber($!dtoSum.amountSum4)</td>
+    <td><a href="${rc.contextPath}/debitnote/preferentialList.htm?userName=$!dtoSum.companyName">$NumberTool.toYuanNumber($!dtoSum.amountSum3)</a></td>
+    <td><a href="${rc.contextPath}/debitnote/invoiceList.htm?userName=$!dtoSum.companyName">$NumberTool.toYuanNumber($!dtoSum.amountSum2)</a></td>
+    <td>$NumberTool.toYuanNumber($!dtoSum.amountSum7)</td>
+    <td>$NumberTool.toYuanNumber($!dtoSum.amountSum5)</td>
+    <td>$NumberTool.toYuanNumber($!dtoSum.subsidy)</td>
+    <td>$NumberTool.toYuanNumber($!dtoSum.redFee)</td>
+    <td>$NumberTool.toYuanNumber($!dtoSum.lwFeeOne)</td>
+    <td>$NumberTool.toYuanNumber($!dtoSum.amountSum6)</td>
+    <td>#if($dtoSum.debitMonth>0)$dtoSum.debitMonth个月 #else 良好 #end</td>
+    <td>#if($dtoSum.invoiceMonth>0)$dtoSum.invoiceMonth个月 #else 良好 #end</td>
+    <td><a href="${rc.contextPath}/debitnote/debitNoteTranSumDetail.htm?id=$!dtoSum.companyId">查看详情</a></td>
+    </tr>
+	#end
+	</table>
+	<div class="text-center">
+           #parse("/common/page.vm")
+    </div>
+
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+	</div>

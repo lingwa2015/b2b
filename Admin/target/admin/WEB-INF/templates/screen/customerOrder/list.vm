@@ -1,0 +1,191 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+
+ });
+
+    function pageBack(){
+    	location.reload();
+    }
+
+	function checkAll() {
+
+		for(var i in document.getElementsByName('orderCheckbox')){
+			var ele = document.getElementsByName('orderCheckbox')[i];
+			ele.checked = document.getElementById('checkAll').checked;
+		}
+		//$("[name='orderCheckbox']").removeAttr("checked");
+
+		//$("[name='orderCheckbox']").attr("checked",document.getElementById('checkAll').checked);//全选
+	}
+
+	function unCheckAll() {
+		$("[name='orderCheckbox']").removeAttr("checked");//取消全选
+	}
+	
+	function getOrder(customerorderId){
+		$.ajax( {
+				url:'/customerOrder/getOrder.do',// 跳转到 action
+			    data:{
+			         'customerorderId':customerorderId
+			    },
+			    type:'post',
+			    cache:false,
+			    dataType:'text',
+			    success:function(data) {
+			    	if(data == 'success'){
+			    		$(orderListForm).submit();
+			    	}else{
+			    		alert("失败，原因:" + data);
+			    		alert(data);
+			    	}
+			     },
+			     error : function() {
+			          alert("异常！");
+			     }
+			});
+	}
+
+	function cancelOrder(customerorderId,customerId){
+		$.ajax( {
+				url:'/customerOrder/cancelOrder.do',// 跳转到 action
+			    data:{
+			         'customerorderId':customerorderId,
+			         'customerId':customerId
+			    },
+			    type:'post',
+			    cache:false,
+			    dataType:'text',
+			    success:function(data) {
+			    	if(data == 'success'){
+			    		$(orderListForm).submit();
+			    	}else{
+			    		alert(data);
+			    	}
+			     },
+			     error : function() {
+			          alert("异常！");
+			     }
+			});
+	}
+	
+	function editOrder(customerorderId){
+	  window.location.href="${rc.contextPath}/customerOrder/showOrder.htm?customerorderId="+customerorderId;
+	}
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="addCustomerOrder.htm" class="btn btn-success"><i class="ico"></i>添加预订单</a>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" id="orderListForm" action="customerOrderlist.htm" method="POST">
+		<input type="hidden" name="token" value="$!{token}" />
+		<input type="hidden" name="queryUser" value="$!{queryUser}" />
+		<table class="form form-horizontal">
+		<tr>
+			<td><label class="tit first-tit">下单开始时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="startTime" id="startTime" readonly="readonly" value="$!startTime">
+			</td>
+
+			<td><label class="tit">下单结束时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="endTime" id="endTime" readonly="readonly" value="$!endTime">
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">订单号：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="orderNum" id="orderNum" value="$!orderNum">
+			</td>
+			<td align="right"><label class="tit">客户简称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="userName" id="userName" value="$!userName">
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(orderListForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+
+
+
+
+	#foreach($pair in $page.result)
+	#set($itemList = $pair.right)
+	#set($dto = $pair.left)
+
+
+	<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+        <tr class="info">
+			<td colspan="7">
+
+            	<span>预订单编号：$dto.customerorderId</span>
+            	<span>客户名称：$!dto.companyName</span>
+            	<span>公司备注：$!dto.companyMemo</span>
+                <span>合计：$NumberTool.toYuanNumber($!dto.totalFee) 元</span>
+                <span>买家手机：<em class="num">$!dto.buyerPhone</em></span>
+                <span>生成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!dto.createdTime)</span>
+                <span>执行日期：$!date.format('yyyy-MM-dd',$!dto.executedTime)</span>
+                <span>收货地址：$!dto.customerAddress</span>
+                #if ($!dto.customerStatus==1)
+                <span>状态：已生成订单</span>
+                #else
+                <span>状态：未生成订单</span>
+                #end
+                <br/>
+                #if ($!dto.customerStatus!=1)
+                <span>
+                	<button class="btn btn-success refundMoney" onclick="if(confirm('确定取消?')){cancelOrder('$dto.customerorderId')}">取消预订单</button>
+                </span>
+				<span>
+            	    <button class="btn btn-success refundMoney" onclick="editOrder('$dto.customerorderId')">编辑预订单</button>
+                </span>
+                <span>
+                	<button class="btn btn-success refundMoney" onclick="getOrder('$dto.customerorderId','$dto.customerId')">生成订单</button>
+                </span>
+				#end
+            </td>
+
+		</tr>
+		 <tr class="info">
+
+            <td colspan="6">
+
+				<span>特殊要求：$!dto.memo</span>
+
+            </td>
+		</tr>
+		<tr>
+			<th width="40%">商品名称</th>
+			<th width="20%">规格</th>
+			<th width="10%">单价</th>
+			<th width="10%">数量</th>
+			<th width="20%">总价</th>
+		</tr>
+		#foreach($item in $itemList)
+		<tr>
+			<td>$!item.itemName</td>
+			<td>$!item.itemSize</td>
+			<td>$NumberTool.toYuanNumber($!item.itemPrice)</td>
+			<td>$!item.num</td>
+			<td>$NumberTool.toYuanNumber($!item.fee)</td>
+		</tr>
+		#end
+	</table>
+	#end
+	<div class="text-center">
+			#parse("/common/page.vm")
+	</div>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+
+
+
+

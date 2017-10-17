@@ -1,0 +1,107 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+
+ });
+function deleteData(id){
+if(confirm("确定要删除吗？")){
+   var url="${rc.contextPath}/transfer/delete.do?id="+id;
+  doDeleteRequest(url,id,show);
+  }
+}
+function show(data){
+	alert(data);
+	if(data.indexOf("成功")!=-1){
+		  window.location.href="${rc.contextPath}/transfer/transferList.htm";
+	}
+}
+
+function printData(id){
+	$('#transferId').val(id);
+	$('#printForm').submit();
+}
+
+</script>
+<div class="content">
+		<div class="bd-actionbar">
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+            <form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/transfer/transferList.htm" method="POST">
+            	<table class="form form-horizontal" style="position:relative;">
+            <tr>
+				<td><label class="tit first-tit">开始时间：</label></td>
+				<td>
+					<input class="form-input input-time-day" type="text" name="startTime" id="startTime" readonly="readonly" value="$!startTime">
+				</td>
+	
+				<td><label class="tit">结束时间：</label></td>
+				<td>
+					<input class="form-input input-time-day" type="text" name="endTime" id="endTime" readonly="readonly" value="$!endTime">
+				</td>
+			</tr>		
+			
+			<td align="right"><label class="tit">编号：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="machineId" id="machineId" value="$!machineId">
+			</td>
+			<td align="right"><label class="tit">类型：</label></td>
+				<td >
+					<select name="type">
+					  <option value ="" >全部</option>
+					  <option value ="1" #if($!type==1)selected="selected"#end>流转</option>
+					  <option value ="2" #if($!type==2)selected="selected"#end>收回</option>
+					</select>
+				</td>
+			<td>
+			
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(form1).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+			</td>
+			</tr>
+            	</table>
+            </form>
+            <div>
+				<form id="printForm" action="/transfer/print.do" method="GET" target='_blank' >
+					<input type='hidden' id='transferId' name='transferId'/>
+				</form><br/>
+			</div>
+			<table class="table">
+			  <tr>
+				<th>流转单号</th>
+				<th>日期</th>
+				<th>类别</th>
+				<th>型号</th>
+				<th>编号</th>
+				<th>客户</th>
+				<th>类型</th>
+				<th>押金</th>
+				<th>备注</th>
+				<th>创建时间</th>
+				<th>操作</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>$!bean.transferId</td>
+					<td>$!date.format('yyyy-MM-dd',$!bean.executedTime)</td>
+					<td>$!bean.oneType</td>
+					<td>$!bean.twoType</td>
+					<td>$!bean.machineId</td>
+					<td>$!bean.userName</td>
+					<td>#if($!bean.type==1) 流转  #elseif($!bean.type==2) 收回 #end</td>
+					<td>#if($!bean.type==1)$NumberTool.toYuanNumber($!$!bean.foregift)#end</td>
+					<td>$!bean.remark</td>
+					<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!bean.createdTime)</td>
+					<td><a href="javascript:deleteData('$bean.transferId')">删除</a>&nbsp;|&nbsp;<a href="javascript:printData('$bean.transferId');">打印</a></td>
+					<td></td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div>

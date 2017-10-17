@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.StandardOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.StandardOrder" >
+    <id column="standardorder_id" property="standardorderId" jdbcType="INTEGER" />
+    <result column="executed_time" property="executedTime" jdbcType="TIMESTAMP" />
+    <result column="week" property="week" jdbcType="INTEGER" />
+    <result column="total_fee" property="totalFee" jdbcType="BIGINT" />
+    <result column="standard_status" property="standardStatus" jdbcType="INTEGER" />
+    <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="created_userid" property="createdUserid" jdbcType="INTEGER" />
+    <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
+    <result column="updated_userid" property="updatedUserid" jdbcType="INTEGER" />
+    <result column="snackPackage_status" property="snackpackageStatus" jdbcType="INTEGER" />
+    <result column="snackPackage_type" property="snackpackageType" jdbcType="INTEGER" />
+    <result column="parentID" property="parentid" jdbcType="INTEGER" />
+    <result column="total_cost" property="totalCost" jdbcType="BIGINT" />
+    <result column="total_num" property="totalNum" jdbcType="INTEGER" />
+    <result column="budget" property="budget" jdbcType="BIGINT" />
+    <result column="weight" property="weight" jdbcType="DECIMAL" />
+    <result column="offer_price" property="offerPrice" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    
+    <result column="order_updatetime" property="orderUpdateTime" jdbcType="VARCHAR" />
+    <result column="type_value" property="typeValue" jdbcType="VARCHAR" />
+    <result column="img_path" property="imgPath" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    standardorder_id, executed_time, week, total_fee, standard_status, warehouse_id, 
+    status, created_time, created_userid, updated_time, updated_userid, snackPackage_status, 
+    snackPackage_type, parentID, total_cost, total_num, budget, weight, offer_price, 
+    remark
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.StandardOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from standard_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from standard_order
+    where standardorder_id = #{standardorderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from standard_order
+    where standardorder_id = #{standardorderId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.StandardOrderExample" >
+    delete from standard_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.StandardOrder" >
+    <selectKey resultType="java.lang.Integer" keyProperty="standardorderId" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into standard_order (standardorder_id, executed_time, 
+      week, total_fee, standard_status, 
+      warehouse_id, status, created_time, 
+      created_userid, updated_time, updated_userid, 
+      snackPackage_status, snackPackage_type, parentID, 
+      total_cost, total_num, budget, 
+      weight, offer_price, remark
+      )
+    values (#{standardorderId,jdbcType=INTEGER}, #{executedTime,jdbcType=TIMESTAMP}, 
+      #{week,jdbcType=INTEGER}, #{totalFee,jdbcType=BIGINT}, #{standardStatus,jdbcType=INTEGER}, 
+      #{warehouseId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{createdUserid,jdbcType=INTEGER}, #{updatedTime,jdbcType=TIMESTAMP}, #{updatedUserid,jdbcType=INTEGER}, 
+      #{snackpackageStatus,jdbcType=INTEGER}, #{snackpackageType,jdbcType=INTEGER}, #{parentid,jdbcType=INTEGER}, 
+      #{totalCost,jdbcType=BIGINT}, #{totalNum,jdbcType=INTEGER}, #{budget,jdbcType=BIGINT}, 
+      #{weight,jdbcType=DECIMAL}, #{offerPrice,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.StandardOrder" >
+    insert into standard_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="standardorderId != null" >
+        standardorder_id,
+      </if>
+      <if test="executedTime != null" >
+        executed_time,
+      </if>
+      <if test="week != null" >
+        week,
+      </if>
+      <if test="totalFee != null" >
+        total_fee,
+      </if>
+      <if test="standardStatus != null" >
+        standard_status,
+      </if>
+      <if test="warehouseId != null" >
+        warehouse_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="createdUserid != null" >
+        created_userid,
+      </if>
+      <if test="updatedTime != null" >
+        updated_time,
+      </if>
+      <if test="updatedUserid != null" >
+        updated_userid,
+      </if>
+      <if test="snackpackageStatus != null" >
+        snackPackage_status,
+      </if>
+      <if test="snackpackageType != null" >
+        snackPackage_type,
+      </if>
+      <if test="parentid != null" >
+        parentID,
+      </if>
+      <if test="totalCost != null" >
+        total_cost,
+      </if>
+      <if test="totalNum != null" >
+        total_num,
+      </if>
+      <if test="budget != null" >
+        budget,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="offerPrice != null" >
+        offer_price,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="standardorderId != null" >
+        #{standardorderId,jdbcType=INTEGER},
+      </if>
+      <if test="executedTime != null" >
+        #{executedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="week != null" >
+        #{week,jdbcType=INTEGER},
+      </if>
+      <if test="totalFee != null" >
+        #{totalFee,jdbcType=BIGINT},
+      </if>
+      <if test="standardStatus != null" >
+        #{standardStatus,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseId != null" >
+        #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserid != null" >
+        #{createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="updatedTime != null" >
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUserid != null" >
+        #{updatedUserid,jdbcType=INTEGER},
+      </if>
+      <if test="snackpackageStatus != null" >
+        #{snackpackageStatus,jdbcType=INTEGER},
+      </if>
+      <if test="snackpackageType != null" >
+        #{snackpackageType,jdbcType=INTEGER},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="totalCost != null" >
+        #{totalCost,jdbcType=BIGINT},
+      </if>
+      <if test="totalNum != null" >
+        #{totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="budget != null" >
+        #{budget,jdbcType=BIGINT},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="offerPrice != null" >
+        #{offerPrice,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.StandardOrderExample" resultType="java.lang.Integer" >
+    select count(*) from standard_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update standard_order
+    <set >
+      <if test="record.standardorderId != null" >
+        standardorder_id = #{record.standardorderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.executedTime != null" >
+        executed_time = #{record.executedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.week != null" >
+        week = #{record.week,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalFee != null" >
+        total_fee = #{record.totalFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.standardStatus != null" >
+        standard_status = #{record.standardStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.warehouseId != null" >
+        warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUserid != null" >
+        created_userid = #{record.createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatedTime != null" >
+        updated_time = #{record.updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedUserid != null" >
+        updated_userid = #{record.updatedUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.snackpackageStatus != null" >
+        snackPackage_status = #{record.snackpackageStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.snackpackageType != null" >
+        snackPackage_type = #{record.snackpackageType,jdbcType=INTEGER},
+      </if>
+      <if test="record.parentid != null" >
+        parentID = #{record.parentid,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalCost != null" >
+        total_cost = #{record.totalCost,jdbcType=BIGINT},
+      </if>
+      <if test="record.totalNum != null" >
+        total_num = #{record.totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.budget != null" >
+        budget = #{record.budget,jdbcType=BIGINT},
+      </if>
+      <if test="record.weight != null" >
+        weight = #{record.weight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.offerPrice != null" >
+        offer_price = #{record.offerPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update standard_order
+    set standardorder_id = #{record.standardorderId,jdbcType=INTEGER},
+      executed_time = #{record.executedTime,jdbcType=TIMESTAMP},
+      week = #{record.week,jdbcType=INTEGER},
+      total_fee = #{record.totalFee,jdbcType=BIGINT},
+      standard_status = #{record.standardStatus,jdbcType=INTEGER},
+      warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      created_userid = #{record.createdUserid,jdbcType=INTEGER},
+      updated_time = #{record.updatedTime,jdbcType=TIMESTAMP},
+      updated_userid = #{record.updatedUserid,jdbcType=INTEGER},
+      snackPackage_status = #{record.snackpackageStatus,jdbcType=INTEGER},
+      snackPackage_type = #{record.snackpackageType,jdbcType=INTEGER},
+      parentID = #{record.parentid,jdbcType=INTEGER},
+      total_cost = #{record.totalCost,jdbcType=BIGINT},
+      total_num = #{record.totalNum,jdbcType=INTEGER},
+      budget = #{record.budget,jdbcType=BIGINT},
+      weight = #{record.weight,jdbcType=DECIMAL},
+      offer_price = #{record.offerPrice,jdbcType=BIGINT},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.StandardOrder" >
+    update standard_order
+    <set >
+      <if test="executedTime != null" >
+        executed_time = #{executedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="week != null" >
+        week = #{week,jdbcType=INTEGER},
+      </if>
+      <if test="totalFee != null" >
+        total_fee = #{totalFee,jdbcType=BIGINT},
+      </if>
+      <if test="standardStatus != null" >
+        standard_status = #{standardStatus,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseId != null" >
+        warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserid != null" >
+        created_userid = #{createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="updatedTime != null" >
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUserid != null" >
+        updated_userid = #{updatedUserid,jdbcType=INTEGER},
+      </if>
+      <if test="snackpackageStatus != null" >
+        snackPackage_status = #{snackpackageStatus,jdbcType=INTEGER},
+      </if>
+      <if test="snackpackageType != null" >
+        snackPackage_type = #{snackpackageType,jdbcType=INTEGER},
+      </if>
+      <if test="parentid != null" >
+        parentID = #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="totalCost != null" >
+        total_cost = #{totalCost,jdbcType=BIGINT},
+      </if>
+      <if test="totalNum != null" >
+        total_num = #{totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="budget != null" >
+        budget = #{budget,jdbcType=BIGINT},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="offerPrice != null" >
+        offer_price = #{offerPrice,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where standardorder_id = #{standardorderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.StandardOrder" >
+    update standard_order
+    set executed_time = #{executedTime,jdbcType=TIMESTAMP},
+      week = #{week,jdbcType=INTEGER},
+      total_fee = #{totalFee,jdbcType=BIGINT},
+      standard_status = #{standardStatus,jdbcType=INTEGER},
+      warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      created_userid = #{createdUserid,jdbcType=INTEGER},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      updated_userid = #{updatedUserid,jdbcType=INTEGER},
+      snackPackage_status = #{snackpackageStatus,jdbcType=INTEGER},
+      snackPackage_type = #{snackpackageType,jdbcType=INTEGER},
+      parentID = #{parentid,jdbcType=INTEGER},
+      total_cost = #{totalCost,jdbcType=BIGINT},
+      total_num = #{totalNum,jdbcType=INTEGER},
+      budget = #{budget,jdbcType=BIGINT},
+      weight = #{weight,jdbcType=DECIMAL},
+      offer_price = #{offerPrice,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR}
+    where standardorder_id = #{standardorderId,jdbcType=INTEGER}
+  </update>
+  <select id="getCurWeekStandOrder" resultType="StandardOrder">
+  	select sta.standardorder_id standardorderId,sta.offer_price offerPrice,date_format(SUBDATE(CURDATE(),DATE_FORMAT(CURDATE(),'%w')-1), '%Y-%m-%d %H:%i:%S') orderUpdateTime,sptype.sp_value typeValue,sptype.img_path imgPath,sptype.remark remark from standard_order sta
+	left outer join snackpackage_type sptype on sptype.id=sta.snackPackage_type 
+	where WEEK(sta.executed_time)=WEEK(now(),1) and sta.parentID>0 and sta.`status` =1 and sta.snackPackage_type &lt;&gt; 5
+	and sptype.status=1 order by snackPackage_type desc
+  </select>
+  <select id="getStandOrderById" resultType="StandardOrder">
+	select sta.standardorder_id standardorderId,sta.offer_price offerPrice,date_format(SUBDATE(CURDATE(),DATE_FORMAT(CURDATE(),'%w')-1), '%Y-%m-%d %H:%i:%S') orderUpdateTime,sptype.sp_value typeValue,sptype.img_path imgPath,sptype.remark remark from standard_order sta
+	left outer join snackpackage_type sptype on sptype.id=sta.snackPackage_type 
+	where sptype.status=1 and sta.`status` =1 and sta.standardorder_id=#{snackpackageId}
+  </select>
+  <select id="findByStandId" resultType="StandardOrder">
+	select sta.standardorder_id standardorderId,sta.offer_price offerPrice,date_format(SUBDATE(CURDATE(),DATE_FORMAT(CURDATE(),'%w')-1), '%Y-%m-%d %H:%i:%S') orderUpdateTime,sptype.sp_value typeValue,sptype.img_path imgPath from standard_order sta
+	left outer join snackpackage_type sptype on sptype.id=sta.snackPackage_type 
+	where sptype.status=1 and sta.`status` =1 and sta.standardorder_id=#{snackpackageId}
+  </select>
+  <select id="getCurWeekAndLastWeekStandOrder" resultType="StandardOrder">
+  		select sta.standardorder_id standardorderId,
+	       sta.offer_price offerPrice,
+	       date_format(SUBDATE(CURDATE(), DATE_FORMAT(CURDATE(), '%w') -1), '%Y-%m-%d %H:%i:%S') orderUpdateTime,
+	       sptype.sp_value typeValue,
+	       sptype.img_path imgPath,
+	       sptype.remark remark,
+	       sta.`executed_time` executedTime
+	  from standard_order sta join snackpackage_type sptype on sptype.id= sta.snackPackage_type
+	 where WEEK(sta.executed_time)= WEEK(#{now}, 1)
+	    or WEEK(sta.executed_time)= WEEK(#{date}, 1)
+	   and sta.parentID> 0
+	   and sta.`status`= 1
+	   and sta.snackPackage_type &lt;&gt; 5
+	   and sptype.status= 1
+	 order by snackPackage_type
+
+  		
+  </select>
+</mapper>

@@ -1,0 +1,25 @@
+#set($layout="layout/shopLayout.vm")
+<div class="caigou_sure">
+#if($flag==1)
+        <p>领蛙</p>
+        <div class="pay_price">￥$!total_fee</div>
+        <div class="message">
+            <div class="price o">
+                <span class="order_pr">交易时间</span>
+                <span class="pay_right">$!notify_time</span>
+            </div>
+            <div class="price">
+                <span class="order_pr">交易单号</span>
+                <span class="pay_right">$!out_trade_no</span>
+            </div>
+        </div>
+        <a href="${rc.contextPath}/convenient/shop_items.htm" class="houtai">完成</a>
+#else
+<p>领蛙</p>
+       <a href="${rc.contextPath}/convenient/shop_items.htm" class="houtai">完成</a>
+#end
+</div>
+<script type="text/javascript">
+document.title = "支付成功";
+$("body").css("background-color","#f7f7f7");
+</script>

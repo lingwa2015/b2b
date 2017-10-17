@@ -1,0 +1,47 @@
+#set($layout="layout/shopLayout.vm")
+ <div class="purchase_order">
+        #if($refunds.size()>0)
+	        <div class="order_tip">
+	            <div class="order_time">日期</div>
+	            <div class="order_time">金额(￥)</div>
+	            <div class="order_time">状态</div>
+	        </div>
+	        <div class="record" style="margin-bottom:1.1rem;">
+	        	#foreach($refund in $refunds)
+	            <div class="record_list" data-id="$refund.id">
+	                <span >$!date.format('yyyy-MM-dd',$refund.executedTime)</span>
+	                <span class="record_money">$NumberTool.toYuanNumber($refund.totalFee)</span>
+	                <span class="succuss">#if($refund.reason==0) 待确认#else 已完成#end</span>
+	            </div>
+	            #end
+	        </div>
+        #else
+        	<div class="no_order">无退货单</div>
+        #end
+        <div class="botom_push"  ontouchend="goAdd($shopId)">
+            <span>添加退货单</span>
+        </div>
+   </div> 
+<script type="text/javascript">
+    document.title = "退货单";
+    var touchmove;
+    $(document).on( "touchend", function() {
+  touchmove = false;
+    });
+  $(document).on( "touchmove", function() {
+  touchmove = true;
+    });
+    $(".record_list").click(function(){
+    	var the = this;
+    	var id =$(the).attr("data-id");
+    	var url = "${rc.contextPath}/convenient/shop_refundDetail.htm?id="+id
+    	window.location.href=url;
+    });
+    
+    function goAdd(id){
+    	 if (touchmove) {
+	        return;
+	     }
+	     window.location.href="${rc.contextPath}/convenient/shop_refundItemList.htm?shop_id="+id;
+    }
+</script>

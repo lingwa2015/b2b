@@ -1,0 +1,231 @@
+<script>
+$(document).ready(function() {
+	$.metadata.setType("attr", "validate");
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+		var num = document.getElementsByName('rowTemplate').length;
+		var num1 = document.getElementsByName('rowTemplate1').length;
+		       if (document.getElementsByName('rowTemplate').length <= 1 && document.getElementsByName('rowTemplate1').length <= 1) {
+					alert('请填写面额');
+					return false;
+				}
+				save();
+				return true;
+        }
+	});
+ });
+ 
+ var checkSubmitFlag = false;
+	function save() {
+
+	  	if(checkSubmitFlag ==true){
+	       alert("请勿重复提交");
+	       return false;
+	    }
+
+	    checkSubmitFlag = true;
+
+		disableBtn('saveBtn');
+		submitJqueryFormData('form1', '$!{rc.contextPath}/redPacket/save.do', function(
+				data) {
+
+				 checkSubmitFlag = false;
+			if (data == '200') {
+				window.location.href = "${rc.contextPath}/redPacket/redList.htm";
+			} else {
+				alert("操作失败，原因:" + data);
+				enableBtn('saveBtn');
+			}
+		});
+	}
+function insertRow4addItem3(tableObj) {
+	var rowObj = $('#rowTemplate1').clone();
+	console.log(1);
+	var tdList = rowObj.children('td');
+	var nameList = '';
+	var rowCount = Number($('#rowCount1').val());
+	rowObj.css('display', '');
+	for (var i = 0; i < tdList.length; i++) {
+		var tdEle = tdList[i];
+		if (tdEle.children.length == 0)
+			continue;
+		var inputEle = tdEle.children[0];
+		
+		if (inputEle.tagName == 'SPAN') {
+			//inputEle.insertAdjacentText('afterEnd',skuSize);
+			continue;
+		}
+		
+		inputEle.setAttribute('rowNum',rowCount);
+
+		inputEle.name = inputEle.name + rowCount;
+		inputEle.id = inputEle.name; 
+		//nameList = nameList +"," + tdEle.getAttribute('name');
+	}
+	$('#rowCount1').val(rowCount + 1);
+	tableObj.append(rowObj);
+	$('#cateId'+rowCount).trigger('change');
+}
+</script>
+<style type="text/css">
+	.koko{border: solid 1px #dcdffa !important;}
+</style>
+<div class="content">
+	<div class="bd-actionbar">
+		
+		<h4 class="tit">
+					 添加活动
+				</h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner" style="padding-top: 20px;padding-right: 0;padding-left: 0;">
+	<form class="jqtransform" name="itemForm" id="form1" action="/redPacket/save.do" enctype="multipart/form-data" method="post" novalidate="novalidate">
+	<table class="form">
+		<tbody>
+		<tr>
+			<td align="right"><label class="tit">活动名称：</label></td>
+			<td><input class="form-input" type="text" name="redName" id="redName" value="" validate="{required:true}">
+			&nbsp;<span></span><span style="font-size: 12px;color: #999;vertical-align: bottom;margin-left: 5px;">名称字数不超过10个字</span>
+			</td>
+		</tr>
+		<tr style="height: 10px;"></tr>
+		<tr>
+			<td style="width: 0px;margin-top: 10px;"><label class="tit">活动预算金额（每天）：</label></td>
+			<td style=""><input class="form-input" type="number" name="daybudget" id="daybudget" validate="{required:true,number:true}"  style="padding: 0;">&nbsp;<span></span>
+			元</td>
+		</tr>
+		<tr style="height: 10px;"></tr>
+		<tr>
+			<td style="width: 0px;margin-top: 10px;"><label class="tit">每日基础笔数：</label></td>
+			<td style=""><input class="form-input" type="text" name="baseDayNum" id="baseDayNum" validate="{required:true,number:true}" style="padding: 0;">&nbsp;<span></span>
+			</td>
+		</tr>
+		
+		<tr style="height: 10px;"></tr>
+
+		<tr>
+			<td align="right"><label class="tit">指定面额：</label></td>
+				<td>
+                    <table class="table-inline" id="tList">
+                      <tbody><tr>
+                        <th><a class="ico-add" href="#" onclick="insertRow4addItem($('#tList'))">+</a></th>
+						<th>面额</th>
+						<th>笔数</th>
+                      </tr>
+                      
+                                                                    
+                      <tr id="rowTemplate" name="rowTemplate" style="display: none">
+							<th><a class="ico-subtract" href="#" onclick="deleteRow4ItemRecord(this)">-</a></th>
+							<td><input type="text" name="redmoney" validate="{required:true}" id="redmoney" class="koko">&nbsp;<span></span></td>
+							<td><input type="text" name="rednum" id="rednum" class="koko">&nbsp;<span></span></td>
+						</tr>
+                    </tbody></table>
+					<!-- 删除的时候rowCount不会减少，因为如果从中间删除一行，会导致新生成的行id与现有的行冲突,
+								所以请在后台拿去数据的时候，判断一下当前行是否有数据 -->
+					<input type="hidden" name="rowCount" id="rowCount" value="1">
+                </td>
+		</tr>
+		<tr style="height: 10px;"></tr>
+		<tr style="height: 10px;"></tr>
+		<tr>
+			<td align="right"><label class="tit">随机面额：</label></td>
+				<td>
+                    <table class="table-inline" id="tList1">
+                      <tbody><tr>
+                        <th><a class="ico-add" href="#" onclick="insertRow4addItem3($('#tList1'))">+</a></th>
+						<th>面额下限</th>
+						<th>面额上限</th>
+						<th>笔数</th>
+                      </tr>
+                      
+                                                                    
+                      <tr id="rowTemplate1" name="rowTemplate1" style="display: none">
+							<th><a class="ico-subtract" href="#" onclick="deleteRow4ItemRecord(this)">-</a></th>
+							<td><input type="text" name="reddown" validate="{required:true}" id="reddown" class="koko">&nbsp;<span></span></td>
+							<td><input type="text" name="redup" id="redup" class="koko">&nbsp;<span></span></td>
+							<td><input type="text" name="redpen" id="redpen" class="koko">&nbsp;<span></span></td>
+						</tr>
+                    </tbody></table>
+					<!-- 删除的时候rowCount不会减少，因为如果从中间删除一行，会导致新生成的行id与现有的行冲突,
+								所以请在后台拿去数据的时候，判断一下当前行是否有数据 -->
+					<input type="hidden" name="rowCount1" id="rowCount1" value="1">
+                </td>
+		</tr>
+		<tr style="height: 10px;"></tr>
+		<tr>
+			<td align="right"><label class="tit">每人限领：</label></td>
+			<td>
+			<span style="vertical-align: bottom;padding-right: 10px">1天</span>
+			<select name="count" validate="{required:true}">
+				<option value="">--请选择--</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="0">不限</option>
+			</select>
+			&nbsp;<span></span>
+			</td>
+		</tr>
+		<tr style="height: 10px;"></tr>
+		<tr>
+			<td align="right"><label class="tit">活动时间：</label></td>
+			<td>
+			    <span>开始：</span>
+				<input class="form-input input-time-day" type="text" name="startTimestr" id="startTime" validate="{required:true}" readonly="readonly" value="">&nbsp;<span></span>
+				<span style="padding: 0 10px">至</span>
+				<input class="form-input input-time-day" type="text" name="endTimestr" id="endTime" validate="{required:true}" readonly="readonly" value="">&nbsp;<span></span>
+				<span style="padding-left: 10px">结束</span>
+				<input type="checkbox" name="skip" value="1" checked="checked" style="margin:1px 10px 0 10px;display: inline-flex;">是否跳过双休日
+			</td>
+		</tr>
+		<!-- <tr id="xiaofei">
+			<th align="right" style="position: absolute;left: 90px;margin-top: 12px;">时间段：<label class="tit" style="display: none;"></label></th>
+			<td class="xiao" id="fei">
+				<input class="form-input" type="text" name="actualBuyPrice" id="start0" validate="{required:true,number:true}" onchange="" style="padding: 0;">
+				<span style="padding: 0 10px">至</span>
+				<input class="form-input" type="text" name="actualBuyPrice" id="end0" validate="{required:true,number:true}" onchange="" style="padding: 0;margin-right: 10px">
+				<a class="ico-add" href="javascript:;" style="text-align: center;line-height: 22px;" onclick="insertRow4addItem2($(&#39;#tList&#39;))">+</a>
+			</td>
+			<tr>
+				<td align="right"></td>
+				<td style="padding-left: 51px;">
+                    <table id="tList">
+                      <tbody>                                         
+                      <tr id="rowTemplate" name="rowTemplate" style="display: none;">
+							<td><input class="form-input" type="text" name="actualBuyPrice" id="start" validate="{required:true,number:true}" onchange="" style="padding: 0;"> <span style="padding: 0 10px">至</span></td>
+							<td style="padding-left: 4px;"><input class="form-input" type="text" name="actualBuyPrice" id="end" validate="{required:true,number:true}" onchange="" style="padding: 0;margin-right: 10px"></td>
+							<th><a class="ico-subtract" style="text-align: center;line-height: 22px;margin-left: 6px;" href="javascript:;" onclick="deleteRow4ItemRecord(this)">-</a></th>
+						</tr>
+                    </tbody></table>
+					 <! 删除的时候rowCount不会减少，因为如果从中间删除一行，会导致新生成的行id与现有的行冲突,
+								所以请在后台拿去数据的时候，判断一下当前行是否有数据 -->
+					<!-- <input type="hidden" name="rowCount" id="rowCount" value="1">
+                </td>
+		    </tr>
+			</td> -->
+		<!-- </tr> --> 
+
+		<tr style="height: 10px;"></tr>
+		
+		 
+		<tr class="btn-bar">
+			<td></td>
+			<td><input class="btn btn-success" type="submit" value="提交"></td>
+		</tr>
+	</tbody></table>
+	</form>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

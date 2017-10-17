@@ -1,0 +1,19 @@
+#set($layout="layout/shopLayout.vm")
+<div class="purchase">
+         <p style="text-align:center;font-size:.36rem;margin:.4rem 0 .2rem;">$!userName</p >
+        <ul style="margin-top: .4rem;">
+            <li>
+                <a href="${rc.contextPath}/convenient/reseau/shop_index.htm?reseau_id=$!reseauId" style="padding-left: .3rem">网格工作台</a>
+            </li>
+             <li style="position: relative;">
+                <a href="${rc.contextPath}/convenient/debitNote/shop_index.htm" style="padding-left: .3rem">回款管理</a>
+            </li>
+            <li>
+                <a href="${rc.contextPath}/convenient/manage/shop_lists.htm" style="padding-left: .3rem">店铺搜索</a>
+            </li>
+        </ul>
+    </div>
+<script type="text/javascript">
+    document.title = "运营工作台";
+    $("body").css("background-color","#ececec")
+</script>

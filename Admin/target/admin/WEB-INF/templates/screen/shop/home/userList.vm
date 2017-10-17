@@ -1,0 +1,49 @@
+#set($layout="layout/shopLayout.vm")
+<div class="purchase_order">
+       <!-- 无订单 -->
+        #if($lists.size()>0)
+	        <div class="order_tip">
+	            <div class="order_list" style="width:30%;text-align:left;padding-left:4%;">微信昵称</div>
+	            <div class="order_list" style="width:19%">真实姓名</div>
+	            <div class="order_list" style="width:24%">补贴余额(￥)</div>
+	            <div class="order_list">操作</div>
+	        </div>
+	        <div class="record">
+	        	#foreach($dto in $lists)
+	        		<div class="record_list" data-id="1">
+		                <span class="money_0" style="width: 30%;text-align: left;">$!dto.nickName</span>
+		                <span class="money_0" style="width:19%;left:34%;padding-left:0;">$!dto.userName</span>
+		                <span class="money_2">#if($!dto.fee)$NumberTool.toYuanNumber($!dto.fee)#end</span>
+		                <span class="money_3" data-id="$!dto.id"><img src="${rc.contextPath}/static/images/shop/staff_del.png" alt=""  class="staff_del"></span>
+		            </div>
+	        	#end
+	        </div>
+        #else
+         <div class="no_order">暂无记录</div>
+        
+        #end
+        
+  <script type="text/javascript">
+    document.title = "指定员工列表";
+    $(".money_3").on("click",function(){
+        if(confirm("确认删除吗？")){
+        	var shopId = $!shopId;
+        	var id = $(this).attr("data-id");
+        	 $.ajax({
+				url:'${rc.contextPath}/convenient/shop_delUser.do',
+				type:'POST',
+				data: {id:id,shop_id:shopId},
+				success:function(data){
+				    if(data == 200){
+				    	window.location.reload();
+					}else if(data == 202){
+						alert("权限不足");
+					}else{
+						alert("删除失败");
+					}
+				}
+			})
+        }
+        
+    })
+</script>

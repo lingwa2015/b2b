@@ -1,0 +1,25 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+<script>
+function is_weixn(){
+    var ua = navigator.userAgent.toLowerCase();
+    if(ua.match(/MicroMessenger/i)=="micromessenger") {
+        return true;
+    } else {
+    		document.location="http://112.124.116.88:9527/img/app-release.apk";
+        return false;
+    }
+}
+
+</script>
+</head>
+
+
+<body>
+<script>
+is_weixn();
+</script>
+<img style="width:100%" src="http://112.124.116.88:9527/img/reload.jpg" />
+</body>
+</html>

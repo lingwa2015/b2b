@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.MachineMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.Machine" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="machine_id" property="machineId" jdbcType="VARCHAR" />
+    <result column="one_type_id" property="oneTypeId" jdbcType="INTEGER" />
+    <result column="two_type_id" property="twoTypeId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="foregift" property="foregift" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, machine_id, one_type_id, two_type_id, user_id, remark, status, created_time, 
+    city_id, foregift
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.MachineExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from machine
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from machine
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from machine
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.MachineExample" >
+    delete from machine
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.Machine" >
+    insert into machine (id, machine_id, one_type_id, 
+      two_type_id, user_id, remark, 
+      status, created_time, city_id, 
+      foregift)
+    values (#{id,jdbcType=INTEGER}, #{machineId,jdbcType=VARCHAR}, #{oneTypeId,jdbcType=INTEGER}, 
+      #{twoTypeId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, #{cityId,jdbcType=INTEGER}, 
+      #{foregift,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.Machine" >
+    insert into machine
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="machineId != null" >
+        machine_id,
+      </if>
+      <if test="oneTypeId != null" >
+        one_type_id,
+      </if>
+      <if test="twoTypeId != null" >
+        two_type_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="foregift != null" >
+        foregift,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="machineId != null" >
+        #{machineId,jdbcType=VARCHAR},
+      </if>
+      <if test="oneTypeId != null" >
+        #{oneTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="twoTypeId != null" >
+        #{twoTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="foregift != null" >
+        #{foregift,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.MachineExample" resultType="java.lang.Integer" >
+    select count(*) from machine
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update machine
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.machineId != null" >
+        machine_id = #{record.machineId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oneTypeId != null" >
+        one_type_id = #{record.oneTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.twoTypeId != null" >
+        two_type_id = #{record.twoTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.foregift != null" >
+        foregift = #{record.foregift,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update machine
+    set id = #{record.id,jdbcType=INTEGER},
+      machine_id = #{record.machineId,jdbcType=VARCHAR},
+      one_type_id = #{record.oneTypeId,jdbcType=INTEGER},
+      two_type_id = #{record.twoTypeId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      foregift = #{record.foregift,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.Machine" >
+    update machine
+    <set >
+      <if test="machineId != null" >
+        machine_id = #{machineId,jdbcType=VARCHAR},
+      </if>
+      <if test="oneTypeId != null" >
+        one_type_id = #{oneTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="twoTypeId != null" >
+        two_type_id = #{twoTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="foregift != null" >
+        foregift = #{foregift,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.Machine" >
+    update machine
+    set machine_id = #{machineId,jdbcType=VARCHAR},
+      one_type_id = #{oneTypeId,jdbcType=INTEGER},
+      two_type_id = #{twoTypeId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      city_id = #{cityId,jdbcType=INTEGER},
+      foregift = #{foregift,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findAll" resultMap="BaseResultMap">
+  	SELECT
+		m.id,
+		m.machine_id,
+		m.one_type_id,
+		m.created_time,
+		m.remark,
+		m.`status`,
+		m.two_type_id,
+		m.user_id,m.foregift,
+		e.`name` oneType,
+		eq.`name` twoType,
+		cu.user_name userName
+	FROM
+		machine m
+	LEFT JOIN equipment e ON m.one_type_id = e.id
+	LEFT JOIN equipment eq ON m.two_type_id = eq.id
+	LEFT JOIN customer_user cu ON m.user_id = cu.id
+	WHERE
+		m.`status` = 1 and m.city_id =#{cityId}
+		<if test="oneTypeId > 0">
+			and m.one_type_id =#{oneTypeId}
+		</if>
+		<if test="twoTypeId > 0">
+			and m.two_type_id =#{twoTypeId}
+		</if>
+		<if test="machineId!=null and machineId != ''">
+			and m.machine_id=#{machineId}
+		</if>
+		<if test="userName !=null and userName !=''">
+		    and cu.user_name = #{userName}
+		</if>
+		order by m.created_time desc
+  </select>
+  <select id="findWithTypeNameById" resultMap="BaseResultMap">
+  	SELECT
+		m.id,
+		m.machine_id,
+		m.one_type_id,
+		m.created_time,
+		m.remark,
+		m.`status`,
+		m.two_type_id,
+		m.user_id,
+		e.`name` oneType,
+		eq.`name` twoType
+	FROM
+		machine m
+	LEFT JOIN equipment e ON m.one_type_id = e.id
+	LEFT JOIN equipment eq ON m.two_type_id = eq.id
+	WHERE m.id=#{id}
+  </select>
+  <update id="updateUserId">
+  	update machine set user_id = #{customerid} where id = #{macId}
+  </update>
+  <select id="findByMachineIdAndCityId" resultMap="BaseResultMap">
+  	SELECT * FROM machine WHERE machine_id = #{machineId} and city_id = #{cityId} and `status` = 1
+  </select>
+  <update id="updateUserIdAndForegift">
+  	update machine set user_id = #{customerid},foregift = #{foregift} where id = #{macId}
+  </update>
+</mapper>

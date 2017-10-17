@@ -1,0 +1,283 @@
+﻿#set($layout="layout/wxLayout.vm")
+<div class="lw_hd">
+<input class="" name="id"  id="id" type="hidden" value="$!standId">
+<input class="" name="num"  id="num" type="hidden" value="$!num">
+<input class="" name="totalfee"  id="totalfee" type="hidden" value="$!fee">
+<input class="" name="addressid"  id="addressid" type="hidden" value="$!wxuserAddress.id">
+<input class="" name="invoiceid"  id="invoiceid" type="hidden" value="$!invoiceid">
+<input class="" name="timeStamp"  id="timeStamp" type="hidden" value="$!timeStamp">
+<input class="" name="randomStr"  id="randomStr" type="hidden" value="$!randomStr">
+<input class="" name="token"  id="token" type="hidden" value="$!token">
+<input class="" name="appid"  id="appid" type="hidden" value="$!appid">
+<input class="" name="wxuserAddressId"  id="wxuserAddressId" type="hidden" value="$!wxuserAddress.id">
+        <a href="${rc.contextPath}/wxuserStandardOrder/wxStandardOrderDetailsList.htm?snackpackageId=$!standId">
+            <img src="${rc.contextPath}/static/images/wx/address_02.png">
+                       <span class="mid">&nbsp;&nbsp;确认订单</span>
+        </a>
+    </div>
+        <div class="confirm_wrap"style="background:#fafafa;">
+        <div class="choice_addr" id="choice_addr" style="margin-bottom:1.2rem;background:#fff;">
+                	#if($!wxuserAddress.id)
+			        <div class="addr_show" id="addr_show" style="width:100%;" style="display:block;">
+		                <a href="javascript:addr();" style="width: 100%; height: 100%;">
+	                		 <p class="mui" style="margin-left:2.5rem;margin-top:1.5rem;">
+		                        <span class="user_name" id="user_name">$!wxuserAddress.name</span>
+		                        <span class="mobile" id="mobile">$!wxuserAddress.phone</span>
+		                    </p>
+		                    <p class = "adress" id="adress" style="margin-left:2.5rem;line-height:2rem;padding-bottom:0.8rem;">$!wxuserAddress.addressDetails</p>
+		                    <span class="pay">
+		                    <img src="${rc.contextPath}/static/images/wx/confirm.png" width = "46%">
+		                    </span>
+		                </a>
+			        </div>
+                	#else
+                	<div class="add_addr" id="add_addr" style="display:block;">
+		                <a href="javascript:addr();">
+		                    <img src="${rc.contextPath}/static/images/wx/confirm_03.png">
+		                    <span>新增收货地址</span>
+		                </a>
+		            </div>
+                	#end
+                    
+        </div>
+        <div class="receipt">
+            <div class="receipt_txt">
+                <h5>开发票</h5>
+                
+                  <label style="font-size:2rem;float:right;margin-right:2rem;"><input type="radio" name="w" id="yes" style="margin-right:1rem;" value="是"/>
+                    是</label>
+                    <label style="font-size:2rem;float:right;margin-right:2.5rem; "><input type="radio" name="w" id="no" width="1rem" style="margin-right:1rem;" checked="checked"value="否"/>否</label>
+                
+            </div>
+            <div class="company_name">
+                <input class="active" type="text" id="a" placeholder="请输入公司名称" style="display:none" name="invoiceName" id="invoiceName" #if($!invoiceid>0) value="$!invoice" #end>
+            </div>
+        </div>
+    </div>
+    <div class="pay" style="background:#fff;overflow:hidden">
+        <ul class="order_list" style="display:block;border-top: 1px solid #e0e0e0;">
+            <li style="border:none;">
+                    <img class="goods_pic" src="$!standardOrder.imgPath">
+                    <div class="goods_detail">
+                        <h5>
+                            <span class="t fl">$!standardOrder.typeValue</span>
+                            <span class="fr" style="color:#666;">￥$NumberTool.toYuanNumber($!standardOrder.offerPrice) &nbsp;<b>x $!num</b></span>
+                        </h5>
+                    </div>
+            </li>
+        </ul>
+        <dl class="detail_wrap" style="background:#fff;padding-right: 2.5%;padding-left: 2.5%;line-height:4.8rem;border-bottom: 1px solid #e0e0e0;">
+            <dt style="color:#666;">合计</dt>
+            <dd style=" padding: 0 1rem 0 77%; color:#ff0000; border-top:1px solid #e0e0e0;border-bottom:none;">￥$NumberTool.toYuanNumber($!fee)</dd>
+        </dl>
+    </div>
+    #*<div class="pay_lightbox">
+        <span>￥$NumberTool.toYuanNumber($!fee)</span>
+        <a href="javascript:pay();" id="qw">微信支付</a>
+    </div>*#
+    <a href="javascript:pingdan();" class="transfer" style="border:1px solid #ffc000;color: #ffc000;">拼单</a>
+    <a href="javascript:pay();" class="zhifu">微信支付</a>
+<script type="text/javascript" src="${rc.contextPath}/static/js/SHA1.js"></script>
+<script type="text/javascript">
+document.title = "领蛙商城"; 
+$('.receipt_txt p span i').click(function(){
+    var self = $(this);
+    $('.receipt_txt p span').removeClass('h');
+    self.parents('span').addClass('h');
+});
+
+ function addr(){
+      	var url = window.location.href
+      	var token = $('#token').val();
+      	var appid = $('#appid').val();
+      	var timeStamp = $('#timeStamp').val();
+      	var randomStr = $('#randomStr').val();
+      	var string1 = 'accesstoken='+token+'&appid='+appid+'&noncestr='+randomStr+'&timestamp='+timeStamp+'&url='+url;
+      	var sha = CryptoJS.SHA1(string1);
+      	sha = sha.toString();
+      	var username = $('#user_name').html();
+      	var mobile = $('#mobile').html();
+      	var adress = $('#adress').html();
+      	var wxuserAddressId = $('#wxuserAddressId').val();
+      	WeixinJSBridge.invoke('editAddress', {
+		"appId": appid,
+		"scope": "jsapi_address",
+		"signType": "sha1",
+		"addrSign": sha,
+		"timeStamp": timeStamp,
+		"nonceStr": randomStr
+		}, function (res) {
+		//alert(JSON.stringify(res));
+		//若 res 中所带的返回值不为空，则表示用户选择该返回值作为收货地址。
+		//否则若返回空，则表示用户取消了这一次编辑收货地址。
+		//document.form1.address1.value = res.proviceFirstStageName;
+		//document.form1.address2.value = res.addressCitySecondStageName;
+		//document.form1.address3.value = res.addressCountiesThirdStageName;
+		//document.form1.detail.value = res.addressDetailInfo;
+		//document.form1.phone.value = res.telNumber;
+		//$('#user_name').html(res.userName);
+		//$('#mobile').html(res.telNumber);
+		//$('#adress').html(res.proviceFirstStageName+res.addressCitySecondStageName+res.addressCountiesThirdStageName+res.addressDetailInfo);
+		//document.getElementById('add_addr').style.display='none';
+		//document.getElementById('addr_show').style.display='block';
+		var content = "";
+		if(res.err_msg == "edit_address:fail"){
+			if(''==wxuserAddressId){
+				content ='<div class="add_addr" id="add_addr" style="display:block;"><a href="javascript:addr();"><img src="${rc.contextPath}/static/images/wx/confirm_03.png"><span>新增收货地址</span></a></div>'
+			}else{
+				content = '<div class="addr_show" id="addr_show" style="width:100%;" style="display:block;"><a href="javascript:addr();" style="width: 100%; height: 100%;"><p class="mui" style="margin-left:2.5rem;margin-top:1.5rem;"><span class="user_name" id="user_name">'+username+'</span><span class="mobile" id="mobile">'+mobile+'</span></p><p class = "adress" id="adress" style="margin-left:2.5rem;line-height:2rem;padding-bottom:0.8rem;">'+adress+'</p><span class="pay"><img src="${rc.contextPath}/static/images/wx/confirm.png" width = "46%"></span></a></div>'
+			}
+		}else{
+			if(res.userName==undefined){
+				content ='<div class="add_addr" id="add_addr" style="display:block;"><a href="javascript:addr();"><img src="${rc.contextPath}/static/images/wx/confirm_03.png"><span>新增收货地址</span></a></div>'
+			}else{
+			    content = '<div class="addr_show" id="addr_show" style="width:100%;" style="display:block;"><a href="javascript:addr();" style="width: 100%; height: 100%;"><p class="mui" style="margin-left:2.5rem;margin-top:1.5rem;"><span class="user_name" id="user_name">'+res.userName+'</span><span class="mobile" id="mobile">'+res.telNumber+'</span></p><p class = "adress" id="adress" style="margin-left:2.5rem;line-height:2rem;padding-bottom:0.8rem;">'+res.proviceFirstStageName+res.addressCitySecondStageName+res.addressCountiesThirdStageName+res.addressDetailInfo+'</p><span class="pay"><img src="${rc.contextPath}/static/images/wx/confirm.png" width = "46%"></span></a></div>';
+			}
+		}
+		$('#choice_addr').html(content);
+		}
+		);
+      }
+      
+ function post(url, params) {
+    var temp = document.createElement("form");
+    temp.action = url;
+    temp.method = "post";
+    temp.style.display = "none";
+    for (var x in params) {
+        var opt = document.createElement("input");
+        opt.name = x;
+        opt.value = params[x];
+        temp.appendChild(opt);
+    }
+    document.body.appendChild(temp);
+    temp.submit();
+    return temp;
+}
+
+function pingdan(){
+	var id = $('#id').val();
+	var num = $('#num').val();
+	var totalfee = $('#totalfee').val();
+	var wxname = $('#user_name').html();
+	var wxphone = $('#mobile').html();
+	var wxadress = $('#adress').html();
+	var invoiceid = "";
+	var invoiceName = "";
+	if(null==wxname||''==wxname){
+		alert("请填写收货地址");
+		return false;
+	}
+	var val=$('#yes:checked').val();
+    if(val){
+        var company_name = $("input[name='invoiceName']").val();
+        if (!company_name) {
+            alert("请填写公司名称");
+            return false;
+        };
+        invoiceid = $('#invoiceid').val();
+        invoiceName = company_name;
+    }
+    
+    $.ajax({
+				url:'${rc.contextPath}/weixin/wxsaveGroup.do',
+				type:'POST',
+				data: {id:id,num:num,totalfee:totalfee,wxname:wxname,wxphone:wxphone,wxadress:wxadress,invoiceid:invoiceid,invoiceName:invoiceName},
+				success:function(data){
+					if(data.status==200){
+						var id = data.data;
+						window.location.href='${rc.contextPath}/weixin/wxgroup.htm?id='+id;						
+					}else{
+						alert("网络连接超时,请重试！");
+					}
+				}
+				
+			})
+}
+      
+function pay(){
+	var id = $('#id').val();
+	var num = $('#num').val();
+	var totalfee = $('#totalfee').val();
+	var wxname = $('#user_name').html();
+	var wxphone = $('#mobile').html();
+	var wxadress = $('#adress').html();
+	var invoiceid = "";
+	var invoiceName = "";
+	if(null==wxname||''==wxname){
+		alert("请填写收货地址");
+		return false;
+	}
+	var val=$('#yes:checked').val();
+    if(val){
+        var company_name = $("input[name='invoiceName']").val();
+        if (!company_name) {
+            alert("请填写公司名称");
+            return false;
+        };
+        invoiceid = $('#invoiceid').val();
+        invoiceName = company_name;
+    }
+	
+	$.ajax({
+				url:'${rc.contextPath}/wxpay.do',
+				type:'POST',
+				data: {id:id,num:num,totalfee:totalfee,wxname:wxname,wxphone:wxphone,wxadress:wxadress,invoiceid:invoiceid,invoiceName:invoiceName},
+				success:function(data){
+					if(data.status==200){
+						appId=data.data.appId;
+						timeStamp=data.data.timeStamp;
+						nonceStr=data.data.nonceStr;
+						packages=data.data.package;
+						signType=data.data.signType;
+						paySign=data.data.paySign;
+						
+						if (typeof WeixinJSBridge == "undefined"){
+							   if( document.addEventListener ){
+							         document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+							     }else if (document.attachEvent){
+							         document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+							        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+							    }
+							 }else{
+							   onBridgeReady();
+							 }
+						
+					}else{
+						//new Toast({context:$('body'),message:'优惠卷数量不足'}).show();
+						alert("网络连接超时,请重试！");
+					}
+				}
+				
+			})
+}
+
+//微信支付
+function onBridgeReady(){
+    WeixinJSBridge.invoke(
+        'getBrandWCPayRequest', {
+            "appId" : appId,     //公众号名称，由商户传入     
+            "timeStamp":timeStamp, //时间戳，自1970年以来的秒数     
+            "nonceStr" :nonceStr, //随机串     
+            "package" :packages,     
+            "signType" :signType,//微信签名方式:     
+            "paySign" : paySign //微信签名 
+       },
+        function(res){
+    	  if(res.err_msg == "get_brand_wcpay_request:ok" ) {// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返
+    		   window.location.href="${rc.contextPath}/wxuserOrder/wxlist.htm";
+    	  }
+
+       }
+   ); 
+ }
+ 
+ $(document).ready(function(){
+  $("#no").click(function(){
+  $("#a").hide();
+  });
+  $("#yes").click(function(){
+   $("#a").show();
+  });
+})
+</script>

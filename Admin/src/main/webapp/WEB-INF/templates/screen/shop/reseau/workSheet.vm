@@ -1,0 +1,249 @@
+#set($layout="layout/shopLayout.vm")
+<div class="purchase_order">
+        <div class="gong_dan">
+            <a href="javascript:void(0)" class="en gong_left" id="btn1">
+                <
+            </a>
+            <input type="" name="" id="query_date" value="$!query_date" readOnly="true" > 
+            <a href="javascript:void(0)" class="en gong_right" id="btn2">
+                >
+            </a>
+        </div>
+        <div class="order_tip"  style="position: relative;">
+            <div class="order_list" style="width:25%;text-align:left;">
+                <span style="padding-left: .22rem">客户</span>
+            </div>
+            <div class="order_list" style="width:22%">金额(￥)</div>
+            <div class="order_list" style="width:26%">备注</div>
+            <div class="order_list" style="width: 23%;">送达时间</div>
+        </div>
+        <div class="record" style="margin-bottom: 1.1rem;margin-top: 0;">
+        	
+        	#foreach($order in $orders)
+        		 <div class="gong_list">
+                <a href="${rc.contextPath}/convenient/shop_sourcingOrderDetail.htm?id=$!order.orderNo" style="color: #000;">
+                <span class="gong_dan01 dan_01">
+                    <span class="dan_1">$!order.userName</span>
+                </span>
+                <span class="gong_dan01 dan_02">$NumberTool.toYuanNumber($!order.totalFee)</span>
+                <span class="gong_dan01 dan_03">
+                  $!order.memo
+                </span>
+                <span #if($!order.sign==0) class="gong_dan01 dan_04 dan_red" #else class="gong_dan01 dan_04 " #end >$!date.format('HH:mm:ss',$!order.deliverDate)</span>
+                </a>
+            </div>
+        	#end
+           
+           
+        </div>
+   </div>
+   <!-- 底部 -->
+   <div class="footer">
+         <a href="${rc.contextPath}/convenient/reseau/shop_index.htm?reseau_id=$!reseauId" class="home" style="width: 24.8%">首页<i></i><b></b></a>
+         <a href="${rc.contextPath}/convenient/reseau/shop_customerIndex.htm?reseau_id=$!reseauId" class="home" style="width: 24.8%">客户<i></i><b></b></a>
+         <a href="${rc.contextPath}/convenient/reseau/shop_index.htm?reseau_id=$!reseauId" class="home live" style="width: 24.8%">工单<i></i><b></b></a>
+         <a href="${rc.contextPath}/convenient/reseau/shop_warning.htm?reseau_id=$!reseauId" class="home" style="width: 24.8%">预警<b></b></a>
+   </div>
+<script type="text/javascript">
+    document.title = "工单";
+    $(function(){
+        var elm = $(".order_tip");
+        var start = $(elm).offset().top;
+        $(window).scroll(function(){
+            var scrollTop = $(this).scrollTop();
+            if (scrollTop >= start) {
+                $(elm).css({"position":"fixed","top":"0"});
+            }else if(scrollTop < start){
+                $(elm).css({"position":"relative"});
+            }
+        })
+    })
+    var oBtn1 = document.getElementById('btn1');
+    var oDate = document.getElementById('query_date');
+    var oBtn2 = document.getElementById('btn2');
+	var reseauId = $!reseauId;
+    /* 日期初始化获取系统当前时间 */
+    var tcur=showTime(0);
+    $('#query_date').val(tcur);
+    /* 前一天 */
+    $('#btn1').on("touchend",function(){
+        var tcur = showTime(-1);
+        
+        $.ajax({
+			url:'${rc.contextPath}/convenient/reseau/shop_workSheet.json',
+			type:'GET',
+			data: {reseau_id:reseauId,query_date:tcur},
+			success:function(data){
+				if(data.status==200){
+					var content="";
+					$.each(data.data,function(i){
+						var username = data.data[i].userName;
+						var totalFee = formatMoney(data.data[i].totalFee);
+						var orderNo = data.data[i].orderNo;
+						var memo = data.data[i].memo;
+						if(!memo){
+							memo = ""
+						}
+						var sign = data.data[i].sign;
+						var deliverDate = ""
+						if(null!=data.data[i].deliverDate){
+						    deliverDate = formatDate(data.data[i].deliverDate);
+						}
+						content +='<div class="gong_list"><a href="${rc.contextPath}/convenient/shop_sourcingOrderDetail.htm?id='+orderNo+'" style="color: #000;"><span class="gong_dan01 dan_01 "><span class="dan_1">'+username+'</span></span><span class="gong_dan01 dan_02">'+totalFee+'</span><span class="gong_dan01 dan_03">'+memo+'</span>';
+						if(sign==0){
+							content +='<span class="gong_dan01 dan_04 dan_red">'+deliverDate+'</span></a></div>';
+						}else{
+							content +='<span class="gong_dan01 dan_04">'+deliverDate+'</span></a></div>';
+						}
+					});
+					$(".gong_list").remove();
+					$('#query_date').val(tcur);
+					$('.record').append(content);
+				}
+			}
+		})
+      
+      
+    });
+
+    /* 后一天 */
+    $('#btn2').on("touchend",function(){
+        var tcur = showTime(1);
+        $.ajax({
+			url:'${rc.contextPath}/convenient/reseau/shop_workSheet.json',
+			type:'GET',
+			data: {reseau_id:reseauId,query_date:tcur},
+			success:function(data){
+				if(data.status==200){
+					var content="";
+					$.each(data.data,function(i){
+						var username = data.data[i].userName;
+						var totalFee = formatMoney(data.data[i].totalFee);
+						var orderNo = data.data[i].orderNo;
+						var memo = data.data[i].memo;
+						if(!memo){
+							memo = ""
+						}
+						var sign = data.data[i].sign;
+						var deliverDate = ""
+						if(null!=data.data[i].deliverDate){
+						    deliverDate = formatDate(data.data[i].deliverDate);
+						}
+						content +='<div class="gong_list"><a href="${rc.contextPath}/convenient/shop_sourcingOrderDetail.htm?id='+orderNo+'" style="color: #000;"><span class="gong_dan01 dan_01 "><span class="dan_1">'+username+'</span></span><span class="gong_dan01 dan_02">'+totalFee+'</span><span class="gong_dan01 dan_03">'+memo+'</span>';
+						if(sign==0){
+							content +='<span class="gong_dan01 dan_04 dan_red">'+deliverDate+'</span></a></div>';
+						}else{
+							content +='<span class="gong_dan01 dan_04">'+deliverDate+'</span></a></div>';
+						}
+					});
+					$(".gong_list").remove();
+					$('#query_date').val(tcur);
+					$('.record').append(content);
+				}
+			}
+		})
+      
+    });
+    
+    function formatMoney(num) {
+        var money = num/100;
+        var float = num%100;
+        var float1 = num%10;
+        if(float == 0){
+            money = money + ".00";
+        }else{
+        	if(float1==0){
+        		 money = money + "0";
+        	}
+        }
+        return money;
+    }
+    
+    function formatDate(str) { 
+   	    var res = /^[0-9]$/
+   	    var now=new Date(str);
+		var hour=now.getHours(); 
+		if(res.test(hour)){
+			hour = "0"+hour;
+		}
+		var minute=now.getMinutes(); 
+		if(res.test(minute)){
+			minute = "0"+minute;
+		}
+		var second=now.getSeconds(); 
+		if(res.test(second)){
+			second = "0"+second;
+		}
+		return hour+":"+minute+":"+second; 
+	} 
+
+    function addByTransDate(dateParameter, num) {
+        var translateDate = "", dateString = "", monthString = "", dayString = "";
+        translateDate = dateParameter.replace("-", "/").replace("-", "/"); 
+        var newDate = new Date(translateDate);
+        newDate = newDate.valueOf();
+        newDate = newDate + num * 24 * 60 * 60 * 1000;
+        newDate = new Date(newDate);
+        //如果月份长度少于2，则前加 0 补位   
+        if ((newDate.getMonth() + 1).toString().length == 1) {
+    monthString = 0 + "" + (newDate.getMonth() + 1).toString();
+        } else {
+    monthString = (newDate.getMonth() + 1).toString();
+        }
+        //如果天数长度少于2，则前加 0 补位   
+        if (newDate.getDate().toString().length == 1) {
+    dayString = 0 + "" + newDate.getDate().toString();
+        } else {
+    dayString = newDate.getDate().toString();
+        }
+        dateString = newDate.getFullYear() + "-" + monthString + "-" + dayString;
+        return dateString;
+    }
+     
+    function reduceByTransDate(dateParameter, num) {
+        var translateDate = "", dateString = "", monthString = "", dayString = "";
+        translateDate = dateParameter.replace("-", "/").replace("-", "/"); 
+        var newDate = new Date(translateDate);
+        newDate = newDate.valueOf();
+        newDate = newDate - num * 24 * 60 * 60 * 1000;
+        newDate = new Date(newDate);
+        //如果月份长度少于2，则前加 0 补位   
+        if ((newDate.getMonth() + 1).toString().length == 1) {
+    monthString = 0 + "" + (newDate.getMonth() + 1).toString();
+        } else {
+    monthString = (newDate.getMonth() + 1).toString();
+        }
+        //如果天数长度少于2，则前加 0 补位   
+        if (newDate.getDate().toString().length == 1) {
+    dayString = 0 + "" + newDate.getDate().toString();
+        } else {
+    dayString = newDate.getDate().toString();
+        }
+        dateString = newDate.getFullYear() + "-" + monthString + "-" + dayString;
+        return dateString;
+    } 
+     
+    //得到日期  主方法
+    function showTime(pdVal) {
+        var trans_day = "";
+        var cur_date = oDate.value == "" ? new Date() : new Date($('#query_date').val());/* 如果日期框内为空的话就获取系统的时间为输入框初始化赋值，如果有值（用户自己选择的时间），那就获取用户自己选择的时间 */
+        var cur_year = cur_date.getFullYear();
+         
+        var cur_month = cur_date.getMonth() + 1;
+        var real_date = cur_date.getDate();
+        cur_month = cur_month > 9 ? cur_month : ("0" + cur_month);
+        real_date = real_date > 9 ? real_date : ("0" + real_date);
+        eT = cur_year + "-" + cur_month + "-" + real_date;
+        if (pdVal == 1) {
+    trans_day = addByTransDate(eT, 1);
+        }
+        else if (pdVal == -1) {
+    trans_day = reduceByTransDate(eT, 1);
+        }
+        else {
+    trans_day = eT;
+        }
+       //处理
+        return trans_day;
+    }
+</script>

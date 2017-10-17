@@ -1,0 +1,13 @@
+#set($layout="layout/appLayoutV3.vm")
+<div class="lw_body_wrap">
+        <div class="lw_content">
+            <div class="login_wrap">
+                <h4>提交成功!</h4>
+                <div class="des">
+                    <p>领蛙工作人员已收到您的咨询，会在1－2个工作日内联系您。</p>
+                </div>
+            </div>
+     
+        </div>
+    
+    </div>

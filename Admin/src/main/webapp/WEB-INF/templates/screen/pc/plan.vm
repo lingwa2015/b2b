@@ -1,0 +1,154 @@
+ #set($layout="layout/pcLayout.vm")
+<div class="head">
+      <div class="header">
+        <div class="wrap">
+          <a href="${rc.contextPath}/official/pcIndex.htm" class="bl"><span class="logo-img i-b"><img src="${rc.contextPath}/static/images/pc/lw_logo.png"></span></a>
+            <i></i>
+            <span class="so">快乐生活
+                <b></b>
+                快乐工作
+            </span>
+          <div class="nav br">
+            <div class="nav_1">
+                <ul class="nav_main">
+                    <li>
+                        <a href="${rc.contextPath}/official/pcIndex.htm" class="xiao">首页</a>
+                    </li>
+                    <!--<li>
+                        <a href="${rc.contextPath}/official/pcVip.htm" class="xiao ">企业会员</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcSnackbag.htm" class="xiao ">零食反应堆</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcItem.htm" class="xiao">零食分类</a>
+                    </li>-->
+                    <li>
+                        <a href="${rc.contextPath}/official/pcHoliday.htm" class="xiao">节日方案</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcPlan.htm" class="xiao c">其他服务</a>
+                    </li>
+                </ul>
+            </div>
+          </div>
+          </div>
+        </div>
+     </div>
+     <!-- 内容 -->
+     <div class="lw_plan">
+     	<ul>
+     		<li class="lw_activity">
+	     		<span class="activity">团队活动</span>
+	     		<img src="${rc.contextPath}/static/images/pc/team_huodong.jpg">
+	     		<div class="lw_tip">
+	     			<p class="lw_shuoming">团队活动</p>
+	     			<p class="lw_shuoming_01">如有需求请拨打咨询热线或在线预约报名。</p>
+	     		</div>
+     		</li>
+     		<li class="lw_yuyue">
+     			<a href="" class="lw_yuyue_one" data-reveal-id="myModal">预约报名<i class="lw_yuyue_two">></i></a>
+     			<div class="lwyuyue_three"><i class="lw_yuyue_four"></i><span class="lw_yuyue_five">咨询热线</span><i class="lw_yuyue_four"></i></div>
+     			<span class="lw_yuyue_tel">400-8801-703</span>
+     		</li>
+     		<li class="lw_activity">
+	     		<span class="activity" style="background: #ffb400">团队用餐</span>
+	     		<img src="${rc.contextPath}/static/images/pc/team_chifan.jpg">
+	     		<div class="lw_tip">
+	     			<p class="lw_shuoming">团队用餐</p>
+	     			<p class="lw_shuoming_01">如有需求请拨打咨询热线或在线预约报名</p>
+	     		</div>
+     		</li>
+     		<li class="lw_activity">
+	     		<span class="activity" style="background: #f15221">公司年会</span>
+	     		<img src="${rc.contextPath}/static/images/pc/team_nianhui.jpg">
+	     		<div class="lw_tip">
+	     			<p class="lw_shuoming">公司年会</p>
+	     			<p class="lw_shuoming_01">如有需求请拨打咨询热线或在线预约报名</p>
+	     		</div>
+		     		
+     		</li>
+     		
+     	</ul>
+     	<div id="myModal" class="reveal-modal">
+	     					<div class="lw_tc">
+	     						<span class="lw_tc1">填写资料</span>
+	     						<a class="close-reveal-modal">&#215;</a>
+	     					</div>
+	     					<form id="form1" method="POST" action="$!{rc.contextPath}/official/pcAdd.do">
+	     						<dl class="lw_tc3">
+	     							<dt class="lw_tc4">公司名称</dt>
+	     							<dd class="lw_tc5"><input name="companyName" type="text" class="lw_tc6"></input></dd>
+	     						</dl>
+	     						<dl class="lw_tc7">
+	     							<dt class="lw_tc4">联系电话</dt>
+	     							<dd class="lw_tc5"><input name="mobile" type="text" class="lw_tc6"></input></dd>
+	     						</dl>
+	     						<dl class="lw_tc7">
+	     							<dt class="lw_tc4">联&nbsp;系&nbsp;人</dt>
+	     							<dd class="lw_tc5"><input name="name" type="text" class="lw_tc6"></i nput></dd>
+	     						</dl>
+	     						<a href="#" class="lw_tc_sure" onclick="save();">确定预定</a>
+	     					</form>
+	 		</div>
+     </div>
+    
+    <!-- 页尾 -->
+    <div class="footer">
+        <div class="foo">
+        <ul>
+            <li class="tc">
+                <img src="${rc.contextPath}/static/images/pc/small_logo.png">
+                <span>微信公众号</span>
+            </li>
+            <li>
+                <a href="/official/pcAbout.htm" class="about">关于我们</a>
+                <b>|</b>
+                <a href="/official/pcContact.htm">联系我们</a>
+                <p>杭州领带蛙网络科技有限公司<b>Lingwa.com.cn</b>浙ICP备15009557号-2</p>
+            </li>
+            <li class="br">
+                <div class="rexian"><img src="${rc.contextPath}/static/images/pc/tel.png"><span>客服热线</span></div>
+                <strong class="str">400&nbsp;&nbsp;8801&nbsp;&nbsp;703</strong>
+            </li>
+        </ul>
+            
+        </div>
+
+    </div>
+    <script type="text/javascript" src="${rc.contextPath}/static/js/pc/jquery.reveal.js"></script>
+    <script type="text/javascript" src="${rc.contextPath}/static/js/commonUtil.js"></script>
+    <script type="text/javascript">
+var checkSubmitFlag = false;
+    function save() {
+        var name = $("input[name='name']").val();
+        var mobile = $("input[name='mobile']").val();
+        var companyName = $("input[name='companyName']").val();
+        if(!name||!mobile||!companyName){
+            alert("信息不能为空");
+            return false;
+        }else{
+            if(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/.test(mobile)){
+                if(checkSubmitFlag ==true){
+                   alert("请勿重复提交");
+                   return false;
+                }
+                checkSubmitFlag = true;
+                submitFormData('form1', '$!{rc.contextPath}/official/pcAdd.do', function(
+						data) {
+					checkSubmitFlag = false;
+					if (data == '添加成功') {
+						alert("提交成功");
+						window.location.href = "${rc.contextPath}/official/pcPlan.htm";
+					} else {
+						alert("提交");
+						window.location.href = "${rc.contextPath}/official/pcPlan.htm";
+					}
+				});
+            }else{
+                alert("请填写正确的手机号码！");
+                return false;
+            }
+        }  
+    }
+</script>

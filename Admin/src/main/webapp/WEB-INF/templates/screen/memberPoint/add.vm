@@ -1,0 +1,79 @@
+<script type="text/javascript">
+$(document).ready(function() {
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+            save();
+        }
+	});
+ });
+
+
+ 
+function save(){
+	disableBtn('saveBtn');
+	
+	var url="${rc.contextPath}/memberPoint/save.do";
+  	submitFormData("form1",url,show);
+}
+
+function show(data){
+  	
+	if(data=="OK"){
+		window.location.href="${rc.contextPath}/memberPoint/memberPointList.htm?userid=$!user.id";
+	}else{
+		alert(data);
+		enableBtn('saveBtn');
+	}
+}
+</script>
+
+
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/memberPoint/memberPointList.htm?userid=$!user.id" title="返回供应商列表" class="btn btn-return"><</a>
+		<h4 class="tit">积分入录</h4>
+	</div><!--bd-actionbar-->
+	
+	<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" name="businessForm" id="form1" action="${rc.contextPath}/memberPoint/save.do" method="post">
+			<input type="hidden" name="shopId" id="shopId" value="$!user.id"/>
+				<table class="form">
+					<tr>
+						<td align="right"><label class="tit">客户：</label></td>
+						<td>
+							<input class="form-input" type="text" name="supplierName" id="supplierName" value="$!user.userName" readonly="readonly"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>积分：</label></td>
+						<td><input class="form-input" type="number" name="point" id="point"  validate="{required:true,number:true}">
+						&nbsp;<span></span></td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">备注：</label></td>
+						<td>
+							<textarea id="remark" name="remark" cols="50"
+								rows="4" ></textarea>
+							&nbsp;
+						</td>
+					</tr>
+					<tr class="btn-bar">
+						<td></td>
+						<td><a class="btn btn-primary" id="saveBtn" href="#" onclick="save();">保存</a></td>
+					</tr>
+				</table>
+			</form>
+		</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.ShopItemStockMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.ShopItemStock" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="shop_id" property="shopId" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="sale_price" property="salePrice" jdbcType="BIGINT" />
+    <result column="sourcing_price" property="sourcingPrice" jdbcType="BIGINT" />
+    <result column="sum_date" property="sumDate" jdbcType="DATE" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, shop_id, item_id, num, sale_price, sourcing_price, sum_date, created_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.ShopItemStockExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from shop_item_stock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from shop_item_stock
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from shop_item_stock
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.ShopItemStockExample" >
+    delete from shop_item_stock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.ShopItemStock" >
+    insert into shop_item_stock (id, shop_id, item_id, 
+      num, sale_price, sourcing_price, 
+      sum_date, created_time)
+    values (#{id,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, 
+      #{num,jdbcType=INTEGER}, #{salePrice,jdbcType=BIGINT}, #{sourcingPrice,jdbcType=BIGINT}, 
+      #{sumDate,jdbcType=DATE}, #{createdTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.ShopItemStock" >
+    insert into shop_item_stock
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="salePrice != null" >
+        sale_price,
+      </if>
+      <if test="sourcingPrice != null" >
+        sourcing_price,
+      </if>
+      <if test="sumDate != null" >
+        sum_date,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="salePrice != null" >
+        #{salePrice,jdbcType=BIGINT},
+      </if>
+      <if test="sourcingPrice != null" >
+        #{sourcingPrice,jdbcType=BIGINT},
+      </if>
+      <if test="sumDate != null" >
+        #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.ShopItemStockExample" resultType="java.lang.Integer" >
+    select count(*) from shop_item_stock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update shop_item_stock
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopId != null" >
+        shop_id = #{record.shopId,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemId != null" >
+        item_id = #{record.itemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.num != null" >
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.salePrice != null" >
+        sale_price = #{record.salePrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.sourcingPrice != null" >
+        sourcing_price = #{record.sourcingPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.sumDate != null" >
+        sum_date = #{record.sumDate,jdbcType=DATE},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update shop_item_stock
+    set id = #{record.id,jdbcType=INTEGER},
+      shop_id = #{record.shopId,jdbcType=INTEGER},
+      item_id = #{record.itemId,jdbcType=INTEGER},
+      num = #{record.num,jdbcType=INTEGER},
+      sale_price = #{record.salePrice,jdbcType=BIGINT},
+      sourcing_price = #{record.sourcingPrice,jdbcType=BIGINT},
+      sum_date = #{record.sumDate,jdbcType=DATE},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.ShopItemStock" >
+    update shop_item_stock
+    <set >
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="salePrice != null" >
+        sale_price = #{salePrice,jdbcType=BIGINT},
+      </if>
+      <if test="sourcingPrice != null" >
+        sourcing_price = #{sourcingPrice,jdbcType=BIGINT},
+      </if>
+      <if test="sumDate != null" >
+        sum_date = #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.ShopItemStock" >
+    update shop_item_stock
+    set shop_id = #{shopId,jdbcType=INTEGER},
+      item_id = #{itemId,jdbcType=INTEGER},
+      num = #{num,jdbcType=INTEGER},
+      sale_price = #{salePrice,jdbcType=BIGINT},
+      sourcing_price = #{sourcingPrice,jdbcType=BIGINT},
+      sum_date = #{sumDate,jdbcType=DATE},
+      created_time = #{createdTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findlossDetail" resultType="com.b2b.common.domain.ShopItemStock">
+  	SELECT i.`item_name` itemName ,i.price,ic.`category_name` oneCate ,iic.`category_name` twoCate ,i.`size` ,SUM(t.num1) firstNum,SUM(t.num2) sourcingNum,SUM(t.num3) refundNum,SUM(t.num4) consumeNum,SUM(t.num5) lastNum,SUM(t.num6) subsidyNum, SUM(t.num1)+ SUM(t.num2)- SUM(t.num3)- SUM(t.num4)- SUM(t.num5)-SUM(t.num6) loseNum FROM (
+	SELECT `item_id` ,num as num1,0 num2,0 num3,0 num4,0 num5,0 num6 FROM `shop_item_stock` WHERE shop_id = #{shop_id} and sum_date=#{querydate}
+	UNION ALL 
+	SELECT oi.`item_id`,0 num1,sum(oi.`consume_stock_num`) as num2,0 num3,0 num4,0 num5,0 num6 FROM `order_item` oi LEFT JOIN `order` o on oi.`order_no` = o.`order_no`  where  o.`executed_time` &gt;= #{startdate} and o.`executed_time` &lt;= #{enddate} and o.`status` = 1 and o.`user_id` =#{shop_id} GROUP BY oi.`item_id` 
+	UNION ALL 
+	SELECT oi.`item_id`,0 num1,0 num2,0 num3,0 num4,0 num5,sum(oi.`consume_stock_num`) as num6 FROM `order_item` oi LEFT JOIN `order` o on oi.`order_no` = o.`order_no`  where  o.`executed_time` &gt;= #{startdate} and o.`executed_time` &lt;= #{enddate} and o.`status` = 1 and o.comfirm = 3 and o.flag = 0 and o.`user_id` =#{shop_id} GROUP BY oi.`item_id` 
+	UNION ALL 
+	SELECT ri.`item_id` ,0 num1,0 num2,SUM(ri.`num`) as num3 ,0 num4,0 num5,0 num6 FROM `refund_item` ri LEFT JOIN `refund` r on ri.`refund_id` = r.`id` where r.`executed_time` &gt;= #{startdate} and r.`executed_time` &lt;= #{enddate} and r.`state` = 1 and r.`user_id` = #{shop_id} GROUP BY ri.`item_id`
+	UNION ALL 
+	SELECT si.`item_id` ,0 num1,0 num2,0 num3,SUM(soi.`num`) num4,0 num5,0 num6 FROM `shop_order_item` soi LEFT JOIN `shop_order` so on soi.`order_id` = so.`id` LEFT JOIN `shop_item` si on soi.`item_id` = si.`id`  where so.`created_time` &gt;= #{startdate} and so.`created_time` &lt;= #{enddate} and so.`status` = 1 and so.`shop_id` = #{shop_id} GROUP BY soi.`item_id` 
+	UNION ALL 
+	SELECT `item_id` ,0 num1,0 num2,0 num3,0 num4,num as num5,0 num6 FROM `shop_item_stock` WHERE shop_id = #{shop_id} and sum_date= DATE_FORMAT(#{enddate}, '%Y-%m-%d')) t LEFT JOIN `item` i on t.item_id = i.`id` LEFT JOIN `item_category` ic on i.`category_id` = ic.`id` 
+LEFT JOIN `item_category` iic on i.`categorylevel_id` =iic.`id`   GROUP BY t.item_id ORDER BY i.`category_id` ,i.`categorylevel_id` ,i.`item_name` 
+  </select>
+  <select id="findByItemIdAndSumdateAndSaleId" resultType="int">
+  SELECT ifnull(SUM(`num`),0)
+  FROM `shop_item_stock`
+ WHERE `item_id`= #{itemId}
+   and `shop_id` IN(
+SELECT customer_id FROM `item_sale_customer` WHERE `itemsale_id` =#{id})
+   and `sum_date`= #{sumdate}
+  </select>
+  <select id="findByItemIdAndSumdate" resultType="int">
+  SELECT ifnull(SUM(`num`),0)
+  FROM `shop_item_stock`
+ WHERE `item_id`= #{itemId}
+  and `sum_date`= #{sumdate}
+  </select>
+</mapper>

@@ -1,0 +1,297 @@
+<script type="text/javascript">
+$(document).ready(function() {
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+			
+		},
+		submitHandler: function (){
+		       var discount = $('#discount').val();
+		        var shopDiscount = $('#shopDiscount').val();
+		        if(0>=discount || discount >2){
+		        	alert("折扣超出范围");
+		        	return false;
+		        }
+		        if(0>=shopDiscount || shopDiscount >2){
+		        
+		            alert("店铺折扣超出范围");
+		            return false;
+		        }
+		        
+        			save();
+        }
+	});
+
+	
+ });
+ var checkSubmitFlag = false;
+ function save(){
+	disableBtn('saveBtn');
+
+	var url="${rc.contextPath}/customer/savedelivery.do";
+  	submitFormData("form1",url,show);
+}
+
+function show(data){
+
+	if(data.indexOf("200")!=-1){
+		alert("保存成功");
+		cancel();
+	}
+	else{
+		alert(data);
+		enableBtn('saveBtn');
+	}
+}
+
+function cancel(){
+  	window.location.href="${rc.contextPath}/customer/deliveryList.htm";
+}
+
+function del(id){
+	  if (confirm("确认删除吗?")) {
+	 if (checkSubmitFlag == true) return;
+       
+        
+                
+                checkSubmitFlag = true;
+	 $.ajax({
+				url:'${rc.contextPath}/customer/deletedelivery.do',
+				type:'POST',
+				data: {id:id},
+				success:function(data){
+					if(data=="200"){
+						alert("删除成功");
+						window.location.href="${rc.contextPath}/customer/deliveryList.htm";
+					}else{
+						checkSubmitFlag = false;
+						alert("删除失败");
+					}
+				}
+				});
+	}
+}
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/customer/deliveryList.htm" title="返回交接单列表" class="btn btn-return"><</a>
+			<h4 class="tit">编辑交接单</h4>
+	</div><!--bd-actionbar-->
+
+	<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" name="userForm" id="form1" action="${rc.contextPath}/customer/savedelivery.do" method="post">
+				<input type="hidden" name="id" id="id" value="$!dto.id"/>
+				<table class="form">
+					
+					<tr>
+						<td align="right">
+							<label class="tit"><font color='red'>*</font>公司简称：</label>
+						</td>
+						<td>
+							<input validate="{required:true,maxlength:255}" placeholder="2-6个字" class="form-input" type="text" name="userName" id="userName" value="$!dto.userName"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit"><font color='red'>*</font>公司全称：</label>
+						</td>
+						<td>
+							<input validate="{required:true,maxlength:255}"  class="form-input" type="text" name="companyName" id="companyName" value="$!dto.companyName"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>区域：</label></td>
+						<td>
+						<select name="regionId" validate="{required:true}" >
+						    <option value="">--请选择--</option>
+						    #foreach($region in $regions)
+							   #if($!dto.regionId == $region.id)
+					            <option value="$region.id" selected="selected">$region.name</option>
+					           #else
+					            <option value="$region.id">$region.name</option>
+					           #end
+							#end
+						 </select>
+						 &nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>店铺地址：</label></td>
+						<td>
+
+						    <input validate="{required:true,maxlength:255}" class="form-input" type="text" name="address" id="address" value="$!dto.address"/>
+
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>业务类型：</label></td>
+						<td>
+						<select name="isvxvip" validate="{required:true}" >
+						    <option value="">--请选择--</option>
+						    <option value="0" #if($dto.isvxvip==0)selected = "selected" #end>福利店</option>
+                            <option value="3" #if($dto.isvxvip==3)selected = "selected" #end>便利店</option>
+                            <option value="1" #if($dto.isvxvip==1)selected = "selected" #end>礼包</option>
+						 </select>
+						 &nbsp;<span></span>
+						</td>
+					</tr>
+					
+					<tr>
+						<td align="right">
+							<label class="tit">店铺数量：</label>
+						</td>
+						<td>
+							<input validate="{maxlength:255}" class="form-input" type="text" name="shopNum" id="shopNum" value="$!dto.shopNum"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">折扣：</label>
+						</td>
+						<td>
+							<input  class="form-input" type="text" name="discount" id="discount" value="$!dto.discount"  />
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">售价折扣：</label>
+						</td>
+						<td>
+							<input  class="form-input" type="text" name="shopDiscount" id="shopDiscount" value="$!dto.shopDiscount" />
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">货架数量：</label>
+						</td>
+						<td>
+							<input validate="{maxlength:255}" class="form-input" type="text" name="goodsShelfNum" id="goodsShelfNum" value="$!dto.goodsShelfNum"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">其他设备：</label>
+						</td>
+						<td>
+							<input validate="{maxlength:255}" class="form-input" type="text" name="others" id="others" value="$!dto.others"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">联系人：</label>
+						</td>
+						<td>
+							<input validate="{maxlength:255}" class="form-input" type="text" name="linkman" id="linkman" value="$!dto.linkman"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">职位：</label>
+						</td>
+						<td>
+							<input validate="{maxlength:255}" class="form-input" type="text" name="position" id="position" value="$!dto.position"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">联系电话：</label>
+						</td>
+						<td>
+							<input validate="{maxlength:255}" class="form-input" type="text" name="mobilePhone" id="mobilePhone" value="$!dto.mobilePhone"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">公司人数：</label>
+						</td>
+						<td>
+							<input validate="{maxlength:255}" class="form-input" type="text" name="companyPersonnum" id="companyPersonnum" value="$!dto.companyPersonnum"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">开票税号：</label>
+						</td>
+						<td>
+							<input validate="{maxlength:255}" class="form-input" type="text" name="dutyParagraph" id="dutyParagraph" value="$!dto.dutyParagraph"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+                    <tr>
+                        <td align="right">
+                            <label class="tit">接口业务员：</label>
+                        </td>
+                        <td>
+                            <select name="interfaceId"  >
+                                <option value="-1"></option>
+								#foreach($puser in $pusers)
+									#if($!dto.interfaceId == $puser.id)
+                                        <option value="$puser.id" selected="selected">$puser.userName</option>
+									#else
+                                        <option value="$puser.id">$puser.userName</option>
+									#end
+								#end
+                            </select>
+                            &nbsp;<span></span>
+                        </td>
+                    </tr>
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>回款方式：</label></td>
+						<td>
+			                <input type="radio" name="payBillWay" value="2" #if($!dto.payBillWay==2) checked="checked" #end/>按结算额
+			                <input type="radio" name="payBillWay" value="3" #if($!dto.payBillWay==3) checked="checked" #end/>按亏损额
+			                <input type="radio" name="payBillWay" value="4" #if($!dto.payBillWay==4) checked="checked" #end/>不承担亏损
+			            &nbsp;<span></span></td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">特殊优惠：</label>
+						</td>
+						<td>
+						    <textarea id="payWay" name="payWay" cols="40" rows="5" >$!dto.payWay</textarea>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label class="tit">备注：</label>
+						</td>
+						<td>
+						    <textarea id="remark" name="remark" cols="50"
+								rows="5">$!dto.remark</textarea>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					
+					<tr class="btn-bar">
+						<td></td>
+						<td><a class="btn btn-primary" id="saveBtn" href="javascript:void(0)" onclick="$('#form1').submit();">保存</a></td>
+						<td style="position: absolute;left: 220px;"><a class="btn btn-primary" id="deleteBtn" href="javascript:void(0)" onclick="del($dto.id)" >删除</a></td>
+						
+					</tr>
+				</table>
+			</form>
+		</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

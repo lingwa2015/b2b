@@ -1,0 +1,50 @@
+<div class="content">
+		<div class="bd-actionbar">
+            <h4 class="tit">全站日报</h4>
+            <div class="an">
+                <a href="${rc.contextPath}/free/allDayReportlist.htm?menuHeight=$!menuHeight&menuName=$!menuName" class="wo active">日报</a >
+                <a href="${rc.contextPath}/free/allMonthReportlist.htm?menuHeight=$!menuHeight&menuName=$!menuName" class="wo">月报</a >
+            </div>
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="jqtransform" name="tranSumForm" id="tranSumForm" action="${rc.contextPath}/free/allDayReportlist.htm?menuHeight=$!menuHeight&menuName=$!menuName"  method="POST">
+		
+	</form>
+			<table class="table">
+			  <tr>
+				<th>日期</th>
+				<th>开通店铺数</th>
+				<th>下单店铺数</th>
+				<th>订单金额</th>
+				<th>订单数量</th>
+				<th>退货金额</th>
+				<th>退货单数量</th>
+				<th>采购总额</th>
+				<th>店均采购额</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>$!date.format('yyyy-MM-dd',$!bean.sumDate)</td>
+					<td>$!bean.openShopNum</td>
+					<td>$!bean.orderShopNum</td>
+					<td>$NumberTool.toYuanNumber($!bean.orderFee)</td>
+					<td>$!bean.orderNum</td>
+					<td>$NumberTool.toYuanNumber($!bean.refundFee)</td>
+					<td>$!bean.refundNum</td>
+					<td>$NumberTool.toYuanNumber($!bean.sourcingFee)</td>
+					<td>$NumberTool.toYuanNumber($!bean.avgFee)</td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->
+<script type="text/javascript">
+    $(".wo").on("click",function(){
+        $(this).addClass("active").siblings().removeClass("active")
+    })
+</script>

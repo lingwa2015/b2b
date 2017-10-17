@@ -1,0 +1,114 @@
+<div class="content">
+		<div class="bd-actionbar">
+		<h4 class="tit">在售商品</h4>
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/actual/actualShopItemList.htm?menuHeight=$!menuHeight&menuName=$!menuName" method="post">
+				<table class="form form-horizontal">
+					<tr>
+				<td align="right"><label class="tit">客户简称：</label></td>
+						<td>
+							<input class="form-input input-time-day" type="text" name="userName" id="userName" value="$!userName">
+                            <input type="hidden" name="menuHeight" id="menuHeight" value="$!menuHeight" />
+                            <input type="hidden" name="menuName" id="menuName" value="$!menuName" />
+						</td>
+						
+						<td align="right"><label class="tit">商品名称：</label></td>
+						<td>
+							<input class="form-input input-time-day" type="text" name="itemName" id="itemName" value="$!itemName">
+						</td>
+
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="tit">网格：</label></td>
+                        <td>
+                            <select name="reseauId" id="reseauId" validate="{required:true}" >
+                                <option value="">全部</option>
+								#foreach($reseau in $reseaus)
+									#if($!reseauId == $reseau.id)
+                                        <option value="$reseau.id" selected="selected">$reseau.name</option>
+									#else
+                                        <option value="$reseau.id">$reseau.name</option>
+									#end
+								#end
+                            </select>
+                            &nbsp;<span></span>
+                        </td>
+                        <td align="right"><label class="tit">排序：</label></td>
+                        <td>
+                            <select name="param" id="param" style="width:80px">
+                                <option value="0" #if($param==0)selected=selected#end>默认</option>
+                                <option value="1" #if($param==1)selected=selected#end>周消费</option>
+                            </select>
+                        </td>
+                        <td><label class="tit">新品：</label></td>
+                        <td >
+                            <select name="isnew" id="isnew">
+                                <option value ="" >全部</option>
+                                <option value ="1" #if($!isnew==1)selected="selected"#end>新品</option>
+                            </select>
+                        </td>
+                        <td><a class="btn btn-warning btn-sm" onclick="$(form1).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a></td>
+                        <td><a class="btn btn-warning btn-sm" href="javascript:exportExcel();">导出Excel</a></td>
+                    </tr>
+
+				</table>
+			</form>
+			<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+		        <tr class="info">
+					<td colspan="1">
+		                <span>在售金额：$NumberTool.toYuanNumber($!total.salePrice) 元</span>
+		                <span>在售数量：$!total.num</span>
+		                <span>在售品类：$!total.flag</span>
+                        <span>在售店铺数：$!total.shopId</span>
+						<span>周消费：$!consumeTotal</span>
+		            </td>
+				</tr>
+			</table>
+			<table class="table">
+			  <tr>
+				<th>客户</th>
+				<th>商品名称</th>
+				<th>规格</th>
+				<th>采购价</th>
+				<th>售价</th>
+				<th>数量</th>
+				<th>周消费</th>
+				<th>上架时间</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>[$!bean.region]$!bean.userName</td>
+					<td>$!bean.name</td>
+					<td>$!bean.size</td>
+					<td>$NumberTool.toYuanNumber($!bean.sourcingPrice)</td>
+					<td>$NumberTool.toYuanNumber($!bean.salePrice)</td>
+					<td #if(!$!bean.consumeNum && $!bean.flag>6) style="color:red" #end>$!bean.num</td>
+					<td>$!bean.consumeNum</td>
+					<td>$!date.format('yyyy-MM-dd',$!bean.onshelfTime)</td>
+					
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->
+<script type="text/javascript">
+$(document).ready(function() {
+	$( "#starttime" ).datepicker();
+	$( "#endtime" ).datepicker();
+ });
+function exportExcel(){
+    var userName = $('#userName').val();
+    var itemName = $('#itemName').val();
+    var isnew = $('#isnew').val();
+    var reseauId = $('#reseauId').val();
+    var param = $('#param').val();
+    window.location.href = "${rc.contextPath}/actual/exportShopItemExcel.do?userName="+userName+"&itemName="+itemName
+			+"&isnew="+isnew+"&reseauId="+reseauId+"&param= "+param;
+}
+</script>

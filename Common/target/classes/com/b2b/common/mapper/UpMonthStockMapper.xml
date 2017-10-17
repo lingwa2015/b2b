@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.UpMonthStockMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.UpMonthStock" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="itemId" property="itemid" jdbcType="INTEGER" />
+    <result column="itemName" property="itemname" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="cost_price" property="costPrice" jdbcType="BIGINT" />
+    <result column="total_cost_price" property="totalCostPrice" jdbcType="BIGINT" />
+    <result column="save_month" property="saveMonth" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, itemId, itemName, num, created_time, cost_price, total_cost_price, save_month
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.UpMonthStockExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from upmonthstock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.UpMonthStockExample" >
+    delete from upmonthstock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.UpMonthStock" >
+    insert into upmonthstock (id, itemId, itemName, 
+      num, created_time, cost_price, 
+      total_cost_price, save_month)
+    values (#{id,jdbcType=INTEGER}, #{itemid,jdbcType=INTEGER}, #{itemname,jdbcType=VARCHAR}, 
+      #{num,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, #{costPrice,jdbcType=BIGINT}, 
+      #{totalCostPrice,jdbcType=BIGINT}, #{saveMonth,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.UpMonthStock" >
+    insert into upmonthstock
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="itemid != null" >
+        itemId,
+      </if>
+      <if test="itemname != null" >
+        itemName,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="costPrice != null" >
+        cost_price,
+      </if>
+      <if test="totalCostPrice != null" >
+        total_cost_price,
+      </if>
+      <if test="saveMonth != null" >
+        save_month,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="itemid != null" >
+        #{itemid,jdbcType=INTEGER},
+      </if>
+      <if test="itemname != null" >
+        #{itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="costPrice != null" >
+        #{costPrice,jdbcType=BIGINT},
+      </if>
+      <if test="totalCostPrice != null" >
+        #{totalCostPrice,jdbcType=BIGINT},
+      </if>
+      <if test="saveMonth != null" >
+        #{saveMonth,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.UpMonthStockExample" resultType="java.lang.Integer" >
+    select count(*) from upmonthstock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update upmonthstock
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemid != null" >
+        itemId = #{record.itemid,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemname != null" >
+        itemName = #{record.itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.num != null" >
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.costPrice != null" >
+        cost_price = #{record.costPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.totalCostPrice != null" >
+        total_cost_price = #{record.totalCostPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.saveMonth != null" >
+        save_month = #{record.saveMonth,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update upmonthstock
+    set id = #{record.id,jdbcType=INTEGER},
+      itemId = #{record.itemid,jdbcType=INTEGER},
+      itemName = #{record.itemname,jdbcType=VARCHAR},
+      num = #{record.num,jdbcType=INTEGER},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      cost_price = #{record.costPrice,jdbcType=BIGINT},
+      total_cost_price = #{record.totalCostPrice,jdbcType=BIGINT},
+      save_month = #{record.saveMonth,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="findLastMouth" resultType="UpMonthStock">
+  	SELECT
+	t3.itemId,
+	t3.item_name itemname,
+	CASE
+	WHEN avgCost > 0 THEN
+		totalcost + avgCost * num1
+	WHEN avgCost &lt;= 0 THEN
+		totalcost + num1 * costPrice
+	ELSE
+		totalcost
+	END totalCostPrice,
+	 t3.num + t3.num1 num
+	FROM
+		(
+			SELECT
+				t.itemId,
+				t.item_name,
+				IFNULL(t.num, 0) num,
+				IFNULL(t.totalcost, 0) totalcost,
+				IFNULL(t2.num, 0) num1,
+				round(t.totalcost / t.num) avgCost,
+				IFNULL(t2.costPrice, 0) costPrice
+			FROM
+				(
+					SELECT
+						itemId,
+						it.item_name,
+						sum(num) num,
+						sum(total_cost_price) totalcost
+					FROM
+						(
+							/*快照*/
+							SELECT
+								itemId,
+								num,
+								total_cost_price
+							FROM
+								upmonthstock up
+							WHERE
+								(save_month = #{selectTime})
+							AND num &lt;&gt; 0
+							GROUP BY
+								itemId
+							UNION ALL
+								/*入库*/
+								SELECT
+									si.item_id itemId,
+									sum(si.num) num,
+									sum(si.total_fee) total_cost_price
+								FROM
+									`storage` s
+								LEFT JOIN storage_item si ON s.id = si.storage_id
+								WHERE
+									s.executed_time &gt;= #{start}
+								AND s.executed_time &lt;= #{end}
+								AND s.state = 1
+								GROUP BY
+									si.item_id
+						) info
+					LEFT OUTER JOIN item it ON it.id = info.itemId
+					GROUP BY
+						itemId,
+						it.item_name
+				) t
+			LEFT JOIN (
+				SELECT
+					itemId,
+					it.item_name,
+					sum(num) num,
+					it.cost_price costPrice
+				FROM
+					(
+						/*订单*/
+						SELECT
+							oi.item_id itemId ,- sum(oi.consume_stock_num) AS num
+						FROM
+							`order` o
+						LEFT OUTER JOIN order_item oi ON o.order_no = oi.order_no
+						WHERE
+							o.executed_time &gt;= #{start}
+						AND o.executed_time &lt;= #{end}
+						AND o.`status` = 1
+						GROUP BY
+							oi.item_id
+						UNION ALL
+							/*盘库*/
+							SELECT
+								sci.item_id itemId,
+								SUM(sci.num) num
+							FROM
+								stock_check sc
+							LEFT JOIN stock_check_item sci ON sc.id = sci.check_id
+							LEFT JOIN item i ON sci.item_id = i.id
+							WHERE
+								sc.executed_time &gt;= #{start}
+							AND sc.executed_time &lt;= #{end}
+							AND sc.state = 1
+							GROUP BY
+								sci.item_id
+							UNION ALL
+								/*退货*/
+								SELECT
+									ri.item_id itemId,
+									sum(ri.num) num
+								FROM
+									refund r
+								LEFT JOIN refund_item ri ON r.id = ri.refund_id
+								LEFT JOIN item i ON ri.item_id = i.id
+								WHERE
+									r.created_time &gt;= #{start}
+								AND r.created_time &lt;= #{end}
+								AND r.state = 1
+								GROUP BY
+									ri.item_id
+					) info
+				LEFT OUTER JOIN item it ON it.id = info.itemId
+				GROUP BY
+					itemId,
+					it.item_name
+			) t2 ON t.itemId = t2.itemId
+		) t3
+  </select>
+</mapper>

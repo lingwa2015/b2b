@@ -1,0 +1,23 @@
+#set($layout="layout/shopLayout.vm")
+ <div class="purchase">
+        <p style="text-align:center;font-size:.36rem;margin:.4rem 0 .2rem;">$!user.userName</p >
+        <ul style="margin-top: .4rem;">
+            <li style="position: relative;">
+                <a href="${rc.contextPath}/convenient/manage/shop_achievements.htm?interid=$!user.id&type=1&grade=4&grade2=4" style="padding-left: .3rem">业绩报表</a>
+##                <span class="te_tip" style="bottom:0;right: 9%;">本月签约#if($!contractnum)$!contractnum #else 0 #end</span>
+            </li>
+            <li style="position: relative;">
+                <a href="${rc.contextPath}/convenient/manage/shop_deliverylist.htm?interid=$!user.id&type=1" style="padding-left: .3rem">交接单</a>
+##                <span class="te_tip" style="bottom:0;right: 9%;">本月签约#if($!contractnum)$!contractnum #else 0 #end</span>
+            </li>
+           
+            <li style="position: relative;">
+                <a href="${rc.contextPath}/convenient/manage/shop_contractList.htm?interid=$!user.id&type=1" style="padding-left: .3rem">已签约客户</a>
+##                <span class="te_tip" style="bottom:0;right: 9%;">本月激活#if($!newnum)$!newnum #else 0 #end</span>
+            </li>
+        </ul>
+    </div>
+<script type="text/javascript">
+    document.title = "销售工作台";
+    $("body").css("background-color","#ececec")
+</script>

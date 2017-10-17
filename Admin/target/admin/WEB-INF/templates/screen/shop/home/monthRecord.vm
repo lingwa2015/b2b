@@ -1,0 +1,71 @@
+#set($layout="layout/shopLayout.vm")
+<div class="newMonth_content">
+        #if($monthrecords.size()>0)
+	         <ul>
+	        	#foreach($record in $monthrecords)
+	            <li ontouchend="detail('$record.month');">
+	               <p>
+	                   <span>$record.month</span>
+	                   #if($record.id)
+	                   <span></span>
+	                   #else
+	                   #if($record.redPrice>0 and $record.freePrice>0)
+	                   <span style="background: #FF5517;">催款</span>
+	                   #elseif($record.redPrice==0 and $record.freePrice>0)
+	                   <span class="kaikai">开票</span>
+	                   #else
+	                   <span></span>
+	                   #end
+	                   #end
+	                   <span>单位：元</span>
+	               </p>
+	               <div class="newMonth_01">
+	                    <div class="newMonth_02">
+	                        <span>$NumberTool.toYuanNumber($record.sourcing)</span>
+	                        <span>采购</span>
+	                    </div>
+	                    <div class="newMonth_02">
+	                        <span>$NumberTool.toYuanNumber($record.consume)</span>
+	                        <span>消费</span>
+	                    </div>
+	                    <div class="newMonth_02">
+	                        <span>$NumberTool.toYuanNumber($record.totalPrice)</span>
+	                        <span>结算</span>
+	                    </div>
+	                    <div class="newMonth_02">
+	                        <span>$NumberTool.toYuanNumber($record.freePrice)</span>
+	                        <span>待回款</span>
+	                    </div>
+	                    <div class="newMonth_02">
+	                        <span>$NumberTool.toYuanNumber($record.redPrice)</span>
+	                        <span>已开票</span>
+	                    </div>
+	                    <div class="newMonth_02">
+	                        <span>$NumberTool.toYuanNumber($record.actualPrice)</span>
+	                        <span>已回款</span>
+	                    </div>
+	               </div>
+	           </li>
+	            #end
+	         </ul>
+        #else
+        <div class="no_order">无帐单</div>
+		#end
+</div> 
+<script type="text/javascript">
+    document.title = "月账单";
+    $("body").css("background-color","#f5f5f5");
+    var touchmove;
+    $(document).on( "touchstart", function() {
+  touchmove = false;
+    });
+  $(document).on( "touchmove", function() {
+  touchmove = true;
+    });
+    function detail(data){
+    if (touchmove) {
+        return;
+    	}
+      window.location.href = "${rc.contextPath}/convenient/home/shop_monthRecordDetail.htm?shop_id=$shop_id&month="+data;
+    }
+</script>

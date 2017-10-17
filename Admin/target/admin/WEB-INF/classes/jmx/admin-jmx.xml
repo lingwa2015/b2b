@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!--expose jmx configuration -->
+	<bean id="registry" class="org.springframework.remoting.rmi.RmiRegistryFactoryBean">
+		<property name="port" value="${ironman.jmx.registry.port}"></property>
+	</bean>
+	<bean id="assembler" class="com.sxc.common.core.jmx.JmxMBeanInfoAssembler" />
+	<bean id="exporter" class="org.springframework.jmx.export.MBeanExporter"
+		lazy-init="false">
+		<property name="autodetectModeName" value="AUTODETECT_MBEAN" />
+		<property name="namingStrategy" ref="namingStrategy" />
+		<property name="assembler" ref="assembler" />
+		<property name="autodetectMode" value="3" />
+		<!--3:inject automatically, assembler -->
+		<!--2:assembler inject and verify -->
+		<!--1:inject automatically:class,classMBean -->
+	</bean>
+	<bean id="namingStrategy" class="com.sxc.common.core.jmx.DefaultNamingStrategy">
+		<property name="type" value="Crawler"></property>
+		<property name="packageName" value="com.sxc.core"></property>
+	</bean>
+	<!-- test access connector -->
+	<bean id="serverConnector" class="com.sxc.common.core.jmx.ConnectorServerFactoryBean"
+		depends-on="registry">
+		<property name="port" value="${ironman.jmx.registry.port}"></property>
+	</bean>
+	<bean id="server" class="com.sxc.common.core.jmx.MBeanServerFactoryBean" />
+	<bean id="htmlAdaptor" class="com.sun.jdmk.comm.HtmlAdaptorServer"
+		init-method="start">
+		<property name="port" value="${ironman.jmx.html.adaptor.port}"></property>
+	</bean>
+
+</beans>

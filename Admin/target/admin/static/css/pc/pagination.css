@@ -1,0 +1,51 @@
+div.quotes {
+    padding-right: 3px;
+    padding-left: 3px;
+    padding-bottom: 3px;
+    margin: 3px;
+    padding-top: 3px;
+    text-align: center;
+    font-size:12px;
+}
+div.quotes a {
+    border:#ddd 1px solid;
+    padding-right: 8px;
+    padding-left: 8px;
+    color: #aaa;
+    margin-right: 5px;
+    text-decoration: none;
+    font-size: 18px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+div.quotes a:active {
+    border-right: #a0a0a0 1px solid; padding-right: 8px; border-top: #a0a0a0 1px solid; padding-left: 8px; padding-bottom: 1px; border-left: #a0a0a0 1px solid; margin-right: 2px; padding-top: 1px; border-bottom: #a0a0a0 1px solid
+}
+div.quotes span.current {
+    border-right: #e0e0e0 1px solid;
+    padding-right: 8px;
+    border-top: #e0e0e0 1px solid;
+    padding-left: 8px;
+    font-weight: bold;
+    color: #aaa;
+    margin-right: 5px;
+    border-bottom: #e0e0e0 1px solid;
+    background-color: #f0f0f0;
+    font-size: 18px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+div.quotes span.disabled {
+    border-right: #f3f3f3 1px solid;
+    padding-right: 5px;
+    border-top: #f3f3f3 1px solid;
+    padding-left: 5px;
+    padding-bottom: 2px;
+    border-left: #f3f3f3 1px solid;
+    color: #ccc;
+    margin-right: 5px;
+    padding-top: 2px;
+    border-bottom: #f3f3f3 1px solid;
+    font-size: 18px;
+}

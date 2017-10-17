@@ -1,0 +1,151 @@
+<script type="text/javascript" src="${rc.contextPath}/static/js/zone.js" charset="UTF-8"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#paymentTime" ).datepicker();
+	$.metadata.setType("attr", "validate");
+
+ });
+
+var checkSubmitFlag = false;
+function edition() {
+    if(checkSubmitFlag ==true){
+        alert("请勿重复提交");
+        return false;
+    }
+    checkSubmitFlag = true;
+
+    disableBtn('saveBtn');
+
+    var id = $("#supplierId").val();
+    if(!id){
+        alert("请先添加供应商");
+        return false;
+    }
+    var queryDate = $("#queryDate").find("option:selected").attr("value");
+    if(queryDate == '0') {
+        alert("请选择年月");
+        return false;
+    }
+    var applicantId = $("#applicantId").find("option:selected").attr("value");
+    if(applicantId == '') {
+        alert("请选择申请人");
+        return false;
+    }
+
+    var accountName = $("#accountName").val();
+    var account = $("#account").val();
+    var bankName = $("#bankName").val();
+    if(accountName == '' || account == '' || bankName == '') {
+        alert("请先完善供应商信息");
+        return false;
+    }
+
+    submitJqueryFormData('payment','${rc.contextPath}/paymentApply/paymentApplyAdd.do',function(data){
+        checkSubmitFlag = false;
+        if(data == '添加成功'){
+            var menuHeight =$('#menuHeight').val();
+            var menuName = $('#menuName').val();
+            window.location.href="${rc.contextPath}/payment/paymentDetails.htm?supplierId="+id+"&menuHeight="+menuHeight+"&menuName="+menuName;
+        }else{
+            disableBtn('saveBtn');
+            alert(data);
+        }
+    });
+}
+
+function formatMoney(num) {
+    var money = num/100;
+    var float = num%100;
+    if(float == 0){
+        money = money + ".00";
+    }
+    return money;
+}
+
+function changePrice() {
+    var oldpaymentPrice = $('#oldpaymentPrice').val();
+    var paymentPrice = $('#paymentPrice').val();
+    $('#notpaymentPrice').val(oldpaymentPrice - paymentPrice)
+
+}
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/payment/paymentDetails.htm?supplierId=$dto.supplierId&menuHeight=$!menuHeight&menuName=$!menuName" title="返回付款列表" class="btn btn-return"><</a>
+		<h4 class="tit">
+            编辑付款信息
+		</h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+        <form class="jqtransform" id="payment" method="POST" action="$!{rc.contextPath}/paymentApply/paymentApplyAdd.do">
+        <input type="hidden" name="currentPage" id="currentPage" value="$!currentPage"></input>
+        <input type="hidden" name="menuHeight" id="menuHeight" value="$!menuHeight" />
+        <input type="hidden" name="menuName" id="menuName" value="$!menuName" />
+	<table class="form">
+        <tr>
+            <td align="right"><label class="tit">供应商：</label></td>
+            <td><input class="form-input" type="text" name="supplierName" id="supplierName" readonly="readonly"  validate="{required:true}" value="$dto.supplier"><label class="titval" name="" id="supplierName"></label></td>
+            <input type="hidden" name="supplierId" id="supplierId" value="$dto.supplierId">
+        </tr>
+        <tr>
+            <td><label class="tit first-tit"><font color='red'>*</font>付款时间：</label></td>
+            <td>
+                <input class="form-input input-time-day" validate="{maxlength:32}" type="text" name="paymentTime" id="paymentTime" readonly="readonly" value="$!date.format('yyyy-MM-dd',$!paymentTime)">
+            </td>
+        </tr>
+
+        <tr>
+            <td align="right" style="vertical-align:middle;"><label class="tit first-tit">年月：</label></td>
+            <td>
+                <input class="form-input input-time-day" validate="{maxlength:32}" type="text" name="queryDate" id="queryDate" readonly="readonly" value="$!date.format('yyyy-MM',$!dto.sumdate)">
+            </td>
+        </tr>
+        <tr>
+            <td align="right"><label class="tit"><font color='red'>*</font>付款金额：</label></td>
+            <td><input class="form-input" type="text" name="paymentPrice" id="paymentPrice" value="$NumberTool.toYuanNumber($!dto.paymentPrice)" validate="{required:true,number:true}" onchange="changePrice()"></td>
+            <input type="hidden" name="oldpaymentPrice" id="oldpaymentPrice" value="$NumberTool.toYuanNumber($!dto.paymentPrice)">
+        </tr>
+        <tr>
+            <td align="right"><label class="tit">未付款金额：</label></td>
+            <td><input class="form-input" type="text" name="notpaymentPrice" id="notpaymentPrice" readonly="readonly"  value="$NumberTool.toYuanNumber($!dto.notpaymentPrice)" validate="{required:true,number:true}" ></td>
+        </tr>
+        <tr>
+            <td><label class="tit first-tit"><font color='red'>*</font>申请人：</label></td>
+            <td>
+                <select name="applicantId" id="applicantId" validate="{required:true}">
+                    <option value ="" ></option>
+                    #foreach($app in $applicantList)
+                        <option value="$app.id">$app.userName</option>
+                    #end
+                </select>
+                &nbsp;<span></span></td>
+        </tr>
+        <tr>
+            <td align="right"><label class="tit">收款单位全称：</label></td>
+            <td><input class="form-input" name="accountName" readonly="readonly" id="accountName" value="$!supplier.accountName"></input></td>
+        </tr>
+        <tr>
+            <td align="right"><label class="tit">账号：</label></td>
+            <td><input class="form-input" name="account" readonly="readonly" id="account" value="$!supplier.account"></input></td>
+        </tr>
+        <tr>
+            <td align="right"><label class="tit">开户银行：</label></td>
+            <td><input class="form-input" name="bankName" readonly="readonly" id="bankName" value="$!supplier.bankName"></input></td>
+        </tr>
+        <tr>
+            <td align="right"><label class="tit">备注：</label></td>
+            <td><textarea id="remake" class="remake" name="remake" cols="60" rows="6"></textarea></td>
+        </tr>
+		<tr class="btn-bar">
+			<td></td>
+##			<td><input class="btn btn-success" type="submit" value="提交" /></td>
+##			<td><input class="btn btn-success" type="submit" readonly="readonly" onclick="edition()" value="提交付款申请单" />
+            <td><button class="btn btn-primary" id="saveBtn" href="#" onclick="edition();">提交付款申请单</button></td>
+##            <input class="btn btn-success" type="submit" readonly="readonly" onclick="print()" value="打印付款申请单" /></td>
+		</tr>
+	</table>
+	</form>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

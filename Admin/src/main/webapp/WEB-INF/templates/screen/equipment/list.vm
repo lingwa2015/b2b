@@ -1,0 +1,69 @@
+<script type="text/javascript">
+function editData(id){
+  window.location.href="${rc.contextPath}/equipment/update.htm?id="+id;
+}
+
+function addXing(id){
+  window.location.href="${rc.contextPath}/equipment/typeAdd.htm?id="+id;
+}
+
+function deleteData(id){
+	if(confirm("确定要删除吗？")){
+  var url="${rc.contextPath}/equipment/delete.do?id="+id;
+  doDeleteRequest(url,id,show);
+	}
+}
+
+function show(data){
+    alert(data);
+	if(data.indexOf("成功")!=-1){
+		 window.location.href="${rc.contextPath}/equipment/equipmentList.htm";
+	}
+}
+</script>
+<div class="content">
+		<div class="bd-actionbar">
+			<a href="${rc.contextPath}/equipment/add.htm" class="btn btn-success"><i class="ico"></i>添加设备类别</a>
+		</div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/equipment/equipmentList.htm" method="POST">
+		</form>
+		<table class="table">
+		  <tr>
+			<th>设备类别</td>
+			<th>型号</td>
+			<th>备注</td>
+			<th>操作</td>
+			<th>添加型号</td>
+		  </tr>
+		  
+		  #set ($rowCount = 0)
+		  #foreach($bean in $page.result)
+			  #set ($isOddRow = $rowCount % 2 != 0)
+			  #if ($isOddRow)
+	           <tr>
+	          #else
+	           <tr class="sep-bar">
+	          #end
+				<td>$!bean.parentName</td>
+				<td>$!bean.leaveName</td>
+				<td>$!bean.remark</td>
+				<td class="opt"><a href="javascript:editData('$bean.id')">编辑</a>&nbsp;|&nbsp;<a href="javascript:deleteData('$bean.id')">删除</a></td>
+				#if($!bean.leaveName!="")
+				<td class="opt"></td>
+				#else
+				<td class="opt"><a href="javascript:addXing('$bean.id')">添加型号</a></td>
+				#end
+			  </tr>
+			  
+			  #set ($rowCount = $rowCount + 1)
+		  #end
+		 
+		</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

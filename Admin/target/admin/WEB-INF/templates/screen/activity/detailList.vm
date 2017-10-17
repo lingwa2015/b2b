@@ -1,0 +1,40 @@
+<div class="content">
+		<div class="bd-actionbar">
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/newCustomerActivity/preferentialList.htm" method="post">
+			</form>
+			$!itemName
+			<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+		        <tr class="info">
+					<td colspan="1">
+						 <span>消费笔数：$!dto.consumeNum &nbsp;&nbsp; 在架数量：$!totalNum &nbsp;&nbsp; 消费笔数：$!dto.manNum &nbsp;&nbsp; 消费笔数：$!dto.penNum &nbsp;&nbsp; 优惠金额：$NumberTool.toYuanNumber($!dto.yhfee) 元</span>
+		            </td>
+				</tr>
+			</table>
+			<table class="table">
+			  <tr>
+				<th>活动时间</th>
+				<th>消费数量</th>
+				<th>消费金额</th>
+				<th>消费人数</th>
+				<th>消费笔数</th>
+				<th>周转率</th>
+				<th>优惠金额</th>
+			  </tr>
+			  #foreach($bean in $lists)
+		        <tr>
+					<td>$!date.format('yyyy-MM-dd',$bean.createdTime)</td>
+					<td>$bean.consumeNum</td>
+					<td>$NumberTool.toYuanNumber($!bean.consumefee)</td>
+					<td>$bean.manNum</td>
+					<td>$bean.penNum</td>
+					<td>$bean.discount</td>
+					<td>$NumberTool.toYuanNumber($!bean.yhfee)</td>
+				</tr>
+			  #end
+			</table>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

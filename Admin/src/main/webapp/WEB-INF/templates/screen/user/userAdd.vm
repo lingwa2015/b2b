@@ -1,0 +1,300 @@
+<script type="text/javascript">
+var phoneflag=false;
+$(document).ready(function() {
+
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+        			form.submit();
+        		
+        }
+	});
+
+	$('#mobilePhone').blur(function(){
+		checkPhone();
+	});
+
+ });
+
+function checkPhone(){
+	var mobilePhone = $("#mobilePhone").val().trim();
+
+	var url = "${rc.contextPath}/user/checkPhoneNum.json";
+
+	if(mobilePhone!=""){
+		doJsonRequest(url, {"mobilePhone" : mobilePhone}, showResult);
+	}
+
+}
+
+function showResult(data) {
+
+	if(data=="error"){
+		phoneflag=false;
+		$("#mobilePhoneResult").addClass("errorClass");
+		$("#mobilePhoneResult").html("该手机号已注册");
+	}
+	else{
+		phoneflag=true;
+		$("#mobilePhoneResult").html("");
+	}
+
+}
+
+
+function save(){
+	disableBtn('saveBtn');
+
+	var url="${rc.contextPath}/user/userSave.do";
+  	submitFormData("form1",url,show);
+}
+
+function show(data){
+
+	if(data.indexOf("成功")!=-1){
+		alert(data);
+		cancel();
+	}
+	else{
+		alert(data);
+		enableBtn('saveBtn');
+	}
+}
+
+function cancel(){
+  	window.location.href="${rc.contextPath}/user/userList.htm";
+}
+
+function checkNum(obj) {
+    //检查是否是非数字值
+    if (isNaN(obj.value)) {
+        obj.value = "";
+    }
+    if (obj != null) {
+        //检查小数点后是否对于两位http://blog.csdn.net/shanzhizi
+        if (obj.value.toString().split(".").length > 1 && obj.value.toString().split(".")[1].length > 2) {
+            alert("小数点后多于两位！");
+            obj.value = "";
+        }
+    }
+}
+/*
+ * 判断图片类型
+ *
+ * @param ths
+ *          type="file"的javascript对象
+ * @return true-符合要求,false-不符合
+ */
+function checkImgType(ths){
+    if (ths.value == "") {
+        alert("请上传图片");
+        return false;
+    } else {
+        if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(ths.value)) {
+            alert("图片类型必须是.gif,jpeg,jpg,png中的一种");
+            ths.value = "";
+            return false;
+        }
+    }
+    return true;
+}
+
+function checkImgSize(target) {
+    var fileSize = 0;
+    var isIE = /msie/i.test(navigator.userAgent) && !window.opera;
+    if (isIE && !target.files) {
+          var filePath = target.value;
+          var fileSystem = new ActiveXObject("Scripting.FileSystemObject");
+
+          if(!fileSystem.FileExists(filePath)){
+             alert("请选择上传图片！");
+             return false;
+          }
+          var file = fileSystem.GetFile (filePath);
+          fileSize = file.Size;
+    } else {
+          fileSize = target.files[0].size;
+    }
+
+    var size = fileSize / 1024;
+    if(size>1000){
+         alert("图片大小不能大于1M！");
+         return false;
+    }
+    if(size<=0){
+        alert("图片大小不能为0M！");
+        return false;
+    }
+
+    return true;
+}
+
+/*
+ * 判断图片大小
+ *
+ * @param ths
+ *          type="file"的javascript对象
+ * @param width
+ *          需要符合的宽
+ * @param height
+ *          需要符合的高
+ * @return true-符合要求,false-不符合
+ */
+function checkImgPX(ths, width, height) {
+    var img = null;
+    img = document.createElement("img");
+    document.body.insertAdjacentElement("beforeEnd", img); // firefox不行
+    img.style.visibility = "hidden";
+    img.src = ths.value;
+    var imgwidth = img.offsetWidth;
+    var imgheight = img.offsetHeight;
+
+    alert(imgwidth + "," + imgheight);
+
+    if(imgwidth != width || imgheight != height) {
+        alert("图的尺寸应该是" + width + "x"+ height);
+        ths.value = "";
+        return false;
+    }
+    return true;
+}
+
+function setImagePreview(docId,previewId) {
+    var docObj=document.getElementById(docId);
+    var result = checkImgType(docObj);
+    if(!result){
+       return;
+    }
+
+    result = checkImgSize(docObj);
+    if(!result){
+       return;
+    }
+
+    var imgObjPreview=document.getElementById(previewId);
+    if(docObj.files && docObj.files[0]){
+        //火狐下，直接设img属性
+        imgObjPreview.style.display = 'block';
+        imgObjPreview.style.width = '256px';
+        imgObjPreview.style.height = '256px';
+        //imgObjPreview.src = docObj.files[0].getAsDataURL();
+
+        //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
+        imgObjPreview.src = window.URL.createObjectURL(docObj.files[0]);
+    }else{
+        //IE下，使用滤镜
+        docObj.select();
+        var imgSrc = document.selection.createRange().text;
+        var localImagId = document.getElementById("localImag");
+        //必须设置初始大小
+        localImagId.style.width = "256px";
+        localImagId.style.height = "256px";
+        //图片异常的捕捉，防止用户修改后缀来伪造图片
+        try{
+            localImagId.style.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+            localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;
+        }catch(e){
+            alert("您上传的图片格式不正确，请重新选择!");
+            return false;
+        }
+        imgObjPreview.style.display = 'none';
+        document.selection.empty();
+    }
+    return true;
+}
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/user/userlist.htm" title="返回用户列表" class="btn btn-return"><</a>
+		<h4 class="tit">添加用户</h4>
+	</div><!--bd-actionbar-->
+
+	<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" name="userForm" id="form1" action="${rc.contextPath}/user/userSave.do" enctype="multipart/form-data" method="post">
+				<table class="form">
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>用户简称：</label></td>
+						<td>
+							<input validate="{required:true,maxlength:255}" class="form-input" type="text" name="userName" id="userName" />
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>手机号码：</label></td>
+						<td>
+							<input validate="{required:true,maxlength:255}" class="form-input" type="text" name="mobilePhone" id="mobilePhone" />
+							&nbsp;<span id="mobilePhoneResult"></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">微信号：</label></td>
+						<td>
+							<input  class="form-input" type="text" name="weixinnum" id="weixinnum" value=""/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><lable class="tit">头像：</label></td>
+						<td><input class="form-input" type="file" name="myfile" id="file" value=""  onchange="setImagePreview('file','preview')">
+						&nbsp;<span></span></td>
+					</tr>
+					<tr>
+						<td align="right"><lable class="tit">头像预览：</label></td>
+						<td>
+							<img id="preview" alt="预览头像" width="256" height="256" src=""/>
+						</td>
+					</tr>
+					<!--<tr>
+						<td align="right"><label class="tit">岗位：</label></td>
+						<td><select name="post">
+							  <option value ="" >--请选择--</option>
+							  <option value ="客服">客服</option>
+							  <option value ="仓管">仓管</option>
+							  <option value ="配送">配送</option>
+							   <option value ="运营">运营</option>
+							    <option value ="客户经理">客户经理</option>
+							     <option value ="销售">销售</option>
+							      <option value ="采购">采购</option>
+							</select>
+						&nbsp;<span></span></td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">网格：</label></td>
+						<td>
+						<select name="reseauId" >
+						    <option value="">--请选择--</option>
+						    #foreach($reseau in $reseaus)
+					            <option value="$reseau.id">$reseau.name</option>
+							#end
+						 </select>
+						 &nbsp;<span></span>
+						</td>
+					</tr>-->
+					<tr>
+						<td align="right">
+							<label class="tit">备注：</label>
+						</td>
+						<td>
+						    <textarea id="companyMemo" name="companyMemo" cols="50" rows="5" ></textarea>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr class="btn-bar">
+						<td></td>
+						<td><input class="btn btn-success" type="submit" value="提交" /></td>
+					</tr>
+				</table>
+			</form>
+		</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

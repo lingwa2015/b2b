@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn"
+        android:background="@color/blue">
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="80dip"
+            android:layout_height="80dip"
+            android:src="@drawable/apple"
+            />
+        </FrameLayout>
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        android:text="下单"/>
+</RelativeLayout>

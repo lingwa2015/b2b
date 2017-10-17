@@ -1,0 +1,279 @@
+<script type="text/javascript">
+$(document).ready(function() {
+	$( "#time" ).datepicker();
+
+ });
+
+   function remark(obj,id){
+   		 var opt = obj.document.textContent;
+   		 console.log(obj.val());
+   		 alert(obj.val());
+   		  $.ajax({
+				url:'${rc.contextPath}/purchaseItemPlan/change.do',
+				type:'POST',
+				data: {orderNo:id,name:opt.value,flag:1},
+				success:function(data){
+					if(data=200){
+					
+					}else{
+						alert("修改失败");
+					}
+				}
+				
+			})
+   }
+
+	function changeNum(v){
+		var itemId = $('.'+"itemId"+v).val();
+		var itemName = $('.'+"itemName"+v).val();
+		var categoryName = $('.'+"categoryName"+v).val();
+		var categoryId = $('.'+"categoryId"+v).val();
+		var size = $('.'+"size"+v).val();
+		var newConvertNum = $('.'+"convertNum"+v).val();
+		var costPrice = $('.'+"costPrice"+v).val();
+		var stockNum = $('.'+"stockNum"+v).val();
+		var useNum = $('.'+"useNum"+v).val();
+		var itemWeight = $('.'+"itemWeight"+v).val();
+		var itemRemark = $('.'+"remark"+v).val();
+		var shelfLife = $('.'+"shelfLife"+v).val();
+		var purchaseNum = $('.'+"purchaseNum"+v).val();
+        var supplier = $('.'+"supplier"+v).find("option:selected");
+        var supplierId = supplier.val();
+        var supplierName = supplier.html();
+        var barcode = $('.'+"barcode"+v).val();
+
+		var res =  /^(0|[1-9]\d*)$/;
+        if(""==supplierId){
+            return;
+        }
+
+		if(""!=purchaseNum){
+			if(res.test(purchaseNum)){
+				$.ajax({
+					type: "POST",
+					url: "${rc.contextPath}/purchaseItemPlan/add.do",
+					data: {itemId:itemId, itemName:itemName,newConvertNum:newConvertNum,
+                        categoryId:categoryId,categoryName:categoryName,size:size,costPrice:costPrice,stockNum:stockNum,
+                        useNum:useNum,itemWeight:itemWeight,itemRemark:itemRemark,shelfLife:shelfLife,purchaseNum:purchaseNum,
+                        supplierId:supplierId,supplierName:supplierName,barcode:barcode},
+					success: function(data){
+						if(200==data){
+							//$("."+count).parent().prev().html(parseInt(newnum));
+							//$("."+count).val("")
+						}else{
+							alert("添加失败");
+						}
+					}
+				});
+			}else{
+				$(".purchaseNum"+count).val("");
+				alert("必须输入非负整数");
+			}
+		} else {
+	//	 	return false;
+			$.ajax({
+				type: "POST",
+				url: "${rc.contextPath}/purchaseItemPlan/add.do",
+				data: {itemId:itemId, itemName:itemName,newConvertNum:newConvertNum,
+                    categoryId:categoryId,categoryName:categoryName,size:size,costPrice:costPrice,stockNum:stockNum,
+                    useNum:useNum,itemWeight:itemWeight,itemRemark:itemRemark,shelfLife:shelfLife,purchaseNum:-1,
+                    supplierId:supplierId,supplierName:supplierName,barcode:barcode},
+				dataType: "json",
+				success: function(data){
+					if(200==data){
+						//$("."+count).parent().prev().html(parseInt(newnum));
+						//$("."+count).val("")
+					}else{
+						alert("添加失败");
+					}
+				}
+			});
+		}
+
+	}
+
+	function insertPurchase(){
+		var time = $('#time').val();
+        if(""!=time) {
+
+            $.ajax({
+                type: "POST",
+                url: "${rc.contextPath}/purchaseItemPlan/insertPurchase.do",
+                data: {
+                    time: time
+                },
+                success: function (data) {
+                    if (201 == data) {
+                        alert("生产采购订单失败");
+                    } else if (202 == data) {
+                        alert("请输入需要采购的内容");
+					} else {
+                        alert("生产采购订单成功");
+                        window.location.href = "${rc.contextPath}/purchaseList/purchaseList.htm";
+					}
+                }
+            });
+        } else {
+            alert("日期未选择");
+		}
+	}
+
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+        <a href="${rc.contextPath}/purchaseList/purchaseList.htm" title="返回采购订单列表" class="btn btn-return"><</a>
+        <h4 class="tit">采购计划</h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" id="orderListForm" action="${rc.contextPath}/purchaseItemPlan/purchaseItemList.htm" method="POST">
+		<table class="form form-horizontal">
+            <tr>
+                <td><label class="tit  first-tit">架上架下筛选：</label></td>
+                <td>
+                    <select name="isDown" id="isDown">
+                        <option value="">全部</option>
+                        <option value="0" #if($isDown==0)selected="selected"#end>架上</option>
+                        <option value="1" #if($isDown==1)selected="selected"#end>架下</option>
+                    </select>
+                </td>
+
+			</tr>
+			<tr>
+                <td style="tit  first-tit"><label class="tit">类目：</label></td>
+				<td>
+					<select name="onecate" id="onecate">
+						<option value="0">全部</option>
+						#foreach($cat in $catList)
+							#if ($!onecate == $cat.id)
+								<option value="$cat.id" selected="selected">$cat.categoryName</option>
+							#else
+								<option value="$cat.id">$cat.categoryName</option>
+							#end
+						#end
+					</select>
+				</td>
+			</tr>
+            <tr>
+                <td style="tit  first-tit"><label class="tit">分级：</label></td>
+                <td>
+                    <select name="grade">
+                        <option value ="" >全部</option>
+                        <option value ="KA" #if($!grade=='KA')selected="selected"#end>KA</option>
+                        <option value ="A" #if($!grade=='A')selected="selected"#end>A</option>
+                        <option value ="B" #if($!grade=='B')selected="selected"#end>B</option>
+                        <option value ="C" #if($!grade=='C')selected="selected"#end>C</option>
+                    </select>
+                </td>
+                <td><label class="tit">新客户数：</label></td>
+                <td><input class="form-input" type="number" name="newUserNum" id="newUserNum" value="$!newUserNum">
+                    &nbsp;<span></span></td>
+			<tr>
+				<td width="10%"><label class="tit">商品名称：</label></td>
+				<td width="10%"><input name="itemName" id="itemName" class="form-input" type="text" value="$!itemName"></td>
+				<td>
+					<a class="btn btn-warning btn-sm" onclick="javascript:$(orderListForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+				</td>
+			</tr>
+			<tr>
+                <td><label class="tit first-tit">日期：</label></td>
+                <td>
+                    <input class="form-input input-time-day" type="text" name="time" id="time" readonly="readonly" value="$!time">
+                </td>
+                <td>
+                    <a class="btn btn-warning btn-sm" onclick="javascript:insertPurchase();">生成采购订单</a>
+##                    <a href="$!{rc.contextPath}/order/orderlist.htm" title="返回订单列表" class="btn btn-return"><</a>
+                </td>
+			</tr>
+	</table>
+	</form>
+	<table class="table">
+		<tr>
+			<th>商品名称</th>
+			<th>分级</th>
+			<th>属性</th>
+			<th>类目</th>
+			<th>规格</th>
+			<th>批发规格系数</th>
+			<th>批发成本价</th>
+			<th>库存量</th>
+			<th>在途量</th>
+			<th>评分</th>
+			<th>保质期</th>
+			<th>备注</th>
+			<th>上一周量</th>
+			<th>采购建议量</th>
+			<th>采购数量</th>
+			<th>供应商</th>
+		</tr>
+		#set ($Count = 0)
+		#foreach($dto in $page.result)
+		<tr>
+			<td>$!dto.itemName</td>
+			<td>$!dto.grade</td>
+            <input class="itemId$Count" value="$!dto.itemId" style="display:none;"/>
+            <input class="itemName$Count" value="$!dto.itemName" style="display:none;"/>
+            <input class="barcode$Count" value="$!dto.barcode" style="display:none;"/>
+            <td>#if($!dto.isfree==0)便利店
+            #else 福利店
+			#end</td>
+			<td>$!dto.categoryName</td>
+            <input class="categoryId$Count" value="$!dto.categoryId" style="display:none;"/>
+            <input class="categoryName$Count" value="$!dto.categoryName" style="display:none;"/>
+            <td>$!dto.size</td>
+            <input class="size$Count" value="$!dto.size" style="display:none;"/>
+            <td>$!dto.convertNum</td>
+            <input class="convertNum$Count" value="$!dto.convertNum" style="display:none;"/>
+            <td>$NumberTool.toYuanNumber($!dto.costPrice)</td>
+            <input class="costPrice$Count" value="$!dto.costPrice" style="display:none;"/>
+            <td>$!dto.stockNum</td>
+            <input class="stockNum$Count" value="$!dto.stockNum" style="display:none;"/>
+            <td>$!dto.useNum</td>
+            <input class="useNum$Count" value="$!dto.useNum" style="display:none;"/>
+            <td>$!dto.itemWeight</td>
+            <input class="itemWeight$Count" value="$!dto.itemWeight" style="display:none;"/>
+            <td>#if($!dto.shelfLife)$!dto.shelfLife天#end</td>
+            <input class="shelfLife$Count" value="$!dto.shelfLife" style="display:none;"/>
+            <td>
+##            	<textarea id="remark$Count" cols="30" rows="2"  value="$!dto.itemRemark" onchange="remark(this,$Count)"></textarea>
+            	<textarea id="remark$Count" class="remark$Count" cols="25" rows="2"  value="$!dto.itemRemark">$!dto.itemRemark</textarea>
+			</td>
+            <td>$!dto.weekvolume</td>
+			#if($!dto.weekVolumePlan>0)
+                <td style="color: red;">$!dto.weekVolumePlan</td>
+			#else
+				<td>$!dto.weekVolumePlan</td>
+			#end
+			<td>
+                <input class="purchaseNum$Count" id="purchaseNum$Count" style="width:60px;"  value="$!dto.purchaseNum"
+					   validate="{required:true,number:true}" onblur="changeNum($Count);"/>
+			</td>
+			<td>
+				<select id="supplier$Count" class="supplier$Count" style="width:60px;" onblur="changeNum($Count);">
+##				<select id="cat$Count" onchange="fenjian(this,'$Count')">
+				  <option value ="" ></option>
+					#foreach($supplier in $dto.suppliers)
+						#if ($supplier.id == $dto.supplierId)
+							<option value="$supplier.id" selected="selected">$!supplier.supplierName</option>
+						#else
+							<option value="$supplier.id">$!supplier.supplierName</option>
+						#end
+					#end
+				</select>
+			</td>
+		</tr>
+		#set ($Count = $Count + 1)
+		#end
+	</table>
+	
+	<div class="text-center">
+			#parse("/common/page.vm")
+	</div>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+
+
+
+

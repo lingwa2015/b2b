@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/home_42">
+
+        <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/orderdetail_15"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/item_image"
+            android:layout_alignTop="@id/item_image"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/item_image"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="苹果 一级品 一箱10公斤装"
+                android:textColor="@color/black"
+                android:textSize="16dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/price_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:visibility="invisible"
+                            android:id="@+id/item_price_old"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="￥15000.00"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/item_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:textColor="@color/black"
+                            android:text="￥15000.00"
+                            android:textSize="14dp"/>
+
+                        <ImageView
+                            android:visibility="invisible"
+                            android:id="@+id/show_price_explain_img"
+                            android:layout_width="40dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/shoppingcart_05"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <!-- 加 减 控件-->
+                <LinearLayout
+                    android:id="@+id/num_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/price_layout"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/reduce_number"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/reduce_number_basket_selector"/>
+
+                    <TextView
+                        android:id="@+id/product_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="0dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="10"
+                        android:textSize="14dp"/>
+
+                    <ImageButton
+                        android:id="@+id/add_number"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical|right"
+                        android:background="@drawable/add_number_basket_selector"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/sellout_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:background="@color/gray_dark_alpha"
+            >
+            <ImageView
+                android:layout_width="80dip"
+                android:layout_height="80dip"
+                android:src="@drawable/sellout_img"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dip"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="3dp"
+        android:background="@color/devide_line"/>
+</LinearLayout>

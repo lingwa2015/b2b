@@ -1,0 +1,5 @@
+#set($layout="layout/shopLayout.vm")
+  <div class="add_content">
+  	</br>
+  	<span>请使用$!sign</span>
+  </div>

@@ -1,0 +1,10 @@
+#set($layout="layout/wxLayout.vm")
+<div class="success">
+    <span class="su">支付成功！</span>
+    <span class="zi">我们会尽快安排工作人员为您配送！ </span>
+    <span class="li">如有疑问您可以拨打客服热线或微信联系我们 </span>
+</div>
+<a href="${rc.contextPath}/wxuserOrder/wxlist.htm" class="ding" >查看订单</a>
+   <script type="text/javascript">
+document.title = "领蛙商城";
+</script>

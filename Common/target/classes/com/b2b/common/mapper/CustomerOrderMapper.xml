@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.CustomerOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.CustomerOrder" >
+    <id column="customerorder_id" property="customerorderId" jdbcType="INTEGER" />
+    <result column="standardorder_id" property="standardorderId" jdbcType="INTEGER" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="business_id" property="businessId" jdbcType="INTEGER" />
+    <result column="total_num" property="totalNum" jdbcType="INTEGER" />
+    <result column="total_fee" property="totalFee" jdbcType="BIGINT" />
+    <result column="total_cost" property="totalCost" jdbcType="BIGINT" />
+    <result column="executed_time" property="executedTime" jdbcType="TIMESTAMP" />
+    <result column="customer_address" property="customerAddress" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="discount" property="discount" jdbcType="DECIMAL" />
+    <result column="week" property="week" jdbcType="INTEGER" />
+    <result column="customer_status" property="customerStatus" jdbcType="INTEGER" />
+    <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="created_userid" property="createdUserid" jdbcType="INTEGER" />
+    <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
+    <result column="updated_userid" property="updatedUserid" jdbcType="INTEGER" />
+    <result column="snackPackageNum" property="snackpackagenum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    customerorder_id, standardorder_id, customer_id, business_id, total_num, total_fee, 
+    total_cost, executed_time, customer_address, remark, discount, week, customer_status, 
+    warehouse_id, status, created_time, created_userid, updated_time, updated_userid, 
+    snackPackageNum
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.CustomerOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from customer_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer_order
+    where customerorder_id = #{customerorderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from customer_order
+    where customerorder_id = #{customerorderId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.CustomerOrderExample" >
+    delete from customer_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.CustomerOrder" >
+    <selectKey resultType="java.lang.Integer" keyProperty="customerorderId" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into customer_order (customerorder_id, standardorder_id, 
+      customer_id, business_id, total_num, 
+      total_fee, total_cost, executed_time, 
+      customer_address, remark, discount, 
+      week, customer_status, warehouse_id, 
+      status, created_time, created_userid, 
+      updated_time, updated_userid, snackPackageNum
+      )
+    values (#{customerorderId,jdbcType=INTEGER}, #{standardorderId,jdbcType=INTEGER}, 
+      #{customerId,jdbcType=INTEGER}, #{businessId,jdbcType=INTEGER}, #{totalNum,jdbcType=INTEGER}, 
+      #{totalFee,jdbcType=BIGINT}, #{totalCost,jdbcType=BIGINT}, #{executedTime,jdbcType=TIMESTAMP}, 
+      #{customerAddress,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{discount,jdbcType=DECIMAL}, 
+      #{week,jdbcType=INTEGER}, #{customerStatus,jdbcType=INTEGER}, #{warehouseId,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, #{createdUserid,jdbcType=INTEGER}, 
+      #{updatedTime,jdbcType=TIMESTAMP}, #{updatedUserid,jdbcType=INTEGER}, #{snackpackagenum,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.CustomerOrder" >
+    insert into customer_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="customerorderId != null" >
+        customerorder_id,
+      </if>
+      <if test="standardorderId != null" >
+        standardorder_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="businessId != null" >
+        business_id,
+      </if>
+      <if test="totalNum != null" >
+        total_num,
+      </if>
+      <if test="totalFee != null" >
+        total_fee,
+      </if>
+      <if test="totalCost != null" >
+        total_cost,
+      </if>
+      <if test="executedTime != null" >
+        executed_time,
+      </if>
+      <if test="customerAddress != null" >
+        customer_address,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="week != null" >
+        week,
+      </if>
+      <if test="customerStatus != null" >
+        customer_status,
+      </if>
+      <if test="warehouseId != null" >
+        warehouse_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="createdUserid != null" >
+        created_userid,
+      </if>
+      <if test="updatedTime != null" >
+        updated_time,
+      </if>
+      <if test="updatedUserid != null" >
+        updated_userid,
+      </if>
+      <if test="snackpackagenum != null" >
+        snackPackageNum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="customerorderId != null" >
+        #{customerorderId,jdbcType=INTEGER},
+      </if>
+      <if test="standardorderId != null" >
+        #{standardorderId,jdbcType=INTEGER},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="businessId != null" >
+        #{businessId,jdbcType=INTEGER},
+      </if>
+      <if test="totalNum != null" >
+        #{totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalFee != null" >
+        #{totalFee,jdbcType=BIGINT},
+      </if>
+      <if test="totalCost != null" >
+        #{totalCost,jdbcType=BIGINT},
+      </if>
+      <if test="executedTime != null" >
+        #{executedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerAddress != null" >
+        #{customerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="week != null" >
+        #{week,jdbcType=INTEGER},
+      </if>
+      <if test="customerStatus != null" >
+        #{customerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseId != null" >
+        #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserid != null" >
+        #{createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="updatedTime != null" >
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUserid != null" >
+        #{updatedUserid,jdbcType=INTEGER},
+      </if>
+      <if test="snackpackagenum != null" >
+        #{snackpackagenum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.CustomerOrderExample" resultType="java.lang.Integer" >
+    select count(*) from customer_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update customer_order
+    <set >
+      <if test="record.customerorderId != null" >
+        customerorder_id = #{record.customerorderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.standardorderId != null" >
+        standardorder_id = #{record.standardorderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerId != null" >
+        customer_id = #{record.customerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.businessId != null" >
+        business_id = #{record.businessId,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalNum != null" >
+        total_num = #{record.totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalFee != null" >
+        total_fee = #{record.totalFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.totalCost != null" >
+        total_cost = #{record.totalCost,jdbcType=BIGINT},
+      </if>
+      <if test="record.executedTime != null" >
+        executed_time = #{record.executedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.customerAddress != null" >
+        customer_address = #{record.customerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.discount != null" >
+        discount = #{record.discount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.week != null" >
+        week = #{record.week,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerStatus != null" >
+        customer_status = #{record.customerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.warehouseId != null" >
+        warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUserid != null" >
+        created_userid = #{record.createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatedTime != null" >
+        updated_time = #{record.updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedUserid != null" >
+        updated_userid = #{record.updatedUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.snackpackagenum != null" >
+        snackPackageNum = #{record.snackpackagenum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update customer_order
+    set customerorder_id = #{record.customerorderId,jdbcType=INTEGER},
+      standardorder_id = #{record.standardorderId,jdbcType=INTEGER},
+      customer_id = #{record.customerId,jdbcType=INTEGER},
+      business_id = #{record.businessId,jdbcType=INTEGER},
+      total_num = #{record.totalNum,jdbcType=INTEGER},
+      total_fee = #{record.totalFee,jdbcType=BIGINT},
+      total_cost = #{record.totalCost,jdbcType=BIGINT},
+      executed_time = #{record.executedTime,jdbcType=TIMESTAMP},
+      customer_address = #{record.customerAddress,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      discount = #{record.discount,jdbcType=DECIMAL},
+      week = #{record.week,jdbcType=INTEGER},
+      customer_status = #{record.customerStatus,jdbcType=INTEGER},
+      warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      created_userid = #{record.createdUserid,jdbcType=INTEGER},
+      updated_time = #{record.updatedTime,jdbcType=TIMESTAMP},
+      updated_userid = #{record.updatedUserid,jdbcType=INTEGER},
+      snackPackageNum = #{record.snackpackagenum,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.CustomerOrder" >
+    update customer_order
+    <set >
+      <if test="standardorderId != null" >
+        standardorder_id = #{standardorderId,jdbcType=INTEGER},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="businessId != null" >
+        business_id = #{businessId,jdbcType=INTEGER},
+      </if>
+      <if test="totalNum != null" >
+        total_num = #{totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalFee != null" >
+        total_fee = #{totalFee,jdbcType=BIGINT},
+      </if>
+      <if test="totalCost != null" >
+        total_cost = #{totalCost,jdbcType=BIGINT},
+      </if>
+      <if test="executedTime != null" >
+        executed_time = #{executedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerAddress != null" >
+        customer_address = #{customerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="week != null" >
+        week = #{week,jdbcType=INTEGER},
+      </if>
+      <if test="customerStatus != null" >
+        customer_status = #{customerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseId != null" >
+        warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserid != null" >
+        created_userid = #{createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="updatedTime != null" >
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUserid != null" >
+        updated_userid = #{updatedUserid,jdbcType=INTEGER},
+      </if>
+      <if test="snackpackagenum != null" >
+        snackPackageNum = #{snackpackagenum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where customerorder_id = #{customerorderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.CustomerOrder" >
+    update customer_order
+    set standardorder_id = #{standardorderId,jdbcType=INTEGER},
+      customer_id = #{customerId,jdbcType=INTEGER},
+      business_id = #{businessId,jdbcType=INTEGER},
+      total_num = #{totalNum,jdbcType=INTEGER},
+      total_fee = #{totalFee,jdbcType=BIGINT},
+      total_cost = #{totalCost,jdbcType=BIGINT},
+      executed_time = #{executedTime,jdbcType=TIMESTAMP},
+      customer_address = #{customerAddress,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      discount = #{discount,jdbcType=DECIMAL},
+      week = #{week,jdbcType=INTEGER},
+      customer_status = #{customerStatus,jdbcType=INTEGER},
+      warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      created_userid = #{createdUserid,jdbcType=INTEGER},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      updated_userid = #{updatedUserid,jdbcType=INTEGER},
+      snackPackageNum = #{snackpackagenum,jdbcType=INTEGER}
+    where customerorder_id = #{customerorderId,jdbcType=INTEGER}
+  </update>
+</mapper>

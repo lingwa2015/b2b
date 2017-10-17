@@ -1,0 +1,9 @@
+<div class="content">
+	<div class="bd-main">
+			<div class="bd-main-inner">
+			<a href="${rc.contextPath}/shopBlack/add.htm?shop_id=$shop_id">黑名单</a>
+			<a href="${rc.contextPath}/memberPoint/memberPointList.htm?userid=$shop_id">积分</a>
+			</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+
+</div>

@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.DailyReportMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.DailyReport" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sum_date" property="sumDate" jdbcType="DATE" />
+    <result column="open_shop_num" property="openShopNum" jdbcType="INTEGER" />
+    <result column="consume_shop_num" property="consumeShopNum" jdbcType="INTEGER" />
+    <result column="before_last_week_num" property="beforeLastWeekNum" jdbcType="INTEGER" />
+    <result column="total_consume" property="totalConsume" jdbcType="BIGINT" />
+    <result column="before_last_week_consume" property="beforeLastWeekConsume" jdbcType="DECIMAL" />
+    <result column="avg_consume" property="avgConsume" jdbcType="BIGINT" />
+    <result column="before_last_week_avg" property="beforeLastWeekAvg" jdbcType="DECIMAL" />
+    <result column="total_expend" property="totalExpend" jdbcType="BIGINT" />
+    <result column="consume_num" property="consumeNum" jdbcType="INTEGER" />
+    <result column="before_last_week_consume_num" property="beforeLastWeekConsumeNum" jdbcType="DECIMAL" />
+    <result column="consume_pen" property="consumePen" jdbcType="INTEGER" />
+    <result column="before_last_week_consume_pen" property="beforeLastWeekConsumePen" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sum_date, open_shop_num, consume_shop_num, before_last_week_num, total_consume, 
+    before_last_week_consume, avg_consume, before_last_week_avg, total_expend, consume_num, 
+    before_last_week_consume_num, consume_pen, before_last_week_consume_pen
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.DailyReportExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from daily_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from daily_report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from daily_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.DailyReportExample" >
+    delete from daily_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.DailyReport" >
+    insert into daily_report (id, sum_date, open_shop_num, 
+      consume_shop_num, before_last_week_num, total_consume, 
+      before_last_week_consume, avg_consume, before_last_week_avg, 
+      total_expend, consume_num, before_last_week_consume_num, 
+      consume_pen, before_last_week_consume_pen)
+    values (#{id,jdbcType=INTEGER}, #{sumDate,jdbcType=DATE}, #{openShopNum,jdbcType=INTEGER}, 
+      #{consumeShopNum,jdbcType=INTEGER}, #{beforeLastWeekNum,jdbcType=INTEGER}, #{totalConsume,jdbcType=BIGINT}, 
+      #{beforeLastWeekConsume,jdbcType=DECIMAL}, #{avgConsume,jdbcType=BIGINT}, #{beforeLastWeekAvg,jdbcType=DECIMAL}, 
+      #{totalExpend,jdbcType=BIGINT}, #{consumeNum,jdbcType=INTEGER}, #{beforeLastWeekConsumeNum,jdbcType=DECIMAL}, 
+      #{consumePen,jdbcType=INTEGER}, #{beforeLastWeekConsumePen,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.DailyReport" >
+    insert into daily_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sumDate != null" >
+        sum_date,
+      </if>
+      <if test="openShopNum != null" >
+        open_shop_num,
+      </if>
+      <if test="consumeShopNum != null" >
+        consume_shop_num,
+      </if>
+      <if test="beforeLastWeekNum != null" >
+        before_last_week_num,
+      </if>
+      <if test="totalConsume != null" >
+        total_consume,
+      </if>
+      <if test="beforeLastWeekConsume != null" >
+        before_last_week_consume,
+      </if>
+      <if test="avgConsume != null" >
+        avg_consume,
+      </if>
+      <if test="beforeLastWeekAvg != null" >
+        before_last_week_avg,
+      </if>
+      <if test="totalExpend != null" >
+        total_expend,
+      </if>
+      <if test="consumeNum != null" >
+        consume_num,
+      </if>
+      <if test="beforeLastWeekConsumeNum != null" >
+        before_last_week_consume_num,
+      </if>
+      <if test="consumePen != null" >
+        consume_pen,
+      </if>
+      <if test="beforeLastWeekConsumePen != null" >
+        before_last_week_consume_pen,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sumDate != null" >
+        #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="openShopNum != null" >
+        #{openShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="consumeShopNum != null" >
+        #{consumeShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="beforeLastWeekNum != null" >
+        #{beforeLastWeekNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalConsume != null" >
+        #{totalConsume,jdbcType=BIGINT},
+      </if>
+      <if test="beforeLastWeekConsume != null" >
+        #{beforeLastWeekConsume,jdbcType=DECIMAL},
+      </if>
+      <if test="avgConsume != null" >
+        #{avgConsume,jdbcType=BIGINT},
+      </if>
+      <if test="beforeLastWeekAvg != null" >
+        #{beforeLastWeekAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="totalExpend != null" >
+        #{totalExpend,jdbcType=BIGINT},
+      </if>
+      <if test="consumeNum != null" >
+        #{consumeNum,jdbcType=INTEGER},
+      </if>
+      <if test="beforeLastWeekConsumeNum != null" >
+        #{beforeLastWeekConsumeNum,jdbcType=DECIMAL},
+      </if>
+      <if test="consumePen != null" >
+        #{consumePen,jdbcType=INTEGER},
+      </if>
+      <if test="beforeLastWeekConsumePen != null" >
+        #{beforeLastWeekConsumePen,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.DailyReportExample" resultType="java.lang.Integer" >
+    select count(*) from daily_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update daily_report
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.sumDate != null" >
+        sum_date = #{record.sumDate,jdbcType=DATE},
+      </if>
+      <if test="record.openShopNum != null" >
+        open_shop_num = #{record.openShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.consumeShopNum != null" >
+        consume_shop_num = #{record.consumeShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.beforeLastWeekNum != null" >
+        before_last_week_num = #{record.beforeLastWeekNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalConsume != null" >
+        total_consume = #{record.totalConsume,jdbcType=BIGINT},
+      </if>
+      <if test="record.beforeLastWeekConsume != null" >
+        before_last_week_consume = #{record.beforeLastWeekConsume,jdbcType=DECIMAL},
+      </if>
+      <if test="record.avgConsume != null" >
+        avg_consume = #{record.avgConsume,jdbcType=BIGINT},
+      </if>
+      <if test="record.beforeLastWeekAvg != null" >
+        before_last_week_avg = #{record.beforeLastWeekAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalExpend != null" >
+        total_expend = #{record.totalExpend,jdbcType=BIGINT},
+      </if>
+      <if test="record.consumeNum != null" >
+        consume_num = #{record.consumeNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.beforeLastWeekConsumeNum != null" >
+        before_last_week_consume_num = #{record.beforeLastWeekConsumeNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.consumePen != null" >
+        consume_pen = #{record.consumePen,jdbcType=INTEGER},
+      </if>
+      <if test="record.beforeLastWeekConsumePen != null" >
+        before_last_week_consume_pen = #{record.beforeLastWeekConsumePen,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update daily_report
+    set id = #{record.id,jdbcType=INTEGER},
+      sum_date = #{record.sumDate,jdbcType=DATE},
+      open_shop_num = #{record.openShopNum,jdbcType=INTEGER},
+      consume_shop_num = #{record.consumeShopNum,jdbcType=INTEGER},
+      before_last_week_num = #{record.beforeLastWeekNum,jdbcType=INTEGER},
+      total_consume = #{record.totalConsume,jdbcType=BIGINT},
+      before_last_week_consume = #{record.beforeLastWeekConsume,jdbcType=DECIMAL},
+      avg_consume = #{record.avgConsume,jdbcType=BIGINT},
+      before_last_week_avg = #{record.beforeLastWeekAvg,jdbcType=DECIMAL},
+      total_expend = #{record.totalExpend,jdbcType=BIGINT},
+      consume_num = #{record.consumeNum,jdbcType=INTEGER},
+      before_last_week_consume_num = #{record.beforeLastWeekConsumeNum,jdbcType=DECIMAL},
+      consume_pen = #{record.consumePen,jdbcType=INTEGER},
+      before_last_week_consume_pen = #{record.beforeLastWeekConsumePen,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.DailyReport" >
+    update daily_report
+    <set >
+      <if test="sumDate != null" >
+        sum_date = #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="openShopNum != null" >
+        open_shop_num = #{openShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="consumeShopNum != null" >
+        consume_shop_num = #{consumeShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="beforeLastWeekNum != null" >
+        before_last_week_num = #{beforeLastWeekNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalConsume != null" >
+        total_consume = #{totalConsume,jdbcType=BIGINT},
+      </if>
+      <if test="beforeLastWeekConsume != null" >
+        before_last_week_consume = #{beforeLastWeekConsume,jdbcType=DECIMAL},
+      </if>
+      <if test="avgConsume != null" >
+        avg_consume = #{avgConsume,jdbcType=BIGINT},
+      </if>
+      <if test="beforeLastWeekAvg != null" >
+        before_last_week_avg = #{beforeLastWeekAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="totalExpend != null" >
+        total_expend = #{totalExpend,jdbcType=BIGINT},
+      </if>
+      <if test="consumeNum != null" >
+        consume_num = #{consumeNum,jdbcType=INTEGER},
+      </if>
+      <if test="beforeLastWeekConsumeNum != null" >
+        before_last_week_consume_num = #{beforeLastWeekConsumeNum,jdbcType=DECIMAL},
+      </if>
+      <if test="consumePen != null" >
+        consume_pen = #{consumePen,jdbcType=INTEGER},
+      </if>
+      <if test="beforeLastWeekConsumePen != null" >
+        before_last_week_consume_pen = #{beforeLastWeekConsumePen,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.DailyReport" >
+    update daily_report
+    set sum_date = #{sumDate,jdbcType=DATE},
+      open_shop_num = #{openShopNum,jdbcType=INTEGER},
+      consume_shop_num = #{consumeShopNum,jdbcType=INTEGER},
+      before_last_week_num = #{beforeLastWeekNum,jdbcType=INTEGER},
+      total_consume = #{totalConsume,jdbcType=BIGINT},
+      before_last_week_consume = #{beforeLastWeekConsume,jdbcType=DECIMAL},
+      avg_consume = #{avgConsume,jdbcType=BIGINT},
+      before_last_week_avg = #{beforeLastWeekAvg,jdbcType=DECIMAL},
+      total_expend = #{totalExpend,jdbcType=BIGINT},
+      consume_num = #{consumeNum,jdbcType=INTEGER},
+      before_last_week_consume_num = #{beforeLastWeekConsumeNum,jdbcType=DECIMAL},
+      consume_pen = #{consumePen,jdbcType=INTEGER},
+      before_last_week_consume_pen = #{beforeLastWeekConsumePen,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findByDate" resultMap="BaseResultMap">
+  	SELECT
+	*
+	FROM
+		daily_report
+	WHERE
+		sum_date = #{sumdate}
+  </select>
+  <select id="findList" resultMap="BaseResultMap">
+  		SELECT
+	*
+	FROM
+		daily_report
+	order by sum_date desc
+  </select>
+</mapper>

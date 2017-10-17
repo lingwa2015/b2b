@@ -1,0 +1,159 @@
+#set($layout="layout/shopLayout.vm")
+   <div class="zhifu_content">
+   <input id="redid" type="hidden" value="$!redId">
+   <input id="orderNo" type="hidden" value="$!shopOrder.id">
+   <input id="ticket" type="hidden" value="$!ticket">
+   <a href="${rc.contextPath}/convenient/shop_personal.htm?userid=$!shopOrder.buyerId&type=$!shopOrder.sign" style="display: block;">
+     <p class="zhifu_top">
+       <img src="$!shopOrder.imgPath">
+       <span>$!shopOrder.buyerName</span>
+     </p>
+   </a>
+   
+     <!-- 购物车没有商品 未支付 -->
+     <!-- <div class="no_pay">
+       购物车内无商品，请完成支付
+     </div> -->
+     <!-- 购物车有商品 -->
+     <div class="yes_pay">
+      #if($shopOrder.redPrice>0 && $shopOrder.freePrice==0 || $shopOrder.redPrice==0 && $shopOrder.freePrice>0)         
+        <p>
+         <span>消费金额</span>
+         #if($shopOrder.freePrice>0)   
+         <span style="float:right;color:green;margin-right:-.25rem;">（补贴￥$NumberTool.toYuanNumber($shopOrder.freePrice)）</span>
+         #end
+         #if($shopOrder.redPrice>0)
+         <span style="float:right;color:red;margin-right:-.25rem;">（红包￥$NumberTool.toYuanNumber($shopOrder.redPrice)）</span>
+         #end
+         <span class="fr">￥$NumberTool.toYuanNumber($shopOrder.totalPrice)</span>
+       </p>
+       <i></i>
+      
+       #elseif($shopOrder.redPrice>0 && $shopOrder.freePrice>0)   
+       <!-- 如果有限时补贴和红包 -->
+       <p style="position: relative;padding-bottom: .8rem;">
+         <span>消费金额</span>
+         <span style="float:right;color:green;margin-right:-.25rem;">（补贴￥$NumberTool.toYuanNumber($shopOrder.freePrice)）</span>
+         <span class="fr">￥$NumberTool.toYuanNumber($shopOrder.totalPrice)</span>
+         <span style="color:red;position: absolute;right: -.25rem;top:.9rem">（红包￥$NumberTool.toYuanNumber($shopOrder.redPrice)）</span> 
+       </p >
+       <i style="top: 1.5rem;"></i>
+       #else
+         <p>
+         <span>消费金额</span>
+         <span class="fr">￥$NumberTool.toYuanNumber($shopOrder.totalPrice)</span>
+         </p>
+         <i></i>
+       #end
+       
+       <p style="border: 0;padding: 0;font-size:0.24rem;">
+       	 #foreach($item in $shopOrder.shopOrderItems)
+     		<span class="food">
+            <span>$item.itemName</span>
+            <span class="zhifu_food">￥$NumberTool.toYuanNumber($item.price)</span>
+            <span class="zhifu_right">X$item.num</span>
+         	</span>
+     	 #end
+       </p>
+       #if($pay_way == 2)
+       <div class="credit">
+         <img src="${rc.contextPath}/static/images/shop/credit.png" alt="">
+        本次自助支付行为已纳入芝麻信用足迹
+       </div>
+       #end
+     </div>
+     <a href="${rc.contextPath}/convenient/shop_items.htm" class="over">完成</a>
+     #if($!flag==1)
+     <div class="Layer1" style="display:none;"></div>
+     <div class="hb_jie">
+       <img src="${rc.contextPath}/static/images/shop/hongbao.png" class="hongbao">
+       <p class="hb_huo">活动规则 <img src="${rc.contextPath}/static/images/shop/jinru.png"></p>
+     </div>
+     <!-- 活动规则 -->
+     <div class="hd_rule">
+       <p class="rule_tip">活动规则</p >
+       <p class="rule">1. 红包由领蛙发放，在领蛙便利店使用；</p >
+       <p class="rule">2. 红包可以累计使用，无使用期限；</p >
+       <p class="rule">3. 红包不可转赠，不可提现；</p >
+       <p class="rule">4. 红包可以全额抵扣所购商品。</p >
+       
+       <img src="${rc.contextPath}/static/images/shop/rule_qx.png" class="rule_qx">
+     </div>
+     #end
+   </div>
+<script type="text/javascript">
+    document.title = "支付成功";
+    $("body").css("background-color","#f5f5f5");
+    $(document).on( "touchstart", function() {
+      touchmove = false;
+    });
+    $(document).on( "touchmove", function() {
+      touchmove = true;
+    });
+    $("body").css("background-color","#ececec");
+    function formatMoney(num) {
+        var money = num/100;
+        var float = num%100;
+        var float2 = num%10;
+        if(float == 0){
+            money = money + ".00";
+        }else{
+            if(float2 == 0) {
+                money = money + "0";
+            }
+        }
+        return money;
+    }
+    var payPrevent = false;
+    $(".hongbao").on("touchend",function(){
+      if(touchmove){
+      	return;
+      }
+      
+      $(this).addClass("shake");
+      var ticket = $('#ticket').val();
+      var orderNo = $('#orderNo').val();
+      var redid = $('#redid').val();
+      if(payPrevent){
+      	return false;
+      }
+      payPrevent = true;
+      	setTimeout(function(){
+      	 $.ajax({
+					url:'${rc.contextPath}/convenient/shop_getRed.do',
+					type:'POST',
+					data: {ticket:ticket,redId:redid,orderNo:orderNo},
+					success:function(data){
+						if(data.status==200){
+							var money = formatMoney(data.data);
+							$(".hongbao").removeClass("shake");
+					        $(".hongbao").attr("src","${rc.contextPath}/static/images/shop/chai.png");
+					        $(".hongbao").attr("class","chai")
+					        var html='';
+					        html+='<p class="hb_money">￥<span>'+money+'</span></p>';
+					        $('.hb_jie').append(html);
+						}else{
+						    $(".hongbao").removeClass("shake");
+					        $(".hongbao").attr("src","${rc.contextPath}/static/images/shop/numover.png");
+					        $(".hongbao").attr("class","chai")
+						}
+					}
+					
+				})
+			},500);
+    });
+    $(".hb_huo").on("touchend",function(){
+      $('.Layer1').show();
+      var documentWidth = $(document).width();
+      var rule_width = $(".hd_rule").width();
+      var wi = parseInt(documentWidth -rule_width)/2;
+      $(".hd_rule").css({
+        "left":wi
+      })
+      $(".hd_rule").show();
+    });
+    $(".rule_qx").on("touchend",function(){
+      $('.Layer1').fadeOut();
+      $(".hd_rule").hide();
+    })
+</script>

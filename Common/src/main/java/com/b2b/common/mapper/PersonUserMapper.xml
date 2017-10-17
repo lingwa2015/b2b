@@ -1,0 +1,813 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.PersonUserMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.PersonUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="pass_word" property="passWord" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="mobile_phone" property="mobilePhone" jdbcType="VARCHAR" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="created_userid" property="createdUserid" jdbcType="INTEGER" />
+    <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
+    <result column="updated_userid" property="updatedUserid" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="isadmin" property="isadmin" jdbcType="INTEGER" />
+    <result column="business_id" property="businessId" jdbcType="INTEGER" />
+    <result column="managerShopId" property="managershopid" jdbcType="INTEGER" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="company_memo" property="companyMemo" jdbcType="VARCHAR" />
+    <result column="company_personnum" property="companyPersonnum" jdbcType="INTEGER" />
+    <result column="interface_person" property="interfacePerson" jdbcType="VARCHAR" />
+    <result column="discount" property="discount" jdbcType="DECIMAL" />
+    <result column="post" property="post" jdbcType="VARCHAR" />
+    <result column="weixinnum" property="weixinnum" jdbcType="VARCHAR" />
+    <result column="weixinimg" property="weixinimg" jdbcType="VARCHAR" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="reseau_id" property="reseauId" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="ding_city_id" property="dingCityId" jdbcType="INTEGER" />
+    <result column="is_gm" property="isGm" jdbcType="INTEGER" />
+    <result column="gread" property="gread" jdbcType="INTEGER" />
+    <result column="onsaleFeeflag" property="onsaleFeeflag" jdbcType="INTEGER" />
+    <result column="checkTimeFlag" property="checkTimeFlag" jdbcType="INTEGER" />
+    <result column="createdtimeFlag" property="createdtimeFlag" jdbcType="INTEGER" />
+    <result column="manager_id" property="managerId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_name, pass_word, address, mobile_phone, created_time, created_userid, updated_time, 
+    updated_userid, status, isadmin, business_id, managerShopId, company_name, company_memo, 
+    company_personnum, interface_person, discount, post, weixinnum, weixinimg, openid, 
+    reseau_id, city_id, ding_city_id, is_gm, gread, manager_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.PersonUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from person_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitFlag">
+		limit ${start},${limit}
+	</if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from person_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from person_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.PersonUserExample" >
+    delete from person_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.PersonUser" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into person_user (id,user_name, pass_word,
+      address, mobile_phone, created_time,
+      created_userid, updated_time, updated_userid,
+      status, isadmin, business_id,
+      managerShopId, company_name, company_memo, 
+      company_personnum, interface_person, discount, 
+      post, weixinnum, weixinimg, 
+      openid, reseau_id, city_id, 
+      ding_city_id, is_gm, gread,
+      manager_id)
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{passWord,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{createdUserid,jdbcType=INTEGER}, #{updatedTime,jdbcType=TIMESTAMP}, #{updatedUserid,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{isadmin,jdbcType=INTEGER}, #{businessId,jdbcType=INTEGER}, 
+      #{managershopid,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, #{companyMemo,jdbcType=VARCHAR}, 
+      #{companyPersonnum,jdbcType=INTEGER}, #{interfacePerson,jdbcType=VARCHAR}, #{discount,jdbcType=DECIMAL}, 
+      #{post,jdbcType=VARCHAR}, #{weixinnum,jdbcType=VARCHAR}, #{weixinimg,jdbcType=VARCHAR}, 
+      #{openid,jdbcType=VARCHAR}, #{reseauId,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, 
+      #{dingCityId,jdbcType=INTEGER}, #{isGm,jdbcType=INTEGER}, #{gread,jdbcType=INTEGER},
+      #{managerId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.PersonUser" >
+    insert into person_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="passWord != null" >
+        pass_word,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="mobilePhone != null" >
+        mobile_phone,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="createdUserid != null" >
+        created_userid,
+      </if>
+      <if test="updatedTime != null" >
+        updated_time,
+      </if>
+      <if test="updatedUserid != null" >
+        updated_userid,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="isadmin != null" >
+        isadmin,
+      </if>
+      <if test="businessId != null" >
+        business_id,
+      </if>
+      <if test="managershopid != null" >
+        managerShopId,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="companyMemo != null" >
+        company_memo,
+      </if>
+      <if test="companyPersonnum != null" >
+        company_personnum,
+      </if>
+      <if test="interfacePerson != null" >
+        interface_person,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="post != null" >
+        post,
+      </if>
+      <if test="weixinnum != null" >
+        weixinnum,
+      </if>
+      <if test="weixinimg != null" >
+        weixinimg,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="reseauId != null" >
+        reseau_id,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="dingCityId != null" >
+        ding_city_id,
+      </if>
+      <if test="isGm != null" >
+        is_gm,
+      </if>
+      <if test="gread != null" >
+        gread,
+      </if>
+      <if test="managerId != null" >
+        manager_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="passWord != null" >
+        #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null" >
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserid != null" >
+        #{createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="updatedTime != null" >
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUserid != null" >
+        #{updatedUserid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isadmin != null" >
+        #{isadmin,jdbcType=INTEGER},
+      </if>
+      <if test="businessId != null" >
+        #{businessId,jdbcType=INTEGER},
+      </if>
+      <if test="managershopid != null" >
+        #{managershopid,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyMemo != null" >
+        #{companyMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPersonnum != null" >
+        #{companyPersonnum,jdbcType=INTEGER},
+      </if>
+      <if test="interfacePerson != null" >
+        #{interfacePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="post != null" >
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinnum != null" >
+        #{weixinnum,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinimg != null" >
+        #{weixinimg,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="reseauId != null" >
+        #{reseauId,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="dingCityId != null" >
+        #{dingCityId,jdbcType=INTEGER},
+      </if>
+      <if test="isGm != null" >
+        #{isGm,jdbcType=INTEGER},
+      </if>
+      <if test="gread != null" >
+        #{gread,jdbcType=INTEGER},
+      </if>
+      <if test="managerId != null" >
+        #{managerId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.PersonUserExample" resultType="java.lang.Integer" >
+    select count(*) from person_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update person_user
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passWord != null" >
+        pass_word = #{record.passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobilePhone != null" >
+        mobile_phone = #{record.mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUserid != null" >
+        created_userid = #{record.createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatedTime != null" >
+        updated_time = #{record.updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedUserid != null" >
+        updated_userid = #{record.updatedUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.isadmin != null" >
+        isadmin = #{record.isadmin,jdbcType=INTEGER},
+      </if>
+      <if test="record.businessId != null" >
+        business_id = #{record.businessId,jdbcType=INTEGER},
+      </if>
+      <if test="record.managershopid != null" >
+        managerShopId = #{record.managershopid,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyName != null" >
+        company_name = #{record.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyMemo != null" >
+        company_memo = #{record.companyMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyPersonnum != null" >
+        company_personnum = #{record.companyPersonnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.interfacePerson != null" >
+        interface_person = #{record.interfacePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.discount != null" >
+        discount = #{record.discount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.post != null" >
+        post = #{record.post,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weixinnum != null" >
+        weixinnum = #{record.weixinnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weixinimg != null" >
+        weixinimg = #{record.weixinimg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openid != null" >
+        openid = #{record.openid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reseauId != null" >
+        reseau_id = #{record.reseauId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dingCityId != null" >
+        ding_city_id = #{record.dingCityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isGm != null" >
+        is_gm = #{record.isGm,jdbcType=INTEGER},
+      </if>
+      <if test="record.gread != null" >
+        gread = #{record.gread,jdbcType=INTEGER},
+      </if>
+      <if test="record.managerId != null" >
+        manager_id = #{record.managerId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update person_user
+    set id = #{record.id,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      pass_word = #{record.passWord,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      mobile_phone = #{record.mobilePhone,jdbcType=VARCHAR},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      created_userid = #{record.createdUserid,jdbcType=INTEGER},
+      updated_time = #{record.updatedTime,jdbcType=TIMESTAMP},
+      updated_userid = #{record.updatedUserid,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      isadmin = #{record.isadmin,jdbcType=INTEGER},
+      business_id = #{record.businessId,jdbcType=INTEGER},
+      managerShopId = #{record.managershopid,jdbcType=INTEGER},
+      company_name = #{record.companyName,jdbcType=VARCHAR},
+      company_memo = #{record.companyMemo,jdbcType=VARCHAR},
+      company_personnum = #{record.companyPersonnum,jdbcType=INTEGER},
+      interface_person = #{record.interfacePerson,jdbcType=VARCHAR},
+      discount = #{record.discount,jdbcType=DECIMAL},
+      post = #{record.post,jdbcType=VARCHAR},
+      weixinnum = #{record.weixinnum,jdbcType=VARCHAR},
+      weixinimg = #{record.weixinimg,jdbcType=VARCHAR},
+      openid = #{record.openid,jdbcType=VARCHAR},
+      reseau_id = #{record.reseauId,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      ding_city_id = #{record.dingCityId,jdbcType=INTEGER},
+      is_gm = #{record.isGm,jdbcType=INTEGER},
+      gread = #{record.gread,jdbcType=INTEGER},
+      manager_id = #{record.managerId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.PersonUser" >
+    update person_user
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="passWord != null" >
+        pass_word = #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null" >
+        mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUserid != null" >
+        created_userid = #{createdUserid,jdbcType=INTEGER},
+      </if>
+      <if test="updatedTime != null" >
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUserid != null" >
+        updated_userid = #{updatedUserid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isadmin != null" >
+        isadmin = #{isadmin,jdbcType=INTEGER},
+      </if>
+      <if test="businessId != null" >
+        business_id = #{businessId,jdbcType=INTEGER},
+      </if>
+      <if test="managershopid != null" >
+        managerShopId = #{managershopid,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyMemo != null" >
+        company_memo = #{companyMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPersonnum != null" >
+        company_personnum = #{companyPersonnum,jdbcType=INTEGER},
+      </if>
+      <if test="interfacePerson != null" >
+        interface_person = #{interfacePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="post != null" >
+        post = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinnum != null" >
+        weixinnum = #{weixinnum,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinimg != null" >
+        weixinimg = #{weixinimg,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="reseauId != null" >
+        reseau_id = #{reseauId,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="dingCityId != null" >
+        ding_city_id = #{dingCityId,jdbcType=INTEGER},
+      </if>
+      <if test="isGm != null" >
+        is_gm = #{isGm,jdbcType=INTEGER},
+      </if>
+      <if test="gread != null" >
+        gread = #{gread,jdbcType=INTEGER},
+      </if>
+      <if test="managerId != null" >
+        manager_id = #{managerId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.PersonUser" >
+    update person_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      pass_word = #{passWord,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      created_userid = #{createdUserid,jdbcType=INTEGER},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      updated_userid = #{updatedUserid,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      isadmin = #{isadmin,jdbcType=INTEGER},
+      business_id = #{businessId,jdbcType=INTEGER},
+      managerShopId = #{managershopid,jdbcType=INTEGER},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      company_memo = #{companyMemo,jdbcType=VARCHAR},
+      company_personnum = #{companyPersonnum,jdbcType=INTEGER},
+      interface_person = #{interfacePerson,jdbcType=VARCHAR},
+      discount = #{discount,jdbcType=DECIMAL},
+      post = #{post,jdbcType=VARCHAR},
+      weixinnum = #{weixinnum,jdbcType=VARCHAR},
+      weixinimg = #{weixinimg,jdbcType=VARCHAR},
+      openid = #{openid,jdbcType=VARCHAR},
+      reseau_id = #{reseauId,jdbcType=INTEGER},
+      city_id = #{cityId,jdbcType=INTEGER},
+      ding_city_id = #{dingCityId,jdbcType=INTEGER},
+      is_gm = #{isGm,jdbcType=INTEGER},
+      gread = #{gread,jdbcType=INTEGER},
+      manager_id = #{managerId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="deleteReseauId">
+  	update person_user set reseau_id = NULL where reseau_id = #{id}
+  </update>
+  <select id="findByReseauId" resultMap="BaseResultMap">
+  	select * from person_user where `status`=1 and reseau_id =#{reseauId} order by rand() limit 1
+  </select>
+  <select id="findByOpenId" resultMap="BaseResultMap">
+  	select * from person_user where `status`=1 and openid =#{openid}
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+  	SELECT
+		*
+	FROM
+		person_user
+	WHERE
+		`status` = 1 order by id desc
+  </select>
+  <select id="findUserkfFirstByCityId" resultMap="BaseResultMap">
+  	SELECT
+		*
+	FROM
+		person_user WHERE `status`=1 and ding_city_id =#{cityId} ORDER BY post='客服' desc ,post desc
+  </select>
+   <select id="findUsercgFirstByCityId" resultMap="BaseResultMap">
+  	SELECT
+		*
+	FROM
+		person_user WHERE `status`=1 and ding_city_id =#{cityId} ORDER BY post='仓管' desc ,post desc
+  </select>
+  <select id="findUserpsFirstByCityId" resultMap="BaseResultMap">
+  	SELECT
+		*
+	FROM
+		person_user WHERE `status`=1 and ding_city_id =#{cityId} ORDER BY post='配送' desc ,post desc
+  </select>
+  <select id="findAllByCityId" resultMap="BaseResultMap">
+  	SELECT pu.id,
+	       pu.`user_name`,
+	       pu.`openid`,
+	       pu.`mobile_phone`,
+	       pu.`reseau_id`,
+	       pu.`city_id`,
+	       pu.`ding_city_id`,
+	       pu.`is_gm`,
+	       su.`nick_name` weixinnum,pu.post,pu.gread,puu.`user_name` manageName,
+	       pu.created_time, pu.company_memo
+	  FROM person_user pu
+      LEFT JOIN `person_user` puu on pu.`manager_id` =puu.`id`
+	  LEFT JOIN `shop_user` su on pu.`openid`= su.`openId`
+	 WHERE pu.`status`= 1
+	   and pu.ding_city_id=#{cityId}
+	 order by pu.id desc
+  </select>
+  <select id="findUsershFirstByCityId" resultMap="BaseResultMap">
+  SELECT
+		*
+	FROM
+		person_user WHERE `status`=1 and ding_city_id =#{cityId} ORDER BY post='销售' desc , post='客户经理' desc,post desc
+  </select>
+  <select id="findSHByCityId" resultMap="BaseResultMap">
+  	SELECT
+		id,user_name,city_id
+	FROM
+		person_user WHERE `status`=1 and city_id =#{cityId} and post='销售' order by id desc
+  </select>
+  <select id="findUserkhjlFirstByCityId" resultMap="BaseResultMap">
+  	SELECT
+		*
+	FROM
+		person_user WHERE `status`=1 and ding_city_id =#{cityId} ORDER BY post='客户经理' desc,post desc
+  </select>
+  <select id="findIdsByManagerId" resultType="int">
+  	SELECT id FROM `person_user` WHERE `manager_id` =#{id}
+  </select>
+  <select id="findReseauIdsByManagerId" resultType="int">
+ 	SELECT `reseau_id`  FROM `person_user` WHERE `status` =1 and `manager_id` =#{id} and `reseau_id` IS NOT NULL
+  </select>
+
+  <select id="findWarning" resultMap="BaseResultMap">
+    SELECT
+    t1.shop_id id,
+    t1.user_name user_name,
+    t1.onsaleFeeflag,
+    t1.checkTimeFlag,
+    IFNULL(t2.createdtimeFlag, 0) createdtimeFlag
+    FROM
+    (
+    SELECT
+    cu.created_time,
+    t.`shop_id`,
+    cu.user_name,
+    SUM(t.fee),
+    IF (70000 >= SUM(t.fee), 1, 0) onsaleFeeflag,
+    count(1) kinds,
+    r.id reseau_id,
+    DATEDIFF(
+    DATE_FORMAT(NOW(), '%Y-%m-%d'),
+    DATE_FORMAT(cu.`check_time`, '%Y-%m-%d')
+    ) check_time,
+    CASE
+    WHEN cu.`check_time` IS NULL THEN
+    1
+    ELSE
+
+    IF (
+    DATEDIFF(
+    DATE_FORMAT(NOW(), '%Y-%m-%d'),
+    DATE_FORMAT(cu.`check_time`, '%Y-%m-%d')
+    ) >= 10,
+    1,
+    0
+    )
+    END checkTimeFlag
+    FROM
+    (
+    SELECT
+    si.`sourcing_price` * si.num fee,
+    si.`shop_id`,
+    si.`name`
+    FROM
+    `shop_item` si
+    LEFT JOIN consume_rank cr ON si.id = cr.item_id
+    WHERE
+    si.`status` = 1
+    AND si.`isdown` = 1
+    ) t
+    LEFT JOIN customer_user cu ON cu.id = t.shop_id
+    LEFT JOIN reseau r ON r.id = cu.reseau_id
+    WHERE cu.reseau_id = #{reseauId} AND (cu.`iswxvip` = 3) AND cu.`status` = 1
+    GROUP BY
+    t.shop_id
+    ) t1
+    LEFT JOIN (
+    SELECT
+    cu.created_time,
+    cu.id shop_id,
+    CASE
+    WHEN MAX(o.created_time) IS NULL THEN
+    1
+    ELSE
+
+    IF (
+    DATEDIFF(
+    DATE_FORMAT(NOW(), '%Y-%m-%d'),
+    DATE_FORMAT(MAX(o.created_time), '%Y-%m-%d')
+    ) >= 7,
+    1,
+    0
+    )
+    END createdtimeFlag,
+    MAX(o.created_time)
+    FROM
+    customer_user cu
+    LEFT JOIN `order` o ON o.user_id = cu.id
+    LEFT JOIN reseau r ON r.id = cu.reseau_id
+    WHERE cu.reseau_id = #{reseauId} AND (cu.`iswxvip` = 3) AND cu.`status` = 1
+    GROUP BY
+    cu.id
+    ORDER BY
+    cu.`created_time` desc
+    ) t2 ON t1.shop_id = t2.shop_id
+    WHERE
+    t1.onsaleFeeflag = 1
+    OR t1.checkTimeFlag = 1
+    OR t2.createdtimeFlag = 1
+    ORDER BY
+    t1.created_time
+  </select>
+  <select id="findByManagerId" resultMap="BaseResultMap">
+  	SELECT * FROM `person_user` where `status` =1 and `manager_id` = #{id}
+  </select>
+  <select id="findSalesByCityIdAndGreadAndManageId" resultMap="BaseResultMap">
+  SELECT pu.`user_name` userName,
+       pu.`id`
+  FROM `person_user` pu
+ where pu.`status`= 1
+   and pu.`city_id`= #{cityId}
+   and pu.`post`= '销售'
+   and pu.`gread`= #{gread}
+   and pu.`manager_id`= #{id}
+  </select>
+  <select id="findByPost" resultMap="BaseResultMap">
+    SELECT id, user_name
+      FROM person_user pu
+      WHERE pu.`status` = 1
+      <if test="cityId !='' and cityId !=null">
+        AND pu.city_id = #{cityId}
+      </if>
+      <if test="post !='' and post !=null">
+        AND pu.post = #{post}
+      </if>
+    ORDER BY id desc
+  </select>
+  <select id="findAllByCityIdUserNameTelStatus" resultMap="BaseResultMap">
+    SELECT pu.id,
+    pu.`user_name`,
+    pu.`openid`,
+    pu.`mobile_phone`,
+    pu.`reseau_id`,
+    pu.`city_id`,
+    pu.`ding_city_id`,
+    pu.`is_gm`,
+    su.`nick_name` weixinnum,pu.post,pu.gread,
+    pu.created_time, pu.company_memo,ppu.`user_name` manageName
+    FROM person_user pu
+    LEFT JOIN `shop_user` su on pu.`openid`= su.`openId`
+    LEFT JOIN `person_user` ppu on pu.`manager_id` =ppu.`id` 
+    WHERE pu.`status`= 1
+    and pu.ding_city_id= #{cityId}
+    <if test="userName !='' and userName !=null">
+      AND pu.user_name LIKE '%${userName}%'
+    </if>
+    <if test="mobilePhone !='' and mobilePhone !=null">
+      AND pu.mobile_phone = #{mobilePhone}
+    </if>
+    <if test="validStatus !='' and validStatus !=null">
+      AND pu.status = #{validStatus}
+    </if>
+    order by pu.id desc
+  </select>
+  <select id="findSalesByCityIdAndPostAndGread" resultMap="BaseResultMap">
+  	SELECT pu.`user_name` userName,
+       pu.`id`
+  FROM `person_user` pu
+ where pu.`status`= 1
+   and pu.`city_id`= #{cityId}
+   and pu.`post`= #{post}
+   and pu.`gread`= #{gread}
+  </select>
+</mapper>

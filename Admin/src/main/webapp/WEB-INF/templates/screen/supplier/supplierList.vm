@@ -1,0 +1,97 @@
+<script type="text/javascript">
+function editData(id){
+  window.location.href="${rc.contextPath}/supplier/supplierUpdate.htm?id="+id+"&currentPage="+$!page.pageNum;;
+}
+
+function delData(id){
+	if(confirm("确定删除？")){
+	  var url="${rc.contextPath}/supplier/supplierDelete.do?id="+id;
+	  doDeleteRequest(url,id,show);
+	}else{
+		return;
+	}
+}
+
+function expData(id){
+	 window.location.href="${rc.contextPath}/supplier/exportExcel.do?id="+id;
+}
+
+
+function show(data){
+    alert(data);
+	if(data.indexOf("成功")!=-1){
+		 window.location.href="${rc.contextPath}/supplier/supplierList.htm";
+	}
+}
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/supplier/supplierAdd.htm" class="btn btn-success"><i class="ico"></i>添加供应商</a>
+	</div><!--bd-actionbar-->
+		
+	<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" id="form1" name="form1" action="$rc.contextPath/supplier/supplierList.htm" method="post">
+				<table class="form form-horizontal">
+					<tr>
+						<td><label class="tit first-tit">简称：</label></td>
+						<td><input name="supplierName" id="supplierName" class="form-input" type="text" value="$!supplierName"></td>
+						<td><label class="tit">手机号码：</label></td>
+						<td><input name="mobilePhone" id="mobilePhone" class="form-input" type="text" value="$!mobilePhone"></td>
+						<td><a class="btn btn-warning btn-sm" href="javascript:goPage(1)">查找</a></td>
+					</tr>
+				</table>
+			</form>
+			
+			<table class="table">
+		 		<tr>
+					<th>供应商简称</th>
+					<th>供应商全称</th>
+					<th>供应商地址</th>
+					<th>联系人</th>
+					<th>手机号码</th>
+					<th>收款单位全称</th>
+					<th>账号</th>
+					<th>开户银行</th>
+					<th>备注</th>
+					<th>创建时间</th>
+					<th>操作</th>
+		  		</tr>
+		  		
+		  		#set ($rowCount = 0)
+		  		#foreach($supplier in $page.result)
+			  		#set ($isOddRow = $rowCount % 2 != 0)
+			  		#if ($isOddRow)
+	           		<tr>
+	          		#else
+	           		<tr class="sep-bar">
+	          		#end
+						<td>$!supplier.supplierName</td>
+						<td>$!supplier.supplierFullName</td>
+						<td>$!supplier.supplierAddress</td>
+						<td>$!supplier.linkmanName</td>
+						<td>$!supplier.mobilePhone</td>
+						<td>$!supplier.accountName</td>
+						<td>$!supplier.account</td>
+						<td>$!supplier.bankName</td>
+						<td>$!supplier.remark</td>
+						<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!supplier.createdTime)</td>
+						<td class="opt">
+							<a href="javascript:editData('$supplier.id')">编辑</a><span>|</span>
+							<a href="javascript:delData('$supplier.id')">删除</a><span>|</span>
+							<a href="javascript:expData('$supplier.id')">导出excel</a>
+						</td>
+			  		</tr>
+			  
+			  		#set ($rowCount = $rowCount + 1)
+		 		#end
+
+			</table>
+			
+			<div class="text-center">
+        			#parse("/common/page.vm")
+       		</div>
+		</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

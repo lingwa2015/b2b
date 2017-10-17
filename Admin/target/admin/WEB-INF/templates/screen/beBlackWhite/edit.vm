@@ -1,0 +1,732 @@
+<script type="text/javascript">
+$(document).ready(function() {
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+				if($('#blackCateRowCount').val() < 1 && $('#blackItemVarietyRowCount').val() < 1&&$('#whiteCateRowCount').val() <1&&$('#whiteItemVarietyRowCount').val() <1&&$('#whiteItemRowCount').val() <1){
+					alert('至少需要有一条名单');
+					return false;
+				}
+				save();
+				return false;
+        }
+	});
+
+
+ });
+
+var checkSubmitFlag = false;
+function save() {
+
+  	if(checkSubmitFlag ==true){
+       alert("请勿重复提交");
+       return false;
+    }
+	var id = $('#customerId').val();
+    checkSubmitFlag = true;
+	disableBtn('saveBtn');
+	submitJqueryFormData('form1','${rc.contextPath}/beBlackWhiteList/update.do',function(data){
+	    checkSubmitFlag = false;
+
+		if(data == '添加成功'){
+			window.location.href="${rc.contextPath}/beBlackWhiteList/list.htm?id="+id;
+		}else{
+			alert(data);
+			enableBtn('saveBtn');
+		}
+	});
+}
+
+function insertRowAddBlackItemVariety(tableObj) {
+	var rowObj = $('#rowTemplate1').clone();
+	var blackItemVarietyList = rowObj.children('td');
+	var nameList = '';
+	var rowCount = Number($('#blackItemVarietyRowCount').val());
+	rowObj.css('display', '');
+	for (var i = 0; i < blackItemVarietyList.length; i++) {
+		var tdEle = blackItemVarietyList[i];
+		if (tdEle.children.length == 0)
+			continue;
+		var inputEle = tdEle.children[0];
+		
+		if (inputEle.tagName == 'SPAN') {
+			//inputEle.insertAdjacentText('afterEnd',skuSize);
+			continue;
+		}
+		
+		inputEle.setAttribute('rowNum',rowCount);
+
+		inputEle.name = inputEle.name + rowCount;
+		inputEle.id = inputEle.name; 
+		//nameList = nameList +"," + tdEle.getAttribute('name');
+	}
+	$('#blackItemVarietyRowCount').val(rowCount + 1);
+	tableObj.append(rowObj);
+}
+
+function deleteRowAddBlackItemVariety(rowObj){
+	var rowCount = Number($('#rowCount').val());
+	$(rowObj).parent().parent().remove();
+}
+#* 
+	黑名单单品
+*#
+function insertRowaddBlackItem(tableObj) {
+	var rowObj = $('#rowTemplate2').clone();
+	var blackItemList = rowObj.children('td');
+	var nameList = '';
+	var rowCount = Number($('#blackItemRowCount').val());
+	rowObj.css('display', '');
+	for (var i = 0; i < blackItemList.length; i++) {
+		var tdEle = blackItemList[i];
+		if (tdEle.children.length == 0)
+			continue;
+		var inputEle = tdEle.children[0];
+		
+		if (inputEle.tagName == 'SPAN') {
+			//inputEle.insertAdjacentText('afterEnd',skuSize);
+			continue;
+		}
+		
+		inputEle.setAttribute('rowNum',rowCount);
+
+		inputEle.name = inputEle.name + rowCount;
+		inputEle.id = inputEle.name; 
+		//nameList = nameList +"," + tdEle.getAttribute('name');
+	}
+	$('#blackItemRowCount').val(rowCount + 1);
+	tableObj.append(rowObj);
+}
+
+function deleteRowaddBlackItem(rowObj){
+	$(rowObj).parent().parent().remove();
+}
+
+function setSkuName(selectObj){
+	var rowNum = selectObj.getAttribute("rowNum");
+	var skuName = $(selectObj).find("option:selected").text();
+}
+
+function setSkuList(selectObj){
+    var rowNum = selectObj.getAttribute("rowNum");
+	var cateId = $(selectObj).find("option:selected").val();
+
+	var skuListId='#blackItemId'+rowNum;
+	$(skuListId).empty();
+	var option = "";
+	var itemObjs = document.getElementsByName("item_"+cateId);
+	if(itemObjs!=null){
+	   var l = itemObjs.length;
+	   for(var i=0;i<l;i++){
+	      var itemObj = itemObjs[i];
+	      var itemId = itemObj.getAttribute("id");
+	      var itemName = itemObj.value;
+	      option += "<option value=\"" + itemId + "\">" + itemName + "</option>";
+	   }
+	}
+
+	$(skuListId).append(option);
+	
+}
+
+function setWhiteItem(selectObj){
+    var rowNum = selectObj.getAttribute("rowNum");
+	var cateId = $(selectObj).find("option:selected").val();
+
+	var skuListId='#whiteItemId'+rowNum;
+	$(skuListId).empty();
+	var option = "";
+	var itemObjs = document.getElementsByName("item_"+cateId);
+	if(itemObjs!=null){
+	   var l = itemObjs.length;
+	   for(var i=0;i<l;i++){
+	      var itemObj = itemObjs[i];
+	      var itemId = itemObj.getAttribute("id");
+	      var itemName = itemObj.value;
+	      option += "<option value=\"" + itemId + "\">" + itemName + "</option>";
+	   }
+	}
+
+	$(skuListId).append(option);
+	
+}
+
+#*
+	白名单品种
+*#
+
+function insertRowAddWhiteItemVariety(tableObj) {
+	var rowObj = $('#rowTemplate3').clone();
+	var whiteItemVarietyList = rowObj.children('td');
+	var nameList = '';
+	var rowCount = Number($('#whiteItemVarietyRowCount').val());
+	rowObj.css('display', '');
+	for (var i = 0; i < whiteItemVarietyList.length; i++) {
+		var tdEle = whiteItemVarietyList[i];
+		if (tdEle.children.length == 0)
+			continue;
+		var inputEle = tdEle.children[0];
+		
+		if (inputEle.tagName == 'SPAN') {
+			//inputEle.insertAdjacentText('afterEnd',skuSize);
+			continue;
+		}
+		
+		inputEle.setAttribute('rowNum',rowCount);
+
+		inputEle.name = inputEle.name + rowCount;
+		inputEle.id = inputEle.name; 
+		//nameList = nameList +"," + tdEle.getAttribute('name');
+	}
+	$('#whiteItemVarietyRowCount').val(rowCount + 1);
+	tableObj.append(rowObj);
+}
+
+function deleteRowAddWhiteItemVariety(rowObj){
+	$(rowObj).parent().parent().remove();
+}
+
+#* 
+	白名单单品
+*#
+function insertRowaddWhiteItem(tableObj) {
+	var rowObj = $('#rowTemplate4').clone();
+	var whiteItemList = rowObj.children('td');
+	var nameList = '';
+	var rowCount = Number($('#whiteItemRowCount').val());
+	rowObj.css('display', '');
+	for (var i = 0; i < whiteItemList.length; i++) {
+		var tdEle = whiteItemList[i];
+		if (tdEle.children.length == 0)
+			continue;
+		var inputEle = tdEle.children[0];
+		
+		if (inputEle.tagName == 'SPAN') {
+			//inputEle.insertAdjacentText('afterEnd',skuSize);
+			continue;
+		}
+		
+		inputEle.setAttribute('rowNum',rowCount);
+
+		inputEle.name = inputEle.name + rowCount;
+		inputEle.id = inputEle.name; 
+		//nameList = nameList +"," + tdEle.getAttribute('name');
+	}
+	$('#whiteItemRowCount').val(rowCount + 1);
+	tableObj.append(rowObj);
+}
+
+function deleteRowaddWhiteItem(rowObj){
+	$(rowObj).parent().parent().remove();
+}
+
+#* 
+	黑名单类目
+*#
+function insertRowaddBlackCate(tableObj) {
+	var rowObj = $('#rowTemplate5').clone();
+	var blackCateList = rowObj.children('td');
+	var nameList = '';
+	var rowCount = Number($('#blackCateRowCount').val());
+	rowObj.css('display', '');
+	for (var i = 0; i < blackCateList.length; i++) {
+		var tdEle = blackCateList[i];
+		if (tdEle.children.length == 0)
+			continue;
+		var inputEle = tdEle.children[0];
+		
+		if (inputEle.tagName == 'SPAN') {
+			//inputEle.insertAdjacentText('afterEnd',skuSize);
+			continue;
+		}
+		
+		inputEle.setAttribute('rowNum',rowCount);
+
+		inputEle.name = inputEle.name + rowCount;
+		inputEle.id = inputEle.name; 
+		//nameList = nameList +"," + tdEle.getAttribute('name');
+	}
+	$('#blackCateRowCount').val(rowCount + 1);
+	tableObj.append(rowObj);
+}
+
+function deleteRowaddBlackCate(rowObj){
+	$(rowObj).parent().parent().remove();
+}
+
+function setBlackCate(selectObj){
+	var rowNum = selectObj.getAttribute("rowNum");
+	var option = "";
+	var catId = "";
+	var catName = "";
+	var cateId = $(selectObj).find("option:selected").val();
+	$("#"+"blackCateId"+rowNum).empty();
+	var itemObjs = document.getElementsByName(cateId);
+	if(itemObjs!=null){
+	   var l = itemObjs.length;
+	   for(var i=0;i<l;i++){
+	      var itemObj = itemObjs[i];
+	      var catId = itemObj.getAttribute("id");
+	      var catName = itemObj.value;
+	      option += "<option value=\"" + catId + "\">" + catName + "</option>";
+	   }
+	}
+	$("#"+"blackCateId"+rowNum).append(option);
+}
+
+#* 
+	白名单类目
+*#
+function insertRowaddWhiteCate(tableObj) {
+	var rowObj = $('#rowTemplate6').clone();
+	var whiteCateList = rowObj.children('td');
+	var nameList = '';
+	var rowCount = Number($('#whiteCateRowCount').val());
+	rowObj.css('display', '');
+	for (var i = 0; i < whiteCateList.length; i++) {
+		var tdEle = whiteCateList[i];
+		if (tdEle.children.length == 0)
+			continue;
+		var inputEle = tdEle.children[0];
+		
+		if (inputEle.tagName == 'SPAN') {
+			//inputEle.insertAdjacentText('afterEnd',skuSize);
+			continue;
+		}
+		
+		inputEle.setAttribute('rowNum',rowCount);
+
+		inputEle.name = inputEle.name + rowCount;
+		inputEle.id = inputEle.name; 
+		//nameList = nameList +"," + tdEle.getAttribute('name');
+	}
+	$('#whiteCateRowCount').val(rowCount + 1);
+	tableObj.append(rowObj);
+}
+
+function deleteRowaddWhiteCate(rowObj){
+	$(rowObj).parent().parent().remove();
+}
+
+function setWhiteCate(selectObj){
+	var rowNum = selectObj.getAttribute("rowNum");
+	var option = "";
+	var catId = "";
+	var catName = "";
+	var cateId = $(selectObj).find("option:selected").val();
+	$("#"+"whiteCateId"+rowNum).empty();
+	var itemObjs = document.getElementsByName(cateId);
+	if(itemObjs!=null){
+	   var l = itemObjs.length;
+	   for(var i=0;i<l;i++){
+	      var itemObj = itemObjs[i];
+	      var catId = itemObj.getAttribute("id");
+	      var catName = itemObj.value;
+	      option += "<option value=\"" + catId + "\">" + catName + "</option>";
+	   }
+	}
+	$("#"+"whiteCateId"+rowNum).append(option);
+}
+
+function getUser() {
+	var mobilePhone = $("#mobilePhone").val().trim();
+	if (mobilePhone == null || mobilePhone.length == 0||mobilePhone.length!=11) {
+		//补充提示信息，手机号码不能为空
+		alert("请填写手机号");
+		return;
+	}
+	var url = "${rc.contextPath}/customer/queryUser.json";
+	doJsonRequest(url, {
+		"mobilePhone" : mobilePhone
+	}, showUser);
+}
+
+function showUser(data) {
+
+	if (data == null || data.user == null) {
+		//补充提示信息，用户不存在
+		alert("用户不存在");
+		return;
+	}
+	$('input[name="customerId"]').val(data.user.id);
+	$("#showName").html(data.user.userName);
+}
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/beBlackWhiteList/list.htm?id=$!customer.id" title="返回"+$!customer.userName+"的黑白名单列表" class="btn btn-return"><</a>
+		<h4 class="tit">
+		  编辑客户黑白名单
+		</h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+	#foreach( $item in $itemList)
+			<input type="hidden" name="item_$item.categoryId" id="$item.id" value="$item.itemName" stockNum="$item.stock"/>
+		#end
+		#foreach($catLevel in $catLevelList)
+			<input type="hidden" name="$catLevel.parentId" id="$catLevel.id" value="$catLevel.categoryName"/>
+		#end
+	<form class="jqtransform" name="itemVarietyForm" id="form1" action="${rc.contextPath}/beBlackWhiteList/update.do" method="post">
+   	<input type="hidden" name="customerId" id="customerId" value="$!customer.id" />
+		<tr>
+			<td align="right"><label class="tit">用户姓名：</label></td>
+			<td><label class="titval" name="showName" id="showName">$!customer.userName</label></td>
+		</tr>
+	<table class="form">
+		<tr>
+				<td align="right"></td>
+				<td>
+					黑名单-类目
+                    <table class="table-inline"  id="blackCate">
+                      <tr>
+                        <th><a class="ico-add" href="#"
+								onclick="insertRowaddBlackCate($('#blackCate'))">+</a></th>
+						<th>一级类目名称</th>
+                        <th>二级类目名称</th>
+                      </tr>
+                      #set($bcCount = 0)
+                        #foreach( $cate in $blackCate)
+                      		 <tr id="rowTemplate5show" name="rowTemplate5show">
+							<th><a class="ico-subtract" href="#"
+								onclick="deleteRowaddBlackCate(this)">-</a></th>
+							<td>
+    							<select name='blackOneCateId$bcCount' id='blackOneCateId$bcCount' rowNum="$bcCount" onchange="setBlackCate(this)"   validate="{required:true}">
+        								#foreach( $cat in $catList)
+        										<option value='$cat.id' #if($cate.parentId==$cat.id) selected #end>$cat.categoryName</option>
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+    						<td>
+    							<select name='blackCateId$bcCount' id='blackCateId$bcCount' rowNum="$bcCount" validate="{required:true}">
+        								#foreach( $catLevel in $catLevelList)
+        								  #if($catLevel.parentId==$cate.parentId)
+        									 <option value='$catLevel.id' #if($catLevel.id==$cate.categoryId) selected #end>$catLevel.categoryName</option>
+        								  #end
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+						</tr>
+					  #set($bcCount = $bcCount+1)
+                      	#end
+                      <tr id="rowTemplate5" name="rowTemplate5" style="display: none">
+							<th><a class="ico-subtract" href="#"
+								onclick="deleteRowaddBlackCate(this)">-</a></th>
+							<td>
+    							<select name='blackOneCateId' id='blackOneCateId' onchange="setBlackCate(this)"   validate="{required:true}">
+        								#foreach( $cat in $catList)
+        										<option value='$cat.id'>$cat.categoryName</option>
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+    						<td>
+    							<select name='blackCateId' validate="{required:true}">
+        								#foreach( $catLevel in $catLevelList)
+        								  #if($catLevel.parentId==$cateId1)
+        									 <option value='$catLevel.id'>$catLevel.categoryName</option>
+        								  #end
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+						</tr>
+                    </table>
+					<!-- 删除的时候rowCount不会减少，因为如果从中间删除一行，会导致新生成的行id与现有的行冲突,
+								所以请在后台拿去数据的时候，判断一下当前行是否有数据 -->
+					<input type="hidden" name="blackCateRowCount" id="blackCateRowCount" value="$!blackCateSize">
+                </td>
+			</tr>
+		<tr>
+				<td align="right"></td>
+				<td>
+					黑名单-品种
+                    <table class="table-inline"  id="blackItemVarietyList">
+                      <tr>
+                        <th><a class="ico-add" href="#"
+								onclick="insertRowAddBlackItemVariety($('#blackItemVarietyList'))">+</a></th>
+						<th>品种</th>
+                      </tr>
+                      #set($bivCount = 0)
+                        #foreach( $bvariety in $blackVariety)
+                        	<tr id="rowTemplate1show" name="rowTemplate1show">
+							<th><a class="ico-subtract" href="#"
+								onclick="deleteRowAddBlackItemVariety(this)">-</a></th>
+							<td>
+    							<select name='blackItemVariety$bivCount' id='blackItemVariety$bivCount' rownum='$bivCount' validate="{required:true}">
+        								#foreach( $itemVariety in $itemVarietyList)
+        										<option value='$itemVariety.itemvarietyId' #if($bvariety.varietyId==$itemVariety.itemvarietyId) selected #end>$itemVariety.itemvarietyName</option>
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+						</tr>
+					  #set($bivCount = $bivCount+1)
+                        #end
+                      
+                      <tr id="rowTemplate1" name="rowTemplate1" style="display: none">
+							<th><a class="ico-subtract" href="#"
+								onclick="deleteRowAddBlackItemVariety(this)">-</a></th>
+							<td>
+    							<select name='blackItemVariety' validate="{required:true}">
+        								#foreach( $itemVariety in $itemVarietyList)
+        										<option value='$itemVariety.itemvarietyId'>$itemVariety.itemvarietyName</option>
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+						</tr>
+                    </table>
+					<!-- 删除的时候rowCount不会减少，因为如果从中间删除一行，会导致新生成的行id与现有的行冲突,
+								所以请在后台拿去数据的时候，判断一下当前行是否有数据 -->
+					<input type="hidden" name="blackItemVarietyRowCount" id="blackItemVarietyRowCount" value="$!blackVarietySize">
+                </td>
+			</tr>
+			#*<tr>
+				<td align="right"></td>
+				<td>
+					黑名单-单品
+                    <table class="table-inline"  id="blackItem">
+                      <tr>
+                        <th><a class="ico-add" href="#"
+								onclick="insertRowaddBlackItem($('#blackItem'))">+</a></th>
+						<th>商品类目</th>
+                        <th>商品名称</th>
+                      </tr>
+                       #set($biCount = 0)
+                        #foreach( $bitem in $blackItem)
+                        	<tr id="rowTemplate2show" name="rowTemplate2show">
+							<th><a class="ico-subtract" href="#"
+								onclick="deleteRowaddBlackItem(this)">-</a></th>
+							<td>
+    							<select name='blackItemCateId$biCount' id='blackItemCateId$biCount' rownum='$biCount' onchange="setSkuList(this)"   validate="{required:true}">
+        								#foreach( $cat in $catList)
+        										<option value='$cat.id' #if($bitem.categoryId==$cat.id) selected #end>$cat.categoryName</option>
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+    						<td>
+    							<select name='blackItemId$biCount' id='blackItemId$biCount' rownum='$biCount' validate="{required:true}">
+        								#foreach( $item in $itemList)
+        								  #if($item.categoryId==$bitem.categoryId)
+        									 <option value='$item.id' #if($bitem.itemId==$item.id) selected #end>$item.itemName</option>
+        								  #end
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+						</tr>
+                        
+					  #set($biCount = $biCount+1)
+                        #end
+                      
+                      <tr id="rowTemplate2" name="rowTemplate2" style="display: none">
+							<th><a class="ico-subtract" href="#"
+								onclick="deleteRowaddBlackItem(this)">-</a></th>
+							<td>
+    							<select name='blackItemCateId' onchange="setSkuList(this)"   validate="{required:true}">
+        								#foreach( $cat in $catList)
+        										<option value='$cat.id'>$cat.categoryName</option>
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+    						<td>
+    							<select name='blackItemId' validate="{required:true}">
+        								#foreach( $item in $itemList)
+        								  #if($item.categoryId==$cateId1)
+        									 <option value='$item.id'>$item.itemName</option>
+        								  #end
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+						</tr>
+                    </table>
+					<!-- 删除的时候rowCount不会减少，因为如果从中间删除一行，会导致新生成的行id与现有的行冲突,
+								所以请在后台拿去数据的时候，判断一下当前行是否有数据 -->
+					<input type="hidden" name="blackItemRowCount" id="blackItemRowCount" value="$!blackItemSize">
+                </td>
+			</tr>*#
+			
+			<tr>
+				<td align="right"></td>
+				<td>
+					白名单-类目
+                    <table class="table-inline"  id="whiteCate">
+                      <tr>
+                        <th><a class="ico-add" href="#"
+								onclick="insertRowaddWhiteCate($('#whiteCate'))">+</a></th>
+						<th>一级类目名称</th>
+                        <th>二级类目名称</th>
+                      </tr>
+                      #set($wcCount = 0)
+                        #foreach( $cate in $whiteCate)
+                      		 <tr id="rowTemplate6show" name="rowTemplate6show">
+							<th><a class="ico-subtract" href="#"
+								onclick="deleteRowaddWhiteCate(this)">-</a></th>
+							<td>
+    							<select name='whiteOneCateId$wcCount' id='whiteOneCateId$wcCount' rowNum="$wcCount" onchange="setWhiteCate(this)"   validate="{required:true}">
+        								#foreach( $cat in $catList)
+        										<option value='$cat.id' #if($cate.parentId==$cat.id) selected #end>$cat.categoryName</option>
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+    						<td>
+    							<select name='whiteCateId$wcCount' id='whiteCateId$wcCount' rowNum="$wcCount" validate="{required:true}">
+        								#foreach( $catLevel in $catLevelList)
+        								  #if($catLevel.parentId==$cate.parentId)
+        									 <option value='$catLevel.id' #if($catLevel.id==$cate.categoryId) selected #end>$catLevel.categoryName</option>
+        								  #end
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+						</tr>
+					  #set($wcCount = $wcCount+1)
+                      	#end
+                      <tr id="rowTemplate6" name="rowTemplate6" style="display: none">
+							<th><a class="ico-subtract" href="#"
+								onclick="deleteRowaddWhiteCate(this)">-</a></th>
+							<td>
+    							<select name='whiteOneCateId' id='whiteOneCateId' onchange="setWhiteCate(this)"   validate="{required:true}">
+        								#foreach( $cat in $catList)
+        										<option value='$cat.id'>$cat.categoryName</option>
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+    						<td>
+    							<select name='whiteCateId' validate="{required:true}">
+        								#foreach( $catLevel in $catLevelList)
+        								  #if($catLevel.parentId==$cateId1)
+        									 <option value='$catLevel.id'>$catLevel.categoryName</option>
+        								  #end
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+						</tr>
+                    </table>
+					<!-- 删除的时候rowCount不会减少，因为如果从中间删除一行，会导致新生成的行id与现有的行冲突,
+								所以请在后台拿去数据的时候，判断一下当前行是否有数据 -->
+					<input type="hidden" name="whiteCateRowCount" id="whiteCateRowCount" value="$!whiteCateSize">
+                </td>
+			</tr>
+			
+			<tr>
+				<td align="right"></td>
+				<td>
+					白名单-品种
+                    <table class="table-inline"  id="whiteItemVarietyList">
+                      <tr>
+                        <th><a class="ico-add" href="#"
+								onclick="insertRowAddWhiteItemVariety($('#whiteItemVarietyList'))">+</a></th>
+						<th>品种</th>
+                      </tr>
+                       #set($wvCount = 0)
+                        #foreach( $wvariety in $whiteVariety)
+                        
+                        <tr id="rowTemplate3show" name="rowTemplate3show">
+							<th><a class="ico-subtract" href="#"
+								onclick="deleteRowAddWhiteItemVariety(this)">-</a></th>
+							<td>
+    							<select name='whiteItemVariety$wvCount' id='whiteItemVariety$wvCount' rownum='$wvCount' validate="{required:true}">
+        								#foreach( $itemVariety in $itemVarietyList)
+        										<option value='$itemVariety.itemvarietyId' #if($wvariety.varietyId==$itemVariety.itemvarietyId) selected #end>$itemVariety.itemvarietyName</option>
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+						</tr>
+					  #set($wvCount = $wvCount+1)
+                         #end
+                      
+                      <tr id="rowTemplate3" name="rowTemplate3" style="display: none">
+							<th><a class="ico-subtract" href="#"
+								onclick="deleteRowAddWhiteItemVariety(this)">-</a></th>
+							<td>
+    							<select name='whiteItemVariety' validate="{required:true}">
+        								#foreach( $itemVariety in $itemVarietyList)
+        										<option value='$itemVariety.itemvarietyId'>$itemVariety.itemvarietyName</option>
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+						</tr>
+                    </table>
+					<!-- 删除的时候rowCount不会减少，因为如果从中间删除一行，会导致新生成的行id与现有的行冲突,
+								所以请在后台拿去数据的时候，判断一下当前行是否有数据 -->
+					<input type="hidden" name="whiteItemVarietyRowCount" id="whiteItemVarietyRowCount" value="$!whiteVarietySize">
+                </td>
+			</tr>
+			<tr>
+				<td align="right"></td>
+				<td>
+					白名单-单品
+                    <table class="table-inline"  id="whiteItem">
+                      <tr>
+                        <th><a class="ico-add" href="#"
+								onclick="insertRowaddWhiteItem($('#whiteItem'))">+</a></th>
+						<th>商品类目</th>
+                        <th>商品名称</th>
+                      </tr>
+                      #set($wiCount = 0)
+                        #foreach( $witem in $whiteItem)
+                        	<tr id="rowTemplate4show" name="rowTemplate4show">
+							<th><a class="ico-subtract" href="#"
+								onclick="deleteRowaddWhiteItem(this)">-</a></th>
+							<td>
+    							<select name='whiteItemCateId$wiCount' id='whiteItemCateId$wiCount' rownum='$wiCount' onchange="setWhiteItem(this)"   validate="{required:true}">
+        								#foreach( $cat in $catList)
+        										<option value='$cat.id' #if($witem.categoryId==$cat.id) selected #end>$cat.categoryName</option>
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+    						<td>
+    							<select name='whiteItemId$wiCount' id='whiteItemId$wiCount' rownum='$wiCount' validate="{required:true}">
+        								#foreach( $item in $itemList)
+        								  #if($item.categoryId==$witem.categoryId)
+        									 <option value='$item.id' #if($witem.itemId==$item.id) selected #end>$item.itemName</option>
+        								  #end
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+						</tr>
+					  #set($wiCount = $wiCount+1)
+                         #end
+                      <tr id="rowTemplate4" name="rowTemplate4" style="display: none">
+							<th><a class="ico-subtract" href="#"
+								onclick="deleteRowaddWhiteItem(this)">-</a></th>
+							<td>
+    							<select name='whiteItemCateId' onchange="setWhiteItem(this)"   validate="{required:true}">
+        								#foreach( $cat in $catList)
+        										<option value='$cat.id'>$cat.categoryName</option>
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+    						<td>
+    							<select name='whiteItemId' validate="{required:true}">
+        								#foreach( $item in $itemList)
+        								  #if($item.categoryId==$cateId1)
+        									 <option value='$item.id'>$item.itemName</option>
+        								  #end
+        								#end
+        							</select>&nbsp;<span></span>
+        					</td>
+						</tr>
+                    </table>
+					<!-- 删除的时候rowCount不会减少，因为如果从中间删除一行，会导致新生成的行id与现有的行冲突,
+								所以请在后台拿去数据的时候，判断一下当前行是否有数据 -->
+					<input type="hidden" name="whiteItemRowCount" id="whiteItemRowCount" value="$!whiteItemSize">
+                </td>
+			</tr>
+			
+			
+		
+		<tr class="btn-bar">
+			<td></td>
+			<td><a class="btn btn-primary" id="saveBtn" href="#" onclick="$('#form1').submit();">保存</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

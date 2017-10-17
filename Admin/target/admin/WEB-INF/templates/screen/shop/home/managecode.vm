@@ -1,0 +1,11 @@
+#set($layout="layout/shopLayout.vm")
+<div class="code">
+        <div class="code_ju">
+            <img src="${rc.contextPath}/convenient/shop_manageQRCode.htm?shop_id=$!shopId&token=$!stringMD5">
+        </div>
+        <p>长按保存到手机</p>
+    </div>
+<script type="text/javascript">
+    document.title = "添加店铺管理员";
+    $("body").css("background-color","#ececec");
+</script>

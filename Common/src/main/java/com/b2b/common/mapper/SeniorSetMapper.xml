@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.SeniorSetMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.SeniorSet" >
+    <id column="shop_id" property="shopId" jdbcType="INTEGER" />
+    <result column="money" property="money" jdbcType="BIGINT" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="discount" property="discount" jdbcType="DECIMAL" />
+    <result column="start" property="start" jdbcType="INTEGER" />
+    <result column="show_price" property="showPrice" jdbcType="INTEGER" />
+    <result column="free_fee" property="freeFee" jdbcType="BIGINT" />
+    <result column="day_or_month" property="dayOrMonth" jdbcType="INTEGER" />
+    <result column="islayer" property="islayer" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    shop_id, money, created, discount, start, show_price, free_fee, day_or_month, islayer, 
+    type
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.SeniorSetExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from senior_set
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from senior_set
+    where shop_id = #{shopId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from senior_set
+    where shop_id = #{shopId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.SeniorSetExample" >
+    delete from senior_set
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.SeniorSet" useGeneratedKeys="true" keyColumn="shop_id" keyProperty="ShopId">
+    insert into senior_set (shop_id, money, created,
+    discount, start, show_price,
+      free_fee, day_or_month, islayer, 
+      type)
+    values (#{shopId,jdbcType=INTEGER}, #{money,jdbcType=BIGINT}, #{created,jdbcType=TIMESTAMP},
+    #{discount,jdbcType=DECIMAL}, #{start,jdbcType=INTEGER}, #{showPrice,jdbcType=INTEGER},
+      #{freeFee,jdbcType=BIGINT}, #{dayOrMonth,jdbcType=INTEGER}, #{islayer,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.SeniorSet" >
+    insert into senior_set
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="start != null" >
+        start,
+      </if>
+      <if test="showPrice != null" >
+        show_price,
+      </if>
+      <if test="freeFee != null" >
+        free_fee,
+      </if>
+      <if test="dayOrMonth != null" >
+        day_or_month,
+      </if>
+      <if test="islayer != null" >
+        islayer,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="shopId != null" >
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=BIGINT},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="start != null" >
+        #{start,jdbcType=INTEGER},
+      </if>
+      <if test="showPrice != null" >
+        #{showPrice,jdbcType=INTEGER},
+      </if>
+      <if test="freeFee != null" >
+        #{freeFee,jdbcType=BIGINT},
+      </if>
+      <if test="dayOrMonth != null" >
+        #{dayOrMonth,jdbcType=INTEGER},
+      </if>
+      <if test="islayer != null" >
+        #{islayer,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.SeniorSetExample" resultType="java.lang.Integer" >
+    select count(*) from senior_set
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update senior_set
+    <set >
+      <if test="record.shopId != null" >
+        shop_id = #{record.shopId,jdbcType=INTEGER},
+      </if>
+      <if test="record.money != null" >
+        money = #{record.money,jdbcType=BIGINT},
+      </if>
+      <if test="record.created != null" >
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.discount != null" >
+        discount = #{record.discount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.start != null" >
+        start = #{record.start,jdbcType=INTEGER},
+      </if>
+      <if test="record.showPrice != null" >
+        show_price = #{record.showPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.freeFee != null" >
+        free_fee = #{record.freeFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.dayOrMonth != null" >
+        day_or_month = #{record.dayOrMonth,jdbcType=INTEGER},
+      </if>
+      <if test="record.islayer != null" >
+        islayer = #{record.islayer,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update senior_set
+    set shop_id = #{record.shopId,jdbcType=INTEGER},
+    money = #{record.money,jdbcType=BIGINT},
+    created = #{record.created,jdbcType=TIMESTAMP},
+    discount = #{record.discount,jdbcType=DECIMAL},
+    start = #{record.start,jdbcType=INTEGER},
+    show_price = #{record.showPrice,jdbcType=INTEGER},
+    free_fee = #{record.freeFee,jdbcType=BIGINT},
+    day_or_month = #{record.dayOrMonth,jdbcType=INTEGER},
+      islayer = #{record.islayer,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.SeniorSet" >
+    update senior_set
+    <set >
+      <if test="money != null" >
+        money = #{money,jdbcType=BIGINT},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="start != null" >
+        start = #{start,jdbcType=INTEGER},
+      </if>
+      <if test="showPrice != null" >
+        show_price = #{showPrice,jdbcType=INTEGER},
+      </if>
+      <if test="freeFee != null" >
+        free_fee = #{freeFee,jdbcType=BIGINT},
+      </if>
+      <if test="dayOrMonth != null" >
+        day_or_month = #{dayOrMonth,jdbcType=INTEGER},
+      </if>
+      <if test="islayer != null" >
+        islayer = #{islayer,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+    </set>
+    where shop_id = #{shopId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.SeniorSet" >
+    update senior_set
+    set money = #{money,jdbcType=BIGINT},
+    created = #{created,jdbcType=TIMESTAMP},
+    discount = #{discount,jdbcType=DECIMAL},
+    start = #{start,jdbcType=INTEGER},
+    show_price = #{showPrice,jdbcType=INTEGER},
+    free_fee = #{freeFee,jdbcType=BIGINT},
+    day_or_month = #{dayOrMonth,jdbcType=INTEGER},
+      islayer = #{islayer,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER}
+    where shop_id = #{shopId,jdbcType=INTEGER}
+  </update>
+</mapper>

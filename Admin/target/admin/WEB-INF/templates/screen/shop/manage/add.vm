@@ -1,0 +1,77 @@
+#set($layout="layout/shopLayout.vm")
+ <div class="manage_content">
+        <ul>
+            <li>
+                <span>公司全称</span>
+                <input type="text" name="" placeholder="发票抬头" id="full_name">
+            </li>
+            <li>
+                <span>公司简称</span>
+                <input type="text" name="" placeholder="公司简称或品牌名" id="short_name">
+            </li>
+            <li>
+                <span>联系人</span>
+                <input type="text" name="" id="name">
+            </li>
+            <li>
+                <span>职位</span>
+                <input type="text" name="" id="position">
+            </li>
+            <li>
+                <span>联系电话</span>
+                <input type="" name="" id="phone">
+            </li>
+            <li>
+                <span>配送地址</span>
+                <input type="text" name="" id="address">
+            </li>
+        </ul>
+        <div class="discount">
+            <span>折扣</span>
+            <input type="num" name=""  id="discount">
+        </div>
+        <a href="javascript:void(0)" ontouchend="save();">开通</a>
+    </div>
+<script type="text/javascript">
+    document.title = "开通便利店";
+    $("body").css("background-color","#ececec");
+    var checkSubmitFlag = false;
+    function save() {
+        var full_name = $("#full_name").val();
+        var short_name = $("#short_name").val();
+        var name = $("#name").val();
+        var position = $("#position").val();
+        var phone =$("#phone").val();
+        var address =$("#address").val();
+        var discount =$("#discount").val();
+        var res = /^(?:[1-9][0-9]*|0)(\.[0-9]+)?$/;
+        var isPhone = /^([0-9]{3,4}-)?[0-9]{7,8}$/;
+        var isMob=/^((\+?86)|(\(\+86\)))?(13[012356789][0-9]{8}|15[012356789][0-9]{8}|18[02356789][0-9]{8}|147[0-9]{8}|1349[0-9]{7})$/;
+        if(!full_name||!phone||!address||!name||!discount){
+            alert("信息不能为空");
+        }else{
+        	if(!(isPhone.test(phone)||isMob.test(phone))){
+        		alert("请填写正确的手机号码！");
+				return false;
+        	}
+        	if(!res.test(discount)){
+        		alert("请填写正确的折扣！");
+				return false;
+        	}
+        	
+        	$.ajax({
+				url:'${rc.contextPath}/convenient/manage/shop_add.do',
+				type:'POST',
+				data: {userName:short_name,companyName:full_name,likeman:name,position:position,mobilePhone:phone,address:address,shopDiscount:discount},
+				success:function(data){
+					if(data==200){
+						window.location.href="${rc.contextPath}/convenient/shop_manage.htm"
+					}else{
+						alert("添加店铺基础信息出错");
+					}
+				}
+				
+			})
+        }
+    }
+</script>

@@ -1,0 +1,9 @@
+.login_loading{position:fixed;top:45px;left:50%;margin-left:-130px;width:218px;height:110px;background:#fafafa url(http://weixin.500mi.com/ui/mobile/images/loadding.gif) no-repeat center center;border:1px solid #bfbfbf;border-top:2px solid #467cbd;z-index:100;padding:20px;text-align:center;font-size:14px}
+.login_box{margin:auto auto;padding:0 10px;text-align:center;font-size:14px}
+.mui-bar-nav~.mui-content{background:#fff;margin-top:10px}
+.third_login_box{width:280px;margin:10px auto 0;overflow:hidden}
+.third_login_box a{float:left;width:140px;height:80px;padding:0;color:#333;font-weight:normal}
+.third_login_box a span{display:block;text-align:center;width:140px;height:30px;line-height:30px}
+.btn_login_weixin i,.btn_login_alipay i{display:block;margin-left:42px;height:50px;width:50px;border-radius:50%;border:1px solid #8ac21c;background:#fff url(http://weixin.500mi.com/ui/mobile/images/weixin.png) no-repeat center center;background-size:36px 31px}
+.btn_login_alipay i{background-image:url(http://weixin.500mi.com/ui/mobile/images/alipay.png);background-size:26px 28px;border:1px solid #f27a30}
+.btn_signup{line-height:30px;height:30px;width:80px;display:block}

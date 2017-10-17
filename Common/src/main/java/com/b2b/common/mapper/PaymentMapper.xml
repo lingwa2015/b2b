@@ -1,0 +1,718 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.PaymentMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.Payment" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="supplier_id" property="supplierId" jdbcType="INTEGER" />
+    <result column="supplier" property="supplier" jdbcType="VARCHAR" />
+    <result column="payment_time" property="paymentTime" jdbcType="TIMESTAMP" />
+    <result column="paymented_time" property="paymentedTime" jdbcType="TIMESTAMP" />
+    <result column="sumdate" property="sumdate" jdbcType="TIMESTAMP" />
+    <result column="stock_price" property="stockPrice" jdbcType="BIGINT" />
+    <result column="outstock_price" property="outstockPrice" jdbcType="BIGINT" />
+    <result column="payment_price" property="paymentPrice" jdbcType="BIGINT" />
+    <result column="paymenting_price" property="paymentingPrice" jdbcType="BIGINT" />
+    <result column="notpayment_price" property="notpaymentPrice" jdbcType="BIGINT" />
+    <result column="preferential_benefit_price" property="preferentialBenefitPrice" jdbcType="BIGINT" />
+    <result column="receipt_price" property="receiptPrice" jdbcType="BIGINT" />
+    <result column="applicant_id" property="applicantId" jdbcType="INTEGER" />
+    <result column="applicant" property="applicant" jdbcType="VARCHAR" />
+    <result column="remake" property="remake" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="receipt_no" property="receiptNo" jdbcType="VARCHAR" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="before_month_notpayment_price" property="beforeMonthNotpaymentPrice" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, supplier_id, supplier, payment_time, paymented_time, sumdate, stock_price, outstock_price, 
+    payment_price, paymenting_price, notpayment_price, preferential_benefit_price, receipt_price, 
+    applicant_id, applicant, remake, status, created_time, update_time, user_id, user_name, 
+    receipt_no, city_id, before_month_notpayment_price
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.PaymentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from payment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from payment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from payment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.PaymentExample" >
+    delete from payment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.Payment" >
+    insert into payment (id, supplier_id, supplier, 
+      payment_time, paymented_time, sumdate, 
+      stock_price, outstock_price, payment_price, 
+      paymenting_price, notpayment_price, preferential_benefit_price, 
+      receipt_price, applicant_id, applicant, 
+      remake, status, created_time, 
+      update_time, user_id, user_name, 
+      receipt_no, city_id, before_month_notpayment_price
+      )
+    values (#{id,jdbcType=BIGINT}, #{supplierId,jdbcType=INTEGER}, #{supplier,jdbcType=VARCHAR}, 
+      #{paymentTime,jdbcType=TIMESTAMP}, #{paymentedTime,jdbcType=TIMESTAMP}, #{sumdate,jdbcType=TIMESTAMP}, 
+      #{stockPrice,jdbcType=BIGINT}, #{outstockPrice,jdbcType=BIGINT}, #{paymentPrice,jdbcType=BIGINT}, 
+      #{paymentingPrice,jdbcType=BIGINT}, #{notpaymentPrice,jdbcType=BIGINT}, #{preferentialBenefitPrice,jdbcType=BIGINT}, 
+      #{receiptPrice,jdbcType=BIGINT}, #{applicantId,jdbcType=INTEGER}, #{applicant,jdbcType=VARCHAR}, 
+      #{remake,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{receiptNo,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, #{beforeMonthNotpaymentPrice,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.Payment" >
+    insert into payment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="supplierId != null" >
+        supplier_id,
+      </if>
+      <if test="supplier != null" >
+        supplier,
+      </if>
+      <if test="paymentTime != null" >
+        payment_time,
+      </if>
+      <if test="paymentedTime != null" >
+        paymented_time,
+      </if>
+      <if test="sumdate != null" >
+        sumdate,
+      </if>
+      <if test="stockPrice != null" >
+        stock_price,
+      </if>
+      <if test="outstockPrice != null" >
+        outstock_price,
+      </if>
+      <if test="paymentPrice != null" >
+        payment_price,
+      </if>
+      <if test="paymentingPrice != null" >
+        paymenting_price,
+      </if>
+      <if test="notpaymentPrice != null" >
+        notpayment_price,
+      </if>
+      <if test="preferentialBenefitPrice != null" >
+        preferential_benefit_price,
+      </if>
+      <if test="receiptPrice != null" >
+        receipt_price,
+      </if>
+      <if test="applicantId != null" >
+        applicant_id,
+      </if>
+      <if test="applicant != null" >
+        applicant,
+      </if>
+      <if test="remake != null" >
+        remake,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="receiptNo != null" >
+        receipt_no,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="beforeMonthNotpaymentPrice != null" >
+        before_month_notpayment_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="supplier != null" >
+        #{supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentTime != null" >
+        #{paymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paymentedTime != null" >
+        #{paymentedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sumdate != null" >
+        #{sumdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stockPrice != null" >
+        #{stockPrice,jdbcType=BIGINT},
+      </if>
+      <if test="outstockPrice != null" >
+        #{outstockPrice,jdbcType=BIGINT},
+      </if>
+      <if test="paymentPrice != null" >
+        #{paymentPrice,jdbcType=BIGINT},
+      </if>
+      <if test="paymentingPrice != null" >
+        #{paymentingPrice,jdbcType=BIGINT},
+      </if>
+      <if test="notpaymentPrice != null" >
+        #{notpaymentPrice,jdbcType=BIGINT},
+      </if>
+      <if test="preferentialBenefitPrice != null" >
+        #{preferentialBenefitPrice,jdbcType=BIGINT},
+      </if>
+      <if test="receiptPrice != null" >
+        #{receiptPrice,jdbcType=BIGINT},
+      </if>
+      <if test="applicantId != null" >
+        #{applicantId,jdbcType=INTEGER},
+      </if>
+      <if test="applicant != null" >
+        #{applicant,jdbcType=VARCHAR},
+      </if>
+      <if test="remake != null" >
+        #{remake,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptNo != null" >
+        #{receiptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="beforeMonthNotpaymentPrice != null" >
+        #{beforeMonthNotpaymentPrice,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.PaymentExample" resultType="java.lang.Integer" >
+    select count(*) from payment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update payment
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.supplierId != null" >
+        supplier_id = #{record.supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="record.supplier != null" >
+        supplier = #{record.supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paymentTime != null" >
+        payment_time = #{record.paymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.paymentedTime != null" >
+        paymented_time = #{record.paymentedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sumdate != null" >
+        sumdate = #{record.sumdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.stockPrice != null" >
+        stock_price = #{record.stockPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.outstockPrice != null" >
+        outstock_price = #{record.outstockPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.paymentPrice != null" >
+        payment_price = #{record.paymentPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.paymentingPrice != null" >
+        paymenting_price = #{record.paymentingPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.notpaymentPrice != null" >
+        notpayment_price = #{record.notpaymentPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.preferentialBenefitPrice != null" >
+        preferential_benefit_price = #{record.preferentialBenefitPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.receiptPrice != null" >
+        receipt_price = #{record.receiptPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.applicantId != null" >
+        applicant_id = #{record.applicantId,jdbcType=INTEGER},
+      </if>
+      <if test="record.applicant != null" >
+        applicant = #{record.applicant,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remake != null" >
+        remake = #{record.remake,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiptNo != null" >
+        receipt_no = #{record.receiptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.beforeMonthNotpaymentPrice != null" >
+        before_month_notpayment_price = #{record.beforeMonthNotpaymentPrice,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update payment
+    set id = #{record.id,jdbcType=BIGINT},
+      supplier_id = #{record.supplierId,jdbcType=INTEGER},
+      supplier = #{record.supplier,jdbcType=VARCHAR},
+      payment_time = #{record.paymentTime,jdbcType=TIMESTAMP},
+      paymented_time = #{record.paymentedTime,jdbcType=TIMESTAMP},
+      sumdate = #{record.sumdate,jdbcType=TIMESTAMP},
+      stock_price = #{record.stockPrice,jdbcType=BIGINT},
+      outstock_price = #{record.outstockPrice,jdbcType=BIGINT},
+      payment_price = #{record.paymentPrice,jdbcType=BIGINT},
+      paymenting_price = #{record.paymentingPrice,jdbcType=BIGINT},
+      notpayment_price = #{record.notpaymentPrice,jdbcType=BIGINT},
+      preferential_benefit_price = #{record.preferentialBenefitPrice,jdbcType=BIGINT},
+      receipt_price = #{record.receiptPrice,jdbcType=BIGINT},
+      applicant_id = #{record.applicantId,jdbcType=INTEGER},
+      applicant = #{record.applicant,jdbcType=VARCHAR},
+      remake = #{record.remake,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      receipt_no = #{record.receiptNo,jdbcType=VARCHAR},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      before_month_notpayment_price = #{record.beforeMonthNotpaymentPrice,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.Payment" >
+    update payment
+    <set >
+      <if test="supplierId != null" >
+        supplier_id = #{supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="supplier != null" >
+        supplier = #{supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentTime != null" >
+        payment_time = #{paymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paymentedTime != null" >
+        paymented_time = #{paymentedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sumdate != null" >
+        sumdate = #{sumdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stockPrice != null" >
+        stock_price = #{stockPrice,jdbcType=BIGINT},
+      </if>
+      <if test="outstockPrice != null" >
+        outstock_price = #{outstockPrice,jdbcType=BIGINT},
+      </if>
+      <if test="paymentPrice != null" >
+        payment_price = #{paymentPrice,jdbcType=BIGINT},
+      </if>
+      <if test="paymentingPrice != null" >
+        paymenting_price = #{paymentingPrice,jdbcType=BIGINT},
+      </if>
+      <if test="notpaymentPrice != null" >
+        notpayment_price = #{notpaymentPrice,jdbcType=BIGINT},
+      </if>
+      <if test="preferentialBenefitPrice != null" >
+        preferential_benefit_price = #{preferentialBenefitPrice,jdbcType=BIGINT},
+      </if>
+      <if test="receiptPrice != null" >
+        receipt_price = #{receiptPrice,jdbcType=BIGINT},
+      </if>
+      <if test="applicantId != null" >
+        applicant_id = #{applicantId,jdbcType=INTEGER},
+      </if>
+      <if test="applicant != null" >
+        applicant = #{applicant,jdbcType=VARCHAR},
+      </if>
+      <if test="remake != null" >
+        remake = #{remake,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptNo != null" >
+        receipt_no = #{receiptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="beforeMonthNotpaymentPrice != null" >
+        before_month_notpayment_price = #{beforeMonthNotpaymentPrice,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.Payment" >
+    update payment
+    set supplier_id = #{supplierId,jdbcType=INTEGER},
+      supplier = #{supplier,jdbcType=VARCHAR},
+      payment_time = #{paymentTime,jdbcType=TIMESTAMP},
+      paymented_time = #{paymentedTime,jdbcType=TIMESTAMP},
+      sumdate = #{sumdate,jdbcType=TIMESTAMP},
+      stock_price = #{stockPrice,jdbcType=BIGINT},
+      outstock_price = #{outstockPrice,jdbcType=BIGINT},
+      payment_price = #{paymentPrice,jdbcType=BIGINT},
+      paymenting_price = #{paymentingPrice,jdbcType=BIGINT},
+      notpayment_price = #{notpaymentPrice,jdbcType=BIGINT},
+      preferential_benefit_price = #{preferentialBenefitPrice,jdbcType=BIGINT},
+      receipt_price = #{receiptPrice,jdbcType=BIGINT},
+      applicant_id = #{applicantId,jdbcType=INTEGER},
+      applicant = #{applicant,jdbcType=VARCHAR},
+      remake = #{remake,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      receipt_no = #{receiptNo,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=INTEGER},
+      before_month_notpayment_price = #{beforeMonthNotpaymentPrice,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="findAll" resultMap="BaseResultMap">
+    SELECT
+      supplier_id, supplier_name supplier, SUM(t.stock_price) stock_price, SUM(t.outstock_price) outstock_price,
+      SUM(t.paymenting_price) paymenting_price, SUM(t.receipt_price) receipt_price,
+      SUM(t.paymented_price) paymented_price,
+      SUM(t.stock_price) - SUM(t.outstock_price) - SUM(t.paymenting_price) + SUM(t.before_month_notpayment_price) payment_price,
+      SUM(t.stock_price) - SUM(t.outstock_price) - SUM(t.paymented_price) + SUM(t.before_month_notpayment_price) notpayment_price,
+      SUM(t.before_month_notpayment_price) before_month_notpayment_price,
+      #{date} created_time, #{date} sumdate, t.city_id,
+      CASE WHEN SUM(t.stock_price) - SUM(t.outstock_price) - SUM(t.paymented_price) + SUM(t.before_month_notpayment_price) = 0 then 1 ELSE  0 END status,
+      MAX(remake) remake
+    FROM(
+      select
+          s.supplier_id, su.supplier_name, su.city_id, SUM(s.total_fee) stock_price, 0 outstock_price,
+          0 paymenting_price, 0 receipt_price, 0 paymented_price, 0 before_month_notpayment_price, '' remake
+      FROM `storage` s
+          LEFT JOIN supplier su ON s.supplier_id = su.id
+          WHERE  s.state = 1
+          AND LEFT(s.number ,14) = "From purchase:"
+          AND DATE_FORMAT(#{date}, '%Y-%m')  = DATE_FORMAT(s.executed_time,  '%Y-%m')
+          <if test="cityId !=null and cityId !=''">
+            AND  su.city_id = ${cityId}
+          </if>
+      GROUP BY su.id
+
+      UNION ALL
+
+      SELECT
+          o.supplier_id, s.supplier_name, s.city_id, 0, SUM(o.total_price), 0, 0, 0, 0, ''
+      FROM outstock o
+          LEFT JOIN supplier s ON s.id = o.supplier_id
+      WHERE
+          o.`status` = 1
+          AND DATE_FORMAT(#{date}, '%Y-%m')  = DATE_FORMAT(o.outstocked_time,  '%Y-%m')
+          <if test="cityId !=null and cityId !=''">
+            AND  s.city_id = ${cityId}
+          </if>
+      GROUP BY s.id
+
+      UNION ALL
+
+      SELECT
+          pa.supplier_id, s.supplier_name, s.city_id, 0, 0, sum(pa.payment_price), 0, 0, 0, ''
+      FROM payment_apply pa
+          LEFT JOIN supplier s ON pa.supplier_id = s.id
+      WHERE pa.`status` = 0
+          AND DATE_FORMAT(#{date}, '%Y-%m')  = DATE_FORMAT(pa.payment_time,  '%Y-%m')
+          <if test="cityId !=null and cityId !=''">
+            AND  s.city_id = ${cityId}
+          </if>
+      GROUP BY s.id
+
+      UNION ALL
+
+      SELECT
+          r.supplier_id, s.supplier_name, s.city_id, 0, 0, 0, SUM(r.receipt_price), 0, 0, ''
+      FROM receipt r
+          LEFT JOIN supplier s ON s.id = r.supplier_id
+      WHERE r.`status` = 1
+          AND DATE_FORMAT(#{date}, '%Y-%m')  = DATE_FORMAT(r.sumdate,  '%Y-%m')
+          <if test="cityId !=null and cityId !=''">
+            AND  s.city_id = ${cityId}
+          </if>
+      GROUP BY s.id
+
+      UNION ALL
+
+      SELECT
+          pa.supplier_id, s.supplier_name, s.city_id, 0, 0, 0, 0, sum(pa.payment_price), 0, ''
+      FROM payment_apply pa
+          LEFT JOIN supplier s ON pa.supplier_id = s.id
+      WHERE pa.`status` = 1
+          AND DATE_FORMAT(#{date}, '%Y-%m')  = DATE_FORMAT(pa.payment_time,  '%Y-%m')
+          <if test="cityId !=null and cityId !=''">
+            AND  s.city_id = ${cityId}
+          </if>
+      GROUP BY s.id
+
+      UNION ALL
+
+      SELECT
+        p.supplier_id, p.supplier, s.city_id, 0, 0, 0, 0, 0, notpayment_price before_month_notpayment_price, ''
+      FROM payment p
+          LEFT JOIN supplier s ON p.supplier_id = s.id
+      WHERE 1 = 1
+          AND date_format(DATE_SUB(curdate(), INTERVAL 1 MONTH),'%Y-%m') = DATE_FORMAT(p.sumdate,  '%Y-%m')
+          <if test="cityId !=null and cityId !=''">
+              AND s.city_id = ${cityId}
+          </if>
+    GROUP BY s.id
+
+    UNION ALL
+
+    SELECT
+      supplier_id, supplier, s.city_id, 0, 0, 0, 0, 0, 0, p.remake
+    FROM payment p
+      LEFT JOIN supplier s ON p.supplier_id = s.id
+    WHERE 1 = 1
+      AND DATE_FORMAT(#{date}, '%Y-%m')  = DATE_FORMAT(p.sumdate,  '%Y-%m')
+      <if test="cityId !=null and cityId !=''">
+        AND s.city_id = ${cityId}
+      </if>
+    GROUP BY s.id
+
+    ) t
+    WHERE t.supplier_id is NOT NULL
+    GROUP BY t.supplier_id
+  </select>
+  <delete id="deleteByDate" parameterType="java.lang.Long" >
+    delete from payment
+    where DATE_FORMAT(#{date}, '%Y-%m')  = DATE_FORMAT(sumdate,  '%Y-%m')
+    <if test="cityId !=null and cityId !=''">
+      AND  city_id = ${cityId}
+    </if>
+  </delete>
+  
+  <select id="findPaymentSupplier" resultMap="BaseResultMap">
+    select *
+    from(
+    select s.id supplier_id, s.supplier_name supplier, sum(stock_price) stock_price, sum(outstock_price) outstock_price,
+    sum(payment_price) payment_price, sum(notpayment_price) notpayment_price, sum(receipt_price) receipt_price,
+    CASE WHEN SUM(p.payment_price) = 0 then 1 ELSE 0 END status
+    from supplier s
+    left join payment p on p.supplier_id = s.id
+    where 1 = 1
+      <if test="cityId !=null and cityId !=''">
+        AND s.city_id = ${cityId}
+      </if>
+      <if test="supplierName !=null and supplierName !=''">
+        AND s.supplier_name like '%${supplierName}%'
+      </if>
+        <if test="startTime !=null and startTime !=''">
+          AND DATE_FORMAT(p.sumdate, '%Y-%m') &gt;= DATE_FORMAT(#{startTime}, '%Y-%m')
+        </if>
+        <if test="endTime !=null and endTime !=''">
+          AND DATE_FORMAT(p.sumdate, '%Y-%m') &lt;= DATE_FORMAT(#{endTime}, '%Y-%m')
+        </if>
+      group by s.id
+	  order by s.created_time DESC
+    ) t
+    where 1 = 1
+        <if test="status !=null and status !=''">
+          and t.status = #{status}
+        </if>
+      <if test="param !=null and param !=''">
+        order by t.payment_price desc
+      </if>
+  </select>
+  <select id="findSumPrice" resultMap="BaseResultMap">
+    select sum(stock_price) stock_price, sum(outstock_price),
+    sum(payment_price) payment_price, sum(notpayment_price) notpayment_price, sum(receipt_price) receipt_price
+    from supplier s
+    left join payment p on p.supplier_id = s.id
+    where 1 = 1
+    <if test="cityId !=null and cityId !=''">
+      AND s.city_id = ${cityId}
+    </if>
+    <if test="startTime !=null and startTime !=''">
+      AND DATE_FORMAT(p.sumdate, '%Y-%m') &gt;= DATE_FORMAT(#{startTime}, '%Y-%m')
+    </if>
+    <if test="endTime !=null and endTime !=''">
+      AND DATE_FORMAT(p.sumdate, '%Y-%m') &lt;= DATE_FORMAT(#{endTime}, '%Y-%m')
+    </if>
+    <if test="endTime !=null and endTime !=''">
+      AND DATE_FORMAT(p.sumdate, '%Y-%m') &lt;= DATE_FORMAT(#{endTime}, '%Y-%m')
+    </if>
+    <if test="status=='0'.toString()">
+      AND notpayment_price = 0
+    </if>
+    <if test="status=='1'.toString()">
+      AND notpayment_price != 0
+    </if>
+  </select>
+  <select id="findListBySupplierId" resultMap="BaseResultMap">
+    SELECT
+        id, supplier_id, supplier,
+        payment_time, paymented_time, sumdate,
+        stock_price, outstock_price, payment_price,
+        paymenting_price, notpayment_price, preferential_benefit_price,
+        receipt_price, applicant_id, applicant,
+        remake, status, created_time,
+        update_time, user_id, user_name,
+        receipt_no, city_id, before_month_notpayment_price
+    FROM payment p
+    WHERE 1 = 1
+      <if test="supplierId != null and supplierId !=''" >
+        AND p.supplier_id = #{supplierId}
+      </if>
+    ORDER BY p.sumdate DESC
+  </select>
+  <select id="findBySupplierIdAndSumdate" resultMap="BaseResultMap">
+    SELECT
+      id, supplier_id, supplier,
+      payment_time, paymented_time, sumdate,
+      stock_price, outstock_price, payment_price,
+      paymenting_price, notpayment_price, preferential_benefit_price,
+      receipt_price, applicant_id, applicant,
+      remake, status, created_time,
+      update_time, user_id, user_name,
+      receipt_no, city_id, before_month_notpayment_price
+    FROM payment p
+    WHERE 1 = 1
+      AND p.supplier_id = #{supplierId}
+      AND DATE_FORMAT(p.sumdate, '%Y-%m') = DATE_FORMAT(#{sumdate}, '%Y-%m')
+  </select>
+</mapper>

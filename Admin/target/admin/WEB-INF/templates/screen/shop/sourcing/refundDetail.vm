@@ -1,0 +1,22 @@
+#set($layout="layout/shopLayout.vm")
+<div class="order_details">
+        <div class="details_tip">
+            <p>编号：<span>$refund.id</span></p>
+            <p>金额：<span>￥$NumberTool.toYuanNumber($refund.totalFee)</span></p>
+        </div>
+        <ul>
+        	#foreach($item in $itemlist)
+            <li>
+                <img src="$item.img_path">
+                <p class="li_tips">$item.item_name</p>
+                <p class="li_price">￥$NumberTool.toYuanNumber($item.item_price)</p>
+                <p class="li_spec">$item.size_value</p>
+                <div class="li_num">$item.num</div>
+            </li>
+            #end
+        </ul>
+    </div>
+<script type="text/javascript">
+    document.title = "退货单详情";
+    $("body").css("background-color","#fafafa");
+</script>

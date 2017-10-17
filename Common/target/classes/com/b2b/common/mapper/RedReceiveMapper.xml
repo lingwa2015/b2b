@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.RedReceiveMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.RedReceive" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shopId" jdbcType="INTEGER" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="red_fee" property="redFee" jdbcType="BIGINT" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="sign" property="sign" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="red_type_id" property="redTypeId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, nick_name, user_id, type, user_name, shop_id, sex, red_fee, created_time, status, 
+    sign, city_id, order_no, red_type_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.RedReceiveExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from red_receive
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from red_receive
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from red_receive
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.RedReceiveExample" >
+    delete from red_receive
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.RedReceive" >
+    insert into red_receive (id, nick_name, user_id, 
+      type, user_name, shop_id, 
+      sex, red_fee, created_time, 
+      status, sign, city_id, 
+      order_no, red_type_id)
+    values (#{id,jdbcType=INTEGER}, #{nickName,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{shopId,jdbcType=INTEGER}, 
+      #{sex,jdbcType=INTEGER}, #{redFee,jdbcType=BIGINT}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{sign,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, 
+      #{orderNo,jdbcType=VARCHAR}, #{redTypeId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.RedReceive" >
+    insert into red_receive
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="nickName != null" >
+        nick_name,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="redFee != null" >
+        red_fee,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="sign != null" >
+        sign,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="redTypeId != null" >
+        red_type_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="redFee != null" >
+        #{redFee,jdbcType=BIGINT},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sign != null" >
+        #{sign,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="redTypeId != null" >
+        #{redTypeId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.RedReceiveExample" resultType="java.lang.Integer" >
+    select count(*) from red_receive
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update red_receive
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.nickName != null" >
+        nick_name = #{record.nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopId != null" >
+        shop_id = #{record.shopId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sex != null" >
+        sex = #{record.sex,jdbcType=INTEGER},
+      </if>
+      <if test="record.redFee != null" >
+        red_fee = #{record.redFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.sign != null" >
+        sign = #{record.sign,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNo != null" >
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.redTypeId != null" >
+        red_type_id = #{record.redTypeId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update red_receive
+    set id = #{record.id,jdbcType=INTEGER},
+      nick_name = #{record.nickName,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      shop_id = #{record.shopId,jdbcType=INTEGER},
+      sex = #{record.sex,jdbcType=INTEGER},
+      red_fee = #{record.redFee,jdbcType=BIGINT},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER},
+      sign = #{record.sign,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      red_type_id = #{record.redTypeId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.RedReceive" >
+    update red_receive
+    <set >
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="redFee != null" >
+        red_fee = #{redFee,jdbcType=BIGINT},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sign != null" >
+        sign = #{sign,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="redTypeId != null" >
+        red_type_id = #{redTypeId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.RedReceive" >
+    update red_receive
+    set nick_name = #{nickName,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      shop_id = #{shopId,jdbcType=INTEGER},
+      sex = #{sex,jdbcType=INTEGER},
+      red_fee = #{redFee,jdbcType=BIGINT},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      sign = #{sign,jdbcType=INTEGER},
+      city_id = #{cityId,jdbcType=INTEGER},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      red_type_id = #{redTypeId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findTodayNumByBuyerIdAndTypeAndCityId" resultType="int">
+    	SELECT COUNT(1)
+  FROM `red_receive`
+ WHERE `user_id`=#{buyerId}
+   and `type`=#{sign}
+   and `status`= 1
+   and date_format(`created_time`, '%Y-%m-%d')= date_format(now(), '%Y-%m-%d') ;
+  </select>
+  <select id="findByOrderNo" resultMap="BaseResultMap">
+  	SELECT * FROM `red_receive` WHERE `status` =1 and `order_no` = #{orderNo}
+  </select>
+  <select id="findTodayNumByRedTypeIdAndCityId" resultType="int">
+  	SELECT COUNT(1)
+  FROM `red_receive`
+ WHERE red_type_id =#{redTypeId}
+   and `status`= 1
+   and date_format(`created_time`, '%Y-%m-%d')= date_format(now(), '%Y-%m-%d') ;
+  </select>
+  <select id="findByCondition" resultMap="BaseResultMap">
+  	SELECT rr.*
+  FROM `red_receive` rr
+LEFT JOIN `red_packet_type` rpt on rr.`red_type_id` = rpt.`id` 
+ WHERE `status`= 1
+   and `sign`= 1
+   and rpt.`red_packet_id` =#{redId}
+   and `city_id`= #{cityId} order by created_time desc
+  </select>
+  <select id="findTotalFeeByCityId" resultType="long">
+  SELECT ifnull(SUM(`red_fee`),0) FROM `red_receive` WHERE `status` =1 and `sign` =1 and `city_id` =#{cityId}
+  </select>
+</mapper>

@@ -1,0 +1,1624 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.b2b.common.dao.ItemWeekReportMapper">
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.ItemWeekReport">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sum_date" jdbcType="DATE" property="sumDate" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="weekth" jdbcType="INTEGER" property="weekth" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+    <result column="categorylevel_id" jdbcType="INTEGER" property="categorylevelId" />
+    <result column="categorylevel_name" jdbcType="VARCHAR" property="categorylevelName" />
+    <result column="item_id" jdbcType="INTEGER" property="itemId" />
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="size" jdbcType="VARCHAR" property="size" />
+    <result column="price" jdbcType="BIGINT" property="price" />
+    <result column="order_item_num" jdbcType="INTEGER" property="orderItemNum" />
+    <result column="shop_order_item_num" jdbcType="INTEGER" property="shopOrderItemNum" />
+    <result column="shop_num" jdbcType="INTEGER" property="shopNum" />
+    <result column="shop_order_item_total" jdbcType="BIGINT" property="shopOrderItemTotal" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+    <result column="order_shop_num" jdbcType="INTEGER" property="orderShopNum" />
+    <result column="order_shop_total" jdbcType="BIGINT" property="orderShopTotal" />
+    <result column="order_refund_num" jdbcType="INTEGER" property="orderRefundNum" />
+    <result column="order_refund_total" jdbcType="BIGINT" property="orderRefundTotal" />
+    <result column="order_refund_shop_num" jdbcType="INTEGER" property="orderRefundShopNum" />
+    <result column="profit_rate" jdbcType="DECIMAL" property="profitRate" />
+    <result column="shelf_sales_rate" jdbcType="DECIMAL" property="shelfSalesRate" />
+    <result column="unsalable_shop_num" jdbcType="INTEGER" property="unsalableShopNum" />
+    <result column="unsalable_rate" jdbcType="DECIMAL" property="unsalableRate" />
+    <result column="reseau_id" jdbcType="INTEGER" property="reseauId" />
+    <result column="reseau" jdbcType="VARCHAR" property="reseau" />
+    <result column="city_id" jdbcType="INTEGER" property="cityId" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="region_id" jdbcType="INTEGER" property="regionId" />
+    <result column="region" jdbcType="VARCHAR" property="region" />
+    <result column="brand" jdbcType="VARCHAR" property="brand" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, sum_date, end_date, weekth, category_id, category_name, categorylevel_id, categorylevel_name, 
+    item_id, item_name, size, price, order_item_num, shop_order_item_num, shop_num, shop_order_item_total, 
+    order_num, order_shop_num, order_shop_total, order_refund_num, order_refund_total, 
+    order_refund_shop_num, profit_rate, shelf_sales_rate, unsalable_shop_num, unsalable_rate, 
+    reseau_id, reseau, city_id, city, region_id, region, brand
+  </sql>
+  <select id="selectByExample" parameterType="com.b2b.common.domain.ItemWeekReportExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from item_week_report
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from item_week_report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from item_week_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.ItemWeekReportExample">
+    delete from item_week_report
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.ItemWeekReport">
+    insert into item_week_report (id, sum_date, end_date, 
+      weekth, category_id, category_name, 
+      categorylevel_id, categorylevel_name, item_id, 
+      item_name, size, price, 
+      order_item_num, shop_order_item_num, shop_num, 
+      shop_order_item_total, order_num, order_shop_num, 
+      order_shop_total, order_refund_num, order_refund_total, 
+      order_refund_shop_num, profit_rate, shelf_sales_rate, 
+      unsalable_shop_num, unsalable_rate, reseau_id, 
+      reseau, city_id, city, 
+      region_id, region, brand
+      )
+    values (#{id,jdbcType=INTEGER}, #{sumDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{weekth,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR}, 
+      #{categorylevelId,jdbcType=INTEGER}, #{categorylevelName,jdbcType=VARCHAR}, #{itemId,jdbcType=INTEGER}, 
+      #{itemName,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR}, #{price,jdbcType=BIGINT}, 
+      #{orderItemNum,jdbcType=INTEGER}, #{shopOrderItemNum,jdbcType=INTEGER}, #{shopNum,jdbcType=INTEGER}, 
+      #{shopOrderItemTotal,jdbcType=BIGINT}, #{orderNum,jdbcType=INTEGER}, #{orderShopNum,jdbcType=INTEGER}, 
+      #{orderShopTotal,jdbcType=BIGINT}, #{orderRefundNum,jdbcType=INTEGER}, #{orderRefundTotal,jdbcType=BIGINT}, 
+      #{orderRefundShopNum,jdbcType=INTEGER}, #{profitRate,jdbcType=DECIMAL}, #{shelfSalesRate,jdbcType=DECIMAL}, 
+      #{unsalableShopNum,jdbcType=INTEGER}, #{unsalableRate,jdbcType=DECIMAL}, #{reseauId,jdbcType=INTEGER}, 
+      #{reseau,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, #{city,jdbcType=VARCHAR}, 
+      #{regionId,jdbcType=INTEGER}, #{region,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.ItemWeekReport">
+    insert into item_week_report
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sumDate != null">
+        sum_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="weekth != null">
+        weekth,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="categoryName != null">
+        category_name,
+      </if>
+      <if test="categorylevelId != null">
+        categorylevel_id,
+      </if>
+      <if test="categorylevelName != null">
+        categorylevel_name,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="itemName != null">
+        item_name,
+      </if>
+      <if test="size != null">
+        size,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="orderItemNum != null">
+        order_item_num,
+      </if>
+      <if test="shopOrderItemNum != null">
+        shop_order_item_num,
+      </if>
+      <if test="shopNum != null">
+        shop_num,
+      </if>
+      <if test="shopOrderItemTotal != null">
+        shop_order_item_total,
+      </if>
+      <if test="orderNum != null">
+        order_num,
+      </if>
+      <if test="orderShopNum != null">
+        order_shop_num,
+      </if>
+      <if test="orderShopTotal != null">
+        order_shop_total,
+      </if>
+      <if test="orderRefundNum != null">
+        order_refund_num,
+      </if>
+      <if test="orderRefundTotal != null">
+        order_refund_total,
+      </if>
+      <if test="orderRefundShopNum != null">
+        order_refund_shop_num,
+      </if>
+      <if test="profitRate != null">
+        profit_rate,
+      </if>
+      <if test="shelfSalesRate != null">
+        shelf_sales_rate,
+      </if>
+      <if test="unsalableShopNum != null">
+        unsalable_shop_num,
+      </if>
+      <if test="unsalableRate != null">
+        unsalable_rate,
+      </if>
+      <if test="reseauId != null">
+        reseau_id,
+      </if>
+      <if test="reseau != null">
+        reseau,
+      </if>
+      <if test="cityId != null">
+        city_id,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="regionId != null">
+        region_id,
+      </if>
+      <if test="region != null">
+        region,
+      </if>
+      <if test="brand != null">
+        brand,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sumDate != null">
+        #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="weekth != null">
+        #{weekth,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryName != null">
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="categorylevelId != null">
+        #{categorylevelId,jdbcType=INTEGER},
+      </if>
+      <if test="categorylevelName != null">
+        #{categorylevelName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="itemName != null">
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=BIGINT},
+      </if>
+      <if test="orderItemNum != null">
+        #{orderItemNum,jdbcType=INTEGER},
+      </if>
+      <if test="shopOrderItemNum != null">
+        #{shopOrderItemNum,jdbcType=INTEGER},
+      </if>
+      <if test="shopNum != null">
+        #{shopNum,jdbcType=INTEGER},
+      </if>
+      <if test="shopOrderItemTotal != null">
+        #{shopOrderItemTotal,jdbcType=BIGINT},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderShopNum != null">
+        #{orderShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderShopTotal != null">
+        #{orderShopTotal,jdbcType=BIGINT},
+      </if>
+      <if test="orderRefundNum != null">
+        #{orderRefundNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderRefundTotal != null">
+        #{orderRefundTotal,jdbcType=BIGINT},
+      </if>
+      <if test="orderRefundShopNum != null">
+        #{orderRefundShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="profitRate != null">
+        #{profitRate,jdbcType=DECIMAL},
+      </if>
+      <if test="shelfSalesRate != null">
+        #{shelfSalesRate,jdbcType=DECIMAL},
+      </if>
+      <if test="unsalableShopNum != null">
+        #{unsalableShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="unsalableRate != null">
+        #{unsalableRate,jdbcType=DECIMAL},
+      </if>
+      <if test="reseauId != null">
+        #{reseauId,jdbcType=INTEGER},
+      </if>
+      <if test="reseau != null">
+        #{reseau,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null">
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="regionId != null">
+        #{regionId,jdbcType=INTEGER},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null">
+        #{brand,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.ItemWeekReportExample" resultType="java.lang.Long">
+    select count(*) from item_week_report
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update item_week_report
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.sumDate != null">
+        sum_date = #{record.sumDate,jdbcType=DATE},
+      </if>
+      <if test="record.endDate != null">
+        end_date = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.weekth != null">
+        weekth = #{record.weekth,jdbcType=INTEGER},
+      </if>
+      <if test="record.categoryId != null">
+        category_id = #{record.categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.categoryName != null">
+        category_name = #{record.categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.categorylevelId != null">
+        categorylevel_id = #{record.categorylevelId,jdbcType=INTEGER},
+      </if>
+      <if test="record.categorylevelName != null">
+        categorylevel_name = #{record.categorylevelName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemId != null">
+        item_id = #{record.itemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemName != null">
+        item_name = #{record.itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.size != null">
+        size = #{record.size,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderItemNum != null">
+        order_item_num = #{record.orderItemNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopOrderItemNum != null">
+        shop_order_item_num = #{record.shopOrderItemNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopNum != null">
+        shop_num = #{record.shopNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopOrderItemTotal != null">
+        shop_order_item_total = #{record.shopOrderItemTotal,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderNum != null">
+        order_num = #{record.orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderShopNum != null">
+        order_shop_num = #{record.orderShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderShopTotal != null">
+        order_shop_total = #{record.orderShopTotal,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderRefundNum != null">
+        order_refund_num = #{record.orderRefundNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderRefundTotal != null">
+        order_refund_total = #{record.orderRefundTotal,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderRefundShopNum != null">
+        order_refund_shop_num = #{record.orderRefundShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.profitRate != null">
+        profit_rate = #{record.profitRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.shelfSalesRate != null">
+        shelf_sales_rate = #{record.shelfSalesRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.unsalableShopNum != null">
+        unsalable_shop_num = #{record.unsalableShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.unsalableRate != null">
+        unsalable_rate = #{record.unsalableRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.reseauId != null">
+        reseau_id = #{record.reseauId,jdbcType=INTEGER},
+      </if>
+      <if test="record.reseau != null">
+        reseau = #{record.reseau,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityId != null">
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.city != null">
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.regionId != null">
+        region_id = #{record.regionId,jdbcType=INTEGER},
+      </if>
+      <if test="record.region != null">
+        region = #{record.region,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brand != null">
+        brand = #{record.brand,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update item_week_report
+    set id = #{record.id,jdbcType=INTEGER},
+      sum_date = #{record.sumDate,jdbcType=DATE},
+      end_date = #{record.endDate,jdbcType=DATE},
+      weekth = #{record.weekth,jdbcType=INTEGER},
+      category_id = #{record.categoryId,jdbcType=INTEGER},
+      category_name = #{record.categoryName,jdbcType=VARCHAR},
+      categorylevel_id = #{record.categorylevelId,jdbcType=INTEGER},
+      categorylevel_name = #{record.categorylevelName,jdbcType=VARCHAR},
+      item_id = #{record.itemId,jdbcType=INTEGER},
+      item_name = #{record.itemName,jdbcType=VARCHAR},
+      size = #{record.size,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=BIGINT},
+      order_item_num = #{record.orderItemNum,jdbcType=INTEGER},
+      shop_order_item_num = #{record.shopOrderItemNum,jdbcType=INTEGER},
+      shop_num = #{record.shopNum,jdbcType=INTEGER},
+      shop_order_item_total = #{record.shopOrderItemTotal,jdbcType=BIGINT},
+      order_num = #{record.orderNum,jdbcType=INTEGER},
+      order_shop_num = #{record.orderShopNum,jdbcType=INTEGER},
+      order_shop_total = #{record.orderShopTotal,jdbcType=BIGINT},
+      order_refund_num = #{record.orderRefundNum,jdbcType=INTEGER},
+      order_refund_total = #{record.orderRefundTotal,jdbcType=BIGINT},
+      order_refund_shop_num = #{record.orderRefundShopNum,jdbcType=INTEGER},
+      profit_rate = #{record.profitRate,jdbcType=DECIMAL},
+      shelf_sales_rate = #{record.shelfSalesRate,jdbcType=DECIMAL},
+      unsalable_shop_num = #{record.unsalableShopNum,jdbcType=INTEGER},
+      unsalable_rate = #{record.unsalableRate,jdbcType=DECIMAL},
+      reseau_id = #{record.reseauId,jdbcType=INTEGER},
+      reseau = #{record.reseau,jdbcType=VARCHAR},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      city = #{record.city,jdbcType=VARCHAR},
+      region_id = #{record.regionId,jdbcType=INTEGER},
+      region = #{record.region,jdbcType=VARCHAR},
+      brand = #{record.brand,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.ItemWeekReport">
+    update item_week_report
+    <set>
+      <if test="sumDate != null">
+        sum_date = #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="weekth != null">
+        weekth = #{weekth,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryName != null">
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="categorylevelId != null">
+        categorylevel_id = #{categorylevelId,jdbcType=INTEGER},
+      </if>
+      <if test="categorylevelName != null">
+        categorylevel_name = #{categorylevelName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="itemName != null">
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        size = #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=BIGINT},
+      </if>
+      <if test="orderItemNum != null">
+        order_item_num = #{orderItemNum,jdbcType=INTEGER},
+      </if>
+      <if test="shopOrderItemNum != null">
+        shop_order_item_num = #{shopOrderItemNum,jdbcType=INTEGER},
+      </if>
+      <if test="shopNum != null">
+        shop_num = #{shopNum,jdbcType=INTEGER},
+      </if>
+      <if test="shopOrderItemTotal != null">
+        shop_order_item_total = #{shopOrderItemTotal,jdbcType=BIGINT},
+      </if>
+      <if test="orderNum != null">
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderShopNum != null">
+        order_shop_num = #{orderShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderShopTotal != null">
+        order_shop_total = #{orderShopTotal,jdbcType=BIGINT},
+      </if>
+      <if test="orderRefundNum != null">
+        order_refund_num = #{orderRefundNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderRefundTotal != null">
+        order_refund_total = #{orderRefundTotal,jdbcType=BIGINT},
+      </if>
+      <if test="orderRefundShopNum != null">
+        order_refund_shop_num = #{orderRefundShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="profitRate != null">
+        profit_rate = #{profitRate,jdbcType=DECIMAL},
+      </if>
+      <if test="shelfSalesRate != null">
+        shelf_sales_rate = #{shelfSalesRate,jdbcType=DECIMAL},
+      </if>
+      <if test="unsalableShopNum != null">
+        unsalable_shop_num = #{unsalableShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="unsalableRate != null">
+        unsalable_rate = #{unsalableRate,jdbcType=DECIMAL},
+      </if>
+      <if test="reseauId != null">
+        reseau_id = #{reseauId,jdbcType=INTEGER},
+      </if>
+      <if test="reseau != null">
+        reseau = #{reseau,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null">
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="regionId != null">
+        region_id = #{regionId,jdbcType=INTEGER},
+      </if>
+      <if test="region != null">
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null">
+        brand = #{brand,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.ItemWeekReport">
+    update item_week_report
+    set sum_date = #{sumDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      weekth = #{weekth,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      category_name = #{categoryName,jdbcType=VARCHAR},
+      categorylevel_id = #{categorylevelId,jdbcType=INTEGER},
+      categorylevel_name = #{categorylevelName,jdbcType=VARCHAR},
+      item_id = #{itemId,jdbcType=INTEGER},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      size = #{size,jdbcType=VARCHAR},
+      price = #{price,jdbcType=BIGINT},
+      order_item_num = #{orderItemNum,jdbcType=INTEGER},
+      shop_order_item_num = #{shopOrderItemNum,jdbcType=INTEGER},
+      shop_num = #{shopNum,jdbcType=INTEGER},
+      shop_order_item_total = #{shopOrderItemTotal,jdbcType=BIGINT},
+      order_num = #{orderNum,jdbcType=INTEGER},
+      order_shop_num = #{orderShopNum,jdbcType=INTEGER},
+      order_shop_total = #{orderShopTotal,jdbcType=BIGINT},
+      order_refund_num = #{orderRefundNum,jdbcType=INTEGER},
+      order_refund_total = #{orderRefundTotal,jdbcType=BIGINT},
+      order_refund_shop_num = #{orderRefundShopNum,jdbcType=INTEGER},
+      profit_rate = #{profitRate,jdbcType=DECIMAL},
+      shelf_sales_rate = #{shelfSalesRate,jdbcType=DECIMAL},
+      unsalable_shop_num = #{unsalableShopNum,jdbcType=INTEGER},
+      unsalable_rate = #{unsalableRate,jdbcType=DECIMAL},
+      reseau_id = #{reseauId,jdbcType=INTEGER},
+      reseau = #{reseau,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=INTEGER},
+      city = #{city,jdbcType=VARCHAR},
+      region_id = #{regionId,jdbcType=INTEGER},
+      region = #{region,jdbcType=VARCHAR},
+      brand = #{brand,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="findAllItem" resultMap="BaseResultMap">
+    SELECT
+      i.id item_id,
+      i.category_id,
+      ic1.category_name,
+      i.categorylevel_id,
+      ic2.category_name categorylevel_name,
+      i.item_name,
+      i.size,
+      i.price,
+      i.profit profit_rate,
+      i.city_id,
+      c.city_name city,
+      i.brand
+    FROM
+      item	i
+      LEFT JOIN item_category ic1 ON ic1.id = i.category_id
+      LEFT JOIN item_category ic2 ON ic2.id = i.categorylevel_id
+      LEFT JOIN city c ON c.id = i.city_id
+    WHERE 1 = 1
+        AND i.`status` = 1
+    GROUP BY i.id
+  </select>
+
+  <select id="selectOrderItemNum" resultType="java.lang.Integer">
+    SELECT
+      IFNULL(SUM(oi.consume_stock_num), 0) order_item_num
+    FROM item	i
+      LEFT JOIN order_item oi ON oi.item_id = i.id
+      LEFT JOIN `order` o ON	o.order_no = oi.order_no
+      LEFT JOIN customer_user cu ON cu.id = o.user_id
+    WHERE 1 = 1
+      AND cu.iswxvip = 3
+      AND o.`status` = 1
+      AND i .`status` = 1
+	  <if test="startDate !=null and startDate != ''">
+        AND DATE_FORMAT(o.created_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')
+      </if>
+      <if test="endDate !=null and endDate != ''">
+        AND DATE_FORMAT(o.created_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+      </if>
+      AND i.id = #{itemId}
+    GROUP BY i.id
+  </select>
+
+  <select id="selectShopOrderInfo" resultMap="BaseResultMap">
+    SELECT
+      sum(t.num) shop_order_item_num,
+      SUM(t.price)  shop_order_item_total
+    FROM (
+      SELECT
+        si.`item_id`,
+        so.`shop_id` ,
+        SUM(soi.num) num,
+        SUM(soi.price) price
+      FROM `shop_order` so
+        LEFT JOIN `shop_order_item` soi on so.`id`= soi.`order_id`
+        LEFT JOIN `shop_item` si on soi.`item_id`= si.`id`
+      WHERE 1 = 1
+        AND so.`status` = 1
+        <if test="startDate !=null and startDate != ''">
+          AND DATE_FORMAT(so.created_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')
+        </if>
+        <if test="endDate !=null and endDate != ''">
+          AND DATE_FORMAT(so.created_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+        </if>
+        AND si.`item_id`= #{itemId}
+      GROUP BY si.`item_id` ,so.`shop_id`
+      ) t
+      LEFT JOIN `customer_user` cu on t.shop_id = cu.`id`
+    where cu.`iswxvip` =3
+    GROUP BY t.item_id
+  </select>
+
+  <select id="selectShopNum" resultType="java.lang.Integer">
+    SELECT
+      COUNT(1)
+    FROM shop_item si
+      LEFT JOIN customer_user cu ON cu.id = si.shop_id
+    WHERE 1 = 1
+      AND cu.iswxvip = 3
+      AND si.isdown = 1
+      AND si.item_id = #{itemId}
+    GROUP BY si.item_id
+    ORDER BY si.item_id
+  </select>
+
+  <select id="selectOrderInfo" resultMap="BaseResultMap">
+    SELECT
+      COUNT(1) order_num,
+      SUM(o.total_cost) order_shop_total
+    FROM item	i
+      LEFT JOIN order_item oi ON oi.item_id = i.id
+      LEFT JOIN `order` o ON	o.order_no = oi.order_no
+      LEFT JOIN customer_user cu ON cu.id = o.user_id
+    WHERE 1 = 1
+      AND cu.iswxvip = 3
+      AND o.`status` = 1
+	  <if test="startDate !=null and startDate != ''">
+        AND DATE_FORMAT(o.created_timeDATE_FORMAT( >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')
+      </if>
+      <if test="endDate !=null and endDate != ''">
+        AND DATE_FORMAT(o.created_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+      </if>
+      AND i.id = #{itemId}
+    GROUP BY i.id
+    ORDER BY i.id
+  </select>
+
+  <select id="selectOrderShopNum" resultType="java.lang.Integer">
+    SELECT
+      COUNT(1)
+    FROM (
+      SELECT
+        i.id item_id
+      FROM item	i
+        LEFT JOIN order_item oi ON oi.item_id = i.id
+        LEFT JOIN `order` o ON o.order_no = oi.order_no
+        LEFT JOIN customer_user cu ON cu.id = o.user_id
+      WHERE 1 = 1
+        AND cu.iswxvip = 3
+        AND o.`status` = 1
+		<if test="startDate !=null and startDate != ''">
+			AND DATE_FORMAT(o.created_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')
+		</if>
+		<if test="endDate !=null and endDate != ''">
+			AND DATE_FORMAT(o.created_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+		</if>
+        AND i.id = #{itemId}
+      GROUP BY i.id, o.user_id
+      ORDER BY i.id, o.user_id
+    ) t
+    GROUP BY t.item_id
+  </select>
+
+  <select id="selectRefundInfo" resultMap="BaseResultMap">
+    SELECT
+	  COUNT(1) order_refund_num, SUM(ri.total_fee) order_refund_total
+    FROM item	i
+      LEFT JOIN refund_item ri ON ri.item_id = i.id
+      LEFT JOIN refund r ON	r.id = ri.refund_id
+      LEFT JOIN customer_user cu ON cu.id = r.user_id
+    WHERE 1 = 1
+      AND cu.iswxvip = 3
+      AND r.`state` = 1
+	  <if test="startDate !=null and startDate != ''">
+		AND DATE_FORMAT(r.executed_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')
+	  </if>
+	<if test="endDate !=null and endDate != ''">
+		AND DATE_FORMAT(r.executed_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+	</if>
+      AND i.id = #{itemId}
+    GROUP BY i.id
+    ORDER BY i.id
+  </select>
+
+  <select id="selectOrderRefundShopNum" resultType="java.lang.Integer">
+    SELECT
+	  COUNT(1)
+    FROM(
+      SELECT
+        i.id item_id,
+        COUNT(1)
+      FROM item	i
+        LEFT JOIN refund_item ri ON ri.item_id = i.id
+        LEFT JOIN refund r ON	r.id = ri.refund_id
+        LEFT JOIN customer_user cu ON cu.id = r.user_id
+      WHERE 1 = 1
+        AND cu.iswxvip = 3
+        AND r.`state` = 1
+		<if test="startDate !=null and startDate != ''">
+			AND DATE_FORMAT(r.executed_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')
+		</if>
+		<if test="endDate !=null and endDate != ''">
+			AND DATE_FORMAT(r.executed_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+		</if>
+        AND i.id = #{itemId}
+      GROUP BY i.id, r.user_id
+      ORDER BY i.id
+    )t
+    GROUP BY t.item_id
+  </select>
+
+  <select id="selectAllShopNum" resultType="java.lang.Integer">
+    SELECT
+	  COUNT(1)
+    FROM item	i
+      LEFT JOIN shop_item si ON si.item_id = i.id
+      LEFT JOIN customer_user cu ON cu.id = si.shop_id
+    WHERE 1 = 1
+      AND cu.iswxvip = 3
+      AND si.isdown = 1
+      AND i.id = #{itemId}
+    GROUP BY i.id
+    ORDER BY i.id
+  </select>
+
+  <select id="selectStockNum" resultType="java.lang.Integer">
+    SELECT
+      COUNT(1)
+    FROM shop_item_stock sis
+      LEFT JOIN customer_user cu ON cu.id = sis.shop_id
+    WHERE 1 = 1
+      AND cu.iswxvip = 3
+      AND sis.item_id = #{itemId}
+	  <if test="startDate !=null and startDate != ''">
+		AND DATE_FORMAT(sis.created_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')
+	  </if>
+	  <if test="endDate !=null and endDate != ''">
+		AND DATE_FORMAT(sis.created_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+	  </if>
+    GROUP BY sis.id
+    ORDER BY sis.id
+  </select>
+  
+  <select id="findItemWeekReports" resultMap="BaseResultMap">
+    SELECT
+      idr.*
+    FROM
+      item_week_report idr
+      LEFT JOIN item i ON i.id = idr.item_id
+    WHERE
+      1 = 1
+      <if test="starttime !=null and starttime != ''">
+        AND idr.sum_date >= #{starttime}
+      </if>
+      <if test="endtime !=null and endtime != ''">
+        AND idr.sum_date &lt;= #{endtime}
+      </if>
+      <if test="itemName !=null and itemName !=''">
+        AND idr.item_name like '%${itemName}%'
+      </if>
+      <if test="onecate !=null and onecate !=''">
+        AND idr.category_id = #{onecate}
+      </if>
+      <if test="twocate !=null and twocate !=''">
+        AND idr.categorylevel_id = #{twocate}
+      </if>
+      <if test="isrecommend!=null and isrecommend!=''">
+        AND i.recommend = #{isrecommend}
+      </if>
+      <if test="isrecommend!=null and isrecommend!=''">
+        AND i.recommend = #{isrecommend}
+      </if>
+      <if test="isnew !='' and isnew !=null">
+        AND DATEDIFF(DATE_FORMAT(NOW(), '%Y-%m-%d'), DATE_FORMAT(i.`created_time`,  '%Y-%m-%d'))&lt;=30
+      </if>
+    <if test="cityId !='' and cityId !=null">
+      AND idr.city_id = #{cityId}
+    </if>
+      <if test="param=='0'.toString()">
+        ORDER BY shop_order_item_num DESC
+      </if>
+      <if test="param=='2'.toString()">
+        ORDER BY shelf_sales_rate DESC
+      </if>
+      <if test="param=='3'.toString()">
+        ORDER BY idr.profit_rate DESC
+      </if>
+      <if test="param=='4'.toString()">
+        ORDER BY order_shop_num DESC
+      </if>
+      <if test="param=='5'.toString()">
+        ORDER BY order_num DESC
+      </if>
+  </select>
+  <delete id="deleteByDate">
+    delete from item_week_report
+    WHERE `weekth` = #{weekth} and date_format(`sum_date`,'%Y') =  date_format(#{date4},'%Y')
+  </delete>
+
+  <select id="findAllItems" resultMap="BaseResultMap">
+    SELECT
+        item_id,
+        category_id,
+        category_name,
+        categorylevel_id,
+        categorylevel_name,
+        brand,
+        item_name,
+        size,
+        price,
+        profit_rate,
+        city_id,
+        city_name,
+        order_item_num,
+        shop_order_item_num,
+        shop_order_item_total,
+        shop_num,
+        order_num,
+        order_item_num*price order_shop_total,
+        order_shop_num,
+        order_refund_shop_num,
+        order_refund_num,
+        storage_num,
+        storage_order_num,
+        order_refund_total,
+        CASE
+    WHEN sum_stock_num = 0 THEN
+        100
+    WHEN sum_stock_num != 0 THEN
+        CAST(
+            ROUND(
+                order_item_num / sum_stock_num * 100,
+                2
+            ) AS DECIMAL (7, 2)
+        )
+    END shelf_sales_rate,
+     CASE
+    WHEN all_shop_num = 0 THEN
+        0
+    WHEN all_shop_num != 0 THEN
+        CAST(
+            ROUND(
+                order_shop_num / all_shop_num * 100,
+                2
+            ) AS DECIMAL (7, 2)
+        )
+    END turnover_rate,
+    #{startDate} sum_date,
+    #{endDate} end_date,
+    #{weekth} weekth
+
+  FROM
+        (
+          SELECT
+              item_id,
+              category_id,
+              category_name,
+              categorylevel_id,
+              categorylevel_name,
+              brand,
+              item_name,
+              size,
+              price,
+              profit_rate,
+              city_id,
+              city_name,
+              SUM(order_item_num) - SUM(order_refund_num) order_item_num,
+              SUM(shop_order_item_num) shop_order_item_num,
+              SUM(shop_order_item_total) shop_order_item_total,
+              SUM(shop_num) shop_num,
+              SUM(order_num) order_num,
+              SUM(order_shop_total) order_shop_total,
+              SUM(order_shop_num) order_shop_num,
+              SUM(order_refund_shop_num) order_refund_shop_num,
+              SUM(order_refund_num) order_refund_num,
+              SUM(all_shop_num) all_shop_num,
+              SUM(sum_stock_num) sum_stock_num,
+              SUM(storage_num) storage_num,
+              SUM(storage_order_num) storage_order_num,
+              SUM(order_refund_total) order_refund_total
+          FROM
+              (
+                  (
+                      SELECT
+                          i.id item_id,
+                          i.category_id,
+                          ic1.category_name,
+                          i.categorylevel_id,
+                          ic2.category_name categorylevel_name,
+                          i.brand,
+                          i.item_name,
+                          i.size,
+                          i.price,
+                          i.profit profit_rate,
+                          i.city_id,
+                          c.city_name,
+                          0 order_item_num,
+                          0 shop_order_item_num,
+                          0 shop_order_item_total,
+                          0 shop_num,
+                          0 order_num,
+                          0 order_shop_total,
+                          0 order_shop_num,
+                          0 order_refund_shop_num,
+                          0 order_refund_num,
+                          0 all_shop_num,
+                          0 sum_stock_num,
+                          0 storage_num,
+                          0 storage_order_num,
+                          0 order_refund_total
+                      FROM
+                          item i
+                      LEFT JOIN item_category ic1 ON ic1.id = i.category_id
+                      LEFT JOIN item_category ic2 ON ic2.id = i.categorylevel_id
+                      LEFT JOIN city c ON c.id = i.city_id
+                      WHERE
+                          1 = 1
+                      AND i.`status` = 1
+
+                      GROUP BY
+                          i.id
+                  )
+                  UNION ALL
+                      (
+                          SELECT
+                              i.id item_id,
+                              i.category_id,
+                              ic1.category_name,
+                              i.categorylevel_id,
+                              ic2.category_name,
+                              i.brand,
+                              i.item_name,
+                              i.size,
+                              i.price,
+                              i.profit profit_rate,
+                              i.city_id,
+                              c.city_name,
+                              SUM(oi.consume_stock_num) order_item_num,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0 sum_stock_num,
+                              0 storage_num,
+                              0 storage_order_num,
+                              0 order_refund_total
+                          FROM
+                              item i
+                          LEFT JOIN order_item oi ON oi.item_id = i.id
+                          LEFT JOIN `order` o ON o.order_no = oi.order_no
+                          LEFT JOIN customer_user cu ON cu.id = o.user_id
+                          LEFT JOIN item_category ic1 ON ic1.id = i.category_id
+                          LEFT JOIN item_category ic2 ON ic2.id = i.categorylevel_id
+                          LEFT JOIN city c ON c.id = i.city_id
+                          WHERE
+                              1 = 1
+                          AND cu.iswxvip = 3
+                          AND o.`status` = 1
+                          AND i.`status` = 1
+                          AND DATE_FORMAT(o.executed_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')
+                          AND DATE_FORMAT(o.executed_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+                          GROUP BY
+                              i.id
+                      )
+                  UNION ALL
+                      (
+                          SELECT
+                              i.id item_id,
+                              i.category_id,
+                              ic1.category_name,
+                              i.categorylevel_id,
+                              ic2.category_name,
+                              i.brand,
+                              i.item_name,
+                              i.size,
+                              i.price,
+                              i.profit profit_rate,
+                              i.city_id,
+                              c.city_name,
+                              0,
+                              sum(t.num) shop_order_item_num,
+                              t.price*sum(t.num) shop_order_item_total,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0 sum_stock_num,
+                              0 storage_num,
+                              0 storage_order_num,
+                              0 order_refund_total
+                          FROM
+                              (
+                                  SELECT
+                                      si.`item_id` item_id,
+                                      so.`shop_id`,
+                                      SUM(soi.num) num,
+                                      AVG(soi.price) price
+                                  FROM
+                                      `shop_order` so
+                                  LEFT JOIN `shop_order_item` soi ON so.`id` = soi.`order_id`
+                                  LEFT JOIN `shop_item` si ON soi.`item_id` = si.`id`
+                                  WHERE
+                                      1 = 1
+                                  AND so.`status` = 1
+                                  AND DATE_FORMAT(so.created_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')
+                                  AND DATE_FORMAT(so.created_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+                                  GROUP BY
+                                      si.`item_id`,
+                                      so.`shop_id`
+                              ) t
+                          LEFT JOIN `customer_user` cu ON t.shop_id = cu.`id`
+                          LEFT JOIN item i ON i.id = t.item_id
+                          LEFT JOIN item_category ic1 ON ic1.id = i.category_id
+                          LEFT JOIN item_category ic2 ON ic2.id = i.categorylevel_id
+                          LEFT JOIN city c ON c.id = i.city_id
+                          WHERE
+                              cu.`iswxvip` = 3
+
+                          AND i.`status` = 1
+                          GROUP BY
+                              t.item_id
+                      )
+                  UNION ALL
+                      (
+                          SELECT
+                              i.id item_id,
+                              i.category_id,
+                              ic1.category_name,
+                              i.categorylevel_id,
+                              ic2.category_name categorylevel_name,
+                              i.brand,
+                              i.item_name,
+                              i.size,
+                              i.price,
+                              i.profit profit_rate,
+                              i.city_id,
+                              c.city_name,
+                              0 order_item_num,
+                              0 shop_order_item_num,
+                              0 shop_order_item_total,
+                              COUNT(1),
+                              0,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0 sum_stock_num,
+                              0 storage_num,
+                              0 storage_order_num,
+                              0 order_refund_total
+                          FROM
+                              shop_item si
+                          LEFT JOIN customer_user cu ON cu.id = si.shop_id
+                          LEFT JOIN item i ON i.id = si.item_id
+                          LEFT JOIN item_category ic1 ON ic1.id = i.category_id
+                          LEFT JOIN item_category ic2 ON ic2.id = i.categorylevel_id
+                          LEFT JOIN city c ON c.id = i.city_id
+                          WHERE
+                              1 = 1
+                          AND cu.iswxvip = 3
+                          AND si.isdown = 1
+                          AND i.`status` = 1
+
+                          GROUP BY
+                              si.item_id
+                          ORDER BY
+                              si.item_id
+                      )
+                  UNION
+                      (
+                          SELECT
+                              i.id item_id,
+                              i.category_id,
+                              ic1.category_name,
+                              i.categorylevel_id,
+                              ic2.category_name categorylevel_name,
+                              i.brand,
+                              i.item_name,
+                              i.size,
+                              i.price,
+                              i.profit profit_rate,
+                              i.city_id,
+                              c.city_name,
+                              0 order_item_num,
+                              0 shop_order_item_num,
+                              0 shop_order_item_total,
+                              0 shop_num,
+                              COUNT(1),
+                              SUM(o.total_cost),
+                              0,
+                              0,
+                              0,
+                              0,
+                              0 sum_stock_num,
+                              0 storage_num,
+                              0 storage_order_num,
+                              0 order_refund_total
+                          FROM
+                              order_item oi
+                          LEFT JOIN `order` o ON o.order_no = oi.order_no
+                          LEFT JOIN customer_user cu ON cu.id = o.user_id
+                          LEFT JOIN item i ON i.id = oi.item_id
+                          LEFT JOIN item_category ic1 ON ic1.id = i.category_id
+                          LEFT JOIN item_category ic2 ON ic2.id = i.categorylevel_id
+                          LEFT JOIN city c ON c.id = i.city_id
+                          WHERE
+                              1 = 1
+                          AND i.`status` = 1
+                          AND cu.iswxvip = 3
+                          AND o.`status` = 1
+                          AND DATE_FORMAT(o.executed_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')
+                          AND DATE_FORMAT(o.executed_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+                          GROUP BY
+                              oi.item_id
+                          ORDER BY
+                              oi.item_id
+                      )
+                  UNION ALL
+                      (
+                          SELECT
+                              i.id item_id,
+                              i.category_id,
+                              ic1.category_name,
+                              i.categorylevel_id,
+                              ic2.category_name categorylevel_name,
+                              i.brand,
+                              i.item_name,
+                              i.size,
+                              i.price,
+                              i.profit profit_rate,
+                              i.city_id,
+                              c.city_name,
+                              0 order_item_num,
+                              0 shop_order_item_num,
+                              0 shop_order_item_total,
+                              0 shop_num,
+                              0,
+                              0,
+                              COUNT(1),
+                              0,
+                              0,
+                              0,
+                              0 sum_stock_num,
+                              0 storage_num,
+                              0 storage_order_num,
+                              0 order_refund_total
+                          FROM
+                              (
+                                  SELECT
+                                      oi.item_id
+                                  FROM
+                                      order_item oi
+                                  LEFT JOIN `order` o ON o.order_no = oi.order_no
+                                  LEFT JOIN customer_user cu ON cu.id = o.user_id
+                                  WHERE
+                                      1 = 1
+                                  AND cu.iswxvip = 3
+                                  AND o.`status` = 1
+                                  AND DATE_FORMAT(o.created_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')
+                                  AND DATE_FORMAT(o.created_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+                                  GROUP BY
+                                      oi.item_id,
+                                      o.user_id
+                                  ORDER BY
+                                      oi.item_id,
+                                      o.user_id
+                              ) t
+                          LEFT JOIN item i ON i.id = t.item_id
+                          LEFT JOIN item_category ic1 ON ic1.id = i.category_id
+                          LEFT JOIN item_category ic2 ON ic2.id = i.categorylevel_id
+                          LEFT JOIN city c ON c.id = i.city_id
+                          WHERE
+                              i.`status` = 1
+
+                          GROUP BY
+                              t.item_id
+                      )
+                  UNION ALL
+                      (
+                          SELECT
+                              i.id item_id,
+                              i.category_id,
+                              ic1.category_name,
+                              i.categorylevel_id,
+                              ic2.category_name categorylevel_name,
+                              i.brand,
+                              i.item_name,
+                              i.size,
+                              i.price,
+                              i.profit profit_rate,
+                              i.city_id,
+                              c.city_name,
+                              0 order_item_num,
+                              0 shop_order_item_num,
+                              0 shop_order_item_total,
+                              0 shop_num,
+                              0 order_num,
+                              0 order_shop_total,
+                              0 order_shop_num,
+                              0,
+                              COUNT(1),
+                              0,
+                              0 sum_stock_num,
+                              0 storage_num,
+                              0 storage_order_num,
+                              SUM(ri.total_fee)
+                          FROM
+                              refund_item ri
+                          LEFT JOIN refund r ON r.id = ri.refund_id
+                          LEFT JOIN customer_user cu ON cu.id = r.user_id
+                          LEFT JOIN item i ON i.id = ri.item_id
+                          LEFT JOIN item_category ic1 ON ic1.id = i.category_id
+                          LEFT JOIN item_category ic2 ON ic2.id = i.categorylevel_id
+                          LEFT JOIN city c ON c.id = i.city_id
+                          WHERE
+                              1 = 1
+                          AND cu.iswxvip = 3
+                          AND r.`state` = 1
+                          AND i.`status` = 1
+                          AND DATE_FORMAT(r.executed_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')
+                          AND DATE_FORMAT(r.executed_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+                          GROUP BY
+                              ri.item_id
+                          ORDER BY
+                              ri.item_id
+                      )
+                  UNION ALL
+                      (
+                          SELECT
+                              i.id item_id,
+                              i.category_id,
+                              ic1.category_name,
+                              i.categorylevel_id,
+                              ic2.category_name categorylevel_name,
+                              i.brand,
+                              i.item_name,
+                              i.size,
+                              i.price,
+                              i.profit profit_rate,
+                              i.city_id,
+                              c.city_name,
+                              0 order_item_num,
+                              0 shop_order_item_num,
+                              0 shop_order_item_total,
+                              0 shop_num,
+                              0 order_num,
+                              0 order_shop_total,
+                              0 order_shop_num,
+                              COUNT(1),
+                              0,
+                              0,
+                              0 sum_stock_num,
+                              0 storage_num,
+                              0 storage_order_num,
+                              0
+                          FROM
+                              (
+                                  SELECT
+                                      i.id item_id,
+                                      COUNT(1)
+                                  FROM
+                                      item i
+                                  LEFT JOIN refund_item ri ON ri.item_id = i.id
+                                  LEFT JOIN refund r ON r.id = ri.refund_id
+                                  LEFT JOIN customer_user cu ON cu.id = r.user_id
+                                  WHERE
+                                      1 = 1
+                                  AND cu.iswxvip = 3
+                                  AND r.`state` = 1
+                                  AND i.`status` = 1
+                                  AND DATE_FORMAT(r.executed_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')
+                                  AND DATE_FORMAT(r.executed_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+                                  GROUP BY
+                                      i.id,
+                                      r.user_id
+                                  ORDER BY
+                                      i.id
+                              ) t
+                          LEFT JOIN item i ON i.id = t.item_id
+                          LEFT JOIN item_category ic1 ON ic1.id = i.category_id
+                          LEFT JOIN item_category ic2 ON ic2.id = i.categorylevel_id
+                          LEFT JOIN city c ON c.id = i.city_id
+                          GROUP BY
+                              t.item_id
+                      )
+                  UNION ALL
+                      (
+                          SELECT
+                              i.id item_id,
+                              i.category_id,
+                              ic1.category_name,
+                              i.categorylevel_id,
+                              ic2.category_name categorylevel_name,
+                              i.brand,
+                              i.item_name,
+                              i.size,
+                              i.price,
+                              i.profit profit_rate,
+                              i.city_id,
+                              c.city_name,
+                              0 order_item_num,
+                              0 shop_order_item_num,
+                              0 shop_order_item_total,
+                              0 shop_num,
+                              0 order_num,
+                              0 order_shop_total,
+                              0 order_shop_num,
+                              0 order_refund_shop_num,
+                              0 order_refund_num,
+                              COUNT(1),
+                              0 sum_stock_num,
+                              0 storage_num,
+                              0 storage_order_num,
+                              0 order_refund_total
+                          FROM
+                              item i
+                          LEFT JOIN shop_item si ON si.item_id = i.id
+                          LEFT JOIN customer_user cu ON cu.id = si.shop_id
+                          LEFT JOIN item_category ic1 ON ic1.id = i.category_id
+                          LEFT JOIN item_category ic2 ON ic2.id = i.categorylevel_id
+                          LEFT JOIN city c ON c.id = i.city_id
+                          WHERE
+                              1 = 1
+                          AND cu.iswxvip = 3
+                          AND si.isdown = 1
+                          AND i.`status` = 1
+
+                          GROUP BY
+                              i.id
+                          ORDER BY
+                              i.id
+                      )
+                  UNION ALL
+                      (
+                          SELECT
+                              i.id item_id,
+                              i.category_id,
+                              ic1.category_name,
+                              i.categorylevel_id,
+                              ic2.category_name categorylevel_name,
+                              i.brand,
+                              i.item_name,
+                              i.size,
+                              i.price,
+                              i.profit profit_rate,
+                              i.city_id,
+                              c.city_name,
+                              0 order_item_num,
+                              0 shop_order_item_num,
+                              0 shop_order_item_total,
+                              0 shop_num,
+                              0 order_num,
+                              0 order_shop_total,
+                              0 order_shop_num,
+                              0 order_refund_shop_num,
+                              0 order_refund_num,
+                              0 all_shop_num,
+                              sum(sis.num),
+                              0,
+                              0,
+                              0 order_refund_total
+                          FROM
+                              item i
+                          LEFT JOIN shop_item_stock sis ON sis.item_id = i.id
+                          LEFT JOIN customer_user cu ON cu.id = sis.shop_id
+                          LEFT JOIN item_category ic1 ON ic1.id = i.category_id
+                          LEFT JOIN item_category ic2 ON ic2.id = i.categorylevel_id
+                          LEFT JOIN city c ON c.id = i.city_id
+                          WHERE
+                              1 = 1
+                          AND i.`status` = 1
+
+                          AND cu.iswxvip = 3
+                          AND DATE_FORMAT(sis.created_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')
+                          AND DATE_FORMAT(sis.created_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+                          GROUP BY
+                              i.id
+                          ORDER BY
+                              i.id
+                      )
+                  UNION ALL
+                      (
+                          SELECT
+                              i.id item_id,
+                              i.category_id,
+                              ic1.category_name,
+                              i.categorylevel_id,
+                              ic2.category_name categorylevel_name,
+                              i.brand,
+                              i.item_name,
+                              i.size,
+                              i.price,
+                              i.profit profit_rate,
+                              i.city_id,
+                              c.city_name,
+                              0 order_item_num,
+                              0 shop_order_item_num,
+                              0 shop_order_item_total,
+                              0 shop_num,
+                              0 order_num,
+                              0 order_shop_total,
+                              0 order_shop_num,
+                              0 order_refund_shop_num,
+                              0 order_refund_num,
+                              0 all_shop_num,
+                              0 sum_stock_num,
+                              SUM(si.num),
+                              0,
+                              0 order_refund_total
+                          FROM
+                              item i
+                          LEFT JOIN storage_item si ON si.item_id = i.id
+                          LEFT JOIN `storage` s ON s.id = si.storage_id
+                          LEFT JOIN item_category ic1 ON ic1.id = i.category_id
+                          LEFT JOIN item_category ic2 ON ic2.id = i.categorylevel_id
+                          LEFT JOIN city c ON c.id = i.city_id
+                          WHERE
+                              1 = 1
+                          AND i.`status` = 1
+
+                          AND s.`state` = 1
+                          AND DATE_FORMAT(s.executed_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')
+                          AND DATE_FORMAT(s.executed_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+                          GROUP BY
+                              i.id
+                      )
+                  UNION ALL
+                      (
+                          SELECT
+                              i.id item_id,
+                              i.category_id,
+                              ic1.category_name,
+                              i.categorylevel_id,
+                              ic2.category_name categorylevel_name,
+                              i.brand,
+                              i.item_name,
+                              i.size,
+                              i.price,
+                              i.profit profit_rate,
+                              i.city_id,
+                              c.city_name,
+                              0 order_item_num,
+                              0 shop_order_item_num,
+                              0 shop_order_item_total,
+                              0 shop_num,
+                              0 order_num,
+                              0 order_shop_total,
+                              0 order_shop_num,
+                              0 order_refund_shop_num,
+                              0 order_refund_num,
+                              0 all_shop_num,
+                              0 sum_stock_num,
+                              0 storage_num,
+                              COUNT(1),
+                              0 order_refund_total
+                          FROM
+                              (
+                                  SELECT
+                                      i.id item_id,
+                                      s.id
+                                  FROM
+                                      item i
+                                  LEFT JOIN storage_item si ON si.item_id = i.id
+                                  LEFT JOIN `storage` s ON s.id = si.storage_id
+                                  WHERE
+                                      1 = 1
+                                  AND i.`status` = 1
+
+                                  AND s.`state` = 1
+                                  AND DATE_FORMAT(s.executed_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d')
+                                  AND DATE_FORMAT(s.executed_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+                                  GROUP BY
+                                      i.id,
+                                      s.id
+                              ) t
+                          LEFT JOIN item i ON i.id = t.item_id
+                          LEFT JOIN item_category ic1 ON ic1.id = i.category_id
+                          LEFT JOIN item_category ic2 ON ic2.id = i.categorylevel_id
+                          LEFT JOIN city c ON c.id = i.city_id
+                          GROUP BY
+                              t.item_id
+                      )
+              ) t
+          GROUP BY
+              item_id
+      ) t
+  </select>
+</mapper>

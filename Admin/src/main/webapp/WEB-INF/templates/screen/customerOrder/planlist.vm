@@ -1,0 +1,33 @@
+<script type="text/javascript">
+function exportExcel(){
+	window.location.href="${rc.contextPath}/customerOrder/exportPlanExcel.do";
+}
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+		<a class="btn btn-warning btn-sm" href="javascript:exportExcel();">导出下周采购计划</a>
+	</div>
+	<div class="bd-main">
+	<div class="bd-main-inner">
+	<table class="table">
+		<tr>
+			<th>商品名称</th>
+			<th>商品数量</th>
+		</tr>
+
+		#foreach($dto in $listItem)
+		<tr>
+			<td>$!dto.itemName</td>
+			<td>$!dto.num</td>
+		</tr>
+		#end
+	</table>
+
+<!-- 	<div class="text-center"> -->
+<!--            #parse("/common/page.vm") -->
+<!--     </div> -->
+
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+	</div>

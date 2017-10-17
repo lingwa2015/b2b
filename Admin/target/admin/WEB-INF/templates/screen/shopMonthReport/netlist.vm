@@ -1,0 +1,155 @@
+<script type="text/javascript">
+function exportExcel(){
+ 	var queryDate = $('#queryDate option:selected').val();
+ 	var reseauId = $('#reseauId option:selected').val();
+ 	window.location.href = "${rc.contextPath}/shopMonthReport/exportnetExcel.do?queryDate="+queryDate+"&reseauId="+reseauId;
+ }
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+		<h4 class="tit">网格月报</h4>
+        <div class="an">
+            <a href="${rc.contextPath}/shopDailyReport/netDailyReportList.htm?menuHeight=$!menuHeight&menuName=$!menuName" class="wo">日报</a >
+            <a href="${rc.contextPath}/shopMonthReport/netMonthReportList.htm?menuHeight=$!menuHeight&menuName=$!menuName" class="wo active">月报</a >
+        </div>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" name="tranSumForm" id="tranSumForm" action="${rc.contextPath}/shopMonthReport/netMonthReportList.htm?menuHeight=$!menuHeight&menuName=$!menuName"  method="POST">
+		<table class="form form-horizontal">
+		<td align="right" style="vertical-align:middle;"><label class="tit first-tit">月份：</label></td>
+			<td>
+			<select name="queryDate" id="queryDate" validate="{required:true}">
+				<option value="">全部</option>
+				<option value="2016-06" #if($querydate=='2016-06')selected=selected#end>2016-06</option>
+				<option value="2016-07" #if($querydate=='2016-07')selected=selected#end>2016-07</option>
+				<option value="2016-08" #if($querydate=='2016-08')selected=selected#end>2016-08</option>
+				<option value="2016-09" #if($querydate=='2016-09')selected=selected#end>2016-09</option>
+				<option value="2016-10" #if($querydate=='2016-10')selected=selected#end>2016-10</option>
+				<option value="2016-11" #if($querydate=='2016-11')selected=selected#end>2016-11</option>
+				<option value="2016-12" #if($querydate=='2016-12')selected=selected#end>2016-12</option>
+				<option value="2017-01" #if($querydate=='2017-01')selected=selected#end>2017-01</option>
+				<option value="2017-02" #if($querydate=='2017-02')selected=selected#end>2017-02</option>
+				<option value="2017-03" #if($querydate=='2017-03')selected=selected#end>2017-03</option>
+				<option value="2017-04" #if($querydate=='2017-04')selected=selected#end>2017-04</option>
+				<option value="2017-05" #if($querydate=='2017-05')selected=selected#end>2017-05</option>
+				<option value="2017-06" #if($querydate=='2017-06')selected=selected#end>2017-06</option>
+				<option value="2017-07" #if($querydate=='2017-07')selected=selected#end>2017-07</option>
+				<option value="2017-08" #if($querydate=='2017-08')selected=selected#end>2017-08</option>
+				<option value="2017-09" #if($querydate=='2017-09')selected=selected#end>2017-09</option>
+				<option value="2017-10" #if($querydate=='2017-10')selected=selected#end>2017-10</option>
+				<option value="2017-11" #if($querydate=='2017-11')selected=selected#end>2017-11</option>
+				<option value="2017-12" #if($querydate=='2017-12')selected=selected#end>2017-12</option>
+			 </select>
+			 &nbsp;<span></span>
+			</td>
+		<td align="right"><label class="tit">网格：</label></td>
+			<td>
+						<select name="reseauId" id="reseauId" validate="{required:true}" >
+						    <option value="">全部</option>
+						    #foreach($reseau in $reseaus)
+							   #if($!reseauId == $reseau.id)
+					            <option value="$reseau.id" selected="selected">$reseau.name</option>
+					           #else
+					            <option value="$reseau.id">$reseau.name</option>
+					           #end
+							#end
+						 </select>
+						 &nbsp;<span></span>
+						</td>
+		<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(tranSumForm).submit()">&nbsp;&nbsp;统 &nbsp;计 &nbsp;&nbsp;</a>
+			</td>
+			<td><a class="btn btn-warning btn-sm" href="javascript:exportExcel();">导出Excel</a></td>
+		</table>
+	</form>
+
+	<table class="table" style="width:230%">
+		<tr>
+			<th>网格</th>
+			<th>开通店铺数</th>
+			<th>消费店铺数</th>
+			<th>开通客户数</th>
+			<th>消费客户数</th>
+			<th>新店铺数</th>
+			<th>老店铺数</th>
+			<th>月份</th>
+			<th>消耗额</th>
+			<th>消费总额</th>
+			<th>店均消费额</th>
+			<th>店日均消费额</th>
+			<th>消费笔数</th>
+			<th>笔均</th>
+			<th>消费人数</th>
+			<th>人均</th>
+			<th>复购率</th>
+			<th>月初库存</th>
+			<th>月末库存</th>
+			<th>周转率</th>
+			<th>利润</th>
+			<th>利润率</th>
+			<th>采购额</th>
+			<th>订单数</th>
+			
+			<th>损耗额</th>
+			<th>补贴额</th>
+			<th>损耗率</th>
+
+			<th>新店铺消耗额</th>
+			<th>老店铺消耗额</th>
+			<th>新店铺消费额</th>
+			<th>老店铺消费额</th>
+		</tr>
+
+		#foreach($dto in $page.result)
+		<tr>
+			<td>$!dto.region</td>
+			<td>$!dto.openShopNum</td>
+			<td>$!dto.consumeShopNum</td>
+            <td>$!dto.openCusNum</td>
+			<td>$!dto.consumeCusNum</td>
+            <td>$!dto.newconsumeShopNum</td>
+            <td>$!dto.oldconsumeShopNum</td>
+            <td>$!date.format('yyyy-MM',$!dto.sumDate)</td>
+			<td>$NumberTool.toYuanNumber($!dto.expandFee)</td>
+			<td>$NumberTool.toYuanNumber($!dto.consumeFee)</td>
+			<td>$NumberTool.toYuanNumber($!dto.avgShopFee)</td>
+			<td>$NumberTool.toYuanNumber($!dto.avgFee)</td>
+			<td>$!dto.consumePen</td>
+			<td>$NumberTool.toYuanNumber($!dto.avgPenFee)</td>
+			<td>$!dto.consumeNum</td>
+			<td>$NumberTool.toYuanNumber($!dto.avgManFee)</td>
+			<td>$!dto.repeatBuyRate</td>
+			<td>$NumberTool.toYuanNumber($!dto.monthFirstStock)</td>
+			<td>$NumberTool.toYuanNumber($!dto.stock)</td>
+			<td>$!dto.turnoverRate</td>
+			<td>$NumberTool.toYuanNumber($!dto.profit)</td>
+			<td>#if($!dto.profitRate)$!dto.profitRate%#end</td>
+			<td>$NumberTool.toYuanNumber($!dto.sourcingFee)</td>
+			<td>$!dto.orderNum（$!dto.refundNum）</td>
+			
+			<td>$NumberTool.toYuanNumber($!dto.wastage)</td>
+			<td>$NumberTool.toYuanNumber($!dto.subsidy)</td>
+			<td>#if($!dto.lossPercent) #if($!dto.lossPercent>0)$!dto.lossPercent% #else 0% #end #else 0% #end</td>
+            <td>$NumberTool.toYuanNumber($!dto.newexpandFee)</td>
+            <td>$NumberTool.toYuanNumber($!dto.oldexpandFee)</td>
+            <td>$NumberTool.toYuanNumber($!dto.newconsumeFee)</td>
+            <td>$NumberTool.toYuanNumber($!dto.oldconsumeFee)</td>
+		</tr>
+		#end
+
+	</table>
+
+	<div class="text-center">
+           #parse("/common/page.vm")
+    </div>
+
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+    <script type="text/javascript">
+        $(".wo").on("click",function(){
+            $(this).addClass("active").siblings().removeClass("active")
+        })
+    </script>

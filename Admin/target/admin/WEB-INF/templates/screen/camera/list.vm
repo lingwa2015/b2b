@@ -1,0 +1,177 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+
+ });
+   function zhidan(obj,id){
+   		 var opt = obj.options[obj.selectedIndex];
+   		  $.ajax({
+				url:'${rc.contextPath}/order/change.do',
+				type:'POST',
+				data: {orderNo:id,name:opt.value,flag:1},
+				success:function(data){
+					if(data=200){
+					
+					}else{
+						alert("修改失败");
+					}
+				}
+				
+			})
+   }
+   
+   function fenjian(obj,id){
+   		 var opt = obj.options[obj.selectedIndex];
+   		  $.ajax({
+				url:'${rc.contextPath}/order/change.do',
+				type:'POST',
+				data: {orderNo:id,name:opt.value,flag:2},
+				success:function(data){
+					if(data=200){
+					
+					}else if(data=202){
+						alert("你没有设置默认城市");
+					}else if(data=203){
+						alert("你设置的默认城市与操作城市不符");
+					}else{
+						alert("修改失败");
+					}
+				}
+				
+			})
+   }
+   
+   function change(id,obj){
+   		  var num = obj.value;
+   		  $.ajax({
+				url:'${rc.contextPath}/customerCamera/changeNum.do',
+				type:'POST',
+				data: {cid:id,num:num},
+				success:function(data){
+					if(data=200){
+					
+					}else if(data=202){
+						alert("你没有设置默认城市");
+					}else if(data=203){
+						alert("你设置的默认城市与操作城市不符");
+					}else{
+						alert("修改失败");
+					}
+				}
+				
+			})
+   }
+   
+    function openwelcome(id,e){
+        var num = $(e).parent().prev().children().val();
+        if(!num){
+        	 $(e).attr("checked", false);
+        	 alert("请填写摄像头ID")
+        	return;
+        }else{
+	   		if(document.getElementById("openWelcome").checked){
+				$.ajax({
+					url:'${rc.contextPath}/customerCamera/changeOpen.do',
+					type:'POST',
+					data: {cid:id,openWelcome:1},
+					success:function(data){
+						if(data=200){
+						
+						}else if(data=202){
+						alert("你没有设置默认城市");
+					}else if(data=203){
+						alert("你设置的默认城市与操作城市不符");
+					}else{
+							alert("开启失败");
+						}
+					}
+					
+				})
+			}else{
+				$.ajax({
+					url:'${rc.contextPath}/customerCamera/changeOpen.do',
+					type:'POST',
+					data: {cid:id,openWelcome:0},
+					success:function(data){
+						if(data=200){
+						
+						}else if(data=202){
+						alert("你没有设置默认城市");
+					}else if(data=203){
+						alert("你设置的默认城市与操作城市不符");
+					}else{
+							alert("关闭失败");
+						}
+					}
+					
+				})
+			} 
+        }	
+   }
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" id="orderListForm" action="camera.htm" method="POST">
+		<table class="form form-horizontal">
+		
+		<tr>
+			
+			<td align="right"><label class="tit">客户简称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="userName" id="userName" value="$!userName">
+			</td>
+			
+			<td align="right"><label class="tit">筛选：</label></td>
+			<td >
+				<select name="param">
+				  <option value ="0" >全部</option>
+				  <option value ="1" #if($!param==1) selected="selected" #end>有摄像头</option>
+				</select>
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(orderListForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+	<table class="table">
+		<tr>
+			<th width="20%">客户简称</th>
+			<th width="20%">客户全称</th>
+			<th width="30%">摄像头ID</th>
+			<th width="10%">开启欢迎语</th>
+			<th width="20%">时间</th>
+		</tr>
+
+		#foreach($dto in $page.result)
+		<tr>
+			<td>$!dto.userName</td>
+			<td>$!dto.companyName</td>
+			<td><input name="num" type="text"  style="width:250px" onchange="change($!dto.cid,this)" value="$!dto.num" /></td>
+			<td>
+				<input name="openWelcome" type="checkbox" id="openWelcome" onchange="openwelcome($!dto.cid, this)" #if($!dto.openWelcome==1) checked="checked" #end value="$!dto.openWelcome" />开启
+			</td>
+			<td>$!date.format('yyyy-MM-dd',$!dto.createdTime)</td>
+		</tr>
+		#end
+
+
+
+	</table>
+	
+	<div class="text-center">
+			#parse("/common/page.vm")
+	</div>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+
+
+
+

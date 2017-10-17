@@ -1,0 +1,114 @@
+#set($layout="layout/default_combo.vm")
+
+<script type="text/javascript">
+    function deleteCate(obj){
+		deleteRow4ItemRecord(obj);
+    }
+
+	function insertRow4addCate4addOrderPage(tableObj) {
+		var rowObj = $('#rowTemplate_query').clone();
+		var tdList = rowObj.children('td');
+		var nameList = '';
+		var rowCount = Number($('#rowCount_query').val());
+		rowObj.css('display', '');
+		for (var i = 0; i < tdList.length; i++) {
+			var tdEle = tdList[i];
+			if (tdEle.children.length == 0)
+				continue;
+			var inputEle = tdEle.children[0];
+
+			if (inputEle.tagName == 'SPAN') {
+				continue;
+			}
+
+			inputEle.setAttribute('rowCount_query',rowCount);
+
+			inputEle.name = inputEle.name + rowCount;
+			inputEle.id = inputEle.name;
+
+		}
+
+		$('#rowCount_query').val(rowCount + 1);
+		tableObj.append(rowObj);
+    }
+	
+    
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+	<h4 class="tit">类目数量设定</h4>
+	</div>
+	<!--bd-actionbar-->
+	<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" id="orderDetailForm" method="POST"
+				action="$!{rc.contextPath}/standardOrder/savecategory.do">
+				<table class="form">
+					<tr id="resultTr">
+						<td></td>
+						<td>
+							<table class="table-inline" id="queryList">
+								<tr>
+									<th><a class="ico-add" href="#"
+										onclick="insertRow4addCate4addOrderPage($('#queryList'));">+</a>
+									</th>
+									<th>商品类目
+									<th>数量
+									</th>
+
+								</tr>
+								#set($bcCount = 0)
+		                        #foreach( $cate in $catListResult)
+		                      		 <tr id="rowTemplate5show" name="rowTemplate5show">
+									<th><a class="ico-subtract" href="#"
+										onclick="deleteCate(this)">-</a></th>
+									<td>
+		    							<select name='queryCateId$bcCount' id='queryCateId$bcCount' rowNum="$bcCount"  validate="{required:true}">
+		    							#foreach( $cat in $catList)
+		        							<option value='$cat.id'  #if($cate.categoryid==$cat.id) selected #end>$cat.categoryName</option>
+		        						#end
+		        						</select>&nbsp;<span></span>
+		        					</td>
+		    						<td><input style="width: 50;" name="queryNum$bcCount" class="form-input" id="queryNum$bcCount"
+												type="text" value="$cate.num"  validate="{required:true,digits:true}" />&nbsp;<span></span>
+									</td>	
+								</tr>
+								#set($bcCount = $bcCount+1)
+			                    #end
+								<tr id="rowTemplate_query" name="rowTemplate_query" style="display: none">
+									<th><a class="ico-subtract" href="#"
+										onclick="deleteCate(this)">-</a></th>
+									<td>
+		    							<select name='queryCateId'   validate="{required:true}">
+		        								#foreach( $cat in $catList)
+		        										<option value='$cat.id'>$cat.categoryName</option>
+		        								#end
+		        							</select>&nbsp;<span></span>
+		        					</td>
+
+									<td><input style="width: 50;" name="queryNum" class="form-input" id="queryNum"
+										type="text" value=""  validate="{required:true,digits:true}" />&nbsp;<span></span>
+									</td>
+
+
+
+								</tr>
+							</table>
+
+							<input type="hidden" name="rowCount_query" id="rowCount_query" value="$!catListSizeResult">
+
+						</td>
+					</tr>
+					<tr class="btn-bar">
+						<td></td>
+						<td>
+
+						<a class="btn btn-primary" id="saveBtn" href="#" onclick="$('#orderDetailForm').submit();">保存</a>
+
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+</div>

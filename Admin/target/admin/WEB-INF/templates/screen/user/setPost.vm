@@ -1,0 +1,126 @@
+<script type="text/javascript">
+var phoneflag=false;
+$(document).ready(function() {
+	$.metadata.setType("attr", "validate");
+	gai();
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+        		save();
+            	return false;
+        }
+	});
+ });
+ 
+
+
+ 
+ 
+function save(){
+	disableBtn('saveBtn');
+	
+	var url="${rc.contextPath}/user/setPost.do";
+  	submitFormData("form1",url,show);
+}
+
+function show(data){
+    
+	if(data.indexOf("成功")!=-1){
+		alert(data);
+		cancel();
+	}else if(data=="201"){
+	 alert("选择岗位后，必须选择层级");
+	 enableBtn('saveBtn');
+	}
+	else{
+		alert(data);
+		enableBtn('saveBtn');
+	}
+}
+
+function cancel(){
+  	window.location.href="${rc.contextPath}/user/userlist.htm";
+}
+
+function gai(obj){
+	 var count1 = $("select[name='post']").find("option:selected").text();
+	 var count2 = $("select[name='gread']").find("option:selected").text();
+	 if((count1 == "销售" && count2 == "员工") || (count1 == "销售" && count2 == "主管") || (count1 == "销售" && count2 == "经理") || (count1 == "客户经理" && count2 == "员工") || (count1 == "客户经理" && count2 == "主管")){
+		 $(".wa").show();
+	 }else{
+		 $(".wa").hide();
+		 $("select[name='managerId']").val('');
+	 }
+ }
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/user/userlist.htm" title="返回用户列表" class="btn btn-return"><</a>
+			<h4 class="tit">设置岗位层级</h4>
+	</div><!--bd-actionbar-->
+		
+	<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" name="userForm" id="form1" action="${rc.contextPath}/user/setPost.do" method="post">
+				<input type="hidden" name="id" id="id" value="$!user.id"/>
+				<table class="form">
+					<tr>
+						<td align="right">
+							<label class="tit"><font color='red'>*</font>姓名：</label>
+						</td>
+						<td>
+							$!user.userName
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit">岗位：</label></td>
+						<td><select name="post" onchange="gai(this)">
+							  <option value ="" ></option>
+							  <option value ="客服" #if($user.post=='客服')selected=selected #end>客服</option>
+							  <option value ="仓管" #if($user.post=='仓管')selected=selected #end>仓管</option>
+							  <option value ="配送" #if($user.post=='配送')selected=selected #end>配送</option>
+							   <option value ="运营" #if($user.post=='运营')selected=selected #end>运营</option>
+							    <option value ="客户经理" #if($user.post=='客户经理')selected=selected #end>客户经理</option>
+							     <option value ="销售" #if($user.post=='销售')selected=selected #end>销售</option>
+							      <option value ="采购" #if($user.post=='采购')selected=selected #end>采购</option>
+							</select>
+						&nbsp;<span></span></td>
+					</tr>
+					
+					<tr>
+						<td align="right"><label class="tit">层级：</label></td>
+						<td><select name="gread" onchange="gai(this)">
+							  <option value ="" ></option>
+							  <option value ="1" #if($user.gread==1)selected=selected #end>员工</option>
+							  <option value ="4" #if($user.gread==4)selected=selected #end>主管</option>
+							  <option value ="2" #if($user.gread==2)selected=selected #end>经理</option>
+							  <option value ="3" #if($user.gread==3)selected=selected #end>总监</option>
+							</select>
+						&nbsp;<span></span></td>
+						<td align="right" class="wa"><label class="tit">所属上级：</label></td>
+						<td class="wa">
+							<select name="managerId" validate="{required:true}">
+								<option value="">--请选择--</option>
+								#foreach($dto in $users)
+								<option value="$dto.id" #if($dto.id==$user.managerId) selected="selected" #end>$dto.userName</option>
+								#end
+							</select>&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr class="btn-bar">
+						<td></td>
+						<td><a class="btn btn-primary" id="saveBtn" href="#" onclick="$('#form1').submit();">保存</a></td>
+					</tr>
+				</table>
+			</form>
+		</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

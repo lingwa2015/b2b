@@ -1,0 +1,106 @@
+<script type="text/javascript">
+$(document).ready(function() {
+	$( "#starttime" ).datepicker();
+ });
+function exportExcel(){
+ 	var starttime = $('#starttime').val();
+ 	var userName = $('#userName').val();
+ 	var param = $('#param').val();
+ 	var reseauId = $('#reseauId option:selected').val();
+ 	window.location.href = "${rc.contextPath}/shopWeekReport/exportExcel.do?starttime="+starttime+"&userName="+userName+"&param="+param+"&reseauId="+reseauId;
+ }
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+		<h4 class="tit">单店周报</h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" name="tranSumForm" id="tranSumForm" action="${rc.contextPath}/shopWeekReport/shopWeekReportList.htm" method="POST">
+		<table class="form form-horizontal">
+		<tr>
+			<td><label class="tit">日期：</label></td>
+						<td>
+							<input class="form-input input-time-day" type="text" name="starttime" id="starttime" readonly="readonly" value="$!starttime">
+						</td>
+			<td><label class="tit">客户简称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="userName" id="userName" value="$!userName" autocomplete="off">
+			</td>
+			<td align="right"><label class="tit">网格：</label></td>
+			<td>
+						<select name="reseauId" id="reseauId" validate="{required:true}" >
+						    <option value="">全部</option>
+						    #foreach($reseau in $reseaus)
+							   #if($!reseauId == $reseau.id)
+					            <option value="$reseau.id" selected="selected">$reseau.name</option>
+					           #else
+					            <option value="$reseau.id">$reseau.name</option>
+					           #end
+							#end
+						 </select>
+						 &nbsp;<span></span>
+						</td>
+			<td align="right"><label class="tit">排序：</label></td>
+			<td>
+				<select name="param" id="param" style="width:80px">
+							  <option value="0" #if($param==0)selected=selected#end>默认</option>
+							  <option value="2" #if($param==2)selected=selected#end>消费额</option>
+							  <option value="3" #if($param==3)selected=selected#end>消耗额</option>
+							  <option value="4" #if($param==4)selected=selected#end>日均</option>
+							  <option value="5" #if($param==5)selected=selected#end>消费笔数</option>
+							  <option value="6" #if($param==6)selected=selected#end>消费人数</option>
+							  <option value="7" #if($param==7)selected=selected#end>人均</option>
+				</select>
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(tranSumForm).submit()">&nbsp;&nbsp;统 &nbsp;计 &nbsp;&nbsp;</a>
+			</td>
+			<td><a class="btn btn-warning btn-sm" href="javascript:exportExcel();">导出Excel</a></td>
+		</tr>
+	</table>
+	</form>
+
+	<table class="table">
+		<tr>
+			<th>客户</th>
+			<th>统计日期</th>
+			<th>折扣</th>
+			<th>消费额</th>
+			<th>同比</th>
+			<th>消耗额</th>
+			<th>日均</th>
+			<th>消费笔数</th>
+			<th>消费人数</th>
+			<th>人均</th>
+			<th>操作</th>
+		</tr>
+
+		#foreach($dto in $page.result)
+		<tr>
+			<td>#if($!dto.region)[$!dto.region]&nbsp;#end$!dto.userName</td>
+			<td>$!date.format('yyyy-MM-dd',$!dto.sumdate)~$!date.format('yyyy-MM-dd',$!dto.enddate)</td>
+			<td>$!dto.discount</td>
+			<td>$NumberTool.toYuanNumber($!dto.consumeFee)</td>
+			<td>#if($!dto.beforeConsumeFee) #if($!dto.beforeConsumeFee>0)+$!dto.beforeConsumeFee% #else $!dto.beforeConsumeFee% #end #end</td>
+			<td>$NumberTool.toYuanNumber($!dto.expendFee)</td>
+			<td>$NumberTool.toYuanNumber($!dto.avgFee)</td>
+			<td>$!dto.consumePen</td>
+			<td>$!dto.consumeNum</td>
+			<td>$NumberTool.toYuanNumber($!dto.avgManFee)</td>
+			<td><a href="${rc.contextPath}/shopWeekReport/shopWeekReportList.htm?userName=$!dto.userName">本店</a></td>
+		</tr>
+		#end
+
+
+
+	</table>
+
+	<div class="text-center">
+           #parse("/common/page.vm")
+    </div>
+
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->

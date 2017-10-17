@@ -1,0 +1,94 @@
+<div class="content">
+		<div class="bd-actionbar">
+		<h4 class="tit">消费记录</h4>
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/actual/actualReportList.htm?menuHeight=$!menuHeight&menuName=$!menuName" method="post">
+					<table class="form form-horizontal">
+					<input type="hidden" name="customerId" id="customerId" value=""/>
+                        <input type="hidden" name="menuHeight" id="menuHeight" value="$!menuHeight" />
+                        <input type="hidden" name="menuName" id="menuName" value="$!menuName" />
+					<tr>
+						
+						<td align="right"><label class="tit">客户简称：</label></td>
+						<td>
+							<input class="form-input input-time-day" type="text" name="shopname" id="userName" value="$!shopname">
+						</td>
+						
+						<td align="right"><label class="tit">昵称：</label></td>
+						<td>
+							<input class="form-input input-time-day" type="text" name="name" id="name" value="$!name">
+						</td>
+						<td align="right"><label class="tit">商品名称：</label></td>
+						<td>
+							<input class="form-input input-time-day" type="text" name="itemName" id="itemName" value="$!itemName">
+						</td>
+						<td ><label class="tit">退款：</label></td>
+						<td >
+							<select name="param">
+							  <option value ="0" #if($!param==0)selected="selected"#end>全部</option>
+							  <option value ="1" #if($!param==1)selected="selected"#end>已退款</option>
+							</select>
+						</td>
+						<td>
+							<a class="btn btn-warning btn-sm" onclick="javascript:$(form1).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+						</td>
+					</tr>
+					</table>
+			</form>
+			#if($data.id)
+			<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+		        <tr class="info">
+					<td colspan="1">
+		                <span>今日消费金额：$NumberTool.toYuanNumber($!data.totalPrice) 元</span>
+		                <span>今日消费笔数：$!data.id</span>
+		            </td>
+				</tr>
+			</table>
+			#end
+			<table class="table">
+			  <tr>
+				<th>客户</th>
+				<th>用户</th>
+				<th>&nbsp;</th>
+				<th width="40%">消费明细</th>
+				<th>金额</th>
+			    <th>退款</th>
+				<th>时间</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+				    #set($items = $bean.shopOrderItems)
+		        <tr>
+					<td>$!bean.shopName</td>
+					<td><img src="$!bean.headImgurl" height="50" width="50"></td>
+					<td>$!bean.buyerName</td>
+					<td>
+						<table width="90%">
+						#foreach($item in $items)
+								<tr>
+								<td width="60%">$item.itemName</td>
+								<td width="20%">￥$NumberTool.toYuanNumber($item.price)</td>
+								<td width="20%">x$item.num</td>
+								</tr>
+						#end
+						</table>
+					</td>
+					<td>$NumberTool.toYuanNumber($!bean.totalPrice)#if($!bean.freePrice>0)（<span style="color:green">$NumberTool.toYuanNumber($!bean.freePrice)</span>）#end#if($!bean.redPrice>0)（<span style="color:red">$NumberTool.toYuanNumber($!bean.redPrice)</span>）#end</td>
+					<td>#if($bean.status==2)已退款#end</td>
+					<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!bean.createdTime)</td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->
+<script type="text/javascript">
+$(document).ready(function() {
+	$( "#starttime" ).datepicker();
+	$( "#endtime" ).datepicker();
+ });
+</script>

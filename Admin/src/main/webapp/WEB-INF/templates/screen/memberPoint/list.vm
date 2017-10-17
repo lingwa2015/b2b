@@ -1,0 +1,78 @@
+<script type="text/javascript">
+
+function delData(id){
+	if(confirm("确定删除？")){
+	  var url="${rc.contextPath}/memberPoint/delete.do?id="+id;
+	  doDeleteRequest(url,id,show);
+	}else{
+		return;
+	}
+}
+
+function show(data){
+	if(data.indexOf("OK")!=-1){
+		 window.location.href="${rc.contextPath}/memberPoint/memberPointList.htm?userid=$userid";
+	}
+}
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/memberPoint/add.htm?userid=$userid" class="btn btn-success"><i class="ico"></i>增减积分</a>
+	</div><!--bd-actionbar-->
+		
+	<div class="bd-main">
+		
+		<div class="bd-main-inner">
+			<form class="jqtransform" id="form1" name="form1" action="$rc.contextPath/memberPoint/memberPointList.htm?userid=$userid" method="post">
+			</form>
+			#if($!memberPoint.account)
+			<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+		        <tr class="info">
+					<td colspan="1">
+		                <span> $!memberPoint.shopName：$!memberPoint.account </span>
+		            </td>
+				</tr>
+			</table>
+			#end
+			<table class="table">
+		 		<tr>
+					<th>月份</th>
+					<th>类型</th>
+					<th>积分</th>
+					<th>时间</th>
+					<th>倍率</th>
+					<th>备注</>
+					<th>操作</th>
+		  		</tr>
+		  		
+		  		#set ($rowCount = 0)
+		  		#foreach($dto in $page.result)
+			  		#set ($isOddRow = $rowCount % 2 != 0)
+			  		#if ($isOddRow)
+	           		<tr>
+	          		#else
+	           		<tr class="sep-bar">
+	          		#end
+						<td>#if($!dto.sumDate)$!date.format('yyyy-MM',$!dto.sumDate) #end</td>
+						<td>#if($!dto.type==1)月度奖励 #elseif($!dto.type==2) 其他奖励 #elseif($!dto.type==3)消耗 #else #end</td>
+						<td>$!dto.point</td>
+						<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!dto.createdTime)</td>
+						<td>$!dto.multiple</td>
+						<td>$!dto.remark</td>
+						<td class="opt">
+							<a href="javascript:delData('$dto.id')">删除</a>
+						</td>
+			  		</tr>
+			  
+			  		#set ($rowCount = $rowCount + 1)
+		 		#end
+
+			</table>
+			
+			<div class="text-center">
+        			#parse("/common/page.vm")
+       		</div>
+		</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

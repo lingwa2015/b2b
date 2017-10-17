@@ -1,0 +1,82 @@
+ #set($layout="layout/pcLayout.vm")
+<div class="head">
+      <div class="header">
+        <div class="wrap">
+          <a href="${rc.contextPath}/official/pcIndex.htm" class="bl"><span class="logo-img i-b"><img src="${rc.contextPath}/static/images/pc/lw_logo.png"></span></a>
+            <i></i>
+            <span class="so">快乐生活
+                <b></b>
+                快乐工作
+            </span>
+          <div class="nav br">
+            <div class="nav_1">
+                <ul class="nav_main">
+                    <li>
+                        <a href="${rc.contextPath}/official/pcIndex.htm" class="xiao">首页</a>
+                    </li>
+                    <!--<li>
+                        <a href="${rc.contextPath}/official/pcVip.htm" class="xiao ">企业会员</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcSnackbag.htm" class="xiao c">零食反应堆</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcItem.htm" class="xiao">零食分类</a>
+                    </li>-->
+                    <li>
+                        <a href="${rc.contextPath}/official/pcHoliday.htm" class="xiao">节日方案</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcPlan.htm" class="xiao">其他服务</a>
+                    </li>
+                </ul>
+            </div>
+          </div>
+          </div>
+        </div>
+     </div>
+        <!-- 中间层 -->
+        <div class="lw_fanying">
+        	<div class="lw_dui">
+        		<div class="tupian"></div>
+        		#foreach($item in $list)
+        		<div class="lw_fanyingdui">
+        			<img src="$!item.imgPath">
+        			<div class="lw_xiangxi">
+        				<p class="fanying_name">$!item.typeValue</p>
+        				<p class="fanying_jiage">价格：<i>￥</i>$NumberTool.toYuanNumber($!item.offerPrice)</p>
+        				<p class="fanying_wenzi">$!item.remark </p>
+        			</div>
+                    <div class="lw_erweima">
+                        <div class="nengliang_01">扫码购买</div>
+                        <img src="${rc.contextPath}/static/images/pc/nengliang.png" class="nengliang">
+                    </div>
+        		</div>
+        		#end
+        	</div>
+        	
+        </div>
+      
+    <!-- 页尾 -->
+    <div class="footer">
+        <div class="foo">
+        <ul>
+            <li class="tc">
+                <img src="${rc.contextPath}/static/images/pc/small_logo.png">
+                <span>微信公众号</span>
+            </li>
+            <li>
+                <a href="/official/pcAbout.htm" class="about">关于我们</a>
+                <b>|</b>
+                <a href="/official/pcContact.htm">联系我们</a>
+                <p>杭州领带蛙网络科技有限公司<b>Lingwa.com.cn</b>浙ICP备15009557号-2</p>
+            </li>
+            <li class="br">
+                <div class="rexian"><img src="${rc.contextPath}/static/images/pc/tel.png"><span>客服热线</span></div>
+                <strong class="str">4001&nbsp;&nbsp;520&nbsp;&nbsp;027</strong>
+            </li>
+        </ul>
+            
+        </div>
+
+    </div>

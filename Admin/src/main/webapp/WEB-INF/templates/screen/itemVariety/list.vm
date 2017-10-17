@@ -1,0 +1,62 @@
+<script type="text/javascript">
+function editData(id){
+    var menuHeight =$('#menuHeight').val();
+    var menuName = $('#menuName').val();
+  window.location.href="${rc.contextPath}/itemVariety/itemVarietyUpdate.htm?id="+id+"&menuHeight="+menuHeight+"&menuName="+menuName;
+}
+
+function deleteData(id){
+   var url="${rc.contextPath}/itemVariety/delete.do?id="+id;
+  doDeleteRequest(url,id,show);
+}
+function show(data){
+	alert(data);
+	if(data.indexOf("成功")!=-1){
+        var menuHeight =$('#menuHeight').val();
+        var menuName = $('#menuName').val();
+		  window.location.href="${rc.contextPath}/itemVariety/itemVarietyList.htm?menuHeight="+menuHeight+"&menuName="+menuName;
+	}
+}
+
+</script>
+<div class="content">
+		<div class="bd-actionbar">
+			<a href="${rc.contextPath}/itemVariety/itemVarietyAdd.htm?menuHeight=$!menuHeight&menuName=$!menuName" class="btn btn-success"><i class="ico"></i>添加品种</a>
+		</div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/itemVariety/itemVarietyList.htm?menuHeight=$!menuHeight&menuName=$!menuName" method="post">
+		</form>
+		<table class="table">
+		  <tr>
+			<th>品种名称</td>
+			<th>备注</td>
+			<th>操作</td>
+		  </tr>
+		  
+		  #set ($rowCount = 0)
+		  #foreach($bean in $page.result)
+			  #set ($isOddRow = $rowCount % 2 != 0)
+			  #if ($isOddRow)
+	           <tr>
+	          #else
+	           <tr class="sep-bar">
+	          #end
+				<td>$!bean.itemvarietyName</td>
+				<td>$!bean.remark</td>
+				<td class="opt">
+					<a href="javascript:editData('$bean.itemvarietyId')">编辑</a>
+					<a href="javascript:deleteData('$bean.itemvarietyId')">删除</a>
+				</td>
+			  </tr>
+			  
+			  #set ($rowCount = $rowCount + 1)
+		  #end
+		 
+		</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

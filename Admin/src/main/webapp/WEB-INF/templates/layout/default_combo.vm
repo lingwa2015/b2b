@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+    	<title>领蛙后台管理系统</title>
+		<meta charset="utf-8">
+		<meta name="keywords" content="领蛙,领带蛙,杭州领带蛙网络科技有限公司,智能优选零食,零食,领蛙零食,企业文化"/>
+		<meta name="description" content="领蛙,领带蛙,杭州领带蛙网络科技有限公司,智能优选零食,零食,领蛙零食,企业文化"/>
+    	<link rel="shortcut icon" href="${rc.contextPath}/static/images/favicon.png" type="image/png" />
+    	<link rel="stylesheet" href="${rc.contextPath}/static/css/cc-main.css" type="text/css" />
+    	<link rel="stylesheet" href="${rc.contextPath}/static/css/jquery-ui.min.css" type="text/css" />
+    	<link rel="stylesheet" href="${rc.contextPath}/static/css/easyui.css" type="text/css" />
+
+
+		<script type="text/javascript" src="${rc.contextPath}/static/js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="${rc.contextPath}/static/js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="${rc.contextPath}/static/js/commonUtil.js"></script>
+		<script type="text/javascript" src="${rc.contextPath}/static/js/jquery.jqtransform.js"></script>
+		<script type="text/javascript" src="${rc.contextPath}/static/js/function.js"></script>
+		<script type="text/javascript" src="${rc.contextPath}/static/js/zone.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="${rc.contextPath}/static/js/jquery.validate.min.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="${rc.contextPath}/static/js/jquery.metadata.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="${rc.contextPath}/static/js/messages_cn.js" charset="UTF-8"></script>
+        <script type="text/javascript" src="${rc.contextPath}/static/js/datepicker_cn.js" charset="UTF-8"></script>
+        <script type="text/javascript" src="${rc.contextPath}/static/js/jquery-ui-timepicker-addon.js" charset="UTF-8"></script>
+        <script type="text/javascript" src="${rc.contextPath}/static/js/jquery.easyui.min.js"  charset="UTF-8"></script>
+        <script type="text/javascript" src="${rc.contextPath}/static/js/jquery-migrate-1.2.1.min.js"   charset="UTF-8"></script>
+
+
+
+		<script language="javascript">
+			$(document).ready(function(){
+				var pathArray = location.pathname.split('/');
+
+				if(pathArray.length != 0){
+					var htmlFileName = pathArray[pathArray.length -1];
+					var endPostion = htmlFileName.indexOf('.');
+					htmlFileName = htmlFileName.substring(0,endPostion);
+
+					$("#" + htmlFileName + "-li").addClass('active');
+
+				}
+
+
+			});
+
+			function disableBtn(btnId){
+			   $('#'+btnId).attr('disabled',"disabled");
+		       $('#'+btnId).attr('class', "btn");
+			}
+
+			function enableBtn(btnId){
+			   $('#'+btnId).attr('disabled',"");
+		       $('#'+btnId).attr('class', "btn btn-primary");
+			}
+
+		</script>
+    </head>
+    <body>
+    	<div id="header">#parse('layout/header.vm')</div>
+    	<div id="content">
+    		<div id="sub">
+    		#if($!session.getAttribute("user").isadmin == 0)
+    			#parse('layout/leftMenu.vm')
+    		#else
+    			#parse('layout/businessMenu.vm')
+			#end
+    		</div>
+    		<div id="main">$screen_content</div>
+    	</div>
+    	<div id="footer">#parse('layout/footer.vm')</div>
+    </body>
+</html>

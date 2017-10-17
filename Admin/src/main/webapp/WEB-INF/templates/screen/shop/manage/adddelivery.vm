@@ -1,0 +1,282 @@
+#set($layout="layout/shopLayout.vm")
+ <div class="manage_content">
+        <input type="hidden" id="id"  value="$!dto.id">
+        <ul>
+            <li>
+                <span>公司简称：</span>
+                <input type="text" name="userName" placeholder="2-6个字" id="userName" value="$!dto.userName">
+            </li>
+            <li>
+                <span>公司全称：</span>
+                <input type="text" name="companyName" placeholder="发票抬头" id="companyName" value="$!dto.companyName">
+            </li>
+            <li>
+                <span>区域：</span>
+                <select name="regionId" id="regionId" validate="{required:true}">
+						    <option value="">--请选择--</option>
+						    #foreach($region in $regions)
+						    	#if($!dto.regionId == $region.id)
+						    		<option value="$region.id" selected = "selected">$region.name</option>
+						    	#else
+						            <option value="$region.id">$region.name</option>
+						    	#end
+							#end
+				</select>
+            </li>
+            <li>
+                <span>详细地址：</span>
+                <input type="text" name="address" id="address" placeholder="配送地址" value="$!dto.address">
+            </li>
+            <li>
+                <span>业务类型：</span>
+                <select name="isvxvip" id="isvxvip">
+                    <option value="">--请选择--</option>
+                    <option value="0" #if($dto.isvxvip==0)selected = "selected" #end>福利店</option>
+                    <option value="3" #if($dto.isvxvip==3)selected = "selected" #end>便利店</option>
+                    <option value="1" #if($dto.isvxvip==1)selected = "selected" #end>礼包</option>
+                </select>
+            </li>
+             <li>
+                <span>折扣：</span>
+                <input type="number" name="discount" id="discount" #if($!dto.discount)value="$!dto.discount" #else value="1" #end />
+            </li>
+            <li>
+                <span>售价折扣：</span>
+                <input type="number" name="shopDiscount" id="shopDiscount"  #if($!dto.shopDiscount)value="$!dto.shopDiscount" #else value="1" #end />
+            </li>
+            <li>
+                <span>回款方式：</span>
+                <select name="payBillWay" id="payBillWay">
+                    <option value="2" #if($dto.payBillWay==2)selected = "selected" #end>按结算额</option>
+                    <option value="3" #if($dto.payBillWay==3)selected = "selected" #end>按亏损额</option>
+                    <option value="4" #if($dto.payBillWay==4 || !$!dto.payBillWay)selected = "selected" #end>不承担亏损</option>
+                </select>
+            </li>
+            <li>
+                <span>店铺数量：</span>
+                <input type="number" name="shopNum" id="shopNum" value="$!dto.shopNum">
+            </li>
+            <li>
+                <span>货架数量：</span>
+                <input type="number" name="goodsShelfNum" id="goodsShelfNum" value="$!dto.goodsShelfNum">
+            </li>
+            <li>
+                <span>其他设备：</span>
+                <input type="text" name="others" id="others" placeholder="饮料柜、雪糕柜、摄像头等" value="$!dto.others">
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <span>联系人：</span>
+                <input type="text" name="linkman" placeholder="" id="linkman" value="$!dto.linkman">
+            </li>
+            <li>
+                <span>职位：</span>
+                <input type="text" name="position" placeholder="" id="position" value="$!dto.position">
+            </li>
+            <li>
+                <span>联系电话：</span>
+                <input type="number" name="mobilePhone" id="mobilePhone" placeholder="" value="$!dto.mobilePhone">
+            </li>
+            <li>
+                <span>公司人数：</span>
+                <input type="number" name="companyPersonnum" id="companyPersonnum" placeholder="" value="$!dto.companyPersonnum">
+            </li>
+            <li>
+                <span>开票税号：</span>
+                <input type="text" name="dutyParagraph" id="dutyParagraph" placeholder="选填" value="$!dto.dutyParagraph">
+            </li>
+            
+        </ul>
+        <ul>
+           <li style="height:2.1rem;">
+                <span>特殊优惠：</span>
+                <textarea name="payWay" id="payWay" style="width: 66%;float:right;padding: .24rem 0 0 0;height: 1.75rem;margin-right: 7%;font-size: .32rem;border:none">$!dto.payWay</textarea>
+            </li> 
+        </ul>
+        <ul>
+           <li style="height:2.1rem;">
+                <span>备注：</span>
+                <textarea name="remark" id="remark" placeholder="选填" style="width: 66%;float:right;padding: .24rem 0 0 0;height: 1.75rem;margin-right: 7%;font-size: .32rem;border:none">$!dto.remark</textarea>
+            </li> 
+        </ul>
+        <p style="width: 95%;margin:.2rem auto .4rem;text-align: justify;">备注中福利店需说明每月预算和配送频率，便利店需说明售卖倍率。如对入驻日期或零食口味有要求需说明。以及其他要求或补充信息。</p>
+        
+        #if(!$dto.iscommit)
+        	<a href="javascript:" class="save addtemp" style="margin: .4rem auto .1rem">保存</a>
+	        <a href="javascript:" class="save commitend" style="margin: .4rem auto .4rem;background-color: #FFE500;color: #000">提交</a>
+        #else
+        	#if($dto.iscommit==1)
+        		 <a href="javascript:" class="save addtemp" style="margin: .6rem auto .1rem">保存</a>
+		        <a href="javascript:" class="save commitend" style="margin: .4rem auto .4rem;background-color: #FFE500;color: #000">提交</a>
+		        <a href="javascript:" class="save delete" style="margin: .4rem auto .4rem;background-color: #fff;color: #000;">删除</a>
+        	#end
+        #end
+       
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+	var aaa = $("#id").val();
+	if(aaa>0){
+		document.title = "编辑交接单";
+	}else{
+	    document.title = "添加交接单";
+	}
+    $("body").css("background-color","#ececec");
+    $(".manage_content ul li span").css("text-align","right")
+    var touchmove;
+	$(document).on( "touchstart", function() {
+	  touchmove = false;
+	});
+	$(document).on( "touchmove", function() {
+	  touchmove = true;
+	});
+    var checkSubmitFlag = false;
+     $('.commitend').on("click",function(){
+		if (touchmove) {
+	        return;
+	    }
+        if (checkSubmitFlag == true) return;
+         var id = $("#id").val();
+        var companyName = $("#companyName").val();
+        var userName = $("#userName").val();
+        var regionId = $("#regionId").val();
+        var address = $("#address").val();
+        var iswxvip = $("#isvxvip").val();
+        var shopNum =$("#shopNum").val();
+        var goodsShelfNum =$("#goodsShelfNum").val();
+        var others =$("#others").val();
+        var linkman =$("#linkman").val();
+        var position =$("#position").val();
+        var mobilePhone =$("#mobilePhone").val();
+        var companyPersonnum =$("#companyPersonnum").val();
+        var dutyParagraph =$("#dutyParagraph").val();
+        var payWay = $("#payWay").val();
+        var remark = $("#remark").val();
+        var discount = $("#discount").val();
+        var shopDiscount = $("#shopDiscount").val();
+        var payBillWay = $("#payBillWay").val();
+        if(!companyName||!userName || !regionId ||!address||!shopNum||!goodsShelfNum||!others|| !linkman|| !position||!mobilePhone||!companyPersonnum||!iswxvip ||!payWay ||!discount ||!shopDiscount ||!payBillWay){
+                alert("请将信息填写完整");
+                return false;
+        }else{
+                if(0>=discount || discount >=2){
+		        	alert("折扣超出范围");
+		        	return false;
+		        }
+		        if(0>=shopDiscount || shopDiscount >=2){
+		        
+		            alert("店铺折扣超出范围");
+		            return false;
+		        }
+                
+                 checkSubmitFlag = true;
+                 $.ajax({
+				url:'${rc.contextPath}/convenient/manage/shop_adddelivery.do',
+				type:'POST',
+				data: {id:id,companyName:companyName,userName:userName,regionId:regionId,address:address,isvxvip:iswxvip,shopNum:shopNum,goodsShelfNum:goodsShelfNum,others:others,
+				linkman:linkman,position:position,mobilePhone:mobilePhone,companyPersonnum:companyPersonnum,dutyParagraph:dutyParagraph,payWay:payWay,remark:remark,iscommit:2,discount:discount,shopDiscount:shopDiscount,payBillWay:payBillWay
+				},
+				success:function(data){
+					if(data=="200"){
+						window.location.href="${rc.contextPath}/convenient/manage/shop_deliverylist.htm";
+					}else{
+						checkSubmitFlag = false;
+						alert("保存失败");
+					}
+				}
+				
+			})
+        }   
+    });
+    
+    $('.addtemp').on("click",function(){
+		if (touchmove) {
+	        return;
+	    }
+        if (checkSubmitFlag == true) return;
+         var id = $("#id").val();
+        var companyName = $("#companyName").val();
+        var userName = $("#userName").val();
+        var regionId = $("#regionId").val();
+        var address = $("#address").val();
+        var isvxvip = $("#isvxvip").val();
+        var shopNum =$("#shopNum").val();
+        var goodsShelfNum =$("#goodsShelfNum").val();
+        var others =$("#others").val();
+        var linkman =$("#linkman").val();
+        var position =$("#position").val();
+        var mobilePhone =$("#mobilePhone").val();
+        var companyPersonnum =$("#companyPersonnum").val();
+        var dutyParagraph =$("#dutyParagraph").val();
+        var payWay = $("#payWay").val();
+        var remark = $("#remark").val();
+        var discount = $("#discount").val();
+        var shopDiscount = $("#shopDiscount").val();
+        var payBillWay = $("#payBillWay").val();
+        if(!userName){
+                alert("请填写公司简称");
+                return false;
+        }
+        		if(0>=discount || discount >=2){
+		        	alert("折扣超出范围");
+		        	return false;
+		        }
+		        if(0>=shopDiscount || shopDiscount >=2){
+		        
+		            alert("店铺折扣超出范围");
+		            return false;
+		        }
+                
+                checkSubmitFlag = true;
+                 $.ajax({
+				url:'${rc.contextPath}/convenient/manage/shop_adddelivery.do',
+				type:'POST',
+				data: {id:id,companyName:companyName,userName:userName,regionId:regionId,address:address,isvxvip:isvxvip,shopNum:shopNum,goodsShelfNum:goodsShelfNum,others:others,
+				linkman:linkman,position:position,mobilePhone:mobilePhone,companyPersonnum:companyPersonnum,dutyParagraph:dutyParagraph,payWay:payWay,remark:remark,iscommit:1,discount:discount,shopDiscount:shopDiscount,payBillWay:payBillWay
+				},
+				success:function(data){
+					if(data=="200"){
+						window.location.href="${rc.contextPath}/convenient/manage/shop_deliverylist.htm";
+					}else{
+						checkSubmitFlag = false;
+						alert("保存失败");
+					}
+				}
+				
+			})
+          
+    });
+    
+    
+    $('.delete').on("click",function(){
+		if (touchmove) {
+	        return;
+	    }
+	    if (confirm("确认删除吗?")) {
+	    var id = $("#id").val();
+        if (checkSubmitFlag == true) return;
+       
+        
+                
+                checkSubmitFlag = true;
+                 $.ajax({
+				url:'${rc.contextPath}/convenient/manage/shop_deletedelivery.do',
+				type:'POST',
+				data: {id:id},
+				success:function(data){
+					if(data=="200"){
+						window.location.href="${rc.contextPath}/convenient/manage/shop_deliverylist.htm";
+					}else{
+						checkSubmitFlag = false;
+						alert("删除失败");
+					}
+				}
+				
+			})
+           }
+    });
+    
+
+</script>

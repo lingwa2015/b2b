@@ -1,0 +1,263 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+
+ });	
+				
+	function printData(){
+
+        var checkBoxes = document.getElementsByName("orderCheckbox");
+		var hasChecked = false;
+		var orderNos = '';
+
+        for(var i=0; i<checkBoxes.length; i++) {
+          if(checkBoxes[i].checked == true) {
+		  	orderNos +=  checkBoxes[i].value + ',';
+		  	hasChecked = true;
+		  }
+        }
+		if (!hasChecked) {
+			alert('至少选择一条记录进行打印!');
+			return false;
+		}
+
+        $('#orderNos').val(orderNos);
+
+        $('#printForm').submit();
+
+        return true;
+    }
+</script>
+
+<div class="content">
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" id="wxOrderListForm" action="orderList.htm" method="POST">
+		<table class="form form-horizontal">
+		<tr>
+			<td><label class="tit first-tit">下单开始时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="startTime" id="startTime" readonly="readonly" value="$!startTime">
+			</td>
+
+			<td><label class="tit">下单结束时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="endTime" id="endTime" readonly="readonly" value="$!endTime">
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">订单号：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="orderNum" id="orderNum" value="$!orderNum">
+			</td>
+			<td align="right"><label class="tit">收货人：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="userName" id="userName" value="$!userName">
+			</td>
+			<td align="right">
+				<select name="param">
+				  <option value ="0" #if($!param==0)selected="selected"#end>所有</option>
+				  <option value ="1" #if($!param==1)selected="selected"#end>已付款</option>
+				  <option value="2" #if($!param==2)selected="selected"#end>已发货</option>
+				</select>
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(wxOrderListForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+	<table class="table">
+		<tr>
+			<th>订单编号</th>
+			<th>商品</th>
+			<th>数量</th>
+			<th>单价</th>
+			<th>金额</th>
+			<th>发票</th>
+			<th>下单时间</th>
+		</tr>
+		#foreach($order in $page.result)
+			<tr>
+			<td width="15%">$!order.wxorderNum</td>
+			<td width="15%">$!order.spValue</td>
+			#if($!order.snackpackageNum>1)
+				<td width="10%" style="color:red;">$!order.snackpackageNum</td>
+			#else
+				<td width="10%">$!order.snackpackageNum</td>
+			#end
+			<td width="10%">$NumberTool.toYuanNumber($!order.snackpackageFee)</td>
+			<td width="10%">$NumberTool.toYuanNumber($!order.snackpackageTotal)</td>
+			<td width="25%" class="piao"  style="color:red;">$!order.companyName</td>
+            <td width="15%">$!date.format('yyyy-MM-dd HH:mm:ss',$!order.createdTime)</td>
+		</tr>
+		<tr style=" border:1px solid white;">
+		<td colspan=7>
+		<div style="float:right; font-size:14px;margin-right:64px;">
+		<span>收货信息：</span>
+		<span>$!order.wxname $!order.wxphone</span>
+		<span>$!order.wxaddress</span>
+		</div>
+		</td>
+		</tr>
+		<tr>
+			<td colspan=5>
+				#if($!order.payfeeStatus==0)
+				<div>
+				<button class="btn btn-warning btn-sm" id="fa$!order.id" onclick="fastExpress($!order.id)" style="display: inline-block; margin-left: 85%;">发货</button>
+				#else
+				<div id="xiu$!order.id" style="display:block;">
+				<span>#if($!order.fastexpressNo)$!order.fastexpressNo#else 无 #end</span>&nbsp;&nbsp;&nbsp;
+				<span style="text-decoration:underline; cursor: pointer; " onclick="editFast($!order.id);">修改</span>
+				</div>
+				</div>
+				#end
+				
+				<div id="shu$!order.id" style="display:none;margin-left: 45%;">
+				<input type="text" id="fastName$!order.id" placeholder="快递公司" style="width:60px;height:25px;">
+				<input type="text" id="fastNO$!order.id" placeholder="快递单号" style="width:100px;height:25px;">
+				<input type="text" style="display:none" id="status$!order.id" value="$!order.payfeeStatus">
+				<a class="btn btn-success" onclick="fast($!order.id)">确认</a>
+				<button class="btn btn-warning btn-sm" onclick="cancleFastExpress($!order.id)">取消</button>
+				</div>
+				<div id="xiu$!order.id" style="display:none;">
+				<span></span>&nbsp;&nbsp;&nbsp;
+				<button style="text-decoration:underline; cursor: pointer;" onclick="editFast($!order.id);">修改</button>
+				</div>
+				
+			</td>
+			<td colspan=2 style="padding-left: 15%;">
+				#if($!order.payfeeStatus==2)
+					<button href="" class="btn btn-warning btn-sm" >已退货</button>
+				#else
+					<button href="" id="refund$!order.id" class="btn btn-warning btn-sm" onclick="refund($!order.id);">退货</button>
+				#end
+				<button href="" class="btn btn-warning btn-sm" onclick="printFastList($!order.id);">打印快递单</button>
+			</td>
+		</tr>
+		#end
+		
+				<form id="printForm" action="/wxOrder/printKD.do" method="POST" target='_blank' >
+						<input type='hidden' value="" id="printid" name='id'/>
+				</form><br/>
+	</table>
+	<div class="text-center">
+			#parse("/common/page.vm")
+	</div>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+	<script type="text/javascript">
+$(document).ready(function(){
+	// 发货状态
+
+});
+
+function fastExpress(id){
+	var ID = "shu"+id;
+	document.getElementById(ID).style.display='block';
+	$('#fa'+id).hide();
+}
+
+function cancleFastExpress(id){
+	var ID = "shu"+id;
+	document.getElementById(ID).style.display='none';
+	$('#fa'+id).show();
+}
+
+function editFast(id){
+	var ID = "shu"+id;
+	var xiu = "xiu"+id;
+	document.getElementById(ID).style.display='block';
+	document.getElementById(xiu).style.display='none';
+}
+
+function fast(id){
+	var done = $('#status'+id).val();
+	var name = $('#fastName'+id).val();
+	var num = $('#fastNO'+id).val();
+	var ID = "shu"+id;
+	var xiu = "xiu"+id;
+	if (done == 0){
+		$.ajax({
+             type: "POST",
+             url: "/wxOrder/delivery.do",
+             data: {id:id,name:name,num:num},
+             dataType: "json",
+             success: function(data){
+                        if(data.data==200){
+                        	$('#status'+id).val(1);
+                        	document.getElementById(ID).style.display='none';
+                        	if(name=="" && num == ""){
+                        		$('#xiu'+id).find("span").eq(0).html("无");
+                        	}else{
+                        		$('#xiu'+id).find("span").eq(0).html(name+"  "+num);
+                        	}
+                        	document.getElementById(xiu).style.display='block';
+                        	alert("发货成功");
+                        }else{
+                        	alert(data.data);
+                        }
+                      }
+         });
+	}else{
+		 $.ajax({
+             type: "POST",
+             url: "/wxOrder/fast.do",
+             data: {id:id,name:name,num:num},
+             dataType: "json",
+             success: function(data){
+                        if(data==200){
+                        	document.getElementById(ID).style.display='none';
+                        	if(name=="" && num == ""){
+                        		$('#xiu'+id).find("span").eq(0).html("无");
+                        	}else{
+                        		$('#xiu'+id).find("span").eq(0).html(name+"  "+num);
+                        	}
+                        	document.getElementById(xiu).style.display='block';
+                        	alert("添加快递单成功");
+                        }else{
+                        	alert("添加失败");
+                        }
+                      }
+          });
+	}
+}
+
+function printFastList(id){
+	$('#printid').val(id);
+	$('#printForm').submit();
+}
+
+function refund(id){
+	if(confirm("确定要退货吗？")){
+		$.ajax( {
+		url:'${rc.contextPath}/wxOrder/refund.do',// 跳转到 action
+	    data:{
+	    	'id':id
+	    },
+	    type:'post',
+	    cache:false,
+	    dataType:'text',
+	    success:function(data) {
+	    	if(data == '200'){
+	    		$('#refund'+id).html("已退货");
+	    		$('#refund'+id).attr("disabled", "true");
+	    	}else{
+	    		alert('退货失败');
+	    	}
+
+	     },
+	     error : function() {
+	          alert("异常！");
+	     }
+	});
+	}
+}
+	</script>
+
+
+
+

@@ -1,0 +1,137 @@
+<script type="text/javascript">
+$(document).ready(function() {
+	$( "#executedDate" ).datepicker();
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+			var type = $!type;
+			if(type==1){
+				var cid = $("#customerId").val();
+				if(cid==''){
+					alert("选择客户！");
+					return false;
+				}
+			}
+			save();
+				return false;
+        }
+	});
+ });
+
+
+function save(){
+	disableBtn('saveBtn');
+	
+	  var url="${rc.contextPath}/transfer/save.do";
+	  submitFormData("form1",url,show);
+}
+
+function show(data){
+    alert(data);
+	if(data.indexOf("成功")!=-1){
+		 cancel();
+	}else{
+	    enableBtn('saveBtn');
+	}
+}
+
+function cancel(){
+	window.location.href="${rc.contextPath}/machine/machineList.htm";
+}
+
+
+
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+		<h4 class="tit">
+				 添加流转单
+		</h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+	<form class="jqtransform" name="form1" id="form1" action="${rc.contextPath}/transfer/save.do" method="post">
+	<input type="hidden" name="customerid" id="customerId" value=""/>
+	<input type="hidden" name="lastCustomerid"  value="$!machine.userId"/>
+	<input type="hidden" name="macId"  value="$!machine.id"/>
+	<table class="form">
+			<tr>
+						<td><label class="tit first-tit"><font color='red'>*</font>执行时间：</label></td>
+						<td>
+							<input class="form-input input-time-day" validate="{maxlength:32}" type="text" name="executedDate" id="executedDate" readonly="readonly" value="$!date.format('yyyy-MM-dd',$!executedTime)">
+						</td>
+					</tr>
+			<tr>
+				<td align="right"><label class="tit">编号：</label></td>
+				<td>
+				<input class="form-input" type="text" name="machineId" id="machineId" value="$!machine.machineId" readOnly="true">
+				&nbsp;<span></span>
+				</td>
+			</tr>
+			<tr>
+				<td align="right"><label class="tit">类别：</label></td>
+				<td>
+				<input class="form-input" type="text" name="oneType" id="oneType" value="$!machine.oneType"  readOnly="true">
+				&nbsp;<span></span>
+				</td>
+			</tr>
+			<tr>
+				<td align="right"><label class="tit">型号：</label></td>
+				<td>
+				<input class="form-input" type="text" name="twoType" id="twoType" value="$!machine.twoType" readOnly="true">
+				&nbsp;<span></span>
+				</td>
+			</tr>
+			<tr>
+				<td align="right"><label class="tit">类型：</label></td>
+				<td>
+					#if($!type==1)
+					<input type="radio" name="type" value="1" checked="checked"/>流转
+					#elseif($!type==2)
+					<input type="radio" name="type" value="2"  checked="checked" />收回
+					#end
+				&nbsp;<span></span></td>
+			</tr>
+			#if($!type==1)
+			<td align="right"><label class="tit">客户简称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="userName" id="userName" >
+			</td>
+			#end
+			#if($!type==1)
+			<tr>
+			<td align="right"><label class="tit">押金：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="number"  name="actualForegift" id="actualForegift" >
+			</td>
+			</tr>
+			#end
+			<tr>
+				<td align="right">
+					<label class="tit">备注：</label>
+				</td>
+				<td>
+				    <textarea id="remark" name="remark" cols="50" rows="5" ></textarea>
+					&nbsp;<span></span>
+				</td>
+			</tr>
+		
+		
+		<tr class="btn-bar">
+			<td></td>
+			<td><a class="btn btn-primary" id="saveBtn" href="#" onclick="$('#form1').submit();">保存</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

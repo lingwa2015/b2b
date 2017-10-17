@@ -1,0 +1,159 @@
+<script type="text/javascript">
+var needYM = false;
+function check(){
+	if (needYM) {
+		if($("#querystartYear").val().length<=0){
+			alert("请选择统计开始年份！");
+			return false;
+		}
+		if($("#querystartMonth").val().length<=0){
+			alert("请选择统计开始月份！");
+			return false;
+		}
+		if($("#queryendYear").val().length<=0){
+			alert("请选择统计开始年份！");
+			return false;
+		}
+		if($("#queryendMonth").val().length<=0){
+			alert("请选择统计开始月份！");
+			return false;
+		}
+	}
+
+	return true;
+}
+
+function selectYM(selectObj) {
+	needYM = true;
+}
+
+function exportExcel(){
+ 	var starttime = $('#querydate').val();
+ 	var userName = $('#userName').val();
+ 	var param = $('#param').val();
+ 	var flag = $('#flag').val();
+ 	var region = $('#region').val();
+ 	var reseauId = $('#reseauId option:selected').val();
+ 	window.location.href = "${rc.contextPath}/free/month/exportExcel.do?starttime="+starttime+"&userName="+userName+"&param="+param+"&flag="+flag+"&region="+region+"&reseauId="+reseauId;
+ }
+
+</script>
+
+<div class="content">
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="jqtransform" name="tranSumForm" id="tranSumForm" action="${rc.contextPath}/free/shopMonthReportlist.htm?menuHeight=$!menuHeight&menuName=$!menuName" onSubmit="return check()" method="POST">
+		<table class="form form-horizontal">
+		<tr>
+			<td ><label class="tit first-tit">月份：</label></td>
+			<td>
+			<select name="querydate" id="querydate" validate="{required:true}">
+				<option value="0">全部</option>
+				<option value="2016-06" #if($querydate=='2016-06')selected=selected#end>2016-06</option>
+				<option value="2016-07" #if($querydate=='2016-07')selected=selected#end>2016-07</option>
+				<option value="2016-08" #if($querydate=='2016-08')selected=selected#end>2016-08</option>
+				<option value="2016-09" #if($querydate=='2016-09')selected=selected#end>2016-09</option>
+				<option value="2016-10" #if($querydate=='2016-10')selected=selected#end>2016-10</option>
+				<option value="2016-11" #if($querydate=='2016-11')selected=selected#end>2016-11</option>
+				<option value="2016-12" #if($querydate=='2016-12')selected=selected#end>2016-12</option>
+				<option value="2017-01" #if($querydate=='2017-01')selected=selected#end>2017-01</option>
+				<option value="2017-02" #if($querydate=='2017-02')selected=selected#end>2017-02</option>
+				<option value="2017-03" #if($querydate=='2017-03')selected=selected#end>2017-03</option>
+				<option value="2017-04" #if($querydate=='2017-04')selected=selected#end>2017-04</option>
+				<option value="2017-05" #if($querydate=='2017-05')selected=selected#end>2017-05</option>
+				<option value="2017-06" #if($querydate=='2017-06')selected=selected#end>2017-06</option>
+				<option value="2017-07" #if($querydate=='2017-07')selected=selected#end>2017-07</option>
+				<option value="2017-08" #if($querydate=='2017-08')selected=selected#end>2017-08</option>
+				<option value="2017-09" #if($querydate=='2017-09')selected=selected#end>2017-09</option>
+				<option value="2017-10" #if($querydate=='2017-10')selected=selected#end>2017-10</option>
+				<option value="2017-11" #if($querydate=='2017-11')selected=selected#end>2017-11</option>
+				<option value="2017-12" #if($querydate=='2017-12')selected=selected#end>2017-12</option>
+			 </select>
+			 &nbsp;<span></span>
+			</td>
+			<td><label class="tit">客户简称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="userName" id="userName" value="$!userName" autocomplete="off">
+			</td>
+			<td align="right"><label class="tit">排序：</label></td>
+			<td>
+				<select name="param" id="param" style="width:80px">
+							  <option value="0" #if($param==0)selected=selected#end>默认</option>
+							  <option value="2" #if($param==2)selected=selected#end>订单金额</option>
+							  <option value="3" #if($param==3)selected=selected#end>订单数量</option>
+							  <option value="4" #if($param==4)selected=selected#end>退货金额</option>
+							  <option value="5" #if($param==5)selected=selected#end>退货单数量</option>
+							  <option value="6" #if($param==6)selected=selected#end>采购总额</option>
+							  <option value="7" #if($param==7)selected=selected#end>日均</option>
+				</select>
+			</td>
+			</tr>
+			<tr>
+			<td align="right"><label class="tit">筛选：</label></td>
+			<td>
+				<select name="flag" id="flag" style="width:80px">
+							  <option value="0" #if($flag==0)selected=selected#end>默认</option>
+							  <option value="1" #if($flag==1)selected=selected#end>活跃客户</option>
+				</select>
+			</td>
+			<td align="right"><label class="tit">网格：</label></td>
+			<td>
+						<select name="reseauId" id="reseauId" validate="{required:true}" >
+						    <option value="">全部</option>
+						    #foreach($reseau in $reseaus)
+							   #if($!reseauId == $reseau.id)
+					            <option value="$reseau.id" selected="selected">$reseau.name</option>
+					           #else
+					            <option value="$reseau.id">$reseau.name</option>
+					           #end
+							#end
+						 </select>
+						 &nbsp;<span></span>
+						</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(tranSumForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+			</td>
+			<td><a class="btn btn-warning btn-sm" href="javascript:exportExcel();">导出Excel</a></td>
+		</tr>
+	</table>
+	</form>
+			<table class="table">
+			  <tr>
+			  	<th>客户</th>
+				<th>月份</th>
+				<th>订单金额</th>
+				<th>订单数量</th>
+				<th>退货金额</th>
+				<th>退货单数量</th>
+				<th>采购总额</th>
+				<th>同比</th>
+				<th>日均</th>
+				<th>利润</th>
+				<th>利润率</th>
+				<th>客户性质</th>
+				<th>本店</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+					<td>[$!bean.region]$!bean.userName</td>
+					<td>$!date.format('yyyy-MM',$!bean.sumDate)</td>
+					<td>$NumberTool.toYuanNumber($!bean.orderFee)</td>
+					<td>$!bean.orderNum</td>
+					<td>$NumberTool.toYuanNumber($!bean.refundFee)</td>
+					<td>$!bean.refundNum</td>
+					<td>$NumberTool.toYuanNumber($!bean.soucingFee)</td>
+					<td>#if($!bean.beforeSoucingFee) #if($!bean.beforeSoucingFee>0)+$!bean.beforeSoucingFee% #else $!bean.beforeSoucingFee% #end #end</td>
+					<td>$NumberTool.toYuanNumber($!bean.avgDayFee)</td>
+					<td>$NumberTool.toYuanNumber($!bean.profit)</td>
+					<td>#if($!bean.profitRate) $!bean.profitRate% #end</td>
+                    <td>#if($!bean.isnew) #if($!bean.isnew==1) 新客户 #else 老客户 #end #end</td>
+					<td><a href="${rc.contextPath}/free/shopMonthReportlist.htm?userName=$!bean.userName&menuHeight=$!menuHeight&menuName=$!menuName">本店</a></td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

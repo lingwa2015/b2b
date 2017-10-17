@@ -1,0 +1,123 @@
+ #set($layout="layout/wxLayout.vm")
+ <div class="lw_hd">
+        <a href="${rc.contextPath}/weixin/wxaccount.htm"><img src="${rc.contextPath}/static/images/wx/address_02.png"><span class="mid">&nbsp;&nbsp;充值</span></a>
+    </div>
+    <input class="name" id="cid" type="text" value="$!id" style="dispaly:none">
+    <span class="change">选择充值金额</span>
+    <!-- 当前选中div标签加class="c" -->
+    <div class="note1 c">
+        <div href="" class="dianji">
+        <img src="${rc.contextPath}/static/images/wx/buy.jpg" class="buy">
+        <span class="shu">￥<span>2000</span></span>
+        <img src="${rc.contextPath}/static/images/wx/song.jpg" class="song">
+        <span class="zi">￥<span>100</span></span>
+        <span class="checkbox"><i></i></span>
+        </div>
+    </div>
+    <div class="note1">
+        <div href="" class="dianji">
+        <img src="${rc.contextPath}/static/images/wx/buy.jpg" class="buy">
+        <span class="shu">￥<span>5000</span></span>
+        <img src="${rc.contextPath}/static/images/wx/song.jpg" class="song">
+        <span class="zi">￥<span>300</span></span>
+        <span class="checkbox"><i></i></span>
+        </div>
+    </div>
+    <div class="note1">
+        <div href="" class="dianji">
+        <img src="${rc.contextPath}/static/images/wx/buy.jpg" class="buy">
+        <span class="shu">￥<span>10000</span></span>
+        <img src="${rc.contextPath}/static/images/wx/song.jpg" class="song">
+        <span class="zi">￥<span>700</span></span>
+        <span class="checkbox"><i></i></span>
+        </div>
+    </div>
+    <div class="note1">
+        <div class="dianji">
+        <img src="${rc.contextPath}/static/images/wx/buy.jpg" class="buy">
+        <span class="shu">￥<span>20000</span></span>
+        <img src="${rc.contextPath}/static/images/wx/song.jpg" class="song">
+        <span class="zi">￥<span>1600</span></span>
+        <span class="checkbox"><i></i></span>
+        </div>
+    </div>
+    <a href="javaScript:void(0)" onclick="transfer();" class="transfer">转账</a>
+    <a href="javaScript:void(0)" onclick="weixinpay();" class="zhifu">微信支付</a>
+    
+<script type="text/javascript">
+    $('.note1 .dianji').click(function(){
+	    var self = $(this);
+	    $('.note1').removeClass('c');
+	    self.parents('.note1').addClass('c');
+	});
+	
+	function transfer(){
+		var id = $('#cid').val();
+		if(!id){
+			alert("亲,还没开通会员");
+			return false;
+		}else{
+			window.location.href = "${rc.contextPath}/weixin/wxtransfer.htm";
+		}
+	}
+	function weixinpay(){
+		var id = $('#cid').val();
+		if(!id){
+			alert("亲,还没开通会员");
+			return false;
+		}else{
+			var recharge = $('.note1.c').find("span").eq(1).html();
+			var free = $('.note1.c').find("span").eq(3).html();
+			$.ajax({
+				url:'${rc.contextPath}/weixin/wxpay.do',
+				type:'GET',
+				data: {id:id,recharge:recharge,free:free},
+				success:function(data){
+					if(data.status==200){
+						appId=data.data.appId;
+						timeStamp=data.data.timeStamp;
+						nonceStr=data.data.nonceStr;
+						packages=data.data.package;
+						signType=data.data.signType;
+						paySign=data.data.paySign;
+						
+						if (typeof WeixinJSBridge == "undefined"){
+							   if( document.addEventListener ){
+							         document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+							     }else if (document.attachEvent){
+							         document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+							        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+							    }
+							 }else{
+							   onBridgeReady();
+							 }
+						
+					}else{
+						alert("网络连接超时,请重试！");
+					}
+				}
+				
+			})
+		}
+	}
+	
+	//微信支付
+function onBridgeReady(){
+    WeixinJSBridge.invoke(
+        'getBrandWCPayRequest', {
+            "appId" : appId,     //公众号名称，由商户传入     
+            "timeStamp":timeStamp, //时间戳，自1970年以来的秒数     
+            "nonceStr" :nonceStr, //随机串     
+            "package" :packages,     
+            "signType" :signType,//微信签名方式:     
+            "paySign" : paySign //微信签名 
+       },
+        function(res){
+    	  if(res.err_msg == "get_brand_wcpay_request:ok" ) {// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返
+    		   window.location.href="${rc.contextPath}/weixin/wxaccount.htm";
+    	  }
+
+       }
+   ); 
+ }
+</script>

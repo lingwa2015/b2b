@@ -1,0 +1,90 @@
+#set($layout="layout/shopLayout.vm")
+<div class="shop_list_content">
+    <div class="shop_list_search">
+        <form  name="itemForm" id="form" action="${rc.contextPath}/convenient/manage/shop_select.htm" method="get">
+            <input type="" name="supplierName" id="sec" value="$!supplierName" placeholder="搜索供应商简称">
+            <span class="cl" id="cl">x</span>
+            <input type="submit" style="display:none">
+            <span class="cancel" style="display:none" id="cancel">取消</span>
+        </form>
+    </div>
+    <ul>
+    #foreach($dto in $purchases)
+
+            <li class="lll">
+                #if($!dto.status != 1)
+                <a href="${rc.contextPath}/convenient/manage/shop_purchaseStock.htm?id=$!dto.id" >
+                #end
+                <p class="lll_01">
+                    <span>$!dto.supplierName</span>
+                    <span>¥$NumberTool.toYuanNumber($!dto.totalPrice)</span>
+                    <span>#if($dto.status == 0)
+                        待入库
+                    #elseif($dto.status == 1)
+                        全部入库
+                        #else
+                            部分入库
+                    #end</span>
+                </p>
+                <p class="lll_02">
+                    <span>单号：$dto.id</span>
+                    <span>$!date.format('yyyy-MM-dd',$!dto.purchasedTime) </span>
+                </p>
+                #if($!dto.status != 1)
+                </a>
+                #end
+            </li>
+
+    #end
+    </ul>
+</div>
+<script type="text/javascript">
+    var touchmove;
+    $(document).on( "touchstart", function() {
+        touchmove = false;
+    });
+    $(document).on( "touchmove", function() {
+        touchmove = true;
+    });
+
+    $(function(){
+        $(".more_sou").click(function() {
+            $("html,body").animate({scrollTop:0}, 500);
+        });
+    })
+
+    function go(){
+        if (touchmove) {
+            return;
+        }
+        alert(1);
+    }
+    document.title = "采购入库";
+    // 当输入有值的时候 x 显示出来 反之没有
+    document.getElementById("sec").addEventListener("keyup",function(){
+        if(this.value.length>0)
+        {
+            document.getElementById("cl").style.visibility="visible";
+            document.getElementById("cl").onclick=function()
+            {
+                document.getElementById("sec").value="";
+                document.getElementById("cl").style.visibility="hidden";
+            }
+        }else
+        {
+            document.getElementById("cl").style.visibility="hidden";
+        }
+    });
+    // 点击 取消按钮出现
+    $('input[name="supplierName"]').on("touchend",function() {
+        $('input[name="supplierName"]').css("width","67%");
+        $("#cancel").show();
+        $('input[name="supplierName"]').focus();
+    });
+    $("#cancel").on("touchend",function() {
+        $('input[name="supplierName"]').css("width","87%");
+        $('input[name="supplierName"]').val("");
+        $("#cl").css("visibility","hidden");
+        $("#cancel").hide();
+    })
+</script>

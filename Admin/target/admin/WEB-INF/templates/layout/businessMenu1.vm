@@ -1,0 +1,361 @@
+<div class="sidebar">
+#set($cityId =$!session.getAttribute("user").cityId )
+#set($isGm =$!session.getAttribute("user").isGm)
+#set($dtos =$!session.getAttribute("user").privileges )
+		<ul class="s-nav">
+			#set($flag = 0)
+			#set($flag2 = 0)
+			#set($flag3 = 0)
+			#set($flag4 = 0)
+			#set($flag5 = 0)
+			#set($flag6 = 0)
+			#set($flag7 = 0)
+			#set($flag8 = 0)
+			#set($flag9 = 0)
+			#set($flag10 = 0)
+			#set($flag11 = 0)
+			#set($flag12 = 0)
+			#set($flag13 = 0)
+			#set($flag14 = 0)
+			#set($flag15 = 0)
+			#set($flag16 = 0)
+			#set($flag17 = 0)
+			#set($flag18 = 0)
+			#set($flag19 = 0)
+			#set($flag20 = 0)
+			#set($flag21 = 0)
+			#set($flag22 = 0)
+			#foreach($dto in $dtos)
+				#if($dto.name=="商品管理（读）" ||$dto.name=="商品管理（写）")
+				#set($flag = 1)
+				#end
+				#if($dto.name=="智能选品管理（读）" ||$dto.name=="智能选品管理（写）")
+				#set($flag2 = 1)
+				#end
+				#if($dto.name=="零食包管理（读）" ||$dto.name=="零食包管理（写）")
+				#set($flag3 = 1)
+				#end
+				#if($dto.name=="入库单管理（读）" ||$dto.name=="入库单管理（写）")
+				#set($flag4 = 1)
+				#end
+				#if($dto.name=="盘库单管理（读）" ||$dto.name=="盘库单管理（写）")
+				#set($flag5 = 1)
+				#end
+				#if($dto.name=="库存管理（读）" ||$dto.name=="库存管理（写）")
+				#set($flag6 = 1)
+				#end
+				#if($dto.name=="订单管理（读）" ||$dto.name=="订单管理（写）")
+				#set($flag7 = 1)
+				#end
+				#if($dto.name=="退货单管理（读）" ||$dto.name=="退货单管理（写）")
+				#set($flag8 = 1)
+				#end
+				#if($dto.name=="客户管理（读）" ||$dto.name=="客户管理（写）")
+				#set($flag9 = 1)
+				#end
+				#if($dto.name=="用户管理（读）" ||$dto.name=="用户管理（写）")
+				#set($flag10 = 1)
+				#end
+				#if($dto.name=="权限管理（读）" ||$dto.name=="权限管理（写）")
+				#set($flag11 = 1)
+				#end
+				#if($dto.name=="供应商管理（写）")
+				#set($flag12 = 1)
+				#end
+				#if($dto.name=="财务管理（读）" ||$dto.name=="财务管理（写）")
+				#set($flag13 = 1)
+				#end
+				#if($dto.name=="客户咨询管理（读）" ||$dto.name=="客户咨询管理（写）")
+				#set($flag14 = 1)
+				#end
+				#if($dto.name=="日志管理（读）" ||$dto.name=="日志管理（写）")
+				#set($flag15 = 1)
+				#end
+				#if($dto.name=="便利店管理（读）" ||$dto.name=="便利店管理（写）")
+				#set($flag16 = 1)
+				#end
+				#if($dto.name=="福利店管理（读）" ||$dto.name=="福利店管理（写）")
+				#set($flag17 = 1)
+				#end
+				#if($dto.name=="工单管理（读）" ||$dto.name=="工单管理（写）")
+				#set($flag18 = 1)
+				#end
+				#if($dto.name=="便利店实时（读）" ||$dto.name=="便利店实时（写）")
+				#set($flag19 = 1)
+				#end
+				#if($dto.name=="礼包管理（读）" ||$dto.name=="礼包管理（写）")
+				#set($flag20 = 1)
+				#end
+				#if($dto.name=="设备管理（读）" ||$dto.name=="设备管理（写）")
+				#set($flag21 = 1)
+				#end
+				#if($dto.name=="活动管理（读）" ||$dto.name=="活动管理（写）")
+				#set($flag22 = 1)
+				#end
+			#end
+			#if($flag19 == 1)
+				<a class="a-menu" href="#"><i class="ico ico_02"></i>便利店实时</a>
+				<ul class="b-menu">
+					<li id='actualShopReportList-li'><a href="/actual/actualShopReportList.htm">便利店列表</a></li>
+					<li id='actualReportList-li'><a href="/actual/actualReportList.htm">消费记录</a></li>
+					<li id='actualShopItemList-li'><a href="/actual/actualShopItemList.htm">在售商品</a></li>
+				</ul>
+			#end
+			#if($flag16 == 1)
+				<a class="a-menu" href="#"><i class="ico ico_02"></i>便利店管理</a>
+				<ul class="b-menu">
+					<li id='allDailyReportList-li'><a href="/shopDailyReport/allDailyReportList.htm">全站日报</a></li>
+					<li id='shopDailyReportList-li'><a href="/shopDailyReport/shopDailyReportList.htm">单店日报</a></li>
+					<li id='netDailyReportList-li'><a href="/shopDailyReport/netDailyReportList.htm">网格日报</a></li>
+					<li id='allMonthReportList-li'><a href="/shopMonthReport/allMonthReportList.htm">全站月报</a></li>
+					<li id='shopMonthReportList-li'><a href="/shopMonthReport/shopMonthReportList.htm">单店月报</a></li>
+					<li id='netMonthReportList-li'><a href="/shopMonthReport/netMonthReportList.htm">网格月报</a></li>
+				</ul>
+			#end
+			#if($flag17 == 1)
+				<a class="a-menu" href="#"><i class="ico ico_02"></i>福利店管理</a>
+				<ul class="b-menu">
+				    <li id='allDayReportlist-li'><a href="/free/allDayReportlist.htm">全站日报</a></li>
+					<li id='netDayReportlist-li'><a href="/free/netDayReportlist.htm">网格日报</a></li>
+					<li id='allMonthReportlist-li'><a href="/free/allMonthReportlist.htm">全站月报</a></li>
+					<li id='shopMonthReportlist-li'><a href="/free/shopMonthReportlist.htm">单店月报</a></li>
+					<li id='netMonthReportlist-li'><a href="/free/netMonthReportlist.htm">网格月报</a></li>
+				</ul>
+			#end
+			#if($flag20 == 1)
+				<a class="a-menu" href="#"><i class="ico ico_02"></i>礼包管理</a>
+				<ul class="b-menu">
+					<li id='giftList-li'><a href="/gift/giftList.htm">礼包列表</a></li>
+				</ul>
+			#end
+			#if($flag22 == 1)
+			    <a class="a-menu" href="#"><i class="ico ico_02"></i>活动管理</a>
+				<ul class="b-menu">
+					<li id='redList-li'><a href="/redPacket/redList.htm">红包活动列表</a></li>
+					<li id='newCustomerActivityList-li'><a href="/newCustomerActivity/newCustomerActivityList.htm">新客户活动列表</a></li>
+					<li id='preferentialList-li'><a href="/newCustomerActivity/preferentialList.htm">客户优惠列表</a></li>
+					
+				</ul>
+			#end
+			#if($flag == 1)
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_01"></i>商品管理 </a>
+				<ul class="b-menu">
+				    <li id='itemCategoryList-li'><a href="${rc.contextPath}/itemCategory/itemCategoryList.htm">类目列表</a></li>
+				    <li id='itemVarietyList-li'><a href="${rc.contextPath}/itemVariety/itemVarietyList.htm">品种列表</a></li>
+					<li id='itemList-li'><a href="${rc.contextPath}/item/itemList.htm">商品列表</a></li>
+                    <li id='itemDailyReports-li'><a href="${rc.contextPath}/itemDailyReport/itemDailyReports.htm">商品日报</a></li>
+                    <li id='itemWeekReports-li'><a href="${rc.contextPath}/itemWeekReport/itemWeekReports.htm">商品周报</a></li>
+                    <li id='itemMonthReports-li'><a href="${rc.contextPath}/itemMonthReport/itemMonthReports.htm">商品月报</a></li>
+                    <li id='shopItemMonthReportList-li'><a href="${rc.contextPath}/shopItemMonthReport/shopItemMonthReportList.htm">商品店铺月报</a></li>
+				</ul>
+			</li>
+			#end
+			
+			<!--#if($flag2 == 1)
+			
+				<li>
+					<a class="a-menu" href="#"><i class="ico ico_01"></i>智能选品管理 </a>
+					<ul class="b-menu">
+					     <li id='itemVarietyList-li'><a href="${rc.contextPath}/itemVariety/itemVarietyList.htm">品种列表</a></li>
+					     <li id='weightCoefficientUpdate-li'><a href="${rc.contextPath}/weightCoefficient/weightCoefficientUpdate.htm?id=1">权重系数</a></li>
+					     <li id='customerWiseList-li'><a href="${rc.contextPath}/customerWise/customerWiseList.htm">客户智选属性列表</a></li>
+					     <li id='categorynum-li'><a href="${rc.contextPath}/standardOrder/categorynum.htm">类目数量设定</a></li>
+					     <li id='standardOrderList-li'><a href="${rc.contextPath}/standardOrder/standardOrderList.htm?snackpackageType=1">标准套餐列表</a></li>
+						 <li id='customerOrderlist-li'><a href="${rc.contextPath}/customerOrder/customerOrderlist.htm">客户预订单列表</a></li>
+	                     <li id='planList-li'><a href="${rc.contextPath}/customerOrder/planList.htm">下周采购计划</a></li>
+					</ul>
+				</li>
+			#end
+			#if($flag3 == 1)
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_01"></i>零食包管理 </a>
+				<ul class="b-menu">
+					 <li id='snackPackageTypeList-li'><a href="${rc.contextPath}/snackPackageType/snackPackageTypeList.htm">零食包类型</a></li>
+				     <li id='standardOrderlist-li'><a href="${rc.contextPath}/snackPackageOrder/standardOrderlist.htm?snackpackageType=2">零食包套餐列表</a></li>
+				     <li id='snackPackageOrderlist-li'><a href="${rc.contextPath}/snackPackageOrder/snackPackageOrderlist.htm">零食包列表</a></li>
+				     <li id='orderList-li'><a href="${rc.contextPath}/wxOrder/orderList.htm">微信客户订单列表</a></li>
+				</ul>
+			</li>
+			#end -->
+			#if($flag4 == 1)
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_01"></i>采购管理 </a>
+                <ul class="b-menu">
+                    <li id='purchaseList-li'><a href="${rc.contextPath}/purchaseList/purchaseList.htm">采购订单列表</a></li>
+                    <li id='purchaseItemList-li'><a href="${rc.contextPath}/purchaseItemPlan/purchaseItemList.htm">采购计划</a></li>
+                    <li id='purchaseAdd-li'><a href="${rc.contextPath}/purchaseAdd/purchaseAdd.htm">添加采购订单</a></li>
+				</ul>
+			</li>
+			<li>
+                <a class="a-menu" href="#"><i class="ico ico_01"></i>采购退货管理 </a>
+                <ul class="b-menu">
+                    <li id='outstockList-li'><a href="${rc.contextPath}/outstockList/outstockList.htm">退货单列表</a></li>
+                    <li id='outstockAdd-li'><a href="${rc.contextPath}/outstockAdd/outstockAdd.htm">添加退货单</a></li>
+                </ul>
+            </li>
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_01"></i>采购财务管理 </a>
+				<ul class="b-menu">
+					<li id='paymentApply-li'><a href="${rc.contextPath}/paymentApply/paymentApplyList.htm">付款申请单</a></li>
+					<li id='payment-li'><a href="${rc.contextPath}/payment/paymentList.htm">付款列表</a></li>
+					<li id='receipt-li'><a href="${rc.contextPath}/receipt/receiptList.htm">发票明细</a></li>
+				</ul>
+			</li>
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_01"></i>入库单管理 </a>
+				<ul class="b-menu">
+					<li id='storageSumList-li'><a href="/statistics/storageSumList.htm">入库单查询统计</a></li>
+					<li id='storageList-li'><a href="${rc.contextPath}/storage/storageList.htm">入库单列表</a></li>
+					<li id='storageAdd-li'><a href="${rc.contextPath}/storage/storageAdd.htm">添加入库单</a></li>
+				</ul>
+			</li>
+			#end
+			#if($flag5 == 1)
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_01"></i>盘库单管理 </a>
+				<ul class="b-menu">
+					<li id='stockCheckList-li'><a href="${rc.contextPath}/stockCheck/stockCheckList.htm">盘库单列表</a></li>
+					<li id='stockCheckAdd-li'><a href="${rc.contextPath}/stockCheck/stockCheckAdd.htm">添加盘库单</a></li>
+					<li id='stockAllList-li'><a href="${rc.contextPath}/stockCheck/stockAllList.htm">全库存盘点</a></li>
+				</ul>
+			</li>
+			#end
+			#if($flag6 == 1)
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_01"></i>库存管理 </a>
+				<ul class="b-menu">
+					<li id='stockList-li'><a href="${rc.contextPath}/stock/stockList.htm">库存列表</a></li>
+					<li id='mointorList-li'><a href="${rc.contextPath}/monitor/mointorList.htm">库存每日变更表</a></li>
+				</ul>
+			</li>
+			#end
+			#if($flag7 == 1)
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_05"></i>订单管理</a>
+				<ul class="b-menu">
+					<li id='statisticslist-li'><a href="/statistics/statisticslist.htm">销售查询统计</a></li>
+					<li id='orderlist-li'><a href="${rc.contextPath}/order/orderlist.htm">订单列表</a></li>
+					<li id='addOrder-li'><a href="${rc.contextPath}/order/addOrder.htm">添加订单</a></li>
+				</ul>
+			</li>
+			#end
+			#if($flag18 == 1)
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_05"></i>工单管理</a>
+				<ul class="b-menu">
+					<li id='gongdan-li'><a href="${rc.contextPath}/order/gongdan.htm">工单列表</a></li>
+				</ul>
+			</li>
+			#end
+			#if($flag8 == 1)
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_05"></i>退货单管理</a>
+				<ul class="b-menu">
+					<li id='refundList-li'><a href="${rc.contextPath}/refund/refundList.htm">退货单列表</a></li>
+					<li id='refundAdd-li'><a href="${rc.contextPath}/refund/refundAdd.htm">添加退货单</a></li>
+				</ul>
+			</li>
+			#end
+			#if($flag9 == 1)
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_03"></i>客户管理</a>
+				<ul class="b-menu">
+					<li id='customerList-li'><a href="${rc.contextPath}/customer/customerList.htm">客户列表</a></li>
+					<li id='afterSalesRecordList-li'><a href="/afterSalesRecord/afterSalesRecordList.htm">售后记录列表</a></li>
+					<li id='reseauList-li'><a href="/reseau/reseauList.htm">网格列表</a></li>
+					<li id='reseauList-li'><a href="/customer//deliveryList.htm">交接单列表</a></li>
+<!-- 					<li id='userAdd-li'><a href="${rc.contextPath}/user/userAdd.htm">添加用户</a></li> -->
+<!-- 					<li id='userAdd-li'><a href="${rc.contextPath}/user/SendSms.htm">短信群发</a></li> -->
+				</ul>
+			</li>
+			#end
+			#if($flag10 == 1)
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_03"></i>用户管理</a>
+				<ul class="b-menu">
+					<li id='userList-li'><a href="${rc.contextPath}/user/userList.htm">用户列表</a></li>
+				</ul>
+			</li>
+			#end
+			#if($flag11 == 1)
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_03"></i>权限管理</a>
+				<ul class="b-menu">
+					<li id='roleList-li'><a href="${rc.contextPath}/role/roleList.htm">角色列表</a></li>
+					<li id='userlist-li'><a href="${rc.contextPath}/user/userlist.htm">用户列表</a></li>
+				</ul>
+			</li>
+			#end
+			
+			#if($flag12 == 1)
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_04"></i>供应商管理</a>
+				<ul class="b-menu">
+					<li id='supplierList-li'><a href="${rc.contextPath}/supplier/supplierList.htm">供应商列表</a></li>
+					<li id='supplierAdd-li'><a href="${rc.contextPath}/supplier/supplierAdd.htm">添加供应商</a></li>
+				</ul>
+			</li>
+			#end
+	
+			#if($flag13 == 1)
+ 			<li>
+				<a class="a-menu" href="#"><i class="ico ico_02"></i>财务管理</a>
+				<ul class="b-menu">
+					<li id='debitNoteList-li'><a href="/debitnote/debitNoteList.htm">收款单</a></li>
+					<li id='invoiceList-li'><a href="/debitnote/invoiceList.htm">发票明细</a></li>
+					<li id='preferentialList-li'><a href="/debitnote/preferentialList.htm">优惠明细</a></li>
+					<li id='debitNoteTranSum-li'><a href="/debitnote/debitNoteTranSum.htm">回款列表</a></li>
+					<li id='receivedPaymentsReport-li'><a href="/received/receivedPaymentsReport.htm">回款报表</a></li>
+					<li id='tranSumList-li'><a href="/tranSum/tranSumList.htm">核算列表</a></li>
+					<li id='performanceList-li'><a href="/performance/performanceList.htm">销售业绩</a></li>
+					<!--<li id='recharge-li'><a href="${rc.contextPath}/debitnote/recharge.htm">会员充值</a></li>
+					<li id='recordlist-li'><a href="${rc.contextPath}/record/recordlist.htm">充值记录</a></li>-->
+				</ul>
+			</li>
+			#end
+			#if($flag21 == 1)
+ 			<li>
+				<a class="a-menu" href="#"><i class="ico ico_02"></i>设备管理</a>
+				<ul class="b-menu">
+					<li id='equipmentList-li'><a href="${rc.contextPath}/equipment/equipmentList.htm">设备类别</a></li>
+					<li id='machineList-li'><a href="${rc.contextPath}/machine/machineList.htm">设备列表</a></li>
+					<li id='transferList-li'><a href="${rc.contextPath}/transfer/transferList.htm">设备流转</a></li>
+					<li id='camera-li'><a href="/customerCamera/camera.htm">摄像头</a></li>
+					
+				</ul>
+			</li>
+			#end
+			#if($flag14 == 1)
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_02"></i>咨询客户管理</a>
+				<ul class="b-menu">
+					<li id='list-li'><a href="/appAdvisory/list.htm">客户咨询信息</a></li>
+                    <li id='recommendredbackList-li'><a href="/recommendredback/recommendredbackList.htm">兑换红包信息</a></li>
+                    <li id='recommendcashbackList-li'><a href="/recommendcashback/recommendcashbackList.htm">推荐返佣信息</a></li>
+				</ul>
+			</li>
+			#end
+			#if($isGm==1)
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_03"></i>系统管理</a>
+				<ul class="b-menu">
+					<li id='privilegeList-li'><a href="${rc.contextPath}/privilege/privilegeList.htm">权限列表</a></li>
+					<li id='gmlist-li'><a href="${rc.contextPath}/GM/gmlist.htm">用户列表</a></li>
+				</ul>
+			</li>
+			#end
+           #if($flag15 == 1)
+			<li>
+				<a class="a-menu" href="#"><i class="ico ico_02"></i>日志管理</a>
+				<ul class="b-menu">
+					<li id='logList-li'><a href="/log/logList.htm">日志列表</a></li>
+				</ul>
+				<ul class="b-menu">
+					<li id='shopLogList-li'><a href="/log/shopLogList.htm">便利店日志列表</a></li>
+				</ul>
+			</li>
+			#end
+
+		</ul><!--s-nav-->
+	</div><!--sidebar-->

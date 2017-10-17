@@ -1,0 +1,47 @@
+<div class="content">
+    <div class="bd-actionbar">
+        <a href="${rc.contextPath}/item/itemList.htm?menuHeight=$!menuHeight&menuName=$!menuName" title="返回商品列表" class="btn btn-return"><</a>
+        <h4 class="tit">
+            分数列表
+        </h4>
+    </div>
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/itemScore/scoreList.htm?menuHeight=$!menuHeight&menuName=$!menuName" method="POST">
+			<input id="item_id" name="item_id" type="hidden" value="$itemId">
+		</form>
+		<table class="table">
+		  <tr>
+			<th>日期</th>
+			<th>店铺名称</th>
+			<th>分值</th>
+		  </tr>
+		 #set ($rowCount = 0)
+		  #foreach($bean in $page.result)
+			  #set ($isOddRow = $rowCount % 2 != 0)
+			  #if ($isOddRow)
+	           <tr>
+	          #else
+	           <tr class="sep-bar">
+	          #end
+	           <td>
+	           $!date.format('yyyy-MM-dd HH:mm:ss',$bean.createdTime)
+	           </td>
+	            <td>
+	           $bean.shopName
+	           </td>
+	            <td>
+	           $bean.score
+	           </td>
+			  </tr>
+			  #set ($rowCount = $rowCount + 1)
+		  #end
+		 
+
+		</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

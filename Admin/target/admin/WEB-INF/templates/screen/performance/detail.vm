@@ -1,0 +1,46 @@
+<script type="text/javascript">
+
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+        <a href="${rc.contextPath}/performance/performanceList.htm" title="返回销售业绩" class="btn btn-return"><</a>
+		<h4 class="tit">销售业绩明细</h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" name="tranSumForm" id="tranSumForm" action="${rc.contextPath}/performance/details.htm"  method="POST">
+		
+	</form>
+
+	<table class="table">
+		<tr>
+			<th>公司简称</th>
+			<th>回款方式</th>
+			<th>签约时间</th>
+			<th>激活时间</th>
+			<th>合同编号</th>
+			
+		</tr>
+
+		#foreach($dto in $page.result)
+		<tr>
+			<td>$!dto.userName#if($!dto.iswxvip==0)~#end</td>
+			<td>#if($!dto.payBillWay==1)按亏损额分担&nbsp;&nbsp; #elseif($!dto.payBillWay==2)按结算额&nbsp;&nbsp; #elseif($!dto.payBillWay==3)按亏损额&nbsp;&nbsp; #elseif($!dto.payBillWay==4)不承担&nbsp;&nbsp; #end</td>
+			<td>$!date.format('yyyy-MM-dd',$!dto.submitTime)</td>
+			<td>$!date.format('yyyy-MM-dd',$!dto.contractDate)</td>
+			<td>$!dto.contractNumber</td>
+		</tr>
+		#end
+
+
+
+	</table>
+
+	<div class="text-center">
+           #parse("/common/page.vm")
+    </div>
+
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->

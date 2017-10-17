@@ -1,0 +1,84 @@
+<script type="text/javascript">
+//var phoneflag=false;
+$(document).ready(function() {
+
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+			save();
+		}
+	});
+
+
+ });
+ 
+ function save(){
+	disableBtn('saveBtn');
+
+	var url="${rc.contextPath}/reseau/add.do";
+  	submitFormData("form1",url,show);
+}
+
+function show(data){
+
+	if(data.indexOf("成功")!=-1){
+		window.location.href="${rc.contextPath}/reseau/reseauList.htm";
+	}else{
+		alert(data);
+		enableBtn('saveBtn');
+	}
+}
+
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+	</div><!--bd-actionbar-->
+
+	<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" name="userForm" id="form1" action="${rc.contextPath}/reseau/add.do" method="post">
+				<input type="hidden" name="id" id="id" value="$!reseau.id" />
+				<table class="form">
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>名称：</label></td>
+						<td>
+							<input validate="{required:true}" type="text" name="name" id="name" value="$!reseau.name"/>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right" class="wa"><label class="tit">客户经理：</label></td>
+						<td class="wa">
+							<select name="managerId" validate="{required:true}">
+								<option value="">--请选择--</option>
+								#foreach($dto in $users)
+								<option value="$dto.id" #if($dto.id==$reseau.managerId) selected="selected" #end>$dto.userName</option>
+								#end
+							</select>&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label class="tit"><font color='red'>*</font>备注：</label></td>
+						<td>
+							<textarea id="remark" validate="required:true" name="remark" cols="50" rows="4" value="$!reseau.remark">$!reseau.remark</textarea>
+							&nbsp;<span></span>
+						</td>
+					</tr>
+					<tr class="btn-bar">
+						<td></td>
+						<td><a class="btn btn-primary" id="saveBtn" href="javascript:void(0)" onclick="$('#form1').submit();">保存</a></td>
+					</tr>
+				</table>
+			</form>
+		</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

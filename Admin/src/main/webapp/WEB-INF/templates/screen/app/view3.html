@@ -1,0 +1,107 @@
+<html>
+ <head>
+    <meta charset="utf-8" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" /> 
+    <meta name="apple-mobile-web-app-capable" content="no" /> 
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" /> 
+    <meta content="telephone=no" name="format-detection" /> 
+    <title>500mi生活圈</title> 
+    <meta name="description" content="随时随地，连接您附近的便利店，满足您生活所需。" /> 
+    <script type="text/javascript" src="ui/common/js/require/require.min.js"></script> 
+    <script type="text/javascript" src="ui/common/js/mui.min.js"></script> 
+    <link type="text/css" rel="stylesheet" href="ui/common/css/mui.min.css" /> 
+    <link type="text/css" rel="stylesheet" href="ui/mobile/css/consumer/mui.css" /> 
+    <link type="text/css" rel="stylesheet" href="http://at.alicdn.com/t/font_1420872171_000329.css" /> 
+    <style>
+  [ms-controller],[ms-important],.ms-controller,.ms-important{visibility:hidden}
+  </style> 
+    <script>
+  window.MiMobile = {
+  from    : 'browser',
+  app_id  : '501',
+  user_id : '',
+  domains : {
+  base_url    : 'http://work.500mi.com',
+  work_url    : 'http://work.500mi.com',
+  passport_url    : 'http://passport.500mi.com',
+  cp_url  : 'http://www.500mi.com',
+  weixin_url  : 'http://weixin.500mi.com',
+  img_url : 'http://img.500mi.com',
+  res_url : 'http://res.500mi.com',
+  assets_url  : ''},
+  assets_version: 201503170025};
+  function substr(str, len) {
+      var temp;
+      var icount = 0;
+      var patrn = /[^\x00-\xff]/;
+      var strre = "";
+      for (var i = 0; i < str.length; i++) {
+          if (icount < len - 1) {
+              temp = str.substr(i, 1);
+              if (patrn.exec(temp) == null) {
+                  icount += 1;
+              } else {
+                  icount += 2;
+              }
+              strre += temp;
+          } else {
+              break;
+          }
+      }
+      return strre;
+  }
+  //选项卡点击事件
+  mui.ready(function(){
+  mui('.mui-bar-tab').on('tap', 'a', function(e) {
+              var targetTab = this.getAttribute('href');
+              if (targetTab == '#') {
+                  return;
+              }
+              location.href = targetTab;
+          });
+  });
+  </script> 
+    <script type="text/javascript" src="ui/mobile/js/consumer/require.config.js"></script>
+    <script type="text/javascript" src="ui/mobile/js/consumer/login.js"></script>
+    <script type="text/javascript" src="ui/common/js/md5.js"></script>
+    <script type="text/javascript" src="ui/common/js/require/domReady.js"></script>
+    <script type="text/javascript" src="ui/mobile/js/consumer/common.js"></script>
+    <script type="text/javascript" src="ui/common/js/avalon/avalon.mi.min.js"></script>
+    <script type="text/javascript" src="ui/common/js/zepto.min.js?v=201503170025"></script>  
+    <link type="text/css" rel="stylesheet" href="ui/mobile/css/consumer/common.css" /> 
+    <link type="text/css" rel="stylesheet" href="ui/mobile/css/consumer/login.css" /> 
+    
+ </head>
+ <body class="mui-ios">
+  
+  <header class="mui-bar mui-bar-nav mi-bg-gray" avalonctrl="login"> 
+   <a class="mui-btn mui-btn-link mui-btn-nav mui-pull-left" href="http%3A%2F%2Fweixin.500mi.com%2Fmobile%2Fconsumer%2Fmain%2Fprofile"> <i class="mui-icon mui-icon-arrowthinleft"></i> </a> 
+   <h1 class="mui-title">登 录</h1> 
+  </header> 
+  <div class="mui-content mui-content-center-bottom" avalonctrl="login"> 
+   <div class="login_box"> 
+    <form action="/mobile/consumer/main/login" method="POST" id="mi-login"> 
+     <input type="text" name="account" class="input account" placeholder="帐号/手机" /> 
+     <input type="password" name="password" class="input password" placeholder="密码" /> 
+     <button type="submit" class="mui-btn mui-btn-block mui-btn-orange login_submit">登 录</button> 
+     <div class="mui-text-left"> 
+      <a class="btn_signup" href="/mobile/consumer/main/signup?redirect_url=http%3A%2F%2Fweixin.500mi.com%2Fmobile%2Fconsumer%2Fmain%2Fprofile">快速注册</a> 
+     </div> 
+    </form> 
+   </div> 
+   <div class="third_login_box"> 
+    <a class="btn_login_weixin" href="/mobile/consumer/main/check_weixin?redirect_url=http%3A%2F%2Fweixin.500mi.com%2Fmobile%2Fconsumer%2Fmain%2Fprofile"> <i class="icon"></i> <span>微信登录 </span> </a> 
+    <a href="#" class="btn_login_alipay"> <i class="icon"></i> <span>支付宝登录</span> </a> 
+   </div> 
+   <!--ms-if--> 
+  </div> 
+  <script>
+require(['/ui/mobile/js/consumer/require.config.js'], function() {
+require(['avalon', 'login'], function(avalon, login) {
+login.index();
+avalon.scan();
+});
+});
+</script> 
+ </body>
+</html>

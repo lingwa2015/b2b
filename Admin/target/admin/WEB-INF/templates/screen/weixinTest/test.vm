@@ -1,0 +1,46 @@
+#set($layout="layout/shopLayout.vm")
+<span class="desc">支付宝扫一扫</span>
+<button class="weui_btn weui_btn_primary" id="getLocation" onclick = "scan();">getScan</button>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<!--引入jsAPI的功能js-->
+<script src="https://as.alipayobjects.com/g/component/antbridge/1.1.1/antbridge.min.js"></script>
+<!--扫码功能8.1以上钱包支持-->
+<script type="text/javascript">
+
+
+function scan(){
+
+
+  if(navigator.userAgent.indexOf("AlipayClient")===-1){
+    alert('请在支付宝钱包内运行');
+}else{
+    if((Ali.alipayVersion).slice(0,3)>=8.1){
+        Ali.scan({
+            type: 'bar' //qr(二维码) / bar(条形码) / card(银行卡号)
+        }, function(result) {
+            if(result.errorCode){
+                //没有扫码的情况
+                //errorCode=10，用户取消
+                //errorCode=11，操作失败
+            }else{
+                //成功扫码的情况
+                //result.barCode	string	扫描所得条码数据
+                //result.qrCode	string	扫描所得二维码数据
+                //result.cardNumber	string	扫描所得银行卡号
+                var url = result.barCode;
+                $('#getLocation').html(url)
+            }
+        });
+    }else{
+        Ali.alert({
+            title: '亲',
+            message: '请升级您的钱包到最新版',
+            button: '确定'
+        });
+    }
+}
+}
+
+
+
+</script>

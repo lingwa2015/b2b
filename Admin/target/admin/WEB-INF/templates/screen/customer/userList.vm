@@ -1,0 +1,417 @@
+<style type="text/css">
+#div1{position:absolute; margin-left: 175px;}
+#div2{position:absolute; margin-left: 280px}
+#div3{position:absolute; margin-left: 475px}
+</style>
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/customer/userAdd.htm" class="btn btn-success"><i class="ico"></i>添加客户</a>
+	</div><!--bd-actionbar-->
+		
+	<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" id="form1" name="form1" action="$rc.contextPath/customer/customerList.htm" method="post">
+				<table class="form form-horizontal">
+                    <input type="hidden" name="status" id="status" value="$!isdelete" />
+					
+					<tr>
+						<td><label class="tit">排序：</label></td>
+						<td >
+							<select name="sort">
+							   <option value ="0" #if($!sort==0)selected="selected"#end >默认</option>
+							  <option value ="1" #if($!sort==1)selected="selected"#end>最近下单日期</option>
+							  <option value ="2" #if($!sort==2)selected="selected"#end>激活日期</option>
+							  <option value ="3" #if($!sort==3)selected="selected"#end>签约时间</option>
+							</select>
+						</td>
+						<td><label class="tit">分级：</label></td>
+						<td >
+							<select name="grade">
+							   <option value ="" >全部</option>
+							  <option value ="KA" #if($!grade=='KA')selected="selected"#end>KA</option>
+							  <option value ="A" #if($!grade=='A')selected="selected"#end>A</option>
+							  <option value ="B" #if($!grade=='B')selected="selected"#end>B</option>
+							  <option value ="C" #if($!grade=='C')selected="selected"#end>C</option>
+							</select>
+						</td>
+						<td><label class="tit">活跃度：</label></td>
+						<td >
+							<select name="flag">
+							  <option value ="" >全部</option>
+							  <option value ="1" #if($!flag=='1')selected="selected"#end>正常</option>
+							  <option value ="2" #if($!flag=='2')selected="selected"#end>异常</option>
+							  <option value ="3" #if($!flag=='3')selected="selected"#end>预警</option>
+							  <option value ="4" #if($!flag=='4')selected="selected"#end>断约</option>
+							</select>
+						</td>
+						<td><label class="tit">托管：</label></td>
+						<td >
+							<select name="buyWay">
+							  <option value ="" >全部</option>
+							  <option value ="1" #if($!buyWay=='1')selected="selected"#end>托管</option>
+							  <option value ="2" #if($!buyWay=='2')selected="selected"#end>非托管</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><label class="tit">回款方式：</label></td>
+						<td >
+							<select name="payBillWay">
+							  <option value ="" >全部</option>
+							  <option value ="2" #if($!payBillWay=='2')selected="selected"#end>按结算额</option>
+							  <option value ="3" #if($!payBillWay=='3')selected="selected"#end>按亏损额</option>
+							  <option value ="4" #if($!payBillWay=='4')selected="selected"#end>不承担亏损</option>
+							</select>
+						</td>
+						<td><label class="tit">业务类型：</label></td>
+						<td >
+							<select name="param">
+							  <option value ="3" #if($!param==3)selected="selected"#end>所有用户</option>
+							  <option value ="2" #if($!param==2)selected="selected"#end>便利店</option>
+							  <option value ="0" #if($!param==0)selected="selected"#end>福利店</option>
+							  <option value ="1" #if($!param==1)selected="selected"#end>礼包</option>
+							</select>
+						</td>
+						<td><label class="tit">地区：</label></td>
+						<td>
+						<select name="regionId" validate="{required:true}" >
+						    <option value="">所有地区</option>
+						    #foreach($region in $regions)
+							   #if($!regionId == $region.id)
+					            <option value="$region.id" selected="selected">$region.name</option>
+					           #else
+					            <option value="$region.id">$region.name</option>
+					           #end
+							#end
+						 </select>
+						</td>
+						<td align="right"><label class="tit">网格：</label></td>
+                        <td>
+                            <select name="reseauId" validate="{required:true}" >
+                                <option value="">全部</option>
+								#foreach($reseau in $reseaus)
+									#if($!reseauId == $reseau.id)
+                                        <option value="$reseau.id" selected="selected">$reseau.name</option>
+									#else
+                                        <option value="$reseau.id">$reseau.name</option>
+									#end
+								#end
+                            </select>
+                            &nbsp;<span></span>
+                        </td>
+                        <td align="right"><label class="tit">激活：</label></td>
+                        <td>
+                            <select name="activationId" validate="{required:true}" >
+                                <option value="">全部</option>
+                                <option value ="1" #if($!activationId=='1')selected="selected"#end>已激活</option>
+                                <option value ="2" #if($!activationId=='2')selected="selected"#end>未激活</option>
+                            </select>
+                            &nbsp;<span></span>
+                        </td>
+					</tr>
+					<tr>
+						<td><label class="tit">业务员：</label></td>
+						<td>
+							<input name="linkName" id="linkName" class="form-input" type="text" value="$!linkName">
+						</td>
+						<td><label class="tit">公司名称：</label></td>
+						<td id="search">
+							<input name="userName" id="username" class="form-input" type="text" value="$!userName">
+						</td>
+						<td id="div1"><label class="tit">手机号码：</label></td>
+						<td id="div2"><input name="mobilePhone" id="mobilePhone" class="form-input" type="text" value="$!mobilePhone"></td>
+
+					</tr>
+					<tr>
+						<td></td>
+						<td ><a class="btn btn-warning btn-sm" href="javascript:goPage(1)">查找</a></td>
+						<td>
+						#if($isdelete!=0)
+                            <a href="${rc.contextPath}/customer/customerList.htm?status=0">已删除客户信息</a>
+						#else
+                            <a href="${rc.contextPath}/customer/customerList.htm?status=1">未删除客户信息</a>
+						#end
+                        </td>
+					</tr>
+				</table>
+			</form>
+			
+			<table class="table">
+		 		<tr>
+		 		    <th>区域</th>
+		 		      <th>网格</th>
+					<th>公司简称</th>
+					<!--<th>店铺地址</th>-->
+					<th>公司全称</th>
+					<th>分级</th>
+					<!--<th>公司备注</th>-->
+					<th>接口业务员</th>
+					<th>业务类型</th>
+					<!--<th>货架数</th>
+					<th>结款方式</th>-->
+					<th>创建时间</th>
+					<th>签约时间</th>
+					<th>激活时间</th>
+					<th>最近下单时间</th>
+					<th>活跃度</th>
+					<th>操作</th>
+		  		</tr>
+		  		
+		  		#set ($rowCount = 0)
+		  		#foreach($user in $page.result)
+			  		#set ($isOddRow = $rowCount % 2 != 0)
+			  		#if ($isOddRow)
+	           		<tr>
+	          		#else
+	           		<tr class="sep-bar">
+	          		#end
+	          			<td>$!user.region</td>
+	          			<td>$!user.reseauName</td>
+						<td><a href="${rc.contextPath}/customer/info.htm?shop_id=$user.id">$!user.userName</a></td>
+						<td>$!user.companyName</td>
+						<td>$!user.grade</td>
+						<td>$!user.interfacePerson</td>
+						#if($!user.iswxvip==3)
+						<td>便利店</td>
+						#elseif($!user.iswxvip==1)
+						<td>礼包</td>
+						#elseif($!user.iswxvip==0)
+						<td>福利店</td>
+						#end
+						
+						<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!user.createdTime)</td>
+						<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!user.submitTime)</td>
+						<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!user.contractDate)</td>
+						<td>$!date.format('yyyy-MM-dd',$!user.listTime)</td>
+						<td>
+							#if($!user.contractDay<=7)
+								<span style="color:green;">正常</span>
+							#elseif(7<$!user.contractDay and $!user.contractDay<=14)
+								<span style="color:red;">异常</span>
+							#elseif(14<$!user.contractDay and $!user.contractDay<=60)
+								<span style="color:red;">预警</span>
+							#elseif($!user.contractDay>60)
+								<span style="color:#000000;">断约</span>
+						    #else
+						    	
+						    #end
+						</td>
+						<td class="opt">
+					#if($isdelete!=0)
+							<a href="${rc.contextPath}/customer/QRCode.htm?shopId=$!user.id">二维码</a>
+							<span>|</span>
+							<a href="${rc.contextPath}/customer/userUpdate.htm?id=$user.id&type=1">编辑</a>
+							<span>|</span>
+							<a href="#" onclick="delData('$user.id',this)">删除</a>
+							<span>|</span>
+						#else
+                            <a href="javascript:recoverData('$user.id', '2')">彻底删除</a>
+                            <span>|</span>
+                            <a href="javascript:recoverData('$user.id', '1')">恢复</a>
+							#end
+						</td>
+			  		</tr>
+			  
+			  		#set ($rowCount = $rowCount + 1)
+		 		#end
+
+			</table>
+			
+			<div class="text-center">
+        			#parse("/common/page.vm")
+       		</div>
+		</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+
+ });
+
+$(function(){
+    var searchInput = $('#userName');
+    searchInput.attr('autocomplete', 'off');
+    var autocomplete = $('<ul class="autocomplete"></ul>').hide().insertAfter('#userName');
+    var clear = function() {
+        autocomplete.empty().hide();
+    };
+    searchInput.blur(function() {
+        setTimeout(clear, 500);
+    });
+    var selectedItem = null; 
+    var timeoutid = null;
+    var setSelectedItem = function(item) {
+        selectedItem = item;
+
+        if (selectedItem < 0) {
+            selectedItem = autocomplete.find('li').length - 1;
+        } else if (selectedItem > autocomplete.find('li').length - 1) {
+            selectedItem = 0;
+        }
+
+        autocomplete.find('li').removeClass('highlight').eq(selectedItem).addClass('highlight');
+    };
+    var ajax_request = function() {
+
+        $.ajax({
+            url: '${rc.contextPath}/customer/autoQuery.do',
+            data: ({'userName': searchInput.val()}),
+            dataType: 'json',
+            type: 'POST',
+            success: function(data) {
+                if (data.length) {
+
+                    $.each(data, function(index, term) {
+
+                        $('<li></li>').text(term).appendTo(autocomplete).addClass('clickable').hover(function() {
+
+                            $(this).siblings().removeClass('highlight');
+                            $(this).addClass('highlight');
+                            selectedItem = index;
+                        },
+                        function() {
+
+                            $(this).removeClass('highlight');
+
+                            selectedItem = -1;
+                        }).click(function() {
+
+                            searchInput.val(term);
+
+                            autocomplete.empty().hide();
+                        });
+                    }); 
+                    // var ypos = searchInput.position().top;
+                    var xpos = searchInput.position().left;
+                    autocomplete.css('width', searchInput.css('width'));
+                    autocomplete.css({
+                        'position': 'relative',
+                        'left': xpos + "px",
+                        'font-size' : "14px",
+                        'color': "#666"
+                    });
+                    setSelectedItem(0);
+                    autocomplete.show();
+                }
+            }
+        });
+    };
+
+    searchInput.keyup(function(event) {
+
+        if (event.keyCode > 40 || event.keyCode == 8 || event.keyCode == 32) {
+            autocomplete.empty().hide();
+            clearTimeout(timeoutid);
+            timeoutid = setTimeout(ajax_request, 100);
+        } else if (event.keyCode == 38) {
+            if (selectedItem == -1) {
+                setSelectedItem(autocomplete.find('li').length - 1);
+            } else {
+
+                setSelectedItem(selectedItem - 1);
+            }
+            event.preventDefault();
+        } else if (event.keyCode == 40) {
+
+            if (selectedItem == -1) {
+                setSelectedItem(0);
+            } else {
+
+                setSelectedItem(selectedItem + 1);
+            }
+            event.preventDefault();
+        }
+    }).keypress(function(event) {
+
+        if (event.keyCode == 13) {
+            if (autocomplete.find('li').length == 0 || selectedItem == -1) {
+                return;
+            }
+            searchInput.val(autocomplete.find('li').eq(selectedItem).text());
+            autocomplete.empty().hide();
+            event.preventDefault();
+            goPage(1);
+        }
+    }).keydown(function(event) {
+
+        if (event.keyCode == 27) {
+            autocomplete.empty().hide();
+            event.preventDefault();
+        }
+    });
+
+    $(window).resize(function() {
+        var ypos = searchInput.position().top;
+        var xpos = searchInput.position().left;
+        autocomplete.css('width', searchInput.css('width'));
+        autocomplete.css({
+            'position': 'relative',
+            'left': xpos + "px",
+            'top': ypos + "px"
+        });
+    });
+});
+
+
+
+function delData(id,obj){
+  if(confirm("确认删除吗")){
+##	  var url="${rc.contextPath}/customer/userDelete.do?id="+id;
+##	  doDeleteRequest(url,id,show);
+      $.ajax({
+          url: '${rc.contextPath}/customer/userDelete.do',
+          data: ({'id': id}),
+          dataType: 'json',
+          type: 'POST',
+          success: function (data) {
+              if (data == 200){
+                  $(obj).parent().parent().remove();
+              } else {
+                  alert('异常：' + data);
+              }
+          }
+      });
+  }else{
+	  return;
+  }
+}
+
+function recoverData(id, status){
+    if(status==1 ? confirm("确认恢复吗") : confirm("确认彻底删除吗")){
+        var url="${rc.contextPath}/customer/userRecover.do?id="+id+"&status="+status;
+        doDeleteRequest(url,id,show1);
+    }else{
+        return;
+    }
+}
+
+function show1(data){
+    alert(data);
+    if(data.indexOf("成功")!=-1){
+        window.location.href="${rc.contextPath}/customer/customerList.htm";
+    }
+}
+
+
+function setAdmin(id){
+  var url="${rc.contextPath}/customer/setAdmin.do?id="+id;
+  doDeleteRequest(url,id,show);
+}
+
+function unSetAdmin(id){
+  var url="${rc.contextPath}/customer/unSetAdmin.do?id="+id;
+  doDeleteRequest(url,id,show);
+}
+
+function show(data){
+    alert(data);
+	if(data.indexOf("成功")!=-1){
+		 window.location.href="${rc.contextPath}/customer/customerList.htm";
+	}
+}
+
+</script>

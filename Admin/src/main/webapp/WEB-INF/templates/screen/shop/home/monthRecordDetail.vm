@@ -1,0 +1,111 @@
+#set($layout="layout/shopLayout.vm")
+<div class="home_page" style="background-color:#fafafa;">
+      
+       <ul style="margin-bottom:.3rem;border-top: 1px solid #ececec;margin-top:.15rem;">
+           <li>
+               <a href="javascript:void(0);">
+                   <p class="home_tip">采购额</p>
+                   <p class="home_price">￥$NumberTool.toYuanNumber($record.sourcing)</p>
+               </a>
+           </li>
+           <li class="border_l">
+               <a href="javascript:void(0);">
+                   <p class="home_tip">消费额</p>
+                   <p class="home_price">￥$NumberTool.toYuanNumber($record.consume)</p>
+               </a>
+           </li>
+           <li>
+               <a href="javascript:void(0);">
+                   <p class="home_tip">结算额</p>
+                   <p class="home_price">￥$NumberTool.toYuanNumber($record.totalPrice)</p>
+               </a>
+           </li>
+       </ul>
+       <ul style="border-top: 1px solid #ececec;">
+           <li>
+               <a href="javascript:void(0);">
+                   <p class="home_tip">月初库存</p>
+                   <p class="home_price">￥$NumberTool.toYuanNumber($record.last)</p>
+               </a>
+           </li>
+           <li class="border_l">
+               <a href="javascript:void(0);">
+                   <p class="home_tip">月底库存</p>
+                   <p class="home_price">￥$NumberTool.toYuanNumber($record.shelf)</p>
+               </a>
+           </li>
+           <li>
+               <a href="javascript:void(0);">
+                   <p class="home_tip">消耗额</p>
+                   <p class="home_price">￥$NumberTool.toYuanNumber($record.expend)</p>
+               </a>
+           </li>
+           #set($miss = $record.loss - $record.subsidy)
+           #set($state = 100 - $!record.status)
+           <li>
+               <a href="javascript:void(0);">
+                   <p class="home_tip">损耗额</p>
+                   <p class="home_price">￥$NumberTool.toYuanNumber($miss)</p>
+                   <p class="home_state">#if($!record.status==0)0#else#if($!state < 0)0#elseif($!state > 100)0#else$!state#end#end%</p>
+               </a>
+           </li>
+           #set($money = 0 - $record.subsidy)
+           <li class="border_l">
+           	   #if($!record.subsidy<0)
+           	   <a href="javascript:void(0);">
+                   <p class="home_tip">利润额</p>
+                   <p class="home_price">￥$NumberTool.toYuanNumber($!money)</p>
+                   <p class="home_state">$!discount</p>
+               </a>
+           	   #else
+               <a href="javascript:void(0);">
+                   <p class="home_tip">补贴额</p>
+                   <p class="home_price">￥$NumberTool.toYuanNumber($record.subsidy)</p>
+                   <p class="home_state">$!discount</p>
+               </a>
+               #end
+           </li>
+           <li>
+               <a href="javascript:void(0);">
+                   <p class="home_tip">亏损额</p>
+                   <p class="home_price">￥$NumberTool.toYuanNumber($record.loss)</p>
+                   #if($!record.subsidy<0)
+                   <p class="home_state">损耗-利润</p>
+                   #else
+                   <p class="home_state">损耗＋补贴</p>
+                   #end
+               </a>
+           </li>
+           <li>
+               <a href="javascript:void(0);">
+                   <p class="home_tip">红包</p>
+                   <p class="home_price">￥$NumberTool.toYuanNumber($!record.redFee)</p>
+               </a>
+           </li>
+           <li class="border_l">
+               <a href="javascript:void(0);">
+                   <p class="home_tip">优惠</p>
+                   <p class="home_price">￥$NumberTool.toYuanNumber($!record.lwFeeOne)</p>
+               </a>
+           </li>
+           <li>
+           </li>
+       </ul>
+      <a href="javascript:void(0);" ontouchend="goDetail($!shopId,'$!month');" class="now_benyue">本月商品明细</a>
+
+</div>
+
+<script type="text/javascript">
+    document.title = "$!month月账单";
+    $("body").css("background-color","#fafafa");
+    
+    function goDetail(shopId,month){
+    	var temp = month.split("-");
+    	var year = parseInt(temp[0]);
+    	if(year>=2017){
+    		window.location.href="${rc.contextPath}/convenient/home/shop_lossDetail.htm?shop_id="+shopId+"&month="+month;
+    	}else{
+    		alert("2017年1月起支持查询明细！");
+    	}
+    }
+</script>

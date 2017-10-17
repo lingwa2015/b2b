@@ -1,0 +1,28 @@
+#set($layout="layout/applayout.vm")
+ <header class="mui-bar mui-bar-nav mi-bg-gray" avalonctrl="login"> 
+   <a class="mui-btn mui-btn-link mui-btn-nav mui-pull-left" href="http%3A%2F%2Fweixin.500mi.com%2Fmobile%2Fconsumer%2Fmain%2Fprofile"> <i class="mui-icon mui-icon-arrowthinleft"></i> </a> 
+   <h1 class="mui-title">我的信息</h1> 
+  </header> 
+  <div class="mui-content mui-content-center-bottom" avalonctrl="login"> 
+   <div class="login_box"> 
+    <form action="/appUser/appEditUser.do" method="POST" id="mi-login"> 
+    
+   	 <input type="hidden" name="id" id="userid" value="$!user.id" />
+     
+     <div>
+     用户姓名：<input type="text" name="userName" readonly="readonly" id="userName" value="$!user.userName" class="input account" /> 
+     </div>
+     <div>
+     密码(不填不修改密码)：<input type="text" name="passWord" id="passWord" value="" class="input password" /> 
+     </div>
+     <div>
+     电话：<input type="text" name="mobilePhone" id="mobilePhone" value="$!user.mobilePhone" class="input password" />
+     </div>
+     <div>
+     收货地址：<input type="text" name="address" id="address" value="$!user.address" class="input password" /> 
+     </div>
+     <button type="submit" class="mui-btn mui-btn-block mui-btn-orange login_submit">修 改</button> 
+    </form> 
+   </div> 
+   <!--ms-if--> 
+  </div> 

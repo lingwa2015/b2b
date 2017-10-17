@@ -1,0 +1,102 @@
+<script type="text/javascript">
+
+function setGM(id){
+	$.ajax({
+				url:'$rc.contextPath/GM/setgm.do',
+				type:'POST',
+				data: {userId:id},
+				success:function(data){
+					if(data==200){
+						window.location.reload();
+					}else{
+						alert("设置失败")
+					}
+				}
+				
+			})
+}
+
+function cancelGM(id){
+	$.ajax({
+				url:'$rc.contextPath/GM/cancelgm.do',
+				type:'POST',
+				data: {userId:id},
+				success:function(data){
+					if(data==200){
+						window.location.reload();
+					}else{
+						alert("设置失败")
+					}
+				}
+				
+			})
+}
+
+function setCity(id){
+	window.location.href = "$rc.contextPath/GM/editCity.htm?userId="+id;
+}
+
+
+
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+	</div><!--bd-actionbar-->
+		
+	<div class="bd-main">
+		<div class="bd-main-inner">
+			<form class="jqtransform" id="form1" name="form1" action="$rc.contextPath/GM/gmlist.htm" method="post">
+				
+			</form>
+			
+			<table class="table">
+		 		<tr>
+					<th>用户简称</th>
+					<th>GM</th>
+					<th>多城市</th>
+					<th>所属城市</th>
+					<th>操作</th>
+		  		</tr>
+		  		
+		  		#set ($rowCount = 0)
+		  		#foreach($user in $page.result)
+			  		#set ($isOddRow = $rowCount % 2 != 0)
+			  		#if ($isOddRow)
+	           		<tr>
+	          		#else
+	           		<tr class="sep-bar">
+	          		#end
+						<td>$!user.userName</td>
+						<td>#if($user.isGm==1) 是 #end</td>
+						#set($citys = $user.citys)
+						<td>
+						#foreach($city in $citys)
+						  #if($city.id==$!user.cityId)
+						   <span style="color:green;">$city.cityName</span>
+						  #else
+						   <span>$city.cityName</span>
+						  #end
+						#end
+						</td>
+						<td>$!user.cityName</td>
+						<td class="opt">
+							#if($user.isGm==1)
+							<a href="javascript:cancelGM('$user.id')">取消GM</a>
+							#else
+							<a href="javascript:setGM('$user.id')">设置GM</a>
+							#end
+							<a href="javascript:setCity('$user.id')">设置多城市</a>
+						</td>
+			  		</tr>
+			  
+			  		#set ($rowCount = $rowCount + 1)
+		 		#end
+
+			</table>
+			
+			<div class="text-center">
+        			#parse("/common/page.vm")
+       		</div>
+		</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

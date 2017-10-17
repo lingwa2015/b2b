@@ -1,0 +1,68 @@
+#set($layout="layout/shopLayout.vm")
+<div class="purchase_order">
+    <!-- 无订单 -->
+    <!-- <div class="no_order">无订单</div> -->
+    <div class="order_tip">
+        <div class="order_time" style="width:35%">员工</div>
+        <div class="order_time" style="width:19%">实时</div>
+        <div class="order_time" style="width:20%">昨日</div>
+        <div class="order_time" style="width:24%">本月/不合格</div>
+    </div>
+    <div class="record">
+        #if($maps.size()>0)
+            #foreach($dto in $maps)
+                <div class="record_list">
+                    #if($myId == $!dto.id)
+                    <a href="${rc.contextPath}/convenient/manage/shop_ygsaleman.htm?saleId=$!dto.id" style="color: #7f7f7f;">
+                    #else
+                    <a href="${rc.contextPath}/convenient/manage/shop_ygsaleman.htm?saleId=$!dto.id" style="color: #000;">
+                    #end
+                    <span class="record_date" style="left:0;width: 34%;">$!dto.userName</span>
+                    <span class="money_1" style="text-align: center;left: 35%;">$!dto.num</span>
+                    <span class="money_2" style="text-align: center;width: 19%;left: 55%">$!dto.sevenNum</span>
+                    <span class="money_3" style="width: 28%">$!dto.passNum/$!dto.unpassNum</span>
+                </a>
+                </div>
+            #end
+        #end
+        #if($map)
+            <div class="record_list">
+                #if($myId == $!map.id)
+                <a href="${rc.contextPath}/convenient/manage/shop_ygsaleman.htm?saleId=$!map.id" style="color: #7f7f7f;">
+                #else
+                <a href="${rc.contextPath}/convenient/manage/shop_ygsaleman.htm?saleId=$!map.id" style="color: #000;">
+                #end
+                <span class="record_date" style="left:0;width: 34%;">$!map.userName</span>
+                <span class="money_1" style="text-align: center;left: 35%;">$!map.num</span>
+                <span class="money_2" style="text-align: center;width: 19%;left: 55%">$!map.sevenNum</span>
+                <span class="money_3" style="width: 28%">$!map.passNum/$!map.unpassNum</span>
+            </a>
+            </div>
+        #end
+        #foreach($dto in $lists)
+            <div class="record_list">
+                #if($type==1)
+                    #if($myId == $!dto.id)
+                    <a href="${rc.contextPath}/convenient/manage/shop_ygsaleman.htm?saleId=$!dto.id" style="color: #7f7f7f;">
+                    #else
+                    <a href="${rc.contextPath}/convenient/manage/shop_ygsaleman.htm?saleId=$!dto.id" style="color: #000;">
+                    #end
+                #else
+                    #if($myId == $!dto.id)
+                    <a href="${rc.contextPath}/convenient/manage/shop_dgsaleman.htm?saleId=$!dto.id&type=$!type" style="color: #7f7f7f;">
+                    #else
+                    <a href="${rc.contextPath}/convenient/manage/shop_dgsaleman.htm?saleId=$!dto.id&type=$!type" style="color: #000;">
+                    #end
+                #end
+                <span class="record_date" style="left:0;width: 34%;">$!dto.userName</span>
+                <span class="money_1" style="text-align: center;left: 35%;">$!dto.num</span>
+                <span class="money_2" style="text-align: center;width: 19%;left: 55%">$!dto.sevenNum</span>
+                <span class="money_3" style="width: 28%">$!dto.passNum/$!dto.unpassNum</span>
+            </a>
+            </div>
+        #end
+    </div>
+</div>
+<script type="text/javascript">
+    document.title = "销售员列表";
+</script>

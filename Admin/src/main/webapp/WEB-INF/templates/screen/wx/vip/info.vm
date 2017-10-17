@@ -1,0 +1,26 @@
+ #set($layout="layout/wxLayout.vm")
+  <div class="lw_hd">
+        <a href="${rc.contextPath}/weixin/wxaccount.htm"><img src="${rc.contextPath}/static/images/wx/address_02.png"><span class="mid">&nbsp;&nbsp;更多信息</span></a>
+    </div>
+    <div class="information">
+        <a href="${rc.contextPath}/weixin/wxedit.htm">
+            <img src="${rc.contextPath}/static/images/wx/info_01.png" class="th">
+            <span>企业信息</span>
+            <img src="${rc.contextPath}/static/images/wx/confirm.png" class="do">
+        </a>
+    </div>
+    <div class="record">
+        <a href="${rc.contextPath}/weixin/wxrecord.htm">
+            <img src="${rc.contextPath}/static/images/wx/info_02.png" class="th">
+            <span>充值记录</span>
+            <img src="${rc.contextPath}/static/images/wx/confirm.png" class="do">
+        </a>
+    </div>
+    <div class="record">
+        <a href="${rc.contextPath}/weixin/wxorder.htm">
+            <img src="${rc.contextPath}/static/images/wx/info_02.png" class="th">
+            <span>订单</span>
+            <img src="${rc.contextPath}/static/images/wx/confirm.png" class="one">
+        </a>
+    </div>
+    

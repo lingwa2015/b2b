@@ -1,0 +1,189 @@
+#set($layout="layout/applayout.vm")
+  <div id="consumer_confirm_order" class="router_confirm_order" avalonctrl="consumer_confirm_order"> 
+   <header class="mui-bar mui-bar-nav mi-bg-gray"> 
+    <a class="mui-btn mui-btn-link mui-btn-nav mui-pull-left" href="#"> <i class="mui-icon mui-icon-arrowthinleft"></i> </a> 
+    <h1 class="mui-title">订单确认</h1>
+		<div style="background:#edebea">
+        	<div class="user-infor">
+        		<p>欢迎<span><a style="color:#fdaa53">$!session.getAttribute("user").userName</a></span></p>
+        		<a style="color:#333;" href="$!{rc.contextPath}/appLogin/appLogout.htm">登出</a>
+        	</div>
+        </div>
+   </header> 
+   <div class="mui-content mui-content-center" data-scroll="pageIscroll, pageIscrollOpt" data-init-scroll="ready" style="overflow: hidden;"> 
+    <div style="transition-property: transform; -webkit-transition-property: transform; transition-duration: 0ms; -webkit-transition-duration: 0ms; transform-origin: 0px 0px 0px; transform: translate(0px, 0px) translateZ(0px);"> 
+     <div class="hd-info clearfix"> 
+      <a class="chose-address" href="#"></a> 
+      <div class="user_mobile clearfix"> 
+       <h3 class="user_name">收货人: $user.userName</h3> 
+       <div class="mobile">
+        手机:$user.mobilePhone
+       </div> 
+      </div> 
+      <div class="address">
+        地址: $user.address
+      </div> 
+     </div> 
+     <!--ms-if--> 
+     <div class="pay-info clearfix"> 
+      <label>支付方式:</label> 
+      <div class="pay_method_list"> 
+       <!--ms-repeat-->
+       <span class="mui-btn mui-icon iconfont only icon-zhengqueyuan active">货到付款</span>
+       <!--ms-repeat-end--> 
+      </div> 
+      <!--ms-if--> 
+     </div> 
+     <!--ms-if--> 
+     <div class="remark-info clearfix"> 
+      <input type="text" class="frm_input_box" placeholder="请输入特殊要求" name="memo" id="memo"/> 
+     </div> 
+     <div class="cart-item-box">
+      <ul class="item-list" id="item-list" style="display: block;">
+			       
+      </ul> 
+      <div class="cart-item-list-warning" style="display: none;"> 
+       <h5>您还没有选择商品</h5> 
+       <a class="mui-btn mui-btn-orange" href="#">去选商品</a> 
+      </div> 
+     </div> 
+     <form action="#" name="submit_order" id="submit_order" method="POST"> 
+      <input type="hidden" name="remark" value="" /> 
+      <input type="hidden" name="shop_id" value="3611" /> 
+      <input type="hidden" name="feeds_id" value="0" /> 
+      <!--ms-repeat-->
+      <span> <input type="hidden" name="cart_items[0][id]" value="168845" /> <input type="hidden" name="cart_items[0][item_name]" value="乐事意大利香浓红绘味45g" /> <input type="hidden" name="cart_items[0][num]" value="11" /> </span>
+      <!--ms-repeat-end--> 
+     </form> 
+     <form method="POST" action="#" id="payment_submit"> 
+      <input type="hidden" name="tid" value="" /> 
+      <!--ms-if--> 
+      <input type="hidden" name="remark" value="" /> 
+      <input type="hidden" name="is_first" value="true" /> 
+      <input type="hidden" name="pay_method" value="COD" /> 
+     </form> 
+    </div> 
+   </div> 
+   <footer class="mui-bar mui-bar-footer mi-bg-orange"> 
+    <div class="cart-info"> 
+     <span class="cart-num" id="cart-num">11</span>件, 共
+     <span class="cart-total" id="cart-total">38.50</span>元 
+     <!--ms-if--> 
+    </div> 
+    <a href="javascript:submitOrderInfo()" class="mui-btn mui-btn-orange">立即下单</a> 
+   </footer> 
+   <div class="globle_loading" style="display: none;">
+     加载中 
+   </div> 
+  </div> 
+  
+  	<textarea style='display:none' id='rowTemplate'>
+                            
+                    <li> 
+                    <img class="item-img" src="@imgUrl"> 
+				        <div class="item-info"> 
+				         <div class="item-name">
+				          @itemName
+				         </div> 
+				         <div class="spec">
+				           @size
+				         </div> 
+				         <div class="price-num">
+				          ￥
+				          <b>@price</b> × @num
+				         </div> 
+				        </div> 
+        		</li>
+        </textarea >
+		
+      <script type="text/javascript">
+      
+      
+		var catId2itemList = $!itemList;
+		var shoppingCart = $!shoppingCart;
+      
+      	$(document).ready(function(){
+      	
+      		//shoppingCart = window.opener.shoppingCart;
+      		//catId2itemList = window.opener.catId2itemList;
+      		if(shoppingCart == undefined || catId2itemList == undefined){
+      			alert("shoppingCart is empty or catId2itemList is empty ");
+      			return;
+      		}
+      		
+      		var rowTemplate = $('#rowTemplate').val();
+      		var totalNum = 0;
+      		var totalFee = 0;
+		 	for(var itemId in shoppingCart){
+		 		var item = getItem(itemId);
+		 		totalNum += shoppingCart[itemId];
+		 		if(item != null){
+					var itemName = item.itemName;
+					var size = item.size;
+					var price = item.price;
+					var priceStr= price/100;
+					
+					var itemId = item.id;
+					var imgPath = item.imgPath;
+					var rowStr = rowTemplate.replace('@itemName',itemName).replace('@size',size).replace('@price',priceStr).replace('@itemId',itemId).replace('@num',shoppingCart[itemId]).replace('@imgUrl',"/item/itemImage.htm?imageName="+imgPath);
+					totalFee += price * shoppingCart[itemId];
+					$('#item-list').append(rowStr);
+		 		}
+		 	}
+		 	
+		 	var totalFeeStr= totalFee/100;
+		 	$('#cart-num').empty();
+		 	$('#cart-num').append(totalNum);
+		 	$('#cart-total').empty();
+		 	$('#cart-total').append(totalFeeStr);
+		 	
+		});
+		
+		function getItem(itemId){
+			for(catId in catId2itemList){
+				for(var index in catId2itemList[catId]){
+					if(catId2itemList[catId][index]['id'] == itemId) return catId2itemList[catId][index];
+				}
+			}
+			return null;
+		}
+		
+		function submitOrderInfo(){
+			var orderData = '';
+			var memo = $('#memo').val();
+			for(var itemId in shoppingCart){
+				var row = itemId + "#" + shoppingCart[itemId];
+				if(orderData != ''){
+					orderData += '@'
+					orderData +=  row;
+				}else{
+					orderData  +=  row;
+				}
+			}
+		
+			$.ajax( {    
+				url:'/appOrder/appCreateOrder.do',// 跳转到 action    
+			    data:{    
+			         data:orderData,
+			         memo : memo
+			    },    
+			    type:'post',    
+			    cache:false,  
+			    dataType:'text',  
+			    success:function(data) {
+			    
+			    	if(data == 'ok'){
+			    		alert('下单成功');
+			    		window.location.href="/appOrder/appOrderList.htm";
+			    	}else{
+			    		alert(data);
+			    	}
+			    	  
+			     },    
+			     error : function() {    
+			          alert("异常！");    
+			     }
+			});  
+		}
+      
+      </script>

@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.FreeShopWeekReportMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.FreeShopWeekReport" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="region" property="region" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="sum_date" property="sumDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="order_fee" property="orderFee" jdbcType="BIGINT" />
+    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+    <result column="refund_fee" property="refundFee" jdbcType="BIGINT" />
+    <result column="refund_num" property="refundNum" jdbcType="INTEGER" />
+    <result column="sourcing_fee" property="sourcingFee" jdbcType="BIGINT" />
+    <result column="before_sourcing_fee" property="beforeSourcingFee" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, region, user_id, user_name, sum_date, end_date, order_fee, order_num, refund_fee, 
+    refund_num, sourcing_fee, before_sourcing_fee
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.FreeShopWeekReportExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from free_shop_week_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from free_shop_week_report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from free_shop_week_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.FreeShopWeekReportExample" >
+    delete from free_shop_week_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.FreeShopWeekReport" >
+    insert into free_shop_week_report (id, region, user_id, 
+      user_name, sum_date, end_date, 
+      order_fee, order_num, refund_fee, 
+      refund_num, sourcing_fee, before_sourcing_fee
+      )
+    values (#{id,jdbcType=INTEGER}, #{region,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{userName,jdbcType=VARCHAR}, #{sumDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{orderFee,jdbcType=BIGINT}, #{orderNum,jdbcType=INTEGER}, #{refundFee,jdbcType=BIGINT}, 
+      #{refundNum,jdbcType=INTEGER}, #{sourcingFee,jdbcType=BIGINT}, #{beforeSourcingFee,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.FreeShopWeekReport" >
+    insert into free_shop_week_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="region != null" >
+        region,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="sumDate != null" >
+        sum_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="orderFee != null" >
+        order_fee,
+      </if>
+      <if test="orderNum != null" >
+        order_num,
+      </if>
+      <if test="refundFee != null" >
+        refund_fee,
+      </if>
+      <if test="refundNum != null" >
+        refund_num,
+      </if>
+      <if test="sourcingFee != null" >
+        sourcing_fee,
+      </if>
+      <if test="beforeSourcingFee != null" >
+        before_sourcing_fee,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="region != null" >
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="sumDate != null" >
+        #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="orderFee != null" >
+        #{orderFee,jdbcType=BIGINT},
+      </if>
+      <if test="orderNum != null" >
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="refundFee != null" >
+        #{refundFee,jdbcType=BIGINT},
+      </if>
+      <if test="refundNum != null" >
+        #{refundNum,jdbcType=INTEGER},
+      </if>
+      <if test="sourcingFee != null" >
+        #{sourcingFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeSourcingFee != null" >
+        #{beforeSourcingFee,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.FreeShopWeekReportExample" resultType="java.lang.Integer" >
+    select count(*) from free_shop_week_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update free_shop_week_report
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.region != null" >
+        region = #{record.region,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sumDate != null" >
+        sum_date = #{record.sumDate,jdbcType=DATE},
+      </if>
+      <if test="record.endDate != null" >
+        end_date = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.orderFee != null" >
+        order_fee = #{record.orderFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderNum != null" >
+        order_num = #{record.orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.refundFee != null" >
+        refund_fee = #{record.refundFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.refundNum != null" >
+        refund_num = #{record.refundNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.sourcingFee != null" >
+        sourcing_fee = #{record.sourcingFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.beforeSourcingFee != null" >
+        before_sourcing_fee = #{record.beforeSourcingFee,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update free_shop_week_report
+    set id = #{record.id,jdbcType=INTEGER},
+      region = #{record.region,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      sum_date = #{record.sumDate,jdbcType=DATE},
+      end_date = #{record.endDate,jdbcType=DATE},
+      order_fee = #{record.orderFee,jdbcType=BIGINT},
+      order_num = #{record.orderNum,jdbcType=INTEGER},
+      refund_fee = #{record.refundFee,jdbcType=BIGINT},
+      refund_num = #{record.refundNum,jdbcType=INTEGER},
+      sourcing_fee = #{record.sourcingFee,jdbcType=BIGINT},
+      before_sourcing_fee = #{record.beforeSourcingFee,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.FreeShopWeekReport" >
+    update free_shop_week_report
+    <set >
+      <if test="region != null" >
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="sumDate != null" >
+        sum_date = #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="orderFee != null" >
+        order_fee = #{orderFee,jdbcType=BIGINT},
+      </if>
+      <if test="orderNum != null" >
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="refundFee != null" >
+        refund_fee = #{refundFee,jdbcType=BIGINT},
+      </if>
+      <if test="refundNum != null" >
+        refund_num = #{refundNum,jdbcType=INTEGER},
+      </if>
+      <if test="sourcingFee != null" >
+        sourcing_fee = #{sourcingFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeSourcingFee != null" >
+        before_sourcing_fee = #{beforeSourcingFee,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.FreeShopWeekReport" >
+    update free_shop_week_report
+    set region = #{region,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      sum_date = #{sumDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      order_fee = #{orderFee,jdbcType=BIGINT},
+      order_num = #{orderNum,jdbcType=INTEGER},
+      refund_fee = #{refundFee,jdbcType=BIGINT},
+      refund_num = #{refundNum,jdbcType=INTEGER},
+      sourcing_fee = #{sourcingFee,jdbcType=BIGINT},
+      before_sourcing_fee = #{beforeSourcingFee,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="queryLastWeek" resultMap="BaseResultMap">
+  	SELECT * FROM free_shop_week_report WHERE sum_date = #{querydate} AND user_id = #{id}
+  </select>
+  <select id="findByCondition" resultMap="BaseResultMap">
+  	SELECT smr.id,smr.`user_id`,smr.`user_name` ,smr.`sum_date` ,smr.`end_date` ,smr.`order_fee` ,smr.`order_num` ,smr.`refund_fee` ,smr.`refund_num` ,smr.`sourcing_fee` ,smr.`before_sourcing_fee`,re.name region FROM free_shop_week_report smr LEFT JOIN customer_user cu on smr.user_id = cu.id LEFT JOIN `reseau`  re on cu.`reseau_id` = re.`id`
+  	<where>
+	  	<if test="userName != null and userName !='' ">
+	  	 and smr.user_name like '%${userName}%'
+	  	</if>
+	  	<if test="starttime != null and starttime !='' ">
+	  	 and smr.sum_date = #{starttime}
+	  	</if>
+	  	<if test="flag == 1">
+	  		and smr.sourcing_fee &gt; 0
+	  	</if>
+	  	<if test="reseauId >0 ">
+	  	 and cu.reseau_id = #{reseauId}
+	  	</if>
+  	</where>
+  	order by smr.sum_date desc
+  	<if test="param == 0">
+  	  ,cu.created_time desc 
+  	</if>
+  	<if test="param == 2">
+  	  ,smr.order_fee desc 
+  	</if>
+  	<if test="param == 3">
+  	  ,smr.order_num desc 
+  	</if>
+  	<if test="param == 4">
+  	  ,smr.refund_fee desc 
+  	</if>
+  	<if test="param == 5">
+  	  ,smr.refund_num desc 
+  	</if>
+  	<if test="param == 6">
+  	  ,smr.sourcing_fee desc 
+  	</if>
+  </select>
+</mapper>

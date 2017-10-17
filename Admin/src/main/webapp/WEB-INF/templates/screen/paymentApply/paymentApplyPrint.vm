@@ -1,0 +1,165 @@
+#set($layout="layout/blank.vm")
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0041)http://lingwa.com.cn/order/printOrders.do -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>打印订单</title>
+    <script type="text/javascript" src="./打印订单_files/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript">
+        function f_print() {
+            var oldstr = document.body.innerHTML;
+            document.body.innerHTML = document.getElementById('div_print').innerHTML;
+            window.print();
+            //    $("span[name='myspan']").each(function(){
+            //    	var aaa = $(this).attr("data");
+
+            //    $.ajax({
+            // 	url:'/order/changeprintOrders.do',
+            // 	type:'POST',
+            // 	data: {orderNo:aaa},
+            // 	success:function(data){
+
+            // 	}
+
+            // })
+//        });
+        document.body.innerHTML = oldstr;
+        }
+    </script>
+
+    <style type="text/css">
+        body {font-size:14px;}
+        table {
+            border-collapse: collapse;
+            border: none;
+            width: 100%;
+        }
+
+        td {
+            border: solid #000 1px;
+            font-size:14px;
+        }
+
+        .span_bold{
+            font-weight:bold;
+        }
+
+        .btn{
+            display:inline-block;
+            *display:inline;
+            *zoom:1;
+            margin-right:7px;
+            height:33px;
+            line-height:33px;
+            *line-height:30px;
+            border:1px solid transparent;
+            border-radius:2px;
+            cursor:pointer;
+            padding:0 15px;
+            font-size:14px;
+            text-decoration:none;
+            transition:All 0.4s ease-in-out;
+            -webkit-transition:All 0.4s ease-in-out;
+            -moz-transition:All 0.4s ease-in-out;
+            -o-transition:All 0.4s ease-in-out;
+        }
+        .btn .ico{
+            display:inline-block;
+            *display:inline;
+            *zoom:1;
+            width:14px;
+            height:14px;
+            margin-right:6px;
+            margin-left:-5px;
+            vertical-align:-2px;
+            *vertical-align:2px;
+        }
+
+        .btn-success{
+            color:#fff;
+            background-color:#55c555;
+            border-color:#4cb84c;
+        }
+        .btn-success:hover{
+            background-color:#50b650;
+            border-color:#49aa49;
+        }
+        .btn-success .ico{
+            background-position:0 0;
+        }
+        .expenses{
+            width: 100%;font-size: 0;height: 45px;float: left;
+        }
+        .expenses .expenses_01{
+            border-right:1px solid;border-bottom:1px solid;width: 11.5%;text-align: center;font-size:14px;float: left;height: 44px;line-height: 44px;
+        }
+        .padd{padding-left: 1.5%;}
+        .apdd{padding-right: 30px;padding-left: 18px; }
+    </style>
+    <style type="text/css" media="print">
+        @page { size: landscape; }
+    </style>
+</head>
+<body>
+<br>
+<a href="javascript:f_print();" class="btn btn-success">打印本页</a>
+<br>
+<br>
+<div id="div_print" style="margin-left:30px;margin-right:30px">
+    <div>
+        <span style="font-size:20px;font-weight:bold;display: block;text-align: center;">用款申请单</span>
+    </div>
+    <div style="width: 80%;margin-left:10%;border:2px solid;float: left;margin-top: 5%">
+        <div class="expenses">
+            <span style="width: 11.5%;" class="expenses_01">用款用途</span>
+            <span style="width: 30%;text-align: left;" class="expenses_01 padd">$!date.format('MM',$!dto.sumdate)月份贷款</span>
+            <span style="width: 12%;" class="expenses_01">用款方式</span>
+            <span style="width: 17.5%;text-align: left;" class="expenses_01 padd">转账</span>
+            <span style="width: 11.5%;" class="expenses_01">货币币种</span>
+            <span style="width: 13.8%;border-right: 0;" class="expenses_01">人民币</span>
+        </div>
+        <div class="expenses">
+            <span style="width: 11.5%;" class="expenses_01">用款金额</span>
+            <span style="width: 60%;text-align:left;" class="expenses_01">（大写）$!moneyToCN</span>
+            <span style="width: 28.2%;border-right: 0;text-align:left;" class="expenses_01">（小写）$NumberTool.toYuanNumber($!dto.paymentPrice)</span>
+        </div>
+        <div class="expenses">
+            <span style="width: 11.5%;" class="expenses_01">用款部门</span>
+            <span style="width: 38.5%;text-align: left;" class="expenses_01 padd">采购部门</span>
+            <span style="width: 13.5%;" class="expenses_01">申请人</span>
+            <span style="width: 33%;text-align: left;border-right: 0;" class="expenses_01 padd">$!dto.supplier</span>
+        </div>
+        <div class="expenses">
+            <span style="width: 21.5%;" class="expenses_01">约定交货期或报账期</span>
+            <span style="width: 78.2%;" class="expenses_01">
+        			$!date.format('YYYY',$!dto.paymentTime)<span class="apdd">年</span>
+                $!date.format('MM',$!dto.paymentTime)<span class="apdd">月</span>
+                $!date.format('dd',$!dto.paymentTime)<span class="apdd">日</span>
+        		</span>
+        </div>
+        <div class="expenses">
+            <span style="width: 11.5%;" class="expenses_01">部门负责人</span>
+            <span style="width: 25.6%;" class="expenses_01"></span>
+            <span style="width: 13.5%;" class="expenses_01">收款单位全称</span>
+            <span style="width: 49%;border-right: 0;" class="expenses_01">$!dto.accountName</span>
+        </div>
+        <div class="expenses">
+            <span style="width: 11.5%;" class="expenses_01">财务签批</span>
+            <span style="width: 25.6%;" class="expenses_01"></span>
+            <span style="width: 13.5%;" class="expenses_01">账号</span>
+            <span style="width: 49%;border-right: 0;" class="expenses_01">$!dto.account</span>
+        </div>
+        <div class="expenses">
+            <span style="width: 11.5%;border-bottom: 0;" class="expenses_01">主管签批</span>
+            <span style="width: 25.6%;border-bottom: 0;" class="expenses_01"> </span>
+            <span style="width: 13.5%;border-bottom: 0;" class="expenses_01">开户银行</span>
+            <span style="width: 49%;border-bottom: 0;border-right: 0;" class="expenses_01">$!dto.bankName</span>
+        </div>
+    </div>
+
+
+</div>
+
+</body>
+<script type="text/javascript">
+</script>
+</html>

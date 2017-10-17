@@ -1,0 +1,94 @@
+<div class="content">
+		<div class="bd-actionbar">
+            <h4 class="tit">网格日报</h4>
+            <div class="an">
+                <a href="${rc.contextPath}/free/netDayReportlist.htm?menuHeight=$!menuHeight&menuName=$!menuName" class="wo active">日报</a >
+                <a href="${rc.contextPath}/free/netMonthReportlist.htm?menuHeight=$!menuHeight&menuName=$!menuName" class="wo">月报</a >
+            </div>
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="jqtransform" name="tranSumForm" id="tranSumForm" action="${rc.contextPath}/free/netDayReportlist.htm?menuHeight=$!menuHeight&menuName=$!menuName"  method="POST">
+		<table class="form form-horizontal">
+		<tr>
+			<tr>
+						<td><label class="tit">日期：</label></td>
+						<td>
+							<input class="form-input input-time-day" type="text" name="starttime" id="starttime" readonly="readonly" value="$!starttime">
+						</td>
+						<td><label class="tit">至：</label></td>
+						<td>
+							<input class="form-input input-time-day" type="text" name="endtime" id="endtime" readonly="readonly" value="$!endtime">
+						</td>
+					</tr>
+			<td align="right"><label class="tit">网格：</label></td>
+			<td>
+						<select name="reseauId" id="reseauId" validate="{required:true}" >
+						    <option value="">全部</option>
+						    #foreach($reseau in $reseaus)
+							   #if($!reseauId == $reseau.id)
+					            <option value="$reseau.id" selected="selected">$reseau.name</option>
+					           #else
+					            <option value="$reseau.id">$reseau.name</option>
+					           #end
+							#end
+						 </select>
+						 &nbsp;<span></span>
+						</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(tranSumForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+			</td>
+			<td><a class="btn btn-warning btn-sm" href="javascript:exportExcel();">导出Excel</a></td>
+		</tr>
+	</table>
+	</form>
+			<table class="table">
+			  <tr>
+			  	<th>网格</th>
+				<th>日期</th>
+				<th>开通店铺数</th>
+				<th>下单店铺数</th>
+				<th>订单金额</th>
+				<th>订单数量</th>
+				<th>退货金额</th>
+				<th>退货单数量</th>
+				<th>采购总额</th>
+				<th>店均采购额</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+		        	<td>$!bean.reseauName</td>
+					<td>$!date.format('yyyy-MM-dd',$!bean.sumDate)</td>
+					<td>$!bean.openShopNum</td>
+					<td>$!bean.orderShopNum</td>
+					<td>$NumberTool.toYuanNumber($!bean.orderFee)</td>
+					<td>$!bean.orderNum</td>
+					<td>$NumberTool.toYuanNumber($!bean.refundFee)</td>
+					<td>$!bean.refundNum</td>
+					<td>$NumberTool.toYuanNumber($!bean.sourcingFee)</td>
+					<td>$NumberTool.toYuanNumber($!bean.avgFee)</td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->
+<script type="text/javascript">
+$(document).ready(function() {
+	$( "#starttime" ).datepicker();
+	$( "#endtime" ).datepicker();
+ });
+ 
+ function exportExcel(){
+ 	var starttime = $('#starttime').val();
+ 	var endtime = $('#endtime').val();
+ 	var reseauId = $('#reseauId option:selected').val();
+ 	window.location.href = "${rc.contextPath}/free/day/exportExcel.do?starttime="+starttime+"&endtime="+endtime+"&reseauId="+reseauId;
+ }
+        $(".wo").on("click",function(){
+            $(this).addClass("active").siblings().removeClass("active")
+        })
+</script>

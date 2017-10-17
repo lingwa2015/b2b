@@ -1,0 +1,153 @@
+ #set($layout="layout/pcLayout.vm")
+<div class="head">
+      <div class="header">
+        <div class="wrap">
+          <a href="${rc.contextPath}/official/pcIndex.htm" class="bl"><span class="logo-img i-b"><img src="${rc.contextPath}/static/images/pc/lw_logo.png"></span></a>
+            <i></i>
+            <span class="so">快乐生活
+                <b></b>
+                快乐工作
+            </span>
+          <div class="nav br">
+            <div class="nav_1">
+                <ul class="nav_main">
+                    <li>
+                        <a href="${rc.contextPath}/official/pcIndex.htm" class="xiao">首页</a>
+                    </li>
+                    <!--<li>
+                        <a href="${rc.contextPath}/official/pcVip.htm" class="xiao">企业会员</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcSnackbag.htm" class="xiao">零食反应堆</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcItem.htm" class="xiao c">零食分类</a>
+                    </li>-->
+                    <li>
+                        <a href="${rc.contextPath}/official/pcHoliday.htm" class="xiao">节日方案</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcPlan.htm" class="xiao">其他服务</a>
+                    </li>
+                </ul>
+            </div>
+          </div>
+          </div>
+        </div>
+</div>
+
+    <!-- 中间层 -->
+    <div class="shop">
+    	<div class="lw_shop">
+    		<div class="lw_liebiao">
+    			<div class="big">零食分类</div>
+    			<div class="lw_sort c" onclick="gosort(24)">饼干糕点</div>
+    			<div class="lw_sort" onclick="gosort(26)">速食熟食</div>
+    			<div class="lw_sort" onclick="gosort(28)">糖果巧克力</div>
+    			<div class="lw_sort" onclick="gosort(29)">饮料冲调</div>
+    			<div class="lw_sort" onclick="gosort(27)">坚果炒货</div>
+    			<div class="lw_sort" onclick="gosort(25)">蜜饯果干</div>
+    		</div>
+    		<ul class="lw_goods">
+    			<li>
+    				<span class="top">张君雅大包装</span>
+    				<img src="${rc.contextPath}/static/images/pc/goods.jpg">
+    				<span class="good" style="border-right: 1px solid #eee"><i>￥</i>1.67</span>
+    				<span class="good" style="color: #666;">22g/包</span>
+    			</li>
+    		</ul>
+            <!-- 翻页 -->
+             <div class="page" id="page">
+            <div id="pagination" class="quotes"></div> 
+            <input type="hidden" id="catageid" value="" />
+            </div>
+    	</div>
+    	
+    </div>
+    
+    
+    <!-- 页尾 -->
+    <div class="footer">
+        <div class="foo">
+        <ul>
+            <li class="tc">
+                <img src="${rc.contextPath}/static/images/pc/small_logo.png">
+                <span>微信公众号</span>
+            </li>
+            <li>
+                <a href="/official/pcAbout.htm" class="about">关于我们</a>
+                <b>|</b>
+                <a href="/official/pcContact.htm">联系我们</a>
+                <p>杭州领带蛙网络科技有限公司<b>Lingwa.com.cn</b>浙ICP备15009557号-2</p>
+            </li>
+            <li class="br">
+                <div class="rexian"><img src="${rc.contextPath}/static/images/pc/tel.png"><span>客服热线</span></div>
+                <strong class="str">4001&nbsp;&nbsp;520&nbsp;&nbsp;027</strong>
+            </li>
+        </ul>
+            
+        </div>
+
+    </div>
+</body>
+ <script src="${rc.contextPath}/static/js/pc/jquery.pagination.js" type="text/javascript"></script>
+    <link href="${rc.contextPath}/static/css/pc/pagination.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+    $('.lw_sort').click(function(){
+    $(this).addClass("c").siblings().removeClass("c");
+});
+    function gosort(id){
+    	$(this).addClass("c").siblings().removeClass("c");
+    	findItems(0,id);
+    }
+</script>
+ <script type="text/javascript">
+      init();
+ function init(){
+  findItems(0,24);
+ }
+function findItems(pageIndex,catid){
+param = {
+'pageIndex':pageIndex
+} 
+$.ajax({
+ 	type: "POST",
+            url: '/official/pcItem.do?catid='+catid,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            data: param,
+            dataType : "json",
+            success: function (result) {
+                //自己的业务逻辑
+                var content = "";
+                $.each(result.data, function(i,item){
+                	var price = item.price/100;
+                price = parseFloat(price.toFixed(2));     
+                	content +="<li><span class=\"top\">"+item.itemName+"</span><img width=\"123px\"  src="+item.imgPath+"><span class=\"good\" style=\"border-right: 1px solid #eee\"><i>￥</i>"+price+"</span><span class=\"good\" style=\"color: #666;\">"+item.size+"</span></li>"  
+            	});
+            	 $('.lw_goods').html(content);
+            	var count = result.status;
+            		var target = document.getElementById('page');
+            	if(count<=20){
+            		target.style.display="none";
+            	}else{
+            		target.style.display="block";
+            	}
+            	$("#catageid").val(catid);
+            	 $('#pagination').empty();
+                 $("#pagination").pagination(count, {
+                   callback : pageCallback, // pageCallback() 为翻页调用次函数。
+                   prev_text : "上一页",
+                   next_text : "下一页 ",
+                   items_per_page : 20,  // 每页显示的条数
+                   num_edge_entries : 2, // 两侧首尾分页条目数
+                   num_display_entries : 4, // 连续分页主体部分分页条目数
+                   current_page : pageIndex, // 当前页索引
+                 });
+            }
+ })
+}
+function pageCallback(pageIndex, jq) {
+var cid = 	$("#catageid").val();
+findItems(pageIndex,cid);
+      }
+    </script>

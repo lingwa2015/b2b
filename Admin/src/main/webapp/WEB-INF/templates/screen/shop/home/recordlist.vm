@@ -1,0 +1,61 @@
+#set($layout="layout/shopLayout.vm")
+<div class="shop_list_content">
+	        <div class="spend_content" style="margin-top:.2rem;">
+		        #foreach($dto in $salesRecord)
+			            <div class="spending_list" id="1">
+			                <p class="message_name">
+			                   $!dto.recordMan
+			                </p>
+			                <p class="message_nei">
+			                    $!dto.content
+			                </p>
+			                <p class="sup" style="width:88%;margin:0 0 0 7.5%;padding:.08rem 0;">
+			                    <!-- 总计 -->
+			                    <span class="sup_list">
+			                        <span>$!date.format('yyyy-MM-dd HH:mm:ss',$!dto.createdTime)</span>
+			                        #if($!dto.doState==1)
+			                        	<span class="fr" style="color:red;">待处理</span>
+			                        #elseif($!dto.doState==2)
+			                        	<span class="fr" >处理中</span>
+			                        #end
+			                    </span>
+			                </p>
+			                <div class="delete" data-id="$dto.id">
+			                    <span class="del" >删除</span>
+			                </div>
+			            </div>
+		        #end
+	        </div>
+</div>
+ <a href="${rc.contextPath}/convenient/shop_addrecord.htm?shop_id=$shopId" class="botom_push">
+        <span>提交新售后诉求</span>
+ </a>
+<script type="text/javascript">
+$("body").css("background-color","#e8e8e8");
+document.title = "售后服务";
+$('.del').on("click",function(){
+    if (confirm("确定删除吗？")) {
+    	var id = $(this).parent().attr("data-id");
+    	var shop_id = $shopId;
+		var the = $(this);
+		$.ajax({
+				url:'${rc.contextPath}/convenient/shop_deleteRecord.do',
+				type:'POST',
+				data: {id:id,shop_id:shop_id},
+				success:function(data){
+					if(data=="200"){
+						$(the).parent().parent().fadeOut(500,function(){
+				            $(the).remove();
+				        })
+					}else if(data=="201"){
+						alert("权限不足");
+					}else{
+						alert("删除失败");
+					}
+				}
+				
+		})
+        
+    }
+})
+</script>

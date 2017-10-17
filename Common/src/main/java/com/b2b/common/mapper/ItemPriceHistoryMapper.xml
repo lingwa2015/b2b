@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.ItemPriceHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.ItemPriceHistory" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+    <result column="old_buy_price" property="oldBuyPrice" jdbcType="BIGINT" />
+    <result column="buy_price" property="buyPrice" jdbcType="BIGINT" />
+    <result column="old_price" property="oldPrice" jdbcType="BIGINT" />
+    <result column="price" property="price" jdbcType="BIGINT" />
+    <result column="remake" property="remake" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, created_time, item_id, item_name, old_buy_price, buy_price, old_price, price, 
+    remake
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.ItemPriceHistoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from item_price_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from item_price_history
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from item_price_history
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.ItemPriceHistoryExample" >
+    delete from item_price_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.ItemPriceHistory" >
+    insert into item_price_history (id, created_time, item_id, 
+      item_name, old_buy_price, buy_price, 
+      old_price, price, remake
+      )
+    values (#{id,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, #{itemId,jdbcType=INTEGER}, 
+      #{itemName,jdbcType=VARCHAR}, #{oldBuyPrice,jdbcType=BIGINT}, #{buyPrice,jdbcType=BIGINT}, 
+      #{oldPrice,jdbcType=BIGINT}, #{price,jdbcType=BIGINT}, #{remake,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.ItemPriceHistory" >
+    insert into item_price_history
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="itemName != null" >
+        item_name,
+      </if>
+      <if test="oldBuyPrice != null" >
+        old_buy_price,
+      </if>
+      <if test="buyPrice != null" >
+        buy_price,
+      </if>
+      <if test="oldPrice != null" >
+        old_price,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="remake != null" >
+        remake,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="oldBuyPrice != null" >
+        #{oldBuyPrice,jdbcType=BIGINT},
+      </if>
+      <if test="buyPrice != null" >
+        #{buyPrice,jdbcType=BIGINT},
+      </if>
+      <if test="oldPrice != null" >
+        #{oldPrice,jdbcType=BIGINT},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=BIGINT},
+      </if>
+      <if test="remake != null" >
+        #{remake,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.ItemPriceHistoryExample" resultType="java.lang.Integer" >
+    select count(*) from item_price_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update item_price_history
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.itemId != null" >
+        item_id = #{record.itemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemName != null" >
+        item_name = #{record.itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oldBuyPrice != null" >
+        old_buy_price = #{record.oldBuyPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.buyPrice != null" >
+        buy_price = #{record.buyPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.oldPrice != null" >
+        old_price = #{record.oldPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=BIGINT},
+      </if>
+      <if test="record.remake != null" >
+        remake = #{record.remake,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update item_price_history
+    set id = #{record.id,jdbcType=INTEGER},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      item_id = #{record.itemId,jdbcType=INTEGER},
+      item_name = #{record.itemName,jdbcType=VARCHAR},
+      old_buy_price = #{record.oldBuyPrice,jdbcType=BIGINT},
+      buy_price = #{record.buyPrice,jdbcType=BIGINT},
+      old_price = #{record.oldPrice,jdbcType=BIGINT},
+      price = #{record.price,jdbcType=BIGINT},
+      remake = #{record.remake,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.ItemPriceHistory" >
+    update item_price_history
+    <set >
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="itemName != null" >
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="oldBuyPrice != null" >
+        old_buy_price = #{oldBuyPrice,jdbcType=BIGINT},
+      </if>
+      <if test="buyPrice != null" >
+        buy_price = #{buyPrice,jdbcType=BIGINT},
+      </if>
+      <if test="oldPrice != null" >
+        old_price = #{oldPrice,jdbcType=BIGINT},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=BIGINT},
+      </if>
+      <if test="remake != null" >
+        remake = #{remake,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.ItemPriceHistory" >
+    update item_price_history
+    set created_time = #{createdTime,jdbcType=TIMESTAMP},
+      item_id = #{itemId,jdbcType=INTEGER},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      old_buy_price = #{oldBuyPrice,jdbcType=BIGINT},
+      buy_price = #{buyPrice,jdbcType=BIGINT},
+      old_price = #{oldPrice,jdbcType=BIGINT},
+      price = #{price,jdbcType=BIGINT},
+      remake = #{remake,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findByItemName" resultMap="BaseResultMap">
+    SELECT iph.id, iph.created_time, iph.item_id,
+        iph.item_name, iph.old_buy_price, iph.buy_price,
+        iph.old_price, iph.price, iph.remake
+    FROM item_price_history iph
+        LEFT JOIN item i ON i.id = iph.item_id
+    WHERE i.city_id = #{cityId}
+      AND i.isDown = 0
+      AND i.`status` = 1
+      <if test="itemName !=null and itemName!=''">
+        AND iph.item_name LIKE '%${itemName}%'
+      </if>
+    ORDER BY iph.created_time DESC
+  </select>
+</mapper>

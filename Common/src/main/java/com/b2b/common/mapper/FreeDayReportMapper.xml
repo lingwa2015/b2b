@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.FreeDayReportMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.FreeDayReport" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sum_date" property="sumDate" jdbcType="DATE" />
+    <result column="open_shop_num" property="openShopNum" jdbcType="INTEGER" />
+    <result column="order_shop_num" property="orderShopNum" jdbcType="INTEGER" />
+    <result column="order_fee" property="orderFee" jdbcType="BIGINT" />
+    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+    <result column="refund_fee" property="refundFee" jdbcType="BIGINT" />
+    <result column="refund_num" property="refundNum" jdbcType="INTEGER" />
+    <result column="sourcing_fee" property="sourcingFee" jdbcType="BIGINT" />
+    <result column="before_sourcing_fee" property="beforeSourcingFee" jdbcType="DECIMAL" />
+    <result column="avg_fee" property="avgFee" jdbcType="BIGINT" />
+    <result column="reseau_id" property="reseauId" jdbcType="INTEGER" />
+    <result column="reseau_name" property="reseauName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sum_date, open_shop_num, order_shop_num, order_fee, order_num, refund_fee, refund_num, 
+    sourcing_fee, before_sourcing_fee, avg_fee, reseau_id, reseau_name
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.FreeDayReportExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from free_day_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from free_day_report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from free_day_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.FreeDayReportExample" >
+    delete from free_day_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.FreeDayReport" >
+    insert into free_day_report (id, sum_date, open_shop_num, 
+      order_shop_num, order_fee, order_num, 
+      refund_fee, refund_num, sourcing_fee, 
+      before_sourcing_fee, avg_fee, reseau_id, 
+      reseau_name)
+    values (#{id,jdbcType=INTEGER}, #{sumDate,jdbcType=DATE}, #{openShopNum,jdbcType=INTEGER}, 
+      #{orderShopNum,jdbcType=INTEGER}, #{orderFee,jdbcType=BIGINT}, #{orderNum,jdbcType=INTEGER}, 
+      #{refundFee,jdbcType=BIGINT}, #{refundNum,jdbcType=INTEGER}, #{sourcingFee,jdbcType=BIGINT}, 
+      #{beforeSourcingFee,jdbcType=DECIMAL}, #{avgFee,jdbcType=BIGINT}, #{reseauId,jdbcType=INTEGER}, 
+      #{reseauName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.FreeDayReport" >
+    insert into free_day_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sumDate != null" >
+        sum_date,
+      </if>
+      <if test="openShopNum != null" >
+        open_shop_num,
+      </if>
+      <if test="orderShopNum != null" >
+        order_shop_num,
+      </if>
+      <if test="orderFee != null" >
+        order_fee,
+      </if>
+      <if test="orderNum != null" >
+        order_num,
+      </if>
+      <if test="refundFee != null" >
+        refund_fee,
+      </if>
+      <if test="refundNum != null" >
+        refund_num,
+      </if>
+      <if test="sourcingFee != null" >
+        sourcing_fee,
+      </if>
+      <if test="beforeSourcingFee != null" >
+        before_sourcing_fee,
+      </if>
+      <if test="avgFee != null" >
+        avg_fee,
+      </if>
+      <if test="reseauId != null" >
+        reseau_id,
+      </if>
+      <if test="reseauName != null" >
+        reseau_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sumDate != null" >
+        #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="openShopNum != null" >
+        #{openShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderShopNum != null" >
+        #{orderShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderFee != null" >
+        #{orderFee,jdbcType=BIGINT},
+      </if>
+      <if test="orderNum != null" >
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="refundFee != null" >
+        #{refundFee,jdbcType=BIGINT},
+      </if>
+      <if test="refundNum != null" >
+        #{refundNum,jdbcType=INTEGER},
+      </if>
+      <if test="sourcingFee != null" >
+        #{sourcingFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeSourcingFee != null" >
+        #{beforeSourcingFee,jdbcType=DECIMAL},
+      </if>
+      <if test="avgFee != null" >
+        #{avgFee,jdbcType=BIGINT},
+      </if>
+      <if test="reseauId != null" >
+        #{reseauId,jdbcType=INTEGER},
+      </if>
+      <if test="reseauName != null" >
+        #{reseauName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.FreeDayReportExample" resultType="java.lang.Integer" >
+    select count(*) from free_day_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update free_day_report
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.sumDate != null" >
+        sum_date = #{record.sumDate,jdbcType=DATE},
+      </if>
+      <if test="record.openShopNum != null" >
+        open_shop_num = #{record.openShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderShopNum != null" >
+        order_shop_num = #{record.orderShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderFee != null" >
+        order_fee = #{record.orderFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderNum != null" >
+        order_num = #{record.orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.refundFee != null" >
+        refund_fee = #{record.refundFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.refundNum != null" >
+        refund_num = #{record.refundNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.sourcingFee != null" >
+        sourcing_fee = #{record.sourcingFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.beforeSourcingFee != null" >
+        before_sourcing_fee = #{record.beforeSourcingFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.avgFee != null" >
+        avg_fee = #{record.avgFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.reseauId != null" >
+        reseau_id = #{record.reseauId,jdbcType=INTEGER},
+      </if>
+      <if test="record.reseauName != null" >
+        reseau_name = #{record.reseauName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update free_day_report
+    set id = #{record.id,jdbcType=INTEGER},
+      sum_date = #{record.sumDate,jdbcType=DATE},
+      open_shop_num = #{record.openShopNum,jdbcType=INTEGER},
+      order_shop_num = #{record.orderShopNum,jdbcType=INTEGER},
+      order_fee = #{record.orderFee,jdbcType=BIGINT},
+      order_num = #{record.orderNum,jdbcType=INTEGER},
+      refund_fee = #{record.refundFee,jdbcType=BIGINT},
+      refund_num = #{record.refundNum,jdbcType=INTEGER},
+      sourcing_fee = #{record.sourcingFee,jdbcType=BIGINT},
+      before_sourcing_fee = #{record.beforeSourcingFee,jdbcType=DECIMAL},
+      avg_fee = #{record.avgFee,jdbcType=BIGINT},
+      reseau_id = #{record.reseauId,jdbcType=INTEGER},
+      reseau_name = #{record.reseauName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.FreeDayReport" >
+    update free_day_report
+    <set >
+      <if test="sumDate != null" >
+        sum_date = #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="openShopNum != null" >
+        open_shop_num = #{openShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderShopNum != null" >
+        order_shop_num = #{orderShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderFee != null" >
+        order_fee = #{orderFee,jdbcType=BIGINT},
+      </if>
+      <if test="orderNum != null" >
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="refundFee != null" >
+        refund_fee = #{refundFee,jdbcType=BIGINT},
+      </if>
+      <if test="refundNum != null" >
+        refund_num = #{refundNum,jdbcType=INTEGER},
+      </if>
+      <if test="sourcingFee != null" >
+        sourcing_fee = #{sourcingFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeSourcingFee != null" >
+        before_sourcing_fee = #{beforeSourcingFee,jdbcType=DECIMAL},
+      </if>
+      <if test="avgFee != null" >
+        avg_fee = #{avgFee,jdbcType=BIGINT},
+      </if>
+      <if test="reseauId != null" >
+        reseau_id = #{reseauId,jdbcType=INTEGER},
+      </if>
+      <if test="reseauName != null" >
+        reseau_name = #{reseauName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.FreeDayReport" >
+    update free_day_report
+    set sum_date = #{sumDate,jdbcType=DATE},
+      open_shop_num = #{openShopNum,jdbcType=INTEGER},
+      order_shop_num = #{orderShopNum,jdbcType=INTEGER},
+      order_fee = #{orderFee,jdbcType=BIGINT},
+      order_num = #{orderNum,jdbcType=INTEGER},
+      refund_fee = #{refundFee,jdbcType=BIGINT},
+      refund_num = #{refundNum,jdbcType=INTEGER},
+      sourcing_fee = #{sourcingFee,jdbcType=BIGINT},
+      before_sourcing_fee = #{beforeSourcingFee,jdbcType=DECIMAL},
+      avg_fee = #{avgFee,jdbcType=BIGINT},
+      reseau_id = #{reseauId,jdbcType=INTEGER},
+      reseau_name = #{reseauName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findByDate" resultMap="BaseResultMap">
+  	select * from free_day_report where sum_date = #{queryDate}
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+  	 SELECT fdr.* FROM free_day_report fdr  LEFT JOIN `reseau`  re on fdr.`reseau_id` = re.`id` 
+  	 <where>
+  	 	<if test="reseauId >0 ">
+	  	 and fdr.reseau_id = #{reseauId}
+	  	</if>
+	  	<if test="starttime!=null and starttime!=''">
+	  	and fdr.`sum_date` &gt;= #{starttime}
+	  	</if>
+	  	<if test="endtime!=null and endtime!=''">
+	  	and fdr.`sum_date` &lt;= #{endtime}
+	  	</if>
+  	 </where>
+  	  order by sum_date desc
+  </select>
+  <select id="findByDateAndReseauId" resultMap="BaseResultMap">
+  	select * from free_day_report where sum_date = date_format(#{queryDate},'%Y-%m-%d') and reseau_id = #{id}
+  </select>
+  <select id="findAllDayReport" resultMap="BaseResultMap">
+  	SELECT `sum_date`,
+       SUM(`open_shop_num`) open_shop_num,
+       SUM(`order_shop_num`) order_shop_num,
+       SUM(`order_fee`) order_fee,
+       SUM(`order_num`) order_num,
+       SUM(`refund_fee`) refund_fee,
+       SUM(`refund_num`) refund_num,
+       SUM(`sourcing_fee`) sourcing_fee,
+       ifnull(round(SUM(`sourcing_fee`) /SUM(`order_shop_num`), 0), 0) avg_fee
+  FROM `free_day_report`
+ GROUP BY `sum_date`
+ ORDER BY `sum_date` desc
+  </select>
+</mapper>

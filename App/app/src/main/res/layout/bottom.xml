@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="65dip"
+    android:orientation="horizontal"
+    android:layout_gravity="bottom">
+
+    <LinearLayout
+        android:id="@+id/id_tab_home"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageButton
+            android:id="@+id/id_tab_home_img"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:clickable="false"
+            android:scaleType="fitXY"
+            android:background="@drawable/home"/>
+
+        <TextView
+            android:id="@+id/id_tab_home_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:text="主页"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/id_tab_basket"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageButton
+            android:id="@+id/id_tab_basket_img"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:clickable="false"
+            android:scaleType="fitXY"
+            android:background="@drawable/basket"/>
+
+        <TextView
+            android:id="@+id/id_tab_basket_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:text="菜篮子"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/id_tab_myorder"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageButton
+            android:id="@+id/id_tab_myorder_img"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:clickable="false"
+            android:scaleType="fitXY"
+            android:background="@drawable/myorder"/>
+
+        <TextView
+            android:id="@+id/id_tab_myorder_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:text="我的订单"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/id_tab_wallet"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageButton
+            android:id="@+id/id_tab_wallet_img"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:clickable="false"
+            android:scaleType="fitXY"
+            android:background="@drawable/wallet"/>
+
+        <TextView
+            android:id="@+id/id_tab_wallet_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:text="我的钱包"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/id_tab_usercenter"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageButton
+            android:id="@+id/id_tab_usercenter_img"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:clickable="false"
+            android:scaleType="fitXY"
+            android:background="@drawable/usercenter"/>
+
+        <TextView
+            android:id="@+id/id_tab_usercenter_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:text="个人中心"/>
+    </LinearLayout>
+
+
+</LinearLayout>

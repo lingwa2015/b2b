@@ -1,0 +1,9 @@
+#set($layout="layout/shopLayout.vm")
+ <div class="add_content">
+    <img src="${rc.contextPath}/static/images/shop/saoma.png">
+    <p style="font-size:0.36rem;margin-bottom:0.12rem;">请扫描店铺二维码</p>
+    <span>扫描货架上的二维码，进入自助便利店选择商品支付</span>
+    <a href="" id="scanQRCode" style="margin-top:1.02rem;">扫描</a>
+  </div>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/static/js/SHA1.js"></script>

@@ -1,0 +1,74 @@
+ #set($layout="layout/wxLayout.vm")
+  <div class="lw_hd">
+        <a href="${rc.contextPath}/weixin/wxaccount.htm"><img src="${rc.contextPath}/static/images/wx/address_02.png"><span class="mid">&nbsp;&nbsp;企业信息</span></a>
+    </div>
+    <form class="jqtransform" id="orderDetailForm" method="POST"
+				action="$!{rc.contextPath}/weixin/wxadd.do">
+    <dl class="lw_adress">
+        <dt>公司名称:</dd>
+        <dd><input class="company_name" name="companyName" id="name" type="text" placeholder="请输入公司全称"></dd>
+        <dt>联&nbsp;&nbsp;系&nbsp;&nbsp;人:</dd>
+        <dd> <input class="name" name="name" type="text" placeholder="请输入联系人姓名" ></dd>
+        <dt>职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位:</dt>
+        <dd><input class="position" name="position" type="text" placeholder="HR"></dd>
+        <dt>联系电话:</dt>
+        <dd><input class="phone" name="phone" type="text" placeholder="请输入联系人电话"></dd>
+    </dl>
+    <div class="and"><input type="checkbox" name="check" id="check"/>
+    <span class="yes">同意服务细则</span>
+    <span style="color:#ccc;font-size:1.44rem;">&nbsp;&nbsp;&nbsp;|</span>
+    <a href="${rc.contextPath}/weixin/wxagree.htm" class="cha">&nbsp;&nbsp;&nbsp;查看</a>
+    </div>
+    
+    <button  class="dang" id="submit" disabled="disabled" onclick="return save();">下一步</button>
+    </form>
+  <script type="text/javascript">
+if(!String.prototype.trim) {
+  String.prototype.trim = function () {
+    return this.replace(/^\s+|\s+$/g,'');
+  };
+}
+$("input[name=phone]").on("input",function(evt){
+  if($(this).val().trim().length>=11){
+    
+    $("#submit").removeAttr("disabled");
+  }else{
+    $("#submit").prop("disabled","disabled");
+  }
+});
+ $("document").ready(function(){
+        $("#check").click(function(){
+            var val=$('#check:checked').val();
+             if(val){
+               $("#submit").removeAttr("disabled");
+             }else{
+                $("#submit").prop("disabled","disabled");
+             }
+        });
+ });
+ $("document").ready(function(){
+        $("#check").click(function(){
+            var val=$('#check:checked').val();
+             if(val){
+                var self = $(this);
+                $('.dang').removeClass('h');
+             }else{
+                $('.dang').addClass('h');
+             }
+        });
+ });
+var checkSubmitFlag = false;
+    function save() {
+        var name = $(".name").val();
+        var phone = $(".phone").val();
+        var position = $(".position").val();
+        var company_name =$(".company_name").val();
+        if(!name||!phone||!position||!company_name){
+            alert("信息不能为空");
+            return false;
+        }else{
+                checkSubmitFlag = true;
+                return true;
+            }  
+    }
+</script>

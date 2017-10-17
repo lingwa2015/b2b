@@ -1,0 +1,31 @@
+ #set($layout="layout/wxLayout.vm")
+ <div class="lw_hd">
+        <a href="${rc.contextPath}/weixin/wxcharge.htm"><img src="${rc.contextPath}/static/images/wx/address_02.png"><span class="mid">&nbsp;&nbsp;转账</span></a>
+    </div>
+    <div class="acc_content">
+        <ul class="acc_list">
+            <li><span>银行转账</span></li>
+        </ul>
+        <dl class="accounts">
+        <dt>开&nbsp;&nbsp;户&nbsp;&nbsp;行:</dd>
+        <dd>杭州银行留下支行</dd>
+        <dt>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</dt>
+        <dd>6200 4548 5269 8236 955</dd>
+        <dt>收款单位:</dt>
+        <dd>杭州领带蛙网络科技有限公司</dd>
+        </dl> 
+    </div>
+    <div class="alipay">
+        <ul class="acc_list">
+            <li><span>支付宝转账</span></li>
+        </ul>
+        <dl class="accounts">
+        <dt>收&nbsp;&nbsp;款&nbsp;&nbsp;人:</dd>
+        <dd>杭州领带蛙网络科技有限公司</dd>
+        <dt>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</dt>
+        <dd>cashier@lingwa.com.cn</dd>
+        </dl> 
+    </div>
+    <a href="tel://4001-520-027" class="hotline">客服热线&nbsp;&nbsp;4008-801-703</a>
+    <span class="news">转账成功后，请通过电话或微信通知我们!</span>
+    <a href="${rc.contextPath}/weixin/wxaccount.htm" class="sure">确定</a>

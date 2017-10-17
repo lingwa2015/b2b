@@ -1,0 +1,163 @@
+#set($layout="layout/blank.vm")
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+    	<title>打印订单</title>
+    	<script type="text/javascript" src="${rc.contextPath}/static/js/pc/jquery-1.7.2.min.js"></script>
+    	<script type="text/javascript">
+		function f_print() {
+			var oldstr = document.body.innerHTML;
+			document.body.innerHTML = document.getElementById('div_print').innerHTML;
+		    window.print();
+		    $("span[name='myspan']").each(function(){
+		    	var aaa = $(this).attr("data");
+		    	
+		    $.ajax({
+				url:'${rc.contextPath}/purchaseList/changeprintPurchase.do',
+				type:'POST',
+				data: {id:aaa},
+				success:function(data){
+					
+				}
+				
+			})
+		    });
+		    document.body.innerHTML = oldstr;
+		}
+		</script>
+		
+		<style type="text/css">
+			body {font-size:14px;}
+			table {
+			 border-collapse: collapse;
+			 border: none;
+			 width: 100%;
+			}
+			
+			td {
+			 border: solid #000 1px;
+			 font-size:14px;
+			}
+			
+			.span_bold{
+				font-weight:bold;
+			}
+			
+			.btn{
+				display:inline-block;
+				*display:inline;
+				*zoom:1;
+				margin-right:7px;
+				height:33px;
+				line-height:33px;
+				*line-height:30px;
+				border:1px solid transparent;
+				border-radius:2px;
+				cursor:pointer;
+				padding:0 15px;
+				font-size:14px;
+				text-decoration:none;
+				transition:All 0.4s ease-in-out;
+				-webkit-transition:All 0.4s ease-in-out;
+				-moz-transition:All 0.4s ease-in-out;
+				-o-transition:All 0.4s ease-in-out;
+				}
+			 .btn .ico{
+				display:inline-block;
+				*display:inline;
+				*zoom:1;
+				width:14px;
+				height:14px;
+				margin-right:6px;
+				margin-left:-5px;
+				vertical-align:-2px;
+				*vertical-align:2px;
+				}
+				
+				.btn-success{
+				color:#fff;
+				background-color:#55c555;
+				border-color:#4cb84c;
+				}
+				.btn-success:hover{
+				background-color:#50b650;
+				border-color:#49aa49;
+				}
+				.btn-success .ico{
+				background-position:0 0;
+				}
+		</style>
+    </head>
+    <body>
+    <br/>
+    <a href="javascript:f_print();" class="btn btn-success">打印本页</a>
+    <br/>
+    <br/>
+    <div id = "div_print" style='margin-left:30px;margin-right:30px'>
+	#foreach($userId in ${osMaps.keySet()})
+		#set($user = ${userMap.get($userId)})
+		 #foreach($pair in ${osMaps.get($userId)})
+		#set($itemList = $pair.right)
+		#set($dto = $pair.left)
+     <div>
+    <span style="font-size:20px;font-weight:bold;position: relative;top:-10px;">领蛙采购订单</span>
+    </div>    
+        <div style="width:100%;">
+    		<span name="myspan" data="$!dto.id" style="display:-moz-inline-box; display:inline-block; ">单号：$!dto.id</span>
+			<span style="display:-moz-inline-box; display:inline-block; ">日期：$!date.format('yyyy-MM-dd',$!dto.purchasedTime)</span>
+			<span style="display:-moz-inline-box; display:inline-block; ">供应商：$!{dto.userName}</span>
+			<span style="display:-moz-inline-box; display:inline-block; ">含税总金额：$NumberTool.toYuanNumber($!dto.totalPrice)</span>
+        </div>
+        #end
+     	<table>
+			<tr>
+    		  <td class="span_bold" >序号</td>
+				<td class="span_bold" >商品名称</td>
+				<td class="span_bold" >条形码</td>
+    		  <td class="span_bold" >商品最小规格</td>
+    		  <td class="span_bold" >商品规格</td>
+    		  <td class="span_bold" >批发规格系数</td>
+    		  <td class="span_bold" >批发成本价</td>
+    		  <td class="span_bold" >进货数量</td>
+    		  <td class="span_bold" >金额</td>
+    		  <td class="span_bold" >备注</td>
+    		 </tr>
+			 #set ($rowCount = 0)
+			 
+			 #foreach($pairs in ${osMaps.get($userId)})
+				#set($order = $pairs.left)
+				#set($lists = $pairs.right)
+				#foreach($item in ${pairs.right})
+        		      #set($rowCount=$!rowCount + 1)
+        		      
+        			  #set ($isOddRow = $rowCount % 2 == 0)
+            			#if ($isOddRow)
+            				<tr>
+            	        #else
+            				<tr class="sep-bar">
+						#end
+						<td>$!rowCount</td>
+						<td>$!item.itemName</td>
+						<td>$!item.barcode</td>
+						<td>$!item.saleSize</td>
+						<td>$!item.size</td>
+						<td>$!item.convertNum</td>
+						<td>$NumberTool.toYuanNumber($!item.costPrice)</td>
+						<td>$!item.purchaseNum</td>
+						<td>$NumberTool.toYuanNumber($!item.totalPrice)</td>
+						<td>$!item.remark</td>
+					#end
+			  #end
+			  </tr>
+			</table>
+			<div>
+		    <span style="display:-moz-inline-box; display:inline-block; width:25%;">日期：$!date.format('yyyy-MM-dd',$!dto.executedTime)</span>
+			<span style="display:-moz-inline-box; display:inline-block; width:25%;">客服电话：15345818517</span>
+			<span style="display:-moz-inline-box; display:inline-block; width:25%;">签字：</span>
+		    </div>
+		#end
+		
+		
+		</div>
+	</body>
+</html>

@@ -1,0 +1,28 @@
+#set($layout="layout/shopLayout.vm")
+<div class="purchase_order">
+       <!-- 无订单 -->
+        <!-- <div class="no_order">无订单</div> -->
+        <div class="order_tip">
+            <div class="order_list" style="width:20%">公司简称</div>
+            <div class="order_list" style="width:20%">签约时间</div>
+            <div class="order_list" style="width:34%">公式</div>
+            <div class="order_list" style="width:22%">金额</div>
+        </div>
+        <div class="record">
+            #foreach($dto in $lists)
+            <div class="record_list">
+                <span class="record_date" style="width: 20%;left: 0;overflow:hidden;">$!dto.userName #if($!dto.iswxvip==0)~ #end</span>
+                <span class="money_1" style="text-align: center;left: 20%;width: 20%;">$!date.format('MM-dd',$!dto.contractDate)</span>
+                <span class="money_2" style="text-align: center;left: 40%;width: 36%;">
+                   $NumberTool.toYuanNumber($dto.sumBase)x$NumberTool.double2percent($!dto.sumProportion)%x$!dto.royaltyCoefficient
+                </span>
+                <span class="money_3" style="text-align: right;width: 20%;right: 5%">$NumberTool.toYuanNumber($dto.sumFee)</span>
+            </div>
+            #end
+           
+        </div>
+
+   </div> 
+<script type="text/javascript">
+    document.title = "本月销售提成";
+</script>

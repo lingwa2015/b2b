@@ -1,0 +1,118 @@
+<script type="text/javascript">
+$(document).ready(function() {
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+				save();
+				return false;
+        }
+	});
+ });
+
+
+function save(){
+	disableBtn('saveBtn');
+	
+	  var url="${rc.contextPath}/equipment/save.do";
+	  submitFormData("form1",url,show);
+}
+
+function show(data){
+    alert(data);
+	if(data.indexOf("成功")!=-1){
+		 cancel();
+	}else{
+	    enableBtn('saveBtn');
+	}
+}
+
+function cancel(){
+	window.location.href="${rc.contextPath}/equipment/equipmentList.htm";
+}
+
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+		<h4 class="tit">
+			#if($!dto.id)
+		    	编辑设备类别
+		    #else
+				 添加设备类别
+		    #end
+		</h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+	<form class="jqtransform" name="itemCategoryForm" id="form1" action="${rc.contextPath}/equipment/save.do" method="post">
+	<input type="hidden" name="id" id="id" value="$!dto.id"/>
+    <input type="hidden" name="parentId" id="parentId" value="$!dto.parentId"/>
+	<table class="form">
+		#if($!dto.parentName)
+			<tr>
+				<td align="right"><label class="tit"><font color='red'>*</font>设备类别：</label></td>
+				<td>
+				<input class="form-input" type="text" name="onename" id="onename" value="$!dto.parentName" readonly="readonly"  validate="{required:true}">
+				&nbsp;<span></span>
+				</td>
+			</tr>
+			<tr>
+				<td align="right"><label class="tit"><font color='red'>*</font>型号：</label></td>
+				<td>
+				<input class="form-input" type="text" name="name" id="name" value="$!dto.name"  validate="{required:true}">
+				&nbsp;<span></span>
+				</td>
+			</tr>
+			<tr>
+				<td align="right"><label class="tit">编码前缀：</label></td>
+				<td>
+				<input class="form-input" type="text" name="code" id="code" value="$!dto.code" >
+				&nbsp;<span></span>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">
+					<label class="tit">备注：</label>
+				</td>
+				<td>
+				    <textarea id="remark" name="remark" cols="50" rows="5" >$!dto.remark</textarea>
+					&nbsp;<span></span>
+				</td>
+			</tr>
+		#else
+		
+			<tr>
+				<td align="right"><label class="tit"><font color='red'>*</font>设备类别：</label></td>
+				<td>
+				<input class="form-input" type="text" name="name" id="name" value="$!dto.name"  validate="{required:true}">
+				&nbsp;<span></span>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">
+					<label class="tit">备注：</label>
+				</td>
+				<td>
+				    <textarea id="remark" name="remark" cols="50" rows="5" >$!dto.remark</textarea>
+					&nbsp;<span></span>
+				</td>
+			</tr>
+		#end
+		
+		<tr class="btn-bar">
+			<td></td>
+			<td><a class="btn btn-primary" id="saveBtn" href="#" onclick="$('#form1').submit();">保存</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

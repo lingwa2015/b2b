@@ -1,0 +1,170 @@
+<script type="text/javascript">
+var needYM = false;
+$(document).ready(function() {
+	$( "#lockTime" ).datepicker();
+ });
+
+function pageBack(){
+	location.reload();
+}
+
+function gotoOrder(name){
+   var url ="${rc.contextPath}/order/orderlist.htm?userName="+name+"&startTime=$!startTimeStr"+"&endTime=$!endTimeStr";
+   window.location.href = url;
+}
+
+function gotoRefund(name){
+   var url ="${rc.contextPath}/refund/refundList.htm?userName="+name+"&startTime=$!startTimeStr"+"&endTime=$!endTimeStr";
+   window.location.href = url;
+}
+
+function detailData(id){
+   var url ="${rc.contextPath}/tranSum/detail.htm?id="+id;
+   window.open(url);
+}
+
+function printData(id){
+	var url ="${rc.contextPath}/tranSum/print.htm?id="+id;
+	window.open(url);
+}
+
+function check(){
+	if (needYM) {
+		if($("#year").val().length<=0){
+			alert("请选择统计年份！");
+			return false;
+		}
+		if($("#month").val().length<=0){
+			alert("请选择统计月份！");
+			return false;
+		}
+	}
+
+	return true;
+}
+
+function selectYM(selectObj) {
+	needYM = true;
+}
+
+function lock(){
+	if(confirm("确定锁账？")){
+		check();
+		window.location.href="${rc.contextPath}/tranSum/tranSumLock.htm?year="+$("#year").val()+"&month="+$("#month").val();
+	}else{
+		return;
+	}
+}
+
+function exportExcel(){
+	window.location.href="${rc.contextPath}/tranSum/exportExcel.do?year="+$("#year").val()+"&month="+$("#month").val();
+}
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+		<h4 class="tit">核算列表</h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" name="tranSumForm" id="tranSumForm" action="${rc.contextPath}/tranSum/tranSumList.htm" onSubmit="return check()" method="POST">
+		<table class="form form-horizontal">
+		<tr>
+			<td align="right" style="vertical-align:middle;"><label class="tit first-tit">统计年份：</label></td>
+			<td>
+			<select name="year" id="year" onchange="selectYM(this)" validate="{required:true}">
+				<option value="2010" #if ($!year == '2010') selected="selected" #end >2010</option>
+				<option value="2011" #if ($!year == '2011') selected="selected" #end >2011</option>
+				<option value="2012" #if ($!year == '2012') selected="selected" #end >2012</option>
+				<option value="2013" #if ($!year == '2013') selected="selected" #end >2013</option>
+				<option value="2014" #if ($!year == '2014') selected="selected" #end >2014</option>
+				<option value="2015" #if ($!year == '2015') selected="selected" #end >2015</option>
+				<option value="2016" #if ($!year == '2016') selected="selected" #end >2016</option>
+				<option value="2017" #if ($!year == '2017') selected="selected" #end >2017</option>
+				<option value="2018" #if ($!year == '2018') selected="selected" #end >2018</option>
+				<option value="2019" #if ($!year == '2019') selected="selected" #end >2019</option>
+				<option value="2020" #if ($!year == '2020') selected="selected" #end >2020</option>
+			 </select>
+			 &nbsp;<span></span>
+			</td>
+
+			<td align="right" style="vertical-align:middle;"><label class="tit">统计月份：</label></td>
+			<td>
+			 <select name="month" id="month" onchange="selectYM(this)" validate="{required:true}">
+				<option value="1" #if ($!month == '1') selected="selected" #end >1月</option>
+				<option value="2" #if ($!month == '2') selected="selected" #end >2月</option>
+				<option value="3" #if ($!month == '3') selected="selected" #end >3月</option>
+				<option value="4" #if ($!month == '4') selected="selected" #end >4月</option>
+				<option value="5" #if ($!month == '5') selected="selected" #end >5月</option>
+				<option value="6" #if ($!month == '6') selected="selected" #end >6月</option>
+				<option value="7" #if ($!month == '7') selected="selected" #end >7月</option>
+				<option value="8" #if ($!month == '8') selected="selected" #end >8月</option>
+				<option value="9" #if ($!month == '9') selected="selected" #end >9月</option>
+				<option value="10" #if ($!month == '10') selected="selected" #end >10月</option>
+				<option value="11" #if ($!month == '11') selected="selected" #end >11月</option>
+				<option value="12" #if ($!month == '12') selected="selected" #end >12月</option>
+			 </select>
+			 &nbsp;<span></span>
+			</td>
+
+			<td align="right"><label class="tit">客户简称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="userName" id="userName" value="$!userName">
+			</td>
+
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(tranSumForm).submit()">&nbsp;&nbsp;统 &nbsp;计 &nbsp;&nbsp;</a>
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="exportExcel()">&nbsp;&nbsp;导 &nbsp;出 &nbsp;&nbsp;</a>
+			</td>
+			<td width="20%" style="text-align:right;vertical-align:middle;">
+			#if ($accountLock!=1)
+				<a class="btn btn-warning btn-sm" onclick="lock()">&nbsp;&nbsp;锁&nbsp;帐 &nbsp;&nbsp;</a>
+			#else
+				<label>&nbsp;&nbsp;已锁帐</label>
+			#end
+			</td>
+		</tr>
+	</table>
+	</form>
+
+	<table class="table">
+		<tr>
+			<th>用户名称</th>
+			<th>公司名称</th>
+			<th>订单数目</th>
+			<th>退货单数目</th>
+			<th>金额</th>
+			<th>统计月份</th>
+			<th>操作</th>
+			<!--<th>创建时间</th>-->
+		</tr>
+
+		#foreach($dto in $page.result)
+		<tr>
+			<td>$!dto.userName</td>
+			<td>$!dto.companyName</td>
+			<td><a href="javascript:gotoOrder('$!dto.userName');">$!dto.orderNum</a></td>
+			<td><a href="javascript:gotoRefund('$!dto.userName');">$!dto.refundNum</a></td>
+			<td>$NumberTool.toYuanNumber($!dto.amount) 元</td>
+			<td>$!date.format('yyyy-MM',$!dto.sumDate)</td>
+			<!--<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!dto.createDate)</td>-->
+             <td class="opt">
+				<a href="javascript:detailData('$dto.id')">明细</a>
+				<a href="javascript:printData('$dto.id')">打印</a>
+			  </td>
+		</tr>
+		#end
+
+
+
+	</table>
+
+	<div class="text-center">
+           #parse("/common/page.vm")
+    </div>
+
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->

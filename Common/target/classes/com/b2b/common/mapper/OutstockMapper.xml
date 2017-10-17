@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.OutstockMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.Outstock" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="supplier_id" property="supplierId" jdbcType="INTEGER" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="print_flg" property="printFlg" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="executed_time" property="executedTime" jdbcType="TIMESTAMP" />
+    <result column="outstock_time" property="outstockTime" jdbcType="TIMESTAMP" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="total_price" property="totalPrice" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, supplier_id, supplier_name, print_flg, status, executed_time, outstock_time, 
+    city_id, remark, total_price, user_id, user_name
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.OutstockExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from outstock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from outstock
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from outstock
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.OutstockExample" >
+    delete from outstock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.Outstock" >
+    insert into outstock (id, supplier_id, supplier_name, 
+      print_flg, status, executed_time, 
+      outstock_time, city_id, remark, 
+      total_price, user_id, user_name
+      )
+    values (#{id,jdbcType=BIGINT}, #{supplierId,jdbcType=INTEGER}, #{supplierName,jdbcType=VARCHAR}, 
+      #{printFlg,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{executedTime,jdbcType=TIMESTAMP}, 
+      #{outstockTime,jdbcType=TIMESTAMP}, #{cityId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{totalPrice,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.Outstock" >
+    insert into outstock
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="supplierId != null" >
+        supplier_id,
+      </if>
+      <if test="supplierName != null" >
+        supplier_name,
+      </if>
+      <if test="printFlg != null" >
+        print_flg,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="executedTime != null" >
+        executed_time,
+      </if>
+      <if test="outstockTime != null" >
+        outstock_time,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="totalPrice != null" >
+        total_price,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="supplierName != null" >
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="printFlg != null" >
+        #{printFlg,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="executedTime != null" >
+        #{executedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outstockTime != null" >
+        #{outstockTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.OutstockExample" resultType="java.lang.Integer" >
+    select count(*) from outstock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update outstock
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.supplierId != null" >
+        supplier_id = #{record.supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="record.supplierName != null" >
+        supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.printFlg != null" >
+        print_flg = #{record.printFlg,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.executedTime != null" >
+        executed_time = #{record.executedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.outstockTime != null" >
+        outstock_time = #{record.outstockTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalPrice != null" >
+        total_price = #{record.totalPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update outstock
+    set id = #{record.id,jdbcType=BIGINT},
+      supplier_id = #{record.supplierId,jdbcType=INTEGER},
+      supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      print_flg = #{record.printFlg,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      executed_time = #{record.executedTime,jdbcType=TIMESTAMP},
+      outstock_time = #{record.outstockTime,jdbcType=TIMESTAMP},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      total_price = #{record.totalPrice,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.Outstock" >
+    update outstock
+    <set >
+      <if test="supplierId != null" >
+        supplier_id = #{supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="supplierName != null" >
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="printFlg != null" >
+        print_flg = #{printFlg,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="executedTime != null" >
+        executed_time = #{executedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outstockTime != null" >
+        outstock_time = #{outstockTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null" >
+        total_price = #{totalPrice,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.Outstock" >
+    update outstock
+    set supplier_id = #{supplierId,jdbcType=INTEGER},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      print_flg = #{printFlg,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      executed_time = #{executedTime,jdbcType=TIMESTAMP},
+      outstock_time = #{outstockTime,jdbcType=TIMESTAMP},
+      city_id = #{cityId,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      total_price = #{totalPrice,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="getMaxOutstockId" resultType="java.lang.Long">
+    SELECT IFNULL(MAX(id), 0)+1 FROM outstock
+  </select>
+
+  <resultMap type="com.b2b.common.domain.Outstock" id="outstockItemMap" autoMapping="true">
+    <id column="id" property="id"/>
+    <collection property="outstockItemList" javaType="List" column="id" ofType="OutstockItem" select="selectOutstockItems">
+    </collection>
+  </resultMap>
+  <select id="selectOutstockItems" resultType="OutstockItem">
+    SELECT
+      oi.id, oi.outstock_id, oi.item_id,
+        oi.item_name, oi.category_id, oi.category_name,
+        oi.size, oi.price, oi.cost_price,
+        oi.convert_num, oi.outstock_num, oi.item_remark,
+        oi.total_price, i.barcode
+      FROM `outstock_item` oi
+          LEFT JOIN item i ON i.id = oi.item_id
+      WHERE `outstock_id`= #{id}
+      ORDER BY oi.item_id
+  </select>
+
+  <select id="findOutstocksAndOutstocksItemByCondition" resultMap="outstockItemMap">
+    SELECT
+    *
+    FROM outstock p
+    where 1=1
+    AND  p.status != 2
+    AND p.city_id =#{cityId}
+    <if test="supplierName !=null and supplierName !=''">
+      and p.supplier_name like '%${supplierName}%'
+    </if>
+    <if test="itemName != '' and itemName != null">
+      and p.id in (SELECT `outstock_id`   from `outstock_item`  WHERE `item_name` LIKE '%${itemName}%')
+    </if>
+    <if test="startTime !=null and startTime !=''">
+      and p.`executed_time` &gt;= #{startTime}
+    </if>
+    <if test="endTime !=null and endTime !=''">
+      and p.`executed_time` &lt;= #{endTime}
+    </if>
+    <if test="param !=null and param !=''">
+      and p.status = #{param}
+    </if>
+    order by p.id desc ,executed_time desc
+  </select>
+
+  <select id="findPreparationNum" resultType="java.lang.Integer">
+    SELECT COUNT(1)
+    FROM outstock
+    WHERE `status` = 0
+      AND city_id =#{cityId}
+  </select>
+
+  <select id="findTotalPrice" resultType="java.lang.Long">
+    SELECT
+     SUM(p.total_price)
+    FROM outstock p
+    where 1=1
+    AND  p.status != 2
+    AND p.city_id =#{cityId}
+    <if test="supplierName !=null and supplierName !=''">
+      and p.supplier_name like '%${supplierName}%'
+    </if>
+    <if test="itemName != '' and itemName != null">
+      and p.id in (SELECT `outstock_id`   from `outstock_item`  WHERE `item_name` LIKE '%${itemName}%')
+    </if>
+    <if test="startTime !=null and startTime !=''">
+      and p.`executed_time` &gt;= #{startTime}
+    </if>
+    <if test="endTime !=null and endTime !=''">
+      and p.`executed_time` &lt;= #{endTime}
+    </if>
+    <if test="param !=null and param !=''">
+      and p.status = #{param}
+    </if>
+  </select>
+</mapper>

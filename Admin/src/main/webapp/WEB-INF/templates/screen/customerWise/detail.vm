@@ -1,0 +1,206 @@
+<script type="text/javascript">
+$(document).ready(function() {
+	$.metadata.setType("attr", "validate");
+	$("#form1").validate({
+		errorPlacement: function(error, element){
+			var error_span = element.next('span');
+			error_span.addClass("errorClass");
+			error_span.html(error.html());
+		},
+		success: function(label){
+			label.remove();
+		},
+		submitHandler: function (){
+				save();
+				return false;
+        }
+	});
+ });
+
+
+function save(){
+	disableBtn('saveBtn');
+	
+	  var url="${rc.contextPath}/customerWise/save.do";
+	  submitFormData("form1",url,show);
+}
+
+function show(data){
+    alert(data);
+	if(data.indexOf("成功")!=-1){
+		 cancel();
+	}else{
+	    enableBtn('saveBtn');
+	}
+}
+
+function cancel(){
+  window.location.href="${rc.contextPath}/customerWise/customerWiseList.htm";
+}
+
+function getUser() {
+	var mobilePhone = $("#mobilePhone").val().trim();
+	if (mobilePhone == null || mobilePhone.length == 0||mobilePhone.length!=11) {
+		//补充提示信息，手机号码不能为空
+		alert("请填写手机号");
+		return;
+	}
+	var url = "${rc.contextPath}/customer/queryUser.json";
+	doJsonRequest(url, {
+		"mobilePhone" : mobilePhone
+	}, showUser);
+}
+
+function showUser(data) {
+
+	if (data == null || data.user == null) {
+		//补充提示信息，用户不存在
+		alert("用户不存在");
+		return;
+	}
+	$("#customerName").val(data.user.userName);
+	$('input[name="customerId"]').val(data.user.id);
+	$("#showName").html(data.user.userName);
+}
+
+function checkNum(obj) {
+    //检查是否是非数字值
+    if (isNaN(obj.value)) {
+        obj.value = "";
+    }
+    if (obj != null) {
+        //检查小数点后是否对于两位http://blog.csdn.net/shanzhizi
+        if (obj.value.toString().split(".").length > 1 && obj.value.toString().split(".")[1].length > 2) {
+            alert("小数点后多于两位！");
+            obj.value = "";
+        }
+    }
+}
+</script>
+<div class="content">
+	<div class="bd-actionbar">
+		<a href="${rc.contextPath}/customerWise/customerWiseList.htm" title="返回客户智选属性列表" class="btn btn-return"><</a>
+		<h4 class="tit">
+		   #if ($!dto.wiseId>=0) 
+				编辑客户智选属性
+			#else
+				 添加客户智选属性
+			#end
+		</h4>
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+	<form class="jqtransform" name="itemVarietyForm" id="form1" action="${rc.contextPath}/customerWise/save.do" method="post">
+	<input type="hidden" name="wiseId" id="wiseId" value="$!dto.wiseId"/>
+   <input type="hidden" name="customerId" id="customeId" value="$!dto.customeId" />
+   <input type="hidden" name="customerName" id="customerName" value="$!dto.customerName" />
+	<table class="form">
+		 #if ($!dto.wiseId>=0)
+		 #else
+		<tr>
+			<td align="left"><label class="tit"><font color='red'>*</font>用户手机：</label></td>
+			<td><input class="form-input" type="text"
+				validate="{required:true,digits:true}" name="mobilePhone"
+				id="mobilePhone" value="">
+				&nbsp;<span></span>&nbsp;<a class="btn btn-default"
+				href="javascript:getUser();">读取用户信息</a></td>
+		</tr>
+		#end
+		<tr>
+			<td align="right"><label class="tit">用户姓名：</label></td>
+			<td><label class="titval" name="showName" id="showName">$!dto.customerName</label></td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit"><font color='red'>*</font>预算金额：</label></td>
+			<td>
+			<input class="form-input" type="text" name="budGet" id="budget" value="$NumberTool.toYuanNumber($!dto.budget)" onkeyup="checkNum(this)" validate="{required:true}">
+			&nbsp;<span></span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">单品单价起始值：</label></td>
+			<td>
+			<input class="form-input" type="text" name="startPrice" id="startprice" value="$NumberTool.integerToYuanNumber($!dto.startprice)" onkeyup="checkNum(this)">
+			&nbsp;<span></span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">单品单价截至值：</label></td>
+			<td>
+			<input class="form-input" type="text" name="endPrice" id="endprice" value="$NumberTool.integerToYuanNumber($!dto.endprice)" onkeyup="checkNum(this)">
+			&nbsp;<span></span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">可否超预算：</label></td>
+			<td>
+			#if($dto.issuperBudget==1)
+			<input type="radio" name="issuperBudget" value="0" >不可超
+			<input type="radio" name="issuperBudget" value="1" checked> 可超
+			#else
+			<input type="radio" name="issuperBudget" value="0" checked>不可超
+			<input type="radio" name="issuperBudget" value="1"> 可超
+			#end
+			&nbsp;<span></span>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">配送时间：</label></td>
+			<td>
+			#if($dto.monday==1)
+			<input type="checkbox" name="monday" value="1" checked> 周一 
+			#else
+			<input type="checkbox" name="monday" value="1"> 周一
+			#end
+			#if($dto.tuesday==1)
+			<input type="checkbox" name="tuesday" value="1" checked> 周二 
+			#else
+			<input type="checkbox" name="tuesday" value="1"> 周二 
+			#end
+			#if($dto.wednesday==1)
+			<input type="checkbox" name="wednesday" value="1" checked> 周三 
+			#else
+			<input type="checkbox" name="wednesday" value="1"> 周三 
+			#end
+			#if($dto.thursday==1)
+			<input type="checkbox" name="thursday" value="1" checked> 周四 
+			#else
+			<input type="checkbox" name="thursday" value="1"> 周四 
+			#end
+			#if($dto.friday==1)
+			<input type="checkbox" name="friday" value="1" checked> 周五 
+			#else
+			<input type="checkbox" name="friday" value="1"> 周五 
+			#end
+			#if($dto.saturday==1)
+			<input type="checkbox" name="saturday" value="1" checked> 周六
+			#else
+			<input type="checkbox" name="saturday" value="1"> 周六
+			#end
+			#if($dto.sunday==1)
+				<input type="checkbox" name="sunday" value="1" checked> 周日 
+			#else
+				<input type="checkbox" name="sunday" value="1"> 周日 
+			#end
+			&nbsp;<span></span>
+			</td>
+			<tr>
+				<td align="right"><label class="tit">客户备注：</label></td>
+				<td>
+					<textarea id="remark" name="remark" cols="50"
+						rows="4" validate="{maxlength:512}">$!dto.remark</textarea>
+					&nbsp;<span></span>
+				</td>
+			</tr>
+		</tr>
+		
+		<tr class="btn-bar">
+			<td></td>
+			<td><a class="btn btn-primary" id="saveBtn" href="#" onclick="$('#form1').submit();">保存</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+</div><!--content-->

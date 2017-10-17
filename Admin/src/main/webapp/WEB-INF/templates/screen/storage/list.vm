@@ -1,0 +1,189 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$( "#startTime" ).datepicker();
+	$( "#endTime" ).datepicker();
+
+ });
+
+    function pageBack(){
+    	location.reload();
+    }
+
+
+	function deleteStorage(id){
+		$.ajax( {
+				url:'/storage/deleteStorage.do',// 跳转到 action
+			    data:{
+			         'id':id
+			    },
+			    type:'post',
+			    cache:false,
+			    dataType:'text',
+			    success:function(data) {
+
+			    	if(data == '删除成功'){
+			    		$(storageListForm).submit();
+			    	}else{
+			    		alert("删除失败");
+			    	}
+
+			     },
+			     error : function() {
+			          alert("删除异常！");
+			     }
+			});
+	}
+	
+	function checkAll() {
+
+		for(var i in document.getElementsByName('orderCheckbox')){
+			var ele = document.getElementsByName('orderCheckbox')[i];
+			ele.checked = document.getElementById('checkAll').checked;
+		}
+		//$("[name='orderCheckbox']").removeAttr("checked");
+
+		//$("[name='orderCheckbox']").attr("checked",document.getElementById('checkAll').checked);//全选
+	}
+
+	function unCheckAll() {
+		$("[name='orderCheckbox']").removeAttr("checked");//取消全选
+	}
+	
+	function printData(){
+
+        var checkBoxes = document.getElementsByName("orderCheckbox");
+		var hasChecked = false;
+		var storageId = '';
+
+        for(var i=0; i<checkBoxes.length; i++) {
+          if(checkBoxes[i].checked == true) {
+		  	storageId +=  checkBoxes[i].value + ',';
+		  	hasChecked = true;
+		  }
+        }
+		if (!hasChecked) {
+			alert('至少选择一条记录进行打印!');
+			return false;
+		}
+        //alert(orderNos);
+
+        $('#storageId').val(storageId);
+
+        $('#printForm').submit();
+        return true;
+    }
+	
+</script>
+
+<div class="content">
+	<div class="bd-actionbar">
+		 <a href="storageAdd.htm" class="btn btn-success"><i class="ico"></i>添加入库单</a>
+        <a class="ko" href="${rc.contextPath}/statistics/storageSumList.htm">入库单查询统计</a >
+	</div><!--bd-actionbar-->
+	<div class="bd-main">
+	<div class="bd-main-inner">
+
+	<form class="jqtransform" id="storageListForm" action="storageList.htm" method="POST">
+
+		<table class="form form-horizontal">
+		<tr>
+			<td><label class="tit first-tit">开始时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="startTime" id="startTime" readonly="readonly" value="$!startTime">
+			</td>
+
+			<td><label class="tit">结束时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="endTime" id="endTime" readonly="readonly" value="$!endTime">
+			</td>
+		</tr>
+		<tr>
+			<td><label class="tit first-tit">单号：</label></td>
+			<td >
+				<input name="numbers" id="numbers" class="form-input" type="text" value="$!numbers">
+			</td>
+			<td><label class="tit">供应商简称：</label></td>
+			<td >
+				<input name="supplierName" id="supplierName" class="form-input" type="text" value="$!supplierName">
+			</td>
+			<td><label class="tit">商品名称：</label></td>
+			<td >
+				<input name="itemName" id="itemName" class="form-input" type="text" value="$!itemName">
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(storageListForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+			</td>
+		</tr>
+
+	</table>
+	</form>
+	<div>
+		<form id="printForm" action="/storage/print.do" method="POST" target='_blank' >
+			<input type='hidden' id='storageId' name='storageId'/>
+			<button class="btn btn-warning btn-sm" onclick="return printData();">打印入库单</button>
+		</form><br/>
+	</div>
+	<br/>
+	<div>
+		全选<input type="checkbox" style="width: 19px; height: 15px;" id="checkAll" onClick="checkAll();" />
+	</div>
+	#foreach($pair in $page.result)
+	#set($itemList = $pair.right)
+	#set($dto = $pair.left)
+
+
+	<table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+        <tr class="info">
+			<td colspan="7">
+				<input type="checkbox" style="width: 19px; height: 14px;" id="$!dto.id" name="orderCheckbox" value="$!dto.id">
+                <span>单号：$!dto.number</span>
+                <span>入库时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!dto.createdTime)</span>
+                 <span>总金额：￥$NumberTool.toYuanNumber($!dto.totalFee)</span>
+                <span>执行日期：$!date.format('yyyy-MM-dd',$!dto.executedTime)</span>
+                <span>供应商：$!dto.supplierName</span>
+                <span>
+                	<button class="btn btn-success refundMoney" onclick="if(confirm('确定删除?')){deleteStorage('$dto.id')}">删除</button>
+                </span>
+            </td>
+
+		</tr>
+
+		<tr>
+            <th width="5%">商品id</th>
+            <th width="25%">商品名称</th>
+            <th width="20%">条形码</th>
+            <th width="15%">规格</th>
+            <th width="10%">批发采购价</th>
+            <th width="10%">数量</th>
+            <th width="10%">金额</th>
+		</tr>
+		#foreach($item in $itemList)
+		<tr>
+			<td>$!item.itemId</td>
+			<td>$!item.itemName</td>
+			<td>$!item.barcode</td>
+			<td>$!item.sizeValue</td>
+			<td>$NumberTool.toYuanNumber($!item.buyPrice)</td>
+            <td>$!item.buyNum</td>
+            <td>$NumberTool.toYuanNumber($!item.totalFee)</td>
+		</tr>
+		#end
+		#if($dto.purchaseFlag == 1)
+			<tr>
+				<td colspan="7"><a href="${rc.contextPath}/purchaseList/purchaseList.htm?purchaseId=$!dto.purchaseId&menuHeight=132&menuName=purchaseList-li">来自采购订单：$dto.purchaseId</a></td>
+			</tr>
+		#end
+	</table>
+	#end
+
+
+	<div class="text-center">
+			#parse("/common/page.vm")
+	</div>
+	</div><!--bd-main-inner-->
+	</div><!--bd-main-->
+
+
+
+

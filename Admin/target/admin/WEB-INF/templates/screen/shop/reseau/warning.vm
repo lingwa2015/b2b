@@ -1,0 +1,30 @@
+#set($layout="layout/shopLayout.vm")
+<div class="purchase_order">
+        <div class="record" style="margin-bottom: 1.1rem;margin-top: 0;">
+
+
+            <div class="yujing">
+                <div class="yujing_01">客户</div>
+                <div class="yujing_02">预警类型</div>
+            </div>
+            <div class="yujing_biao">
+        	#foreach($puser in $pusers)
+                <div class="yj_biao">
+                    <a href="${rc.contextPath}/convenient/manage/shop_index.htm?shop_id=$!puser.id" style="color: #000;">
+                    <span class="yj_biao01">$puser.userName</span>
+                    <span class="yj_biao02">#if($!puser.onsaleFeeflag==1)缺货#end</span>
+                    <span class="yj_biao02">#if($!puser.createdtimeFlag==1)下单#end</span>
+                    <span class="yj_biao02">#if($!puser.checkTimeFlag==1)盘点#end</span>
+                </div>
+        	#end
+           
+           
+        </div>
+   </div>
+   <!-- 底部 -->
+   <div class="footer">
+       <a href="${rc.contextPath}/convenient/reseau/shop_index.htm?reseau_id=$!reseauId" class="home" style="width: 24.68%">首页<i></i><b></b></a>
+       <a href="${rc.contextPath}/convenient/reseau/shop_customerIndex.htm?reseau_id=$!reseauId" class="home" style="width: 24.68%">客户<i></i><b></b></a>
+       <a href="${rc.contextPath}/convenient/reseau/shop_workSheet.htm?reseau_id=$!reseauId" class="home" style="width: 24.68%">工单<i></i><b></b></a>
+       <a href="${rc.contextPath}/convenient/reseau/shop_warning.htm?reseau_id=$!reseauId" class="home live" style="width: 24.68%">预警<b></b></a>
+   </div>

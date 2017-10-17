@@ -1,0 +1,2273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.DebitNoteDemoMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.DebitNoteDemo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="debitnote_amount" property="debitnoteAmount" jdbcType="BIGINT" />
+    <result column="invoice_amount" property="invoiceAmount" jdbcType="BIGINT" />
+    <result column="preferential_amount" property="preferentialAmount" jdbcType="BIGINT" />
+    <result column="order_date" property="orderDate" jdbcType="TIMESTAMP" />
+    <result column="invoice_status" property="invoiceStatus" jdbcType="INTEGER" />
+    <result column="delete_status" property="deleteStatus" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="amountSum" property="amountSum" jdbcType="BIGINT" />
+    <result column="amountSum1" property="amountSum1" jdbcType="BIGINT" />
+    <result column="amountSum2" property="amountSum2" jdbcType="BIGINT" />
+    <result column="amountSum3" property="amountSum3" jdbcType="BIGINT" />
+    <result column="amountSum4" property="amountSum4" jdbcType="BIGINT" />
+    <result column="years" property="years" jdbcType="VARCHAR" />
+    <result column="months" property="months" jdbcType="VARCHAR" />
+    <result column="locks" property="locks" jdbcType="VARCHAR" />
+  </resultMap>
+  
+<select id="selectDebitNoteByOrderDate" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+    select debit.id id,users.user_name user_name,users.company_name company_name,debit.debitnote_amount debitnote_amount,
+	debit.create_date create_date,debit.years,debit.months,debit.remark remark from debit_note debit
+	left outer join customer_user users on users.id=debit.company_id where 1=1 and users.city_id =#{cityId}
+	<if test="userName!=null">
+			and (user_name like '%${userName}%' or  company_name like '%${userName}%')
+	</if>
+	<if test="starttime!=null and starttime!=''">
+		and CONVERT (
+			concat(
+				CONVERT (years, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10))
+			),
+			DATETIME
+		) &gt;= #{starttime}
+	</if>
+	<if test="querytime!=null and querytime!=''">
+		and CONVERT (
+			concat(
+				CONVERT (years, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10))
+			),
+			DATETIME
+		) &lt;=#{querytime}
+	</if>
+	<if test="crestdate != null and crestdate != ''">
+		and create_date &gt;= #{crestdate}
+	</if>
+	<if test="creenddate != null and creenddate != ''">
+		and create_date &lt;= #{creenddate}
+	</if>
+	<if test="status!=null">
+			and debit.delete_status = #{status}
+	</if>
+	order by create_date desc
+	<if test="start!=null">
+			limit #{start},#{limit}
+	</if>
+  </select>
+  
+  <select id="countByDebitNoteSql" parameterType="java.util.HashMap"
+		resultType="java.lang.Integer">
+	select IFNULL(count(*),0) from debit_note debit
+	left outer join customer_user users on users.id=debit.company_id where 1=1 and users.city_id = #{cityId}
+	<if test="userName!=null">
+			and (user_name like '%${userName}%' or  company_name like '%${userName}%')
+	</if>
+	<if test="starttime!=null and starttime!=''">
+		and CONVERT (
+			concat(
+				CONVERT (years, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10))
+			),
+			DATETIME
+		) &gt;= #{starttime}
+	</if>
+	<if test="querytime!=null and querytime!=''">
+		and CONVERT (
+			concat(
+				CONVERT (years, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10))
+			),
+			DATETIME
+		) &lt;=#{querytime}
+	</if>
+	<if test="crestdate != null and crestdate != ''">
+		and create_date &gt;= #{crestdate}
+	</if>
+	<if test="creenddate != null and creenddate != ''">
+		and create_date &lt;= #{creenddate}
+	</if>
+	<if test="status!=null">
+			and debit.delete_status = #{status}
+	</if>
+</select>
+
+<select id="selectInvoiceByOrderDate" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+    select inv.id id,users.user_name user_name,users.company_name company_name,inv.invoice_amount invoice_amount,
+	inv.create_date create_date,inv.years,inv.months,inv.remark remark from  invoice inv
+	left outer join customer_user users on users.id=inv.company_id where 1=1 and users.city_id =#{cityId}
+	<if test="userName!=null">
+			and (user_name like '%${userName}%' or  company_name like '%${userName}%')
+	</if>
+	<if test="starttime!=null and starttime!=''">
+		and CONVERT (
+			concat(
+				CONVERT (years, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10))
+			),
+			DATETIME
+		) &gt;= #{starttime}
+	</if>
+	<if test="querytime!=null and querytime!=''">
+		and CONVERT (
+			concat(
+				CONVERT (years, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10))
+			),
+			DATETIME
+		) &lt;=#{querytime}
+	</if>
+	<if test="crestdate != null and crestdate != ''">
+		and create_date &gt;= #{crestdate}
+	</if>
+	<if test="creenddate != null and creenddate != ''">
+		and create_date &lt;= #{creenddate}
+	</if>
+	<if test="status!=null">
+			and inv.delete_status = #{status}
+	</if>
+	order by create_date desc
+	<if test="start!=null">
+			limit #{start},#{limit}
+	</if>
+  </select>
+  
+  <select id="countByInvoiceSql" parameterType="java.util.HashMap"
+		resultType="java.lang.Integer">
+	select IFNULL(count(*),0) from  invoice inv
+	left outer join customer_user users on users.id=inv.company_id where 1=1 and users.city_id =#{cityId}
+	<if test="userName!=null">
+			and (user_name like '%${userName}%' or  company_name like '%${userName}%')
+	</if>
+	<if test="starttime!=null and starttime!=''">
+		and CONVERT (
+			concat(
+				CONVERT (years, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10))
+			),
+			DATETIME
+		) &gt;= #{starttime}
+	</if>
+	<if test="querytime!=null and querytime!=''">
+		and CONVERT (
+			concat(
+				CONVERT (years, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10))
+			),
+			DATETIME
+		) &lt;=#{querytime}
+	</if>
+	<if test="crestdate != null and crestdate != ''">
+		and create_date &gt;= #{crestdate}
+	</if>
+	<if test="creenddate != null and creenddate != ''">
+		and create_date &lt;= #{creenddate}
+	</if>
+	<if test="status!=null">
+			and inv.delete_status = #{status}
+	</if>
+</select>
+
+
+<select id="selectPreferentialByOrderDate" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+  select pref.id id,users.user_name user_name,users.company_name company_name,pref.preferential_amount preferential_amount,
+	pref.create_date create_date,pref.years,pref.months,pref.remark remark,pref.type from  preferential pref
+	left outer join customer_user users on users.id=pref.company_id where 1=1 and users.city_id = #{cityId}
+	<if test="userName!=null">
+			and (user_name like '%${userName}%' or  company_name like '%${userName}%')
+	</if>
+	<if test="starttime!=null and starttime!=''">
+		and CONVERT (
+			concat(
+				CONVERT (years, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10))
+			),
+			DATETIME
+		) &gt;= #{starttime}
+	</if>
+	<if test="querytime!=null and querytime!=''">
+		and CONVERT (
+			concat(
+				CONVERT (years, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10))
+			),
+			DATETIME
+		) &lt;=#{querytime}
+	</if>
+	<if test="crestdate != null and crestdate != ''">
+		and create_date &gt;= #{crestdate}
+	</if>
+	<if test="creenddate != null and creenddate != ''">
+		and create_date &lt;= #{creenddate}
+	</if>
+    <if test="status!=null">
+			and pref.delete_status = #{status}
+	</if>
+	<if test="type!=null and type!=''">
+			and pref.type = #{type}
+	</if>
+	order by create_date desc
+	<if test="start!=null">
+			limit #{start},#{limit}
+	</if>
+  </select>
+  
+  <select id="countByPreferentialSql" parameterType="java.util.HashMap"
+		resultType="java.lang.Integer">
+	select IFNULL(count(*),0) from  preferential pref
+	left outer join customer_user users on users.id=pref.company_id where 1=1  and users.city_id = #{cityId}
+	<if test="userName!=null">
+			and (user_name like '%${userName}%' or  company_name like '%${userName}%')
+	</if>
+	<if test="starttime!=null and starttime!=''">
+		and CONVERT (
+			concat(
+				CONVERT (years, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10))
+			),
+			DATETIME
+		) &gt;= #{starttime}
+	</if>
+	<if test="querytime!=null and querytime!=''">
+		and CONVERT (
+			concat(
+				CONVERT (years, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10))
+			),
+			DATETIME
+		) &lt;=#{querytime}
+	</if>
+	<if test="crestdate != null and crestdate != ''">
+		and create_date &gt;= #{crestdate}
+	</if>
+	<if test="creenddate != null and creenddate != ''">
+		and create_date &lt;= #{creenddate}
+	</if>
+    <if test="status!=null">
+		and pref.delete_status = #{status}
+	</if>
+	<if test="type!=null and type!=''">
+		and pref.type = #{type}
+	</if>
+</select>
+
+    <select id="selectSumByOrderDate" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+    select company_id,user_name,company_name,info.years,info.months,amountSum,amountSum1,amountSum2,amountSum3,amountSum4,acc.locks from ( 
+    select sumlist.company_id,users.user_name,users.company_name,sumlist.years,sumlist.months,sum(amount) amountSum,sum(debitnote_amount) amountSum1,
+    sum(invoice_amount) amountSum2,sum(preferential_amount) amountSum3,sum(amount)-sum(debitnote_amount) amountSum4 from (
+	select de.company_id,de.years,de.months,de.debitnote_amount,0 invoice_amount,0 preferential_amount,0 amount from debit_note de where de.delete_status=1
+	union ALL
+	select inv.company_id,inv.years,inv.months,0 debitnote_amount,inv.invoice_amount,0 preferential_amount,0 amount from invoice inv where inv.delete_status=1
+	union ALL
+	select pre.company_id,pre.years,pre.months,0 debitnote_amount,0 invoice_amount,pre.preferential_amount preferential_amount,0 amount from preferential pre where pre.delete_status=1
+	union ALL
+	select tra.user_id company_id,YEAR(sum_date) years,month(sum_date) months,0 debitnote_amount,0 invoice_amount,0 preferential_amount,amount from tran_sum tra 
+	where sum_date>date_format('2015-06-01', '%Y-%m-%d') 
+	)as sumlist
+	left outer join customer_user users on users.id=sumlist.company_id 
+	left outer join `verification` ver on ver.company_id=sumlist.company_id and ver.years=sumlist.years and ver.months=sumlist.months and ver.STATUS=1
+	<if test="userName!=null">
+			where (user_name like '%${userName}%' or  company_name like '%${userName}%')
+	</if>
+	group by sumlist.company_id,users.user_name,users.company_name,sumlist.years,sumlist.months
+	order by sumlist.company_id,sumlist.years, (sumlist.months+0)
+	)as info 
+	left outer join account_lock acc on acc.years=info.years and acc.months=info.months
+	<if test="start!=null">
+			limit #{start},#{limit}
+	</if>
+  </select>
+  
+  <select id="countBySumSql" parameterType="java.util.HashMap"
+		resultType="java.lang.Integer">
+	select IFNULL(count(*),0) from (
+	select de.company_id,de.years,de.months,de.debitnote_amount,0 invoice_amount,0 preferential_amount,0 amount from debit_note de where de.delete_status=1
+	union ALL
+	select inv.company_id,inv.years,inv.months,0 debitnote_amount,inv.invoice_amount,0 preferential_amount,0 amount from invoice inv where inv.delete_status=1
+	union ALL
+	select pre.company_id,pre.years,pre.months,0 debitnote_amount,0 invoice_amount,pre.preferential_amount preferential_amount,0 amount from preferential pre where pre.delete_status=1
+	union ALL
+	select tra.user_id company_id,YEAR(sum_date) years,month(sum_date) months,0 debitnote_amount,0 invoice_amount,0 preferential_amount,amount from tran_sum tra 
+	where sum_date>date_format('2015-06-01', '%Y-%m-%d') 
+	)as sumlist
+	left outer join customer_user users on users.id=sumlist.company_id 
+	left outer join `verification` ver on ver.company_id=sumlist.company_id and ver.years=sumlist.years and ver.months=sumlist.months and ver.STATUS=1
+	where ver.id is null
+	<if test="userName!=null">
+			and (user_name like '%${userName}%' or  company_name like '%${userName}%')
+	</if>
+</select>
+
+
+
+
+    <select id="selectSumPageGroup" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+SELECT csu.id company_id,csu.`user_name` ,re.name region,csu.`company_name`,csu.`mobile_phone` user_phone, tab.amountSum,tab.amountSum1,tab.amountSum2,tab.amountSum3,tab.amountSum4,tab.amountSum5,tab.amountSum6,tab.redfee redFee,tab.lwFeeOne lwFeeOne,tab.subsidy,tab.amountSum7,TIMESTAMPDIFF(MONTH,tab.debitDate,now()) debitMonth,TIMESTAMPDIFF(MONTH,tab.invDate,now()) invoiceMonth FROM `customer_user` csu LEFT JOIN (
+SELECT tab1.company_id,tab1.amountSum,tab1.amountSum1,tab1.amountSum2,tab1.amountSum3,tab1.amountSum4,tab1.amountSum5,tab1.amountSum-tab1.amountSum5 amountSum7,tab1.loss amountSum6,tab1.redfee,tab1.lwFeeOne,tab1.subsidy,tab2.debitDate,tab3.invDate FROM (
+SELECT  t2.company_id,sum(t2.amountSum) amountSum,sum(t2.amountSum1) amountSum1,sum(t2.amountSum2) amountSum2,sum(t2.amountSum3) amountSum3,sum(t2.amountSum4) amountSum4,sum(t2.amountSum5) amountSum5,sum(t2.loss) loss,SUM(t2.redfee) redfee,SUM(t2.lwFeeOne) lwFeeOne,SUM(subsidy) subsidy FROM (
+select cu.id company_id,date,sum(amount) amountSum,sum(debitnote_amount) amountSum1,
+    sum(invoice_amount) amountSum2,sum(preferential_amount) amountSum3,sum(consume) amountSum5,SUM(redfee) redfee,SUM(lwFeeOne) lwFeeOne,SUM(subsidy) subsidy,CASE WHEN cu.`pay_bill_way` =3 THEN SUM(loss)-sum(debitnote_amount)-sum(preferential_amount) WHEN cu.`pay_bill_way` =4 THEN if(SUM(subsidy)>0,SUM(subsidy)-sum(debitnote_amount)-sum(preferential_amount),0-sum(debitnote_amount)-sum(preferential_amount))  ELSE sum(amount)-sum(consume)-sum(redfee)-sum(lwFeeOne)-sum(debitnote_amount)-sum(preferential_amount) END 
+      amountSum4 ,sum(loss) loss  FROM (
+
+SELECT tt.company_id,tt.years,tt.months,tt.debitnote_amount,tt.invoice_amount,tt.preferential_amount,tt.amount,tt.consume,tt.loss,tt.redfee,tt.lwFeeOne,CONVERT (
+		concat(
+			CONVERT (tt.years, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10))
+		),
+		DATETIME
+	) AS date ,tt.subsidy  FROM ( SELECT tc.user_id company_id,
+           YEAR(`sum_date`) years,
+           MONTH(sum_date) months,
+           0 debitnote_amount,
+           0 invoice_amount,
+           0 preferential_amount,
+           0 amount,
+           tc.consume consume,ifnull(`actual_consume`,0)  - ifnull(`consume`,0)- ifnull(`red_fee`,0)- ifnull(`lw_fee_one`,0)+  ifnull(`sourcing_no`,0) subsidy,
+          ifnull(month_stock_money,0) + ifnull(sourcing,0) - ifnull(consume,0) - ifnull(red_fee,0) -ifnull(lw_fee_one,0) - ifnull(goods_money,0) loss,red_fee redfee,lw_fee_one lwFeeONe
+      FROM `tran_consume` tc
+        UNION ALL
+		SELECT
+			de.company_id,
+			de.years,
+			de.months,
+			de.debitnote_amount,
+			0 invoice_amount,
+			0 preferential_amount,
+			0 amount,
+            0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+		FROM
+			debit_note de
+		WHERE
+			de.delete_status = 1
+		UNION ALL
+			SELECT
+				inv.company_id,
+				inv.years,
+				inv.months,
+				0 debitnote_amount,
+				inv.invoice_amount,
+				0 preferential_amount,
+				0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+			FROM
+				invoice inv
+			WHERE
+				inv.delete_status = 1
+			UNION ALL
+				SELECT
+					pre.company_id,
+					pre.years,
+					pre.months,
+					0 debitnote_amount,
+					0 invoice_amount,
+					pre.preferential_amount preferential_amount,
+					0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+				FROM
+					preferential pre
+				WHERE
+					pre.delete_status = 1
+				UNION ALL
+					SELECT
+						tra.user_id company_id,
+						YEAR (sum_date) years,
+						MONTH (sum_date) months,
+						0 debitnote_amount,
+						0 invoice_amount,
+						0 preferential_amount,
+						amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+					FROM
+						tran_sum tra
+					WHERE
+						sum_date > date_format('2015-06-01', '%Y-%m-%d')) tt LEFT JOIN `verification` ver on ver.company_id=tt.company_id and ver.years=tt.years and ver.months=tt.months WHERE ver.`id` IS NULL 
+    ) sumlist LEFT JOIN `customer_user` cu on cu.id=sumlist.company_id 
+    <where>
+		<if test="startTime !=null">
+			AND sumlist.date &gt;=#{startTime}
+		</if>
+		<if test="endTime!=null">
+			AND sumlist.date &lt;=#{endTime}
+		</if>
+	</where>
+group by cu.`id`,date ) t2 GROUP BY t2.company_id
+) tab1 LEFT JOIN (
+	SELECT `company_id` ,MIN(date) debitDate FROM (
+select cu.id company_id,date,
+   CASE WHEN cu.`pay_bill_way` =3 THEN SUM(loss)-sum(debitnote_amount)-sum(preferential_amount) WHEN cu.`pay_bill_way` =4 THEN if(SUM(subsidy)>0,SUM(subsidy)-sum(debitnote_amount)-sum(preferential_amount),0-sum(debitnote_amount)-sum(preferential_amount))  ELSE sum(amount)-sum(consume)-sum(redfee)-sum(lwFeeOne)-sum(debitnote_amount)-sum(preferential_amount) END 
+      amountSum4   FROM (
+
+SELECT tt.company_id,tt.years,tt.months,tt.debitnote_amount,tt.invoice_amount,tt.preferential_amount,tt.amount,tt.consume,tt.loss,tt.redfee,tt.lwFeeOne,CONVERT (
+		concat(
+			CONVERT (tt.years, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10))
+		),
+		DATETIME
+	) AS date,tt.subsidy  FROM ( SELECT tc.user_id company_id,
+           YEAR(`sum_date`) years,
+           MONTH(sum_date) months,
+           0 debitnote_amount,
+           0 invoice_amount,
+           0 preferential_amount,
+           0 amount,
+           tc.consume consume,ifnull(`actual_consume`,0)  - ifnull(`consume`,0)- ifnull(`red_fee`,0)- ifnull(`lw_fee_one`,0)+  ifnull(`sourcing_no`,0) subsidy,
+          ifnull(month_stock_money,0) + ifnull(sourcing,0) - ifnull(consume,0) - ifnull(red_fee,0) -ifnull(lw_fee_one,0) - ifnull(goods_money,0) loss,red_fee redfee,lw_fee_one lwFeeONe
+      FROM `tran_consume` tc
+        UNION ALL
+		SELECT
+			de.company_id,
+			de.years,
+			de.months,
+			de.debitnote_amount,
+			0 invoice_amount,
+			0 preferential_amount,
+			0 amount,
+            0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+		FROM
+			debit_note de
+		WHERE
+			de.delete_status = 1
+		UNION ALL
+			SELECT
+				inv.company_id,
+				inv.years,
+				inv.months,
+				0 debitnote_amount,
+				inv.invoice_amount,
+				0 preferential_amount,
+				0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+			FROM
+				invoice inv
+			WHERE
+				inv.delete_status = 1
+			UNION ALL
+				SELECT
+					pre.company_id,
+					pre.years,
+					pre.months,
+					0 debitnote_amount,
+					0 invoice_amount,
+					pre.preferential_amount preferential_amount,
+					0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+				FROM
+					preferential pre
+				WHERE
+					pre.delete_status = 1
+				UNION ALL
+					SELECT
+						tra.user_id company_id,
+						YEAR (sum_date) years,
+						MONTH (sum_date) months,
+						0 debitnote_amount,
+						0 invoice_amount,
+						0 preferential_amount,
+						amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+					FROM
+						tran_sum tra
+					WHERE
+						sum_date > date_format('2015-06-01', '%Y-%m-%d')) tt LEFT JOIN `verification` ver on ver.company_id=tt.company_id and ver.years=tt.years and ver.months=tt.months  WHERE ver.`id` IS NULL 
+    ) sumlist LEFT JOIN `customer_user` cu on cu.id=sumlist.company_id 
+	
+group by cu.`id`,date
+   <!--  HAVING amountSum4 >0 -->
+) t GROUP BY company_id
+
+
+) tab2 on tab1.company_id = tab2.company_id
+LEFT JOIN (
+	SELECT t.company_id,MIN(date) invDate FROM (
+SELECT inv.company_id , CONVERT(concat(CONVERT(inv.years, CHAR(10)), '-', CONVERT(inv.months, CHAR(10)), '-', CONVERT(inv.months, CHAR(10))), DATETIME) AS date
+  FROM invoice inv
+ LEFT JOIN `verification` ver on ver.company_id= inv.company_id
+   and ver.years= inv.years
+   and ver.months= inv.months
+ WHERE inv.delete_status= 1
+and ver.`id` IS NULL 
+        GROUP BY company_id,date ) t GROUP BY `company_id` 
+) tab3 on tab1.company_id = tab3.company_id
+)tab on csu.`id` = tab.company_id 
+	LEFT JOIN `reseau` re on csu.`reseau_id` =re.`id` 
+<where>
+	<if test="userName!=null and userName !=''">
+			and (csu.user_name like '%${userName}%' or  csu.company_name like '%${userName}%')
+	</if>
+	<if test="regionId!=null and regionId!=''">
+			and csu.region_id=#{regionId}
+	</if>
+	<if test="reseauId!=null and reseauId!=''">
+			and csu.reseau_id=#{reseauId}
+	</if>
+	<if test="type==3">
+		and csu.iswxvip = 3
+	</if>
+	<if test="type==2">
+		and csu.iswxvip = 0
+	</if>
+	<if test="type==1">
+		and csu.iswxvip = 1
+	</if>
+	<if test="debflag==1">
+	    and TIMESTAMPDIFF(MONTH,tab.debitDate,now()) >12
+	</if>
+	<if test="debflag==2">
+	    and (TIMESTAMPDIFF(MONTH,tab.debitDate,now()) > 9 and  TIMESTAMPDIFF(MONTH,tab.debitDate,now()) &lt;=12)
+	</if>
+	<if test="debflag==3">
+	and (TIMESTAMPDIFF(MONTH,tab.debitDate,now()) > 6 and  TIMESTAMPDIFF(MONTH,tab.debitDate,now()) &lt;=9)
+	</if>
+	<if test="debflag==4">
+	and (TIMESTAMPDIFF(MONTH,tab.debitDate,now()) > 3 and  TIMESTAMPDIFF(MONTH,tab.debitDate,now()) &lt;=6)
+	</if>
+	<if test="debflag==5">
+	and (TIMESTAMPDIFF(MONTH,tab.debitDate,now()) > 0 and  TIMESTAMPDIFF(MONTH,tab.debitDate,now()) &lt;=3)
+	</if>
+	<if test="invflag==1">
+	    and TIMESTAMPDIFF(MONTH,tab.invDate,now()) >2
+	</if>
+	<if test="invflag==2">
+	    and (TIMESTAMPDIFF(MONTH,tab.invDate,now()) >0 and TIMESTAMPDIFF(MONTH,tab.debitDate,now()) &lt;=2)
+	</if>
+	and csu.`status` = 1 and csu.city_id =#{cityId}
+</where>
+    <if test="param == 0">
+		order by csu.created_time desc
+	</if>
+	<if test="param == 1">
+		order by tab.amountSum4 desc
+	</if>
+	<if test="param == 2">
+		order by (tab.amountSum2-tab.amountSum1) desc
+	</if>
+	<if test="param == 3">
+		order by (tab.amountSum-tab.amountSum5-tab.amountSum2) desc
+	</if>
+  </select>
+  
+  <select id="countPageGroup" parameterType="java.util.HashMap"
+		resultType="java.lang.Integer">
+	select IFNULL(count(*),0) from (
+	select sumlist.company_id,users.user_name,users.company_name,users.mobile_phone user_phone,sum(amount) amountSum,sum(debitnote_amount) amountSum1,
+    sum(invoice_amount) amountSum2,sum(preferential_amount) amountSum3,sum(amount)-sum(debitnote_amount) amountSum4 from (
+	SELECT * FROM (
+SELECT
+	*, CONVERT (
+		concat(
+			CONVERT (tt.years, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10))
+		),
+		DATETIME
+	) AS date
+FROM
+	(
+		SELECT
+			de.company_id,
+			de.years,
+			de.months,
+			de.debitnote_amount,
+			0 invoice_amount,
+			0 preferential_amount,
+			0 amount
+		FROM
+			debit_note de
+		WHERE
+			de.delete_status = 1
+		UNION ALL
+			SELECT
+				inv.company_id,
+				inv.years,
+				inv.months,
+				0 debitnote_amount,
+				inv.invoice_amount,
+				0 preferential_amount,
+				0 amount
+			FROM
+				invoice inv
+			WHERE
+				inv.delete_status = 1
+			UNION ALL
+				SELECT
+					pre.company_id,
+					pre.years,
+					pre.months,
+					0 debitnote_amount,
+					0 invoice_amount,
+					pre.preferential_amount preferential_amount,
+					0 amount
+				FROM
+					preferential pre
+				WHERE
+					pre.delete_status = 1
+				UNION ALL
+					SELECT
+						tra.user_id company_id,
+						YEAR (sum_date) years,
+						MONTH (sum_date) months,
+						0 debitnote_amount,
+						0 invoice_amount,
+						0 preferential_amount,
+						amount
+					FROM
+						tran_sum tra
+					WHERE
+						sum_date > date_format('2015-06-01', '%Y-%m-%d')
+	) tt )t
+	<where>
+		<if test="endTime!=null">
+			AND t.date &lt;=#{endTime}
+		</if>
+	</where>
+	)as sumlist
+	left outer join customer_user users on users.id=sumlist.company_id 
+	<if test="userName!=null">
+			where (user_name like '%${userName}%' or  company_name like '%${userName}%')
+	</if>
+	group by sumlist.company_id,users.user_name,users.company_name
+	) as listcount
+	
+</select>
+
+<select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+     select info.id,info.type,
+       info.company_id,
+       info.user_name,
+       info.company_name,
+       info.years,
+       info.months,
+       amountSum,
+       amountSum1,
+       amountSum2,
+       amountSum3,
+       amountSum4,amountSum5,amountSum-amountSum5 amountSum7,loss amountSum6,redfee redFee,lwFeeOne,subsidy,
+       acc.locks,
+       re.remark
+  from(
+select sumlist.company_id, users.user_name, users.company_name,users.`city_id` , users.mobile_phone user_phone, sumlist.years, sumlist.months, ver.id id, sum(amount) amountSum, sum(debitnote_amount) amountSum1, sum(invoice_amount) amountSum2, sum(preferential_amount) amountSum3, sum(consume) amountSum5,CASE WHEN users.`pay_bill_way` =3 THEN SUM(loss)-sum(debitnote_amount)-sum(preferential_amount) WHEN users.`pay_bill_way` =4 THEN if(SUM(subsidy)>0,SUM(subsidy)-sum(debitnote_amount)-sum(preferential_amount),0-sum(debitnote_amount)-sum(preferential_amount)) ELSE sum(amount)-sum(consume) -sum(redfee) - SUM(lwFeeOne) -sum(debitnote_amount)-sum(preferential_amount) END
+      amountSum4 ,ver.type,loss,subsidy,SUM(redfee) redfee,sum(lwFeeOne) lwFeeOne
+  from(
+      SELECT tc.user_id company_id,
+           YEAR(`sum_date`) years,
+           MONTH(sum_date) months,
+           0 debitnote_amount,
+           0 invoice_amount,
+           0 preferential_amount,
+           0 amount,
+           tc.consume consume,ifnull(`actual_consume`,0)  - ifnull(`consume`,0)- ifnull(`red_fee`,0)- ifnull(`lw_fee_one`,0)+  ifnull(`sourcing_no`,0) subsidy,
+		   ifnull(month_stock_money,0) + ifnull(sourcing,0) - ifnull(consume,0)-ifnull(red_fee,0) -ifnull(lw_fee_one,0) - ifnull(goods_money,0) loss,red_fee redfee,lw_fee_one lwFeeOne
+      FROM `tran_consume` tc
+        UNION ALL
+select de.company_id, de.years, de.months, de.debitnote_amount, 0 invoice_amount, 0 preferential_amount, 0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+  from debit_note de
+ where de.delete_status= 1
+ union ALL
+select inv.company_id, inv.years, inv.months, 0 debitnote_amount, inv.invoice_amount, 0 preferential_amount, 0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+  from invoice inv
+ where inv.delete_status= 1
+ union ALL
+select pre.company_id, pre.years, pre.months, 0 debitnote_amount, 0 invoice_amount, pre.preferential_amount preferential_amount, 0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+  from preferential pre
+ where pre.delete_status= 1
+ union ALL
+select tra.user_id company_id, YEAR(sum_date) years, month(sum_date) months, 0 debitnote_amount, 0 invoice_amount, 0 preferential_amount, amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+  from tran_sum tra
+ where sum_date> date_format('2015-06-01', '%Y-%m-%d')) as sumlist
+  left outer join customer_user users on users.id= sumlist.company_id
+  left outer join `verification` ver on ver.company_id= sumlist.company_id
+   and ver.years= sumlist.years
+   and ver.months= sumlist.months
+   and ver.STATUS= 1
+  
+ <if test= "userId!= null">
+ where sumlist.company_id= ${userId}
+ 	</if>
+
+ group by sumlist.company_id, users.user_name, users.company_name, sumlist.years, sumlist.months) as info
+  left outer join account_lock acc on acc.years= info.years
+   and acc.months= info.months and acc.`city_id` = info.city_id
+  LEFT OUTER JOIN remark re on re.company_id= info.company_id
+   and re.year= info.years
+   and re.month= info.months
+  <where>
+   <if test= "startTime!= null">
+    info.date &gt;= #{startTime}
+    </if>
+       <if test= "endTime!= null">
+   AND info.date &lt;= #{endTime}
+         </if>
+   </where>
+ order by company_id,
+         info.years desc,
+         (info.months+ 0) desc
+    
+  </select>
+  <select id="findTotal" resultType="com.b2b.common.domain.DebitNoteDemo">
+    SELECT SUM(t.amountSum) amountSum,
+       SUM(t.amountSum1) amountSum1,
+       SUM(t.amountSum2) amountSum2,
+       SUM(t.amountSum3) amountSum3,
+       SUM(t.amountSum4) amountSum4
+  from(
+SELECT csu.id company_id,csu.`user_name` ,re.name region,csu.`company_name`,csu.`mobile_phone` user_phone, tab.amountSum,tab.amountSum1,tab.amountSum2,tab.amountSum3,tab.amountSum4,tab.amountSum5,tab.amountSum6,tab.redfee redFee,tab.lwFeeOne lwFeeOne,tab.subsidy,tab.amountSum7,TIMESTAMPDIFF(MONTH,tab.debitDate,now()) debitMonth,TIMESTAMPDIFF(MONTH,tab.invDate,now()) invoiceMonth FROM `customer_user` csu LEFT JOIN (
+SELECT tab1.company_id,tab1.amountSum,tab1.amountSum1,tab1.amountSum2,tab1.amountSum3,tab1.amountSum4,tab1.amountSum5,tab1.amountSum-tab1.amountSum5 amountSum7,tab1.loss amountSum6,tab1.redfee,tab1.lwFeeOne,tab1.subsidy,tab2.debitDate,tab3.invDate FROM (
+SELECT  t2.company_id,sum(t2.amountSum) amountSum,sum(t2.amountSum1) amountSum1,sum(t2.amountSum2) amountSum2,sum(t2.amountSum3) amountSum3,sum(t2.amountSum4) amountSum4,sum(t2.amountSum5) amountSum5,sum(t2.loss) loss,SUM(t2.redfee) redfee,SUM(t2.lwFeeOne) lwFeeOne,SUM(subsidy) subsidy FROM (
+select cu.id company_id,date,sum(amount) amountSum,sum(debitnote_amount) amountSum1,
+    sum(invoice_amount) amountSum2,sum(preferential_amount) amountSum3,sum(consume) amountSum5,SUM(redfee) redfee,SUM(lwFeeOne) lwFeeOne,SUM(subsidy) subsidy,CASE WHEN cu.`pay_bill_way` =3 THEN SUM(loss)-sum(debitnote_amount)-sum(preferential_amount) WHEN cu.`pay_bill_way` =4 THEN if(SUM(subsidy)>0,SUM(subsidy)-sum(debitnote_amount)-sum(preferential_amount),0-sum(debitnote_amount)-sum(preferential_amount))  ELSE sum(amount)-sum(consume)-sum(redfee)-sum(lwFeeOne)-sum(debitnote_amount)-sum(preferential_amount) END 
+      amountSum4 ,sum(loss) loss  FROM (
+
+SELECT tt.company_id,tt.years,tt.months,tt.debitnote_amount,tt.invoice_amount,tt.preferential_amount,tt.amount,tt.consume,tt.loss,tt.redfee,tt.lwFeeOne,CONVERT (
+		concat(
+			CONVERT (tt.years, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10))
+		),
+		DATETIME
+	) AS date ,tt.subsidy  FROM ( SELECT tc.user_id company_id,
+           YEAR(`sum_date`) years,
+           MONTH(sum_date) months,
+           0 debitnote_amount,
+           0 invoice_amount,
+           0 preferential_amount,
+           0 amount,
+           tc.consume consume,ifnull(`actual_consume`,0)  - ifnull(`consume`,0)- ifnull(`red_fee`,0)- ifnull(`lw_fee_one`,0)+  ifnull(`sourcing_no`,0) subsidy,
+          ifnull(month_stock_money,0) + ifnull(sourcing,0) - ifnull(consume,0) - ifnull(red_fee,0) -ifnull(lw_fee_one,0) - ifnull(goods_money,0) loss,red_fee redfee,lw_fee_one lwFeeONe
+      FROM `tran_consume` tc
+        UNION ALL
+		SELECT
+			de.company_id,
+			de.years,
+			de.months,
+			de.debitnote_amount,
+			0 invoice_amount,
+			0 preferential_amount,
+			0 amount,
+            0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+		FROM
+			debit_note de
+		WHERE
+			de.delete_status = 1
+		UNION ALL
+			SELECT
+				inv.company_id,
+				inv.years,
+				inv.months,
+				0 debitnote_amount,
+				inv.invoice_amount,
+				0 preferential_amount,
+				0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+			FROM
+				invoice inv
+			WHERE
+				inv.delete_status = 1
+			UNION ALL
+				SELECT
+					pre.company_id,
+					pre.years,
+					pre.months,
+					0 debitnote_amount,
+					0 invoice_amount,
+					pre.preferential_amount preferential_amount,
+					0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+				FROM
+					preferential pre
+				WHERE
+					pre.delete_status = 1
+				UNION ALL
+					SELECT
+						tra.user_id company_id,
+						YEAR (sum_date) years,
+						MONTH (sum_date) months,
+						0 debitnote_amount,
+						0 invoice_amount,
+						0 preferential_amount,
+						amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+					FROM
+						tran_sum tra
+					WHERE
+						sum_date > date_format('2015-06-01', '%Y-%m-%d')) tt LEFT JOIN `verification` ver on ver.company_id=tt.company_id and ver.years=tt.years and ver.months=tt.months WHERE ver.`id` IS NULL 
+    ) sumlist LEFT JOIN `customer_user` cu on cu.id=sumlist.company_id 
+    <where>
+		<if test="startTime !=null">
+			AND sumlist.date &gt;=#{startTime}
+		</if>
+		<if test="endTime!=null">
+			AND sumlist.date &lt;=#{endTime}
+		</if>
+	</where>
+group by cu.`id`,date ) t2 GROUP BY t2.company_id
+) tab1 LEFT JOIN (
+	SELECT `company_id` ,MIN(date) debitDate FROM (
+select cu.id company_id,date,
+   CASE WHEN cu.`pay_bill_way` =3 THEN SUM(loss)-sum(debitnote_amount)-sum(preferential_amount) WHEN cu.`pay_bill_way` =4 THEN if(SUM(subsidy)>0,SUM(subsidy)-sum(debitnote_amount)-sum(preferential_amount),0-sum(debitnote_amount)-sum(preferential_amount))  ELSE sum(amount)-sum(consume)-sum(redfee)-sum(lwFeeOne)-sum(debitnote_amount)-sum(preferential_amount) END 
+      amountSum4   FROM (
+
+SELECT tt.company_id,tt.years,tt.months,tt.debitnote_amount,tt.invoice_amount,tt.preferential_amount,tt.amount,tt.consume,tt.loss,tt.redfee,tt.lwFeeOne,CONVERT (
+		concat(
+			CONVERT (tt.years, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10))
+		),
+		DATETIME
+	) AS date,tt.subsidy  FROM ( SELECT tc.user_id company_id,
+           YEAR(`sum_date`) years,
+           MONTH(sum_date) months,
+           0 debitnote_amount,
+           0 invoice_amount,
+           0 preferential_amount,
+           0 amount,
+           tc.consume consume,ifnull(`actual_consume`,0)  - ifnull(`consume`,0)- ifnull(`red_fee`,0)- ifnull(`lw_fee_one`,0)+  ifnull(`sourcing_no`,0) subsidy,
+          ifnull(month_stock_money,0) + ifnull(sourcing,0) - ifnull(consume,0) - ifnull(red_fee,0) -ifnull(lw_fee_one,0) - ifnull(goods_money,0) loss,red_fee redfee,lw_fee_one lwFeeONe
+      FROM `tran_consume` tc
+        UNION ALL
+		SELECT
+			de.company_id,
+			de.years,
+			de.months,
+			de.debitnote_amount,
+			0 invoice_amount,
+			0 preferential_amount,
+			0 amount,
+            0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+		FROM
+			debit_note de
+		WHERE
+			de.delete_status = 1
+		UNION ALL
+			SELECT
+				inv.company_id,
+				inv.years,
+				inv.months,
+				0 debitnote_amount,
+				inv.invoice_amount,
+				0 preferential_amount,
+				0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+			FROM
+				invoice inv
+			WHERE
+				inv.delete_status = 1
+			UNION ALL
+				SELECT
+					pre.company_id,
+					pre.years,
+					pre.months,
+					0 debitnote_amount,
+					0 invoice_amount,
+					pre.preferential_amount preferential_amount,
+					0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+				FROM
+					preferential pre
+				WHERE
+					pre.delete_status = 1
+				UNION ALL
+					SELECT
+						tra.user_id company_id,
+						YEAR (sum_date) years,
+						MONTH (sum_date) months,
+						0 debitnote_amount,
+						0 invoice_amount,
+						0 preferential_amount,
+						amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+					FROM
+						tran_sum tra
+					WHERE
+						sum_date > date_format('2015-06-01', '%Y-%m-%d')) tt LEFT JOIN `verification` ver on ver.company_id=tt.company_id and ver.years=tt.years and ver.months=tt.months  WHERE ver.`id` IS NULL 
+    ) sumlist LEFT JOIN `customer_user` cu on cu.id=sumlist.company_id 
+	
+group by cu.`id`,date
+   <!--  HAVING amountSum4 >0 -->
+) t GROUP BY company_id
+
+
+) tab2 on tab1.company_id = tab2.company_id
+LEFT JOIN (
+	SELECT t.company_id,MIN(date) invDate FROM (
+SELECT inv.company_id , CONVERT(concat(CONVERT(inv.years, CHAR(10)), '-', CONVERT(inv.months, CHAR(10)), '-', CONVERT(inv.months, CHAR(10))), DATETIME) AS date
+  FROM invoice inv
+ LEFT JOIN `verification` ver on ver.company_id= inv.company_id
+   and ver.years= inv.years
+   and ver.months= inv.months
+ WHERE inv.delete_status= 1
+and ver.`id` IS NULL 
+        GROUP BY company_id,date ) t GROUP BY `company_id` 
+) tab3 on tab1.company_id = tab3.company_id
+)tab on csu.`id` = tab.company_id 
+	LEFT JOIN `reseau` re on csu.`reseau_id` =re.`id` 
+<where>
+	<if test="userName!=null and userName !=''">
+			and (csu.user_name like '%${userName}%' or  csu.company_name like '%${userName}%')
+	</if>
+	<if test="regionId!=null and regionId!=''">
+			and csu.region_id=#{regionId}
+	</if>
+	<if test="reseauId!=null and reseauId!=''">
+			and csu.reseau_id=#{reseauId}
+	</if>
+	<if test="type==3">
+		and csu.iswxvip = 3
+	</if>
+	<if test="type==2">
+		and csu.iswxvip = 0
+	</if>
+	<if test="type==1">
+		and csu.iswxvip = 1
+	</if>
+	<if test="debflag==1">
+	    and TIMESTAMPDIFF(MONTH,tab.debitDate,now()) >12
+	</if>
+	<if test="debflag==2">
+	    and (TIMESTAMPDIFF(MONTH,tab.debitDate,now()) > 9 and  TIMESTAMPDIFF(MONTH,tab.debitDate,now()) &lt;=12)
+	</if>
+	<if test="debflag==3">
+	and (TIMESTAMPDIFF(MONTH,tab.debitDate,now()) > 6 and  TIMESTAMPDIFF(MONTH,tab.debitDate,now()) &lt;=9)
+	</if>
+	<if test="debflag==4">
+	and (TIMESTAMPDIFF(MONTH,tab.debitDate,now()) > 3 and  TIMESTAMPDIFF(MONTH,tab.debitDate,now()) &lt;=6)
+	</if>
+	<if test="debflag==5">
+	and (TIMESTAMPDIFF(MONTH,tab.debitDate,now()) > 0 and  TIMESTAMPDIFF(MONTH,tab.debitDate,now()) &lt;=3)
+	</if>
+	<if test="invflag==1">
+	    and TIMESTAMPDIFF(MONTH,tab.invDate,now()) >2
+	</if>
+	<if test="invflag==2">
+	    and (TIMESTAMPDIFF(MONTH,tab.invDate,now()) >0 and TIMESTAMPDIFF(MONTH,tab.debitDate,now()) &lt;=2)
+	</if>
+	and csu.`status` = 1 and csu.city_id =#{cityId}
+</where>
+     ) t
+    
+  </select>
+  <select id="findTotalaaa" resultType="com.b2b.common.domain.DebitNoteDemo">
+  	 SELECT SUM(t.amountSum) amountSum,
+       SUM(t.amountSum1) amountSum1,
+       SUM(t.amountSum2) amountSum2,
+       SUM(t.amountSum3) amountSum3,
+       SUM(t.amountSum4) amountSum4
+  from(
+SELECT csu.id company_id,csu.`user_name` ,re.name region,csu.`company_name`,csu.`mobile_phone` user_phone, tab.amountSum,tab.amountSum1,tab.amountSum2,tab.amountSum3,tab.amountSum4,tab.amountSum5,tab.amountSum6,tab.redfee redFee,tab.lwFeeOne lwFeeOne,tab.subsidy,tab.amountSum7,TIMESTAMPDIFF(MONTH,tab.debitDate,now()) debitMonth,TIMESTAMPDIFF(MONTH,tab.invDate,now()) invoiceMonth FROM `customer_user` csu LEFT JOIN (
+SELECT tab1.company_id,tab1.amountSum,tab1.amountSum1,tab1.amountSum2,tab1.amountSum3,tab1.amountSum4,tab1.amountSum5,tab1.amountSum-tab1.amountSum5 amountSum7,tab1.loss amountSum6,tab1.redfee,tab1.lwFeeOne,tab1.subsidy,tab2.debitDate,tab3.invDate FROM (
+SELECT  t2.company_id,sum(t2.amountSum) amountSum,sum(t2.amountSum1) amountSum1,sum(t2.amountSum2) amountSum2,sum(t2.amountSum3) amountSum3,sum(t2.amountSum4) amountSum4,sum(t2.amountSum5) amountSum5,sum(t2.loss) loss,SUM(t2.redfee) redfee,SUM(t2.lwFeeOne) lwFeeOne,SUM(subsidy) subsidy FROM (
+select cu.id company_id,date,sum(amount) amountSum,sum(debitnote_amount) amountSum1,
+    sum(invoice_amount) amountSum2,sum(preferential_amount) amountSum3,sum(consume) amountSum5,SUM(redfee) redfee,SUM(lwFeeOne) lwFeeOne,SUM(subsidy) subsidy,CASE WHEN cu.`pay_bill_way` =3 THEN SUM(loss)-sum(debitnote_amount)-sum(preferential_amount) WHEN cu.`pay_bill_way` =4 THEN if(SUM(subsidy)>0,SUM(subsidy)-sum(debitnote_amount)-sum(preferential_amount),0-sum(debitnote_amount)-sum(preferential_amount))  ELSE sum(amount)-sum(consume)-sum(redfee)-sum(lwFeeOne)-sum(debitnote_amount)-sum(preferential_amount) END 
+      amountSum4 ,sum(loss) loss  FROM (
+
+SELECT tt.company_id,tt.years,tt.months,tt.debitnote_amount,tt.invoice_amount,tt.preferential_amount,tt.amount,tt.consume,tt.loss,tt.redfee,tt.lwFeeOne,CONVERT (
+		concat(
+			CONVERT (tt.years, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10))
+		),
+		DATETIME
+	) AS date ,tt.subsidy  FROM ( SELECT tc.user_id company_id,
+           YEAR(`sum_date`) years,
+           MONTH(sum_date) months,
+           0 debitnote_amount,
+           0 invoice_amount,
+           0 preferential_amount,
+           0 amount,
+           tc.consume consume,ifnull(`actual_consume`,0)  - ifnull(`consume`,0)- ifnull(`red_fee`,0)- ifnull(`lw_fee_one`,0)+  ifnull(`sourcing_no`,0) subsidy,
+          ifnull(month_stock_money,0) + ifnull(sourcing,0) - ifnull(consume,0) - ifnull(red_fee,0) -ifnull(lw_fee_one,0) - ifnull(goods_money,0) loss,red_fee redfee,lw_fee_one lwFeeONe
+      FROM `tran_consume` tc
+        UNION ALL
+		SELECT
+			de.company_id,
+			de.years,
+			de.months,
+			de.debitnote_amount,
+			0 invoice_amount,
+			0 preferential_amount,
+			0 amount,
+            0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+		FROM
+			debit_note de
+		WHERE
+			de.delete_status = 1
+		UNION ALL
+			SELECT
+				inv.company_id,
+				inv.years,
+				inv.months,
+				0 debitnote_amount,
+				inv.invoice_amount,
+				0 preferential_amount,
+				0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+			FROM
+				invoice inv
+			WHERE
+				inv.delete_status = 1
+			UNION ALL
+				SELECT
+					pre.company_id,
+					pre.years,
+					pre.months,
+					0 debitnote_amount,
+					0 invoice_amount,
+					pre.preferential_amount preferential_amount,
+					0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+				FROM
+					preferential pre
+				WHERE
+					pre.delete_status = 1
+				UNION ALL
+					SELECT
+						tra.user_id company_id,
+						YEAR (sum_date) years,
+						MONTH (sum_date) months,
+						0 debitnote_amount,
+						0 invoice_amount,
+						0 preferential_amount,
+						amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+					FROM
+						tran_sum tra
+					WHERE
+						sum_date > date_format('2015-06-01', '%Y-%m-%d')) tt LEFT JOIN `verification` ver on ver.company_id=tt.company_id and ver.years=tt.years and ver.months=tt.months
+    ) sumlist LEFT JOIN `customer_user` cu on cu.id=sumlist.company_id 
+    <where>
+		<if test="startTime !=null">
+			AND sumlist.date &gt;=#{startTime}
+		</if>
+		<if test="endTime!=null">
+			AND sumlist.date &lt;=#{endTime}
+		</if>
+	</where>
+group by cu.`id`,date ) t2 GROUP BY t2.company_id
+) tab1 LEFT JOIN (
+	SELECT `company_id` ,MIN(date) debitDate FROM (
+select cu.id company_id,date,
+   CASE WHEN cu.`pay_bill_way` =3 THEN SUM(loss)-sum(debitnote_amount)-sum(preferential_amount) WHEN cu.`pay_bill_way` =4 THEN if(SUM(subsidy)>0,SUM(subsidy)-sum(debitnote_amount)-sum(preferential_amount),0-sum(debitnote_amount)-sum(preferential_amount))  ELSE sum(amount)-sum(consume)-sum(redfee)-sum(lwFeeOne)-sum(debitnote_amount)-sum(preferential_amount) END 
+      amountSum4   FROM (
+
+SELECT tt.company_id,tt.years,tt.months,tt.debitnote_amount,tt.invoice_amount,tt.preferential_amount,tt.amount,tt.consume,tt.loss,tt.redfee,tt.lwFeeOne,CONVERT (
+		concat(
+			CONVERT (tt.years, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10))
+		),
+		DATETIME
+	) AS date,tt.subsidy  FROM ( SELECT tc.user_id company_id,
+           YEAR(`sum_date`) years,
+           MONTH(sum_date) months,
+           0 debitnote_amount,
+           0 invoice_amount,
+           0 preferential_amount,
+           0 amount,
+           tc.consume consume,ifnull(`actual_consume`,0)  - ifnull(`consume`,0)- ifnull(`red_fee`,0)- ifnull(`lw_fee_one`,0)+  ifnull(`sourcing_no`,0) subsidy,
+          ifnull(month_stock_money,0) + ifnull(sourcing,0) - ifnull(consume,0) - ifnull(red_fee,0) -ifnull(lw_fee_one,0) - ifnull(goods_money,0) loss,red_fee redfee,lw_fee_one lwFeeONe
+      FROM `tran_consume` tc
+        UNION ALL
+		SELECT
+			de.company_id,
+			de.years,
+			de.months,
+			de.debitnote_amount,
+			0 invoice_amount,
+			0 preferential_amount,
+			0 amount,
+            0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+		FROM
+			debit_note de
+		WHERE
+			de.delete_status = 1
+		UNION ALL
+			SELECT
+				inv.company_id,
+				inv.years,
+				inv.months,
+				0 debitnote_amount,
+				inv.invoice_amount,
+				0 preferential_amount,
+				0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+			FROM
+				invoice inv
+			WHERE
+				inv.delete_status = 1
+			UNION ALL
+				SELECT
+					pre.company_id,
+					pre.years,
+					pre.months,
+					0 debitnote_amount,
+					0 invoice_amount,
+					pre.preferential_amount preferential_amount,
+					0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+				FROM
+					preferential pre
+				WHERE
+					pre.delete_status = 1
+				UNION ALL
+					SELECT
+						tra.user_id company_id,
+						YEAR (sum_date) years,
+						MONTH (sum_date) months,
+						0 debitnote_amount,
+						0 invoice_amount,
+						0 preferential_amount,
+						amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+					FROM
+						tran_sum tra
+					WHERE
+						sum_date > date_format('2015-06-01', '%Y-%m-%d')) tt LEFT JOIN `verification` ver on ver.company_id=tt.company_id and ver.years=tt.years and ver.months=tt.months
+    ) sumlist LEFT JOIN `customer_user` cu on cu.id=sumlist.company_id 
+	
+group by cu.`id`,date
+   <!--  HAVING amountSum4 >0 -->
+) t GROUP BY company_id
+
+
+) tab2 on tab1.company_id = tab2.company_id
+LEFT JOIN (
+	SELECT t.company_id,MIN(date) invDate FROM (
+SELECT inv.company_id , CONVERT(concat(CONVERT(inv.years, CHAR(10)), '-', CONVERT(inv.months, CHAR(10)), '-', CONVERT(inv.months, CHAR(10))), DATETIME) AS date
+  FROM invoice inv
+ LEFT JOIN `verification` ver on ver.company_id= inv.company_id
+   and ver.years= inv.years
+   and ver.months= inv.months
+ WHERE inv.delete_status= 1
+and ver.`id` IS NULL 
+        GROUP BY company_id,date ) t GROUP BY `company_id` 
+) tab3 on tab1.company_id = tab3.company_id
+)tab on csu.`id` = tab.company_id 
+	LEFT JOIN `reseau` re on csu.`reseau_id` =re.`id` 
+<where>
+	<if test="userName!=null and userName !=''">
+			and (csu.user_name like '%${userName}%' or  csu.company_name like '%${userName}%')
+	</if>
+	<if test="regionId!=null and regionId!=''">
+			and csu.region_id=#{regionId}
+	</if>
+	<if test="reseauId!=null and reseauId!=''">
+			and csu.reseau_id=#{reseauId}
+	</if>
+	<if test="type==3">
+		and csu.iswxvip = 3
+	</if>
+	<if test="type==2">
+		and csu.iswxvip = 0
+	</if>
+	<if test="type==1">
+		and csu.iswxvip = 1
+	</if>
+	<if test="debflag==1">
+	    and TIMESTAMPDIFF(MONTH,tab.debitDate,now()) >12
+	</if>
+	<if test="debflag==2">
+	    and (TIMESTAMPDIFF(MONTH,tab.debitDate,now()) > 9 and  TIMESTAMPDIFF(MONTH,tab.debitDate,now()) &lt;=12)
+	</if>
+	<if test="debflag==3">
+	and (TIMESTAMPDIFF(MONTH,tab.debitDate,now()) > 6 and  TIMESTAMPDIFF(MONTH,tab.debitDate,now()) &lt;=9)
+	</if>
+	<if test="debflag==4">
+	and (TIMESTAMPDIFF(MONTH,tab.debitDate,now()) > 3 and  TIMESTAMPDIFF(MONTH,tab.debitDate,now()) &lt;=6)
+	</if>
+	<if test="debflag==5">
+	and (TIMESTAMPDIFF(MONTH,tab.debitDate,now()) > 0 and  TIMESTAMPDIFF(MONTH,tab.debitDate,now()) &lt;=3)
+	</if>
+	<if test="invflag==1">
+	    and TIMESTAMPDIFF(MONTH,tab.invDate,now()) >2
+	</if>
+	<if test="invflag==2">
+	    and (TIMESTAMPDIFF(MONTH,tab.invDate,now()) >0 and TIMESTAMPDIFF(MONTH,tab.debitDate,now()) &lt;=2)
+	</if>
+	and csu.`status` = 1 and csu.city_id =#{cityId}
+</where>
+     ) t
+    
+  </select>
+  <select id="totalPreferential" resultType="long">
+  	select IFNULL(sum(pref.preferential_amount),0) from  preferential pref
+	left outer join customer_user users on users.id=pref.company_id where 1=1  and users.city_id = #{cityId}
+	<if test="userName!=null">
+			and (user_name like '%${userName}%' or  company_name like '%${userName}%')
+	</if>
+	<if test="starttime!=null and starttime!=''">
+		and CONVERT (
+			concat(
+				CONVERT (years, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10))
+			),
+			DATETIME
+		) &gt;= #{starttime}
+	</if>
+	<if test="querytime!=null and querytime!=''">
+		and CONVERT (
+			concat(
+				CONVERT (years, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10))
+			),
+			DATETIME
+		) &lt;=#{querytime}
+	</if>
+	<if test="crestdate != null and crestdate != ''">
+		and create_date &gt;= #{crestdate}
+	</if>
+	<if test="creenddate != null and creenddate != ''">
+		and create_date &lt;= #{creenddate}
+	</if>
+	<if test="type!=null and type!=''">
+			and pref.type = #{type}
+	</if>
+			and pref.delete_status = 1
+  </select>
+  <select id="findReceivedPaymentsReport" resultType="com.b2b.common.domain.DebitNoteDemo">
+  	SELECT t1.sum_date sumdate,
+       ifnull(t1.amount,0) amountSum1,
+       ifnull(t2.consume,0) amountSum2,
+       ifnull(t1.amount,0)-ifnull(t2.consume,0),t7.fee amountSum3,
+       ifnull(t3.invoice_amount,0) amountSum4,
+       round(ifnull(t3.invoice_amount,0)/(ifnull(t1.amount,0)-ifnull(t2.consume,0))*100) num1,
+       ifnull(t4.debitnote_amount,0) amountSum5,
+       round(ifnull(t4.debitnote_amount,0)/(ifnull(t1.amount,0)-ifnull(t2.consume,0))*100) num2,
+       round(ifnull(t4.debitnote_amount,0)/ifnull(t3.invoice_amount,0)*100) num3,
+       ifnull(t5.preferential_amount,0) amountSum6,
+       ifnull(t1.receivable_num,0) receivableNum,
+       ifnull(t6.received_num,0) receivedNum,
+       round(ifnull(t6.received_num,0)/ifnull(t1.receivable_num,0)*100) num4
+  FROM(
+SELECT SUM(`amount`) amount, COUNT(1) receivable_num, date_format(`sum_date`, '%Y-%m') sum_date
+  FROM `tran_sum` ts
+  LEFT JOIN `customer_user` cu on ts.`user_id`= cu.`id`
+ <where>
+ 	and cu.city_id =#{cityId}
+ 	 <if test="type==3">
+	  and cu.`iswxvip`= 3
+	 </if>
+	 <if test="type==2">
+	    and cu.`iswxvip` =0
+	 </if>
+	 <if test="type==1">
+	    and cu.`iswxvip` =1
+	 </if>
+ </where>
+ GROUP BY `sum_date`) t1
+  LEFT JOIN(
+SELECT SUM(`consume`) consume, date_format(`sum_date`, '%Y-%m') sum_date
+  FROM `tran_consume` tc
+  LEFT JOIN `customer_user` cu on tc.`user_id`= cu.`id`
+ <where>
+ 	<if test="type==0">
+ 		cu.`iswxvip`= 3
+ 	</if>
+ 	<if test="type==1">
+ 	    cu.`iswxvip` &lt;&gt; 3
+ 	</if>
+ </where>
+ GROUP BY `sum_date`) t2 on t1.sum_date= t2.sum_date
+  LEFT JOIN(
+SELECT SUM(`invoice_amount`) invoice_amount, date_format(CONVERT(concat(CONVERT(years, CHAR(10)), '-', CONVERT(months, CHAR(10)), '-', 1), DATE), '%Y-%m') sum_date
+  FROM `invoice` inv
+  LEFT JOIN `customer_user` cu on inv.`company_id`= cu.`id`
+ <where>
+ 	<if test="type==0">
+ 		cu.`iswxvip`= 3
+ 	</if>
+ 	<if test="type==1">
+ 	    cu.`iswxvip` &lt;&gt; 3
+ 	</if>
+    and `delete_status`= 1
+ </where>
+ GROUP BY `years`, `months`) t3 on t1.sum_date= t3.sum_date
+  LEFT JOIN(
+SELECT SUM(`debitnote_amount`) debitnote_amount, date_format(CONVERT(concat(CONVERT(years, CHAR(10)), '-', CONVERT(months, CHAR(10)), '-', 1), DATE), '%Y-%m') sum_date
+  FROM `debit_note` dn
+  LEFT JOIN `customer_user` cu on dn.`company_id`= cu.`id`
+ <where>
+ 	<if test="type==0">
+ 		cu.`iswxvip`= 3
+ 	</if>
+ 	<if test="type==1">
+ 	    cu.`iswxvip` &lt;&gt; 3
+ 	</if>
+   and `delete_status`= 1
+ </where>
+ GROUP BY `years`, `months`) t4 on t1.sum_date= t4.sum_date
+  LEFT JOIN(
+SELECT SUM(`preferential_amount`) preferential_amount, date_format(CONVERT(concat(CONVERT(years, CHAR(10)), '-', CONVERT(months, CHAR(10)), '-', 1), DATE), '%Y-%m') sum_date
+  FROM `preferential` pre
+  LEFT JOIN `customer_user` cu on pre.`company_id`= cu.`id`
+ <where>
+ 	<if test="type==0">
+ 		cu.`iswxvip`= 3
+ 	</if>
+ 	<if test="type==1">
+ 	    cu.`iswxvip` &lt;&gt; 3
+ 	</if>
+   and `delete_status`= 1
+ </where>
+ GROUP BY `years`, `months`) t5 on t1.sum_date= t5.sum_date
+  LEFT JOIN(
+SELECT COUNT(1) received_num, date_format(CONVERT(concat(CONVERT(years, CHAR(10)), '-', CONVERT(months, CHAR(10)), '-', 1), DATE), '%Y-%m') sum_date
+  FROM `verification` ver
+  LEFT JOIN `customer_user` cu on ver.`company_id`= cu.`id`
+ <where>
+ 	<if test="type==0">
+ 		cu.`iswxvip`= 3
+ 	</if>
+ 	<if test="type==1">
+ 	    cu.`iswxvip` &lt;&gt; 3
+ 	</if>
+   and ver.`status`= 1
+ </where>
+ GROUP BY `years`, `months`) t6 on t1.sum_date= t6.sum_date 
+ LEFT JOIN (
+	SELECT date_format(ttttt.date,'%Y-%m') sum_date,SUM(ttttt.yingshou) fee FROM (
+SELECT company_id,date,CASE WHEN cu.`pay_bill_way` =3 THEN loss WHEN cu.`pay_bill_way` =4 THEN if(subsidy>0,subsidy,0) ELSE amount-consume-redfee-lwFeeOne END yingshou FROM (
+SELECT tt.company_id,tt.years,tt.months,SUM(tt.amount) amount,SUM(tt.consume) consume,SUM(tt.loss) loss,CONVERT (
+		concat(
+			CONVERT (tt.years, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10))
+		),
+		DATETIME
+	) AS date,tt.subsidy ,tt.redfee,tt.lwFeeOne  FROM ( SELECT tc.user_id company_id,
+           YEAR(`sum_date`) years,
+           MONTH(sum_date) months,
+          
+           0 amount,
+           tc.consume consume,
+           ifnull(`actual_consume`,0)  - ifnull(`consume`,0)- ifnull(`red_fee`,0)- ifnull(`lw_fee_one`,0)+  ifnull(`sourcing_no`,0) subsidy,
+           ifnull(month_stock_money,0) + ifnull(sourcing,0) - ifnull(consume,0) - ifnull(red_fee,0) -ifnull(lw_fee_one,0) - ifnull(goods_money,0) loss,red_fee redfee,lw_fee_one lwFeeOne
+      FROM `tran_consume` tc
+				UNION ALL
+					SELECT
+						tra.user_id company_id,
+						YEAR (sum_date) years,
+						MONTH (sum_date) months,
+						amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+					FROM
+						tran_sum tra
+					WHERE
+						sum_date > date_format('2015-06-01', '%Y-%m-%d'))tt GROUP BY tt.company_id,tt.years,tt.months
+)t LEFT JOIN `customer_user` cu on t.company_id=cu.`id` 
+)ttttt GROUP BY ttttt.date
+)t7 on t1.sum_date = t7.sum_date
+ order by t1.sum_date desc
+  </select>
+  <select id="findReceivedPaymentsDetailReport" resultType="com.b2b.common.domain.DebitNoteDemo">
+  SELECT re.`name` region,
+       ifnull(sum(t1.amount), 0) amountSum1,
+       ifnull(sum(t2.consume), 0) amountSum2,
+       ifnull(sum(t1.amount), 0) -ifnull(sum(t2.consume), 0) ,sum(t7.fee) amountSum3,
+       ifnull(sum(t3.invoice_amount), 0) amountSum4,
+       ifnull(sum(t4.debitnote_amount), 0) amountSum5,
+       ifnull(sum(t5.preferential_amount), 0) amountSum6,
+       ifnull(sum(t1.receivable_num), 0) receivableNum,
+       ifnull(sum(t6.received_num), 0) receivedNum,
+       round(ifnull(sum(t3.invoice_amount), 0) /(ifnull(sum(t1.amount), 0) -ifnull(sum(t2.consume), 0)) *100) num1,
+       round(ifnull(sum(t4.debitnote_amount), 0) /(ifnull(sum(t1.amount), 0) -ifnull(sum(t2.consume), 0)) *100) num2,
+       round(ifnull(sum(t4.debitnote_amount), 0) /ifnull(sum(t3.invoice_amount), 0) *100) num3,
+       round(ifnull(sum(t6.received_num), 0) /ifnull(sum(t1.receivable_num), 0) *100) num4
+  FROM(
+SELECT ifnull(SUM(`amount`), 0) amount, COUNT(1) receivable_num, date_format(`sum_date`, '%Y-%m') sum_date, ts.`user_id`
+  FROM `tran_sum` ts
+ GROUP BY `sum_date`, ts.`user_id`) t1
+  LEFT JOIN(
+SELECT ifnull(SUM(`consume`), 0) consume, date_format(`sum_date`, '%Y-%m') sum_date, tc.`user_id`
+  FROM `tran_consume` tc
+ GROUP BY `sum_date`, tc.`user_id`) t2 on t1.sum_date= t2.sum_date
+   and t1.user_id= t2.user_id
+  LEFT JOIN(
+SELECT ifnull(SUM(`invoice_amount`), 0) invoice_amount, date_format(CONVERT(concat(CONVERT(years, CHAR(10)), '-', CONVERT(months, CHAR(10)), '-', 1), DATE), '%Y-%m') sum_date, inv.`company_id`
+  FROM `invoice` inv
+ where `delete_status`= 1
+ GROUP BY `years`, `months`, inv.`company_id`) t3 on t1.sum_date= t3.sum_date
+   and t1.user_id= t3.company_id
+  LEFT JOIN(
+SELECT ifnull(SUM(`debitnote_amount`), 0) debitnote_amount, date_format(CONVERT(concat(CONVERT(years, CHAR(10)), '-', CONVERT(months, CHAR(10)), '-', 1), DATE), '%Y-%m') sum_date, dn.`company_id`
+  FROM `debit_note` dn
+ where `delete_status`= 1
+ GROUP BY `years`, `months`, dn.`company_id`) t4 on t1.sum_date= t4.sum_date
+   and t1.user_id= t4.`company_id`
+  LEFT JOIN(
+SELECT ifnull(SUM(`preferential_amount`), 0) preferential_amount, date_format(CONVERT(concat(CONVERT(years, CHAR(10)), '-', CONVERT(months, CHAR(10)), '-', 1), DATE), '%Y-%m') sum_date, pre.`company_id`
+  FROM `preferential` pre
+ where `delete_status`= 1
+ GROUP BY `years`, `months`, pre.`company_id`) t5 on t1.sum_date= t5.sum_date
+   and t1.user_id= t5.company_id
+  LEFT JOIN(
+SELECT COUNT(1) received_num, date_format(CONVERT(concat(CONVERT(years, CHAR(10)), '-', CONVERT(months, CHAR(10)), '-', 1), DATE), '%Y-%m') sum_date, ver.`company_id`
+  FROM `verification` ver
+ where ver.`status`= 1
+ GROUP BY `years`, `months`, ver.`company_id`) t6 on t1.sum_date= t6.sum_date
+   and t1.user_id= t6.company_id
+   LEFT JOIN (
+	SELECT ttttt.company_id,date_format(ttttt.date,'%Y-%m') sum_date,SUM(ttttt.yingshou) fee FROM (
+SELECT company_id,date,CASE WHEN cu.`pay_bill_way` =3 THEN loss WHEN cu.`pay_bill_way` =4 THEN if(subsidy>0,subsidy,0) ELSE amount-consume-redfee-lwFeeOne END yingshou FROM (
+SELECT tt.company_id,tt.years,tt.months,SUM(tt.amount) amount,SUM(tt.consume) consume,SUM(tt.loss) loss,CONVERT (
+		concat(
+			CONVERT (tt.years, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10))
+		),
+		DATETIME
+	) AS date,tt.subsidy ,tt.redfee,tt.lwFeeOne  FROM ( SELECT tc.user_id company_id,
+           YEAR(`sum_date`) years,
+           MONTH(sum_date) months,
+          
+           0 amount,
+           tc.consume consume,
+           ifnull(`actual_consume`,0)  - ifnull(`consume`,0)- ifnull(`red_fee`,0)- ifnull(`lw_fee_one`,0)+  ifnull(`sourcing_no`,0) subsidy,
+           ifnull(month_stock_money,0) + ifnull(sourcing,0) - ifnull(consume,0) - ifnull(red_fee,0) -ifnull(lw_fee_one,0) - ifnull(goods_money,0) loss,red_fee redfee,lw_fee_one lwFeeOne
+      FROM `tran_consume` tc
+				UNION ALL
+					SELECT
+						tra.user_id company_id,
+						YEAR (sum_date) years,
+						MONTH (sum_date) months,
+						amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+					FROM
+						tran_sum tra
+					WHERE
+						sum_date > date_format('2015-06-01', '%Y-%m-%d'))tt GROUP BY tt.company_id,tt.years,tt.months
+)t LEFT JOIN `customer_user` cu on t.company_id=cu.`id` 
+)ttttt GROUP BY ttttt.company_id,ttttt.date
+) t7 on t1.sum_date = t7.sum_date and t1.user_id = t7.company_id
+  LEFT JOIN `customer_user` cu on t1.user_id= cu.`id`
+   LEFT JOIN `reseau` re on cu.`reseau_id` =re.`id` 
+ where t1.sum_date= #{queryDate} and cu.city_id =#{cityId}
+ <if test="type==3">
+	and cu.`iswxvip`= 3
+ </if>
+ <if test="type==2">
+    and cu.`iswxvip` =0
+ </if>
+ <if test="type==1">
+    and cu.`iswxvip` =1
+ </if>
+  GROUP BY cu.`reseau_id`
+  </select>
+  <select id="totaldebitNote" resultType="long">
+  	select IFNULL(sum(debit.`debitnote_amount`), 0) from  debit_note debit
+	left outer join customer_user users on users.id=debit.company_id where 1=1 and users.city_id = #{cityId}
+	<if test="userName!=null">
+			and (user_name like '%${userName}%' or  company_name like '%${userName}%')
+	</if>
+	<if test="starttime!=null and starttime!=''">
+		and CONVERT (
+			concat(
+				CONVERT (years, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10))
+			),
+			DATETIME
+		) &gt;= #{starttime}
+	</if>
+	<if test="querytime!=null and querytime!=''">
+		and CONVERT (
+			concat(
+				CONVERT (years, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10))
+			),
+			DATETIME
+		) &lt;=#{querytime}
+	</if>
+	<if test="crestdate != null and crestdate != ''">
+		and create_date &gt;= #{crestdate}
+	</if>
+	<if test="creenddate != null and creenddate != ''">
+		and create_date &lt;= #{creenddate}
+	</if>
+			and debit.delete_status = 1
+  </select>
+  <select id="totalInvoice" resultType="long">
+  		select IFNULL(sum(inv.`invoice_amount`),  0) from  `invoice`  inv
+	left outer join customer_user users on users.id=inv.company_id where 1=1 and users.city_id =#{cityId}
+	<if test="userName!=null">
+			and (user_name like '%${userName}%' or  company_name like '%${userName}%')
+	</if>
+	<if test="starttime!=null and starttime!=''">
+		and CONVERT (
+			concat(
+				CONVERT (years, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10))
+			),
+			DATETIME
+		) &gt;= #{starttime}
+	</if>
+	<if test="querytime!=null and querytime!=''">
+		and CONVERT (
+			concat(
+				CONVERT (years, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10)),
+				'-',
+				CONVERT (months, CHAR(10))
+			),
+			DATETIME
+		) &lt;=#{querytime}
+	</if>
+	<if test="crestdate != null and crestdate != ''">
+		and create_date &gt;= #{crestdate}
+	</if>
+	<if test="creenddate != null and creenddate != ''">
+		and create_date &lt;= #{creenddate}
+	</if>
+			and inv.delete_status = 1
+  </select>
+  <select id="findBeforeTimeNotVerificationInvoiceFeeByShopId" resultType="long">
+  SELECT ifnull(SUM(i.`invoice_amount`),0)
+  FROM `invoice` i
+  LEFT JOIN `verification` v on i.`years`= v.`years`
+   and i.`months`= v.`months`
+   and i.`company_id`= v.`company_id`
+ where date_format(CONVERT(concat(CONVERT(i.years, CHAR(10)), '-', CONVERT(i.months, CHAR(10)), '-', CONVERT(i.months, CHAR(10))), DATETIME), '%Y-%m')&lt; date_format(now(), '%Y-%m')
+   and i.`company_id`= #{shopId}
+   and i.`delete_status`= 1
+   and v.`status` IS NULL 
+  </select>
+  <select id="findHasVerification" resultType="int">
+  	SELECT COUNT(1)
+	  FROM(
+	SELECT *
+	  FROM(
+	SELECT `user_id`, `sum_date`
+	  FROM `tran_consume`
+	 where `user_id`= #{shopId}
+	 UNION ALL
+	SELECT `user_id`, `sum_date`
+	  FROM `tran_sum`
+	 WHERE `user_id`= #{shopId}) t
+	 GROUP BY t.sum_date) tt
+	  LEFT JOIN `verification` v on date_format(tt.sum_date, '%Y-%m')= date_format(CONVERT(concat(CONVERT(v.years, CHAR(10)), '-', CONVERT(v.months, CHAR(10)), '-', CONVERT(v.months, CHAR(10))), DATETIME), '%Y-%m')
+	   and v.`company_id`= #{shopId}
+	 where date_format(tt.sum_date, '%Y-%m')&lt; date_format(now(), '%Y-%m')
+	   and v.id IS NULL
+  </select>
+  <select id="findDebitCusNumAndFeeByCityIdAndReseauId" resultType="com.b2b.common.domain.DebitNoteDemo">
+  	SELECT COUNT(1) num1,SUM(fee) amountSum FROM (
+SELECT SUM(amountSum4) fee FROM (
+select cu.id company_id,date,
+   CASE WHEN cu.`pay_bill_way` =3 THEN SUM(loss)-sum(debitnote_amount)-sum(preferential_amount) WHEN cu.`pay_bill_way` =4 THEN if(SUM(subsidy)>0,SUM(subsidy)-sum(debitnote_amount)-sum(preferential_amount),0-sum(debitnote_amount)-sum(preferential_amount))  ELSE sum(amount)-sum(consume)-sum(redfee)-sum(lwFeeOne)-sum(debitnote_amount)-sum(preferential_amount) END 
+      amountSum4   FROM (
+
+SELECT tt.company_id,tt.years,tt.months,tt.debitnote_amount,tt.invoice_amount,tt.preferential_amount,tt.amount,tt.consume,tt.loss,tt.redfee,tt.lwFeeOne,CONVERT (
+		concat(
+			CONVERT (tt.years, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10))
+		),
+		DATETIME
+	) AS date,tt.subsidy  FROM ( SELECT tc.user_id company_id,
+           YEAR(`sum_date`) years,
+           MONTH(sum_date) months,
+           0 debitnote_amount,
+           0 invoice_amount,
+           0 preferential_amount,
+           0 amount,
+           tc.consume consume,ifnull(`actual_consume`,0)  - ifnull(`consume`,0)- ifnull(`red_fee`,0)- ifnull(`lw_fee_one`,0)+  ifnull(`sourcing_no`,0) subsidy,
+          ifnull(month_stock_money,0) + ifnull(sourcing,0) - ifnull(consume,0) - ifnull(red_fee,0) -ifnull(lw_fee_one,0) - ifnull(goods_money,0) loss,red_fee redfee,lw_fee_one lwFeeONe
+      FROM `tran_consume` tc
+        UNION ALL
+		SELECT
+			de.company_id,
+			de.years,
+			de.months,
+			de.debitnote_amount,
+			0 invoice_amount,
+			0 preferential_amount,
+			0 amount,
+            0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+		FROM
+			debit_note de
+		WHERE
+			de.delete_status = 1
+		UNION ALL
+			SELECT
+				inv.company_id,
+				inv.years,
+				inv.months,
+				0 debitnote_amount,
+				inv.invoice_amount,
+				0 preferential_amount,
+				0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+			FROM
+				invoice inv
+			WHERE
+				inv.delete_status = 1
+			UNION ALL
+				SELECT
+					pre.company_id,
+					pre.years,
+					pre.months,
+					0 debitnote_amount,
+					0 invoice_amount,
+					pre.preferential_amount preferential_amount,
+					0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+				FROM
+					preferential pre
+				WHERE
+					pre.delete_status = 1
+				UNION ALL
+					SELECT
+						tra.user_id company_id,
+						YEAR (sum_date) years,
+						MONTH (sum_date) months,
+						0 debitnote_amount,
+						0 invoice_amount,
+						0 preferential_amount,
+						amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+					FROM
+						tran_sum tra
+					WHERE
+						sum_date > date_format('2015-06-01', '%Y-%m-%d')) tt LEFT JOIN `verification` ver on ver.company_id=tt.company_id and ver.years=tt.years and ver.months=tt.months  WHERE ver.`id` IS NULL 
+    ) sumlist LEFT JOIN `customer_user` cu on cu.id=sumlist.company_id 
+	WHERE cu.status=1 and cu.`city_id` = #{cityId} and date_format(date,'%Y-%m') &lt;&gt; date_format(now(),'%Y-%m') <if test="reseauId !=null and reseauId != ''"> and cu.`reseau_id` = #{reseauId}</if>
+group by cu.`id`,date
+   
+) t GROUP BY company_id  
+    ) t2 WHERE fee>0
+  </select>
+  <select id="findInvoiceCusNumAndFeeByCityIdAndReseauId" resultType="com.b2b.common.domain.DebitNoteDemo">
+  SELECT COUNT(1) num1,SUM(fee) amountSum FROM (
+SELECT company_id,SUM(amountSum4) fee FROM (
+select cu.id company_id,date,cu.`user_name` ,
+   CASE WHEN cu.`pay_bill_way` =3 THEN SUM(loss)-sum(debitnote_amount)-sum(preferential_amount) WHEN cu.`pay_bill_way` =4 THEN if(SUM(subsidy)>0,SUM(subsidy)-sum(debitnote_amount)-sum(preferential_amount),0-sum(debitnote_amount)-sum(preferential_amount))  ELSE sum(amount)-sum(consume)-sum(redfee)-sum(lwFeeOne)-sum(debitnote_amount)-sum(preferential_amount) END 
+      amountSum4   FROM (
+
+SELECT tt.company_id,tt.years,tt.months,tt.debitnote_amount,tt.invoice_amount,tt.preferential_amount,tt.amount,tt.consume,tt.loss,tt.redfee,tt.lwFeeOne,CONVERT (
+		concat(
+			CONVERT (tt.years, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10))
+		),
+		DATETIME
+	) AS date,tt.subsidy  FROM ( SELECT tc.user_id company_id,
+           YEAR(`sum_date`) years,
+           MONTH(sum_date) months,
+           0 debitnote_amount,
+           0 invoice_amount,
+           0 preferential_amount,
+           0 amount,
+           tc.consume consume,ifnull(`actual_consume`,0)  - ifnull(`consume`,0)- ifnull(`red_fee`,0)- ifnull(`lw_fee_one`,0)+  ifnull(`sourcing_no`,0) subsidy,
+          ifnull(month_stock_money,0) + ifnull(sourcing,0) - ifnull(consume,0) - ifnull(red_fee,0) -ifnull(lw_fee_one,0) - ifnull(goods_money,0) loss,red_fee redfee,lw_fee_one lwFeeONe
+      FROM `tran_consume` tc
+        UNION ALL
+		SELECT
+			de.company_id,
+			de.years,
+			de.months,
+			de.debitnote_amount,
+			0 invoice_amount,
+			0 preferential_amount,
+			0 amount,
+            0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+		FROM
+			debit_note de
+		WHERE
+			de.delete_status = 1
+		UNION ALL
+			SELECT
+				inv.company_id,
+				inv.years,
+				inv.months,
+				0 debitnote_amount,
+				inv.invoice_amount,
+				0 preferential_amount,
+				0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+			FROM
+				invoice inv
+			WHERE
+				inv.delete_status = 1
+			UNION ALL
+				SELECT
+					pre.company_id,
+					pre.years,
+					pre.months,
+					0 debitnote_amount,
+					0 invoice_amount,
+					pre.preferential_amount preferential_amount,
+					0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+				FROM
+					preferential pre
+				WHERE
+					pre.delete_status = 1
+				UNION ALL
+					SELECT
+						tra.user_id company_id,
+						YEAR (sum_date) years,
+						MONTH (sum_date) months,
+						0 debitnote_amount,
+						0 invoice_amount,
+						0 preferential_amount,
+						amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+					FROM
+						tran_sum tra
+					WHERE
+						sum_date > date_format('2015-06-01', '%Y-%m-%d')) tt LEFT JOIN `verification` ver on ver.company_id=tt.company_id and ver.years=tt.years and ver.months=tt.months  WHERE ver.`id` IS NULL 
+    ) sumlist LEFT JOIN `customer_user` cu on cu.id=sumlist.company_id 
+	WHERE cu.status=1 and cu.`city_id` =#{cityId} and date_format(date,'%Y-%m') &lt;&gt; date_format(now(),'%Y-%m') <if test="reseauId !=null and reseauId != ''"> and cu.`reseau_id` = #{reseauId}</if>
+group by cu.`id`,date
+   
+) t GROUP BY company_id HAVING fee>0
+) t1 LEFT JOIN (
+
+SELECT t.company_id,TIMESTAMPDIFF(MONTH,t.invDate,now()) invMonth FROM (
+SELECT inv.company_id,  sum(inv.invoice_amount) amountSum2 , CONVERT(concat(CONVERT(inv.years, CHAR(10)), '-', CONVERT(inv.months, CHAR(10)), '-', CONVERT(inv.months, CHAR(10))), DATETIME) AS invDate
+  FROM invoice inv
+ LEFT JOIN `verification` ver on ver.company_id= inv.company_id
+   and ver.years= inv.years
+   and ver.months= inv.months
+ WHERE inv.delete_status= 1
+and ver.`id` IS NULL 
+        GROUP BY company_id
+    ) t LEFT JOIN `customer_user` cu on t.company_id = cu.`id` WHERE cu.status=1 and cu.`city_id` =#{cityId} <if test="reseauId !=null and reseauId != ''"> and cu.`reseau_id` = #{reseauId}</if>
+) t2 on t1.company_id = t2.company_id WHERE t2.invMonth IS NOT NULL 
+
+  </select>
+  <select id="findInvoAgeByCityIdAndReseauId" resultType="com.b2b.common.domain.DebitNoteDemo">
+  	SELECT COUNT(if(t3.invMonth &lt;= 2,true,null)) num1, COUNT(if(t3.invMonth > 2,true,null)) num2,SUM(IF (t3.invMonth &lt;= 2,amountSum3,0)) amountSum1 ,SUM(IF (t3.invMonth > 2,amountSum3,0)) amountSum2 FROM (
+SELECT t1.*,t2.invMonth,t2.amountSum3 FROM (
+SELECT company_id,SUM(amountSum4) fee FROM (
+select cu.id company_id,date,
+   CASE WHEN cu.`pay_bill_way` =3 THEN SUM(loss)-sum(debitnote_amount)-sum(preferential_amount) WHEN cu.`pay_bill_way` =4 THEN if(SUM(subsidy)>0,SUM(subsidy)-sum(debitnote_amount)-sum(preferential_amount),0-sum(debitnote_amount)-sum(preferential_amount))  ELSE sum(amount)-sum(consume)-sum(redfee)-sum(lwFeeOne)-sum(debitnote_amount)-sum(preferential_amount) END 
+      amountSum4   FROM (
+
+SELECT tt.company_id,tt.years,tt.months,tt.debitnote_amount,tt.invoice_amount,tt.preferential_amount,tt.amount,tt.consume,tt.loss,tt.redfee,tt.lwFeeOne,CONVERT (
+		concat(
+			CONVERT (tt.years, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10))
+		),
+		DATETIME
+	) AS date,tt.subsidy  FROM ( SELECT tc.user_id company_id,
+           YEAR(`sum_date`) years,
+           MONTH(sum_date) months,
+           0 debitnote_amount,
+           0 invoice_amount,
+           0 preferential_amount,
+           0 amount,
+           tc.consume consume,ifnull(`actual_consume`,0)  - ifnull(`consume`,0)- ifnull(`red_fee`,0)- ifnull(`lw_fee_one`,0)+  ifnull(`sourcing_no`,0) subsidy,
+          ifnull(month_stock_money,0) + ifnull(sourcing,0) - ifnull(consume,0) - ifnull(red_fee,0) -ifnull(lw_fee_one,0) - ifnull(goods_money,0) loss,red_fee redfee,lw_fee_one lwFeeONe
+      FROM `tran_consume` tc
+        UNION ALL
+		SELECT
+			de.company_id,
+			de.years,
+			de.months,
+			de.debitnote_amount,
+			0 invoice_amount,
+			0 preferential_amount,
+			0 amount,
+            0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+		FROM
+			debit_note de
+		WHERE
+			de.delete_status = 1
+		UNION ALL
+			SELECT
+				inv.company_id,
+				inv.years,
+				inv.months,
+				0 debitnote_amount,
+				inv.invoice_amount,
+				0 preferential_amount,
+				0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+			FROM
+				invoice inv
+			WHERE
+				inv.delete_status = 1
+			UNION ALL
+				SELECT
+					pre.company_id,
+					pre.years,
+					pre.months,
+					0 debitnote_amount,
+					0 invoice_amount,
+					pre.preferential_amount preferential_amount,
+					0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+				FROM
+					preferential pre
+				WHERE
+					pre.delete_status = 1
+				UNION ALL
+					SELECT
+						tra.user_id company_id,
+						YEAR (sum_date) years,
+						MONTH (sum_date) months,
+						0 debitnote_amount,
+						0 invoice_amount,
+						0 preferential_amount,
+						amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+					FROM
+						tran_sum tra
+					WHERE
+						sum_date > date_format('2015-06-01', '%Y-%m-%d')) tt LEFT JOIN `verification` ver on ver.company_id=tt.company_id and ver.years=tt.years and ver.months=tt.months  WHERE ver.`id` IS NULL 
+    ) sumlist LEFT JOIN `customer_user` cu on cu.id=sumlist.company_id 
+	WHERE cu.status=1 and cu.`city_id` =#{cityId} and date_format(date,'%Y-%m') &lt;&gt; date_format(now(),'%Y-%m') <if test="reseauId !=null and reseauId != ''"> and cu.`reseau_id` = #{reseauId}</if>
+group by cu.`id`,date
+   
+) t GROUP BY company_id HAVING fee>0
+) t1 LEFT JOIN (
+
+SELECT t.company_id,amountSum3,TIMESTAMPDIFF(MONTH,t.invDate,now()) invMonth FROM (
+SELECT inv.company_id,  sum(inv.invoice_amount) amountSum3 , CONVERT(concat(CONVERT(inv.years, CHAR(10)), '-', CONVERT(inv.months, CHAR(10)), '-', CONVERT(inv.months, CHAR(10))), DATETIME) AS invDate
+  FROM invoice inv
+ LEFT JOIN `verification` ver on ver.company_id= inv.company_id
+   and ver.years= inv.years
+   and ver.months= inv.months
+ WHERE inv.delete_status= 1
+and ver.`id` IS NULL 
+        GROUP BY company_id
+    ) t LEFT JOIN `customer_user` cu on t.company_id = cu.`id` WHERE cu.status=1 and cu.`city_id` =#{cityId} <if test="reseauId !=null and reseauId != ''"> and cu.`reseau_id` = #{reseauId}</if>
+) t2 on t1.company_id = t2.company_id WHERE t2.invMonth IS NOT NULL 
+    ) t3
+  	
+  </select>
+  <select id="findDebitAgeByCityIdAndReseauId" resultType="com.b2b.common.domain.DebitNoteDemo">
+SELECT COUNT(if(invMonth &lt;= 3,true,null)) num1,
+COUNT(if(invMonth &gt; 3 and invMonth &lt;= 6,true,null)) num2,
+COUNT(if(invMonth &gt; 6 and invMonth &lt;= 9,true,null)) num3,
+COUNT(if(invMonth &gt; 9 and invMonth &lt;= 12,true,null)) num4,
+COUNT(if(invMonth &gt; 12,true,null)) num5,
+SUM(IF (invMonth &lt;= 3,fee,0)) amountSum1 ,
+SUM(IF (invMonth &gt; 3 and invMonth &lt;= 6,fee,0)) amountSum2,
+SUM(IF (invMonth &gt; 6 and invMonth &lt;= 9,fee,0)) amountSum3,
+SUM(IF (invMonth &gt; 9 and invMonth &lt;= 12,fee,0)) amountSum4,
+SUM(IF (invMonth &gt; 12,fee,0)) amountSum5
+
+FROM (
+SELECT user_name,SUM(amountSum4) fee,MIN(date) debitDate,TIMESTAMPDIFF(MONTH,MIN(date),now()) invMonth FROM (
+select cu.id company_id,date,cu.`user_name` ,
+   CASE WHEN cu.`pay_bill_way` =3 THEN SUM(loss)-sum(debitnote_amount)-sum(preferential_amount) WHEN cu.`pay_bill_way` =4 THEN if(SUM(subsidy)>0,SUM(subsidy)-sum(debitnote_amount)-sum(preferential_amount),0-sum(debitnote_amount)-sum(preferential_amount))  ELSE sum(amount)-sum(consume)-sum(redfee)-sum(lwFeeOne)-sum(debitnote_amount)-sum(preferential_amount) END 
+      amountSum4   FROM (
+
+SELECT tt.company_id,tt.years,tt.months,tt.debitnote_amount,tt.invoice_amount,tt.preferential_amount,tt.amount,tt.consume,tt.loss,tt.redfee,tt.lwFeeOne,CONVERT (
+		concat(
+			CONVERT (tt.years, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10))
+		),
+		DATETIME
+	) AS date,tt.subsidy  FROM ( SELECT tc.user_id company_id,
+           YEAR(`sum_date`) years,
+           MONTH(sum_date) months,
+           0 debitnote_amount,
+           0 invoice_amount,
+           0 preferential_amount,
+           0 amount,
+           tc.consume consume,ifnull(`actual_consume`,0)  - ifnull(`consume`,0)- ifnull(`red_fee`,0)- ifnull(`lw_fee_one`,0)+  ifnull(`sourcing_no`,0) subsidy,
+          ifnull(month_stock_money,0) + ifnull(sourcing,0) - ifnull(consume,0) - ifnull(red_fee,0) -ifnull(lw_fee_one,0) - ifnull(goods_money,0) loss,red_fee redfee,lw_fee_one lwFeeONe
+      FROM `tran_consume` tc
+        UNION ALL
+		SELECT
+			de.company_id,
+			de.years,
+			de.months,
+			de.debitnote_amount,
+			0 invoice_amount,
+			0 preferential_amount,
+			0 amount,
+            0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+		FROM
+			debit_note de
+		WHERE
+			de.delete_status = 1
+		UNION ALL
+			SELECT
+				inv.company_id,
+				inv.years,
+				inv.months,
+				0 debitnote_amount,
+				inv.invoice_amount,
+				0 preferential_amount,
+				0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+			FROM
+				invoice inv
+			WHERE
+				inv.delete_status = 1
+			UNION ALL
+				SELECT
+					pre.company_id,
+					pre.years,
+					pre.months,
+					0 debitnote_amount,
+					0 invoice_amount,
+					pre.preferential_amount preferential_amount,
+					0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+				FROM
+					preferential pre
+				WHERE
+					pre.delete_status = 1
+				UNION ALL
+					SELECT
+						tra.user_id company_id,
+						YEAR (sum_date) years,
+						MONTH (sum_date) months,
+						0 debitnote_amount,
+						0 invoice_amount,
+						0 preferential_amount,
+						amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+					FROM
+						tran_sum tra
+					WHERE
+						sum_date > date_format('2015-06-01', '%Y-%m-%d')) tt LEFT JOIN `verification` ver on ver.company_id=tt.company_id and ver.years=tt.years and ver.months=tt.months  WHERE ver.`id` IS NULL 
+    ) sumlist LEFT JOIN `customer_user` cu on cu.id=sumlist.company_id 
+	WHERE cu.status=1 and cu.`city_id` =#{cityId} and date_format(date,'%Y-%m') &lt;&gt; date_format(now(),'%Y-%m') <if test="reseauId !=null and reseauId != ''"> and cu.`reseau_id` = #{reseauId}</if>
+group by cu.`id`,date
+   
+) t GROUP BY company_id HAVING fee>0
+   ) t2 
+  </select>
+  <select id="findInvoiceListByCityIdAndReseauId" resultType="com.b2b.common.domain.DebitNoteDemo">
+  	SELECT t.user_name userName,t.company_name companyName,invoice_amount invoiceAmount,create_date createDate,COUNT(if(day=0,true,null)) num1,COUNT(if(day &lt;7,true,null)) num2 FROM (
+SELECT cu.`user_name` ,cu.`company_name` ,
+       inv.invoice_amount ,inv.`create_date` ,datediff(now(),`create_date` ) day
+  FROM `invoice` inv
+LEFT JOIN `customer_user` cu on inv.company_id = cu.`id`
+ WHERE `delete_status`= 1 and cu.status=1 and cu.`city_id` =#{cityId} <if test="reseauId !=null and reseauId != ''"> and cu.`reseau_id` = #{reseauId}</if>  ORDER BY create_date DESC 
+    ) t 
+  </select>
+  <select id="findDebitListByCityIdAndReseauId"  resultType="com.b2b.common.domain.DebitNoteDemo">
+  SELECT t.user_name userName,t.company_name companyName,debitnote_amount debitnoteAmount,create_date createDate,COUNT(if(day=0,true,null)) num1,COUNT(if(day &lt; 7,true,null)) num2 FROM (
+SELECT cu.`user_name`,
+       cu.`company_name`,
+       dn.`debitnote_amount`,
+       dn.`create_date`,
+       datediff(now(), `create_date`) day
+  FROM `debit_note` dn
+  LEFT JOIN `customer_user` cu on dn.`company_id`= cu.`id`
+ WHERE dn.`delete_status`= 1
+   and cu.status=1 and cu.`city_id`= #{cityId} <if test="reseauId !=null and reseauId != ''"> and cu.`reseau_id` = #{reseauId}</if>  ORDER BY create_date DESC 
+) t
+  </select>
+  <select id="findInvoicesByCityIdAndReseauId" resultType="com.b2b.common.domain.DebitNoteDemo">
+  	SELECT cu.`user_name` userName,
+       cu.`company_name` companyName,
+       inv.invoice_amount invoiceAmount,
+       inv.`create_date` createDate,
+       inv.`years`,
+       inv.`months`
+  FROM `invoice` inv
+  LEFT JOIN `customer_user` cu on inv.company_id= cu.`id`
+ WHERE `delete_status`= 1
+   and cu.status=1 and cu.`city_id`= #{cityId}
+   <if test="reseauId !=null and reseauId != ''"> and cu.`reseau_id` = #{reseauId}</if>
+ ORDER BY create_date DESC
+  </select>
+  <select id="findDebitsByCityIdAndReseauId" resultType="com.b2b.common.domain.DebitNoteDemo">
+  SELECT cu.`user_name` userName,
+       cu.`company_name` companyName,
+       dn.`debitnote_amount` debitnoteAmount,
+       dn.`create_date` createDate,
+       dn.`years` ,dn.`months` ,dn.`remark` ,inv.invoice_amount invoiceAmount
+  FROM `debit_note` dn
+  LEFT JOIN `customer_user` cu on dn.`company_id`= cu.`id`
+  LEFT JOIN (
+SELECT `company_id` ,`years` ,`months` ,SUM(`invoice_amount`) invoice_amount  FROM `invoice` WHERE `delete_status` =1 GROUP BY `company_id` ,`years` ,`months` ) inv on dn.`company_id` =inv.company_id and dn.`years` =inv.years and dn.`months` =inv.months
+ WHERE dn.`delete_status`= 1
+   and cu.status=1 and cu.`city_id`= #{cityId}  <if test="reseauId !=null and reseauId != ''"> and cu.`reseau_id` = #{reseauId}</if> ORDER BY create_date DESC
+  </select>
+  <select id="findDebitagesByCityIdAndReseauIdAndflag" resultType="com.b2b.common.domain.DebitNoteDemo">
+  SELECT company_id companyId,user_name userName,company_name companyName,SUM(amountSum4) amountSum1,amountSum4 amountSum2,date createDate,TIMESTAMPDIFF(MONTH,MIN(date),now()) debage FROM (
+select cu.id company_id,date,cu.`user_name` ,cu.`company_name` ,
+   CASE WHEN cu.`pay_bill_way` =3 THEN SUM(loss)-sum(debitnote_amount)-sum(preferential_amount) WHEN cu.`pay_bill_way` =4 THEN if(SUM(subsidy)>0,SUM(subsidy)-sum(debitnote_amount)-sum(preferential_amount),0-sum(debitnote_amount)-sum(preferential_amount))  ELSE sum(amount)-sum(consume)-sum(redfee)-sum(lwFeeOne)-sum(debitnote_amount)-sum(preferential_amount) END 
+      amountSum4   FROM (
+
+SELECT tt.company_id,tt.years,tt.months,tt.debitnote_amount,tt.invoice_amount,tt.preferential_amount,tt.amount,tt.consume,tt.loss,tt.redfee,tt.lwFeeOne,CONVERT (
+		concat(
+			CONVERT (tt.years, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10))
+		),
+		DATETIME
+	) AS date,tt.subsidy  FROM ( SELECT tc.user_id company_id,
+           YEAR(`sum_date`) years,
+           MONTH(sum_date) months,
+           0 debitnote_amount,
+           0 invoice_amount,
+           0 preferential_amount,
+           0 amount,
+           tc.consume consume,ifnull(`actual_consume`,0)  - ifnull(`consume`,0)- ifnull(`red_fee`,0)- ifnull(`lw_fee_one`,0)+  ifnull(`sourcing_no`,0) subsidy,
+          ifnull(month_stock_money,0) + ifnull(sourcing,0) - ifnull(consume,0) - ifnull(red_fee,0) -ifnull(lw_fee_one,0) - ifnull(goods_money,0) loss,red_fee redfee,lw_fee_one lwFeeONe
+      FROM `tran_consume` tc
+        UNION ALL
+		SELECT
+			de.company_id,
+			de.years,
+			de.months,
+			de.debitnote_amount,
+			0 invoice_amount,
+			0 preferential_amount,
+			0 amount,
+            0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+		FROM
+			debit_note de
+		WHERE
+			de.delete_status = 1
+		UNION ALL
+			SELECT
+				inv.company_id,
+				inv.years,
+				inv.months,
+				0 debitnote_amount,
+				inv.invoice_amount,
+				0 preferential_amount,
+				0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+			FROM
+				invoice inv
+			WHERE
+				inv.delete_status = 1
+			UNION ALL
+				SELECT
+					pre.company_id,
+					pre.years,
+					pre.months,
+					0 debitnote_amount,
+					0 invoice_amount,
+					pre.preferential_amount preferential_amount,
+					0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+				FROM
+					preferential pre
+				WHERE
+					pre.delete_status = 1
+				UNION ALL
+					SELECT
+						tra.user_id company_id,
+						YEAR (sum_date) years,
+						MONTH (sum_date) months,
+						0 debitnote_amount,
+						0 invoice_amount,
+						0 preferential_amount,
+						amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+					FROM
+						tran_sum tra
+					WHERE
+						sum_date > date_format('2015-06-01', '%Y-%m-%d')) tt LEFT JOIN `verification` ver on ver.company_id=tt.company_id and ver.years=tt.years and ver.months=tt.months  WHERE ver.`id` IS NULL 
+    ) sumlist LEFT JOIN `customer_user` cu on cu.id=sumlist.company_id 
+	WHERE cu.status=1 and cu.`city_id` = #{cityId} and date_format(date,'%Y-%m') &lt;&gt; date_format(now(),'%Y-%m')  <if test="reseauId !=null and reseauId != ''"> and cu.`reseau_id` = #{reseauId}</if>
+group by cu.`id`,date
+   
+) t GROUP BY company_id  
+   HAVING amountSum1 >0
+   <if test="flag==2">
+   		and (debage > 12)
+   </if>
+   <if test="flag==3">
+   		and (debage > 9 and debage &lt;=12)
+   </if>
+   <if test="flag==4">
+   		and (debage > 6 and debage &lt;=9)
+   </if>
+   <if test="flag==5">
+   		and (debage > 3 and debage &lt;=6)
+   </if>
+   <if test="flag==6">
+   		and (debage > 0 and debage &lt;=3)
+   </if>
+  <if test="param==1">
+   		ORDER BY debage DESC 
+   </if>
+   <if test="param==2">
+   		ORDER BY amountSum1 DESC 
+   </if>
+  </select>
+  <select id="findInvoiceagesByCityIdAndReseauIdAndflag" resultType="com.b2b.common.domain.DebitNoteDemo">
+  	SELECT t2.*,t2.id companyId FROM (
+SELECT company_id,SUM(amountSum4) fee FROM (
+select cu.id company_id,date,
+   CASE WHEN cu.`pay_bill_way` =3 THEN SUM(loss)-sum(debitnote_amount)-sum(preferential_amount) WHEN cu.`pay_bill_way` =4 THEN if(SUM(subsidy)>0,SUM(subsidy)-sum(debitnote_amount)-sum(preferential_amount),0-sum(debitnote_amount)-sum(preferential_amount))  ELSE sum(amount)-sum(consume)-sum(redfee)-sum(lwFeeOne)-sum(debitnote_amount)-sum(preferential_amount) END 
+      amountSum4   FROM (
+
+SELECT tt.company_id,tt.years,tt.months,tt.debitnote_amount,tt.invoice_amount,tt.preferential_amount,tt.amount,tt.consume,tt.loss,tt.redfee,tt.lwFeeOne,CONVERT (
+		concat(
+			CONVERT (tt.years, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10)),
+			'-',
+			CONVERT (tt.months, CHAR(10))
+		),
+		DATETIME
+	) AS date,tt.subsidy  FROM ( SELECT tc.user_id company_id,
+           YEAR(`sum_date`) years,
+           MONTH(sum_date) months,
+           0 debitnote_amount,
+           0 invoice_amount,
+           0 preferential_amount,
+           0 amount,
+           tc.consume consume,ifnull(`actual_consume`,0)  - ifnull(`consume`,0)- ifnull(`red_fee`,0)- ifnull(`lw_fee_one`,0)+  ifnull(`sourcing_no`,0) subsidy,
+          ifnull(month_stock_money,0) + ifnull(sourcing,0) - ifnull(consume,0) - ifnull(red_fee,0) -ifnull(lw_fee_one,0) - ifnull(goods_money,0) loss,red_fee redfee,lw_fee_one lwFeeONe
+      FROM `tran_consume` tc
+        UNION ALL
+		SELECT
+			de.company_id,
+			de.years,
+			de.months,
+			de.debitnote_amount,
+			0 invoice_amount,
+			0 preferential_amount,
+			0 amount,
+            0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+		FROM
+			debit_note de
+		WHERE
+			de.delete_status = 1
+		UNION ALL
+			SELECT
+				inv.company_id,
+				inv.years,
+				inv.months,
+				0 debitnote_amount,
+				inv.invoice_amount,
+				0 preferential_amount,
+				0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+			FROM
+				invoice inv
+			WHERE
+				inv.delete_status = 1
+			UNION ALL
+				SELECT
+					pre.company_id,
+					pre.years,
+					pre.months,
+					0 debitnote_amount,
+					0 invoice_amount,
+					pre.preferential_amount preferential_amount,
+					0 amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+				FROM
+					preferential pre
+				WHERE
+					pre.delete_status = 1
+				UNION ALL
+					SELECT
+						tra.user_id company_id,
+						YEAR (sum_date) years,
+						MONTH (sum_date) months,
+						0 debitnote_amount,
+						0 invoice_amount,
+						0 preferential_amount,
+						amount,0 consume,0 subsidy,0 loss,0 redfee,0 lwFeeOne
+					FROM
+						tran_sum tra
+					WHERE
+						sum_date > date_format('2015-06-01', '%Y-%m-%d')) tt LEFT JOIN `verification` ver on ver.company_id=tt.company_id and ver.years=tt.years and ver.months=tt.months  WHERE ver.`id` IS NULL 
+    ) sumlist LEFT JOIN `customer_user` cu on cu.id=sumlist.company_id 
+	WHERE cu.status=1 and cu.`city_id` =#{cityId} and date_format(date,'%Y-%m') &lt;&gt; date_format(now(),'%Y-%m')  <if test="reseauId !=null and reseauId != ''"> and cu.`reseau_id` = #{reseauId}</if>
+group by cu.`id`,date
+   
+) t GROUP BY company_id HAVING fee>0
+) t1 LEFT JOIN (
+
+SELECT t3.id,t3.user_name userName,t3.company_name companyName,SUM(t3.amountSum2) amountSum1,t3.amountSum2 amountSum2,t3.invDate createDate,t3.invMonth FROM (
+SELECT cu.id,cu.`user_name` ,cu.`company_name` ,t.company_id,t.amountSum2,t.invDate,TIMESTAMPDIFF(MONTH,t.invDate,now()) invMonth FROM (
+SELECT inv.company_id,  sum(inv.invoice_amount) amountSum2 , CONVERT(concat(CONVERT(inv.years, CHAR(10)), '-', CONVERT(inv.months, CHAR(10)), '-', CONVERT(inv.months, CHAR(10))), DATETIME) AS invDate
+  FROM invoice inv
+ LEFT JOIN `verification` ver on ver.company_id= inv.company_id
+   and ver.years= inv.years
+   and ver.months= inv.months
+ WHERE inv.delete_status= 1
+and ver.`id` IS NULL 
+        GROUP BY company_id,invDate
+    ) t LEFT JOIN `customer_user` cu on t.company_id = cu.`id` WHERE cu.status=1 and cu.`city_id` = #{cityId} <if test="reseauId !=null and reseauId != ''"> and cu.`reseau_id` = #{reseauId}</if>
+    ) t3 GROUP BY t3.id
+) t2 on t1.company_id = t2.id WHERE t2.invMonth IS NOT NULL 
+   <if test="flag==2">
+   		and (t2.invMonth > 2)
+   </if>
+   <if test="flag==3">
+   		and (t2.invMonth > 0 and t2.invMonth &lt;=2)
+   </if>
+   <if test="param==1">
+   		ORDER BY t2.invMonth DESC 
+   </if>
+   <if test="param==2">
+   		ORDER BY t2.amountSum1 DESC 
+   </if>
+  </select>
+  <select id="findMoneyByDateAndCityId" resultType="long">
+SELECT SUM(dn.`debitnote_amount`)
+  FROM `debit_note` dn LEFT JOIN `customer_user` cu on dn.`company_id` =cu.`id` 
+ WHERE dn.`delete_status`= 1 and cu.`city_id` =#{cityId} 
+   and date_format(dn.`create_date`, '%Y-%m')= date_format(#{date}, '%Y-%m')
+  </select>
+  <select id="findMoneyByDateAndCityIdAndReseauId" resultType="long">
+  SELECT SUM(dn.`debitnote_amount`)
+  FROM `debit_note` dn LEFT JOIN `customer_user` cu on dn.`company_id` =cu.`id` 
+ WHERE dn.`delete_status`= 1 and cu.`city_id` =#{cityId}  <if test="reseauId !=null and reseauId != ''"> and cu.`reseau_id` = #{reseauId}</if>
+   and date_format(dn.`create_date`, '%Y-%m')= date_format(#{date}, '%Y-%m')
+  </select>
+</mapper>

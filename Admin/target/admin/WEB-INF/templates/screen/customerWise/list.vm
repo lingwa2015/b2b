@@ -1,0 +1,114 @@
+<script type="text/javascript">
+function editData(id){
+  window.location.href="${rc.contextPath}/customerWise/customerWiseUpdate.htm?id="+id;
+}
+
+function deleteData(id){
+   var url="${rc.contextPath}/customerWise/delete.do?id="+id;
+  doDeleteRequest(url,id,show);
+}
+function show(data){
+	alert(data);
+	if(data.indexOf("成功")!=-1){
+		  window.location.href="${rc.contextPath}/customerWise/customerWiseList.htm";
+	}
+}
+
+function goBlackWhiteList(id){
+	window.location.href="${rc.contextPath}/customeBlackwhitelist/list.htm?id="+id;
+}
+function goBeBlackWhiteList(id){
+	window.location.href="${rc.contextPath}/beBlackWhiteList/list.htm?id="+id;
+}
+</script>
+<div class="content">
+		<div class="bd-actionbar">
+			<a href="${rc.contextPath}/customerWise/customerWiseAdd.htm" class="btn btn-success"><i class="ico"></i>添加客户智选属性</a>
+		</div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		<form class="jqtransform" id="form1" name="form1" action="${rc.contextPath}/customerWise/customerWiseList.htm"" method="post">
+		</form>
+		<table class="table">
+		  <tr>
+			<th>客户名称</td>
+			<th>预算金额</td>
+			<th>单品单价起始值</td>
+			<th>单品单价截至值</td>
+			<th>是否可超预算</td>
+			<th>配送时间</td>
+			<th>备注</td>
+			<th>操作</td>
+			<th>客户黑白名单</th>
+		  </tr>
+		  
+		  #set ($rowCount = 0)
+		  #foreach($bean in $page.result)
+			  #set ($isOddRow = $rowCount % 2 != 0)
+			  #if ($isOddRow)
+	           <tr>
+	          #else
+	           <tr class="sep-bar">
+	          #end
+				<td>$!bean.customerName</td>
+				<td>$NumberTool.toYuanNumber($!bean.budget)</td>
+				#if($!bean.startprice>0)
+				<td>$NumberTool.integerToYuanNumber($!bean.startprice)</td>
+				#else
+				<td></td>
+				#end
+				#if($!bean.endprice>0)
+				<td>$NumberTool.integerToYuanNumber($!bean.endprice)</td>
+				#else
+				<td></td>
+				#end
+				<td>
+				#if($!bean.issuperBudget==1)
+				是
+				#else
+				否
+				#end
+				</td>
+				<td>
+				#if($!bean.monday==1)
+				周一
+				#end
+				#if($!bean.tuesday==1)
+				周二
+				#end
+				#if($!bean.wednesday==1)
+				周三
+				#end
+				#if($!bean.thursday==1)
+				周四
+				#end
+				#if($!bean.friday==1)
+				周五
+				#end
+				#if($!bean.saturday==1)
+				周六
+				#end
+				#if($!bean.sunday==1)
+				周日
+				#end
+				</td>
+				<td>$!bean.remark</td>
+				<td class="opt">
+					<a href="javascript:editData('$bean.wiseId')">编辑</a>
+					<a href="javascript:deleteData('$bean.wiseId')">删除</a>
+				</td>
+				<td>
+				<a href="javascript:goBlackWhiteList('$bean.customerId')">查看黑白名单</a>
+				<a href="javascript:goBeBlackWhiteList('$bean.customerId')">查看准黑白名单</a>
+				</td>
+			  </tr>
+			  #set ($rowCount = $rowCount + 1)
+		  #end
+		 
+		</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->

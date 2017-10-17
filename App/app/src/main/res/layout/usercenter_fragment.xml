@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.sxc.natasha.view.CustomerScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_gray">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/light_gray">
+
+            <LinearLayout
+                android:id="@+id/first_chunk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical"
+                android:background="@color/white">
+
+                <RelativeLayout
+                    android:id="@+id/myInfo_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp" >
+
+                    <ImageView
+                        android:id="@+id/myInfo"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/people_03" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/myInfo"
+                        android:textSize="16sp"
+                        android:text="@string/myInfo" />
+
+
+                    <ImageView
+                        android:id="@+id/goMyInfo"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/createorder_05" />
+
+
+                    <TextView
+                        android:id="@+id/usercenter_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/goMyInfo"
+                        android:layout_marginRight="15dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/gray" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/devide_line"
+                    android:layout_margin="15px"/>
+
+                <RelativeLayout
+                    android:id="@+id/pickhouse_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp" >
+
+                    <ImageView
+                        android:id="@+id/pickhouseInfo"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/people_06" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/pickhouseInfo"
+                        android:textSize="16sp"
+                        android:text="@string/pickupInfoManage" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/createorder_05" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/devide_line"
+                    android:layout_margin="15px"/>
+
+                <RelativeLayout
+                    android:id="@+id/resetPwd_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp" >
+
+                    <ImageView
+                        android:id="@+id/resetPwd"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/people_08" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/resetPwd"
+                        android:textSize="16sp"
+                        android:text="@string/resetPwd" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/createorder_05" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/devide_line"
+                    android:layout_marginTop="15px"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/second_chunk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/first_chunk"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:background="@color/white">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/devide_line"
+                    android:layout_marginBottom="15px"/>
+
+                <RelativeLayout
+                    android:id="@+id/contact_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp" >
+
+                    <ImageView
+                        android:id="@+id/customerService"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/people_14" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/customerService"
+                        android:textSize="16sp"
+                        android:text="@string/contact" />
+
+                    <ImageView
+                        android:id="@+id/goContact"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/createorder_05" />
+                    <TextView
+                        android:id="@+id/contactPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/goContact"
+                        android:layout_marginRight="15dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/gray" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/devide_line"
+                    android:layout_margin="15px"/>
+
+
+                <RelativeLayout
+                    android:id="@+id/checkUpdate_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp" >
+
+                    <ImageView
+                        android:id="@+id/checkUpdate"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/people_18" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/checkUpdate"
+                        android:textSize="16sp"
+                        android:text="@string/checkUpdate" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/createorder_05" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/devide_line"
+                    android:layout_margin="15px"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp" >
+
+                    <ImageView
+                        android:id="@+id/about"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/people_20" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/about"
+                        android:textSize="16sp"
+                        android:text="@string/about" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/createorder_05" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/devide_line"
+                    android:layout_marginTop="15px"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/third_chunk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/second_chunk"
+                android:layout_margin="15dp"
+                android:orientation="vertical"
+                android:background="@color/light_gray">
+
+                <Button
+                    android:id="@+id/exit_button"
+                    android:layout_height="40dp"
+                    android:layout_width="match_parent"
+                    android:text="@string/exit"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/exit_btn"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"/>
+
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+    </com.sxc.natasha.view.CustomerScrollView>
+
+</RelativeLayout>

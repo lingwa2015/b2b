@@ -1,0 +1,62 @@
+ #set($layout="layout/wxLayout.vm")
+   <div class="lw_hd">
+        <a href="${rc.contextPath}/weixin/wxinfo.htm"><img src="${rc.contextPath}/static/images/wx/address_02.png"><span class="mid">&nbsp;&nbsp;企业信息</span></a><a id="submit" class="lw_span" onclick="return save();">保存</a>
+    </div>
+    <dl class="lw_adress">
+    	<input style="display:none" name="cid" id="cid" value="$!user.id" type="text">
+        <dt>公司名称:</dd>
+        <dd><input class="company_name" name="companyName" id="name" value="$!user.companyName" type="text"></dd>
+        <dt>联&nbsp;&nbsp;系&nbsp;&nbsp;人:</dd>
+        <dd> <input class="name" name="name" value="$!user.likeman" type="text" ></dd>
+        <dt>职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位:</dt>
+        <dd><input class="position" name="position" value="$!user.position" type="text"></dd>
+        <dt>联系电话:</dt>
+        <dd><input class="phone" name="phone" value="$!user.mobilePhone" type="text"></dd>
+    </dl>
+    
+<script type="text/javascript">
+
+var checkSubmitFlag = false;
+    function save() {
+        var name = $(".name").val();
+        var phone = $(".phone").val();
+        var position = $(".position").val();
+        var companyName =$(".company_name").val();
+        var cid =$("#cid").val();
+        if(!name||!phone||!position||!companyName){
+            alert("信息不能为空");
+            return false;
+        }else{
+            if(/^1[3|5|8]\d{9}$|^0\d{2,3,4}-?\d{7,8}$/.test(phone)){
+                if(checkSubmitFlag ==true){
+                   alert("请勿重复提交");
+                   return false;
+                }
+                checkSubmitFlag = true;
+                $.ajax( {
+					url:'${rc.contextPath}/weixin/wxedit.do',
+				    data:{
+				    	'name':name,phone:phone,position,position,companyName:companyName,cid:cid
+				    },
+				    type:'post',
+				    cache:false,
+				    dataType:'text',
+				    success:function(data) {
+				    	if(data == 200){
+			       			window.location.href="${rc.contextPath}/weixin/wxinfo.htm";
+				    	}else{
+				    		alert("修改失败");
+				    	}
+			
+				     },
+				     error : function() {
+				          alert("异常！");
+				     }
+				});
+            }else{
+                alert("请填写正确的手机号码！");
+                return false;
+            }
+        }   
+    }
+</script>

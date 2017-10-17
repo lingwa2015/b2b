@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.b2b.common.dao.WeekReportMapper" >
+  <resultMap id="BaseResultMap" type="com.b2b.common.domain.WeekReport" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sum_date" property="sumDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="open_shop_num" property="openShopNum" jdbcType="INTEGER" />
+    <result column="consume_shop_num" property="consumeShopNum" jdbcType="INTEGER" />
+    <result column="consume_fee" property="consumeFee" jdbcType="BIGINT" />
+    <result column="before_consume_fee" property="beforeConsumeFee" jdbcType="DECIMAL" />
+    <result column="avg_fee" property="avgFee" jdbcType="BIGINT" />
+    <result column="avg_day_fee" property="avgDayFee" jdbcType="BIGINT" />
+    <result column="consume_pen" property="consumePen" jdbcType="INTEGER" />
+    <result column="consume_num" property="consumeNum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sum_date, end_date, open_shop_num, consume_shop_num, consume_fee, before_consume_fee, 
+    avg_fee, avg_day_fee, consume_pen, consume_num
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.b2b.common.domain.WeekReportExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from week_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from week_report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from week_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.b2b.common.domain.WeekReportExample" >
+    delete from week_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.b2b.common.domain.WeekReport" >
+    insert into week_report (id, sum_date, end_date, 
+      open_shop_num, consume_shop_num, consume_fee, 
+      before_consume_fee, avg_fee, avg_day_fee, 
+      consume_pen, consume_num)
+    values (#{id,jdbcType=INTEGER}, #{sumDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{openShopNum,jdbcType=INTEGER}, #{consumeShopNum,jdbcType=INTEGER}, #{consumeFee,jdbcType=BIGINT}, 
+      #{beforeConsumeFee,jdbcType=DECIMAL}, #{avgFee,jdbcType=BIGINT}, #{avgDayFee,jdbcType=BIGINT}, 
+      #{consumePen,jdbcType=INTEGER}, #{consumeNum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.b2b.common.domain.WeekReport" >
+    insert into week_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sumDate != null" >
+        sum_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="openShopNum != null" >
+        open_shop_num,
+      </if>
+      <if test="consumeShopNum != null" >
+        consume_shop_num,
+      </if>
+      <if test="consumeFee != null" >
+        consume_fee,
+      </if>
+      <if test="beforeConsumeFee != null" >
+        before_consume_fee,
+      </if>
+      <if test="avgFee != null" >
+        avg_fee,
+      </if>
+      <if test="avgDayFee != null" >
+        avg_day_fee,
+      </if>
+      <if test="consumePen != null" >
+        consume_pen,
+      </if>
+      <if test="consumeNum != null" >
+        consume_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sumDate != null" >
+        #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="openShopNum != null" >
+        #{openShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="consumeShopNum != null" >
+        #{consumeShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="consumeFee != null" >
+        #{consumeFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeConsumeFee != null" >
+        #{beforeConsumeFee,jdbcType=DECIMAL},
+      </if>
+      <if test="avgFee != null" >
+        #{avgFee,jdbcType=BIGINT},
+      </if>
+      <if test="avgDayFee != null" >
+        #{avgDayFee,jdbcType=BIGINT},
+      </if>
+      <if test="consumePen != null" >
+        #{consumePen,jdbcType=INTEGER},
+      </if>
+      <if test="consumeNum != null" >
+        #{consumeNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.b2b.common.domain.WeekReportExample" resultType="java.lang.Integer" >
+    select count(*) from week_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update week_report
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.sumDate != null" >
+        sum_date = #{record.sumDate,jdbcType=DATE},
+      </if>
+      <if test="record.endDate != null" >
+        end_date = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.openShopNum != null" >
+        open_shop_num = #{record.openShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.consumeShopNum != null" >
+        consume_shop_num = #{record.consumeShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.consumeFee != null" >
+        consume_fee = #{record.consumeFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.beforeConsumeFee != null" >
+        before_consume_fee = #{record.beforeConsumeFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.avgFee != null" >
+        avg_fee = #{record.avgFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.avgDayFee != null" >
+        avg_day_fee = #{record.avgDayFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.consumePen != null" >
+        consume_pen = #{record.consumePen,jdbcType=INTEGER},
+      </if>
+      <if test="record.consumeNum != null" >
+        consume_num = #{record.consumeNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update week_report
+    set id = #{record.id,jdbcType=INTEGER},
+      sum_date = #{record.sumDate,jdbcType=DATE},
+      end_date = #{record.endDate,jdbcType=DATE},
+      open_shop_num = #{record.openShopNum,jdbcType=INTEGER},
+      consume_shop_num = #{record.consumeShopNum,jdbcType=INTEGER},
+      consume_fee = #{record.consumeFee,jdbcType=BIGINT},
+      before_consume_fee = #{record.beforeConsumeFee,jdbcType=DECIMAL},
+      avg_fee = #{record.avgFee,jdbcType=BIGINT},
+      avg_day_fee = #{record.avgDayFee,jdbcType=BIGINT},
+      consume_pen = #{record.consumePen,jdbcType=INTEGER},
+      consume_num = #{record.consumeNum,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.b2b.common.domain.WeekReport" >
+    update week_report
+    <set >
+      <if test="sumDate != null" >
+        sum_date = #{sumDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="openShopNum != null" >
+        open_shop_num = #{openShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="consumeShopNum != null" >
+        consume_shop_num = #{consumeShopNum,jdbcType=INTEGER},
+      </if>
+      <if test="consumeFee != null" >
+        consume_fee = #{consumeFee,jdbcType=BIGINT},
+      </if>
+      <if test="beforeConsumeFee != null" >
+        before_consume_fee = #{beforeConsumeFee,jdbcType=DECIMAL},
+      </if>
+      <if test="avgFee != null" >
+        avg_fee = #{avgFee,jdbcType=BIGINT},
+      </if>
+      <if test="avgDayFee != null" >
+        avg_day_fee = #{avgDayFee,jdbcType=BIGINT},
+      </if>
+      <if test="consumePen != null" >
+        consume_pen = #{consumePen,jdbcType=INTEGER},
+      </if>
+      <if test="consumeNum != null" >
+        consume_num = #{consumeNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.b2b.common.domain.WeekReport" >
+    update week_report
+    set sum_date = #{sumDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      open_shop_num = #{openShopNum,jdbcType=INTEGER},
+      consume_shop_num = #{consumeShopNum,jdbcType=INTEGER},
+      consume_fee = #{consumeFee,jdbcType=BIGINT},
+      before_consume_fee = #{beforeConsumeFee,jdbcType=DECIMAL},
+      avg_fee = #{avgFee,jdbcType=BIGINT},
+      avg_day_fee = #{avgDayFee,jdbcType=BIGINT},
+      consume_pen = #{consumePen,jdbcType=INTEGER},
+      consume_num = #{consumeNum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findByCondition" resultMap="BaseResultMap">
+  	SELECT * FROM  week_report WHERE sum_date = #{queryDate}
+  </select>
+</mapper>

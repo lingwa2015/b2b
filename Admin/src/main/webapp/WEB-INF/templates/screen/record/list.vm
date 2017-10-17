@@ -1,0 +1,62 @@
+<div class="content">
+		<div class="bd-actionbar">
+			<h4 class="tit">会员充值记录</h4>
+	    </div><!--bd-actionbar-->
+		<div class="bd-main">
+		<div class="bd-main-inner">
+		
+		<form class="jqtransform" id="recordListForm" action="/record/recordlist.htm" method="POST">
+		<table class="form form-horizontal">
+		<tr>
+			<td><label class="tit first-tit">充值开始时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="startTime" id="startTime" readonly="readonly" value="$!startTime">
+			</td>
+
+			<td><label class="tit">充值结束时间：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text" name="endTime" id="endTime" readonly="readonly" value="$!endTime">
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><label class="tit">客户简称：</label></td>
+			<td>
+				<input class="form-input input-time-day" type="text"  name="userName" id="userName" value="$!userName">
+			</td>
+			<td>
+				<a class="btn btn-warning btn-sm" onclick="javascript:$(recordListForm).submit()">&nbsp;&nbsp;查 &nbsp;找 &nbsp;&nbsp;</a>
+			</td>
+		</tr>
+	</table>
+	</form>
+			<table class="table">
+			  <tr>
+			    <th>充值编号</th>
+				<th>客户姓名</th>
+				<th>充值金额</th>
+				<th>赠送金额</th>
+				<th>充值时间</th>
+			  </tr>
+			  #foreach($bean in $page.result)
+		        <tr>
+		        	<td>$!bean.id</td>
+					<td>$!bean.companyName</td>
+					<td>￥$NumberTool.toYuanNumber($!bean.rechargeMoney)</td>
+					<td>￥$NumberTool.toYuanNumber($!bean.freeMoney)</td>
+					<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!bean.createdTime)</td>
+				</tr>
+			  #end
+			</table>
+		<div class="text-center">
+           #parse("/common/page.vm")
+        </div>
+		</div><!--bd-main-inner-->
+		</div><!--bd-main-->
+	</div><!--content-->
+	
+<script type="text/javascript">
+	$(document).ready(function() {
+		$( "#startTime" ).datepicker();
+		$( "#endTime" ).datepicker();
+	 });
+</script>

@@ -1,0 +1,99 @@
+ #set($layout="layout/pcLayout.vm")
+<div class="head">
+      <div class="header">
+        <div class="wrap">
+          <a href="${rc.contextPath}/official/pcIndex.htm" class="bl"><span class="logo-img i-b"><img src="${rc.contextPath}/static/images/pc/lw_logo.png"></span></a>
+            <i></i>
+            <span class="so">快乐生活
+                <b></b>
+                快乐工作
+            </span>
+          <div class="nav br">
+            <div class="nav_1">
+                <ul class="nav_main">
+                   <li>
+                        <a href="${rc.contextPath}/official/pcIndex.htm" class="xiao">首页</a>
+                    </li>
+                    <!--<li>
+                        <a href="${rc.contextPath}/official/pcVip.htm" class="xiao ">企业会员</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcSnackbag.htm" class="xiao">零食反应堆</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcItem.htm" class="xiao">零食分类</a>
+                    </li>-->
+                    <li>
+                        <a href="${rc.contextPath}/official/pcHoliday.htm" class="xiao c">节日方案</a>
+                    </li>
+                    <li>
+                        <a href="${rc.contextPath}/official/pcPlan.htm" class="xiao">其他服务</a>
+                    </li>
+                </ul>
+            </div>
+          </div>
+          </div>
+        </div>
+    </div>
+     <!-- 节日方案 -->
+     <div class="lw_holiday">
+     	<div class="holiday_one">
+     		<ul>
+                <li style="margin-right: 20px;">
+                    <img src="${rc.contextPath}/static/images/pc/plan_04.jpg">
+                    <div style="height: 220px;">
+                        <i></i>
+                        <div class="holiday_wenzi">
+                            <p>女人节</p>
+                            <span>零食和鲜花，胃美心更美</span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="holiday_two">
+                        <div class="holiday_wenzi">
+                            <p>端午节</p>
+                            <span>最美五月天，最忆粽香情</span>
+                        </div>
+                        <b></b>
+                    </div>
+                    <img src="${rc.contextPath}/static/images/pc/plan_02.jpg">
+                </li>
+                <li class="holiday_three">
+                    <img src="${rc.contextPath}/static/images/pc/plan_03.jpg">
+                    
+                    <div class="holiday_four">
+                       <i></i>
+                       <p>年货</p>
+                       <span>营养坚果，全新组合</span>
+                       <span>地道选材，精选搭配</span>
+                    </div>
+                </li>    
+            </ul>
+     	</div>
+     </div>
+
+
+    <!-- 页尾 -->
+    <div class="footer">
+        <div class="foo">
+        <ul>
+            <li class="tc">
+                <img src="${rc.contextPath}/static/images/pc/small_logo.png">
+                <span>微信公众号</span>
+            </li>
+            <li>
+                <a href="/official/pcAbout.htm" class="about">关于我们</a>
+                <b>|</b>
+                <a href="/official/pcContact.htm">联系我们</a>
+                <p>杭州领带蛙网络科技有限公司<b>Lingwa.com.cn</b>浙ICP备15009557号-2</p>
+            </li>
+            <li class="br">
+                <div class="rexian"><img src="${rc.contextPath}/static/images/pc/tel.png"><span>客服热线</span></div>
+                <strong class="str">4001&nbsp;&nbsp;520&nbsp;&nbsp;027</strong>
+            </li>
+        </ul>
+            
+        </div>
+
+	</div>
