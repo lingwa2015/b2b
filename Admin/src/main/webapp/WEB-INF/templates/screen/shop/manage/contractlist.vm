@@ -1,5 +1,21 @@
 #set($layout="layout/shopLayout.vm")
- <div class="shop_list_content">
+<div class="purchase_top">
+    <span class="purchase_top01 left"><span>全部<span class="sanjiao"></span></span></span>
+    <span style="border-right:0;" class="purchase_top01 right"><span>全部<span class="sanjiao"></span></span></span>
+</div>
+<div class="show_code" style="background-color: rgba(3, 3, 3, 0.3);"></div>
+<div class="all_list">
+    <p id="1">全部</p>
+    <p id="2">实时</p>
+    <p id="3">昨日</p>
+    <p id="4">本月</p>
+</div>
+<div class="pai_list">
+    <p id="1">全部</p>
+    <p id="2">不合格</p>
+    <p id="3">待审核</p>
+</div>
+ <div class="shop_list_content" style="margin-top:.92rem;border-top: 1px solid #e8e8e8;">
         <div class="list_1">
             #foreach($shop in $!shops)
             <div class="shop_con" style="position: relative;">
@@ -17,4 +33,128 @@
     </div>
 <script type="text/javascript">
 document.title = "已签约客户";
+$("body").css("background-color","#f5f5f5");
+var touchmove;
+$(document).on("touchstart", function () {
+    touchmove = false;
+});
+$(document).on("touchmove", function () {
+    touchmove = true;
+});
+$(function(){
+    var chushi ='2';
+    $(".all_list p").each(function(){
+        if(chushi == $(this).attr("data_id")){
+            var text = $(this).text();
+            $('.left').find("span").text(text);
+            $('.left').find("span").append('<span class="sanjiao"></span>');
+            $(this).addClass("active");
+        }
+    })
+})
+$(".left").on("touchend",function(){
+    if(touchmove){
+        return;
+    }
+    if (! $(".show_code").is(":animated")){
+        if($(".all_list").css("display")=="none"){
+            $(this).find(".sanjiao").addClass("fanzhuang");
+            $(".all_list").show();
+            $(".left").css("color"," #FF5517");
+            $(".right").css("color"," #333");
+            $(".pai_list").hide();
+            var all_text = $(".left").text();
+            $(".all_list p").each(function(){
+                if($(this).text() == all_text){
+                    $(this).addClass("active")
+                }
+            })
+            $(".right").find(".sanjiao").removeClass("fanzhuang");
+            $(".show_code").fadeIn();
+        }else{
+            $(this).find(".sanjiao").removeClass("fanzhuang");
+            $(".all_list").hide();
+            $(".left").css("color"," #333");
+            $(".show_code").fadeOut();
+        }
+    }
+})
+$(".right").on("touchend",function(){
+    if(touchmove){
+        return;
+    }
+    if (! $(".show_code").is(":animated")){
+        if($(".pai_list").css("display")=="none"){
+            $(this).find(".sanjiao").addClass("fanzhuang");
+            $(".right").css("color"," #FF5517");
+            $(".left").css("color"," #333");
+            $(".pai_list").show();
+            $(".all_list").hide();
+            var pai_text = $(".right").text();
+            $(".pai_list p").each(function(){
+                if($(this).text() == pai_text){
+                    $(this).addClass("active")
+                }
+            })
+            $(".left").find(".sanjiao").removeClass("fanzhuang");
+            $(".show_code").fadeIn();
+        }else{
+            $(this).find(".sanjiao").removeClass("fanzhuang");
+            $(".pai_list").hide();
+            $(".right").css("color"," #333");
+            $(".show_code").fadeOut();
+        }
+    }
+})
+$(".all_list p").on("touchend",function(){
+    var text =$(this).text();
+    $(this).addClass("active").siblings().removeClass("active");
+    $(".left").find("span").text(text);
+    $(".left").find("span").append('<span class="sanjiao fanzhuang"></span>');
+    $(".all_list").hide();
+    $(".show_code").fadeOut();
+    $(".left").css("color"," #333");
+    $(".left").find(".sanjiao").removeClass("fanzhuang");
+    var all_id = $(this).attr("data_id");
+    var pai_text = $(".right").text();
+    var param = ''
+    $(".pai_list p").each(function(){
+        if($(this).text() == pai_text){
+            param=$(this).attr("data_id");
+        }
+    })
+});
+$(".pai_list p").on("touchend",function(){
+    var text =$(this).text();
+    $(this).addClass("active").siblings().removeClass("active");
+    $(".right").find("span").text(text);
+    $(".right").find("span").append('<span class="sanjiao fanzhuang"></span>');
+    $(".pai_list").hide();
+    $(".show_code").fadeOut();
+    $(".right").css("color"," #333");
+    $(".right").find(".sanjiao").removeClass("fanzhuang");
+    var pai_id = $(this).attr("data_id");
+    var all_text = $(".left").text();
+    var param = '';
+    $(".all_list p").each(function(){
+        if($(this).text() == all_text){
+            param=$(this).attr("data_id");
+        }
+    })
+});
+// 滚动
+var param1 = '';
+var param2 = '';
+var all_text = $(".left").text();
+$(".all_list p").each(function(){
+    if($(this).text() == all_text){
+        param1=$(this).attr("data_id");
+    }
+})
+var pai_text = $(".right").text();
+$(".pai_list p").each(function(){
+    if($(this).text() == pai_text){
+        param2=$(this).attr("data_id");
+    }
+})
 </script>

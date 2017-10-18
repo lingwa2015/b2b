@@ -102,6 +102,18 @@
                 </table>
             </form>
 
+            <table class="table" style="border:#000 solid 2px;margin-bottom:20px">
+                <tr class="info">
+                    <td colspan="1">
+                        <span>交接单店铺数量：#if($!sumData.num) $!sumData.num #else 0 #end </span>
+                        <span>合格：#if($!sumData.passNum) $!sumData.passNum #else 0 #end </span>
+                        <span>不合格：#if($!sumData.unpassNum) $!sumData.unpassNum #else 0 #end </span>
+                        <span>待审核：#if($!sumData.checkingNum) $!sumData.checkingNum #else 0 #end </span>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+
             <table class="table">
                 <tr>
                     <th>区域</th>

@@ -797,4 +797,152 @@
     ) t
 
   </select>
+
+  <select id="findSumDate" resultType="map">
+    SELECT SUM(num) num, SUM(passNum) passNum, SUM(unpassNum) unpassNum, SUM(checkingNum) checkingNum
+    FROM
+    (
+    SELECT SUM(shop_num) num, 0 passNum, 0 unpassNum, 0 checkingNum
+    FROM delivery_receitp dr
+    LEFT JOIN `person_user` pu on dr.`interface_id`= pu.`id`
+    LEFT JOIN `city_region` cr on dr.`region_id`= cr.`id`
+    WHERE dr.`status`= 1 and dr.`city_id` = #{cityId}
+    AND iscommit != 1
+    <if test="startTime !=null and startTime !=''">
+      AND DATE_FORMAT(dr.`submit_time`,'%Y-%m-%d') &gt;= DATE_FORMAT(#{startTime},'%Y-%m-%d')
+    </if>
+    <if test="endTime !=null and endTime !=''">
+      AND DATE_FORMAT(dr.`submit_time`,'%Y-%m-%d') &lt;= DATE_FORMAT(#{endTime},'%Y-%m-%d')
+    </if>
+    <if test="linkName !=null and linkName !=''">
+      AND pu.user_name LIKE '%${linkName}%'
+    </if>
+    <if test="userName !=null and userName !=''">
+      AND (dr.`user_name` LIKE '%${userName}%' or dr.`company_name` LIKE '%${userName}%')
+    </if>
+    <if test="status==1">
+      AND dr.iscommit = 1
+    </if>
+    <if test="status==2">
+      AND dr.iscommit = 2
+    </if>
+    <if test="status==3">
+      AND dr.iscommit = 3
+    </if>
+    <if test="tagStatus==1 and tagStatus !=null and tagStatus !=''">
+      AND 0 = dr.unqualifiedNum
+    </if>
+    <if test="tagStatus==0 and tagStatus !=null and tagStatus !=''">
+      AND dr.unqualifiedNum is NOT NULL  AND  dr.unqualifiedNum > 0
+    </if>
+
+    UNION ALL
+
+    SELECT 0, SUM(shop_num) passNum, 0, 0
+    FROM delivery_receitp dr
+    LEFT JOIN `person_user` pu on dr.`interface_id`= pu.`id`
+    LEFT JOIN `city_region` cr on dr.`region_id`= cr.`id`
+    WHERE dr.`status`= 1 and dr.`city_id` = #{cityId}
+    AND iscommit != 1 and dr.unqualifiedNum = 0
+    <if test="startTime !=null and startTime !=''">
+      AND DATE_FORMAT(dr.`submit_time`,'%Y-%m-%d') &gt;= DATE_FORMAT(#{startTime},'%Y-%m-%d')
+    </if>
+    <if test="endTime !=null and endTime !=''">
+      AND DATE_FORMAT(dr.`submit_time`,'%Y-%m-%d') &lt;= DATE_FORMAT(#{endTime},'%Y-%m-%d')
+    </if>
+    <if test="linkName !=null and linkName !=''">
+      AND pu.user_name LIKE '%${linkName}%'
+    </if>
+    <if test="userName !=null and userName !=''">
+      AND (dr.`user_name` LIKE '%${userName}%' or dr.`company_name` LIKE '%${userName}%')
+    </if>
+    <if test="status==1">
+      AND dr.iscommit = 1
+    </if>
+    <if test="status==2">
+      AND dr.iscommit = 2
+    </if>
+    <if test="status==3">
+      AND dr.iscommit = 3
+    </if>
+    <if test="tagStatus==1 and tagStatus !=null and tagStatus !=''">
+      AND 0 = dr.unqualifiedNum
+    </if>
+    <if test="tagStatus==0 and tagStatus !=null and tagStatus !=''">
+      AND dr.unqualifiedNum is NOT NULL  AND  dr.unqualifiedNum > 0
+    </if>
+
+    UNION ALL
+
+    SELECT 0, SUM(shop_num) - sum(unqualifiedNum), SUM(unqualifiedNum), 0
+    FROM delivery_receitp dr
+    WHERE dr.`status`= 1 and dr.`city_id` = #{cityId}
+    AND iscommit != 1
+    AND dr.unqualifiedNum > 0
+    <if test="startTime !=null and startTime !=''">
+      AND DATE_FORMAT(dr.`submit_time`,'%Y-%m-%d') &gt;= DATE_FORMAT(#{startTime},'%Y-%m-%d')
+    </if>
+    <if test="endTime !=null and endTime !=''">
+      AND DATE_FORMAT(dr.`submit_time`,'%Y-%m-%d') &lt;= DATE_FORMAT(#{endTime},'%Y-%m-%d')
+    </if>
+    <if test="linkName !=null and linkName !=''">
+      AND pu.user_name LIKE '%${linkName}%'
+    </if>
+    <if test="userName !=null and userName !=''">
+      AND (dr.`user_name` LIKE '%${userName}%' or dr.`company_name` LIKE '%${userName}%')
+    </if>
+    <if test="status==1">
+      AND dr.iscommit = 1
+    </if>
+    <if test="status==2">
+      AND dr.iscommit = 2
+    </if>
+    <if test="status==3">
+      AND dr.iscommit = 3
+    </if>
+    <if test="tagStatus==1 and tagStatus !=null and tagStatus !=''">
+      AND 0 = dr.unqualifiedNum
+    </if>
+    <if test="tagStatus==0 and tagStatus !=null and tagStatus !=''">
+      AND dr.unqualifiedNum is NOT NULL  AND  dr.unqualifiedNum > 0
+    </if>
+
+
+    UNION ALL
+
+    SELECT 0, 0, 0, SUM(shop_num)
+    FROM delivery_receitp dr
+    WHERE dr.`status`= 1 and dr.`city_id` = #{cityId}
+    AND  dr.isvxvip != 1 AND dr.isvxvip is not null
+    AND dr.iscommit = 2
+    <if test="startTime !=null and startTime !=''">
+      AND DATE_FORMAT(dr.`submit_time`,'%Y-%m-%d') &gt;= DATE_FORMAT(#{startTime},'%Y-%m-%d')
+    </if>
+    <if test="endTime !=null and endTime !=''">
+      AND DATE_FORMAT(dr.`submit_time`,'%Y-%m-%d') &lt;= DATE_FORMAT(#{endTime},'%Y-%m-%d')
+    </if>
+    <if test="linkName !=null and linkName !=''">
+      AND pu.user_name LIKE '%${linkName}%'
+    </if>
+    <if test="userName !=null and userName !=''">
+      AND (dr.`user_name` LIKE '%${userName}%' or dr.`company_name` LIKE '%${userName}%')
+    </if>
+    <if test="status==1">
+      AND dr.iscommit = 1
+    </if>
+    <if test="status==2">
+      AND dr.iscommit = 2
+    </if>
+    <if test="status==3">
+      AND dr.iscommit = 3
+    </if>
+    <if test="tagStatus==1 and tagStatus !=null and tagStatus !=''">
+      AND 0 = dr.unqualifiedNum
+    </if>
+    <if test="tagStatus==0 and tagStatus !=null and tagStatus !=''">
+      AND dr.unqualifiedNum is NOT NULL  AND  dr.unqualifiedNum > 0
+    </if>
+    ) t
+
+  </select>
 </mapper>

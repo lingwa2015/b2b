@@ -592,7 +592,7 @@
     SELECT DISTINCT
       i.id  item_id,
       i.item_name,
-      i.buy_size size,
+      i.size size,
       i.price,
       i.buy_price cost_price,
       ic.id category_id,

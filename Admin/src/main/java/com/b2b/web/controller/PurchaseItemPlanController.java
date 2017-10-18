@@ -87,7 +87,7 @@ public class PurchaseItemPlanController {
 
 		//采购日期
 		String timeStr = request.getParameter("time");
-		Integer newUserNum = Integer.parseInt(StringUtils.defaultIfBlank(request.getParameter("time"), "0"));
+		Integer newUserNum = Integer.parseInt(StringUtils.defaultIfBlank(request.getParameter("newUserNum"), "0"));
 		mv.addObject("newUserNum", newUserNum);
 		Date time = null;
 		if (StringUtils.isNotBlank(timeStr)) {

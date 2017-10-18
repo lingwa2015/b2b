@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface DeliveryReceitpMapper {
     int countByExample(DeliveryReceitpExample example);
@@ -53,4 +54,9 @@ public interface DeliveryReceitpMapper {
     int findMonthNumByCityIdAndInterfaceIds(@Param("cityId")Integer cityId, @Param("ids")List<Integer> ids);
 
     HashMap<String,Object> findSaleNumByCityIdAndIds(@Param("cityId")Integer cityId, @Param("id")Integer id);
+
+    Map<String,String> findSumDate(@Param("cityId")Integer cityId, @Param("startTime")Date startTime,
+                                   @Param("endTime")Date endTime, @Param("linkName")String linkName,
+                                   @Param("userName")String userName, @Param("status")String status,
+                                   @Param("tagStatus")String tagStatus);
 }

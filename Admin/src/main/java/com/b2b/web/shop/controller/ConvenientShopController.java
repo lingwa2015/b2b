@@ -6408,6 +6408,7 @@ public class ConvenientShopController {
 	public ModelAndView deliverylist(HttpServletRequest request,@RequestParam(defaultValue="0",value="interid")Integer interid,@RequestParam(defaultValue="0",value="type")Integer type){
 		ShopUser user = WXSessionHelper.getShopUser(request.getSession());
 		ModelAndView view = new ModelAndView("shop/manage/deliverylist");
+		request.getParameter("currentPage");
 		PersonUser personUser = this.userService.findByOpenId(user.getOpenid());
 		if(null!=personUser && null != personUser.getCityId()){
 			if(interid>0 && type>0){

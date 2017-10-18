@@ -8,16 +8,20 @@
         <div class="order_time" style="width:20%">昨日</div>
         <div class="order_time" style="width:24%">本月/不合格</div>
     </div>
+    #set($count = 0)
     <div class="record">
         #if($maps.size()>0)
             #foreach($dto in $maps)
                 <div class="record_list">
-                    #if($myId == $!dto.id)
+                    #if($count==0)
                     <a href="${rc.contextPath}/convenient/manage/shop_ygsaleman.htm?saleId=$!dto.id" style="color: #7f7f7f;">
+                        #set($count = $count+1)
+                        <span class="record_date" style="left:0;width: 39%;">[上级]$!dto.userName</span>
                     #else
                     <a href="${rc.contextPath}/convenient/manage/shop_ygsaleman.htm?saleId=$!dto.id" style="color: #000;">
+                        <span class="record_date" style="left:0;width: 34%;">$!dto.userName</span>
                     #end
-                    <span class="record_date" style="left:0;width: 34%;">$!dto.userName</span>
+##                    <span class="record_date" style="left:0;width: 34%;">$!dto.userName</span>
                     <span class="money_1" style="text-align: center;left: 35%;">$!dto.num</span>
                     <span class="money_2" style="text-align: center;width: 19%;left: 55%">$!dto.sevenNum</span>
                     <span class="money_3" style="width: 28%">$!dto.passNum/$!dto.unpassNum</span>
@@ -27,12 +31,14 @@
         #end
         #if($map)
             <div class="record_list">
-                #if($myId == $!map.id)
+                #if($count==0)
                 <a href="${rc.contextPath}/convenient/manage/shop_ygsaleman.htm?saleId=$!map.id" style="color: #7f7f7f;">
+                    #set($count = $count+1)
+                    <span class="record_date" style="left:0;width: 39%;">[上级]$!map.userName</span>
                 #else
                 <a href="${rc.contextPath}/convenient/manage/shop_ygsaleman.htm?saleId=$!map.id" style="color: #000;">
+                    <span class="record_date" style="left:0;width: 34%;">$!map.userName</span>
                 #end
-                <span class="record_date" style="left:0;width: 34%;">$!map.userName</span>
                 <span class="money_1" style="text-align: center;left: 35%;">$!map.num</span>
                 <span class="money_2" style="text-align: center;width: 19%;left: 55%">$!map.sevenNum</span>
                 <span class="money_3" style="width: 28%">$!map.passNum/$!map.unpassNum</span>
@@ -42,19 +48,25 @@
         #foreach($dto in $lists)
             <div class="record_list">
                 #if($type==1)
-                    #if($myId == $!dto.id)
+                    #if($count==0)
                     <a href="${rc.contextPath}/convenient/manage/shop_ygsaleman.htm?saleId=$!dto.id" style="color: #7f7f7f;">
+                        #set($count = $count+1)
+                        <span class="record_date" style="left:0;width: 39%;">[上级]$!dto.userName</span>
                     #else
                     <a href="${rc.contextPath}/convenient/manage/shop_ygsaleman.htm?saleId=$!dto.id" style="color: #000;">
+                        <span class="record_date" style="left:0;width: 39%;">$!dto.userName</span>
                     #end
                 #else
-                    #if($myId == $!dto.id)
+                    #if($count==0)
                     <a href="${rc.contextPath}/convenient/manage/shop_dgsaleman.htm?saleId=$!dto.id&type=$!type" style="color: #7f7f7f;">
+                        #set($count = $count+1)
+                        <span class="record_date" style="left:0;width: 39%;">[上级]$!dto.userName</span>
                     #else
                     <a href="${rc.contextPath}/convenient/manage/shop_dgsaleman.htm?saleId=$!dto.id&type=$!type" style="color: #000;">
+                        <span class="record_date" style="left:0;width: 39%;">$!dto.userName</span>
                     #end
                 #end
-                <span class="record_date" style="left:0;width: 34%;">$!dto.userName</span>
+##                <span class="record_date" style="left:0;width: 34%;">$!dto.userName</span>
                 <span class="money_1" style="text-align: center;left: 35%;">$!dto.num</span>
                 <span class="money_2" style="text-align: center;width: 19%;left: 55%">$!dto.sevenNum</span>
                 <span class="money_3" style="width: 28%">$!dto.passNum/$!dto.unpassNum</span>
