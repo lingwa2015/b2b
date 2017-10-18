@@ -57,7 +57,7 @@ public class WXUserOrder {
 	private Integer groups;
 	
 	private Integer expire;
-    
+
     public String getCompanyName() {
 		return companyName;
 	}

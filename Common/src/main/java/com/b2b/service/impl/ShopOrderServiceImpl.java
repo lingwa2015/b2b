@@ -460,4 +460,14 @@ public class ShopOrderServiceImpl implements ShopOrderService {
 		return this.shopOrderMapper.findConsumeMoneyByCityIdAndDate(cityId,startdate,enddate);
 	}
 
+	@Override
+	public List<ShopOrder> findConsumeMoneyByReseauIdsAndDateAndCityId(List<Integer> ids, Date startdate, Date enddate, Date date,Integer cityId) {
+		return this.shopOrderMapper.findConsumeMoneyByReseauIdsAndDateAndCityId(ids,startdate,enddate,date,cityId);
+	}
+
+	@Override
+	public List<ShopOrder> findConsumeMoneyByDateAndCityId(Integer cityId, Date startdate, Date enddate, Date date2) {
+		return this.shopOrderMapper.findConsumeMoneyByDateAndCityId(cityId,startdate,enddate,date2);
+	}
+
 }

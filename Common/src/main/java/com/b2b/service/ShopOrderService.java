@@ -119,4 +119,25 @@ public interface ShopOrderService {
 	 * @return
 	 */
 	ShopOrder findConsumeMoneyByCityIdAndDate(Integer cityId, Date startdate, Date enddate);
+
+	/**
+	 * 网格列表
+	 * @param ids 网格ids
+	 * @param startdate
+	 * @param enddate
+	 * @param date
+	 * @param cityId
+	 * @return
+	 */
+	List<ShopOrder> findConsumeMoneyByReseauIdsAndDateAndCityId(List<Integer> ids, Date startdate, Date enddate, Date date,Integer cityId);
+
+	/**
+	 * 查看城市下网格列表
+	 * @param cityId
+	 * @param startdate
+	 * @param enddate
+	 * @param date2
+	 * @return
+	 */
+	List<ShopOrder> findConsumeMoneyByDateAndCityId(Integer cityId, Date startdate, Date enddate, Date date2);
 }

@@ -174,7 +174,6 @@ public class CustomerController {
 		mv.addObject("regions", region);
 		mv.addObject("pusers", pusers);
 		return mv;
-
 	}
 
 

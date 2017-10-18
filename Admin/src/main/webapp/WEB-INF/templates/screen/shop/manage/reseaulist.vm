@@ -3,25 +3,25 @@
        <!-- 无订单 -->
         <!-- <div class="no_order">无订单</div> -->
         <div class="order_tip">
-            <div class="order_list" style="width:22%;text-align:left;">
+            <div class="order_list" style="width:18%;text-align:left;">
                 <span style="padding-left: .22rem">网格</span>
             </div>
-            <!--<div class="order_list" style="width:18%">实时</div>-->
+            <div class="order_list" style="width:18%">实时</div>
             <div class="order_list" style="width:22%">本月</div>
-            <div class="order_list" style="width:22%;">便利店</div>
-            <div class="order_list" style="width:22%;">福利店</div>
+            <div class="order_list" style="width:18%;">便利店</div>
+            <div class="order_list" style="width:18%;">福利店</div>
         </div>
         <div class="record">
         	#foreach($dto in $lists)
             <div class="gong_list">
                 <a href="${rc.contextPath}/convenient/reseau/shop_index.htm?reseau_id=$!dto.id" style="color: #000;">
-                <span class="gong_dan01 dian_01">
-                    <span class="dan_1">$!dto.name</span>
+                <span class="gong_dan01 dian_01" style="width: 18% !important">
+                    <span class="dan_1">$!dto.shopName</span>
                 </span>
-                <!--<span class="gong_dan01 dian_02">$NumberTool.toYuanNumber($!dto.actual)</span>-->
-                <span class="gong_dan01 dian_02" style="width: 24% !important">#if($!dto.total)$NumberTool.toYuanNumber($!dto.total)#else ... #end</span>
-                <span class="gong_dan01 dian_02" style="width: 24% !important">#if($!dto.shop)$!dto.shop #else ... #end</span>
-                <span class="gong_dan01 dian_02" style="margin-left: 1%;width: 20% !important">#if($!dto.free)$!dto.free #else ... #end</span>
+                <span class="gong_dan01 dian_02">$NumberTool.toYuanNumber($!dto.actualPricce)</span>
+                <span class="gong_dan01 dian_02" style="width: 24% !important">#if($!dto.totalPrice)$NumberTool.toYuanNumber($!dto.totalPrice)#else ... #end</span>
+                <span class="gong_dan01 dian_02" style="width: 20% !important">#if($!dto.lwType)$!dto.lwType #else ... #end</span>
+                <span class="gong_dan01 dian_02" style="width: 19% !important">#if($!dto.hdId)$!dto.hdId #else ... #end</span>
                 </a>
             </div>
             #end

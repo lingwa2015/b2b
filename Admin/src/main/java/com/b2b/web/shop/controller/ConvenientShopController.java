@@ -5991,37 +5991,14 @@ public class ConvenientShopController {
 		PersonUser personUser = this.userService.findByOpenId(user.getOpenid());
 		if(null!=personUser && personUser.getCityId() !=null){
 			if(isadmin(personUser.getId()) || "客户经理".equals(personUser.getPost()) && 3==personUser.getGread()){
-				List<Reseau> reseaus = this.reseauService.findAllByCityId(personUser.getCityId());
-				List<HashMap<String, Object>> list = new  ArrayList<HashMap<String, Object>>();
-				for (Reseau reseau : reseaus) {
-					HashMap<String, Object> map = new HashMap<String,Object>();
-					map.put("id", reseau.getId());
-					map.put("name", reseau.getName());
-					Date date = new Date();
-//					String string1 = DateUtil.formatDate(date, "yyyy-MM-dd 23:59:59");
-//					Date enddate = DateUtil.parseDateStr(string1, "yyyy-MM-dd HH:mm:ss");
-//					String string2 = DateUtil.formatDate(date, "yyyy-MM-dd 00:00:00");
-//					Date startdate = DateUtil.parseDateStr(string2, "yyyy-MM-dd HH:mm:ss");
-//					ShopOrder order = this.shopOrderService.findConsumeMoneyByReseauIdAndDate(reseau.getId(),startdate,enddate);
-//					map.put("actual", order.getTotalPrice());
-					Date date2 = DateUtil.dateAdd("h", -24, date);
-					ShopMonthReport shopMonthReport = this.shopMonthReportService.findByReseauIdAndDate(reseau.getId(), date2);
-					if(null!=shopMonthReport){
-						map.put("total", shopMonthReport.getConsumeFee());
-						map.put("shop", shopMonthReport.getOpenShopNum());
-					}else{
-						map.put("total", null);
-						map.put("shop", null);
-					}
-					FreeShopMonthReport freeShopMonthReport = this.freeShopMonthReportService.findByReseauIdAndDate(reseau.getId(), date2);
-					if(null!=freeShopMonthReport){
-						map.put("free", freeShopMonthReport.getOpenshopnum());
-					}else{
-						map.put("free", null);
-					}
-					list.add(map);
-				}
-				view.addObject("lists", list);
+				Date date = new Date();
+				String string1 = DateUtil.formatDate(date, "yyyy-MM-dd 23:59:59");
+				Date enddate = DateUtil.parseDateStr(string1, "yyyy-MM-dd HH:mm:ss");
+				String string2 = DateUtil.formatDate(date, "yyyy-MM-dd 00:00:00");
+				Date startdate = DateUtil.parseDateStr(string2, "yyyy-MM-dd HH:mm:ss");
+				Date date2 = DateUtil.dateAdd("h", -24, date);
+				List<ShopOrder> lists =this.shopOrderService.findConsumeMoneyByDateAndCityId(personUser.getCityId(),startdate,enddate,date2);
+				view.addObject("lists", lists);
 				return view;
 			}
 			if("客户经理".equals(personUser.getPost()) && 2==personUser.getGread() || "客户经理".equals(personUser.getPost()) && 4==personUser.getGread()){
@@ -6035,42 +6012,18 @@ public class ConvenientShopController {
 				if(null!=personUser.getReseauId()){
 					ids.add(personUser.getReseauId());
 				}
-				List<Reseau> reseaus = null;
+
 				if(!ids.isEmpty()){
-					reseaus = this.reseauService.findByCityIdAndIds(personUser.getCityId(),ids);
+					Date date = new Date();
+					String string1 = DateUtil.formatDate(date, "yyyy-MM-dd 23:59:59");
+					Date enddate = DateUtil.parseDateStr(string1, "yyyy-MM-dd HH:mm:ss");
+					String string2 = DateUtil.formatDate(date, "yyyy-MM-dd 00:00:00");
+					Date startdate = DateUtil.parseDateStr(string2, "yyyy-MM-dd HH:mm:ss");
+					Date date2 = DateUtil.dateAdd("h", -24, date);
+					List<ShopOrder> lists =this.shopOrderService.findConsumeMoneyByReseauIdsAndDateAndCityId(ids,startdate,enddate,date2,personUser.getCityId());
+					view.addObject("lists", lists);
 				}
-				List<HashMap<String, Object>> list = new  ArrayList<HashMap<String, Object>>();
-				if(reseaus !=null &&!reseaus.isEmpty()){
-					for (Reseau reseau : reseaus) {
-						HashMap<String, Object> map = new HashMap<String,Object>();
-						map.put("id", reseau.getId());
-						map.put("name", reseau.getName());
-						Date date = new Date();
-//						String string1 = DateUtil.formatDate(date, "yyyy-MM-dd 23:59:59");
-//						Date enddate = DateUtil.parseDateStr(string1, "yyyy-MM-dd HH:mm:ss");
-//						String string2 = DateUtil.formatDate(date, "yyyy-MM-dd 00:00:00");
-//						Date startdate = DateUtil.parseDateStr(string2, "yyyy-MM-dd HH:mm:ss");
-//						ShopOrder order = this.shopOrderService.findConsumeMoneyByReseauIdAndDate(reseau.getId(),startdate,enddate);
-//						map.put("actual", order.getTotalPrice());
-						Date date2 = DateUtil.dateAdd("h", -24, date);
-						ShopMonthReport shopMonthReport = this.shopMonthReportService.findByReseauIdAndDate(reseau.getId(), date2);
-						if(null!=shopMonthReport){
-							map.put("total", shopMonthReport.getConsumeFee());
-							map.put("shop", shopMonthReport.getOpenShopNum());
-						}else{
-							map.put("total", null);
-							map.put("shop", null);
-						}
-						FreeShopMonthReport freeShopMonthReport = this.freeShopMonthReportService.findByReseauIdAndDate(reseau.getId(), date2);
-						if(null!=freeShopMonthReport){
-							map.put("free", freeShopMonthReport.getOpenshopnum());
-						}else{
-							map.put("free", null);
-						}
-						list.add(map);
-					}
-				}
-				view.addObject("lists", list);
+
 				return view;
 			}
 		}
@@ -6088,8 +6041,6 @@ public class ConvenientShopController {
 				view.addObject("shops", shops);
 				return view;
 			}
-			
-			
 		}
 		return new ModelAndView("redirect:/convenient/shop_noPeivilege.htm");
 	}

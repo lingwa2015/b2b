@@ -111,4 +111,8 @@ public interface ShopOrderMapper {
 			@Param("enddate")Date enddate);
 
 	ShopOrder findConsumeMoneyByCityIdAndDate(@Param("cityId")Integer cityId, @Param("startdate")Date startdate, @Param("enddate")Date enddate);
+
+	List<ShopOrder> findConsumeMoneyByReseauIdsAndDateAndCityId(@Param("ids")List<Integer> ids, @Param("startdate")Date startdate, @Param("enddate")Date enddate, @Param("date")Date date,@Param("cityId") Integer cityId);
+
+	List<ShopOrder> findConsumeMoneyByDateAndCityId(@Param("cityId") Integer cityId,@Param("startdate") Date startdate,@Param("enddate") Date enddate,@Param("date") Date date2);
 }

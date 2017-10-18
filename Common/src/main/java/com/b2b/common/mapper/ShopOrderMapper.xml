@@ -835,14 +835,79 @@ where cu.`iswxvip` =3 and cu.city_id = #{cityId}
 		and so.`created_time` &lt;= #{endDate}
 	)t;
   </select>
+  <select id="findConsumeMoneyByReseauIdsAndDateAndCityId" resultType="com.b2b.common.domain.ShopOrder">
+    SELECT r.id,r.`name` shopName,t1.actualPrice,t2.num,t3.totalPrice,t3.lwType FROM `reseau` r LEFT JOIN (
+    SELECT ifnull(SUM(so.`total_price`), 0) actualPrice, cu.`reseau_id`
+    FROM `shop_order` so
+    LEFT JOIN `customer_user` cu on so.`shop_id`= cu.`id`
+    WHERE so.`status`= 1
+    and so.`created_time`&gt;= #{startdate}
+    and so.`created_time`&lt;= #{enddate}
+    and cu.`city_id` =#{cityId}
+    GROUP BY cu.`reseau_id`
+    ) t1 on r.`id` = t1.reseau_id
+    LEFT JOIN (
+    SELECT cu.`reseau_id`, COUNT(1) num
+    FROM `free_shop_month_report` fsmr
+    LEFT JOIN `customer_user` cu ON fsmr.`shop_id`= cu.`id`
+    where date_format(fsmr.sum_date, '%Y-%m')= date_format(#{date}, '%Y-%m') and cu.`city_id` =#{cityId}
+    GROUP BY cu.`reseau_id`
+    ) t2 on r.`id` = t2.reseau_id
+    LEFT JOIN (
+    SELECT cu.`reseau_id` ,
+    SUM(smr.`consume_fee`) totalPrice,
+    COUNT(1) lwType
+
+    FROM `shop_month_report` smr
+    LEFT JOIN `customer_user` cu ON smr.user_id= cu.`id`
+
+    where date_format(smr.sum_date, '%Y-%m')= date_format(#{date}, '%Y-%m')
+    and cu.city_id= #{cityId}
+    GROUP BY cu.`reseau_id`
+    ) t3 on r.`id` = t3.reseau_id WHERE r.`city_id` =#{cityId} and r.id IN
+    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+  <select id="findConsumeMoneyByDateAndCityId" resultType="com.b2b.common.domain.ShopOrder">
+    SELECT r.id,r.`name` shopName ,t1.actualPrice,t2.num,t3.totalPrice,t3.lwType FROM `reseau` r LEFT JOIN (
+    SELECT ifnull(SUM(so.`total_price`), 0) actualPrice, cu.`reseau_id`
+    FROM `shop_order` so
+    LEFT JOIN `customer_user` cu on so.`shop_id`= cu.`id`
+    WHERE so.`status`= 1
+    and so.`created_time`&gt;= #{startdate}
+    and so.`created_time`&lt;= #{enddate}
+    and cu.`city_id` =#{cityId}
+    GROUP BY cu.`reseau_id`
+    ) t1 on r.`id` = t1.reseau_id
+    LEFT JOIN (
+    SELECT cu.`reseau_id`, COUNT(1) num
+    FROM `free_shop_month_report` fsmr
+    LEFT JOIN `customer_user` cu ON fsmr.`shop_id`= cu.`id`
+    where date_format(fsmr.sum_date, '%Y-%m')= date_format(#{date}, '%Y-%m') and cu.`city_id` =#{cityId}
+    GROUP BY cu.`reseau_id`
+    ) t2 on r.`id` = t2.reseau_id
+    LEFT JOIN (
+    SELECT cu.`reseau_id` ,
+    SUM(smr.`consume_fee`) totalPrice,
+    COUNT(1) lwType
+
+    FROM `shop_month_report` smr
+    LEFT JOIN `customer_user` cu ON smr.user_id= cu.`id`
+
+    where date_format(smr.sum_date, '%Y-%m')= date_format(#{date}, '%Y-%m')
+    and cu.city_id= #{cityId}
+    GROUP BY cu.`reseau_id`
+    ) t3 on r.`id` = t3.reseau_id WHERE r.`city_id` =#{cityId}
+  </select>
   <select id="findConsumeMoneyByReseauIdAndDate" resultType="com.b2b.common.domain.ShopOrder">
-  	SELECT ifnull(SUM(so.`total_price`),0) totalPrice,
-       COUNT(1) id
-  FROM `shop_order` so
-  LEFT JOIN `customer_user` cu on so.`shop_id`= cu.`id`
- WHERE so.`status`= 1
-   and so.`created_time` &gt;=#{startdate} and so.`created_time` &lt;=#{enddate}
-   and cu.`reseau_id`= #{reseauId}
+    SELECT ifnull(SUM(so.`total_price`),0) totalPrice,
+    COUNT(1) id
+    FROM `shop_order` so
+    LEFT JOIN `customer_user` cu on so.`shop_id`= cu.`id`
+    WHERE so.`status`= 1
+    and so.`created_time` &gt;=#{startdate} and so.`created_time` &lt;=#{enddate}
+    and cu.`reseau_id`= #{reseauId}
   </select>
   <select id="findTodayAllConsumeMoneyByCityId" resultType="com.b2b.common.domain.ShopOrder">
   	SELECT ifnull(SUM(so.`total_price`),0) totalPrice,
