@@ -649,6 +649,8 @@ public class CustomerController {
 		mv.addObject("tagStatus", tagStatus);
 		PageHelper.startPage(currentPage, 50);
 		List<DeliveryReceitp> lists = this.deliveryReceitpService.findByCondition(user.getCityId(), startTime, endTime, linkName, userName, status, tagStatus);
+		Map<String, String> sumData = this.deliveryReceitpService.findSumDate(user.getCityId(), startTime, endTime, linkName, userName, status, tagStatus);
+		mv.addObject("sumData", sumData);
 		PageInfo<DeliveryReceitp> info = new PageInfo<DeliveryReceitp>(lists);
 		Page<DeliveryReceitp> page = new Page<DeliveryReceitp>(info.getPageNum(),info.getTotal(),info.getPageSize(),info.getList());
 		mv.addObject("page", page);

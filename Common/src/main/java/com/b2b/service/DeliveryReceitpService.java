@@ -5,6 +5,7 @@ import com.b2b.common.domain.DeliveryReceitp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface DeliveryReceitpService {
 
@@ -31,4 +32,6 @@ public interface DeliveryReceitpService {
     int findMonthNumByCityIdAndInterfaceIds(Integer cityId, List<Integer> ids);
 
     HashMap<String,Object> findSaleNumByCityIdAndIds(Integer cityId, Integer id);
+
+    Map<String,String> findSumDate(Integer cityId, Date startTime, Date endTime, String linkName, String userName, String status, String tagStatus);
 }

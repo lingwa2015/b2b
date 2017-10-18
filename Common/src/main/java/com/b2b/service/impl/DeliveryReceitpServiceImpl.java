@@ -1,15 +1,15 @@
 package com.b2b.service.impl;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.b2b.common.dao.DeliveryReceitpMapper;
 import com.b2b.common.domain.DeliveryReceitp;
 import com.b2b.service.DeliveryReceitpService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class DeliveryReceitpServiceImpl implements DeliveryReceitpService {
@@ -77,6 +77,11 @@ public class DeliveryReceitpServiceImpl implements DeliveryReceitpService {
 	@Override
 	public HashMap<String, Object> findSaleNumByCityIdAndIds(Integer cityId, Integer id) {
 		return this.deliveryReceitpMapper.findSaleNumByCityIdAndIds(cityId, id);
+	}
+
+	@Override
+	public Map<String, String> findSumDate(Integer cityId, Date startTime, Date endTime, String linkName, String userName, String status, String tagStatus) {
+		return this.deliveryReceitpMapper.findSumDate(cityId, startTime, endTime, linkName, userName, status, tagStatus);
 	}
 
 }

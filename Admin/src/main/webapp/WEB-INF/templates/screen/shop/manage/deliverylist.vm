@@ -1,5 +1,22 @@
 #set($layout="layout/shopLayout.vm")
- <div class="shop_list_content">
+<div class="purchase_top">
+    <span class="purchase_top01 left"><span>全部<span class="sanjiao"></span></span></span>
+    <span style="border-right:0;" class="purchase_top01 right"><span>全部<span class="sanjiao"></span></span></span>
+</div>
+<div class="show_code" style="background-color: rgba(3, 3, 3, 0.3);"></div>
+<div class="all_list">
+    <p id="1">全部</p>
+    <p id="2">实时</p>
+    <p id="3">昨日</p>
+    <p id="4">本月</p>
+</div>
+<div class="pai_list">
+    <p id="1">全部</p>
+    <p id="2">合格</p>
+    <p id="3">不合格</p>
+    <p id="4">待审核</p>
+</div>
+ <div class="shop_list_content" style="margin-top:.92rem;border-top: 1px solid #e8e8e8;">
         <div class="list_1" style="margin-bottom: 1.1rem;">
            #foreach($dto in $lists)
             <div class="shop_con" style="position: relative;">
@@ -15,7 +32,7 @@
                     #if($!dto.unqualifiednum == 0)
                         已完成
                     #elseif($!dto.unqualifiednum > 0)
-                        不合格#if($!dto.unqualifiednum == 1) #else（$!dto.unqualifiednum）#end
+                        不合格  #if($!dto.shopNum>1)（$!dto.unqualifiednum） #elseif($!dto.unqualifiednum == 1) #else（$!dto.unqualifiednum）#end
                     #elseif($!dto.iscommit==2)
                         已提交
                     #end
@@ -32,6 +49,160 @@ document.title = "交接单";
 $(".ko").on("click",function () {
     if($(this).text().indexOf("不合格") != -1){
         alert($(this).attr("data-p"));
+    }
+})
+
+$("body").css("background-color","#f5f5f5");
+var touchmove;
+$(document).on("touchstart", function () {
+    touchmove = false;
+});
+$(document).on("touchmove", function () {
+    touchmove = true;
+});
+$(function(){
+    var chushi ='2';
+    $(".all_list p").each(function(){
+        if(chushi == $(this).attr("data_id")){
+            var text = $(this).text();
+            $('.left').find("span").text(text);
+            $('.left').find("span").append('<span class="sanjiao"></span>');
+            $(this).addClass("active");
+        }
+    })
+})
+$(".left").on("touchend",function(){
+    if(touchmove){
+        return;
+    }
+    if (! $(".show_code").is(":animated")){
+        if($(".all_list").css("display")=="none"){
+            $(this).find(".sanjiao").addClass("fanzhuang");
+            $(".all_list").show();
+            $(".left").css("color"," #FF5517");
+            $(".right").css("color"," #333");
+            $(".pai_list").hide();
+            var all_text = $(".left").text();
+            $(".all_list p").each(function(){
+                if($(this).text() == all_text){
+                    $(this).addClass("active")
+                }
+            })
+            $(".right").find(".sanjiao").removeClass("fanzhuang");
+            $(".show_code").fadeIn();
+        }else{
+            $(this).find(".sanjiao").removeClass("fanzhuang");
+            $(".all_list").hide();
+            $(".left").css("color"," #333");
+            $(".show_code").fadeOut();
+        }
+    }
+})
+$(".right").on("touchend",function(){
+    if(touchmove){
+        return;
+    }
+    if (! $(".show_code").is(":animated")){
+        if($(".pai_list").css("display")=="none"){
+            $(this).find(".sanjiao").addClass("fanzhuang");
+            $(".right").css("color"," #FF5517");
+            $(".left").css("color"," #333");
+            $(".pai_list").show();
+            $(".all_list").hide();
+            var pai_text = $(".right").text();
+            $(".pai_list p").each(function(){
+                if($(this).text() == pai_text){
+                    $(this).addClass("active")
+                }
+            })
+            $(".left").find(".sanjiao").removeClass("fanzhuang");
+            $(".show_code").fadeIn();
+        }else{
+            $(this).find(".sanjiao").removeClass("fanzhuang");
+            $(".pai_list").hide();
+            $(".right").css("color"," #333");
+            $(".show_code").fadeOut();
+        }
+    }
+})
+$(".all_list p").on("touchend",function(){
+    var text =$(this).text();
+    $(this).addClass("active").siblings().removeClass("active");
+    $(".left").find("span").text(text);
+    $(".left").find("span").append('<span class="sanjiao fanzhuang"></span>');
+    $(".all_list").hide();
+    $(".show_code").fadeOut();
+    $(".left").css("color"," #333");
+    $(".left").find(".sanjiao").removeClass("fanzhuang");
+    var all_id = $(this).attr("data_id");
+    var pai_text = $(".right").text();
+    var param = ''
+    $(".pai_list p").each(function(){
+        if($(this).text() == pai_text){
+            param=$(this).attr("data_id");
+        }
+    })
+    $.ajax({
+        url:'${rc.contextPath}/convenient/manage/shop_deliverylist.json',
+        type:'POST',
+        data: {page:1,rows:50,flag:all_id,param:param},
+        success:function(data){
+            if(data.status==200){
+                hasNextPage = data.data.hasNextPage;
+                page = data.data.pageNum;
+                var list = data.data.list;
+                var html="";
+                for (var i = 0; i < list.length; i++) {
+                    var shopId = list[i].companyId;
+                    var userName = list[i].userName;
+                    var companyName = list[i].companyName;
+                    var createDate = formatDate(list[i].createDate);
+                    var amountSum1 = formatMoney(list[i].amountSum1);
+                    var amountSum2 = formatMoney(list[i].amountSum2);
+                    html += '<li><a href="${rc.contextPath}/convenient/home/shop_monthRecord.htm?shop_id='+shopId+'" class="wl"><div class="purchase_01" style="padding-top:0;"><div class="huikuan_01" style="margin-top:0.1rem;"><span style="font-family: PingFangSC-Regular;font-size:.32rem;">'+userName+'</span></div><div class="huikuan_02" style="float:left;padding-top:.02rem;"><span class="huikuan_03 jiejue" style="width:48%;">'+companyName+'</span><span class="huikuan_04"><span style="font-family: PingFangSC-Medium;float:left;">¥</span><span class="llk">'+amountSum1+'</span></span><span class="kl">总共开票</span></div></div><div class="huikuan_05"><span style="float:right;">最早开票'+createDate+'，开票金额¥'+amountSum2+'</span></div></a></li>'
+                }
+                $('body,html').animate({scrollTop:0},200);
+                $("#concent_ul").html("");
+                $("#concent_ul").append(html);
+            }else if(data.status==201){
+                alert("权限不足");
+            }else{
+                alert("加载失败");
+            }
+        }
+    })
+});
+$(".pai_list p").on("touchend",function(){
+    var text =$(this).text();
+    $(this).addClass("active").siblings().removeClass("active");
+    $(".right").find("span").text(text);
+    $(".right").find("span").append('<span class="sanjiao fanzhuang"></span>');
+    $(".pai_list").hide();
+    $(".show_code").fadeOut();
+    $(".right").css("color"," #333");
+    $(".right").find(".sanjiao").removeClass("fanzhuang");
+    var pai_id = $(this).attr("data_id");
+    var all_text = $(".left").text();
+    var param = '';
+    $(".all_list p").each(function(){
+        if($(this).text() == all_text){
+            param=$(this).attr("data_id");
+        }
+    })
+});
+// 滚动
+var param1 = '';
+var param2 = '';
+var all_text = $(".left").text();
+$(".all_list p").each(function(){
+    if($(this).text() == all_text){
+        param1=$(this).attr("data_id");
+    }
+})
+var pai_text = $(".right").text();
+$(".pai_list p").each(function(){
+    if($(this).text() == pai_text){
+        param2=$(this).attr("data_id");
     }
 })
 </script>
